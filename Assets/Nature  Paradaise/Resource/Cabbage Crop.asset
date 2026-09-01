@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bf30472b7f17324b983093b0cdfad72, type: 3}
+  m_Name: Cabbage Crop
+  m_EditorClassIdentifier: 
+  cropId: crop.cabbage
+  seedItem: {fileID: 11400000, guid: fca809e92df656a4fa355e0f085ad8fe, type: 2}
+  produceItem: {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
+  idealMoistureMin: 35
+  idealMoistureMax: 80
+  minimumFertility: 35
+  dailyFertilityUse: 3
+  soilDepletionOnHarvest: 4
+  baseYield: 1
+  soilWeight: 0.35
+  moistureWeight: 0.25
+  fertilityWeight: 0.25
+  healthWeight: 0.15
+  stageScales:
+  - {x: 0.4, y: 0.4, z: 0.4}
+  - {x: 0.7, y: 0.9, z: 0.7}
+  - {x: 1, y: 1.2, z: 1}
+  daysPerStage:
+  - 1
+  - 2

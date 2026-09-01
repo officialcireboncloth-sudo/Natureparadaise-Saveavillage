@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba71d09c4d3e4f0ba9c1f2e3d4a5b601, type: 3}
+  m_Name: Barn Building
+  m_EditorClassIdentifier:
+  buildingId: building.barn
+  displayName: Barn
+  icon: {fileID: 0}
+  category: 1
+  footprintWidth: 4
+  footprintDepth: 4
+  canRelocate: 1
+  canDemolish: 1
+  levels:
+  - level: 1
+    goldCost: 30
+    constructionDays: 2
+    materialCosts:
+    - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+      amount: 4
+    - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+      amount: 2
+    completedPrefab: {fileID: 0}
+    capacity: 4
+    unlockIds:
+    - animal.barn.basic
+  - level: 2
+    goldCost: 55
+    constructionDays: 3
+    materialCosts:
+    - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+      amount: 7
+    - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+      amount: 4
+    completedPrefab: {fileID: 0}
+    capacity: 8
+    unlockIds:
+    - animal.barn.expanded
