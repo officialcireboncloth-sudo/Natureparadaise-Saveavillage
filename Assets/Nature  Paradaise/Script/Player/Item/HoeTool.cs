@@ -27,6 +27,7 @@ public class FarmingTool : MonoBehaviour
     public KeyCode actionKey = KeyCode.H;
     public KeyCode waterKey = KeyCode.V;
     public KeyCode fertilizeKey = KeyCode.N;
+    public KeyCode cropBoosterKey = KeyCode.M;
 
     [Header("Raycast Distance")]
     public float maxDist = 100f;
@@ -40,6 +41,7 @@ public class FarmingTool : MonoBehaviour
     [Min(0f)] public float waterCost = 1f;
     [Min(0f)] public float fertilizeCost = 1f;
     [Min(0f)] public float harvestCost = 1f;
+    [Min(0f)] public float cropBoosterCost = 1f;
 
     [Header("Directional Target")]
     [SerializeField, Min(0.5f)] float targetDistance = 2.1f;
@@ -64,6 +66,7 @@ public class FarmingTool : MonoBehaviour
     [SerializeField] bool controllerRumble = true;
 
     PlayerToolHotbar hotbar;
+    InventoryHotbarUI inventoryHotbar;
     PlayerController movement;
     TopDownCameraFollow cameraFollow;
     FieldArea currentField;
@@ -77,6 +80,9 @@ public class FarmingTool : MonoBehaviour
     readonly Collider[] blockerBuffer = new Collider[24];
     Material validIndicatorMaterial;
     Material invalidIndicatorMaterial;
+    HoeUpgradeTier CurrentUpgradeTier => playerStatus != null
+        ? (HoeUpgradeTier)Mathf.Clamp(playerStatus.GetToolLevel(PlayerToolType.Hoe) - 1, 0, (int)HoeUpgradeTier.Gold)
+        : upgradeTier;
 
     void Awake()
     {
@@ -84,10 +90,13 @@ public class FarmingTool : MonoBehaviour
             playerInv = FindFirstObjectByType<Inventory>();
         if (playerStatus == null && playerInv != null)
             playerStatus = playerInv.GetComponent<PlayerStatusSystem>();
+        if (playerStatus != null && upgradeTier != HoeUpgradeTier.Basic)
+            playerStatus.SetToolLevel(PlayerToolType.Hoe, (int)upgradeTier + 1);
 
         hotbar = GetComponent<PlayerToolHotbar>();
         if (hotbar == null)
             hotbar = gameObject.AddComponent<PlayerToolHotbar>();
+        inventoryHotbar = GetComponent<InventoryHotbarUI>();
         movement = GetComponent<PlayerController>();
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
@@ -110,6 +119,7 @@ public class FarmingTool : MonoBehaviour
         }
 
         RefreshCropInteractionPrompt();
+        RefreshSoilInteractionPrompt();
 
         if (actionBusy)
             return;
@@ -120,10 +130,12 @@ public class FarmingTool : MonoBehaviour
         bool useHoe = legacyHoe || hotbar.IsUsePressed(PlayerToolType.Hoe);
         bool useWater = Input.GetKeyDown(waterKey) || hotbar.IsUsePressed(PlayerToolType.WateringCan);
         bool useFertilizer = Input.GetKeyDown(fertilizeKey) || hotbar.IsUsePressed(PlayerToolType.Fertilizer);
+        bool useCropBooster = Input.GetKeyDown(cropBoosterKey) || hotbar.IsUsePressed(PlayerToolType.CropBooster);
 
         if (useHoe) UseHoe(legacyHoe);
         else if (useWater) UseSoilEffect(true);
         else if (useFertilizer) UseSoilEffect(false);
+        else if (useCropBooster) UseCropBooster();
     }
 
     void RefreshCropInteractionPrompt()
@@ -137,8 +149,74 @@ public class FarmingTool : MonoBehaviour
         if (currentField.TryGetCropView(currentX, currentZ, out FieldCropView cropView))
             promptPosition = cropView.transform.position + Vector3.up * 1.05f;
 
-        bool mature = snapshot.GrowthDays >= snapshot.Crop.TotalGrowthDays;
-        string text = mature ? $"Tekan {actionKey} untuk panen" : "Tanaman sedang tumbuh";
+        string cropName = snapshot.Crop.produceItem != null
+            ? snapshot.Crop.produceItem.itemName
+            : snapshot.Crop.cropId;
+
+        // Detail growth/care adalah clue debug. Saat dimatikan, hanya aksi panen
+        // yang tetap tampil karena termasuk prompt gameplay utama.
+        if (!HUDManager.FarmingDebugCluesEnabled)
+        {
+            if (snapshot.CropState == CropLifecycleState.HarvestReady)
+            {
+                float harvestDistance = Vector3.Distance(transform.position, promptPosition);
+                WorldInteractionPrompt.Request(
+                    this,
+                    promptPosition,
+                    $"{actionKey} - Panen {cropName}",
+                    harvestDistance
+                );
+            }
+            return;
+        }
+
+        string stageName = snapshot.Crop.GetStageName(snapshot.GrowthStage);
+        string waterClue = snapshot.WateredToday
+            ? "sudah disiram hari ini"
+            : "perlu air - tekan V";
+        string fertilizerClue = snapshot.FertilizedForCurrentCycle
+            ? "tanah sudah dipupuk"
+            : snapshot.SoilLevel < 5
+                ? "soil perlu pupuk setelah panen"
+                : "soil sangat subur";
+        string boosterClue = snapshot.GrowthBoosterPercent > 0
+            ? $"booster -{snapshot.GrowthBoosterPercent}% aktif"
+            : "booster belum aktif";
+
+        string text = snapshot.CropState switch
+        {
+            CropLifecycleState.HarvestReady => $"{cropName} siap panen - tekan {actionKey}",
+            CropLifecycleState.Withered => $"{cropName} layu - perlu air untuk pulih | {fertilizerClue}",
+            CropLifecycleState.Regrowing =>
+                $"{cropName} tumbuh kembali {Mathf.CeilToInt(snapshot.RegrowDaysRemaining)} hari | {waterClue}",
+            CropLifecycleState.Dead => "Tanaman mati - bersihkan dengan Sickle",
+            _ => $"{stageName} {cropName} | Growth {Mathf.FloorToInt(snapshot.GrowthDays)}/" +
+                 $"{Mathf.CeilToInt(snapshot.Crop.TotalGrowthDays)} hari | " +
+                 $"{waterClue} | {fertilizerClue} | {boosterClue}"
+        };
+        float distance = Vector3.Distance(transform.position, promptPosition);
+        WorldInteractionPrompt.Request(this, promptPosition, text, distance);
+    }
+
+    void RefreshSoilInteractionPrompt()
+    {
+        if (!HUDManager.FarmingDebugCluesEnabled)
+            return;
+
+        if (currentField == null ||
+            !currentField.TryGetSnapshot(currentX, currentZ, out FieldTileSnapshot snapshot) ||
+            snapshot.State != TileState.Hoed)
+            return;
+
+        Vector3 promptPosition = currentField.GridToWorld(currentX, currentZ) + currentField.transform.up * 0.75f;
+        string condition = snapshot.FertilizedForCurrentCycle
+            ? "Tanah sudah dipupuk"
+            : snapshot.SoilLevel < 5
+                ? "Tanah perlu pupuk - pilih Fertilizer lalu tekan N"
+                : "Tanah sangat subur - pupuk belum diperlukan";
+        string water = snapshot.WateredToday ? "sudah disiram" : "belum disiram";
+        string text = $"{condition} | {water} | Pilih bibit lalu tekan F / Klik Kiri " +
+                      $"(Soil {snapshot.SoilDurability}/80)";
         float distance = Vector3.Distance(transform.position, promptPosition);
         WorldInteractionPrompt.Request(this, promptPosition, text, distance);
     }
@@ -155,6 +233,7 @@ public class FarmingTool : MonoBehaviour
     public void SetUpgradeTier(int tier)
     {
         upgradeTier = (HoeUpgradeTier)Mathf.Clamp(tier, 0, (int)HoeUpgradeTier.Gold);
+        playerStatus?.SetToolLevel(PlayerToolType.Hoe, (int)upgradeTier + 1);
         RefreshIndicators(true);
     }
 
@@ -232,7 +311,8 @@ public class FarmingTool : MonoBehaviour
             return;
         }
 
-        float efficiency = upgradeTier == HoeUpgradeTier.Basic ? 1f : upgradedStaminaEfficiency;
+        HoeUpgradeTier activeTier = CurrentUpgradeTier;
+        float efficiency = activeTier == HoeUpgradeTier.Basic ? 1f : upgradedStaminaEfficiency;
         float staminaCost = hoeCost * validCount * efficiency;
         if (!HasStamina(staminaCost))
         {
@@ -256,7 +336,7 @@ public class FarmingTool : MonoBehaviour
         PlayHoeFeedback(effectPosition);
         StartCoroutine(ActionLockRoutine());
         RefreshIndicators(true);
-        Debug.Log($"[FARMING] {changed} tile berhasil dicangkul ({upgradeTier}).");
+        Debug.Log($"[FARMING] {changed} tile berhasil dicangkul ({activeTier}).");
     }
 
     bool TryHarvestCurrentTile()
@@ -282,20 +362,88 @@ public class FarmingTool : MonoBehaviour
         if (currentField == null)
             return;
 
+        ItemSO fertilizer = null;
+        if (!watering)
+        {
+            fertilizer = inventoryHotbar != null ? inventoryHotbar.SelectedItem : null;
+            if (fertilizer == null || !fertilizer.IsFertilizer)
+            {
+                ShowFeedback("Pilih Fertilizer dari hotbar");
+                return;
+            }
+
+            if (VillageProgressionService.Instance != null &&
+                !VillageProgressionService.Instance.MeetsRequirement(fertilizer.requiredVillageLevel))
+            {
+                ShowFeedback($"Fertilizer terkunci sampai Village Lv.{fertilizer.requiredVillageLevel}");
+                return;
+            }
+        }
+
         float cost = watering ? waterCost : fertilizeCost;
         if (!HasStamina(cost))
+        {
+            ShowFeedback("Stamina tidak cukup");
             return;
+        }
 
         bool success = watering
             ? currentField.TryWater(currentX, currentZ)
-            : currentField.TryFertilize(currentX, currentZ);
+            : currentField.TryFertilize(currentX, currentZ, (int)fertilizer.fertilizerLevel);
         if (success)
         {
+            if (!watering && !playerInv.RemoveFromSlot(inventoryHotbar.SelectedIndex, 1))
+            {
+                Debug.LogError("[FARMING] Tanah dipupuk tetapi item Fertilizer gagal dikurangi.");
+                return;
+            }
             SpendStamina(cost);
-            ShowFeedback(watering ? "Tanah disiram" : "Tanah diberi pupuk");
+            ShowFeedback(watering
+                ? "Tanah atau tanaman sudah disiram hari ini"
+                : $"Tanah sudah dipupuk dengan {fertilizer.itemName}. Siap ditanami");
         }
         else
-            ShowFeedback("Tanah harus dicangkul terlebih dahulu");
+            ShowFeedback(watering
+                ? "Tanah harus dicangkul terlebih dahulu"
+                : "Pupuk hanya bisa dipakai pada tanah cangkul yang belum penuh");
+    }
+
+    void UseCropBooster()
+    {
+        RefreshCurrentTarget();
+        if (currentField == null)
+        {
+            ShowFeedback("Tidak ada tanaman di depan Player");
+            return;
+        }
+
+        ItemSO booster = inventoryHotbar != null ? inventoryHotbar.SelectedItem : null;
+        if (booster == null || !booster.IsCropBooster)
+        {
+            ShowFeedback("Pilih Crop Booster dari hotbar");
+            return;
+        }
+
+        if (!HasStamina(cropBoosterCost))
+        {
+            ShowFeedback("Stamina tidak cukup");
+            return;
+        }
+
+        if (!currentField.TryApplyCropBooster(currentX, currentZ, booster.cropBoosterPercent))
+        {
+            ShowFeedback("Booster hanya untuk crop aktif dan tidak boleh lebih rendah dari booster sebelumnya");
+            return;
+        }
+
+        if (!playerInv.RemoveFromSlot(inventoryHotbar.SelectedIndex, 1))
+        {
+            Debug.LogError("[FARMING] Booster terpasang tetapi item gagal dikurangi.");
+            return;
+        }
+
+        SpendStamina(cropBoosterCost);
+        ShowFeedback($"Crop Booster -{booster.cropBoosterPercent}% aktif. Soil tidak berubah");
     }
 
     void BuildHoeTargets()
@@ -311,7 +459,7 @@ public class FarmingTool : MonoBehaviour
             : new Vector2Int(0, localForward.z >= 0f ? 1 : -1);
         Vector2Int side = new(-forward.y, forward.x);
 
-        switch (upgradeTier)
+        switch (CurrentUpgradeTier)
         {
             case HoeUpgradeTier.Copper:
                 for (int offset = -1; offset <= 1; offset++) AddTarget(currentX + side.x * offset, currentZ + side.y * offset);
@@ -357,14 +505,33 @@ public class FarmingTool : MonoBehaviour
 
     void RefreshIndicators(bool force = false)
     {
-        bool show = enabled && hotbar != null && hotbar.SelectedTool == PlayerToolType.Hoe && currentField != null;
+        PlayerToolType selectedTool = hotbar != null ? hotbar.SelectedTool : PlayerToolType.None;
+        bool supportedTool = selectedTool == PlayerToolType.Hoe ||
+                             selectedTool == PlayerToolType.WateringCan ||
+                             selectedTool == PlayerToolType.Fertilizer ||
+                             selectedTool == PlayerToolType.CropBooster;
+        bool show = enabled && supportedTool && currentField != null;
         if (!show)
         {
             HideIndicators();
             return;
         }
 
-        BuildHoeTargets();
+        if (selectedTool == PlayerToolType.Hoe)
+        {
+            BuildHoeTargets();
+        }
+        else
+        {
+            hoeTargets.Clear();
+            bool valid = currentField.TryGetSnapshot(currentX, currentZ, out FieldTileSnapshot snapshot) &&
+                         (selectedTool == PlayerToolType.WateringCan
+                             ? snapshot.State == TileState.Hoed || snapshot.State == TileState.Planted
+                             : selectedTool == PlayerToolType.CropBooster
+                                 ? snapshot.State == TileState.Planted
+                                 : currentField.CanFertilize(currentX, currentZ));
+            hoeTargets.Add(new HoeTileTarget(currentField, currentX, currentZ, valid));
+        }
         EnsureIndicatorCount(hoeTargets.Count);
         for (int i = 0; i < indicators.Count; i++)
         {
@@ -434,7 +601,7 @@ public class FarmingTool : MonoBehaviour
         if (dirtParticles != null)
         {
             dirtParticles.transform.position = position + Vector3.up * 0.08f;
-            dirtParticles.Emit(upgradeTier == HoeUpgradeTier.Gold ? 24 : 12);
+            dirtParticles.Emit(CurrentUpgradeTier == HoeUpgradeTier.Gold ? 24 : 12);
         }
         if (cameraFollow == null && Camera.main != null)
             cameraFollow = Camera.main.GetComponent<TopDownCameraFollow>();
@@ -446,10 +613,12 @@ public class FarmingTool : MonoBehaviour
     IEnumerator ActionLockRoutine()
     {
         actionBusy = true;
+        playerStatus?.AcquireActivity(this, PlayerMovementState.ToolAction);
         movement?.AcquireMovementLock(this);
         if (actionLockDuration > 0f)
             yield return new WaitForSeconds(actionLockDuration);
         movement?.ReleaseMovementLock(this);
+        playerStatus?.ReleaseActivity(this);
         actionBusy = false;
     }
 
@@ -505,6 +674,7 @@ public class FarmingTool : MonoBehaviour
     {
         HideIndicators();
         movement?.ReleaseMovementLock(this);
+        playerStatus?.ReleaseActivity(this);
         actionBusy = false;
         if (Gamepad.current != null) Gamepad.current.SetMotorSpeeds(0f, 0f);
     }

@@ -83,7 +83,8 @@ public sealed class PlayerBed : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void EnsureTestingBedExists()
     {
-        if (FindFirstObjectByType<PlayerBed>() != null)
+        // Jika interior rumah tersedia, kasur aslinya memang belum aktif saat world baru dimuat.
+        if (Application.CanStreamedLevelBeLoaded("HouseInterior") || FindFirstObjectByType<PlayerBed>() != null)
             return;
 
         PlayerLifeCycle player = FindFirstObjectByType<PlayerLifeCycle>();

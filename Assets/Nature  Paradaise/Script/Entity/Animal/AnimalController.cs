@@ -7,6 +7,11 @@ using TMPro;
 /// </summary>
 public class AnimalController : MonoBehaviour
 {
+    [Header("Growth System")]
+    [SerializeField] AnimalGrowthSystem growth;
+    [SerializeField] KeyCode petKey = KeyCode.P;
+    [SerializeField] KeyCode debugNextStageKey = KeyCode.J;
+
     [Header("Hunger")]
     public float maxHunger = 100f;
     public float hunger = 0f;
@@ -47,6 +52,20 @@ public class AnimalController : MonoBehaviour
     {
         if (playerInv == null)
             playerInv = FindFirstObjectByType<Inventory>();
+        if (growth == null)
+            growth = GetComponent<AnimalGrowthSystem>();
+    }
+
+    public void ConfigureRuntime(
+        Inventory inventory,
+        ItemSO feedItem,
+        ItemSO productItem,
+        AnimalGrowthSystem growthSystem)
+    {
+        playerInv = inventory;
+        cabbageItem = feedItem;
+        milkItem = productItem;
+        growth = growthSystem;
     }
 
     void Update()
@@ -63,9 +82,11 @@ public class AnimalController : MonoBehaviour
         if (distance > interactionRadius)
             return;
 
-        string interactionPrompt = milkReady
-            ? $"{feedKey}: beri makan   {milkKey}: ambil susu"
-            : $"Tekan {feedKey} untuk memberi makan";
+        string interactionPrompt = IsProductReady
+            ? $"{feedKey}: Feed   {petKey}: Pet   {milkKey}: Ambil produk"
+            : $"{feedKey}: Feed   {petKey}: Pet";
+        if (HUDManager.DebugCluesEnabled)
+            interactionPrompt += $"   {debugNextStageKey}: Debug Next Stage";
         WorldInteractionPrompt.Request(this, transform, interactionPrompt, distance, 1.45f);
 
         HandleInput();
@@ -92,6 +113,12 @@ public class AnimalController : MonoBehaviour
         {
             TakeMilk();
         }
+
+        if (Input.GetKeyDown(petKey))
+            growth?.Pet();
+
+        if (HUDManager.DebugCluesEnabled && Input.GetKeyDown(debugNextStageKey))
+            growth?.DebugAdvanceToNextStage();
     }
 
     void FeedCabbage()
@@ -123,6 +150,7 @@ public class AnimalController : MonoBehaviour
 
         // Clamp supaya tidak lebih dari max
         hunger = Mathf.Clamp(hunger, 0f, maxHunger);
+        growth?.RegisterFeeding(cabbageHunger);
 
         Debug.Log(
             $"[ANIMAL] Diberi makan Cabbage. " +
@@ -134,8 +162,15 @@ public class AnimalController : MonoBehaviour
     {
         // Kalau susu sudah siap, jangan produksi lagi
         // sampai player mengambilnya.
-        if (milkReady)
+        if (IsProductReady)
             return;
+
+        // Hewan hanya memulai produksi setelah Adult dan kondisi hari ini ideal.
+        if (growth != null && !growth.IsProductionEligible)
+        {
+            milkTimer = 0f;
+            return;
+        }
 
         // Tidak punya Hunger → tidak bisa menghasilkan susu
         if (hunger <= 0f)
@@ -156,6 +191,7 @@ public class AnimalController : MonoBehaviour
 
             // Susu siap diambil
             milkReady = true;
+            growth?.SetProductReady(true);
 
             Debug.Log(
                 $"[ANIMAL] Milk READY! " +
@@ -166,7 +202,7 @@ public class AnimalController : MonoBehaviour
 
     void TakeMilk()
     {
-        if (!milkReady)
+        if (!IsProductReady)
         {
             Debug.Log(
                 "[ANIMAL] Milk belum siap."
@@ -186,10 +222,10 @@ public class AnimalController : MonoBehaviour
         playerInv.Add(milkItem, 1);
 
         milkReady = false;
+        growth?.MarkProductCollected();
 
-        Debug.Log(
-            "[ANIMAL] Milk berhasil diambil!"
-        );
+        int quality = growth != null ? growth.ProductQualityLevel : 1;
+        SaveLoadFeedback.Instance?.ShowMessage($"Milk Quality Lv.{quality} berhasil diambil");
 
         // Kalau Hunger masih > 0,
         // produksi susu berikutnya dimulai lagi.
@@ -201,17 +237,24 @@ public class AnimalController : MonoBehaviour
         if (hungerText == null)
             return;
 
-        string milkStatus = milkReady
+        // Status rinci hewan adalah debug clue dan mengikuti master toggle HUD (F9).
+        hungerText.gameObject.SetActive(HUDManager.DebugCluesEnabled);
+        if (!HUDManager.DebugCluesEnabled)
+            return;
+
+        string milkStatus = IsProductReady
             ? "READY TO MILK!"
             : "Milk: Not Ready";
 
-        hungerText.text =
-            $"Hunger: {Mathf.RoundToInt(hunger)}/{Mathf.RoundToInt(maxHunger)}\n" +
-            milkStatus;
+        hungerText.text = growth != null
+            ? $"{growth.StatusSummary}\n{milkStatus}"
+            : $"Hunger: {Mathf.RoundToInt(hunger)}/{Mathf.RoundToInt(maxHunger)}\n{milkStatus}";
     }
 
     void Start()
     {
         UpdateDebugUI();
     }
+
+    bool IsProductReady => growth != null ? growth.HasProductReady : milkReady;
 }

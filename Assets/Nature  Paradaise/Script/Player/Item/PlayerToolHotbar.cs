@@ -12,7 +12,9 @@ public enum PlayerToolType
     Fertilizer,
     Sickle,
     Hammer,
-    Axe
+    Axe,
+    FishingRod,
+    CropBooster
 }
 
 [DisallowMultipleComponent]
@@ -32,6 +34,7 @@ public sealed class PlayerToolHotbar : MonoBehaviour
     [SerializeField] KeyCode sickleKey = KeyCode.F5;
     [SerializeField] KeyCode hammerKey = KeyCode.F6;
     [SerializeField] KeyCode axeKey = KeyCode.F7;
+    [SerializeField] KeyCode cropBoosterKey = KeyCode.F8;
     [Header("Use Tool")]
     [SerializeField] KeyCode useToolKey = KeyCode.F;
     [SerializeField] bool allowLeftMouse = true;
@@ -50,6 +53,7 @@ public sealed class PlayerToolHotbar : MonoBehaviour
         else if (Input.GetKeyDown(sickleKey)) SelectTool(PlayerToolType.Sickle);
         else if (Input.GetKeyDown(hammerKey)) SelectTool(PlayerToolType.Hammer);
         else if (Input.GetKeyDown(axeKey)) SelectTool(PlayerToolType.Axe);
+        else if (Input.GetKeyDown(cropBoosterKey)) SelectTool(PlayerToolType.CropBooster);
     }
 
     /// <summary>True satu frame saat input penggunaan untuk tool aktif diterima.</summary>
@@ -99,6 +103,8 @@ public sealed class PlayerToolHotbar : MonoBehaviour
             PlayerToolType.Sickle => "Sickle",
             PlayerToolType.Hammer => "Hammer",
             PlayerToolType.Axe => "Axe",
+            PlayerToolType.FishingRod => "Fishing Rod",
+            PlayerToolType.CropBooster => "Crop Booster",
             _ => "Empty"
         };
     }

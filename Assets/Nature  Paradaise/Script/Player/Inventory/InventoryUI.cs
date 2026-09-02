@@ -157,9 +157,10 @@ public sealed class InventoryUI : MonoBehaviour
         panelRect.anchorMin = panelRect.anchorMax = new Vector2(0.5f, 0.5f);
         panelRect.pivot = new Vector2(0.5f, 0.5f);
         panelRect.anchoredPosition = Vector2.zero;
-        int columns = inventory.GridSize;
+        int columns = inventory.BagColumnCount;
+        int rows = inventory.BagRowCount;
         float gridWidth = columns * slotSize.x + (columns - 1) * spacing;
-        float gridHeight = columns * slotSize.y + (columns - 1) * spacing;
+        float gridHeight = rows * slotSize.y + (rows - 1) * spacing;
         float hotbarWidth = inventory.HotbarSlotCount * slotSize.x + (inventory.HotbarSlotCount - 1) * spacing;
         float hotbarTop = -126f - gridHeight - 58f;
         float panelWidth = Mathf.Max(600f, Mathf.Max(gridWidth, hotbarWidth) + 44f);
@@ -238,7 +239,12 @@ public sealed class InventoryUI : MonoBehaviour
         if (panel == null || capacityText == null || slotViews.Count != inventory.Capacity)
             return;
 
-        capacityText.text = $"{inventory.UsedSlots}/{inventory.Capacity}  |  TAS {inventory.GridSize}x{inventory.GridSize}";
+        int completeRows = inventory.MainCapacity / inventory.BagColumnCount;
+        int partialRow = inventory.MainCapacity % inventory.BagColumnCount;
+        string bagLayout = partialRow == 0
+            ? $"{completeRows}x{inventory.BagColumnCount}"
+            : $"{completeRows}x{inventory.BagColumnCount} + {partialRow}";
+        capacityText.text = $"{inventory.UsedSlots}/{inventory.Capacity}  |  TAS {bagLayout}";
         for (int i = 0; i < slotViews.Count; i++)
         {
             SlotView view = slotViews[i];

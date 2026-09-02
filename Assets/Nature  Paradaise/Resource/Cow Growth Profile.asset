@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c3ea62c7f9e4d97a7eb631309e0a2e8, type: 3}
+  m_Name: Cow Growth Profile
+  m_EditorClassIdentifier:
+  animalType: 4
+  incubationOrPregnancyDays: 14
+  bornToAdultDays: 56
+  purchasedYoungToAdultDays: 28
+  productItem: {fileID: 11400000, guid: a3ff5e12700285547907d72e6ca5b7a7, type: 2}
+  productionIntervalDays: 1
+  stageSlots:
+  - stage: 3
+    startsOnGrowthDay: 0
+    modelPrefab: {fileID: 919132149155446097, guid: b683a4fbda2f95d45af5dee458c482a0, type: 3}
+    scale: {x: 0.4, y: 0.4, z: 0.4}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    animatorController: {fileID: 0}
+    voiceClip: {fileID: 0}
+  - stage: 4
+    startsOnGrowthDay: 8
+    modelPrefab: {fileID: 919132149155446097, guid: b683a4fbda2f95d45af5dee458c482a0, type: 3}
+    scale: {x: 0.55, y: 0.55, z: 0.55}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    animatorController: {fileID: 0}
+    voiceClip: {fileID: 0}
+  - stage: 5
+    startsOnGrowthDay: 15
+    modelPrefab: {fileID: 919132149155446097, guid: b683a4fbda2f95d45af5dee458c482a0, type: 3}
+    scale: {x: 0.72, y: 0.72, z: 0.72}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    animatorController: {fileID: 0}
+    voiceClip: {fileID: 0}
+  - stage: 6
+    startsOnGrowthDay: 36
+    modelPrefab: {fileID: 919132149155446097, guid: b683a4fbda2f95d45af5dee458c482a0, type: 3}
+    scale: {x: 0.88, y: 0.88, z: 0.88}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    animatorController: {fileID: 0}
+    voiceClip: {fileID: 0}
+  - stage: 7
+    startsOnGrowthDay: 56
+    modelPrefab: {fileID: 919132149155446097, guid: b683a4fbda2f95d45af5dee458c482a0, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    animatorController: {fileID: 0}
+    voiceClip: {fileID: 0}

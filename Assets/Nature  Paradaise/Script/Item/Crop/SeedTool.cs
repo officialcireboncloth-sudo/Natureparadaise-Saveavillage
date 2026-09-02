@@ -10,9 +10,6 @@ public class SeedTool : MonoBehaviour
     [Tooltip("Layer tanah/field yang bisa ditanami.")]
     public LayerMask fieldMask;
 
-    [Header("Input")]
-    public KeyCode plantKey = KeyCode.B;
-
     [Header("Raycast Distance")]
     public float maxDistance = 100f;
 
@@ -23,13 +20,13 @@ public class SeedTool : MonoBehaviour
     public PlayerStatusSystem playerStatus;
     [Min(0f)] public float plantingCost = 1f;
 
-    [Tooltip("ItemSO Seed yang digunakan untuk menanam.")]
-    public ItemSO seedItem;
-
-    [Tooltip("Definisi crop yang ditanam oleh seed ini.")]
-    public CropDataSO cropDefinition;
+    [Header("Legacy Fallback")]
+    [Tooltip("Dipertahankan untuk scene lama. Seed baru harus mengisi Seed Crop pada ItemSO.")]
+    [SerializeField, HideInInspector] ItemSO seedItem;
+    [SerializeField, HideInInspector] CropDataSO cropDefinition;
 
     PlayerToolHotbar hotbar;
+    InventoryHotbarUI inventoryHotbar;
     FarmingTool farmingTool;
     PlayerController movement;
 
@@ -44,6 +41,7 @@ public class SeedTool : MonoBehaviour
         hotbar = GetComponent<PlayerToolHotbar>();
         if (hotbar == null)
             hotbar = gameObject.AddComponent<PlayerToolHotbar>();
+        inventoryHotbar = GetComponent<InventoryHotbarUI>();
         farmingTool = GetComponent<FarmingTool>();
         movement = GetComponent<PlayerController>();
     }
@@ -53,61 +51,76 @@ public class SeedTool : MonoBehaviour
         if (movement != null && movement.IsMovementLocked)
             return;
 
-        if (!Input.GetKeyDown(plantKey) && !hotbar.IsUsePressed(PlayerToolType.Seed))
+        if (inventoryHotbar == null)
+            inventoryHotbar = GetComponent<InventoryHotbarUI>();
+        ItemSO selectedSeed = inventoryHotbar != null ? inventoryHotbar.SelectedItem : null;
+        if (selectedSeed == null || !selectedSeed.IsSeed ||
+            !hotbar.IsUsePressed(PlayerToolType.Seed))
             return;
 
         // Pastikan Inventory tersedia
         if (playerInv == null)
         {
-            Debug.LogWarning(
-                "[SEED] Player Inventory belum ditemukan."
-            );
+            ShowPlantFeedback("GAGAL MENANAM: Inventory player tidak ditemukan.");
             return;
         }
 
-        // Pastikan Seed Item sudah di-assign
-        if (seedItem == null)
+        CropDataSO selectedCrop = selectedSeed.seedCrop;
+        if (selectedCrop == null && selectedSeed == seedItem)
+            selectedCrop = cropDefinition;
+        if (selectedCrop == null)
         {
-            Debug.LogWarning(
-                "[SEED] Seed ItemSO belum di-assign di Inspector."
-            );
+            ShowPlantFeedback($"GAGAL MENANAM: Seed Crop untuk {selectedSeed.itemName} belum dipasang.");
             return;
         }
 
         // Cek apakah player punya Seed
-        int seedCount = playerInv.GetCount(seedItem);
+        int seedCount = playerInv.GetCount(selectedSeed);
 
         if (seedCount <= 0)
         {
-            Debug.Log("[SEED] Tidak punya Seed. Tidak bisa menanam.");
+            ShowPlantFeedback("GAGAL MENANAM: Bibit habis. Beli atau ambil Seed dahulu.");
             return;
         }
 
         if (playerStatus != null && !playerStatus.CanSpendStamina(plantingCost))
         {
-            Debug.Log("[PLAYER] Stamina tidak cukup untuk menanam.");
+            ShowPlantFeedback("GAGAL MENANAM: Stamina tidak cukup.");
             return;
         }
 
         if (!TryGetTarget(out FieldArea field, out int gx, out int gz))
+        {
+            ShowPlantFeedback("GAGAL MENANAM: Tidak ada tile di depan player.");
             return;
+        }
+
+        if (field.TryGetSnapshot(gx, gz, out FieldTileSnapshot snapshot) && snapshot.SoilDurability <= 0)
+        {
+            ShowPlantFeedback("GAGAL MENANAM: Tanah tandus. Istirahatkan atau gunakan Fertilizer.");
+            return;
+        }
 
         // Coba tanam terlebih dahulu
-        bool planted = field.TryPlant(gx, gz, cropDefinition);
+        bool planted = field.TryPlant(gx, gz, selectedCrop);
 
         if (!planted)
         {
-            Debug.Log(
-                $"[SEED] Tidak bisa menanam di ({gx}, {gz}). " +
-                "Tanah belum dicangkul atau sudah terisi."
-            );
+            string reason = snapshot.State switch
+            {
+                TileState.Empty => "Tanah belum dicangkul. Gunakan Hoe dahulu.",
+                TileState.Planted => "Tile ini sudah memiliki tanaman.",
+                TileState.Hoed => "Crop belum siap atau tanah tidak dapat ditanami.",
+                _ => "Tile dipakai bangunan, jalan, atau object lain."
+            };
+            ShowPlantFeedback($"GAGAL MENANAM [{gx},{gz}]: {reason}");
 
             return;
         }
 
         // Kalau planting BERHASIL,
         // baru kurangi Seed dari inventory.
-        bool removed = playerInv.Remove(seedItem, 1);
+        bool removed = playerInv.Remove(selectedSeed, 1);
 
         if (!removed)
         {
@@ -116,16 +129,31 @@ public class SeedTool : MonoBehaviour
             Debug.LogError(
                 "[SEED] Plant berhasil tetapi Seed gagal dikurangi!"
             );
+            ShowPlantFeedback("PERINGATAN: Bibit tertanam, tetapi inventory gagal diperbarui.");
 
             return;
         }
 
         playerStatus?.TrySpendStamina(plantingCost);
+        playerStatus?.PulseActivity(PlayerMovementState.ToolAction);
+
+        string cropName = selectedCrop.produceItem != null
+            ? selectedCrop.produceItem.itemName
+            : "Bibit";
+        ShowPlantFeedback(
+            $"BERHASIL MENANAM [{gx},{gz}]: Bibit {cropName} sudah tertanam. Tekan V untuk menyiram."
+        );
 
         Debug.Log(
             $"[SEED] Berhasil menanam di ({gx}, {gz}). " +
-            $"Seed tersisa: {playerInv.GetCount(seedItem)}"
+            $"{selectedSeed.itemName} tersisa: {playerInv.GetCount(selectedSeed)}"
         );
+    }
+
+    void ShowPlantFeedback(string message)
+    {
+        SaveLoadFeedback.Instance?.ShowMessage(message);
+        Debug.Log($"[SEED] {message}");
     }
 
     bool TryGetTarget(out FieldArea field, out int x, out int z)

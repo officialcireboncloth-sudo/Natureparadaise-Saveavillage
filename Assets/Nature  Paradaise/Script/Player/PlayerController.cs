@@ -167,7 +167,8 @@ public sealed class PlayerController : MonoBehaviour
         if (!grounded && verticalVelocity > 0.01f) return MovementMode.Airborne;
         if (inputMagnitude <= 0.01f) return MovementMode.Idle;
 
-        bool wantsSprint = (Input.GetKey(sprintKey) || mobileSprintHeld) && status != null && status.CanSpendStamina(0.01f);
+        bool wantsSprint = (Input.GetKey(sprintKey) || mobileSprintHeld) && status != null &&
+                           !status.IsExhausted && status.CanSpendStamina(0.01f);
         if (wantsSprint) return MovementMode.Sprint;
         if (Input.GetKey(walkKey) || inputMagnitude < analogRunThreshold) return MovementMode.Walk;
         return MovementMode.Run;

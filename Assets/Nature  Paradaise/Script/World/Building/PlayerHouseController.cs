@@ -40,6 +40,7 @@ public sealed class PlayerHouseController : MonoBehaviour
     [SerializeField, Min(0)] int refrigeratorLevel;
 
     Inventory playerInventory;
+    GameObject runtimeExteriorVisual;
 
     public BuildingDefinitionSO Definition => houseDefinition;
     public int CurrentLevel => currentLevel;
@@ -128,11 +129,48 @@ public sealed class PlayerHouseController : MonoBehaviour
 
     void ApplyExteriorVisual()
     {
+        DestroyRuntimeExteriorVisual();
+        GameObject completedPrefab = !IsUnderConstruction
+            ? houseDefinition?.GetLevel(currentLevel)?.completedPrefab
+            : null;
+
         for (int index = 0; index < exteriorLevelVisuals.Count; index++)
             if (exteriorLevelVisuals[index] != null)
-                exteriorLevelVisuals[index].SetActive(index == currentLevel - 1);
+                exteriorLevelVisuals[index].SetActive(
+                    completedPrefab == null && !IsUnderConstruction && index == currentLevel - 1
+                );
         if (constructionVisual != null)
             constructionVisual.SetActive(IsUnderConstruction);
+
+        if (completedPrefab != null)
+        {
+            try
+            {
+                runtimeExteriorVisual = Instantiate(completedPrefab, transform);
+            }
+            catch (InvalidCastException exception)
+            {
+                Debug.LogWarning($"[HOUSE] Prefab exterior tidak valid; memakai visual scene fallback. {exception.Message}");
+                for (int index = 0; index < exteriorLevelVisuals.Count; index++)
+                    if (exteriorLevelVisuals[index] != null)
+                        exteriorLevelVisuals[index].SetActive(index == currentLevel - 1);
+                return;
+            }
+            runtimeExteriorVisual.name = $"PlayerHouse_Lv{currentLevel}_Runtime";
+            runtimeExteriorVisual.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        }
+    }
+
+    void DestroyRuntimeExteriorVisual()
+    {
+        if (runtimeExteriorVisual == null)
+            return;
+
+        if (Application.isPlaying)
+            Destroy(runtimeExteriorVisual);
+        else
+            DestroyImmediate(runtimeExteriorVisual);
+        runtimeExteriorVisual = null;
     }
 
     Inventory ResolveInventory()

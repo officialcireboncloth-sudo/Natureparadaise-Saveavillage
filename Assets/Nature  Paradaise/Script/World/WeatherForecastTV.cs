@@ -213,7 +213,8 @@ public sealed class WeatherForecastTV : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void EnsureTestingTVExists()
     {
-        if (FindFirstObjectByType<WeatherForecastTV>() != null)
+        // Jika interior rumah tersedia, TV aslinya memang belum aktif saat world baru dimuat.
+        if (Application.CanStreamedLevelBeLoaded("HouseInterior") || FindFirstObjectByType<WeatherForecastTV>() != null)
             return;
 
         Vector3 position = Vector3.zero;

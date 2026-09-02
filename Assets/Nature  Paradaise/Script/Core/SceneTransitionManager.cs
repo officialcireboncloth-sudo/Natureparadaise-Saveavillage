@@ -18,6 +18,7 @@ public sealed class SceneTransitionManager : MonoBehaviour
     Image fadeImage;
     PlayerController player;
     CharacterController characterController;
+    TopDownCameraFollow cameraFollow;
     Vector3 returnPosition;
     Quaternion returnRotation;
     string loadedInteriorScene;
@@ -25,6 +26,13 @@ public sealed class SceneTransitionManager : MonoBehaviour
 
     public bool IsTransitioning => transitioning;
     public bool IsInsideInterior => !string.IsNullOrEmpty(loadedInteriorScene);
+
+    /// <summary>Mengambil posisi world terakhir tanpa memindahkan player keluar dari interior.</summary>
+    public bool TryGetWorldReturnPosition(out Vector3 position)
+    {
+        position = returnPosition;
+        return IsInsideInterior;
+    }
 
     void Awake()
     {
@@ -136,6 +144,14 @@ public sealed class SceneTransitionManager : MonoBehaviour
             player = inventory != null ? inventory.GetComponent<PlayerController>() : FindFirstObjectByType<PlayerController>();
             characterController = player != null ? player.GetComponent<CharacterController>() : null;
         }
+
+        if (cameraFollow == null)
+        {
+            Camera mainCamera = Camera.main;
+            cameraFollow = mainCamera != null
+                ? mainCamera.GetComponent<TopDownCameraFollow>()
+                : FindFirstObjectByType<TopDownCameraFollow>();
+        }
     }
 
     void MovePlayerToSpawn(string spawnId, Vector3 fallbackPosition, Quaternion fallbackRotation)
@@ -154,6 +170,10 @@ public sealed class SceneTransitionManager : MonoBehaviour
         player.transform.SetPositionAndRotation(position, rotation);
         if (characterController != null)
             characterController.enabled = true;
+
+        // World dan interior terpisah sangat jauh; smoothing lintas ruang tersebut akan
+        // menampilkan area kosong selama beberapa frame jika kamera tidak ikut diteleport.
+        cameraFollow?.SetTarget(player.transform, true);
     }
 
     static Scene FindLoadedWorldScene(Scene interior)

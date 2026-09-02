@@ -8,23 +8,26 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [Header("Backpack Grid")]
-    [Tooltip("Ukuran awal tanpa tas: 4 x 4.")]
-    [SerializeField, Min(4)] int baseGridSize = 4;
-    [Tooltip("Setiap level tas menambah satu kolom dan satu baris.")]
+    [Tooltip("Jumlah slot tas awal. Default 16 ditampilkan sebagai 2 baris x 8 kolom.")]
+    [SerializeField, Min(8)] int baseBagSlotCount = 16;
+    [Tooltip("Bonus slot kumulatif per Bag Level. Default: 0, +8, +12, +16.")]
+    [SerializeField] List<int> backpackBonusSlots = new() { 0, 8, 12, 16 };
+    [Tooltip("Level tas aktif yang menentukan bonus kapasitas.")]
     [SerializeField, Min(0)] int backpackLevel;
     [SerializeField, Min(0)] int maximumBackpackLevel = 3;
-    [SerializeField, Range(1, 8)] int hotbarSlotCount = 4;
-    [Tooltip("Item awal game. Empat item pertama masuk hotbar; sisanya masuk grid tas.")]
+    [SerializeField, Range(1, 8)] int hotbarSlotCount = 8;
+    [Tooltip("Item awal game. Delapan item pertama masuk hotbar; sisanya masuk grid tas.")]
     [SerializeField] List<ItemSO> startingHotbarItems = new();
 
     // Dipertahankan agar data scene lama dengan field capacity tidak rusak.
     [SerializeField, HideInInspector] int capacity = 20;
 
-    [Tooltip("Slot tetap. Empat slot pertama adalah hotbar; sisanya adalah grid tas utama.")]
+    [Tooltip("Slot tetap. Delapan slot pertama adalah hotbar; sisanya adalah grid tas utama.")]
     public List<ItemStack> slots = new();
 
-    public int GridSize => Mathf.Max(4, baseGridSize) + Mathf.Clamp(backpackLevel, 0, maximumBackpackLevel);
-    public int MainCapacity => GridSize * GridSize;
+    public int BagColumnCount => 8;
+    public int BagRowCount => Mathf.CeilToInt(MainCapacity / (float)BagColumnCount);
+    public int MainCapacity => Mathf.Max(8, baseBagSlotCount) + GetBackpackBonus(backpackLevel);
     public int HotbarSlotCount => Mathf.Clamp(hotbarSlotCount, 1, 8);
     public int Capacity => MainCapacity + HotbarSlotCount;
     public int BackpackLevel => backpackLevel;
@@ -174,7 +177,7 @@ public class Inventory : MonoBehaviour
         return freeSpace >= amount;
     }
 
-    /// <summary>Menyortir area bag berdasarkan kategori tanpa mengubah empat slot hotbar.</summary>
+    /// <summary>Menyortir area bag berdasarkan kategori tanpa mengubah slot hotbar.</summary>
     public void SortByCategory()
     {
         List<ItemStack> occupied = new();
@@ -205,7 +208,7 @@ public class Inventory : MonoBehaviour
         OnInventoryChanged?.Invoke();
     }
 
-    /// <summary>Upgrade tas. Level 0 = 4x4, level 1 = 5x5.</summary>
+    /// <summary>Mengatur level tas berdasarkan tabel bonus slot modular.</summary>
     public void SetBackpackLevel(int level)
     {
         backpackLevel = Mathf.Clamp(level, 0, maximumBackpackLevel);
@@ -279,10 +282,10 @@ public class Inventory : MonoBehaviour
 
     void NormalizeSlots()
     {
-        baseGridSize = Mathf.Max(4, baseGridSize);
+        baseBagSlotCount = Mathf.Max(8, baseBagSlotCount);
         maximumBackpackLevel = Mathf.Max(0, maximumBackpackLevel);
         backpackLevel = Mathf.Clamp(backpackLevel, 0, maximumBackpackLevel);
-        hotbarSlotCount = Mathf.Clamp(hotbarSlotCount, 1, 8);
+        hotbarSlotCount = 8;
         capacity = Capacity;
 
         if (slots.Count > Capacity)
@@ -320,6 +323,17 @@ public class Inventory : MonoBehaviour
             if (overflow > 0)
                 slot.count += overflow;
         }
+    }
+
+    int GetBackpackBonus(int level)
+    {
+        int safeLevel = Mathf.Clamp(level, 0, maximumBackpackLevel);
+        if (backpackBonusSlots != null && safeLevel < backpackBonusSlots.Count)
+            return Mathf.Max(0, backpackBonusSlots[safeLevel]);
+
+        // Fallback menjaga asset lama tetap mempunyai kapasitas masuk akal jika
+        // tabel bonus belum lengkap di Inspector.
+        return safeLevel * BagColumnCount;
     }
 
     static bool IsValid(ItemStack slot) => slot != null && slot.item != null && slot.count > 0;

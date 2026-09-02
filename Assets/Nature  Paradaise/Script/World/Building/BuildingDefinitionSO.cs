@@ -71,6 +71,10 @@ public sealed class BuildingDefinitionSO : ScriptableObject
     [Tooltip("Kedalaman area grid yang harus kosong ketika bangunan ditempatkan.")]
     [Min(1)] public int footprintDepth = 3;
 
+    [Header("Placement Orientation")]
+    [Tooltip("Arah awal bangunan pada sumbu Y. Preview tidak mengambil arah hadap player; gunakan T untuk memutarnya.")]
+    [Range(-180f, 180f)] public float defaultPlacementYaw;
+
     [Header("Rules")]
     public bool canRelocate = true;
     public bool canDemolish = true;

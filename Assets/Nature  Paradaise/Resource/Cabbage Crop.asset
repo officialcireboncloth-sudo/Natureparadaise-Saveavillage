@@ -15,20 +15,60 @@ MonoBehaviour:
   cropId: crop.cabbage
   seedItem: {fileID: 11400000, guid: fca809e92df656a4fa355e0f085ad8fe, type: 2}
   produceItem: {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
+  allowedSeasons: -1
+  outOfSeasonBehavior: 0
   idealMoistureMin: 35
   idealMoistureMax: 80
   minimumFertility: 35
   dailyFertilityUse: 3
   soilDepletionOnHarvest: 4
   baseYield: 1
+  dryDaysBeforeWither: 3
+  wateredDaysToRecover: 2
+  healthLossWhenDry: 10
+  daysUntilFirstHarvest: 5
+  regrowsAfterHarvest: 0
+  regrowDays: 3
+  regrowStage: -1
+  maximumBoosterPercent: 50
   soilWeight: 0.35
   moistureWeight: 0.25
   fertilityWeight: 0.25
   healthWeight: 0.15
-  stageScales:
-  - {x: 0.4, y: 0.4, z: 0.4}
-  - {x: 0.7, y: 0.9, z: 0.7}
-  - {x: 1, y: 1.2, z: 1}
-  daysPerStage:
-  - 1
-  - 2
+  visualStages:
+  - stageName: Seed
+    startsOnDay: 0
+    modelPrefab: {fileID: 0}
+    scale: {x: 0.07, y: 0.045, z: 0.07}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Sprout
+    startsOnDay: 1
+    modelPrefab: {fileID: 0}
+    scale: {x: 0.1, y: 0.14, z: 0.1}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Small Plant
+    startsOnDay: 2
+    modelPrefab: {fileID: 0}
+    scale: {x: 0.15, y: 0.22, z: 0.15}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Growing
+    startsOnDay: 3
+    modelPrefab: {fileID: 0}
+    scale: {x: 0.22, y: 0.32, z: 0.22}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Mature
+    startsOnDay: 4
+    modelPrefab: {fileID: 0}
+    scale: {x: 0.29, y: 0.42, z: 0.29}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Harvest Ready
+    startsOnDay: 5
+    modelPrefab: {fileID: 0}
+    scale: {x: 0.36, y: 0.5, z: 0.36}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}

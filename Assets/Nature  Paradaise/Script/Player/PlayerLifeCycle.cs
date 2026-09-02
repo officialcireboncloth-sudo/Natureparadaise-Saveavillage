@@ -23,6 +23,8 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     [SerializeField, Range(0, 23)] int wakeHour = 6;
 
     [Header("Faint")]
+    [Tooltip("Player yang masih terjaga pada jam ini otomatis pingsan.")]
+    [SerializeField, Range(0, 23)] int forcedFaintHour = 4;
     [SerializeField, Min(0f)] float faintDelay = 1.25f;
     [SerializeField, Range(0f, 1f)] float faintHealthRecovery = 0.5f;
     [SerializeField, Range(0f, 1f)] float faintStaminaRecovery = 0.35f;
@@ -62,12 +64,15 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     {
         if (status != null)
             status.Fainted += HandleFainted;
+        TimeManager.OnHour += HandleHourChanged;
     }
 
     void OnDisable()
     {
         if (status != null)
             status.Fainted -= HandleFainted;
+        TimeManager.OnHour -= HandleHourChanged;
+        status?.ReleaseActivity(this);
     }
 
     void Update()
@@ -75,10 +80,14 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         if (busy)
             return;
 
-        if (Input.GetKeyDown(sleepKey))
-            SleepAndSave();
-        if (Input.GetKeyDown(damageKey))
-            status.TakeDamage(debugDamage);
+        // L/K adalah shortcut development dan hanya aktif ketika Debug Clues ON.
+        if (HUDManager.DebugCluesEnabled)
+        {
+            if (Input.GetKeyDown(sleepKey))
+                SleepAndSave();
+            if (Input.GetKeyDown(damageKey))
+                status.TakeDamage(debugDamage);
+        }
     }
 
     /// <summary>Memulai rangkaian tidur jika lifecycle tidak sedang menjalankan transisi lain.</summary>
@@ -106,19 +115,33 @@ public sealed class PlayerLifeCycle : MonoBehaviour
             StartCoroutine(FaintRoutine());
     }
 
+    void HandleHourChanged()
+    {
+        if (!busy && TimeManager.Instance != null && TimeManager.Instance.hour == forcedFaintHour)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Terlalu larut. Kamu pingsan karena kelelahan.");
+            status?.ForceFaint();
+        }
+    }
+
     IEnumerator SleepRoutine()
     {
         busy = true;
+        status.AcquireActivity(this, PlayerMovementState.Sleeping);
         SetGameplayEnabled(false);
         SaveLoadFeedback.Instance?.ShowMessage("Tidur...");
         yield return null;
 
         AdvanceToNextDay();
-        TeleportTo(homeSpawnId);
+        // Tidur di interior additive tidak boleh memindahkan player ke spawn world yang
+        // letaknya sangat jauh. Player bangun di sisi kasur yang sedang digunakan.
+        if (SceneTransitionManager.Instance == null || !SceneTransitionManager.Instance.IsInsideInterior)
+            TeleportTo(homeSpawnId);
         status.RestoreAfterSleep();
         SaveManager.Instance?.SaveGame();
 
         SetGameplayEnabled(true);
+        status.ReleaseActivity(this);
         busy = false;
         SaveLoadFeedback.Instance?.ShowMessage("Bangun - hari baru");
         Debug.Log("[PLAYER] Bangun setelah tidur. Game tersimpan.");
@@ -127,6 +150,7 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     IEnumerator FaintRoutine()
     {
         busy = true;
+        status.AcquireActivity(this, PlayerMovementState.Faint);
         SetGameplayEnabled(false);
         Debug.Log("[PLAYER] Pingsan. Player akan dibawa ke klinik.");
 
@@ -146,6 +170,7 @@ public sealed class PlayerLifeCycle : MonoBehaviour
             SaveManager.Instance?.SaveGame();
 
         SetGameplayEnabled(true);
+        status.ReleaseActivity(this);
         busy = false;
         Debug.Log("[PLAYER] Bangun di klinik.");
     }
@@ -174,6 +199,11 @@ public sealed class PlayerLifeCycle : MonoBehaviour
 
         if (characterController != null)
             characterController.enabled = controllerWasEnabled;
+
+        TopDownCameraFollow cameraFollow = Camera.main != null
+            ? Camera.main.GetComponent<TopDownCameraFollow>()
+            : FindFirstObjectByType<TopDownCameraFollow>();
+        cameraFollow?.SetTarget(transform, true);
     }
 
     void SetGameplayEnabled(bool enabledState)

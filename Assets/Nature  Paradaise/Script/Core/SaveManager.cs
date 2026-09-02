@@ -6,7 +6,7 @@ using UnityEngine;
 
 /// <summary>
 /// Koordinator save/load JSON untuk status player, inventory, waktu, cuaca, field,
-/// resource gathering, pohon, dan placed item. Menangani kompatibilitas layout save lama.
+/// resource gathering, pohon, hewan, dan placed item. Menangani kompatibilitas layout save lama.
 /// </summary>
 public class SaveManager : MonoBehaviour
 {
@@ -103,11 +103,24 @@ public class SaveManager : MonoBehaviour
         public List<PlacedItemSaveData> placedItems;
         public List<TreeSaveData> trees;
 
+        // HEWAN: umur, growth progress, care, health, produksi, trait, dan posisi.
+        public List<AnimalSaveData> animals;
+
         // PLAYER STATUS (hasPlayerStatus menjaga kompatibilitas save lama)
         public bool hasPlayerStatus;
         public float playerHealth;
         public float playerStamina;
         public float playerHunger;
+        public bool hasExtendedPlayerStatus;
+        public float playerMaxHealth;
+        public float playerMaxStamina;
+        public float playerMaxHunger;
+        public bool hungerEnabled;
+        public string playerLocation;
+        public List<PlayerToolLevelData> toolLevels;
+        public bool hasStatusEffectSlots;
+        public List<PlayerStatusEffectSaveData> activeBuffs;
+        public List<PlayerStatusEffectSaveData> activeDebuffs;
     }
 
     [Serializable]
@@ -223,14 +236,23 @@ public class SaveManager : MonoBehaviour
         Transform player =
             playerInv.transform;
 
+        // Interior additive tidak dimuat saat startup. Simpan posisi world terakhir agar
+        // load berikutnya tidak menaruh player di koordinat interior tanpa lantai.
+        Vector3 savedPlayerPosition = player.position;
+        if (SceneTransitionManager.Instance != null &&
+            SceneTransitionManager.Instance.TryGetWorldReturnPosition(out Vector3 worldReturnPosition))
+        {
+            savedPlayerPosition = worldReturnPosition;
+        }
+
         data.playerX =
-            player.position.x;
+            savedPlayerPosition.x;
 
         data.playerY =
-            player.position.y;
+            savedPlayerPosition.y;
 
         data.playerZ =
-            player.position.z;
+            savedPlayerPosition.z;
 
         // -------------------------
         // TIME
@@ -268,8 +290,8 @@ public class SaveManager : MonoBehaviour
             GetItemCount(milkItem);
 
         data.hasSlotInventory = true;
-        // Versi 2: kapasitas grid tas tidak lagi termasuk empat slot hotbar.
-        data.inventoryLayoutVersion = 2;
+        // Versi 3: hotbar bertambah dari empat menjadi delapan slot.
+        data.inventoryLayoutVersion = 3;
         data.backpackLevel = playerInv.BackpackLevel;
         data.inventorySlots = new List<InventorySlotSaveData>();
         for (int i = 0; i < playerInv.slots.Count; i++)
@@ -308,12 +330,25 @@ public class SaveManager : MonoBehaviour
         data.trees =
             WorldTree.CaptureAll();
 
+        data.animals =
+            AnimalGrowthSystem.CaptureAll();
+
         if (playerStatus != null)
         {
             data.hasPlayerStatus = true;
             data.playerHealth = playerStatus.Health;
             data.playerStamina = playerStatus.Stamina;
             data.playerHunger = playerStatus.Hunger;
+            data.hasExtendedPlayerStatus = true;
+            data.playerMaxHealth = playerStatus.MaxHealth;
+            data.playerMaxStamina = playerStatus.MaxStamina;
+            data.playerMaxHunger = playerStatus.MaxHunger;
+            data.hungerEnabled = playerStatus.HungerEnabled;
+            data.playerLocation = playerStatus.PlayerLocation;
+            data.toolLevels = playerStatus.CaptureToolLevels();
+            data.hasStatusEffectSlots = true;
+            data.activeBuffs = playerStatus.CaptureStatusEffects(PlayerStatusEffectType.Buff);
+            data.activeDebuffs = playerStatus.CaptureStatusEffects(PlayerStatusEffectType.Debuff);
         }
 
         // -------------------------
@@ -531,7 +566,12 @@ public class SaveManager : MonoBehaviour
 
                 if (data.inventoryLayoutVersion >= 1)
                 {
-                    if (!playerInv.TrySetSlot(savedSlot.slotIndex, item, savedSlot.count))
+                    // Layout versi 1/2 memakai empat hotbar. Geser slot tas empat
+                    // posisi agar isi tas lama tidak berubah menjadi hotbar baru.
+                    int targetSlot = data.inventoryLayoutVersion < 3 && savedSlot.slotIndex >= 4
+                        ? savedSlot.slotIndex + 4
+                        : savedSlot.slotIndex;
+                    if (!playerInv.TrySetSlot(targetSlot, item, savedSlot.count))
                         AddItem(item, savedSlot.count);
                 }
                 else
@@ -581,16 +621,34 @@ public class SaveManager : MonoBehaviour
             data.trees
         );
 
+        AnimalGrowthSystem.RestoreAll(
+            data.animals
+        );
+
         if (data.hasPlayerStatus)
         {
             if (playerStatus == null)
                 playerStatus = playerInv.GetComponent<PlayerStatusSystem>();
+
+            if (data.hasExtendedPlayerStatus)
+            {
+                playerStatus?.RestoreStatusConfiguration(
+                    data.playerMaxHealth,
+                    data.playerMaxStamina,
+                    data.playerMaxHunger,
+                    data.hungerEnabled
+                );
+                playerStatus?.RestoreToolLevels(data.toolLevels);
+            }
 
             playerStatus?.RestoreSavedState(
                 data.playerHealth,
                 data.playerStamina,
                 data.playerHunger
             );
+
+            if (data.hasStatusEffectSlots)
+                playerStatus?.RestoreStatusEffects(data.activeBuffs, data.activeDebuffs);
         }
 
         // -------------------------

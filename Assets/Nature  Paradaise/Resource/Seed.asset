@@ -19,6 +19,7 @@ MonoBehaviour:
   category: 1
   maxStack: 16
   equippedTool: 2
+  seedCrop: {fileID: 11400000, guid: 7751a3af0eb44fcbab91f74acff8d35a, type: 2}
   isEdible: 0
   foodPreparation: 0
   healthRestore: 0

@@ -11,6 +11,11 @@ public class NPCSeller : MonoBehaviour
     public KeyCode buyKey = KeyCode.Q;
     public KeyCode sellCabbageKey = KeyCode.R;
     public KeyCode sellMilkKey = KeyCode.T;
+    public KeyCode fertilizerLevel1Key = KeyCode.Alpha5;
+    public KeyCode fertilizerLevel2Key = KeyCode.Alpha6;
+    public KeyCode fertilizerLevel3Key = KeyCode.Alpha7;
+    public KeyCode fertilizerLevel4Key = KeyCode.Alpha8;
+    public KeyCode cropBoosterKey = KeyCode.Alpha9;
 
     [Header("References")]
     public Inventory playerInv;
@@ -126,6 +131,12 @@ public class NPCSeller : MonoBehaviour
             SellMilk();
             return;
         }
+
+        if (Input.GetKeyDown(fertilizerLevel1Key)) BuyFertilizer(1);
+        else if (Input.GetKeyDown(fertilizerLevel2Key)) BuyFertilizer(2);
+        else if (Input.GetKeyDown(fertilizerLevel3Key)) BuyFertilizer(3);
+        else if (Input.GetKeyDown(fertilizerLevel4Key)) BuyFertilizer(4);
+        else if (Input.GetKeyDown(cropBoosterKey)) BuyCropBooster();
     }
 
     // =====================================================
@@ -199,6 +210,27 @@ public class NPCSeller : MonoBehaviour
             );
         }
 
+        UpdateShopUI();
+    }
+
+    void BuyFertilizer(int level)
+    {
+        if (shop == null)
+            return;
+
+        bool success = shop.BuyFertilizer(level);
+        Debug.Log(success
+            ? $"[SHOP] Berhasil membeli Fertilizer Lv.{level}."
+            : $"[SHOP] Gagal membeli Fertilizer Lv.{level}.");
+        UpdateShopUI();
+    }
+
+    void BuyCropBooster()
+    {
+        if (shop == null)
+            return;
+        bool success = shop.BuyCropBooster();
+        Debug.Log(success ? "[SHOP] Crop Booster dibeli." : "[SHOP] Gagal membeli Crop Booster.");
         UpdateShopUI();
     }
 
@@ -347,6 +379,21 @@ public class NPCSeller : MonoBehaviour
         // UI TEXT
         // =====================================================
 
+        string fertilizerText = "";
+        for (int level = 1; level <= 4; level++)
+        {
+            ItemSO fertilizer = shop.GetFertilizerItem(level);
+            if (fertilizer == null)
+                continue;
+
+            bool unlocked = VillageProgressionService.Instance == null ||
+                            VillageProgressionService.Instance.MeetsRequirement(fertilizer.requiredVillageLevel);
+            string key = (level + 4).ToString();
+            fertilizerText += unlocked
+                ? $"{key} - Buy {fertilizer.itemName} ({fertilizer.buyPrice}G)\n"
+                : $"{key} - {fertilizer.itemName} [Village Lv.{fertilizer.requiredVillageLevel}]\n";
+        }
+
         string text =
             "FARM SHOP\n\n" +
 
@@ -359,6 +406,11 @@ public class NPCSeller : MonoBehaviour
             $"Q - Buy Seed ({seedPrice}G)\n" +
             $"R - Sell Cabbage ({cabbagePrice}G)\n" +
             $"T - Sell Milk ({milkPrice}G)\n\n" +
+
+            fertilizerText +
+            (shop.cropBoosterItem != null
+                ? $"9 - Buy {shop.cropBoosterItem.itemName} ({shop.cropBoosterItem.buyPrice}G)\n\n"
+                : "\n") +
 
             "E - Close";
 

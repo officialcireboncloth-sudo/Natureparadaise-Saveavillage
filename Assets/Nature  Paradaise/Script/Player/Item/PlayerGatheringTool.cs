@@ -57,7 +57,9 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     int carriedAmount;
     GameObject carriedVisual;
 
-    public int HammerLevel => hammerLevel;
+    int SickleLevel => status != null ? status.GetToolLevel(PlayerToolType.Sickle) : sickleLevel;
+    int AxeLevel => status != null ? status.GetToolLevel(PlayerToolType.Axe) : axeLevel;
+    public int HammerLevel => status != null ? status.GetToolLevel(PlayerToolType.Hammer) : hammerLevel;
     public bool IsCarrying => carriedItem != null;
 
     void Awake()
@@ -66,6 +68,12 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         hotbar = GetComponent<PlayerToolHotbar>();
         if (hotbar == null) hotbar = gameObject.AddComponent<PlayerToolHotbar>();
         status = GetComponent<PlayerStatusSystem>();
+        if (status != null)
+        {
+            if (sickleLevel > 1) status.SetToolLevel(PlayerToolType.Sickle, sickleLevel);
+            if (hammerLevel > 1) status.SetToolLevel(PlayerToolType.Hammer, hammerLevel);
+            if (axeLevel > 1) status.SetToolLevel(PlayerToolType.Axe, axeLevel);
+        }
         inventory = GetComponent<Inventory>();
         if (animator == null) animator = GetComponentInChildren<Animator>();
         audioSource = GetComponent<AudioSource>();
@@ -175,7 +183,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     {
         if (hotbar.SelectedTool == PlayerToolType.Axe && treeTarget != null)
         {
-            string treePrompt = axeLevel < treeTarget.MinimumAxeLevel
+            string treePrompt = AxeLevel < treeTarget.MinimumAxeLevel
                 ? "Level Axe belum cukup"
                 : $"F: Tebang {(treeTarget.IsStump ? "Tunggul" : "Pohon")}  HP {treeTarget.Durability}";
             WorldInteractionPrompt.Request(this, treeTarget.transform, treePrompt,
@@ -185,7 +193,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if (target == null) return;
         string prompt = null;
         if (hotbar.SelectedTool == PlayerToolType.Hammer && target.CanHammer)
-            prompt = hammerLevel < target.MinimumHammerLevel ? "Level Hammer belum cukup" : $"F: Hantam  HP {target.Durability}";
+            prompt = HammerLevel < target.MinimumHammerLevel ? "Level Hammer belum cukup" : $"F: Hantam  HP {target.Durability}";
         else if (hotbar.SelectedTool == PlayerToolType.Sickle && target.CanSickle)
             prompt = "F: Sabit";
         else if (target.CanPull)
@@ -202,6 +210,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     void PullTarget()
     {
         if (!SpendStamina(pullCost)) return;
+        status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(pullTrigger);
         target.Pull(this);
         target = null;
@@ -210,6 +219,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     void UseSickle()
     {
         if (!SpendStamina(sickleCost)) return;
+        status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(sickleTrigger);
         if (sickleSwish != null) audioSource.PlayOneShot(sickleSwish);
         if (grassParticles != null) grassParticles.Play();
@@ -217,7 +227,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         Vector3 facing = movement != null ? movement.FacingDirection : transform.forward;
         facing.y = 0f;
         facing.Normalize();
-        float radius = 0.85f + sickleLevel * 0.35f;
+        float radius = 0.85f + SickleLevel * 0.35f;
         Vector3 center = transform.position + facing * 1.35f;
         int cut = 0;
         IReadOnlyList<WorldGatherable> all = WorldGatherable.Active;
@@ -239,16 +249,17 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             SaveLoadFeedback.Instance?.ShowMessage("Tidak ada batu di depan");
             return;
         }
-        if (hammerLevel < target.MinimumHammerLevel)
+        if (HammerLevel < target.MinimumHammerLevel)
         {
             SaveLoadFeedback.Instance?.ShowMessage("Level Hammer belum cukup");
             return;
         }
         if (!SpendStamina(hammerCost)) return;
+        status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(hammerTrigger);
         if (hammerImpact != null) audioSource.PlayOneShot(hammerImpact);
         if (stoneParticles != null) stoneParticles.Play();
-        target.Hammer(this, hammerLevel);
+        target.Hammer(this, HammerLevel);
         cameraFollow?.AddImpulse(0.09f, 0.12f);
         if (!target.IsAvailable) target = null;
     }
@@ -260,15 +271,16 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             SaveLoadFeedback.Instance?.ShowMessage("Tidak ada pohon di depan");
             return;
         }
-        if (axeLevel < treeTarget.MinimumAxeLevel)
+        if (AxeLevel < treeTarget.MinimumAxeLevel)
         {
             SaveLoadFeedback.Instance?.ShowMessage("Level Axe belum cukup");
             return;
         }
         if (!SpendStamina(axeCost)) return;
+        status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(axeTrigger);
         if (axeImpact != null) audioSource.PlayOneShot(axeImpact);
-        treeTarget.Chop(axeLevel);
+        treeTarget.Chop(AxeLevel);
         cameraFollow?.AddImpulse(0.07f, 0.1f);
         if (!treeTarget.IsAvailable) treeTarget = null;
     }

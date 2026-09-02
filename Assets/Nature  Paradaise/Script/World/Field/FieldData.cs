@@ -23,13 +23,43 @@ public enum CropGrade : byte
     S
 }
 
+/// <summary>Kondisi lifecycle crop yang terpisah dari stage visual.</summary>
+public enum CropLifecycleState : byte
+{
+    Growing,
+    Withered,
+    HarvestReady,
+    Regrowing,
+    Dead
+}
+
+[Flags]
+public enum CropWaterSource : byte
+{
+    None = 0,
+    WateringCan = 1 << 0,
+    Sprinkler = 1 << 1,
+    Rain = 1 << 2,
+    External = 1 << 3
+}
+
+public enum SoilDurabilityStatus : byte
+{
+    Barren,
+    LowFertility,
+    Normal,
+    Fertile,
+    VeryFertile
+}
+
 /// <summary>Channel statistik tile yang dapat dimodifikasi fitur eksternal.</summary>
 public enum FieldEffectType : byte
 {
     Moisture,
     Fertility,
     SoilQuality,
-    CropHealth
+    CropHealth,
+    GrowthBooster
 }
 
 [Serializable]
@@ -58,6 +88,15 @@ public struct FieldTileData
     public float growthDays;
     public byte growthStage;
     public byte cropHealth;
+    public CropLifecycleState cropState;
+    public CropWaterSource waterSourcesToday;
+    public byte consecutiveDryDays;
+    public byte recoveryWateredDays;
+    public byte growthBoosterPercent;
+    public float regrowDaysRemaining;
+    public byte soilDurability;
+    public byte soilRestDays;
+    public bool fertilizedForCurrentCycle;
     public ushort careSamples;
     public uint totalMoisture;
     public uint totalFertility;
@@ -78,6 +117,19 @@ public readonly struct FieldTileSnapshot
     public readonly float GrowthDays;
     public readonly byte GrowthStage;
     public readonly byte CropHealth;
+    public readonly CropLifecycleState CropState;
+    public readonly CropWaterSource WaterSourcesToday;
+    public readonly byte ConsecutiveDryDays;
+    public readonly byte GrowthBoosterPercent;
+    public readonly float RegrowDaysRemaining;
+    public readonly byte SoilDurability;
+    public readonly byte SoilRestDays;
+    public readonly bool FertilizedForCurrentCycle;
+
+    public bool WateredToday => WaterSourcesToday != CropWaterSource.None;
+    public bool IsHarvestReady => CropState == CropLifecycleState.HarvestReady;
+    public int SoilLevel => FieldArea.GetSoilLevel(SoilDurability);
+    public SoilDurabilityStatus SoilStatus => FieldArea.GetSoilStatus(SoilDurability);
 
     public FieldTileSnapshot(FieldTileData data)
     {
@@ -89,6 +141,14 @@ public readonly struct FieldTileSnapshot
         GrowthDays = data.growthDays;
         GrowthStage = data.growthStage;
         CropHealth = data.cropHealth;
+        CropState = data.cropState;
+        WaterSourcesToday = data.waterSourcesToday;
+        ConsecutiveDryDays = data.consecutiveDryDays;
+        GrowthBoosterPercent = data.growthBoosterPercent;
+        RegrowDaysRemaining = data.regrowDaysRemaining;
+        SoilDurability = data.soilDurability;
+        SoilRestDays = data.soilRestDays;
+        FertilizedForCurrentCycle = data.fertilizedForCurrentCycle;
     }
 }
 
@@ -144,4 +204,15 @@ public class FieldTileSaveData
     public uint totalFertility;
     public uint totalSoilQuality;
     public string buildingId;
+    public bool hasAdvancedGrowthData;
+    public CropLifecycleState cropState;
+    public CropWaterSource waterSourcesToday;
+    public byte consecutiveDryDays;
+    public byte recoveryWateredDays;
+    public byte growthBoosterPercent;
+    public float regrowDaysRemaining;
+    public bool hasSoilDurability;
+    public byte soilDurability;
+    public byte soilRestDays;
+    public bool fertilizedForCurrentCycle;
 }

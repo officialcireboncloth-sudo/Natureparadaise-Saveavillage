@@ -19,3 +19,8 @@ MonoBehaviour:
   dailyFertilityRecovery: 0
   waterAmount: 35
   fertilizerAmount: 25
+  fertilizerSoilQualityAmount: 8
+  maximumDurability: 80
+  durabilityLossPerCropDay: 1
+  restDaysPerRecovery: 5
+  durabilityRecoveredPerRestCycle: 20

@@ -22,6 +22,16 @@ public enum FoodPreparation
     ReadyToEat
 }
 
+/// <summary>Level pupuk yang menentukan kenaikan level durability tanah.</summary>
+public enum FertilizerLevel : byte
+{
+    None,
+    Basic,
+    Quality,
+    Premium,
+    Deluxe
+}
+
 [CreateAssetMenu(menuName = "Game/Item")]
 /// <summary>
 /// Sumber data utama item untuk inventory, icon UI, stack, harga, tool mapping,
@@ -45,6 +55,20 @@ public class ItemSO : ScriptableObject
     [Min(1)] public int maxStack = 16;
     [Tooltip("Jika item ini diletakkan di hotbar, tool ini yang aktif. None untuk item biasa.")]
     public PlayerToolType equippedTool = PlayerToolType.None;
+
+    [Header("Seed")]
+    [Tooltip("Tanaman yang dihasilkan oleh bibit ini. Isi untuk setiap ItemSO berkategori Seed.")]
+    public CropDataSO seedCrop;
+
+    [Header("Fertilizer")]
+    [Tooltip("Basic +1 level, Quality +2, Premium +3, dan Deluxe langsung maksimum.")]
+    public FertilizerLevel fertilizerLevel = FertilizerLevel.None;
+    [Tooltip("Village Level minimum agar pupuk ini dapat dibeli dan digunakan.")]
+    [Min(1)] public int requiredVillageLevel = 1;
+
+    [Header("Crop Booster")]
+    [Tooltip("Persentase pengurangan durasi growth. Nilai 20 mengubah 5 growth days menjadi sekitar 4 hari.")]
+    [Range(0, 80)] public int cropBoosterPercent;
 
     [Header("Held / World Actions")]
     [Tooltip("Izinkan stack item ini dijatuhkan dari hotbar sebagai object physics.")]
@@ -79,6 +103,15 @@ public class ItemSO : ScriptableObject
     public bool IsRawFood =>
         category == ItemCategory.Food && foodPreparation == FoodPreparation.Raw;
 
+    public bool IsFertilizer =>
+        equippedTool == PlayerToolType.Fertilizer && fertilizerLevel != FertilizerLevel.None;
+
+    public bool IsCropBooster =>
+        equippedTool == PlayerToolType.CropBooster && cropBoosterPercent > 0;
+
+    public bool IsSeed =>
+        category == ItemCategory.Seed || equippedTool == PlayerToolType.Seed;
+
     /// <summary>True jika item memiliki setidaknya satu aksi world dan perlu divisualkan di tangan.</summary>
-    public bool HasHeldWorldAction => canDropToWorld || canPlaceInWorld;
+    public bool HasHeldWorldAction => canDropToWorld || canPlaceInWorld || IsSeed;
 }

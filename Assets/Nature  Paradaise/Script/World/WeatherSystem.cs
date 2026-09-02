@@ -45,8 +45,9 @@ public sealed class WeatherSystem : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] bool enableDebugKeys = true;
-    [SerializeField] KeyCode nextCurrentWeatherKey = KeyCode.F8;
-    [SerializeField] KeyCode nextForecastWeatherKey = KeyCode.F9;
+    [SerializeField] KeyCode nextCurrentWeatherKey = KeyCode.F12;
+    [Tooltip("None secara default agar tidak berbenturan dengan toggle/load. Dapat diisi manual jika diperlukan.")]
+    [SerializeField] KeyCode nextForecastWeatherKey = KeyCode.None;
 
     public WeatherType CurrentWeather => currentWeather;
     public WeatherType TomorrowWeather => tomorrowWeather;
@@ -56,6 +57,7 @@ public sealed class WeatherSystem : MonoBehaviour
     public bool IsStormToday => IsStormWeather(currentWeather);
 
     public event Action<WeatherType, WeatherType> WeatherChanged;
+    public static event Action<WeatherType> CurrentWeatherChanged;
 
     void Awake()
     {
@@ -98,15 +100,15 @@ public sealed class WeatherSystem : MonoBehaviour
 
     void Update()
     {
-        if (!enableDebugKeys)
+        if (!enableDebugKeys || !HUDManager.DebugCluesEnabled)
             return;
 
-        if (Input.GetKeyDown(nextCurrentWeatherKey))
+        if (nextCurrentWeatherKey != KeyCode.None && Input.GetKeyDown(nextCurrentWeatherKey))
         {
             currentWeather = NextWeather(currentWeather);
             NotifyWeatherChanged();
         }
-        if (Input.GetKeyDown(nextForecastWeatherKey))
+        if (nextForecastWeatherKey != KeyCode.None && Input.GetKeyDown(nextForecastWeatherKey))
         {
             tomorrowWeather = NextWeather(tomorrowWeather);
             NotifyWeatherChanged();
@@ -205,6 +207,7 @@ public sealed class WeatherSystem : MonoBehaviour
     void NotifyWeatherChanged()
     {
         WeatherChanged?.Invoke(currentWeather, tomorrowWeather);
+        CurrentWeatherChanged?.Invoke(currentWeather);
         Debug.Log($"[WEATHER] Day {currentWeatherDay}: {GetDisplayName(currentWeather)} | Tomorrow: {GetDisplayName(tomorrowWeather)}");
     }
 
@@ -230,6 +233,39 @@ public sealed class WeatherSystem : MonoBehaviour
     public static bool IsStormWeather(WeatherType weather)
     {
         return weather is WeatherType.WindRainStorm or WeatherType.Cyclone or WeatherType.Thunderstorm or WeatherType.Blizzard;
+    }
+
+    /// <summary>Jumlah moisture farming dari hujan aktif.</summary>
+    public static int GetRainMoistureAmount(WeatherType weather)
+    {
+        return weather switch
+        {
+            WeatherType.Drizzle => 30,
+            WeatherType.Rain => 45,
+            WeatherType.HeavyRain => 60,
+            WeatherType.WindRainStorm => 55,
+            WeatherType.Cyclone => 65,
+            WeatherType.Thunderstorm => 60,
+            _ => 0
+        };
+    }
+
+    /// <summary>Modifier pertumbuhan harian akibat cuaca, terpisah dari status penyiraman.</summary>
+    public static float GetCropGrowthMultiplier(WeatherType weather)
+    {
+        return weather switch
+        {
+            WeatherType.Heatwave => 0.8f,
+            WeatherType.Drizzle => 1.05f,
+            WeatherType.Rain => 1.08f,
+            WeatherType.HeavyRain => 0.95f,
+            WeatherType.WindRainStorm => 0.85f,
+            WeatherType.Cyclone => 0.7f,
+            WeatherType.Thunderstorm => 0.85f,
+            WeatherType.Snow => 0.55f,
+            WeatherType.Blizzard => 0.25f,
+            _ => 1f
+        };
     }
 
     public static string GetDisplayName(WeatherType weather)

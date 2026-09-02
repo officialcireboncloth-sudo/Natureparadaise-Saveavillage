@@ -7,30 +7,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Membuat asset House Lv.1-Lv.4, dummy exterior, Carpenter, dan scene interior editable.
-/// Setup aman dijalankan ulang karena selalu mencari stable object/asset name terlebih dahulu.
+/// Membuat asset House Lv.1-Lv.4, dummy exterior, Carpenter, dan scene interior editable
+/// hanya ketika menu setup dijalankan secara eksplisit.
 /// </summary>
 public static class HouseSystemSetup
 {
     const string HouseAssetPath = "Assets/Nature  Paradaise/Resource/Player House Building.asset";
     const string InteriorScenePath = "Assets/Nature  Paradaise/HouseInterior.unity";
     const string WorldRootName = "PlayerHouse_Editable";
-
-    [InitializeOnLoadMethod]
-    static void ScheduleSetup()
-    {
-        EditorApplication.delayCall += TryAutomaticSetup;
-    }
-
-    static void TryAutomaticSetup()
-    {
-        if (EditorApplication.isPlayingOrWillChangePlaymode || BuildPipeline.isBuildingPlayer)
-            return;
-        Scene scene = SceneManager.GetActiveScene();
-        if (!scene.IsValid() || scene.name != "TestingScene")
-            return;
-        SetupAll();
-    }
 
     [MenuItem("Nature Paradise/Setup Player House System")]
     public static void SetupAll()
@@ -191,7 +175,9 @@ public static class HouseSystemSetup
 
         GameObject entry = new("HouseInteriorEntrySpawn");
         entry.transform.SetParent(root.transform, false);
-        entry.transform.localPosition = new Vector3(0f, 0f, -3.5f);
+        // Player memakai CharacterController setinggi 2 m dengan center Y=0, jadi pivot
+        // harus berada di atas permukaan lantai agar kapsul tidak mulai dalam keadaan overlap.
+        entry.transform.localPosition = new Vector3(0f, 1.15f, -3.5f);
         entry.AddComponent<PlayerSpawnPoint>().Configure("house-interior-entry");
 
         GameObject exitDoor = CreatePrimitiveChild(

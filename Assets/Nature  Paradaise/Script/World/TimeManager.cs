@@ -12,6 +12,8 @@ public class TimeManager : MonoBehaviour
 
     public static event Action OnMinute;
     public static event Action OnHour;
+    /// <summary>Daily reset untuk sistem yang harus memproses kondisi hari lama sebelum kalender berganti.</summary>
+    public static event Action OnBeforeDayChange;
     public static event Action OnDay;
     public int minute = 0;
     public int hour = 6;
@@ -78,6 +80,7 @@ public class TimeManager : MonoBehaviour
 
             if (hour >= 24)
             {
+                OnBeforeDayChange?.Invoke();
                 hour = 0;
                 day++;
                 OnDay?.Invoke();
@@ -88,6 +91,7 @@ public class TimeManager : MonoBehaviour
     /// <summary>Memajukan kalender satu hari dan mengatur waktu ke jam bangun.</summary>
     public void AdvanceToNextDay(int wakeHour = 6)
     {
+        OnBeforeDayChange?.Invoke();
         minute = 0;
         hour = Mathf.Clamp(wakeHour, 0, 23);
         day++;

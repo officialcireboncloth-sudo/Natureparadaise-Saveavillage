@@ -52,6 +52,9 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     float nextPreviewRefresh;
     readonly Collider[] placementOverlapBuffer = new Collider[24];
 
+    /// <summary>Item world-action yang saat ini divisualkan di tangan player.</summary>
+    public ItemSO HeldItem => shownItem;
+
     void Awake()
     {
         inventory = GetComponent<Inventory>();
@@ -354,7 +357,8 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
 
     static bool HasHeldWorldAction(ItemStack stack) =>
         stack?.item != null && stack.count > 0 && stack.item.HasHeldWorldAction &&
-        stack.item.category != ItemCategory.Tool && stack.item.equippedTool == PlayerToolType.None;
+        stack.item.category != ItemCategory.Tool &&
+        (stack.item.equippedTool == PlayerToolType.None || stack.item.IsSeed);
 
     static bool CanDrop(ItemStack stack) =>
         HasHeldWorldAction(stack) && stack.item.canDropToWorld;

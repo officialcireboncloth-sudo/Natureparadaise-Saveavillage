@@ -29,6 +29,8 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     int selectedIndex;
 
     public int SelectedIndex => selectedIndex;
+    public ItemStack SelectedStack => inventory != null ? inventory.GetSlot(selectedIndex) : null;
+    public ItemSO SelectedItem => SelectedStack?.item;
     public event Action<int> SelectionChanged;
 
     void Awake()
@@ -63,6 +65,10 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha2)) SelectSlot(1);
         else if (Input.GetKeyDown(KeyCode.Alpha3)) SelectSlot(2);
         else if (Input.GetKeyDown(KeyCode.Alpha4)) SelectSlot(3);
+        else if (Input.GetKeyDown(KeyCode.Alpha5)) SelectSlot(4);
+        else if (Input.GetKeyDown(KeyCode.Alpha6)) SelectSlot(5);
+        else if (Input.GetKeyDown(KeyCode.Alpha7)) SelectSlot(6);
+        else if (Input.GetKeyDown(KeyCode.Alpha8)) SelectSlot(7);
     }
 
     public void SelectSlot(int index)
