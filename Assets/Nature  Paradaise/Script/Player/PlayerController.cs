@@ -33,13 +33,12 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField, Min(0f)] float groundedForce = 2f;
     [SerializeField, Range(0f, 89f)] float slopeLimit = 45f;
     [SerializeField, Range(0f, 0.5f)] float stepOffset = 0.3f;
-    [SerializeField, Min(0f)] float jumpStaminaCost = 4f;
+    [SerializeField, Min(0f)] float jumpStaminaCost = 0.1f;
 
-    [Header("Sprint Stamina")]
+    [Header("Run / Sprint Stamina (No Passive Recovery)")]
     [SerializeField] PlayerStatusSystem status;
-    [SerializeField, Min(0f)] float sprintDrainPerSecond = 12f;
-    [SerializeField, Min(0f)] float staminaRecoveryPerSecond = 8f;
-    [SerializeField, Min(0f)] float staminaRecoveryDelay = 1.25f;
+    [SerializeField, Min(0f), Tooltip("Biaya stamina per detik saat Run atau Sprint; mendukung nilai pecahan.")]
+    float sprintDrainPerSecond = 0.025f;
     [SerializeField, Range(0.05f, 0.5f)] float staminaUpdateInterval = 0.2f;
 
     [Header("PC Input")]
@@ -61,7 +60,6 @@ public sealed class PlayerController : MonoBehaviour
     Vector3 planarVelocity;
     float verticalVelocity;
     float staminaTimer;
-    float recoveryDelayTimer;
     bool mobileSprintHeld;
     bool jumpRequested;
     bool manualLock;
@@ -196,10 +194,9 @@ public sealed class PlayerController : MonoBehaviour
     {
         if (status == null) return;
 
-        bool sprinting = mode == MovementMode.Sprint && planarVelocity.sqrMagnitude > 0.01f;
-        if (sprinting)
+        bool running = mode is MovementMode.Run or MovementMode.Sprint && planarVelocity.sqrMagnitude > 0.01f;
+        if (running)
         {
-            recoveryDelayTimer = staminaRecoveryDelay;
             staminaTimer += Time.deltaTime;
             if (staminaTimer >= staminaUpdateInterval)
             {
@@ -210,26 +207,9 @@ public sealed class PlayerController : MonoBehaviour
             return;
         }
 
-        if (recoveryDelayTimer > 0f)
-        {
-            recoveryDelayTimer -= Time.deltaTime;
-            staminaTimer = 0f;
-            return;
-        }
-
-        if (status.Stamina >= status.MaxStamina)
-        {
-            staminaTimer = 0f;
-            return;
-        }
-
-        staminaTimer += Time.deltaTime;
-        if (staminaTimer >= staminaUpdateInterval)
-        {
-            float elapsed = staminaTimer;
-            staminaTimer = 0f;
-            status.RestoreStamina(staminaRecoveryPerSecond * elapsed);
-        }
+        // Stamina tidak pulih karena diam/jalan. Recovery hanya datang dari sumber gameplay
+        // eksplisit seperti makanan, tidur, dan nantinya hot spring.
+        staminaTimer = 0f;
     }
 
     void SetMovementMode(MovementMode mode)

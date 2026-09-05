@@ -102,9 +102,11 @@ public class SaveManager : MonoBehaviour
         // ITEM YANG DI-DROP/PLACE DAN KONDISI POHON/TUNGGUL
         public List<PlacedItemSaveData> placedItems;
         public List<TreeSaveData> trees;
+        public List<FertilizerProcessorSaveData> fertilizerProcessors;
 
         // HEWAN: umur, growth progress, care, health, produksi, trait, dan posisi.
         public List<AnimalSaveData> animals;
+        public List<AnimalHomeSaveData> animalHomes;
 
         // PLAYER STATUS (hasPlayerStatus menjaga kompatibilitas save lama)
         public bool hasPlayerStatus;
@@ -131,6 +133,7 @@ public class SaveManager : MonoBehaviour
         public string itemName;
         public int count;
         public int slotIndex;
+        public int qualityStars;
     }
 
     // =====================================================
@@ -305,6 +308,7 @@ public class SaveManager : MonoBehaviour
                 assetName = stack.item.name,
                 itemName = stack.item.itemName,
                 count = stack.count,
+                qualityStars = stack.qualityStars,
                 slotIndex = i
             });
         }
@@ -321,17 +325,23 @@ public class SaveManager : MonoBehaviour
         data.villageProgress =
             VillageProgressionService.Instance != null ? VillageProgressionService.Instance.Capture() : null;
 
+        // Tree capture menyelesaikan drop yang masih tertunda sebelum pickup disnapshot.
+        data.fertilizerProcessors = FertilizerProcessor.CaptureAll();
+        data.trees = WorldTree.CaptureAll();
+        foreach (TerrainTreeManager manager in FindObjectsByType<TerrainTreeManager>(
+                     FindObjectsInactive.Include, FindObjectsSortMode.None))
+            data.trees.AddRange(manager.CaptureManagedTrees());
+
         data.gatherables =
             WorldGatherable.CaptureAll();
 
         data.placedItems =
             PlacedWorldItem.CaptureAll();
 
-        data.trees =
-            WorldTree.CaptureAll();
 
         data.animals =
             AnimalGrowthSystem.CaptureAll();
+        data.animalHomes = AnimalHome.CaptureAll();
 
         if (playerStatus != null)
         {
@@ -571,12 +581,12 @@ public class SaveManager : MonoBehaviour
                     int targetSlot = data.inventoryLayoutVersion < 3 && savedSlot.slotIndex >= 4
                         ? savedSlot.slotIndex + 4
                         : savedSlot.slotIndex;
-                    if (!playerInv.TrySetSlot(targetSlot, item, savedSlot.count))
-                        AddItem(item, savedSlot.count);
+                    if (!playerInv.TrySetSlot(targetSlot, item, savedSlot.count, savedSlot.qualityStars))
+                        playerInv.Add(item, savedSlot.count, savedSlot.qualityStars);
                 }
                 else
                 {
-                    AddItem(item, savedSlot.count);
+                    playerInv.Add(item, savedSlot.count, savedSlot.qualityStars);
                 }
             }
         }
@@ -617,10 +627,13 @@ public class SaveManager : MonoBehaviour
             data.placedItems
         );
 
-        WorldTree.RestoreAll(
-            data.trees
-        );
+        FertilizerProcessor.RestoreAll(data.fertilizerProcessors);
+        WorldTree.RestoreAll(data.trees);
+        foreach (TerrainTreeManager manager in FindObjectsByType<TerrainTreeManager>(
+                     FindObjectsInactive.Include, FindObjectsSortMode.None))
+            manager.RestoreManagedTrees(data.trees);
 
+        AnimalHome.RestoreAll(data.animalHomes);
         AnimalGrowthSystem.RestoreAll(
             data.animals
         );
@@ -828,6 +841,9 @@ public class SaveManager : MonoBehaviour
         }
 
         // Mencakup ItemSO tambahan yang sudah direferensikan scene/prefab/catalog.
+        FertilizerCatalog.Load(); // Muat juga item resep pada scene tanpa shop aktif.
+        FarmEquipmentCatalog.Load(); // Muat sprinkler, bibit pohon, dan buah untuk restore.
+        AnimalCareCatalog.Load();
         ItemSO[] loadedItems = Resources.FindObjectsOfTypeAll<ItemSO>();
         for (int i = 0; i < loadedItems.Length; i++)
         {

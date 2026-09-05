@@ -129,6 +129,17 @@ public sealed class WorldGatherable : MonoBehaviour
         if (!CanSickle) return false;
         PlayFeedback(cutSound, leafParticles);
         Deplete(player, false);
+        ItemSO fodder = AnimalCareCatalog.Load()?.fodder;
+        if (kind == GatherableKind.Grass && fodder != null && !drops.Exists(drop => drop != null && drop.item == fodder))
+            PlacedWorldItem.Spawn(fodder, 1, transform.position + Vector3.up * 0.35f, Quaternion.identity, false);
+        return true;
+    }
+
+    /// <summary>Satu patch rumput habis dimakan; tidak membuat pickup bagi player.</summary>
+    public bool TryGraze()
+    {
+        if (kind != GatherableKind.Grass || depleted) return false;
+        Deplete(null, false, false);
         return true;
     }
 
@@ -143,7 +154,7 @@ public sealed class WorldGatherable : MonoBehaviour
         return true;
     }
 
-    void Deplete(PlayerGatheringTool player, bool offerFirstDropToHands)
+    void Deplete(PlayerGatheringTool player, bool offerFirstDropToHands, bool spawnDrops = true)
     {
         depleted = true;
         SetHighlighted(false);
@@ -153,6 +164,7 @@ public sealed class WorldGatherable : MonoBehaviour
         respawnDay = canRespawn ? today + UnityEngine.Random.Range(minimumRespawnDays, Mathf.Max(minimumRespawnDays, maximumRespawnDays) + 1) : int.MaxValue;
 
         bool handsUsed = false;
+        if (!spawnDrops) return;
         for (int i = 0; i < drops.Count; i++)
         {
             GatherableDrop drop = drops[i];
@@ -160,6 +172,8 @@ public sealed class WorldGatherable : MonoBehaviour
             int amount = UnityEngine.Random.Range(Mathf.Max(1, drop.minimumAmount), Mathf.Max(drop.minimumAmount, drop.maximumAmount) + 1);
             if (offerFirstDropToHands && !handsUsed && player != null && player.TryCarry(drop.item, amount))
                 handsUsed = true;
+            else if (drop.item == AnimalCareCatalog.Load()?.fodder)
+                PlacedWorldItem.Spawn(drop.item, amount, transform.position + Vector3.up * 0.35f, Quaternion.identity, false);
             else
                 SpawnLoosePickup(drop.item, amount, transform.position + Vector3.up * 0.35f);
         }

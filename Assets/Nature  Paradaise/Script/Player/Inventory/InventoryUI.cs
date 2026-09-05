@@ -269,7 +269,7 @@ public sealed class InventoryUI : MonoBehaviour
             string foodState = item.category == ItemCategory.Food
                 ? (item.CanConsume ? "  READY" : item.IsRawFood ? "  RAW" : string.Empty)
                 : string.Empty;
-            view.Label.text = $"{item.itemName}  x{stack.count}\n{item.category.ToString().ToUpperInvariant()}{foodState}";
+            view.Label.text = $"{stack.DisplayName}  x{stack.count}\n{item.category.ToString().ToUpperInvariant()}{foodState}";
             view.Label.color = Color.white;
         }
     }
@@ -342,7 +342,7 @@ public sealed class InventoryUI : MonoBehaviour
         group.alpha = 0.88f;
         group.blocksRaycasts = false;
 
-        TMP_Text label = CreateText(dragGhost.transform, "GhostLabel", $"{stack.item.itemName} x{stack.count}", 13f, FontStyles.Bold);
+        TMP_Text label = CreateText(dragGhost.transform, "GhostLabel", $"{stack.DisplayName} x{stack.count}", 13f, FontStyles.Bold);
         label.alignment = TextAlignmentOptions.Bottom;
         label.rectTransform.anchorMin = Vector2.zero;
         label.rectTransform.anchorMax = Vector2.one;

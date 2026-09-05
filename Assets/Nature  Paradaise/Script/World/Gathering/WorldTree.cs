@@ -14,6 +14,7 @@ public sealed class TreeSaveData
     public TreeGrowthState state;
     public int durability;
     public int respawnDay;
+    public TreeProgress progress;
 }
 
 /// <summary>
@@ -29,6 +30,15 @@ public sealed class WorldTree : MonoBehaviour
 
     [Header("Identity")]
     [SerializeField] string treeId = "tree-01";
+    [Header("Growth / Fruit")]
+    public TreeDefinition definition;
+    [SerializeField] TreeProgress progress;
+    Vector3 matureVisualScale;
+    GameObject stageModel;
+    int shownStage = -2;
+    Inventory fruitInventory;
+    public TreeProgress Progress => progress;
+    public void RefreshGrowthVisual() => ApplyStateVisual();
 
     [Header("Axe Requirement")]
     [SerializeField, Min(1)] int minimumAxeLevel = 1;
@@ -74,18 +84,36 @@ public sealed class WorldTree : MonoBehaviour
     [SerializeField] Vector3 stumpColliderSize = new(1.1f, 0.6f, 1.1f);
     [SerializeField] Vector3 stumpColliderCenter = new(0f, 0.3f, 0f);
     LineRenderer highlight;
+    Material highlightMaterial;
     TreeGrowthState state = TreeGrowthState.Standing;
     int durability;
     int respawnDay;
     bool transitioning;
     Quaternion standingRestRotation;
     Renderer[] standingRenderers;
+    bool terrainManaged;
+    bool clearAfterFelling;
 
     public bool IsAvailable => state != TreeGrowthState.Depleted && !transitioning;
     public bool IsStump => state == TreeGrowthState.Stump;
     public int Durability => durability;
     public int MinimumAxeLevel => minimumAxeLevel;
     public float PromptHeight => promptHeight;
+    public TreeGrowthState GrowthState => state;
+    public int RespawnDay => respawnDay;
+    public int StandingDurability => Mathf.Max(1, standingDurability);
+    public int StumpDurability => Mathf.Max(1, stumpDurability);
+    public bool IsTransitioning => transitioning;
+
+    /// <summary>Manager memiliki ID/save/daily reset; object ini hanya menangani interaksi dekat.</summary>
+    public void SetManagedIdentity(string id, bool removeStumpAfterFelling = true)
+    {
+        treeId = id;
+        terrainManaged = true;
+        clearAfterFelling = removeStumpAfterFelling;
+        TimeManager.OnDay -= HandleDayChanged;
+        TimeManager.OnBeforeDayChange -= AdvanceGrowth;
+    }
 
     void Awake()
     {
@@ -100,6 +128,9 @@ public sealed class WorldTree : MonoBehaviour
         CreateFallPivotAtVisualBase();
         standingRestRotation = standingVisual.localRotation;
         standingRenderers = CollectStandingRenderers();
+        matureVisualScale = standingVisual.localScale;
+        if (definition == null) definition = Resources.Load<TreeDefinition>("Trees/Wild Small");
+        progress ??= TreeProgress.Create(definition, CurrentDay, true);
         if (!HasValidRenderer(highlightRenderers))
             highlightRenderers = standingRenderers;
         durability = Mathf.Max(1, standingDurability);
@@ -109,13 +140,21 @@ public sealed class WorldTree : MonoBehaviour
     void OnEnable()
     {
         if (!Registry.Contains(this)) Registry.Add(this);
-        TimeManager.OnDay += HandleDayChanged;
+        if (!terrainManaged) TimeManager.OnDay += HandleDayChanged;
+        if (!terrainManaged) TimeManager.OnBeforeDayChange += AdvanceGrowth;
     }
 
     void OnDisable()
     {
         Registry.Remove(this);
         TimeManager.OnDay -= HandleDayChanged;
+        TimeManager.OnBeforeDayChange -= AdvanceGrowth;
+        if (highlight != null) highlight.gameObject.SetActive(false);
+    }
+
+    void OnDestroy()
+    {
+        if (highlightMaterial != null) Destroy(highlightMaterial);
     }
 
     /// <summary>Mengaktifkan feedback target tanpa mengubah state gameplay pohon.</summary>
@@ -123,6 +162,7 @@ public sealed class WorldTree : MonoBehaviour
     {
         if (!IsAvailable && value) return;
         EnsureHighlight();
+        if (value) RefreshHighlightBounds();
         if (highlight != null) highlight.gameObject.SetActive(value);
     }
 
@@ -130,10 +170,11 @@ public sealed class WorldTree : MonoBehaviour
     public bool Chop(int axeLevel)
     {
         if (!IsAvailable || axeLevel < minimumAxeLevel) return false;
+        if (state == TreeGrowthState.Standing && definition != null && !progress.Mature(definition)) return false;
         durability = Mathf.Max(0, durability - Mathf.Max(1, damagePerHit));
         if (axeImpactSound != null) AudioSource.PlayClipAtPoint(axeImpactSound, transform.position);
         if (woodChipParticles != null) woodChipParticles.Play();
-        if (state == TreeGrowthState.Standing && standingVisual != null)
+        if (durability > 0 && state == TreeGrowthState.Standing && standingVisual != null)
             StartCoroutine(ShakeRoutine());
         if (durability <= 0)
         {
@@ -171,22 +212,41 @@ public sealed class WorldTree : MonoBehaviour
         if (standingVisual == transform)
             standingVisual.localRotation = standingRestRotation;
 
+        CompleteFall();
+    }
+
+    /// <summary>Menyelesaikan animasi sebelum pooling/save supaya drop hanya dibuat sekali.</summary>
+    public void FinishPendingFall()
+    {
+        if (!transitioning) return;
+        StopAllCoroutines();
+        CompleteFall();
+    }
+
+    void CompleteFall()
+    {
+        if (standingVisual == transform) standingVisual.localRotation = standingRestRotation;
         state = TreeGrowthState.Stump;
         durability = Mathf.Max(1, stumpDurability);
         transitioning = false;
+        if (terrainManaged && clearAfterFelling)
+        {
+            state = TreeGrowthState.Depleted;
+            durability = 0;
+            ScheduleRespawn();
+        }
         ApplyStateVisual();
         int dropped = SpawnWood(standingWoodMinimum, standingWoodMaximum, standingDropRadius);
         if (dropped > 0)
-            SaveLoadFeedback.Instance?.ShowMessage($"Pohon tumbang: Wood x{dropped}. Tunggul memberi kayu bonus.");
+            SaveLoadFeedback.Instance?.ShowMessage(state == TreeGrowthState.Depleted
+                ? $"Pohon ditebang: Wood x{dropped}."
+                : $"Pohon tumbang: Wood x{dropped}. Tunggul memberi kayu bonus.");
     }
 
     void DepleteStump()
     {
         state = TreeGrowthState.Depleted;
-        int today = TimeManager.Instance != null ? TimeManager.Instance.day : 1;
-        respawnDay = canRespawn
-            ? today + UnityEngine.Random.Range(minimumRespawnDays, Mathf.Max(minimumRespawnDays, maximumRespawnDays) + 1)
-            : int.MaxValue;
+        ScheduleRespawn();
         SetHighlighted(false);
         ApplyStateVisual();
         int dropped = SpawnWood(stumpWoodMinimum, stumpWoodMaximum, stumpDropRadius);
@@ -206,17 +266,28 @@ public sealed class WorldTree : MonoBehaviour
         return amount;
     }
 
+    void ScheduleRespawn()
+    {
+        int today = TimeManager.Instance != null ? TimeManager.Instance.day : 1;
+        respawnDay = canRespawn
+            ? today + UnityEngine.Random.Range(minimumRespawnDays, Mathf.Max(minimumRespawnDays, maximumRespawnDays) + 1)
+            : int.MaxValue;
+    }
+
     void HandleDayChanged()
     {
         if (state != TreeGrowthState.Depleted || !canRespawn || TimeManager.Instance == null || TimeManager.Instance.day < respawnDay) return;
         state = TreeGrowthState.Standing;
         durability = Mathf.Max(1, standingDurability);
+        respawnDay = 0;
+        progress = TreeProgress.Create(definition, CurrentDay, false);
         if (standingVisual != null) standingVisual.localRotation = standingRestRotation;
         ApplyStateVisual();
     }
 
     void ApplyStateVisual()
     {
+        ApplyGrowthVisual();
         bool standing = state == TreeGrowthState.Standing;
         bool stump = state == TreeGrowthState.Stump;
         if (standingVisual != null && standingVisual != transform) standingVisual.gameObject.SetActive(standing);
@@ -226,8 +297,10 @@ public sealed class WorldTree : MonoBehaviour
         if (interactionCollider != null) interactionCollider.enabled = state != TreeGrowthState.Depleted;
         if (boxCollider != null && state != TreeGrowthState.Depleted)
         {
-            boxCollider.size = stump ? stumpColliderSize : standingColliderSize;
-            boxCollider.center = stump ? stumpColliderCenter : standingColliderCenter;
+            int stageIndex = definition != null && progress != null ? definition.StageIndex(progress.growth) : -1;
+            Vector3 scale = stageIndex >= 0 ? definition.stages[stageIndex].scale : Vector3.one;
+            boxCollider.size = stump ? stumpColliderSize : Vector3.Scale(standingColliderSize, scale);
+            boxCollider.center = stump ? stumpColliderCenter : Vector3.Scale(standingColliderCenter, scale);
         }
     }
 
@@ -366,22 +439,39 @@ public sealed class WorldTree : MonoBehaviour
         highlight.startWidth = highlight.endWidth = 0.065f;
         highlight.startColor = highlight.endColor = new Color(1f, 0.72f, 0.12f, 1f);
         Shader shader = Shader.Find("Sprites/Default");
-        if (shader != null) highlight.material = new Material(shader);
+        if (shader != null)
+        {
+            highlightMaterial = new Material(shader);
+            highlight.sharedMaterial = highlightMaterial;
+        }
+        RefreshHighlightBounds();
+        indicator.SetActive(false);
+    }
+
+    void RefreshHighlightBounds()
+    {
+        if (highlight == null) return;
         Bounds bounds = interactionCollider != null ? interactionCollider.bounds : new Bounds(transform.position, Vector3.one);
         float y = bounds.min.y + 0.06f;
         highlight.SetPosition(0, new(bounds.min.x, y, bounds.min.z));
         highlight.SetPosition(1, new(bounds.max.x, y, bounds.min.z));
         highlight.SetPosition(2, new(bounds.max.x, y, bounds.max.z));
         highlight.SetPosition(3, new(bounds.min.x, y, bounds.max.z));
-        indicator.SetActive(false);
     }
 
-    public TreeSaveData Capture() => new() { id = treeId, state = state, durability = durability, respawnDay = respawnDay };
+    public TreeSaveData Capture() => new() { id = treeId, state = state, durability = durability, respawnDay = respawnDay, progress = progress?.Copy() };
 
     /// <summary>Mengembalikan durability, growth state, dan jadwal respawn satu pohon.</summary>
     public void Restore(TreeSaveData data)
     {
         if (data == null) return;
+        treeId = data.id;
+        progress = data.progress?.Copy() ?? TreeProgress.Create(definition, CurrentDay, true);
+        StopAllCoroutines();
+        if (standingVisual != null) standingVisual.localRotation = standingRestRotation;
+        if (highlight != null) highlight.gameObject.SetActive(false);
+        if (woodChipParticles != null)
+            woodChipParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         state = data.state;
         durability = Mathf.Max(0, data.durability);
         respawnDay = data.respawnDay;
@@ -389,10 +479,116 @@ public sealed class WorldTree : MonoBehaviour
         ApplyStateVisual();
     }
 
+    static int CurrentDay => TimeManager.Instance != null ? TimeManager.Instance.day : 1;
+
+    public void InitializePlanted(string id, TreeDefinition profile)
+    {
+        treeId = id;
+        definition = profile;
+        woodItem = profile.woodItem;
+        canRespawn = profile.wildTree;
+        progress = TreeProgress.Create(profile, CurrentDay, false);
+        if (stumpVisual == null)
+        {
+            GameObject stump = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            stump.name = "Stump_Runtime";
+            stump.transform.SetParent(transform, false);
+            stump.transform.localPosition = Vector3.up * 0.25f;
+            stump.transform.localScale = new Vector3(0.6f, 0.25f, 0.6f);
+            stump.GetComponent<Collider>().enabled = false;
+            stumpVisual = stump.transform;
+        }
+        shownStage = -2;
+        ApplyStateVisual();
+    }
+
+    void AdvanceGrowth()
+    {
+        if (state != TreeGrowthState.Standing || definition == null) return;
+        progress.Advance(definition, CurrentDay, WeatherSystem.Instance != null ? WeatherSystem.Instance.CurrentWeather : WeatherType.Sunny,
+            FarmPlacement.Covered(transform.position), UnityEngine.Random.value);
+        ApplyStateVisual();
+    }
+
+    public static bool WaterAt(Vector3 point, float radius)
+    {
+        foreach (WorldTree tree in Registry)
+        {
+            Vector3 delta = tree.transform.position - point;
+            delta.y = 0;
+            if (tree.state != TreeGrowthState.Standing || delta.sqrMagnitude > radius * radius || tree.progress == null) continue;
+            tree.progress.wateredDay = CurrentDay;
+            return true;
+        }
+        return false;
+    }
+
+    void Update()
+    {
+        if (definition == null || progress == null || state != TreeGrowthState.Standing) return;
+        if (fruitInventory == null) fruitInventory = FindFirstObjectByType<Inventory>();
+        if (fruitInventory == null || (fruitInventory.GetComponent<PlayerController>()?.IsMovementLocked ?? false)) return;
+        // Pohon dalam farm mengikuti satu tile target hoe, bukan semua pohon dalam radius.
+        bool inField = FieldArea.TryGetAt(transform.position, out _, out _, out _);
+        FarmingTool farming = fruitInventory.GetComponent<FarmingTool>();
+        if (inField)
+        {
+            if (farming == null || !farming.IsCurrentTileTarget(transform.position)) return;
+        }
+        else if (!PlayerInteractionTarget.Contains(fruitInventory.transform, transform)) return;
+        if (progress.fruitStage == TreeFruitStage.Ready && definition.fruitItem != null &&
+            (definition.fruitSeasons & CropDataSO.GetSeasonForDay(CurrentDay)) != 0)
+        {
+            WorldInteractionPrompt.Request(this, transform, "E - Panen " + definition.fruitItem.itemName, 1f, promptHeight);
+            if (PlayerInteractionTarget.Press(fruitInventory.transform, transform, KeyCode.E))
+                TryHarvestFruit(fruitInventory);
+        }
+        else if (HUDManager.DebugCluesEnabled)
+            WorldInteractionPrompt.Request(this, transform,
+                $"{definition.treeType}: {progress.growth:0.#}/{definition.matureDays} growth | HP {progress.health} | {progress.fruitStage}", 5f, promptHeight);
+        else if (inField)
+            WorldInteractionPrompt.Request(this, transform, definition.treeType, 1f, promptHeight);
+    }
+
+    public bool TryHarvestFruit(Inventory inventory)
+    {
+        if (inventory == null || definition == null || definition.fruitItem == null || state != TreeGrowthState.Standing ||
+            progress.fruitStage != TreeFruitStage.Ready || (definition.fruitSeasons & CropDataSO.GetSeasonForDay(CurrentDay)) == 0) return false;
+        if (!inventory.Add(definition.fruitItem, Mathf.Max(1, definition.fruitAmount))) return false;
+        progress.fruitProgress = 0;
+        progress.fruitStage = TreeFruitStage.Flowering;
+        return true;
+    }
+
+    void ApplyGrowthVisual()
+    {
+        if (definition == null || progress == null || standingVisual == null) return;
+        int index = definition.StageIndex(progress.growth);
+        if (index == shownStage) return;
+        shownStage = index;
+        if (stageModel != null) { stageModel.SetActive(false); Destroy(stageModel); }
+        TreeStageVisual stage = index >= 0 ? definition.stages[index] : null;
+        bool custom = stage?.model != null && standingVisual != transform;
+        foreach (Renderer renderer in standingRenderers) if (renderer != null) renderer.enabled = !custom;
+        if (standingVisual != transform)
+            standingVisual.localScale = Vector3.Scale(matureVisualScale, stage != null ? stage.scale : Vector3.one);
+        if (custom)
+        {
+            stageModel = Instantiate(stage.model, standingVisual);
+            stageModel.transform.localPosition = Vector3.zero;
+            foreach (Collider collider in stageModel.GetComponentsInChildren<Collider>()) collider.enabled = false;
+        }
+    }
+
     public static List<TreeSaveData> CaptureAll()
     {
         List<TreeSaveData> result = new(Registry.Count);
-        for (int i = 0; i < Registry.Count; i++) if (Registry[i] != null) result.Add(Registry[i].Capture());
+        for (int i = 0; i < Registry.Count; i++)
+            if (Registry[i] != null && !Registry[i].terrainManaged)
+            {
+                Registry[i].FinishPendingFall();
+                result.Add(Registry[i].Capture());
+            }
         return result;
     }
 
@@ -403,6 +599,7 @@ public sealed class WorldTree : MonoBehaviour
         Dictionary<string, TreeSaveData> map = new();
         for (int i = 0; i < data.Count; i++) if (data[i] != null && !string.IsNullOrEmpty(data[i].id)) map[data[i].id] = data[i];
         for (int i = 0; i < Registry.Count; i++)
-            if (Registry[i] != null && map.TryGetValue(Registry[i].treeId, out TreeSaveData saved)) Registry[i].Restore(saved);
+            if (Registry[i] != null && !Registry[i].terrainManaged &&
+                map.TryGetValue(Registry[i].treeId, out TreeSaveData saved)) Registry[i].Restore(saved);
     }
 }

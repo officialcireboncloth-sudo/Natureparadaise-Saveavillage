@@ -38,7 +38,7 @@ public sealed class CarpenterNPC : MonoBehaviour
             return;
 
         float distance = Vector3.Distance(transform.position, playerInventory.transform.position);
-        if (distance > interactionRadius)
+        if (!menuOpen && !PlayerInteractionTarget.Contains(playerInventory.transform, transform))
         {
             if (menuOpen)
                 CloseMenu();
@@ -48,7 +48,7 @@ public sealed class CarpenterNPC : MonoBehaviour
         if (!menuOpen)
         {
             WorldInteractionPrompt.Request(this, transform, $"{interactKey}: Carpenter", distance, promptHeight);
-            if (Input.GetKeyDown(interactKey))
+            if (PlayerInteractionTarget.Press(playerInventory.transform, transform, interactKey))
                 OpenMenu();
             return;
         }

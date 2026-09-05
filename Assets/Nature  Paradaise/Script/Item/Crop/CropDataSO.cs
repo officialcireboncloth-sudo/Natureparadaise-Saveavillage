@@ -89,7 +89,14 @@ public class CropDataSO : ScriptableObject
     [Tooltip("Stage visual setelah crop regrow dipanen. -1 memakai stage sebelum Harvest Ready.")]
     public int regrowStage = -1;
 
-    [Header("Growth Booster")]
+    [Header("Harvest Quality")]
+    [Tooltip("Bobot relatif bintang 1-5 sebelum bonus tier booster; bukan persentase final.")]
+    public float[] qualityWeights = { 50f, 30f, 14f, 5f, 1f };
+    [Tooltip("Tier booster minimum bintang 1-5. Default Premium dapat mengakses peluang bintang 5.")]
+    public int[] minimumBoosterForStars = { 0, 1, 2, 3, 3 };
+    [Min(0)] public int harvestGraceDays = 0;
+
+    [Header("Legacy Growth Booster (unused)")]
     [Tooltip("Batas pengurangan durasi pertumbuhan dari booster.")]
     [Range(0, 80)] public int maximumBoosterPercent = 50;
 
@@ -215,8 +222,7 @@ public class CropDataSO : ScriptableObject
 
     public float GetBoosterGrowthMultiplier(int boosterPercent)
     {
-        float reduction = Mathf.Clamp(boosterPercent, 0, maximumBoosterPercent) / 100f;
-        return 1f / Mathf.Max(0.2f, 1f - reduction);
+        return 1f; // Booster hanya kualitas, tidak pernah mempercepat pertumbuhan.
     }
 
     public int GetRegrowStage()

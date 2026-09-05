@@ -27,11 +27,11 @@ public sealed class HouseScenePortal : MonoBehaviour
             return;
 
         float distance = Vector3.Distance(transform.position, player.position);
-        if (distance > interactionRadius)
+        if (!PlayerInteractionTarget.Contains(player, transform))
             return;
         string action = exitsInterior ? "Keluar Rumah" : "Masuk Rumah";
         WorldInteractionPrompt.Request(this, transform, $"{interactKey}: {action}", distance, promptHeight);
-        if (!Input.GetKeyDown(interactKey))
+        if (!PlayerInteractionTarget.Press(player, transform, interactKey))
             return;
         if (exitsInterior)
             SceneTransitionManager.Instance.ReturnToWorld(exteriorSpawnId);

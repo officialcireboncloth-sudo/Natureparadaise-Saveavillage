@@ -63,6 +63,7 @@ public sealed class PlayerToolHotbar : MonoBehaviour
             return false;
 
         bool mousePressed = allowLeftMouse && Input.GetKeyDown(KeyCode.Mouse0);
+        if (FertilizerProcessor.BlocksWorldPointer) mousePressed = false;
         if (mousePressed && EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             mousePressed = false;
 

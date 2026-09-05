@@ -68,7 +68,7 @@ public class HUDManager : MonoBehaviour
 
     [Header("Debug Clues")]
     [Tooltip("Master switch untuk seluruh clue pengembangan. Dapat diubah saat Play Mode memakai tombol toggle.")]
-    public bool showDebugClues = true;
+    public bool showDebugClues;
     [Tooltip("Tombol untuk menampilkan atau menyembunyikan seluruh Debug Clues.")]
     public KeyCode debugCluesToggleKey = KeyCode.F9;
     [Tooltip("Tampilkan cuaca runtime sebagai informasi debug.")]
@@ -76,8 +76,8 @@ public class HUDManager : MonoBehaviour
     [Tooltip("Tampilkan panduan kontrol dan detail target farming sebagai informasi debug.")]
     public bool showFarmingDebugControls = true;
 
-    public static bool DebugCluesEnabled { get; private set; } = true;
-    public static bool FarmingDebugCluesEnabled { get; private set; } = true;
+    public static bool DebugCluesEnabled { get; private set; }
+    public static bool FarmingDebugCluesEnabled { get; private set; }
 
     RectTransform runtimeHudRoot;
     RectTransform runtimeCanvasRoot;
@@ -404,8 +404,8 @@ public class HUDManager : MonoBehaviour
             string fertilizer = snapshot.FertilizedForCurrentCycle
                 ? "sudah dipupuk"
                 : snapshot.SoilLevel < 5 ? "perlu pupuk" : "pupuk belum perlu";
-            string booster = snapshot.GrowthBoosterPercent > 0
-                ? $"booster -{snapshot.GrowthBoosterPercent}%"
+            string booster = snapshot.BoosterLevelToday > 0
+                ? $"booster kualitas Lv.{snapshot.BoosterLevelToday} hari ini"
                 : "booster belum aktif";
             string planted = snapshot.State == TileState.Planted && snapshot.Crop != null
                 ? $"Bibit {(snapshot.Crop.produceItem != null ? snapshot.Crop.produceItem.itemName : snapshot.Crop.cropId)} tertanam"

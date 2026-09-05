@@ -22,8 +22,8 @@ public sealed class PropertySiteSaveData
 
 /// <summary>
 /// Slot properti yang dapat menampung bangunan mana pun dari BuildingCatalogSO.
-/// Pemilihan dimulai dari marker site, lalu bangunan dapat ditempatkan bebas di luar FieldArea,
-/// di-upgrade, direlokasi, didemolish, dan disimpan.
+/// Player harus mendatangi marker site untuk memilih bangunan. Bangunan kemudian ditempatkan
+/// pada anchor site, serta dapat di-upgrade, direlokasi, didemolish, dan disimpan.
 /// </summary>
 [DisallowMultipleComponent]
 public sealed class PropertySite : MonoBehaviour
@@ -45,8 +45,8 @@ public sealed class PropertySite : MonoBehaviour
     [Header("Placement")]
     [Tooltip("Anchor posisi/rotasi bangunan. Jika kosong memakai transform site.")]
     [SerializeField] Transform buildingAnchor;
-    [Tooltip("Preview bangunan mengikuti posisi di depan player dan tidak dibatasi ke anchor awal.")]
-    [SerializeField] bool allowFreePlacement = true;
+    [Tooltip("Mode opsional untuk site khusus. Nonaktif berarti bangunan terkunci pada anchor site.")]
+    [SerializeField] bool allowFreePlacement;
     [Tooltip("Jarak preview dari player ketika Free Placement aktif.")]
     [SerializeField, Min(1f)] float freePlacementDistance = 4f;
     [Tooltip("Ukuran grid snap dunia untuk menjaga posisi bangunan tetap rapi.")]
@@ -66,8 +66,10 @@ public sealed class PropertySite : MonoBehaviour
     [Header("Editable Scene Visuals")]
     [Tooltip("Marker site kosong. Mesh dapat diganti langsung dari Scene View.")]
     [SerializeField] GameObject availableMarker;
-    [Tooltip("Marker hanya diperlukan untuk mode prototype lama. Shortcut Build tetap bekerja saat marker disembunyikan.")]
-    [SerializeField] bool showAvailableMarker;
+    [Tooltip("Menampilkan lokasi yang disediakan untuk membangun selama site masih kosong.")]
+    [SerializeField] bool showAvailableMarker = true;
+    [Tooltip("Warna marker lokasi build. Material scene asli tidak diubah.")]
+    [SerializeField] Color availableMarkerColor = new(0.18f, 0.9f, 0.32f, 0.58f);
     [Tooltip("Visual selama konstruksi berlangsung.")]
     [SerializeField] GameObject constructionVisual;
     [Tooltip("Visual fallback per level apabila definition tidak mempunyai Completed Prefab.")]
@@ -75,9 +77,9 @@ public sealed class PropertySite : MonoBehaviour
     [SerializeField] Color validPreviewColor = new(0.2f, 0.95f, 0.4f, 0.48f);
     [SerializeField] Color invalidPreviewColor = new(1f, 0.18f, 0.12f, 0.55f);
 
-    [Header("Prototype Interaction")]
+    [Header("Interaction")]
     [Tooltip("Membuka pilihan build atau menerima relocate pada site kosong.")]
-    [SerializeField] KeyCode interactKey = KeyCode.E;
+    [SerializeField] KeyCode interactKey = KeyCode.B;
     [SerializeField] KeyCode previousBuildingKey = KeyCode.Q;
     [SerializeField] KeyCode nextBuildingKey = KeyCode.R;
     [SerializeField] KeyCode confirmKey = KeyCode.C;
@@ -99,6 +101,7 @@ public sealed class PropertySite : MonoBehaviour
     bool previewActive;
     bool previewIsRelocation;
     bool previewAllowsCatalogNavigation;
+    int previewStartedFrame = -1;
     int previewLevel;
     int previewCatalogIndex;
     BuildingDefinitionSO previewDefinition;
@@ -109,10 +112,13 @@ public sealed class PropertySite : MonoBehaviour
     bool demolishConfirmationActive;
     GameObject previewObject;
     Material previewMaterial;
+    Material availableMarkerMaterial;
     GameObject runtimeCompletedVisual;
     readonly Collider[] placementOverlapBuffer = new Collider[48];
 
     public string SiteId => siteId;
+    public static IReadOnlyList<PropertySite> ActiveSites => Registry;
+    public Transform BuildingAnchor => buildingAnchor != null ? buildingAnchor : transform;
     public BuildingCatalogSO Catalog => catalog;
     public BuildingDefinitionSO ActiveDefinition => activeDefinition;
     public BuildingConstructionState State => state;
@@ -154,6 +160,8 @@ public sealed class PropertySite : MonoBehaviour
         playerInventory = FindFirstObjectByType<Inventory>();
         playerTransform = playerInventory != null ? playerInventory.transform : null;
 
+        ConfigureAvailableMarkerVisual();
+
         activeDefinition = startsCompleted ? startingBuilding : null;
         state = startsCompleted && activeDefinition != null
             ? BuildingConstructionState.Completed
@@ -176,6 +184,12 @@ public sealed class PropertySite : MonoBehaviour
         if (relocationSource == this)
             relocationSource = null;
         CancelPreview();
+    }
+
+    void OnDestroy()
+    {
+        DestroySafely(availableMarkerMaterial);
+        availableMarkerMaterial = null;
     }
 
     void Update()
@@ -203,7 +217,7 @@ public sealed class PropertySite : MonoBehaviour
 
         Transform interactionAnchor = IsEmpty ? transform : buildingAnchor;
         float squaredDistance = (playerTransform.position - interactionAnchor.position).sqrMagnitude;
-        if (squaredDistance > interactionRadius * interactionRadius)
+        if (!previewActive && !demolishConfirmationActive && !PlayerInteractionTarget.Contains(playerTransform, interactionAnchor))
         {
             if (previewActive)
                 CancelPreview();
@@ -271,7 +285,7 @@ public sealed class PropertySite : MonoBehaviour
                 distance,
                 promptHeight
             );
-            if (Input.GetKeyDown(interactKey))
+            if (PlayerInteractionTarget.Press(playerTransform, buildingAnchor, interactKey))
                 BeginRelocationPreview();
             else if (Input.GetKeyDown(cancelKey))
                 CancelRelocationMode();
@@ -282,11 +296,19 @@ public sealed class PropertySite : MonoBehaviour
         WorldInteractionPrompt.Request(
             this,
             buildingAnchor,
-            $"{interactKey}: Pilih bangunan ({firstName})",
+            $"{interactKey}: Build di sini ({firstName})",
             distance,
             promptHeight
         );
-        if (Input.GetKeyDown(interactKey))
+        if (!PlayerInteractionTarget.Press(playerTransform, buildingAnchor, interactKey))
+            return;
+
+        ConstructionShortcutMenu menu = playerInventory != null
+            ? playerInventory.GetComponent<ConstructionShortcutMenu>()
+            : null;
+        if (menu != null)
+            menu.OpenForSite(this);
+        else
             BeginBuildSelection();
     }
 
@@ -359,6 +381,11 @@ public sealed class PropertySite : MonoBehaviour
             promptHeight
         );
 
+        // Tombol C/Enter dari menu pemilihan tidak boleh sekaligus mengonfirmasi preview
+        // pada frame yang sama; player harus melihat siluet sebelum membangun.
+        if (Time.frameCount == previewStartedFrame)
+            return;
+
         if (previewAllowsCatalogNavigation && Input.GetKeyDown(previousBuildingKey))
             CycleCatalog(-1);
         else if (previewAllowsCatalogNavigation && Input.GetKeyDown(nextBuildingKey))
@@ -393,7 +420,7 @@ public sealed class PropertySite : MonoBehaviour
         return RefreshPreview();
     }
 
-    /// <summary>Membuka placement langsung pada pilihan katalog dari Build Menu global.</summary>
+    /// <summary>Membuka placement langsung pada pilihan katalog dari menu site.</summary>
     public bool BeginBuildSelection(int catalogIndex)
     {
         int maximumIndex = catalog != null ? Mathf.Max(0, catalog.Count - 1) : 0;
@@ -530,6 +557,7 @@ public sealed class PropertySite : MonoBehaviour
             return false;
 
         previewActive = true;
+        previewStartedFrame = Time.frameCount;
         previewLocationValid = ValidatePreviewLocation(previewDefinition);
         CreatePreviewVisual(
             previewDefinition,
@@ -649,6 +677,7 @@ public sealed class PropertySite : MonoBehaviour
         relocationSource = null;
         ApplyVisualState();
 
+        AnimalHome.Transfer(source.SiteId, this);
         SaveLoadFeedback.Instance?.ShowMessage($"{activeDefinition.displayName} berhasil dipindahkan");
         SaveManager.Instance?.SaveGame();
         return true;
@@ -668,6 +697,12 @@ public sealed class PropertySite : MonoBehaviour
 
     void ConfirmDemolish()
     {
+        if (AnimalHome.HasResidents(siteId) || (AnimalHome.Find(siteId)?.Fodder ?? 0) > 0)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Pindahkan hewan dan ambil sisa pakan sebelum demolish");
+            demolishConfirmationActive = false;
+            return;
+        }
         if (state != BuildingConstructionState.Completed || activeDefinition == null || !activeDefinition.canDemolish)
             return;
 
@@ -946,6 +981,43 @@ public sealed class PropertySite : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Marker memakai material runtime agar lokasi build mudah dibaca tanpa mengubah material
+    /// dummy yang telah dipasang manual pada scene.
+    /// </summary>
+    void ConfigureAvailableMarkerVisual()
+    {
+        if (availableMarker == null)
+            return;
+
+        foreach (Collider markerCollider in availableMarker.GetComponentsInChildren<Collider>(true))
+            markerCollider.enabled = false;
+
+        Shader shader = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Sprites/Default");
+        if (shader == null)
+            return;
+
+        availableMarkerMaterial = new Material(shader)
+        {
+            name = $"{name}_BuildSiteMarker_Runtime"
+        };
+        ConfigurePreviewMaterial(availableMarkerMaterial);
+        availableMarkerMaterial.color = availableMarkerColor;
+        if (availableMarkerMaterial.HasProperty("_BaseColor"))
+            availableMarkerMaterial.SetColor("_BaseColor", availableMarkerColor);
+
+        foreach (Renderer markerRenderer in availableMarker.GetComponentsInChildren<Renderer>(true))
+        {
+            int materialCount = Mathf.Max(1, markerRenderer.sharedMaterials.Length);
+            Material[] materials = new Material[materialCount];
+            for (int index = 0; index < materialCount; index++)
+                materials[index] = availableMarkerMaterial;
+            markerRenderer.sharedMaterials = materials;
+            markerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            markerRenderer.receiveShadows = false;
+        }
+    }
+
     GameObject GetCompletedPrefab(int level)
     {
         return activeDefinition?.GetLevel(level)?.completedPrefab;
@@ -1167,8 +1239,8 @@ public sealed class PropertySite : MonoBehaviour
 }
 
 /// <summary>
-/// Build Menu global: B membuka katalog tanpa mengharuskan player mendatangi marker.
-/// PropertySite tetap menjadi slot state internal untuk construction dan Save/Load.
+/// Menu katalog untuk PropertySite yang sedang dihadapi player. Menu hanya dapat dibuka
+/// oleh site tersebut sehingga shortcut B tidak memilih lokasi lain dari kejauhan.
 /// </summary>
 [DisallowMultipleComponent]
 public sealed class ConstructionShortcutMenu : MonoBehaviour
@@ -1178,7 +1250,6 @@ public sealed class ConstructionShortcutMenu : MonoBehaviour
 
     readonly List<Button> buildingButtons = new();
     Inventory inventory;
-    InventoryHotbarUI hotbar;
     PlayerController movement;
     TimeManager timeManager;
     PropertySite selectedSite;
@@ -1188,25 +1259,24 @@ public sealed class ConstructionShortcutMenu : MonoBehaviour
     TMP_Text detailText;
     TMP_Text footerText;
     int selectedIndex;
+    int openedFrame = -1;
     bool isOpen;
 
     void Awake()
     {
         inventory = GetComponent<Inventory>();
-        hotbar = GetComponent<InventoryHotbarUI>();
         movement = GetComponent<PlayerController>();
     }
 
     void Update()
     {
         if (!isOpen)
-        {
-            if (Input.GetKeyDown(openKey) && !IsSeedSelected() &&
-                (movement == null || !movement.IsMovementLocked) &&
-                !PropertySite.HasActivePlacementPreview())
-                Open();
             return;
-        }
+
+        // B yang membuka menu tidak boleh langsung dibaca kembali sebagai perintah tutup
+        // apabila Update menu kebetulan berjalan setelah Update PropertySite pada frame sama.
+        if (Time.frameCount == openedFrame)
+            return;
 
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(openKey))
             Close();
@@ -1218,37 +1288,36 @@ public sealed class ConstructionShortcutMenu : MonoBehaviour
             StartPlacement();
     }
 
-    bool IsSeedSelected()
+    /// <summary>Membuka katalog untuk site yang didatangi, bukan untuk site global pertama.</summary>
+    public bool OpenForSite(PropertySite site)
     {
-        if (hotbar == null)
-            hotbar = GetComponent<InventoryHotbarUI>();
-        return hotbar != null && hotbar.SelectedItem != null && hotbar.SelectedItem.IsSeed;
-    }
-
-    void Open()
-    {
-        if (!PropertySite.TryGetAvailableBuildSite(out selectedSite))
+        if (isOpen || site == null || !site.IsUnlocked || !site.IsEmpty ||
+            PropertySite.HasActivePlacementPreview() ||
+            (movement != null && movement.IsMovementLocked))
         {
-            SaveLoadFeedback.Instance?.ShowMessage("Tidak ada slot bangunan kosong");
-            return;
+            return false;
         }
+
+        selectedSite = site;
 
         catalog = selectedSite.Catalog;
         if (catalog == null || catalog.Count == 0)
         {
             SaveLoadFeedback.Instance?.ShowMessage("Building Catalog kosong");
-            return;
+            return false;
         }
 
         EnsureUI();
         RebuildButtons();
         isOpen = true;
+        openedFrame = Time.frameCount;
         panelObject.SetActive(true);
         movement?.AcquireMovementLock(this);
         timeManager = TimeManager.Instance != null ? TimeManager.Instance : FindFirstObjectByType<TimeManager>();
         timeManager?.AcquirePause(this);
         WorldInteractionPrompt.AcquireSuppression(this);
         Select(0);
+        return true;
     }
 
     void Close()

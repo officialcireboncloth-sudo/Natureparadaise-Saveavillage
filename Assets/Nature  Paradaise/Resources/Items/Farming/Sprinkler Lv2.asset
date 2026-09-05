@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Sprinkler Lv2
+  itemName: Sprinkler Lv.2
+  buyPrice: 1500
+  sellPrice: 0
+  category: 0
+  maxStack: 16
+  equippedTool: 0
+  requiredVillageLevel: 2
+  canDropToWorld: 1
+  canPlaceInWorld: 1
+  sprinklerLevel: 2
+  worldScale: {x: 0.35, y: 0.6, z: 0.35}
+

@@ -115,7 +115,7 @@ public sealed class BuildingSite : MonoBehaviour
         }
 
         float squaredDistance = (playerTransform.position - transform.position).sqrMagnitude;
-        if (squaredDistance > interactionRadius * interactionRadius)
+        if (!previewActive && !PlayerInteractionTarget.Contains(playerTransform, transform))
         {
             if (previewActive)
                 CancelPreview();

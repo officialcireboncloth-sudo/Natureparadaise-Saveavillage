@@ -93,6 +93,7 @@ public struct FieldTileData
     public byte consecutiveDryDays;
     public byte recoveryWateredDays;
     public byte growthBoosterPercent;
+    public CropQualityCare qualityCare;
     public float regrowDaysRemaining;
     public byte soilDurability;
     public byte soilRestDays;
@@ -121,6 +122,7 @@ public readonly struct FieldTileSnapshot
     public readonly CropWaterSource WaterSourcesToday;
     public readonly byte ConsecutiveDryDays;
     public readonly byte GrowthBoosterPercent;
+    public readonly int BoosterLevelToday;
     public readonly float RegrowDaysRemaining;
     public readonly byte SoilDurability;
     public readonly byte SoilRestDays;
@@ -145,6 +147,7 @@ public readonly struct FieldTileSnapshot
         WaterSourcesToday = data.waterSourcesToday;
         ConsecutiveDryDays = data.consecutiveDryDays;
         GrowthBoosterPercent = data.growthBoosterPercent;
+        BoosterLevelToday = data.qualityCare != null ? data.qualityCare.boosterToday : 0;
         RegrowDaysRemaining = data.regrowDaysRemaining;
         SoilDurability = data.soilDurability;
         SoilRestDays = data.soilRestDays;
@@ -210,6 +213,7 @@ public class FieldTileSaveData
     public byte consecutiveDryDays;
     public byte recoveryWateredDays;
     public byte growthBoosterPercent;
+    public CropQualityCare qualityCare;
     public float regrowDaysRemaining;
     public bool hasSoilDurability;
     public byte soilDurability;

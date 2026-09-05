@@ -14,6 +14,7 @@ public sealed class WorldItemPickup : MonoBehaviour
 
     [SerializeField] ItemSO item;
     [SerializeField, Min(1)] int amount = 1;
+    public int QualityStars { get; set; }
     [SerializeField] bool autoPickup;
     [SerializeField] KeyCode pickupKey = KeyCode.E;
     [SerializeField, Min(0f)] float promptHeight = 0.75f;
@@ -35,6 +36,10 @@ public sealed class WorldItemPickup : MonoBehaviour
     [SerializeField, Range(0.002f, 0.08f)] float shapeOutlineWidth = 0.025f;
 
     Inventory nearbyInventory;
+    Inventory playerCandidate;
+    static readonly List<WorldItemPickup> Active = new();
+    void OnEnable() => Active.Add(this);
+    void OnDisable() => Active.Remove(this);
     GameObject destroyTarget;
     Transform hintRoot;
     Transform hintAccentRoot;
@@ -79,10 +84,24 @@ public sealed class WorldItemPickup : MonoBehaviour
 
     void Update()
     {
+        if (playerCandidate == null) playerCandidate = FindFirstObjectByType<Inventory>();
+        Transform target = destroyTarget != null ? destroyTarget.transform : transform;
+        nearbyInventory = playerCandidate != null && PlayerInteractionTarget.Contains(playerCandidate.transform, target)
+            ? playerCandidate : null;
         UpdatePickupHint();
 
-        if (autoPickup || nearbyInventory == null)
+        if (nearbyInventory == null)
             return;
+        float ownDistance = (transform.position - nearbyInventory.transform.position).sqrMagnitude;
+        foreach (WorldItemPickup other in Active)
+        {
+            if (other == null || other == this || other.amount <= 0) continue;
+            Transform otherTarget = other.destroyTarget != null ? other.destroyTarget.transform : other.transform;
+            if (!PlayerInteractionTarget.Contains(nearbyInventory.transform, otherTarget)) continue;
+            float otherDistance = (other.transform.position - nearbyInventory.transform.position).sqrMagnitude;
+            if (otherDistance < ownDistance || (Mathf.Approximately(otherDistance, ownDistance) && other.GetInstanceID() < GetInstanceID())) return;
+        }
+        if (autoPickup) { TryPickup(); return; }
 
         float distance = Vector3.Distance(nearbyInventory.transform.position, transform.position);
         WorldInteractionPrompt.Request(
@@ -93,7 +112,7 @@ public sealed class WorldItemPickup : MonoBehaviour
             promptHeight
         );
 
-        if (Input.GetKeyDown(pickupKey))
+        if (PlayerInteractionTarget.Press(nearbyInventory.transform, target, pickupKey))
             TryPickup();
     }
 
@@ -103,9 +122,7 @@ public sealed class WorldItemPickup : MonoBehaviour
         if (inventory == null)
             return;
 
-        nearbyInventory = inventory;
-        if (autoPickup)
-            TryPickup();
+        playerCandidate = inventory;
     }
 
     void OnTriggerExit(Collider other)
@@ -121,14 +138,17 @@ public sealed class WorldItemPickup : MonoBehaviour
     {
         if (nearbyInventory == null || item == null || amount <= 0)
             return false;
+        if (!PlayerInteractionTarget.Contains(nearbyInventory.transform, destroyTarget != null ? destroyTarget.transform : transform)) return false;
 
-        if (!nearbyInventory.Add(item, amount))
+        if (!nearbyInventory.Add(item, amount, QualityStars))
         {
             SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh");
             return false;
         }
 
         SaveLoadFeedback.Instance?.ShowMessage($"Mengambil {item.itemName} x{amount}");
+        amount = 0;
+        if (destroyTarget != null) destroyTarget.SetActive(false);
         Destroy(destroyTarget != null ? destroyTarget : gameObject);
         return true;
     }

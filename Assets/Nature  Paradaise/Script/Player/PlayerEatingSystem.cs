@@ -54,7 +54,8 @@ public sealed class PlayerEatingSystem : MonoBehaviour
         status.ApplyFood(item.healthRestore, item.staminaRestore, item.hungerRestore);
         status.PulseActivity(PlayerMovementState.Eating, 0.65f);
         FoodEaten?.Invoke(item);
-        SaveLoadFeedback.Instance?.ShowMessage($"Makan {item.itemName}");
+        string recovery = $"HP +{item.healthRestore:0.#} | Energy +{item.staminaRestore:0.#}";
+        SaveLoadFeedback.Instance?.ShowMessage($"Makan {item.itemName} — {recovery}");
         Debug.Log($"[PLAYER] Memakan {item.itemName}.");
         return true;
     }

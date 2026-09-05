@@ -9,7 +9,8 @@ public enum FarmShopCategory
     Fertilizer,
     Booster,
     Animals,
-    Sell
+    Sell,
+    Equipment
 }
 
 /// <summary>
@@ -81,7 +82,7 @@ public class ShopUI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            int next = ((int)currentCategory + 1) % 5;
+            int next = ((int)currentCategory + 1) % 6;
             SelectCategory((FarmShopCategory)next);
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow)) MoveSelection(-1);
@@ -150,16 +151,17 @@ public class ShopUI : MonoBehaviour
             FarmShopCategory.Fertilizer,
             FarmShopCategory.Booster,
             FarmShopCategory.Animals,
-            FarmShopCategory.Sell
+            FarmShopCategory.Sell,
+            FarmShopCategory.Equipment
         };
-        string[] labels = { "SEEDS", "FERTILIZER", "BOOSTER", "ANIMALS", "SELL" };
+        string[] labels = { "SEEDS", "FERTILIZER", "BOOSTER", "ANIMALS", "SELL", "EQUIPMENT" };
 
         for (int i = 0; i < categories.Length; i++)
         {
             FarmShopCategory category = categories[i];
             Button button = CreateButton(
                 $"Category_{category}", runtimeRoot, labels[i],
-                new Vector2(24f + i * 194f, -72f), new Vector2(178f, 48f),
+                new Vector2(24f + i * 161f, -72f), new Vector2(153f, 48f),
                 () => SelectCategory(category));
             categoryButtons[category] = button;
         }
@@ -240,19 +242,31 @@ public class ShopUI : MonoBehaviour
         {
             case FarmShopCategory.Seeds:
                 AddProduct(shop.seedItem, false);
+                if (shop.sellsFarmEquipment)
+                    foreach (ItemSO seed in shop.treeSeedItems) AddProduct(seed, false);
+                break;
+            case FarmShopCategory.Equipment:
+                if (shop.sellsFarmEquipment)
+                    foreach (ItemSO sprinkler in shop.sprinklerItems) AddProduct(sprinkler, false);
                 break;
             case FarmShopCategory.Fertilizer:
                 for (int i = 0; i < shop.fertilizerItems.Count; i++) AddProduct(shop.fertilizerItems[i], false);
                 break;
             case FarmShopCategory.Booster:
-                AddProduct(shop.cropBoosterItem, false);
+                foreach (ItemSO booster in shop.cropBoosterItems) AddProduct(booster, false);
                 break;
             case FarmShopCategory.Animals:
                 for (int i = 0; i < shop.animalOffers.Count; i++) AddAnimalProduct(shop.animalOffers[i]);
+                AnimalCareCatalog care = AnimalCareCatalog.Load();
+                if (care != null) { AddProduct(care.fodder, false); AddProduct(care.treat, false); AddProduct(care.medicine, false); }
                 break;
             case FarmShopCategory.Sell:
                 AddProduct(shop.cabbageItem, true);
                 AddProduct(shop.milkItem, true);
+                AnimalCareCatalog products = AnimalCareCatalog.Load();
+                if (products != null) foreach (ItemSO product in products.products) AddProduct(product, true);
+                foreach (ItemSO seed in shop.treeSeedItems)
+                    if (seed != null && seed.treeDefinition != null) AddProduct(seed.treeDefinition.fruitItem, true);
                 break;
         }
 
@@ -281,6 +295,8 @@ public class ShopUI : MonoBehaviour
 
     void AddProduct(ItemSO item, bool selling)
     {
+        // Catalog dan slot legacy dapat menunjuk item yang sama.
+        if (visibleProducts.Exists(product => product.Item == item && product.Selling == selling)) return;
         if (item != null && visibleProducts.Count < 25)
             visibleProducts.Add(new ShopProduct(item, selling));
     }
@@ -358,10 +374,14 @@ public class ShopUI : MonoBehaviour
         ItemSO item = product.Item;
         if (product.Selling)
             return $"Jual hasil pertanian dari inventory.\n\nOwned: {owned}";
+        if (item.IsSprinkler)
+            return $"Auto water {new[] { 0, 4, 8, 24, 48 }[Mathf.Clamp(item.sprinklerLevel, 1, 4)]} tile/hari. P: pasang di farm; E: ambil kembali. Tanpa stamina.\n\nOwned: {owned}";
+        if (item.treeDefinition != null)
+            return $"P: tanam di tile farm kosong. Dewasa dalam {item.treeDefinition.matureDays} growth days. Siram saat muda; E untuk panen buah.\n\nOwned: {owned}";
         if (item.IsFertilizer)
-            return $"Memulihkan Soil Level. Tidak menggantikan penyiraman.\n\nOwned: {owned}";
+            return $"Memulihkan +{item.SoilRestoreAmount} durability tanah (maksimum 80). Tidak bisa dijual.\n\nOwned: {owned}";
         if (item.IsCropBooster)
-            return $"Mengurangi durasi growth sekitar {item.cropBoosterPercent}%. Tidak memperbaiki soil.\n\nOwned: {owned}";
+            return $"Booster kualitas Lv.{item.cropBoosterLevel}. Gunakan setiap hari; growth/yield dan soil tetap.\n\nOwned: {owned}";
         if (item.category == ItemCategory.Seed)
             return $"Tanam pada tanah yang sudah dicangkul, lalu siram setiap hari.\n\nOwned: {owned}";
         return $"Item Farm Shop.\n\nOwned: {owned}";
@@ -375,9 +395,8 @@ public class ShopUI : MonoBehaviour
 
         ItemSO item = product.Item;
         if (item == null) return true;
-        return (item.IsFertilizer || item.IsCropBooster) &&
-               VillageProgressionService.Instance != null &&
-               !VillageProgressionService.Instance.MeetsRequirement(item.requiredVillageLevel);
+        return item.requiredVillageLevel > 1 && (VillageProgressionService.Instance == null ||
+               !VillageProgressionService.Instance.MeetsRequirement(item.requiredVillageLevel));
     }
 
     void ExecuteSelectedTransaction()

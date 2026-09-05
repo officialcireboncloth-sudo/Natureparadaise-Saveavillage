@@ -7,6 +7,15 @@ using TMPro;
 /// </summary>
 public class AnimalController : MonoBehaviour
 {
+    static readonly System.Collections.Generic.List<AnimalController> Active = new();
+    void OnEnable() => Active.Add(this);
+    void OnDisable() => Active.Remove(this);
+
+    [Header("Heart Care Items")]
+    public ItemSO favoriteTreatItem;
+    public ItemSO medicineItem;
+    [SerializeField] KeyCode treatKey = KeyCode.Y;
+    [SerializeField] KeyCode medicineKey = KeyCode.O;
     [Header("Growth System")]
     [SerializeField] AnimalGrowthSystem growth;
     [SerializeField] KeyCode petKey = KeyCode.P;
@@ -36,7 +45,8 @@ public class AnimalController : MonoBehaviour
     [Header("Inventory")]
     public Inventory playerInv;
 
-    [Tooltip("ItemSO Cabbage.")]
+    [InspectorName("Feed Item (Grass / Fodder)")]
+    [Tooltip("Pakan harian; nama field legacy dipertahankan agar referensi scene lama tetap terbaca.")]
     public ItemSO cabbageItem;
 
     [Tooltip("ItemSO Milk.")]
@@ -50,6 +60,7 @@ public class AnimalController : MonoBehaviour
 
     void Awake()
     {
+        ApplyCareDefaults();
         if (playerInv == null)
             playerInv = FindFirstObjectByType<Inventory>();
         if (growth == null)
@@ -66,12 +77,30 @@ public class AnimalController : MonoBehaviour
         cabbageItem = feedItem;
         milkItem = productItem;
         growth = growthSystem;
+        ApplyCareDefaults();
+    }
+
+    public void ApplyCareDefaults()
+    {
+        if (growth == null) growth = GetComponent<AnimalGrowthSystem>();
+        AnimalCareCatalog catalog = AnimalCareCatalog.Load();
+        if (catalog == null) return;
+        if (cabbageItem == null || cabbageItem.itemName == "Cabbage") cabbageItem = catalog.fodder;
+        if (favoriteTreatItem == null) favoriteTreatItem = catalog.treat;
+        if (medicineItem == null) medicineItem = catalog.medicine;
+        if (milkItem == null && growth != null) milkItem = catalog.Product(growth.Type);
     }
 
     void Update()
     {
+        if (growth == null) growth = GetComponent<AnimalGrowthSystem>();
+        UpdateMilkProduction();
+        UpdateDebugUI();
+        if (GetComponent<AnimalRoutine>()?.IsHoused ?? false) return;
         if (playerInv == null)
             return;
+        if (playerInv.GetComponent<PlayerController>()?.IsMovementLocked ?? false) return;
+        if (WorldInteractionPrompt.IsSuppressed) return;
 
         float distance = Vector3.Distance(
             transform.position,
@@ -79,28 +108,43 @@ public class AnimalController : MonoBehaviour
         );
 
         // Player terlalu jauh dari hewan
-        if (distance > interactionRadius)
+        if (!PlayerInteractionTarget.Contains(playerInv.transform, transform))
             return;
+        // Hanya hewan terdekat menerima satu tombol interaksi, bukan seluruh kandang.
+        foreach (AnimalController other in Active)
+        {
+            if (other == this || other == null) continue;
+            float otherDistance = Vector3.Distance(other.transform.position, playerInv.transform.position);
+            if (PlayerInteractionTarget.Contains(playerInv.transform, other.transform) &&
+                (otherDistance < distance || (Mathf.Approximately(otherDistance, distance) && other.GetInstanceID() < GetInstanceID()))) return;
+        }
 
         string interactionPrompt = IsProductReady
             ? $"{feedKey}: Feed   {petKey}: Pet   {milkKey}: Ambil produk"
             : $"{feedKey}: Feed   {petKey}: Pet";
         if (HUDManager.DebugCluesEnabled)
             interactionPrompt += $"   {debugNextStageKey}: Debug Next Stage";
+        if (favoriteTreatItem != null) interactionPrompt += $"   {treatKey}: Treat";
+        if (medicineItem != null) interactionPrompt += $"   {medicineKey}: Medicine";
+        if (growth != null) interactionPrompt = growth.InfoSummary + "\n" + interactionPrompt;
+        interactionPrompt += "   I: Animal Info";
         WorldInteractionPrompt.Request(this, transform, interactionPrompt, distance, 1.45f);
 
         HandleInput();
-        UpdateMilkProduction();
-        UpdateDebugUI();
     }
 
     void HandleInput()
     {
+        if (PlayerInteractionTarget.Press(playerInv.transform, transform, KeyCode.I))
+        {
+            AnimalCarePanel.Show(growth, null, playerInv);
+            return;
+        }
         // =========================
         // FEED CABBAGE
         // =========================
 
-        if (Input.GetKeyDown(feedKey))
+        if (PlayerInteractionTarget.Press(playerInv.transform, transform, feedKey))
         {
             FeedCabbage();
         }
@@ -109,20 +153,23 @@ public class AnimalController : MonoBehaviour
         // TAKE MILK
         // =========================
 
-        if (Input.GetKeyDown(milkKey))
+        if (PlayerInteractionTarget.Press(playerInv.transform, transform, milkKey))
         {
             TakeMilk();
         }
 
-        if (Input.GetKeyDown(petKey))
+        if (PlayerInteractionTarget.Press(playerInv.transform, transform, petKey))
             growth?.Pet();
+        if (PlayerInteractionTarget.Press(playerInv.transform, transform, treatKey)) TryGiveTreat();
+        if (PlayerInteractionTarget.Press(playerInv.transform, transform, medicineKey)) TryGiveMedicine();
 
         if (HUDManager.DebugCluesEnabled && Input.GetKeyDown(debugNextStageKey))
             growth?.DebugAdvanceToNextStage();
     }
 
-    void FeedCabbage()
+    public void FeedCabbage()
     {
+        if (growth != null && (!growth.HasBeenBorn || growth.FedToday)) return;
         if (cabbageItem == null)
         {
             Debug.LogWarning(
@@ -153,13 +200,16 @@ public class AnimalController : MonoBehaviour
         growth?.RegisterFeeding(cabbageHunger);
 
         Debug.Log(
-            $"[ANIMAL] Diberi makan Cabbage. " +
+            $"[ANIMAL] Diberi makan {cabbageItem.itemName}. " +
             $"Hunger: {hunger}/{maxHunger}"
         );
     }
 
     void UpdateMilkProduction()
     {
+        if (TimeManager.Instance != null && TimeManager.Instance.IsPaused) return;
+        // Growth adalah sumber nutrisi utama, termasuk makanan dari grazing tanpa FeedCabbage.
+        if (growth != null) hunger = growth.Fullness;
         // Kalau susu sudah siap, jangan produksi lagi
         // sampai player mengambilnya.
         if (IsProductReady)
@@ -200,7 +250,7 @@ public class AnimalController : MonoBehaviour
         }
     }
 
-    void TakeMilk()
+    public void TakeMilk()
     {
         if (!IsProductReady)
         {
@@ -218,14 +268,18 @@ public class AnimalController : MonoBehaviour
             return;
         }
 
-        // Masukkan 1 Milk ke inventory
-        playerInv.Add(milkItem, 1);
+        // Grade ditentukan saat produk siap, bukan sesudah status produksi direset.
+        int quality = growth != null ? growth.ProductQualityLevel : 1;
+        if (playerInv == null || !playerInv.Add(milkItem, 1, quality))
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh; produk tetap tersimpan pada hewan");
+            return;
+        }
 
         milkReady = false;
         growth?.MarkProductCollected();
 
-        int quality = growth != null ? growth.ProductQualityLevel : 1;
-        SaveLoadFeedback.Instance?.ShowMessage($"Milk Quality Lv.{quality} berhasil diambil");
+        SaveLoadFeedback.Instance?.ShowMessage($"{milkItem.itemName} ({AnimalCareCatalog.QualityName(quality)}) berhasil diambil");
 
         // Kalau Hunger masih > 0,
         // produksi susu berikutnya dimulai lagi.
@@ -257,4 +311,29 @@ public class AnimalController : MonoBehaviour
     }
 
     bool IsProductReady => growth != null ? growth.HasProductReady : milkReady;
+
+    public bool TryGiveTreat()
+    {
+        if (growth == null || !growth.CanReceiveTreat || favoriteTreatItem == null || playerInv == null ||
+            !playerInv.Remove(favoriteTreatItem, 1)) return false;
+        growth.GiveFavoriteTreat();
+        SaveLoadFeedback.Instance?.ShowMessage($"{growth.AnimalName} menyukai treat ini");
+        return true;
+    }
+
+    public bool TryGiveMedicine()
+    {
+        if (growth == null || !growth.CanReceiveMedicine ||
+            medicineItem == null || playerInv == null || !playerInv.Remove(medicineItem, 1)) return false;
+        growth.TreatWithMedicine();
+        return true;
+    }
+
+    /// <summary>Reset timer legacy setelah load agar state runtime tidak bocor ke save yang dipulihkan.</summary>
+    public void RestoreProduction(float savedFullness)
+    {
+        hunger = Mathf.Clamp(savedFullness, 0f, maxHunger);
+        milkTimer = 0f;
+        milkReady = false;
+    }
 }

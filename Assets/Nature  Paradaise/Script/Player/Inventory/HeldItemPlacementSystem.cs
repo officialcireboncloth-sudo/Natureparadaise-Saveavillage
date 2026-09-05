@@ -45,6 +45,8 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     GameObject heldVisual;
     GameObject previewVisual;
     Material previewMaterial;
+    GameObject rangePreview;
+    readonly System.Collections.Generic.List<LineRenderer> rangeLines = new();
     ItemSO shownItem;
     Vector3 placementPoint;
     Quaternion placementRotation = Quaternion.identity;
@@ -84,11 +86,17 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
 
     void Update()
     {
-        if (movement != null && movement.IsMovementLocked) return;
+        if (movement != null && movement.IsMovementLocked)
+        {
+            if (previewVisual != null) previewVisual.SetActive(false);
+            if (rangePreview != null) rangePreview.SetActive(false);
+            return;
+        }
         ItemStack selected = GetSelectedStack();
         bool canDrop = CanDrop(selected);
         bool canPlace = CanPlace(selected);
         if (previewVisual != null) previewVisual.SetActive(canPlace);
+        if (rangePreview != null) rangePreview.SetActive(canPlace);
         if (!canDrop && !canPlace) return;
 
         if (canPlace && Time.unscaledTime >= nextPreviewRefresh)
@@ -121,11 +129,11 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
 
         Vector3 facing = GetFacing();
         Vector3 position = transform.position + facing * dropForwardOffset + Vector3.up * dropHeight;
-        PlacedWorldItem dropped = PlacedWorldItem.Spawn(item, amount, position, Quaternion.identity, true);
+        PlacedWorldItem dropped = PlacedWorldItem.Spawn(item, amount, position, Quaternion.identity, true, stack.qualityStars);
         if (dropped == null)
         {
             // Inventory dikembalikan jika pembuatan object gagal agar item tidak hilang.
-            inventory.Add(item, amount);
+            inventory.Add(item, amount, stack.qualityStars);
             SaveLoadFeedback.Instance?.ShowMessage("Drop item gagal");
             return;
         }
@@ -141,24 +149,26 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     {
         ItemStack stack = GetSelectedStack();
         if (!CanPlace(stack)) return;
+        RefreshPlacementPreview(stack.item);
         if (!placementValid)
         {
             SaveLoadFeedback.Instance?.ShowMessage("Permukaan tidak valid untuk menaruh item");
             return;
         }
 
-        int amount = wholeStack ? stack.count : 1;
+        int amount = wholeStack && !stack.item.IsFarmPlacement ? stack.count : 1;
         ItemSO item = stack.item;
         if (!inventory.RemoveFromSlot(hotbarUI.SelectedIndex, amount)) return;
-        PlacedWorldItem placed = PlacedWorldItem.Spawn(item, amount, placementPoint, placementRotation, false);
+        PlacedWorldItem placed = PlacedWorldItem.Spawn(item, amount, placementPoint, placementRotation, false, stack.qualityStars);
         if (placed == null)
         {
-            inventory.Add(item, amount);
+            inventory.Add(item, amount, stack.qualityStars);
             SaveLoadFeedback.Instance?.ShowMessage("Place item gagal");
             return;
         }
 
         SaveLoadFeedback.Instance?.ShowMessage($"Place {item.itemName} x{amount}");
+        if (item.IsSprinkler && FieldArea.TryGetAt(placementPoint, out FieldArea field, out _, out _)) FarmPlacement.WaterField(field);
     }
 
     void RefreshPlacementPreview(ItemSO item)
@@ -184,11 +194,51 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
             placementRotation = Quaternion.identity;
         }
 
+        if (placementValid && item.IsFarmPlacement)
+        {
+            placementValid = FarmPlacement.CanPlace(item, ref placementPoint);
+            placementRotation = Quaternion.identity;
+        }
         previewVisual.transform.SetPositionAndRotation(placementPoint, placementRotation);
         if (placementValid)
             placementValid = HasPlacementClearance(hit.collider);
 
         previewMaterial.color = placementValid ? validPreviewColor : invalidPreviewColor;
+        RefreshRange(item);
+    }
+
+    void RefreshRange(ItemSO item)
+    {
+        if (!item.IsSprinkler) return;
+        if (rangePreview == null) rangePreview = new GameObject("SprinklerRange_Runtime");
+        foreach (LineRenderer existing in rangeLines) existing.gameObject.SetActive(false);
+        if (!FieldArea.TryGetAt(placementPoint, out FieldArea field, out int x, out int z)) return;
+        int lineIndex = 0;
+        foreach (Vector2Int offset in FarmPlacement.Offsets(item.sprinklerLevel))
+        {
+            Vector3 center = field.GridToWorld(x + offset.x, z + offset.y) + Vector3.up * 0.06f;
+            if (!field.WorldToGrid(center, out _, out _)) continue;
+            if (lineIndex == rangeLines.Count)
+            {
+                GameObject cell = new("RangeTile");
+                cell.transform.SetParent(rangePreview.transform, false);
+                LineRenderer created = cell.AddComponent<LineRenderer>();
+                created.sharedMaterial = previewMaterial;
+                created.widthMultiplier = 0.025f;
+                created.loop = true;
+                created.positionCount = 4;
+                rangeLines.Add(created);
+            }
+            LineRenderer line = rangeLines[lineIndex++];
+            line.gameObject.SetActive(true);
+            float half = field.CellSize * 0.46f;
+            Vector3 right = field.transform.TransformVector(Vector3.right * half);
+            Vector3 forward = field.transform.TransformVector(Vector3.forward * half);
+            line.SetPosition(0, center - right - forward);
+            line.SetPosition(1, center + right - forward);
+            line.SetPosition(2, center + right + forward);
+            line.SetPosition(3, center - right + forward);
+        }
     }
 
     void RequestActionPrompt(ItemSO item, bool canDrop, bool canPlace)
@@ -227,6 +277,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         if (item == null) return;
 
         heldVisual = CreateVisual(item, handAnchor, $"Held_{item.itemName}");
+        if (item.treeDefinition != null) heldVisual.transform.localScale *= 0.15f;
         heldVisual.transform.localPosition = Vector3.zero;
         heldVisual.transform.localRotation = Quaternion.identity;
         if (item.canPlaceInWorld)
@@ -243,6 +294,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         // Preview memakai model item asli supaya footprint dan orientasinya mudah dinilai.
         GameObject visual = CreateVisual(item, previewVisual.transform, $"PreviewMesh_{item.itemName}");
         visual.transform.localPosition = Vector3.up * 0.35f;
+        if (item.treeDefinition != null) visual.transform.localPosition = Vector3.up * visual.transform.localScale.y * 0.5f;
 
         Shader shader = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Sprites/Default");
         previewMaterial = new Material(shader);
@@ -324,6 +376,9 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
 
     void DestroyPreview()
     {
+        if (rangePreview != null) Destroy(rangePreview);
+        rangePreview = null;
+        rangeLines.Clear();
         if (previewVisual != null)
         {
             if (Application.isPlaying) Destroy(previewVisual);

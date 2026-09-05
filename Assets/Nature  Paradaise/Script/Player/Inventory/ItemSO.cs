@@ -29,7 +29,8 @@ public enum FertilizerLevel : byte
     Basic,
     Quality,
     Premium,
-    Deluxe
+    Deluxe,
+    Divine
 }
 
 [CreateAssetMenu(menuName = "Game/Item")]
@@ -51,6 +52,7 @@ public class ItemSO : ScriptableObject
     [Header("Inventory")]
     [Tooltip("Dipakai untuk sorting dan validasi fitur seperti eating atau tool selection.")]
     public ItemCategory category = ItemCategory.General;
+    public bool isAnimalProduct;
     [Tooltip("Jumlah maksimum dalam satu slot inventory.")]
     [Min(1)] public int maxStack = 16;
     [Tooltip("Jika item ini diletakkan di hotbar, tool ini yang aktif. None untuk item biasa.")]
@@ -61,14 +63,20 @@ public class ItemSO : ScriptableObject
     public CropDataSO seedCrop;
 
     [Header("Fertilizer")]
-    [Tooltip("Basic +1 level, Quality +2, Premium +3, dan Deluxe langsung maksimum.")]
+    [Tooltip("Tingkat pupuk tanah. Quality adalah Organic pada asset lama.")]
     public FertilizerLevel fertilizerLevel = FertilizerLevel.None;
     [Tooltip("Village Level minimum agar pupuk ini dapat dibeli dan digunakan.")]
     [Min(1)] public int requiredVillageLevel = 1;
 
-    [Header("Crop Booster")]
-    [Tooltip("Persentase pengurangan durasi growth. Nilai 20 mengubah 5 growth days menjadi sekitar 4 hari.")]
-    [Range(0, 80)] public int cropBoosterPercent;
+    [Min(0)] public int soilRestoreAmount;
+
+    [Header("Crop Quality Booster")]
+    [Range(1, 5)] public int cropBoosterLevel = 1;
+    // Field legacy dipertahankan untuk kompatibilitas asset, tidak memengaruhi growth.
+    [HideInInspector] public int cropBoosterPercent;
+    public int SoilRestoreAmount => soilRestoreAmount > 0 ? soilRestoreAmount :
+        fertilizerLevel switch { FertilizerLevel.Basic => 10, FertilizerLevel.Quality => 20,
+            FertilizerLevel.Premium => 35, FertilizerLevel.Deluxe => 50, FertilizerLevel.Divine => 80, _ => 0 };
 
     [Header("Held / World Actions")]
     [Tooltip("Izinkan stack item ini dijatuhkan dari hotbar sebagai object physics.")]
@@ -81,6 +89,12 @@ public class ItemSO : ScriptableObject
     public GameObject worldPrefab;
     [Tooltip("Skala model saat dipegang, dijatuhkan, atau diletakkan di dunia.")]
     public Vector3 worldScale = Vector3.one * 0.4f;
+
+    [Header("Farm Placement")]
+    [Range(0, 4)] public int sprinklerLevel;
+    public TreeDefinition treeDefinition;
+    public bool IsSprinkler => sprinklerLevel > 0;
+    public bool IsFarmPlacement => IsSprinkler || treeDefinition != null;
 
     [Header("Eating")]
     [Tooltip("Menandai item sebagai kandidat makanan; category tetap harus Food.")]
@@ -107,7 +121,7 @@ public class ItemSO : ScriptableObject
         equippedTool == PlayerToolType.Fertilizer && fertilizerLevel != FertilizerLevel.None;
 
     public bool IsCropBooster =>
-        equippedTool == PlayerToolType.CropBooster && cropBoosterPercent > 0;
+        equippedTool == PlayerToolType.CropBooster && cropBoosterLevel > 0;
 
     public bool IsSeed =>
         category == ItemCategory.Seed || equippedTool == PlayerToolType.Seed;

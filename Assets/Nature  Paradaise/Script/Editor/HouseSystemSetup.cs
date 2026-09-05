@@ -12,8 +12,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public static class HouseSystemSetup
 {
-    const string HouseAssetPath = "Assets/Nature  Paradaise/Resource/Player House Building.asset";
-    const string InteriorScenePath = "Assets/Nature  Paradaise/HouseInterior.unity";
+    const string HouseAssetPath = "Assets/Nature  Paradaise/Resources/Buildings/Player House Building.asset";
+    const string InteriorScenePath = "Assets/Nature  Paradaise/Map/Scenes/Interiors/HouseInterior.unity";
     const string WorldRootName = "PlayerHouse_Editable";
 
     [MenuItem("Nature Paradise/Setup Player House System")]
@@ -39,8 +39,8 @@ public static class HouseSystemSetup
         if (existing != null)
             return existing;
 
-        ItemSO wood = AssetDatabase.LoadAssetAtPath<ItemSO>("Assets/Nature  Paradaise/Resource/Wood.asset");
-        ItemSO stone = AssetDatabase.LoadAssetAtPath<ItemSO>("Assets/Nature  Paradaise/Resource/Stone.asset");
+        ItemSO wood = AssetDatabase.LoadAssetAtPath<ItemSO>("Assets/Nature  Paradaise/Resources/Items/Materials/Wood.asset");
+        ItemSO stone = AssetDatabase.LoadAssetAtPath<ItemSO>("Assets/Nature  Paradaise/Resources/Items/Materials/Stone.asset");
         BuildingDefinitionSO house = ScriptableObject.CreateInstance<BuildingDefinitionSO>();
         house.buildingId = "building.player-house";
         house.displayName = "Player House";

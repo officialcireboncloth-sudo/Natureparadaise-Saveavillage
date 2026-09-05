@@ -6,6 +6,12 @@ using UnityEngine;
 public sealed class AnimalSaveData
 {
     public string animalId;
+    public string animalName;
+    public AnimalHeartState heart;
+    public int productQuality;
+    public string homeId;
+    public bool housed;
+    public bool returningHome;
     public AnimalType animalType;
     public AnimalBirthSource birthSource;
     public int birthDay;
@@ -14,6 +20,7 @@ public sealed class AnimalSaveData
     public int prenatalDays;
     public bool hasBeenBorn;
     public AnimalHealthState health;
+    public AnimalHealthProgress healthProgress;
     public float fullness;
     public float happiness;
     public float friendship;
@@ -41,9 +48,18 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     [Header("Identity & Species")]
     [SerializeField] string animalId = "animal-cow-001";
+    [SerializeField] string animalName;
+    [Header("Heart (100 Points = 1 Heart)")]
+    [SerializeField] AnimalHeartRules heartRules = new();
+    [SerializeField] AnimalHeartState heart;
     [SerializeField] AnimalType animalType = AnimalType.Cow;
     [SerializeField] AnimalBirthSource birthSource = AnimalBirthSource.PurchasedYoung;
     [SerializeField] AnimalGrowthProfileSO growthProfile;
+    [Header("Animal Sale Price")]
+    [Tooltip("Aktif untuk memakai harga lokal, bukan harga dari Growth Profile.")]
+    [SerializeField] bool overrideSalePrice;
+    [Tooltip("Dipakai jika override aktif atau Growth Profile belum dipasang.")]
+    [SerializeField] AnimalSalePriceSettings localSalePrice = new();
     [SerializeField] string inheritedTrait;
     [SerializeField] bool runtimePurchased;
 
@@ -62,13 +78,20 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     [SerializeField] bool sheltered = true;
 
     [Header("Condition")]
+    [Tooltip("Status kompatibilitas lama: Sick juga mencakup masa pemulihan. Tahap detail ada di Health Progress.")]
     [SerializeField] AnimalHealthState health = AnimalHealthState.Healthy;
+    [Tooltip("Durasi dalam hari game; peluang sakit 0..1. Konfigurasi per hewan/prefab.")]
+    [SerializeField] AnimalHealthRules healthRules = new();
+    [Tooltip("State runtime yang disimpan: tahap penyakit, streak, pemulihan, dan kekebalan.")]
+    [SerializeField] AnimalHealthProgress healthProgress = new();
     [SerializeField, Range(0f, 100f)] float happiness = 50f;
     [SerializeField, Range(0f, 100f)] float friendship;
-    [SerializeField, Range(0f, 1f)] float extremeWeatherSicknessChance = 0.35f;
+    [Header("Condition Visual Overrides (Optional)")]
+    [SerializeField] List<AnimalConditionVisualSlot> conditionVisualOverrides = new();
 
     [Header("Production")]
     [SerializeField] bool productReady;
+    [SerializeField, Range(1, 5)] int productQuality = 1;
     [SerializeField] int lastProductionDay = -1000;
 
     [Header("Stage Visual Slots (Optional)")]
@@ -88,6 +111,10 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     [SerializeField] Vector3 eggDummyShapeScale = new(0.55f, 0.72f, 0.55f);
 
     GameObject spawnedStageModel;
+    GameObject spawnedConditionModel;
+    AnimalIllnessStage appliedCondition = (AnimalIllnessStage)(-1);
+    Animator conditionAnimator;
+    RuntimeAnimatorController originalConditionAnimator;
     Renderer[] fallbackRenderers;
     Vector3 originalVisualScale = Vector3.one;
     AnimalGrowthStage appliedStage = (AnimalGrowthStage)(-1);
@@ -103,15 +130,43 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         : AnimalGrowthProfileSO.DefaultBornToAdultDays(Type);
     public AnimalGrowthStage GrowthStage => ResolveGrowthStage();
     public AnimalHealthState Health => health;
+    public bool CanReceiveMedicine => hasBeenBorn && healthProgress.CanTreat;
+    public string HealthSummary => healthProgress.stage == AnimalIllnessStage.Recovering
+        ? $"Recovering ({healthProgress.recoveryRemaining} care days)"
+        : healthProgress.Healthy && healthProgress.immunityRemaining > 0
+            ? $"Healthy (Immune {healthProgress.immunityRemaining} days)"
+            : healthProgress.stage == AnimalIllnessStage.Mild ? "Unwell"
+            : healthProgress.stage == AnimalIllnessStage.Severe ? "Sick"
+            : "Healthy";
     public float Fullness => fullness;
     public float Happiness => happiness;
-    public float Friendship => friendship;
+    public float Friendship => HeartPoints / 10f;
+    public int HeartPoints => heart != null ? heart.points : Mathf.RoundToInt(friendship * 10f);
+    public int HeartLevel => Mathf.Clamp(HeartPoints / 100, 0, 10);
+    public string AnimalName => string.IsNullOrWhiteSpace(animalName) ? Type.ToString() : animalName;
+    public bool PetToday => pettedToday;
+    public bool GrazedToday => heart != null && heart.grazingDay == CurrentDay;
+    public bool HasBeenBorn => hasBeenBorn;
+    AnimalSalePriceSettings SalePriceSettings => !overrideSalePrice && growthProfile != null && growthProfile.salePrice != null
+        ? growthProfile.salePrice : (localSalePrice ??= new AnimalSalePriceSettings());
+    public float AnimalValueMultiplier => SalePriceSettings.Multiplier(HeartLevel);
+    public int AnimalSellPrice => SalePriceSettings.Calculate(HeartLevel);
+    public string InfoSummary => $"{AnimalName} — {Type}\nHeart: {HeartLevel}/10 | Happiness: {(happiness >= 70 ? "Happy" : happiness >= 35 ? "Calm" : "Stressed")}\n" +
+        $"Health: {HealthSummary} | Fed: {(fedToday ? "Yes" : "No")} | Pet: {(pettedToday ? "Yes" : "No")}\n" +
+        $"Growth: {GrowthStage} | Production: {(productReady ? "Ready" : "Not Ready")}\n" +
+        $"Sell Value: {AnimalSellPrice} G (Heart x{AnimalValueMultiplier:0.##})";
     public bool FedToday => fedToday;
     public bool IsSheltered => sheltered;
     public bool IsAdult => hasBeenBorn && GrowthStage == AnimalGrowthStage.Adult;
     public static int ActiveAnimalCount => Registry.Count;
+    public static IReadOnlyList<AnimalGrowthSystem> ActiveAnimals => Registry;
+    public void SetAnimalName(string value)
+    {
+        value = value?.Replace("<", "").Replace(">", "").Replace("\n", " ").Replace("\r", " ").Trim();
+        animalName = string.IsNullOrEmpty(value) ? Type.ToString() : value.Substring(0, Mathf.Min(24, value.Length));
+    }
     public bool HasProductReady => productReady;
-    public int ProductQualityLevel => Mathf.Clamp(1 + Mathf.FloorToInt((happiness + friendship) / 50f), 1, 5);
+    public int ProductQualityLevel => Mathf.Clamp(productQuality, 1, 5);
 
     public bool IsProductionEligible
     {
@@ -119,7 +174,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         {
             int currentDay = TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
             int interval = growthProfile != null ? growthProfile.productionIntervalDays : 1;
-            return IsAdult && fedToday && sheltered && health == AnimalHealthState.Healthy &&
+            return IsAdult && fedToday && happiness >= 20f && (sheltered || CanGrazeToday) && health == AnimalHealthState.Healthy &&
                    currentDay - lastProductionDay >= Mathf.Max(1, interval);
         }
     }
@@ -127,10 +182,16 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     public string StatusSummary =>
         $"{Type} | {GrowthStage} | Age {ageDays}d\n" +
         $"Growth {growthDays}/{AdultGrowthDays} | Fed: {(fedToday ? "Yes" : "No")}\n" +
-        $"Health: {health} | Happy {Mathf.RoundToInt(happiness)} | Friend {Mathf.RoundToInt(friendship)}";
+        $"Health: {health} | Happy {Mathf.RoundToInt(happiness)} | Heart {HeartPoints}/1000";
 
     void Awake()
     {
+        heart ??= new AnimalHeartState { points = Mathf.Clamp(Mathf.RoundToInt(friendship * 10f), 0, 1000) };
+        heartRules ??= new AnimalHeartRules();
+        healthRules ??= new AnimalHealthRules();
+        healthProgress ??= new AnimalHealthProgress();
+        if (health == AnimalHealthState.Sick && healthProgress.Healthy) healthProgress.stage = AnimalIllnessStage.Mild;
+        SyncHealth();
         if (string.IsNullOrWhiteSpace(animalId))
         {
             animalId = $"{gameObject.scene.name}-{gameObject.name}-" +
@@ -149,6 +210,14 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     void OnEnable()
     {
+        if (Registry.Exists(animal => animal != null && animal != this && animal.animalId == animalId))
+        {
+            string baseId = FormattableString.Invariant($"{gameObject.scene.name}/{gameObject.name}/{transform.position.x:R}/{transform.position.z:R}");
+            animalId = baseId;
+            int suffix = 1;
+            while (Registry.Exists(animal => animal != null && animal != this && animal.animalId == animalId))
+                animalId = baseId + "/" + suffix++;
+        }
         if (!Registry.Contains(this)) Registry.Add(this);
         TimeManager.OnBeforeDayChange += HandleDailyReset;
     }
@@ -161,10 +230,13 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     void HandleDailyReset()
     {
+        GetComponent<AnimalRoutine>()?.PrepareDailyCare();
         int currentDay = TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
+        if (heart.lastDailyDay >= currentDay) return;
 
         if (!hasBeenBorn)
         {
+            heart.lastDailyDay = currentDay;
             prenatalDays++;
             int requiredDays = growthProfile != null ? growthProfile.incubationOrPregnancyDays : 7;
             if (prenatalDays >= requiredDays)
@@ -179,32 +251,60 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         }
 
         ageDays++;
-        ApplyExtremeWeatherRisk(currentDay);
+        bool healthyDuringDay = healthProgress.Healthy;
+        RecordHealthExposure();
+        healthProgress.EndDay(healthRules, currentDay, fedToday, sheltered, healthRules.stormSicknessChance,
+            healthRules.nightSicknessChance,
+            new System.Random(unchecked(StableHash(animalId) * 397 ^ currentDay)).NextDouble());
+        SyncHealth();
+        ApplyConditionVisual(false);
+        bool rain = WeatherSystem.Instance != null && WeatherSystem.Instance.IsRainToday;
+        bool storm = WeatherSystem.Instance != null && WeatherSystem.Instance.IsStormToday;
+        // Hewan yang sedang diobati tidak lagi dianggap sakit tanpa penanganan.
+        heart.EndDay(heartRules, currentDay, fedToday, pettedToday, healthProgress.Healthy || healthProgress.stage == AnimalIllnessStage.Recovering, !sheltered, rain, storm);
 
         // Growth hanya maju jika kebutuhan hari yang baru selesai semuanya terpenuhi.
-        if (!IsAdult && fedToday && sheltered && health == AnimalHealthState.Healthy)
+        if (!IsAdult && fedToday && (sheltered || CanGrazeToday) && healthyDuringDay && health == AnimalHealthState.Healthy)
             growthDays = Mathf.Min(AdultGrowthDays, growthDays + 1);
 
         happiness = Mathf.Clamp(
-            happiness + (fedToday ? 1f : -5f) + (pettedToday ? 2f : 0f) + (sheltered ? 0f : -3f),
+            happiness + (fedToday ? 1f : -5f) + (pettedToday ? 2f : 0f) + (!sheltered && (rain || storm) ? -8f : 0f) +
+            (healthProgress.stage == AnimalIllnessStage.Severe ? -6f : healthProgress.stage == AnimalIllnessStage.Mild ? -3f : healthProgress.stage == AnimalIllnessStage.Recovering ? -1f : 0f),
             0f,
             100f
         );
         fullness = Mathf.Max(0f, fullness - dailyFullnessLoss);
+        GetComponent<AnimalController>().RestoreProduction(fullness);
         fedToday = false;
         pettedToday = false;
         ApplyGrowthVisual(false);
     }
 
-    void ApplyExtremeWeatherRisk(int currentDay)
+    void Update()
     {
-        if (sheltered || WeatherSystem.Instance == null || !WeatherSystem.Instance.IsStormToday)
-            return;
-
-        System.Random random = new(unchecked(StableHash(animalId) * 397 ^ currentDay));
-        if (random.NextDouble() < extremeWeatherSicknessChance)
-            health = AnimalHealthState.Sick;
+        if (Time.timeScale <= 0 || (TimeManager.Instance != null && TimeManager.Instance.IsPaused)) return;
+        RecordHealthExposure();
     }
+
+    void RecordHealthExposure()
+    {
+        if (!hasBeenBorn || sheltered || WeatherSystem.Instance == null) return;
+        WeatherType weather = WeatherSystem.Instance.CurrentWeather;
+        float risk = weather switch
+        {
+            WeatherType.Drizzle => healthRules.drizzleSicknessChance,
+            WeatherType.Rain => 0f, // Rain memakai streak Rainy Days agar satu paparan tidak langsung sakit.
+            WeatherType.HeavyRain => healthRules.heavyRainSicknessChance,
+            WeatherType.WindRainStorm or WeatherType.Thunderstorm => healthRules.stormSicknessChance,
+            WeatherType.Heatwave or WeatherType.Cyclone or WeatherType.Blizzard => healthRules.extremeWeatherSicknessChance,
+            _ => 0f
+        };
+        healthProgress.ExposeWeather(WeatherSystem.Instance.IsRainToday, WeatherSystem.Instance.IsStormToday, risk);
+        if (TimeManager.Instance != null && TimeManager.Instance.hour >= Mathf.Clamp(healthRules.nightRiskStartsAtHour, 0, 23))
+            healthProgress.ExposeNight();
+    }
+
+    void SyncHealth() => health = healthProgress.Healthy ? AnimalHealthState.Healthy : AnimalHealthState.Sick;
 
     static int StableHash(string value)
     {
@@ -219,26 +319,30 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     public void RegisterFeeding(float fullnessAmount)
     {
+        if (!hasBeenBorn || fullnessAmount <= 0) return;
         fullness = Mathf.Clamp(fullness + Mathf.Max(0f, fullnessAmount), 0f, 100f);
         fedToday = true;
-        happiness = Mathf.Min(100f, happiness + 2f);
+        if (heart.RewardOnce(ref heart.lastFeedDay, CurrentDay, heartRules.feedingPoints))
+            happiness = Mathf.Min(100f, happiness + 2f);
     }
 
     public void Pet()
     {
-        if (pettedToday) return;
+        if (!hasBeenBorn || pettedToday || !heart.RewardOnce(ref heart.lastPetDay, CurrentDay, heartRules.petPoints)) return;
         pettedToday = true;
         happiness = Mathf.Min(100f, happiness + 3f);
-        friendship = Mathf.Min(100f, friendship + 1f);
-        SaveLoadFeedback.Instance?.ShowMessage($"{Type} senang dielus. Friendship {Mathf.RoundToInt(friendship)}/100");
+        SaveLoadFeedback.Instance?.ShowMessage($"{AnimalName} senang dielus. Heart {HeartLevel}/10");
     }
 
     public void SetSheltered(bool value) => sheltered = value;
 
     public void TreatWithMedicine()
     {
-        health = AnimalHealthState.Healthy;
-        SaveLoadFeedback.Instance?.ShowMessage($"{Type} sudah sehat kembali");
+        if (!CanReceiveMedicine || !healthProgress.Treat(healthRules, CurrentDay)) return;
+        heart.RewardOnce(ref heart.lastMedicineDay, CurrentDay, heartRules.medicinePoints);
+        SyncHealth();
+        ApplyConditionVisual(false);
+        SaveLoadFeedback.Instance?.ShowMessage($"{AnimalName} mulai pemulihan. Beri pakan dan istirahatkan di kandang.");
     }
 
     public void MarkProductCollected()
@@ -247,7 +351,36 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         lastProductionDay = TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
     }
 
-    public void SetProductReady(bool value) => productReady = value;
+    public void SetProductReady(bool value)
+    {
+        if (value && !productReady)
+        {
+            if (!IsProductionEligible) return;
+            productQuality = heart.RollQuality(happiness, new System.Random(unchecked(StableHash(animalId) * 397 ^ CurrentDay)).NextDouble());
+        }
+        productReady = value;
+    }
+
+    int CurrentDay => TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
+    public bool CanGrazeToday => WeatherSystem.Instance == null ||
+        WeatherSystem.Instance.CurrentWeather is WeatherType.Sunny or WeatherType.PartlyCloudy;
+    public bool CanReceiveTreat => hasBeenBorn && heart.lastTreatDay != CurrentDay;
+    public bool GiveFavoriteTreat()
+    {
+        if (!CanReceiveTreat) return false;
+        heart.RewardOnce(ref heart.lastTreatDay, CurrentDay, heartRules.favoriteTreatPoints);
+        happiness = Mathf.Min(100f, happiness + 5f);
+        return true;
+    }
+
+    /// <summary>Hook grazing setelah makan rumput; tidak memberi reward hanya karena keluar kandang.</summary>
+    public bool RegisterGrazing()
+    {
+        if (!hasBeenBorn || sheltered || !CanGrazeToday || health != AnimalHealthState.Healthy || heart.grazingDay == CurrentDay) return false;
+        heart.grazingDay = CurrentDay;
+        RegisterFeeding(35f);
+        return true;
+    }
 
     public void InitializePurchasedYoung(int currentDay)
     {
@@ -257,6 +390,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         growthDays = Mathf.Max(0, AdultGrowthDays - PurchasedYoungGrowthDays());
         ageDays = growthDays;
         ApplyGrowthVisual(true);
+        ApplyConditionVisual(true);
     }
 
     public void ConfigureShopPurchase(
@@ -266,6 +400,12 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         int currentDay)
     {
         animalId = Guid.NewGuid().ToString("N");
+        heart = new AnimalHeartState();
+        animalName = string.Empty;
+        fedToday = pettedToday = false;
+        healthProgress = new AnimalHealthProgress();
+        health = AnimalHealthState.Healthy;
+        happiness = fullness = 50f;
         animalType = purchasedType;
         growthProfile = profile;
         runtimePurchased = true;
@@ -288,6 +428,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         }
 
         ApplyGrowthVisual(true);
+        ApplyConditionVisual(true);
     }
 
     public void PrepareRestoreProfile(AnimalType savedType, AnimalGrowthProfileSO profile)
@@ -298,6 +439,13 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     public void InitializeBreeding(int currentDay, string trait = "")
     {
+        animalId = Guid.NewGuid().ToString("N");
+        heart = new AnimalHeartState();
+        fedToday = pettedToday = false;
+        productReady = false;
+        healthProgress = new AnimalHealthProgress();
+        health = AnimalHealthState.Healthy;
+        happiness = fullness = 50f;
         birthSource = AnimalGrowthProfileSO.IsBird(Type)
             ? AnimalBirthSource.HatchedOnFarm
             : AnimalBirthSource.BornOnFarm;
@@ -355,12 +503,72 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         return null;
     }
 
+    AnimalConditionVisualSlot FindConditionSlot(AnimalIllnessStage condition)
+    {
+        AnimalConditionVisualSlot slot = growthProfile != null ? growthProfile.GetConditionSlot(condition) : null;
+        if (slot != null) return slot;
+        if (conditionVisualOverrides == null) return null;
+        for (int i = 0; i < conditionVisualOverrides.Count; i++)
+            if (conditionVisualOverrides[i] != null && conditionVisualOverrides[i].condition == condition)
+                return conditionVisualOverrides[i];
+        return null;
+    }
+
+    void ApplyConditionVisual(bool force)
+    {
+        AnimalIllnessStage condition = healthProgress?.stage ?? AnimalIllnessStage.Healthy;
+        if (!force && condition == appliedCondition) return;
+        appliedCondition = condition;
+
+        if (conditionAnimator != null) conditionAnimator.runtimeAnimatorController = originalConditionAnimator;
+        conditionAnimator = null;
+        originalConditionAnimator = null;
+        if (spawnedConditionModel != null) Destroy(spawnedConditionModel);
+        spawnedConditionModel = null;
+        if (spawnedStageModel != null) spawnedStageModel.SetActive(true);
+        if (condition == AnimalIllnessStage.Healthy) return;
+
+        AnimalConditionVisualSlot slot = FindConditionSlot(condition);
+        if (slot == null) return;
+        if (slot.modelPrefab != null)
+        {
+            try { spawnedConditionModel = Instantiate(slot.modelPrefab, visualAnchor); }
+            catch (InvalidCastException exception)
+            {
+                Debug.LogWarning($"[ANIMAL] Model kondisi {Type}/{condition} tidak valid; visual growth dipertahankan. {exception.Message}");
+            }
+            if (spawnedConditionModel != null)
+            {
+                spawnedConditionModel.name = $"Condition_{Type}_{condition}";
+                spawnedConditionModel.transform.SetLocalPositionAndRotation(slot.localOffset, Quaternion.Euler(slot.localEulerAngles));
+                spawnedConditionModel.transform.localScale = slot.scale;
+                foreach (Collider generated in spawnedConditionModel.GetComponentsInChildren<Collider>(true)) Destroy(generated);
+                if (spawnedStageModel != null) spawnedStageModel.SetActive(false);
+                conditionAnimator = spawnedConditionModel.GetComponentInChildren<Animator>();
+            }
+        }
+        else if (spawnedStageModel != null)
+        {
+            conditionAnimator = spawnedStageModel.GetComponentInChildren<Animator>();
+        }
+        if (conditionAnimator != null && slot.animatorController != null)
+        {
+            originalConditionAnimator = conditionAnimator.runtimeAnimatorController;
+            conditionAnimator.runtimeAnimatorController = slot.animatorController;
+        }
+    }
+
     void ApplyGrowthVisual(bool force)
     {
         AnimalGrowthStage stage = GrowthStage;
         if (!force && stage == appliedStage) return;
         appliedStage = stage;
 
+        // Model kondisi bergantung pada model growth aktif, jadi bangun ulang sesudah stage berubah.
+        if (spawnedConditionModel != null) Destroy(spawnedConditionModel);
+        spawnedConditionModel = null;
+        conditionAnimator = null;
+        originalConditionAnimator = null;
         if (spawnedStageModel != null) Destroy(spawnedStageModel);
         spawnedStageModel = null;
         visualAnchor.localScale = originalVisualScale;
@@ -391,10 +599,12 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
             Animator animator = spawnedStageModel.GetComponentInChildren<Animator>();
             if (animator != null && slot.animatorController != null)
                 animator.runtimeAnimatorController = slot.animatorController;
+            ApplyConditionVisual(true);
             return;
         }
 
         SpawnPrimitiveDummy(stage, slot != null ? slot.scale : GetDefaultScale(stage));
+        ApplyConditionVisual(true);
     }
 
     void SpawnPrimitiveDummy(AnimalGrowthStage stage, Vector3 growthScale)
@@ -496,6 +706,12 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     public AnimalSaveData Capture() => new()
     {
         animalId = animalId,
+        animalName = animalName,
+        heart = heart?.Copy(),
+        productQuality = productQuality,
+        homeId = GetComponent<AnimalRoutine>()?.HomeId,
+        housed = GetComponent<AnimalRoutine>()?.IsHoused ?? false,
+        returningHome = GetComponent<AnimalRoutine>()?.Returning ?? false,
         animalType = Type,
         birthSource = birthSource,
         birthDay = birthDay,
@@ -504,9 +720,10 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         prenatalDays = prenatalDays,
         hasBeenBorn = hasBeenBorn,
         health = health,
+        healthProgress = healthProgress.Copy(),
         fullness = fullness,
         happiness = happiness,
-        friendship = friendship,
+        friendship = Friendship,
         fedToday = fedToday,
         pettedToday = pettedToday,
         sheltered = sheltered,
@@ -523,6 +740,10 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     {
         if (data == null) return;
         animalId = data.animalId;
+        animalName = data.animalName;
+        heart = data.heart?.Copy() ?? new AnimalHeartState { points = Mathf.Clamp(Mathf.RoundToInt(data.friendship * 10f), 0, 1000) };
+        heart.Add(0);
+        productQuality = Mathf.Clamp(data.productQuality, 1, 5);
         animalType = data.animalType;
         birthSource = data.birthSource;
         birthDay = data.birthDay;
@@ -530,7 +751,9 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         growthDays = Mathf.Clamp(data.growthDays, 0, AdultGrowthDays);
         prenatalDays = Mathf.Max(0, data.prenatalDays);
         hasBeenBorn = data.hasBeenBorn;
-        health = data.health;
+        healthProgress = data.healthProgress?.Copy() ?? new AnimalHealthProgress
+        { stage = data.health == AnimalHealthState.Sick ? AnimalIllnessStage.Mild : AnimalIllnessStage.Healthy };
+        SyncHealth();
         fullness = Mathf.Clamp(data.fullness, 0f, 100f);
         happiness = Mathf.Clamp(data.happiness, 0f, 100f);
         friendship = Mathf.Clamp(data.friendship, 0f, 100f);
@@ -542,7 +765,11 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         inheritedTrait = data.inheritedTrait;
         runtimePurchased = data.runtimePurchased;
         transform.position = new Vector3(data.x, data.y, data.z);
+        GetComponent<AnimalController>().RestoreProduction(fullness);
         ApplyGrowthVisual(true);
+        AnimalRoutine routine = GetComponent<AnimalRoutine>();
+        if (routine == null) routine = gameObject.AddComponent<AnimalRoutine>();
+        routine.RestoreHome(data.homeId, data.housed, data.returningHome);
     }
 
     public static List<AnimalSaveData> CaptureAll()
@@ -591,7 +818,6 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         fullness = Mathf.Clamp(fullness, 0f, 100f);
         happiness = Mathf.Clamp(happiness, 0f, 100f);
         friendship = Mathf.Clamp(friendship, 0f, 100f);
-        extremeWeatherSicknessChance = Mathf.Clamp01(extremeWeatherSicknessChance);
         ClampMinimumScale(ref mammalDummyShapeScale);
         ClampMinimumScale(ref birdDummyShapeScale);
         ClampMinimumScale(ref eggDummyShapeScale);

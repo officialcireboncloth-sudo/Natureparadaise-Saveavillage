@@ -18,10 +18,10 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     [SerializeField] KeyCode dropCarriedKey = KeyCode.Q;
 
     [Header("Stamina")]
-    [SerializeField, Min(0f)] float pullCost = 1f;
-    [SerializeField, Min(0f)] float sickleCost = 2f;
-    [SerializeField, Min(0f)] float hammerCost = 3f;
-    [SerializeField, Min(0f)] float axeCost = 3f;
+    [SerializeField, Min(0f)] float pullCost = 0.05f;
+    [SerializeField, Min(0f)] float sickleCost = 0.1f;
+    [SerializeField, Min(0f)] float hammerCost = 0.1f;
+    [SerializeField, Min(0f)] float axeCost = 0.1f;
 
     [Header("Tool Levels")]
     [SerializeField, Min(1)] int sickleLevel = 1;
@@ -137,9 +137,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             Vector3 delta = candidate.transform.position - transform.position;
             delta.y = 0f;
             float distance = delta.magnitude;
-            if (distance > interactionRange || distance < 0.01f) continue;
+            if (!PlayerInteractionTarget.Contains(transform, candidate.transform) || distance < 0.01f) continue;
             float dot = Vector3.Dot(facing, delta / distance);
-            if (dot < minimumFacingDot) continue;
             float score = distance - dot * 0.5f;
             if (score >= bestScore) continue;
             bestScore = score;
@@ -163,9 +162,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             Vector3 delta = candidate.transform.position - transform.position;
             delta.y = 0f;
             float distance = delta.magnitude;
-            if (distance > interactionRange || distance < 0.01f) continue;
+            if (!PlayerInteractionTarget.Contains(transform, candidate.transform) || distance < 0.01f) continue;
             float dot = Vector3.Dot(facing, delta / distance);
-            if (dot < minimumFacingDot) continue;
             float score = distance - dot * 0.5f;
             if (score < bestTreeScore) { bestTreeScore = score; bestTree = candidate; }
         }

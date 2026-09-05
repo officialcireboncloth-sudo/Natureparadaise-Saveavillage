@@ -18,7 +18,7 @@ public class SeedTool : MonoBehaviour
 
     [Header("Player Stamina")]
     public PlayerStatusSystem playerStatus;
-    [Min(0f)] public float plantingCost = 1f;
+    [Min(0f)] public float plantingCost = 0.05f;
 
     [Header("Legacy Fallback")]
     [Tooltip("Dipertahankan untuk scene lama. Seed baru harus mengisi Seed Crop pada ItemSO.")]
@@ -29,6 +29,20 @@ public class SeedTool : MonoBehaviour
     InventoryHotbarUI inventoryHotbar;
     FarmingTool farmingTool;
     PlayerController movement;
+
+    CropDataSO ResolveCrop(ItemSO seed) => seed != null
+        ? seed.seedCrop != null ? seed.seedCrop : seed == seedItem ? cropDefinition : null
+        : null;
+
+    /// <summary>Outline memakai bibit, stamina, dan aturan tile yang sama dengan aksi tanam.</summary>
+    public bool CanPlantAt(FieldArea field, int x, int z)
+    {
+        if (inventoryHotbar == null) inventoryHotbar = GetComponent<InventoryHotbarUI>();
+        ItemSO seed = inventoryHotbar != null ? inventoryHotbar.SelectedItem : null;
+        return seed != null && seed.IsSeed && playerInv != null && playerInv.GetCount(seed) > 0 &&
+            (playerStatus == null || playerStatus.CanSpendStamina(plantingCost)) &&
+            field != null && field.CanPlant(x, z, ResolveCrop(seed));
+    }
 
     void Awake()
     {
@@ -65,9 +79,7 @@ public class SeedTool : MonoBehaviour
             return;
         }
 
-        CropDataSO selectedCrop = selectedSeed.seedCrop;
-        if (selectedCrop == null && selectedSeed == seedItem)
-            selectedCrop = cropDefinition;
+        CropDataSO selectedCrop = ResolveCrop(selectedSeed);
         if (selectedCrop == null)
         {
             ShowPlantFeedback($"GAGAL MENANAM: Seed Crop untuk {selectedSeed.itemName} belum dipasang.");
@@ -158,8 +170,9 @@ public class SeedTool : MonoBehaviour
 
     bool TryGetTarget(out FieldArea field, out int x, out int z)
     {
-        if (farmingTool != null && farmingTool.TryGetCurrentTile(out field, out x, out z))
-            return true;
+        // Saat target directional tersedia, jangan diam-diam beralih ke tile di bawah mouse.
+        if (farmingTool != null)
+            return farmingTool.TryGetCurrentTile(out field, out x, out z);
 
         field = null;
         x = -1;

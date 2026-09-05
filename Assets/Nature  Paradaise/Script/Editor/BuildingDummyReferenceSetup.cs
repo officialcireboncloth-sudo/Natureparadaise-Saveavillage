@@ -8,8 +8,8 @@ using UnityEngine;
 /// </summary>
 public static class BuildingDummyReferenceSetup
 {
-    const string BarnDefinitionPath = "Assets/Nature  Paradaise/Resource/Barn Building.asset";
-    const string HouseDefinitionPath = "Assets/Nature  Paradaise/Resource/Player House Building.asset";
+    const string BarnDefinitionPath = "Assets/Nature  Paradaise/Resources/Buildings/Barn Building.asset";
+    const string HouseDefinitionPath = "Assets/Nature  Paradaise/Resources/Buildings/Player House Building.asset";
     const string BarnModelPath = "Assets/Nature  Paradaise/mesh/Dummy/BarnDummy.fbx";
     const string HouseModelPath = "Assets/Nature  Paradaise/mesh/Dummy/HouseDummy.fbx";
 

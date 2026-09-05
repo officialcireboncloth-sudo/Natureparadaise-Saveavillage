@@ -41,7 +41,7 @@ public sealed class WeatherForecastTV : MonoBehaviour
             if (player == null) return;
         }
 
-        bool inRange = (player.transform.position - transform.position).sqrMagnitude <= interactionRadius * interactionRadius;
+        bool inRange = isOpen || PlayerInteractionTarget.Contains(player.transform, transform);
         if (!inRange)
         {
             if (isOpen) CloseTV();
@@ -51,7 +51,7 @@ public sealed class WeatherForecastTV : MonoBehaviour
         if (!isOpen)
             WorldInteractionPrompt.Request(this, transform, "Tekan E untuk menonton TV", Vector3.Distance(player.transform.position, transform.position), promptHeight);
 
-        if (!isOpen && Input.GetKeyDown(interactKey))
+        if (!isOpen && PlayerInteractionTarget.Press(player.transform, transform, interactKey))
             OpenTV();
         else if (isOpen && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey)))
             CloseTV();

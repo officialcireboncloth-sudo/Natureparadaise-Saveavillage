@@ -8,6 +8,29 @@ public enum AnimalGrowthStage { Egg, Pregnancy, Hatchling, Newborn, Baby, Young,
 public enum AnimalHealthState { Healthy, Sick }
 public enum AnimalShopOfferKind { Egg, Young }
 
+/// <summary>Harga jual hewan hidup; terpisah dari harga beli toko dan harga produknya.</summary>
+[Serializable]
+public sealed class AnimalSalePriceSettings
+{
+    [Min(0), Tooltip("Harga jual pada 0 Heart, dalam Gold.")]
+    public int baseSellPrice = 1000;
+    [Min(0f), Tooltip("Bonus per Heart penuh. 0.1 = +10% dari harga dasar; 0 menonaktifkan bonus.")]
+    public float bonusPerHeart = 0.1f;
+
+    public float Multiplier(int heartLevel)
+    {
+        float bonus = float.IsNaN(bonusPerHeart) || float.IsInfinity(bonusPerHeart) ? 0f : Math.Max(0f, bonusPerHeart);
+        return 1f + Math.Max(0, Math.Min(10, heartLevel)) * bonus;
+    }
+
+    public int Calculate(int heartLevel)
+    {
+        if (baseSellPrice <= 0) return 0;
+        double price = baseSellPrice * (double)Multiplier(heartLevel);
+        return (int)Math.Min(int.MaxValue, Math.Round(price, MidpointRounding.AwayFromZero));
+    }
+}
+
 [Serializable]
 public sealed class AnimalShopOffer
 {
@@ -39,6 +62,19 @@ public sealed class AnimalGrowthStageSlot
     public AudioClip voiceClip;
 }
 
+[Serializable]
+public sealed class AnimalConditionVisualSlot
+{
+    public AnimalIllnessStage condition = AnimalIllnessStage.Mild;
+    [Tooltip("Model pengganti opsional. Kosong = model growth tetap dipakai.")]
+    public GameObject modelPrefab;
+    public Vector3 scale = Vector3.one;
+    public Vector3 localOffset;
+    public Vector3 localEulerAngles;
+    [Tooltip("Bisa dipakai tanpa Model Prefab untuk mengganti controller Animator pada model growth.")]
+    public RuntimeAnimatorController animatorController;
+}
+
 /// <summary>
 /// Profile modular satu spesies untuk durasi growth/production dan model setiap stage.
 /// </summary>
@@ -46,12 +82,17 @@ public sealed class AnimalGrowthStageSlot
 public sealed class AnimalGrowthProfileSO : ScriptableObject
 {
     public AnimalType animalType = AnimalType.Cow;
+    [Header("Animal Sale Price")]
+    public AnimalSalePriceSettings salePrice = new();
     [Min(0)] public int incubationOrPregnancyDays = 7;
     [Min(1)] public int bornToAdultDays = 56;
     [Min(1)] public int purchasedYoungToAdultDays = 28;
     public ItemSO productItem;
     [Min(1)] public int productionIntervalDays = 1;
     public List<AnimalGrowthStageSlot> stageSlots = new();
+    [Header("Condition Visual Slots (Optional)")]
+    [Tooltip("Slot Mild/Severe/Recovering. Kosong tidak membuat dummy dan mempertahankan visual growth.")]
+    public List<AnimalConditionVisualSlot> conditionVisualSlots = new();
 
     public AnimalGrowthStageSlot GetStageSlot(AnimalGrowthStage stage)
     {
@@ -59,6 +100,15 @@ public sealed class AnimalGrowthProfileSO : ScriptableObject
         for (int i = 0; i < stageSlots.Count; i++)
             if (stageSlots[i] != null && stageSlots[i].stage == stage)
                 return stageSlots[i];
+        return null;
+    }
+
+    public AnimalConditionVisualSlot GetConditionSlot(AnimalIllnessStage condition)
+    {
+        if (conditionVisualSlots == null) return null;
+        for (int i = 0; i < conditionVisualSlots.Count; i++)
+            if (conditionVisualSlots[i] != null && conditionVisualSlots[i].condition == condition)
+                return conditionVisualSlots[i];
         return null;
     }
 

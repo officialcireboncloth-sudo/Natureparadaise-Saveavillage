@@ -95,7 +95,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             view.Icon.enabled = hasItem && stack.item.icon != null;
             view.Icon.sprite = hasItem ? stack.item.icon : null;
             view.Label.text = hasItem
-                ? $"{i + 1}  {stack.item.itemName}\nx{stack.count}"
+                ? $"{i + 1}  {stack.DisplayName}\nx{stack.count}"
                 : $"{i + 1}\nEMPTY";
         }
         EquipSelectedItem();

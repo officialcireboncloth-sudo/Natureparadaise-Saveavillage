@@ -36,7 +36,7 @@ public sealed class PlayerBed : MonoBehaviour
         if (playerCandidate != null)
         {
             float radiusSquared = interactionRadius * interactionRadius;
-            bool isInRange = (playerCandidate.transform.position - transform.position).sqrMagnitude <= radiusSquared;
+            bool isInRange = PlayerInteractionTarget.Contains(playerCandidate.transform, transform);
 
             if (isInRange)
             {
@@ -50,7 +50,7 @@ public sealed class PlayerBed : MonoBehaviour
             }
         }
 
-        if (nearbyPlayer != null && Input.GetKeyDown(interactKey))
+        if (nearbyPlayer != null && PlayerInteractionTarget.Press(nearbyPlayer.transform, transform, interactKey))
             Sleep();
     }
 
@@ -74,7 +74,7 @@ public sealed class PlayerBed : MonoBehaviour
     // Method public ini bisa langsung dipasang ke Button mobile.
     public void Sleep()
     {
-        if (nearbyPlayer == null || nearbyPlayer.IsBusy)
+        if (nearbyPlayer == null || nearbyPlayer.IsBusy || !PlayerInteractionTarget.Contains(nearbyPlayer.transform, transform))
             return;
 
         nearbyPlayer.SleepAndSave();

@@ -230,6 +230,7 @@ public sealed class FieldArea : MonoBehaviour
         }
         SetActive(index, true);
         ShowHoeView(index, x, z);
+        if (FarmPlacement.Covered(this, x, z)) WaterBySprinkler(x, z);
         NotifyChanged(x, z);
         return true;
     }
@@ -237,15 +238,33 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Memeriksa batas grid, occupancy, crop, dan aturan tile sebelum hoe.</summary>
     public bool CanHoe(int x, int z)
     {
-        return TryGetIndex(x, z, out int index) && tiles[index].state == TileState.Empty;
+        return !FarmPlacement.Occupied(this, x, z) && TryGetIndex(x, z, out int index) && tiles[index].state == TileState.Empty;
+    }
+
+    public bool CanPlaceFarmItem(int x, int z) => allowCrops &&
+        !FarmPlacement.Occupied(this, x, z) && TryGetIndex(x, z, out int index) &&
+        (tiles[index].state == TileState.Empty || tiles[index].state == TileState.Hoed);
+
+    public void WaterBySprinkler(int x, int z)
+    {
+        if (!IsEditableSoilTile(x, z, out int index) || tiles[index].waterSourcesToday != CropWaterSource.None) return;
+        MarkWateredAtIndex(index, CropWaterSource.Sprinkler, 35);
+        NotifyChanged(x, z);
+    }
+
+    /// <summary>Validasi bersama untuk preview bibit dan transaksi penanaman.</summary>
+    public bool CanPlant(int x, int z, CropDataSO crop)
+    {
+        return allowCrops && crop != null && !FarmPlacement.Occupied(this, x, z) &&
+            TryGetIndex(x, z, out int index) && tiles[index].state == TileState.Hoed &&
+            tiles[index].soilDurability > 0;
     }
 
     /// <summary>Menanam crop pada tile hoed yang kosong.</summary>
     public bool TryPlant(int x, int z, CropDataSO crop = null)
     {
         crop = crop != null ? crop : defaultCrop;
-        if (!allowCrops || crop == null || !TryGetIndex(x, z, out int index) ||
-            tiles[index].state != TileState.Hoed || tiles[index].soilDurability <= 0)
+        if (!CanPlant(x, z, crop) || !TryGetIndex(x, z, out int index))
         {
             return false;
         }
@@ -260,6 +279,7 @@ public sealed class FieldArea : MonoBehaviour
         tile.consecutiveDryDays = 0;
         tile.recoveryWateredDays = 0;
         tile.growthBoosterPercent = 0;
+        tile.qualityCare = new CropQualityCare();
         tile.regrowDaysRemaining = 0f;
         tile.soilRestDays = 0;
         tile.careSamples = 0;
@@ -279,6 +299,7 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Menambah moisture satu tile; nilai negatif memakai default SoilProfile.</summary>
     public bool TryWater(int x, int z, int amount = -1)
     {
+        if (WorldTree.WaterAt(GridToWorld(x, z), cellSize * 0.45f)) return true;
         if (!IsEditableSoilTile(x, z, out int index))
             return false;
 
@@ -288,30 +309,22 @@ public sealed class FieldArea : MonoBehaviour
         return true;
     }
 
-    /// <summary>Menaikkan level durability dan memulihkan nutrisi pada tanah cangkul kosong.</summary>
-    public bool TryFertilize(int x, int z, int fertilizerLevel = 1)
+    /// <summary>Memulihkan durability tanah tanpa menggantikan air atau booster kualitas.</summary>
+    public bool TryFertilize(int x, int z, int fertilizerLevel = 1, int restoreAmount = 0)
     {
         if (!IsEditableSoilTile(x, z, out int index))
             return false;
 
         FieldTileData tile = tiles[index];
-        if (tile.state != TileState.Hoed)
+        if (tile.state != TileState.Hoed && !tile.HasCrop)
             return false;
         int maximum = soilProfile != null ? soilProfile.MaximumDurability : 80;
-        int currentLevel = GetSoilLevel(tile.soilDurability);
-        int targetLevel = fertilizerLevel >= 4 ? 5 : Mathf.Min(5, currentLevel + Mathf.Clamp(fertilizerLevel, 1, 3));
-        int targetDurability = fertilizerLevel >= 4
-            ? maximum
-            : GetMinimumDurabilityForLevel(targetLevel);
-        targetDurability = Mathf.Clamp(targetDurability, 0, maximum);
-        if (targetDurability <= tile.soilDurability)
-            return false;
-
-        tile.soilDurability = (byte)targetDurability;
+        int restore = restoreAmount > 0 ? restoreAmount : fertilizerLevel switch
+        { 1 => 10, 2 => 20, 3 => 35, 4 => 50, 5 => 80, _ => 0 };
+        if (restore <= 0 || tile.soilDurability >= maximum) return false;
+        tile.soilDurability = (byte)Mathf.Min(maximum, tile.soilDurability + restore);
         tile.soilQuality = DurabilityToQuality(tile.soilDurability, maximum);
         tile.fertilizedForCurrentCycle = true;
-        int nutrientRecovery = soilProfile != null ? soilProfile.fertilizerAmount : 25;
-        tile.fertility = AddClamped(tile.fertility, nutrientRecovery);
         tile.dirty = true;
         tiles[index] = tile;
         NotifyChanged(x, z);
@@ -322,32 +335,39 @@ public sealed class FieldArea : MonoBehaviour
     {
         if (!IsEditableSoilTile(x, z, out int index))
             return false;
-        if (tiles[index].state != TileState.Hoed)
+        if (tiles[index].state != TileState.Hoed && !tiles[index].HasCrop)
             return false;
         int maximum = soilProfile != null ? soilProfile.MaximumDurability : 80;
         return tiles[index].soilDurability < maximum;
     }
 
-    /// <summary>Menerapkan booster persentase pada crop aktif tanpa mengubah soil condition.</summary>
-    public bool TryApplyCropBooster(int x, int z, int percent)
+    /// <summary>Menerapkan satu booster kualitas per hari pada tanaman yang masih tumbuh.</summary>
+    public bool TryApplyCropBooster(int x, int z, int level)
     {
-        if (!TryGetIndex(x, z, out int index) || !tiles[index].HasCrop || percent <= 0)
+        if (!TryGetIndex(x, z, out int index) || !tiles[index].HasCrop || level < 1 || level > 5)
             return false;
-
         FieldTileData tile = tiles[index];
-        byte nextPercent = (byte)Mathf.Clamp(
-            Mathf.Max(tile.growthBoosterPercent, percent),
-            0,
-            tile.crop.maximumBoosterPercent
-        );
-        if (nextPercent <= tile.growthBoosterPercent)
+        if (tile.cropState == CropLifecycleState.Dead || tile.cropState == CropLifecycleState.HarvestReady)
             return false;
-
-        tile.growthBoosterPercent = nextPercent;
+        tile.qualityCare ??= new CropQualityCare();
+        if (tile.qualityCare.boosterToday > 0) return false;
+        tile.qualityCare.boosterToday = level;
         tile.dirty = true;
         tiles[index] = tile;
         NotifyChanged(x, z);
         return true;
+    }
+
+    /// <summary>Hook sistem hama: riwayat kerusakan tidak hilang setelah pest disembuhkan.</summary>
+    public void ReportCropPest(int x, int z)
+    {
+        if (!TryGetIndex(x, z, out int index) || !tiles[index].HasCrop) return;
+        FieldTileData tile = tiles[index];
+        tile.qualityCare ??= new CropQualityCare();
+        tile.qualityCare.pestDamage = true;
+        tile.dirty = true;
+        tiles[index] = tile;
+        NotifyChanged(x, z);
     }
 
     /// <summary>API sprinkler: menyiram seluruh tile dalam radius dunia dan menandai sumber air.</summary>
@@ -438,10 +458,12 @@ public sealed class FieldArea : MonoBehaviour
         if (!tile.HasCrop || tile.cropState != CropLifecycleState.HarvestReady)
             return false;
 
+        tile.qualityCare ??= new CropQualityCare();
+        tiles[index] = tile;
         grade = CalculateGrade(tile);
         int amount = Mathf.Max(1, tile.crop.baseYield);
         ItemSO item = tile.crop.produceItem;
-        if (item == null || !inventory.Add(item, amount))
+        if (item == null || !inventory.Add(item, amount, (int)grade + 1))
             return false;
 
         CropHarvestResult result = new CropHarvestResult(
@@ -457,6 +479,7 @@ public sealed class FieldArea : MonoBehaviour
         // Panen tidak memberi penalti tambahan agar masa pakai tetap tepat 80 hari.
         if (harvestedCrop.regrowsAfterHarvest)
         {
+            tile.qualityCare = new CropQualityCare();
             tile.cropState = CropLifecycleState.Regrowing;
             tile.regrowDaysRemaining = Mathf.Max(1, harvestedCrop.regrowDays);
             tile.growthStage = (byte)harvestedCrop.GetRegrowStage();
@@ -477,6 +500,7 @@ public sealed class FieldArea : MonoBehaviour
             tile.consecutiveDryDays = 0;
             tile.recoveryWateredDays = 0;
             tile.growthBoosterPercent = 0;
+        tile.qualityCare = new CropQualityCare();
             tile.regrowDaysRemaining = 0f;
             tile.careSamples = 0;
             tile.totalMoisture = 0;
@@ -505,7 +529,7 @@ public sealed class FieldArea : MonoBehaviour
         {
             for (int z = startZ; z < startZ + depth; z++)
             {
-                if (!TryGetIndex(x, z, out int index) || tiles[index].state != TileState.Empty)
+                if (FarmPlacement.Occupied(this, x, z) || !TryGetIndex(x, z, out int index) || tiles[index].state != TileState.Empty)
                     return false;
             }
         }
@@ -708,6 +732,7 @@ public sealed class FieldArea : MonoBehaviour
 
     void HandleDayChanged()
     {
+        FarmPlacement.WaterField(this);
         // Hanya activeTileIndices yang diproses. Tile kosong tidak ikut loop harian agar field
         // besar tetap murah di perangkat mobile dan tidak membutuhkan Update per tanaman.
         int fertilityRecovery = soilProfile != null ? soilProfile.dailyFertilityRecovery : 0;
@@ -732,6 +757,7 @@ public sealed class FieldArea : MonoBehaviour
             }
             else if (tile.state == TileState.Hoed)
             {
+                tile.waterSourcesToday = CropWaterSource.None;
                 if (fertilityRecovery > 0)
                     tile.fertility = AddClamped(tile.fertility, fertilityRecovery);
 
@@ -779,6 +805,20 @@ public sealed class FieldArea : MonoBehaviour
             daysPerSeason
         );
 
+        tile.qualityCare ??= new CropQualityCare();
+        CropQualityCare care = tile.qualityCare;
+        care.correctSeason &= crop.SupportsSeason(currentSeason);
+        if (tile.cropState != CropLifecycleState.HarvestReady && tile.cropState != CropLifecycleState.Dead)
+        {
+            care.days++;
+            if (watered) care.wateredDays++;
+            if (care.boosterToday > 0)
+            {
+                care.boostedDays++;
+                care.minimumBooster = Mathf.Min(care.minimumBooster, care.boosterToday);
+                care.bestBooster = Mathf.Max(care.bestBooster, care.boosterToday);
+            }
+        }
         tile.careSamples++;
         tile.totalMoisture += tile.moisture;
         tile.totalFertility += tile.fertility;
@@ -854,8 +894,7 @@ public sealed class FieldArea : MonoBehaviour
         float weatherFactor = WeatherSystem.Instance != null
             ? WeatherSystem.GetCropGrowthMultiplier(WeatherSystem.Instance.CurrentWeather)
             : 1f;
-        float growthAmount = soilFactor * fertilityFactor * weatherFactor *
-                             crop.GetBoosterGrowthMultiplier(tile.growthBoosterPercent);
+        float growthAmount = soilFactor * fertilityFactor * weatherFactor;
 
         if (tile.cropState == CropLifecycleState.Regrowing)
         {
@@ -880,32 +919,21 @@ public sealed class FieldArea : MonoBehaviour
 
     static void FinishCropDay(ref FieldTileData tile)
     {
+        if (tile.qualityCare != null)
+        {
+            tile.qualityCare.boosterToday = 0;
+            if (tile.cropState == CropLifecycleState.HarvestReady && tile.qualityCare.readyDay < 0)
+                tile.qualityCare.readyDay = (TimeManager.Instance != null ? TimeManager.Instance.day : 1) + 1;
+        }
         tile.waterSourcesToday = CropWaterSource.None;
         tile.dirty = true;
     }
 
     CropGrade CalculateGrade(FieldTileData tile)
     {
-        float samples = Mathf.Max(1, tile.careSamples);
-        float soil = tile.careSamples > 0 ? tile.totalSoilQuality / samples : tile.soilQuality;
-        float moisture = tile.careSamples > 0 ? tile.totalMoisture / samples : tile.moisture;
-        float fertility = tile.careSamples > 0 ? tile.totalFertility / samples : tile.fertility;
-        float weight = Mathf.Max(0.01f,
-            tile.crop.soilWeight + tile.crop.moistureWeight +
-            tile.crop.fertilityWeight + tile.crop.healthWeight);
-
-        float score = (
-            soil * tile.crop.soilWeight +
-            moisture * tile.crop.moistureWeight +
-            fertility * tile.crop.fertilityWeight +
-            tile.cropHealth * tile.crop.healthWeight
-        ) / weight;
-
-        if (score >= 90f) return CropGrade.S;
-        if (score >= 75f) return CropGrade.A;
-        if (score >= 55f) return CropGrade.B;
-        if (score >= 35f) return CropGrade.C;
-        return CropGrade.D;
+        tile.qualityCare ??= new CropQualityCare();
+        int today = TimeManager.Instance != null ? TimeManager.Instance.day : 1;
+        return (CropGrade)(tile.qualityCare.RollStars(tile.crop, tile.soilDurability >= 49, today) - 1);
     }
 
     void ApplyEffectAtIndex(int index, FieldEffect effect)
@@ -928,14 +956,7 @@ public sealed class FieldArea : MonoBehaviour
                 tile.cropHealth = AddClamped(tile.cropHealth, effect.amount);
                 break;
             case FieldEffectType.GrowthBooster:
-                if (tile.HasCrop)
-                {
-                    tile.growthBoosterPercent = (byte)Mathf.Clamp(
-                        tile.growthBoosterPercent + effect.amount,
-                        0,
-                        tile.crop.maximumBoosterPercent
-                    );
-                }
+                // Enum legacy tetap terbaca; tidak lagi memberikan bonus growth.
                 break;
         }
 
@@ -1148,7 +1169,8 @@ public sealed class FieldArea : MonoBehaviour
                 waterSourcesToday = tile.waterSourcesToday,
                 consecutiveDryDays = tile.consecutiveDryDays,
                 recoveryWateredDays = tile.recoveryWateredDays,
-                growthBoosterPercent = tile.growthBoosterPercent,
+                growthBoosterPercent = 0,
+                qualityCare = tile.qualityCare?.Copy(),
                 regrowDaysRemaining = tile.regrowDaysRemaining,
                 hasSoilDurability = true,
                 soilDurability = tile.soilDurability,
@@ -1183,6 +1205,7 @@ public sealed class FieldArea : MonoBehaviour
             tile.moisture = saved.moisture;
             tile.crop = ResolveCrop(saved.cropId);
             tile.growthDays = saved.growthDays;
+            tile.qualityCare = saved.qualityCare?.Copy() ?? new CropQualityCare();
             tile.growthStage = saved.growthStage;
             tile.cropHealth = saved.cropHealth;
             tile.careSamples = saved.careSamples;
@@ -1212,7 +1235,7 @@ public sealed class FieldArea : MonoBehaviour
                 tile.waterSourcesToday = saved.waterSourcesToday;
                 tile.consecutiveDryDays = saved.consecutiveDryDays;
                 tile.recoveryWateredDays = saved.recoveryWateredDays;
-                tile.growthBoosterPercent = saved.growthBoosterPercent;
+                tile.growthBoosterPercent = 0; // Growth booster lama tidak dibawa ke kualitas.
                 tile.regrowDaysRemaining = saved.regrowDaysRemaining;
                 if (tile.crop != null && tile.cropState == CropLifecycleState.HarvestReady)
                     tile.growthStage = (byte)Mathf.Max(0, tile.crop.StageCount - 1);

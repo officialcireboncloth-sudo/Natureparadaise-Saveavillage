@@ -236,6 +236,20 @@ public sealed class PlayerStatusSystem : MonoBehaviour
         SetStamina(currentStamina + Mathf.Max(0f, amount));
     }
 
+    /// <summary>
+    /// Hook modular untuk sumber pemulihan selain makanan, misalnya hot spring.
+    /// Pemanggil menentukan jumlah HP/stamina dan durasi/interaksinya sendiri.
+    /// </summary>
+    public void RestoreFromRecoverySource(float healthAmount, float staminaAmount)
+    {
+        if (IsFainted || (healthAmount <= 0f && staminaAmount <= 0f))
+            return;
+
+        currentHealth = Mathf.Clamp(currentHealth + Mathf.Max(0f, healthAmount), 0f, maxHealth);
+        currentStamina = Mathf.Clamp(currentStamina + Mathf.Max(0f, staminaAmount), 0f, maxStamina);
+        NotifyChanged();
+    }
+
     public void Heal(float amount)
     {
         if (amount <= 0f || IsFainted)

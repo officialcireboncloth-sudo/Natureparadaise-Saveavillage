@@ -13,6 +13,8 @@ public enum BuildingCategory
     Public
 }
 
+public enum AnimalHousingKind { None, Barn, Coop }
+
 /// <summary>State persisten satu Property Site.</summary>
 public enum BuildingConstructionState
 {
@@ -64,6 +66,9 @@ public sealed class BuildingDefinitionSO : ScriptableObject
     public string displayName = "Shed";
     public Sprite icon;
     public BuildingCategory category = BuildingCategory.Utility;
+    public AnimalHousingKind animalHousing;
+    public AnimalHousingKind HousingKind => animalHousing != AnimalHousingKind.None ? animalHousing :
+        buildingId == "building.barn" ? AnimalHousingKind.Barn : buildingId == "building.coop" ? AnimalHousingKind.Coop : AnimalHousingKind.None;
 
     [Header("Footprint")]
     [Tooltip("Lebar area grid yang harus kosong ketika bangunan ditempatkan.")]

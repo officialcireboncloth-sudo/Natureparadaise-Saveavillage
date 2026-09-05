@@ -14,6 +14,11 @@ public class ShopManager : MonoBehaviour
     public ItemSO seedItem;
     public List<ItemSO> fertilizerItems = new();
     public ItemSO cropBoosterItem;
+    public List<ItemSO> cropBoosterItems = new();
+    [Header("Farm Equipment / Trees")]
+    public bool sellsFarmEquipment = true;
+    public List<ItemSO> sprinklerItems = new();
+    public List<ItemSO> treeSeedItems = new();
 
     [Header("Animals Sold By Shop")]
     public List<AnimalShopOffer> animalOffers = new();
@@ -34,6 +39,19 @@ public class ShopManager : MonoBehaviour
 
     void EnsureDefaultAnimalOffers()
     {
+        FarmEquipmentCatalog equipment = FarmEquipmentCatalog.Load();
+        if (equipment != null && sellsFarmEquipment)
+        {
+            if (sprinklerItems.Count == 0) sprinklerItems.AddRange(equipment.sprinklers);
+            if (treeSeedItems.Count == 0) treeSeedItems.AddRange(equipment.treeSeeds);
+        }
+        FertilizerCatalog catalog = FertilizerCatalog.Load();
+        if (catalog != null)
+        {
+            fertilizerItems = new List<ItemSO>(catalog.soilFertilizers);
+            cropBoosterItems = new List<ItemSO>(catalog.cropBoosters);
+            if (cropBoosterItems.Count > 0) cropBoosterItem = cropBoosterItems[0];
+        }
         animalOffers ??= new List<AnimalShopOffer>();
         if (animalOffers.Count > 0) return;
 
@@ -128,6 +146,14 @@ public class ShopManager : MonoBehaviour
     {
         if (offer == null || offer.price < 0 || ScoreManager.Instance == null)
             return false;
+        AnimalHusbandrySystem.Scan();
+        AnimalHome home = AnimalHome.FindVacancy(offer.animalType);
+        if (home == null)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage(AnimalGrowthProfileSO.IsBird(offer.animalType)
+                ? "Bangun Coop dengan slot kosong dahulu" : "Bangun Barn dengan slot kosong dahulu");
+            return false;
+        }
         if (AnimalGrowthSystem.ActiveAnimalCount >= maximumOwnedAnimals)
         {
             SaveLoadFeedback.Instance?.ShowMessage($"Kapasitas hewan penuh ({maximumOwnedAnimals})");
@@ -142,9 +168,12 @@ public class ShopManager : MonoBehaviour
         if (!ScoreManager.Instance.TrySpendPoints(offer.price))
             return false;
 
-        AnimalGrowthSystem animal = SpawnAnimal(offer, GetAnimalDeliveryPosition(), true);
+        AnimalGrowthSystem animal = SpawnAnimal(offer, home.Entry, true);
         if (animal != null)
         {
+            AnimalRoutine routine = animal.GetComponent<AnimalRoutine>();
+            if (routine == null) routine = animal.gameObject.AddComponent<AnimalRoutine>();
+            routine.Assign(home);
             Debug.Log($"[SHOP] Bought {offer.displayName} for {offer.price} Gold.");
             return true;
         }
@@ -171,7 +200,10 @@ public class ShopManager : MonoBehaviour
             growth.ConfigureShopPurchase(offer.animalType, offer.growthProfile, offer.offerKind, currentDay);
         }
 
-        controller.ConfigureRuntime(playerInv, cabbageItem, offer.productItem, growth);
+        AnimalCareCatalog care = AnimalCareCatalog.Load();
+        controller.ConfigureRuntime(playerInv, care != null ? care.fodder : cabbageItem,
+            offer.productItem != null ? offer.productItem : offer.growthProfile != null && offer.growthProfile.productItem != null
+                ? offer.growthProfile.productItem : care?.Product(offer.animalType), growth);
         return growth;
     }
 
@@ -238,6 +270,10 @@ public class ShopManager : MonoBehaviour
     {
         if (item == null || amount <= 0)
             return false;
+        if (item.requiredVillageLevel > 1 && (VillageProgressionService.Instance == null ||
+            !VillageProgressionService.Instance.MeetsRequirement(item.requiredVillageLevel))) return false;
+        if (item.IsFarmPlacement && (!sellsFarmEquipment ||
+            !(item.IsSprinkler ? sprinklerItems.Contains(item) : treeSeedItems.Contains(item)))) return false;
 
         if (playerInv == null)
         {
@@ -319,7 +355,7 @@ public class ShopManager : MonoBehaviour
 
     bool Sell(ItemSO item, int amount)
     {
-        if (item == null || amount <= 0)
+        if (item == null || amount <= 0 || item.sellPrice <= 0 || item.IsFertilizer)
             return false;
 
         if (playerInv == null)

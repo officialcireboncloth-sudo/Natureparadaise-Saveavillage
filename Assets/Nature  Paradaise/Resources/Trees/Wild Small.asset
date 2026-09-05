@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad726a9495424bacbe3aa01000000001, type: 3}
+  m_Name: Wild Small
+  treeType: Wild Small
+  matureDays: 28
+  wildTree: 1
+  woodItem: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+  fruitItem: {fileID: 0}
+  fruitSeasons: 15
+  floweringDays: 2
+  fruitGrowthDays: 3
+  fruitAmount: 1
+  waterUntilGrowthDay: 21
+  dryGraceDays: 1
+  dryGrowthMultiplier: 0.25
+  youngStormDamageChance: 0.15
+  stormDamage: 10
+  acceleratedSeasons: 0
+  seasonalGrowthMultiplier: 1.15
+  stages:
+  - stage: 0
+    fromGrowthDay: 0
+    model: {fileID: 0}
+    scale: {x: 0.06, y: 0.06, z: 0.06}
+  - stage: 1
+    fromGrowthDay: 2
+    model: {fileID: 0}
+    scale: {x: 0.12, y: 0.12, z: 0.12}
+  - stage: 2
+    fromGrowthDay: 4
+    model: {fileID: 0}
+    scale: {x: 0.25, y: 0.25, z: 0.25}
+  - stage: 3
+    fromGrowthDay: 11
+    model: {fileID: 0}
+    scale: {x: 0.5, y: 0.5, z: 0.5}
+  - stage: 4
+    fromGrowthDay: 21
+    model: {fileID: 0}
+    scale: {x: 0.75, y: 0.75, z: 0.75}
+  - stage: 5
+    fromGrowthDay: 28
+    model: {fileID: 0}
+    scale: {x: 1, y: 1, z: 1}

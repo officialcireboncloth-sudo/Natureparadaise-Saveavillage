@@ -37,11 +37,11 @@ public class FarmingTool : MonoBehaviour
 
     [Header("Player Stamina")]
     public PlayerStatusSystem playerStatus;
-    [Min(0f)] public float hoeCost = 2f;
-    [Min(0f)] public float waterCost = 1f;
-    [Min(0f)] public float fertilizeCost = 1f;
-    [Min(0f)] public float harvestCost = 1f;
-    [Min(0f)] public float cropBoosterCost = 1f;
+    [Min(0f)] public float hoeCost = 0.1f;
+    [Min(0f)] public float waterCost = 0.05f;
+    [Min(0f)] public float fertilizeCost = 0.05f;
+    [Min(0f)] public float harvestCost = 0.05f;
+    [Min(0f)] public float cropBoosterCost = 0.05f;
 
     [Header("Directional Target")]
     [SerializeField, Min(0.5f)] float targetDistance = 2.1f;
@@ -66,6 +66,7 @@ public class FarmingTool : MonoBehaviour
     [SerializeField] bool controllerRumble = true;
 
     PlayerToolHotbar hotbar;
+    SeedTool seedTool;
     InventoryHotbarUI inventoryHotbar;
     PlayerController movement;
     TopDownCameraFollow cameraFollow;
@@ -140,6 +141,7 @@ public class FarmingTool : MonoBehaviour
 
     void RefreshCropInteractionPrompt()
     {
+        if (movement != null && movement.IsMovementLocked) return;
         if (currentField == null ||
             !currentField.TryGetSnapshot(currentX, currentZ, out FieldTileSnapshot snapshot) ||
             snapshot.State != TileState.Planted || snapshot.Crop == null)
@@ -153,20 +155,15 @@ public class FarmingTool : MonoBehaviour
             ? snapshot.Crop.produceItem.itemName
             : snapshot.Crop.cropId;
 
-        // Detail growth/care adalah clue debug. Saat dimatikan, hanya aksi panen
-        // yang tetap tampil karena termasuk prompt gameplay utama.
+        // Nama tanaman adalah informasi gameplay pada satu tile di depan player.
+        // Detail growth/care tetap mengikuti toggle debug, bukan nama tanamannya.
         if (!HUDManager.FarmingDebugCluesEnabled)
         {
-            if (snapshot.CropState == CropLifecycleState.HarvestReady)
-            {
-                float harvestDistance = Vector3.Distance(transform.position, promptPosition);
-                WorldInteractionPrompt.Request(
-                    this,
-                    promptPosition,
-                    $"{actionKey} - Panen {cropName}",
-                    harvestDistance
-                );
-            }
+            string label = snapshot.CropState == CropLifecycleState.HarvestReady
+                ? $"{cropName}\n{actionKey} - Panen"
+                : cropName;
+            WorldInteractionPrompt.Request(this, promptPosition, label,
+                Vector3.Distance(transform.position, promptPosition));
             return;
         }
 
@@ -179,8 +176,8 @@ public class FarmingTool : MonoBehaviour
             : snapshot.SoilLevel < 5
                 ? "soil perlu pupuk setelah panen"
                 : "soil sangat subur";
-        string boosterClue = snapshot.GrowthBoosterPercent > 0
-            ? $"booster -{snapshot.GrowthBoosterPercent}% aktif"
+        string boosterClue = snapshot.BoosterLevelToday > 0
+            ? $"booster kualitas Lv.{snapshot.BoosterLevelToday} hari ini"
             : "booster belum aktif";
 
         string text = snapshot.CropState switch
@@ -200,6 +197,7 @@ public class FarmingTool : MonoBehaviour
 
     void RefreshSoilInteractionPrompt()
     {
+        if (movement != null && movement.IsMovementLocked) return;
         if (!HUDManager.FarmingDebugCluesEnabled)
             return;
 
@@ -230,6 +228,14 @@ public class FarmingTool : MonoBehaviour
         return field != null && field.TryGetSnapshot(x, z, out _);
     }
 
+    /// <summary>Memakai target yang sama dengan hoe/watering untuk nama dan interaksi pohon.</summary>
+    public bool IsCurrentTileTarget(Vector3 worldPosition)
+    {
+        return TryGetCurrentTile(out FieldArea field, out int x, out int z) &&
+            Mathf.Abs(field.transform.InverseTransformPoint(worldPosition).y) <= Mathf.Max(1f, field.CellSize) &&
+            field.WorldToGrid(worldPosition, out int targetX, out int targetZ) && x == targetX && z == targetZ;
+    }
+
     public void SetUpgradeTier(int tier)
     {
         upgradeTier = (HoeUpgradeTier)Mathf.Clamp(tier, 0, (int)HoeUpgradeTier.Gold);
@@ -248,6 +254,9 @@ public class FarmingTool : MonoBehaviour
         {
             FieldArea field = areas[i];
             if (field == null)
+                continue;
+            // Field outdoor tidak boleh menjadi target saat player berada di lantai/interior lain.
+            if (Mathf.Abs(field.transform.InverseTransformPoint(transform.position).y) > Mathf.Max(1f, field.CellSize))
                 continue;
 
             Vector3 localFacing = field.transform.InverseTransformDirection(facing.normalized);
@@ -268,6 +277,7 @@ public class FarmingTool : MonoBehaviour
                     currentZ = targetZ;
                     return;
                 }
+                continue; // Menghadap keluar field tidak memilih kembali tile tempat player berdiri.
             }
 
             // Player boleh berdiri sedikit di luar tepi field; ambil sel pertama
@@ -349,7 +359,7 @@ public class FarmingTool : MonoBehaviour
         if (currentField.TryHarvest(currentX, currentZ, playerInv, out CropGrade grade))
         {
             SpendStamina(harvestCost);
-            ShowFeedback($"Panen berhasil - Grade {grade}");
+            ShowFeedback($"Panen berhasil - {(int)grade + 1} bintang");
         }
         else
             ShowFeedback("Tanaman belum matang atau inventory penuh");
@@ -389,7 +399,7 @@ public class FarmingTool : MonoBehaviour
 
         bool success = watering
             ? currentField.TryWater(currentX, currentZ)
-            : currentField.TryFertilize(currentX, currentZ, (int)fertilizer.fertilizerLevel);
+            : currentField.TryFertilize(currentX, currentZ, (int)fertilizer.fertilizerLevel, fertilizer.SoilRestoreAmount);
         if (success)
         {
             if (!watering && !playerInv.RemoveFromSlot(inventoryHotbar.SelectedIndex, 1))
@@ -424,15 +434,19 @@ public class FarmingTool : MonoBehaviour
             return;
         }
 
+        if (VillageProgressionService.Instance != null &&
+            !VillageProgressionService.Instance.MeetsRequirement(booster.requiredVillageLevel))
+        { ShowFeedback("Booster belum terbuka pada Village Level ini"); return; }
+
         if (!HasStamina(cropBoosterCost))
         {
             ShowFeedback("Stamina tidak cukup");
             return;
         }
 
-        if (!currentField.TryApplyCropBooster(currentX, currentZ, booster.cropBoosterPercent))
+        if (!currentField.TryApplyCropBooster(currentX, currentZ, booster.cropBoosterLevel))
         {
-            ShowFeedback("Booster hanya untuk crop aktif dan tidak boleh lebih rendah dari booster sebelumnya");
+            ShowFeedback("Booster hanya untuk tanaman tumbuh, maksimal sekali sehari");
             return;
         }
 
@@ -443,7 +457,7 @@ public class FarmingTool : MonoBehaviour
         }
 
         SpendStamina(cropBoosterCost);
-        ShowFeedback($"Crop Booster -{booster.cropBoosterPercent}% aktif. Soil tidak berubah");
+        ShowFeedback($"Booster kualitas Lv.{booster.cropBoosterLevel} hari ini. Growth/yield tetap");
     }
 
     void BuildHoeTargets()
@@ -507,17 +521,26 @@ public class FarmingTool : MonoBehaviour
     {
         PlayerToolType selectedTool = hotbar != null ? hotbar.SelectedTool : PlayerToolType.None;
         bool supportedTool = selectedTool == PlayerToolType.Hoe ||
+                             selectedTool == PlayerToolType.Seed ||
                              selectedTool == PlayerToolType.WateringCan ||
                              selectedTool == PlayerToolType.Fertilizer ||
                              selectedTool == PlayerToolType.CropBooster;
-        bool show = enabled && supportedTool && currentField != null;
+        bool show = enabled && supportedTool && currentField != null &&
+                    !(movement != null && movement.IsMovementLocked);
         if (!show)
         {
             HideIndicators();
             return;
         }
 
-        if (selectedTool == PlayerToolType.Hoe)
+        if (selectedTool == PlayerToolType.Seed)
+        {
+            if (seedTool == null) seedTool = GetComponent<SeedTool>();
+            hoeTargets.Clear();
+            bool valid = seedTool != null && seedTool.CanPlantAt(currentField, currentX, currentZ);
+            hoeTargets.Add(new HoeTileTarget(currentField, currentX, currentZ, valid));
+        }
+        else if (selectedTool == PlayerToolType.Hoe)
         {
             BuildHoeTargets();
         }

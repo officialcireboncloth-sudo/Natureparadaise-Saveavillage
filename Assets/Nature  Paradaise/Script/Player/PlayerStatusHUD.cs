@@ -224,9 +224,9 @@ public sealed class PlayerStatusHUD : MonoBehaviour
             string staminaHex = ColorUtility.ToHtmlStringRGB(staminaColor);
             compactStatusText.text =
                 $"<color=#{hpColor}>HP [{BuildTextBar(playerStatus.Health / playerStatus.MaxHealth)}] " +
-                $"{Mathf.CeilToInt(playerStatus.Health)}/{Mathf.CeilToInt(playerStatus.MaxHealth)}</color>\n" +
+                $"{playerStatus.Health:0.##}/{playerStatus.MaxHealth:0.##}</color>\n" +
                 $"<color=#{staminaHex}>ST [{BuildTextBar(playerStatus.Stamina / playerStatus.MaxStamina)}] " +
-                $"{Mathf.CeilToInt(playerStatus.Stamina)}/{Mathf.CeilToInt(playerStatus.MaxStamina)}</color>";
+                $"{playerStatus.Stamina:0.##}/{playerStatus.MaxStamina:0.##}</color>";
             return;
         }
 
@@ -235,8 +235,8 @@ public sealed class PlayerStatusHUD : MonoBehaviour
 
         SetFill(healthFill, playerStatus.Health / playerStatus.MaxHealth);
         SetFill(staminaFill, playerStatus.Stamina / playerStatus.MaxStamina);
-        healthText.text = $"HP  {Mathf.CeilToInt(playerStatus.Health)} / {Mathf.CeilToInt(playerStatus.MaxHealth)}";
-        staminaText.text = $"ST  {Mathf.CeilToInt(playerStatus.Stamina)} / {Mathf.CeilToInt(playerStatus.MaxStamina)}";
+        healthText.text = $"HP  {playerStatus.Health:0.##} / {playerStatus.MaxHealth:0.##}";
+        staminaText.text = $"ST  {playerStatus.Stamina:0.##} / {playerStatus.MaxStamina:0.##}";
     }
 
     static string BuildTextBar(float normalizedValue)

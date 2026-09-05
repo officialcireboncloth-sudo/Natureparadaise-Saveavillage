@@ -30,7 +30,7 @@ public sealed class WorldInteractablePromptSource : MonoBehaviour
 
         Transform anchor = promptAnchor != null ? promptAnchor : transform;
         float squaredDistance = (player.transform.position - transform.position).sqrMagnitude;
-        if (squaredDistance > interactionRadius * interactionRadius)
+        if (!PlayerInteractionTarget.Contains(player.transform, transform))
             return;
 
         WorldInteractionPrompt.Request(this, anchor, prompt, Mathf.Sqrt(squaredDistance), promptHeight);

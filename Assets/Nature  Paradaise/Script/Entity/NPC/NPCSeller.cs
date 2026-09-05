@@ -64,7 +64,7 @@ public class NPCSeller : MonoBehaviour
         );
 
         // Kalau player menjauh, tutup shop
-        if (distance > radius)
+        if (!shopOpen && !PlayerInteractionTarget.Contains(playerInv.transform, transform))
         {
             if (shopOpen)
                 CloseShop();
@@ -87,7 +87,7 @@ public class NPCSeller : MonoBehaviour
         // E = OPEN / CLOSE SHOP
         // =====================================================
 
-        if (Input.GetKeyDown(interactKey))
+        if (shopOpen ? Input.GetKeyDown(interactKey) : PlayerInteractionTarget.Press(playerInv.transform, transform, interactKey))
         {
             if (shopOpen)
                 CloseShop();
