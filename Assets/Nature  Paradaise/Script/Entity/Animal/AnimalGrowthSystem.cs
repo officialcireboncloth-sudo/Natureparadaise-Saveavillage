@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
+public sealed class AnimalSceneStageVisual
+{
+    public AnimalGrowthStage stage;
+    public GameObject visual;
+}
+
+[Serializable]
 public sealed class AnimalSaveData
 {
     public string animalId;
@@ -103,6 +110,11 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     [SerializeField] Vector3 adolescentScale = new(0.9f, 0.9f, 0.9f);
     [SerializeField] Vector3 adultScale = Vector3.one;
 
+    [Header("Editable Stage Objects")]
+    [Tooltip("Use saved child objects for growth stages. Missing/deleted objects stay missing; no model or dummy is spawned.")]
+    [SerializeField] bool useSceneStageVisuals;
+    [SerializeField] List<AnimalSceneStageVisual> sceneStageVisuals = new();
+
     [Header("Dummy Visual Fallback")]
     [Tooltip("Mamalia tanpa model menggunakan Capsule.")]
     [SerializeField] Vector3 mammalDummyShapeScale = new(0.65f, 0.85f, 0.65f);
@@ -130,13 +142,15 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         : AnimalGrowthProfileSO.DefaultBornToAdultDays(Type);
     public AnimalGrowthStage GrowthStage => ResolveGrowthStage();
     public AnimalHealthState Health => health;
-    public bool CanReceiveMedicine => hasBeenBorn && healthProgress.CanTreat;
+    public AnimalIllnessStage IllnessStage => healthProgress?.stage ?? AnimalIllnessStage.Healthy;
+    public bool CanReceiveMedicine => hasBeenBorn && healthProgress.CanTreat && healthProgress.treatmentDay != CurrentDay;
     public string HealthSummary => healthProgress.stage == AnimalIllnessStage.Recovering
         ? $"Recovering ({healthProgress.recoveryRemaining} care days)"
         : healthProgress.Healthy && healthProgress.immunityRemaining > 0
             ? $"Healthy (Immune {healthProgress.immunityRemaining} days)"
             : healthProgress.stage == AnimalIllnessStage.Mild ? "Unwell"
             : healthProgress.stage == AnimalIllnessStage.Severe ? "Sick"
+            : healthProgress.stage == AnimalIllnessStage.Critical ? "Severely Sick"
             : "Healthy";
     public float Fullness => fullness;
     public float Happiness => happiness;
@@ -182,7 +196,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     public string StatusSummary =>
         $"{Type} | {GrowthStage} | Age {ageDays}d\n" +
         $"Growth {growthDays}/{AdultGrowthDays} | Fed: {(fedToday ? "Yes" : "No")}\n" +
-        $"Health: {health} | Happy {Mathf.RoundToInt(happiness)} | Heart {HeartPoints}/1000";
+        $"Health: {HealthSummary} | Happy {Mathf.RoundToInt(happiness)} | Heart {HeartPoints}/1000";
 
     void Awake()
     {
@@ -269,7 +283,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
         happiness = Mathf.Clamp(
             happiness + (fedToday ? 1f : -5f) + (pettedToday ? 2f : 0f) + (!sheltered && (rain || storm) ? -8f : 0f) +
-            (healthProgress.stage == AnimalIllnessStage.Severe ? -6f : healthProgress.stage == AnimalIllnessStage.Mild ? -3f : healthProgress.stage == AnimalIllnessStage.Recovering ? -1f : 0f),
+            (healthProgress.stage == AnimalIllnessStage.Critical ? -9f : healthProgress.stage == AnimalIllnessStage.Severe ? -6f : healthProgress.stage == AnimalIllnessStage.Mild ? -3f : healthProgress.stage == AnimalIllnessStage.Recovering ? -1f : 0f),
             0f,
             100f
         );
@@ -299,7 +313,8 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
             WeatherType.Heatwave or WeatherType.Cyclone or WeatherType.Blizzard => healthRules.extremeWeatherSicknessChance,
             _ => 0f
         };
-        healthProgress.ExposeWeather(WeatherSystem.Instance.IsRainToday, WeatherSystem.Instance.IsStormToday, risk);
+        bool extreme = weather is WeatherType.Heatwave or WeatherType.Cyclone or WeatherType.Blizzard;
+        healthProgress.ExposeWeather(WeatherSystem.Instance.IsRainToday, WeatherSystem.Instance.IsStormToday, risk, extreme);
         if (TimeManager.Instance != null && TimeManager.Instance.hour >= Mathf.Clamp(healthRules.nightRiskStartsAtHour, 0, 23))
             healthProgress.ExposeNight();
     }
@@ -338,11 +353,20 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     public void TreatWithMedicine()
     {
-        if (!CanReceiveMedicine || !healthProgress.Treat(healthRules, CurrentDay)) return;
-        heart.RewardOnce(ref heart.lastMedicineDay, CurrentDay, heartRules.medicinePoints);
+        TreatWithMedicine(AnimalMedicineLevel.Basic);
+    }
+
+    public AnimalMedicineResult TreatWithMedicine(AnimalMedicineLevel medicineLevel)
+    {
+        if (!CanReceiveMedicine) return AnimalMedicineResult.Rejected;
+        AnimalMedicineResult result = healthProgress.Treat(healthRules, CurrentDay, medicineLevel);
+        if (result == AnimalMedicineResult.Rejected) return result;
         SyncHealth();
         ApplyConditionVisual(false);
-        SaveLoadFeedback.Instance?.ShowMessage($"{AnimalName} mulai pemulihan. Beri pakan dan istirahatkan di kandang.");
+        SaveLoadFeedback.Instance?.ShowMessage(result == AnimalMedicineResult.Recovering
+            ? $"{AnimalName} mulai recovery. Beri pakan dan istirahatkan di kandang."
+            : $"Kondisi {AnimalName} membaik menjadi {HealthSummary}. Berikan obat yang sesuai besok.");
+        return result;
     }
 
     public void MarkProductCollected()
@@ -516,6 +540,8 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     void ApplyConditionVisual(bool force)
     {
+        // Authored visuals belong to the scene/prefab; condition changes must not replace them.
+        if (useSceneStageVisuals) return;
         AnimalIllnessStage condition = healthProgress?.stage ?? AnimalIllnessStage.Healthy;
         if (!force && condition == appliedCondition) return;
         appliedCondition = condition;
@@ -563,6 +589,15 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         AnimalGrowthStage stage = GrowthStage;
         if (!force && stage == appliedStage) return;
         appliedStage = stage;
+
+        if (useSceneStageVisuals)
+        {
+            // Only switch the saved stage objects. Keep authored transforms and deletions intact.
+            foreach (AnimalSceneStageVisual entry in sceneStageVisuals)
+                if (entry != null && entry.visual != null)
+                    entry.visual.SetActive(entry.stage == stage);
+            return;
+        }
 
         // Model kondisi bergantung pada model growth aktif, jadi bangun ulang sesudah stage berubah.
         if (spawnedConditionModel != null) Destroy(spawnedConditionModel);
@@ -808,7 +843,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         // Hewan hasil pembelian tidak ada di scene awal, sehingga dibuat kembali saat load.
         ShopManager shop = FindFirstObjectByType<ShopManager>();
         for (int i = 0; i < data.Count; i++)
-            if (data[i] != null && !restoredIds.Contains(data[i].animalId))
+            if (data[i] != null && data[i].runtimePurchased && !restoredIds.Contains(data[i].animalId))
                 shop?.RestoreAnimal(data[i]);
     }
 

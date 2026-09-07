@@ -14,8 +14,6 @@ public class AnimalController : MonoBehaviour
     [Header("Heart Care Items")]
     public ItemSO favoriteTreatItem;
     public ItemSO medicineItem;
-    [SerializeField] KeyCode treatKey = KeyCode.Y;
-    [SerializeField] KeyCode medicineKey = KeyCode.O;
     [Header("Growth System")]
     [SerializeField] AnimalGrowthSystem growth;
     [SerializeField] KeyCode petKey = KeyCode.P;
@@ -39,6 +37,7 @@ public class AnimalController : MonoBehaviour
     [Header("Interaction")]
     public float interactionRadius = 2f;
 
+    [InspectorName("Use Held Care Item Key")]
     public KeyCode feedKey = KeyCode.F;
     public KeyCode milkKey = KeyCode.G;
 
@@ -57,6 +56,20 @@ public class AnimalController : MonoBehaviour
 
     bool milkReady = false;
     float milkTimer = 0f;
+
+    ItemSO SelectedMedicine
+    {
+        get
+        {
+            InventoryHotbarUI hotbar = playerInv != null ? playerInv.GetComponent<InventoryHotbarUI>() : null;
+            ItemSO selected = hotbar != null ? hotbar.SelectedItem : null;
+            return selected != null && selected.IsAnimalMedicine ? selected : null;
+        }
+    }
+
+    ItemSO SelectedItem => playerInv != null
+        ? playerInv.GetComponent<InventoryHotbarUI>()?.SelectedItem
+        : null;
 
     void Awake()
     {
@@ -119,13 +132,18 @@ public class AnimalController : MonoBehaviour
                 (otherDistance < distance || (Mathf.Approximately(otherDistance, distance) && other.GetInstanceID() < GetInstanceID()))) return;
         }
 
-        string interactionPrompt = IsProductReady
-            ? $"{feedKey}: Feed   {petKey}: Pet   {milkKey}: Ambil produk"
-            : $"{feedKey}: Feed   {petKey}: Pet";
+        string interactionPrompt = $"{petKey}: Pet";
+        if (IsProductReady) interactionPrompt += $"   {milkKey}: Ambil produk";
         if (HUDManager.DebugCluesEnabled)
             interactionPrompt += $"   {debugNextStageKey}: Debug Next Stage";
-        if (favoriteTreatItem != null) interactionPrompt += $"   {treatKey}: Treat";
-        if (medicineItem != null) interactionPrompt += $"   {medicineKey}: Medicine";
+        ItemSO selectedItem = SelectedItem;
+        if (selectedItem != null && selectedItem == cabbageItem && growth != null && !growth.FedToday)
+            interactionPrompt += $"   {feedKey}: Feed";
+        else if (selectedItem != null && selectedItem == favoriteTreatItem && growth != null && growth.CanReceiveTreat)
+            interactionPrompt += $"   {feedKey}: Give Treat";
+        ItemSO selectedMedicine = SelectedMedicine;
+        if (selectedMedicine != null && growth != null && growth.CanReceiveMedicine)
+            interactionPrompt += $"   {feedKey}: Give Medicine ({selectedMedicine.animalMedicineLevel})";
         if (growth != null) interactionPrompt = growth.InfoSummary + "\n" + interactionPrompt;
         interactionPrompt += "   I: Animal Info";
         WorldInteractionPrompt.Request(this, transform, interactionPrompt, distance, 1.45f);
@@ -146,7 +164,13 @@ public class AnimalController : MonoBehaviour
 
         if (PlayerInteractionTarget.Press(playerInv.transform, transform, feedKey))
         {
-            FeedCabbage();
+            ItemSO selected = SelectedItem;
+            if (selected != null && selected.IsAnimalMedicine)
+                TryGiveMedicine();
+            else if (selected != null && selected == favoriteTreatItem)
+                TryGiveTreat();
+            else if (selected != null && selected == cabbageItem)
+                FeedCabbage();
         }
 
         // =========================
@@ -160,9 +184,6 @@ public class AnimalController : MonoBehaviour
 
         if (PlayerInteractionTarget.Press(playerInv.transform, transform, petKey))
             growth?.Pet();
-        if (PlayerInteractionTarget.Press(playerInv.transform, transform, treatKey)) TryGiveTreat();
-        if (PlayerInteractionTarget.Press(playerInv.transform, transform, medicineKey)) TryGiveMedicine();
-
         if (HUDManager.DebugCluesEnabled && Input.GetKeyDown(debugNextStageKey))
             growth?.DebugAdvanceToNextStage();
     }
@@ -323,10 +344,68 @@ public class AnimalController : MonoBehaviour
 
     public bool TryGiveMedicine()
     {
-        if (growth == null || !growth.CanReceiveMedicine ||
-            medicineItem == null || playerInv == null || !playerInv.Remove(medicineItem, 1)) return false;
-        growth.TreatWithMedicine();
+        return TryAdministerMedicine(SelectedMedicine);
+    }
+
+    /// <summary>Dipakai panel kandang: pilih obat terendah yang cukup, atau stok terkuat jika semuanya terlalu lemah.</summary>
+    public bool TryGiveBestMedicine()
+    {
+        if (growth == null || playerInv == null || !growth.CanReceiveMedicine) return false;
+        int required = growth.IllnessStage == AnimalIllnessStage.Critical ? 3 :
+            growth.IllnessStage == AnimalIllnessStage.Severe ? 2 : 1;
+        AnimalCareCatalog catalog = AnimalCareCatalog.Load();
+        if (catalog == null) return false;
+        for (int i = required; i <= 3; i++)
+        {
+            ItemSO candidate = catalog.Medicine((AnimalMedicineLevel)i);
+            if (candidate != null && playerInv.GetCount(candidate) > 0) return TryAdministerMedicine(candidate);
+        }
+        for (int i = required - 1; i >= 1; i--)
+        {
+            ItemSO candidate = catalog.Medicine((AnimalMedicineLevel)i);
+            if (candidate != null && playerInv.GetCount(candidate) > 0) return TryAdministerMedicine(candidate);
+        }
+        return false;
+    }
+
+    bool TryAdministerMedicine(ItemSO item)
+    {
+        if (growth == null || playerInv == null) return false;
+        if (!growth.CanReceiveMedicine)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage($"{growth.AnimalName} tidak membutuhkan obat.");
+            return false;
+        }
+        if (item == null || !item.IsAnimalMedicine || playerInv.GetCount(item) <= 0)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Pilih Animal Medicine dari hotbar.");
+            return false;
+        }
+        if (!playerInv.Remove(item, 1)) return false;
+        AnimalMedicineResult result = growth.TreatWithMedicine(item.animalMedicineLevel);
+        if (result == AnimalMedicineResult.Rejected)
+        {
+            playerInv.Add(item, 1);
+            return false;
+        }
+        PlayMedicineAnimation();
         return true;
+    }
+
+    void PlayMedicineAnimation()
+    {
+        Animator animator = playerInv != null ? playerInv.GetComponentInChildren<Animator>() : null;
+        if (animator == null) return;
+        string[] candidates = { "GiveMedicine", "UseItem", "UseTool" };
+        for (int i = 0; i < candidates.Length; i++)
+        {
+            foreach (AnimatorControllerParameter parameter in animator.parameters)
+                if (parameter.type == AnimatorControllerParameterType.Trigger && parameter.name == candidates[i])
+                {
+                    animator.SetTrigger(candidates[i]);
+                    return;
+                }
+        }
     }
 
     /// <summary>Reset timer legacy setelah load agar state runtime tidak bocor ke save yang dipulihkan.</summary>

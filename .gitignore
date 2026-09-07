@@ -16,3 +16,10 @@
 
 # Unity package archives
 *.unitypackage
+
+# Toon Farm vendor demo scenes exceed GitHub's 100 MB per-file limit.
+# Keep them locally for reference; game assets and prefabs remain versioned.
+/Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Scenes/Demo_Gardens.unity
+/Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Scenes/Demo_Gardens.unity.meta
+/Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Scenes/Demo_Ranch.unity
+/Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Scenes/Demo_Ranch.unity.meta

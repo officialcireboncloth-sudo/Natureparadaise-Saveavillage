@@ -258,7 +258,12 @@ public class ShopUI : MonoBehaviour
             case FarmShopCategory.Animals:
                 for (int i = 0; i < shop.animalOffers.Count; i++) AddAnimalProduct(shop.animalOffers[i]);
                 AnimalCareCatalog care = AnimalCareCatalog.Load();
-                if (care != null) { AddProduct(care.fodder, false); AddProduct(care.treat, false); AddProduct(care.medicine, false); }
+                if (care != null)
+                {
+                    AddProduct(care.fodder, false);
+                    AddProduct(care.treat, false);
+                    for (int level = 1; level <= 3; level++) AddProduct(care.Medicine((AnimalMedicineLevel)level), false);
+                }
                 break;
             case FarmShopCategory.Sell:
                 AddProduct(shop.cabbageItem, true);
@@ -382,6 +387,14 @@ public class ShopUI : MonoBehaviour
             return $"Memulihkan +{item.SoilRestoreAmount} durability tanah (maksimum 80). Tidak bisa dijual.\n\nOwned: {owned}";
         if (item.IsCropBooster)
             return $"Booster kualitas Lv.{item.cropBoosterLevel}. Gunakan setiap hari; growth/yield dan soil tetap.\n\nOwned: {owned}";
+        if (item.IsAnimalMedicine)
+            return item.animalMedicineLevel switch
+            {
+                AnimalMedicineLevel.Basic => $"Untuk Unwell. Obat terlalu lemah hanya menurunkan tingkat penyakit.\n\nOwned: {owned}",
+                AnimalMedicineLevel.Strong => $"Untuk Sick. Recovery dimulai setelah diberikan.\n\nOwned: {owned}",
+                AnimalMedicineLevel.Premium => $"Untuk Severely Sick akibat cuaca ekstrem.\n\nOwned: {owned}",
+                _ => $"Obat hewan.\n\nOwned: {owned}"
+            };
         if (item.category == ItemCategory.Seed)
             return $"Tanam pada tanah yang sudah dicangkul, lalu siram setiap hari.\n\nOwned: {owned}";
         return $"Item Farm Shop.\n\nOwned: {owned}";

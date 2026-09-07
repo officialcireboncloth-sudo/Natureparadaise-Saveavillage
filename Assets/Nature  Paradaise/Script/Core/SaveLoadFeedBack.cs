@@ -29,6 +29,7 @@ public class SaveLoadFeedback : MonoBehaviour
     [SerializeField] Sprite panelSprite;
 
     private CanvasGroup canvasGroup;
+    private Image panelImage;
     private Coroutine currentRoutine;
     private RectTransform independentCanvas;
 
@@ -88,6 +89,7 @@ public class SaveLoadFeedback : MonoBehaviour
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
+        SetToastGraphicsVisible(false);
 
         // -------------------------------------------------
         // Debug
@@ -132,7 +134,7 @@ public class SaveLoadFeedback : MonoBehaviour
             panelRect.sizeDelta = panelSize;
         }
 
-        Image panelImage = GetComponent<Image>();
+        panelImage = GetComponent<Image>();
         if (panelImage != null)
         {
             panelImage.color = panelColor;
@@ -207,9 +209,26 @@ public class SaveLoadFeedback : MonoBehaviour
     /// <summary>Menampilkan feedback gameplay singkat tanpa mengambil fokus input.</summary>
     public void ShowMessage(string message)
     {
+        if (string.IsNullOrWhiteSpace(message))
+            return;
+
         // Terapkan kembali agar perubahan layout langsung berlaku setelah hot-reload
         // saat Play Mode, tanpa bergantung pada Awake dipanggil ulang.
         ConfigureCompactToast();
+
+        // Seluruh feedback memakai panel petunjuk hotbar jika tersedia agar UI tidak dobel.
+        if (InventoryHotbarUI.TryShowTemporaryMessage(message, showDuration))
+        {
+            if (currentRoutine != null)
+            {
+                StopCoroutine(currentRoutine);
+                currentRoutine = null;
+            }
+            if (canvasGroup != null) canvasGroup.alpha = 0f;
+            SetToastGraphicsVisible(false);
+            Debug.Log("[FEEDBACK] SHOW IN HOTBAR: " + message);
+            return;
+        }
 
         // -------------------------------------------------
         // Pastikan object aktif
@@ -275,8 +294,7 @@ public class SaveLoadFeedback : MonoBehaviour
         feedbackText.text =
             message;
 
-        // Pastikan text enabled
-        feedbackText.enabled = true;
+        SetToastGraphicsVisible(true);
 
         // -------------------------------------------------
         // FADE IN
@@ -310,11 +328,22 @@ public class SaveLoadFeedback : MonoBehaviour
             )
         );
 
+        SetToastGraphicsVisible(false);
         currentRoutine = null;
 
         Debug.Log(
             "[FEEDBACK] HIDDEN"
         );
+    }
+
+    void SetToastGraphicsVisible(bool visible)
+    {
+        if (panelImage == null)
+            panelImage = GetComponent<Image>();
+        if (panelImage != null)
+            panelImage.enabled = visible;
+        if (feedbackText != null)
+            feedbackText.enabled = visible;
     }
 
     // =====================================================

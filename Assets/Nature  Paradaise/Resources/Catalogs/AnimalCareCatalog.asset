@@ -8,10 +8,13 @@ MonoBehaviour:
   fodder: {fileID: 11400000, guid: a33f7b52dbbf45b18c8796d0dfe5a91a, type: 2}
   treat: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000005, type: 2}
   medicine: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000006, type: 2}
+  medicines:
+  - {fileID: 11400000, guid: 9f31dc224ab34790918a125000000006, type: 2}
+  - {fileID: 11400000, guid: 83f11f03f141462693f31c14c5589812, type: 2}
+  - {fileID: 11400000, guid: 36cb3af0cdcb4bf79275d94c18a42db7, type: 2}
   products:
   - {fileID: 11400000, guid: 9f31dc224ab34790918a125000000001, type: 2}
   - {fileID: 11400000, guid: 9f31dc224ab34790918a125000000002, type: 2}
   - {fileID: 11400000, guid: 9f31dc224ab34790918a125000000003, type: 2}
   - {fileID: 11400000, guid: 9f31dc224ab34790918a125000000004, type: 2}
   - {fileID: 11400000, guid: a3ff5e12700285547907d72e6ca5b7a7, type: 2}
-

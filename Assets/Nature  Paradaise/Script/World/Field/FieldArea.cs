@@ -4,6 +4,7 @@ using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(BoxCollider))]
+[SelectionBase]
 /// <summary>
 /// Pemilik grid farming modular dengan ukuran manual. Mengelola data tile, simulasi batch,
 /// visual tanah/tanaman, interaksi fitur eksternal, serta save/load tanpa Update per tile.
@@ -41,13 +42,14 @@ public sealed class FieldArea : MonoBehaviour
     [SerializeField] GameObject cropPrefab;
     [SerializeField] GameObject hoeMarkPrefab;
 
-    [Header("Soil Material Cues")]
+    [Header("Soil Visual State")]
     [SerializeField] Material normalSoilMaterial;
-    [SerializeField] Material wateredSoilMaterial;
-    [SerializeField] Material fertilizedSoilMaterial;
-    [SerializeField] Material wateredAndFertilizedSoilMaterial;
+    [Tooltip("Material lama dipertahankan agar scene lama tetap kompatibel; visual baru memakai property per tile.")]
+    [SerializeField, HideInInspector] Material wateredSoilMaterial;
+    [SerializeField, HideInInspector] Material fertilizedSoilMaterial;
+    [SerializeField, HideInInspector] Material wateredAndFertilizedSoilMaterial;
     [SerializeField, Range(0, 100)] int wateredVisualThreshold = 50;
-    [SerializeField, Range(0, 100)] int fertilizedVisualThreshold = 75;
+    [SerializeField, HideInInspector, Range(0, 100)] int fertilizedVisualThreshold = 75;
 
     [Header("Mobile LOD")]
     [SerializeField, Min(4)] int chunkSize = 8;
@@ -64,6 +66,11 @@ public sealed class FieldArea : MonoBehaviour
     readonly Stack<FieldCropView> cropPool = new Stack<FieldCropView>();
     Transform visualRoot;
     float nextLodCheckTime;
+    MaterialPropertyBlock soilVisualProperties;
+
+    static readonly int WetnessProperty = Shader.PropertyToID("_Wetness");
+    static readonly int FertilizedProperty = Shader.PropertyToID("_Fertilized");
+    static readonly int SmoothnessProperty = Shader.PropertyToID("_Smoothness");
 
     public string FieldId => fieldId;
     public int Columns => columns;
@@ -1107,20 +1114,25 @@ public sealed class FieldArea : MonoBehaviour
 
         FieldTileData tile = tiles[index];
         bool watered = tile.moisture >= wateredVisualThreshold;
-        bool fertilized = tile.fertility >= fertilizedVisualThreshold;
+        bool fertilized = tile.fertilizedForCurrentCycle;
 
-        Material selectedMaterial;
-        if (watered && fertilized)
-            selectedMaterial = wateredAndFertilizedSoilMaterial;
-        else if (watered)
-            selectedMaterial = wateredSoilMaterial;
-        else if (fertilized)
-            selectedMaterial = fertilizedSoilMaterial;
-        else
-            selectedMaterial = normalSoilMaterial;
+        // Semua tile memakai satu shared material. State visual ditulis melalui
+        // MaterialPropertyBlock sehingga tidak membuat material instance per tile.
+        if (normalSoilMaterial != null && soilRenderer.sharedMaterial != normalSoilMaterial)
+            soilRenderer.sharedMaterial = normalSoilMaterial;
 
-        if (selectedMaterial != null && soilRenderer.sharedMaterial != selectedMaterial)
-            soilRenderer.sharedMaterial = selectedMaterial;
+        soilVisualProperties ??= new MaterialPropertyBlock();
+        soilRenderer.GetPropertyBlock(soilVisualProperties);
+        float wetness = watered
+            ? Mathf.Lerp(0.55f, 1f, Mathf.InverseLerp(wateredVisualThreshold, 100f, tile.moisture))
+            : 0f;
+        soilVisualProperties.SetFloat(WetnessProperty, wetness);
+        soilVisualProperties.SetFloat(FertilizedProperty, fertilized ? 1f : 0f);
+
+        // Fallback untuk material URP/Lit lama: wetness masih terbaca sebagai smoothness,
+        // sedangkan butiran pupuk memerlukan shader Soil State.
+        soilVisualProperties.SetFloat(SmoothnessProperty, Mathf.Lerp(0.03f, 0.58f, wetness));
+        soilRenderer.SetPropertyBlock(soilVisualProperties);
     }
 
     /// <summary>Membuat snapshot serializable seluruh tile field.</summary>

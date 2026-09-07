@@ -98,6 +98,7 @@ public class SaveManager : MonoBehaviour
 
         // WEED / GRASS / ROCK WORLD STATE
         public List<GatherableSaveData> gatherables;
+        public List<TerrainDetailGrassAreaSaveData> terrainDetailGrass;
 
         // ITEM YANG DI-DROP/PLACE DAN KONDISI POHON/TUNGGUL
         public List<PlacedItemSaveData> placedItems;
@@ -334,6 +335,9 @@ public class SaveManager : MonoBehaviour
 
         data.gatherables =
             WorldGatherable.CaptureAll();
+
+        data.terrainDetailGrass =
+            TerrainDetailGrassManager.CaptureAll();
 
         data.placedItems =
             PlacedWorldItem.CaptureAll();
@@ -621,6 +625,10 @@ public class SaveManager : MonoBehaviour
 
         WorldGatherable.RestoreAll(
             data.gatherables
+        );
+
+        TerrainDetailGrassManager.RestoreAll(
+            data.terrainDetailGrass
         );
 
         PlacedWorldItem.RestoreAll(

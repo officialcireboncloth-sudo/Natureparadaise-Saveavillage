@@ -5,11 +5,11 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
   m_Name: Animal Medicine
-  itemName: Animal Medicine
+  itemName: Animal Medicine Lv.1 - Basic
   buyPrice: 150
   sellPrice: 0
   category: 0
+  animalMedicineLevel: 1
   maxStack: 32
   canDropToWorld: 1
   worldScale: {x: 0.3, y: 0.3, z: 0.3}
-

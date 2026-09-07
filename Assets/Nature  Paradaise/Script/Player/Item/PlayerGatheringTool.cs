@@ -236,6 +236,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
                 cut++;
         }
         cut += FieldArea.CutCropsInRadius(center, radius);
+        cut += TerrainDetailGrassManager.CutAllInRadius(center, radius);
         SaveLoadFeedback.Instance?.ShowMessage(cut > 0 ? $"Sabit memotong {cut} target" : "Tidak ada rumput di depan");
         if (target != null && !target.IsAvailable) target = null;
     }

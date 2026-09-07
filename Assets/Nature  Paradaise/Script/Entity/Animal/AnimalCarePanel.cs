@@ -72,7 +72,7 @@ public sealed class AnimalCarePanel : MonoBehaviour
             if (GUILayout.Button("Feed (1 Fodder)")) controller.FeedCabbage();
             if (GUILayout.Button("Pet")) animal.Pet();
             if (GUILayout.Button("Treat")) feedback = controller.TryGiveTreat() ? "Treat diberikan" : "Treat kurang / sudah diberikan hari ini";
-            if (GUILayout.Button("Medicine")) feedback = controller.TryGiveMedicine() ? "Pemulihan dimulai: pakan + istirahat di kandang" : "Obat kurang / hewan sehat atau sedang pemulihan";
+            if (GUILayout.Button("Medicine")) feedback = controller.TryGiveBestMedicine() ? "Obat diberikan; cek status kondisi hewan" : "Obat kurang / hewan sehat atau sedang pemulihan";
             GUILayout.EndHorizontal();
             if (animal.HasProductReady && GUILayout.Button($"Ambil produk — {AnimalCareCatalog.QualityName(animal.ProductQualityLevel)}")) controller.TakeMilk();
             if (routine != null)

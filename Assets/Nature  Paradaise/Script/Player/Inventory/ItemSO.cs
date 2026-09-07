@@ -33,6 +33,15 @@ public enum FertilizerLevel : byte
     Divine
 }
 
+/// <summary>Kekuatan obat ternak. None berarti item biasa.</summary>
+public enum AnimalMedicineLevel : byte
+{
+    None,
+    Basic,
+    Strong,
+    Premium
+}
+
 [CreateAssetMenu(menuName = "Game/Item")]
 /// <summary>
 /// Sumber data utama item untuk inventory, icon UI, stack, harga, tool mapping,
@@ -57,6 +66,10 @@ public class ItemSO : ScriptableObject
     [Min(1)] public int maxStack = 16;
     [Tooltip("Jika item ini diletakkan di hotbar, tool ini yang aktif. None untuk item biasa.")]
     public PlayerToolType equippedTool = PlayerToolType.None;
+
+    [Header("Animal Medicine")]
+    [Tooltip("Level obat ternak. Basic untuk Unwell, Strong untuk Sick, Premium untuk Severely Sick.")]
+    public AnimalMedicineLevel animalMedicineLevel = AnimalMedicineLevel.None;
 
     [Header("Seed")]
     [Tooltip("Tanaman yang dihasilkan oleh bibit ini. Isi untuk setiap ItemSO berkategori Seed.")]
@@ -125,6 +138,8 @@ public class ItemSO : ScriptableObject
 
     public bool IsSeed =>
         category == ItemCategory.Seed || equippedTool == PlayerToolType.Seed;
+
+    public bool IsAnimalMedicine => animalMedicineLevel != AnimalMedicineLevel.None;
 
     /// <summary>True jika item memiliki setidaknya satu aksi world dan perlu divisualkan di tangan.</summary>
     public bool HasHeldWorldAction => canDropToWorld || canPlaceInWorld || IsSeed;

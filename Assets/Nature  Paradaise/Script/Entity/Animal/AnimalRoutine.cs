@@ -18,6 +18,8 @@ public sealed class AnimalRoutine : MonoBehaviour
     List<Vector3> path;
     int waypoint;
     WorldGatherable grass;
+    TerrainDetailGrassManager terrainGrass;
+    int terrainGrassIndex = -1;
     Rigidbody body;
     bool originalKinematic;
     float nextPathTime;
@@ -55,7 +57,7 @@ public sealed class AnimalRoutine : MonoBehaviour
         if (!AnimalCareRules.CanTurnOut(Animal.HasBeenBorn, Animal.Health == AnimalHealthState.Healthy, Animal.CanGrazeToday, hour, Home != null, housed)) return false;
         transform.position = Home.Entry;
         housed = returning = false;
-        grass = null; path = null; nextPathTime = 0;
+        ClearGrassTarget(); path = null; nextPathTime = 0;
         ShowModel(); Animal.SetSheltered(false);
         return true;
     }
@@ -70,7 +72,7 @@ public sealed class AnimalRoutine : MonoBehaviour
     {
         if (Home == null) return;
         transform.position = Home.Entry;
-        housed = true; returning = false; path = null; grass = null;
+        housed = true; returning = false; path = null; ClearGrassTarget();
         Animal.SetSheltered(true); Activity = "Di kandang";
         PrepareDailyCare();
     }
@@ -102,19 +104,31 @@ public sealed class AnimalRoutine : MonoBehaviour
         else
         {
             if (Animal.GrazedToday) { Activity = "Merumput / beristirahat"; return; }
-            if (grass == null || !grass.IsAvailable)
+            if (grass != null && !grass.IsAvailable) grass = null;
+            if (terrainGrass != null && !terrainGrass.IsPatchAvailable(terrainGrassIndex))
+            {
+                terrainGrass = null;
+                terrainGrassIndex = -1;
+            }
+            if (grass == null && terrainGrass == null)
             {
                 grass = FindGrass(home.Entry);
+                if (grass == null)
+                    TerrainDetailGrassManager.TryFindNearest(transform.position, home.Entry, grazingSearchRadius,
+                        out terrainGrass, out terrainGrassIndex, out _);
                 path = null;
             }
-            if (grass == null) { Activity = "Tidak ada rumput tersedia"; return; }
-            Vector3 delta = transform.position - grass.transform.position; delta.y = 0;
+            if (grass == null && terrainGrass == null) { Activity = "Tidak ada rumput tersedia"; return; }
+            Vector3 grassPosition = grass != null
+                ? grass.transform.position : terrainGrass.GetPatchPosition(terrainGrassIndex);
+            Vector3 delta = transform.position - grassPosition; delta.y = 0;
             if (delta.magnitude < 1.35f)
             {
-                if (grass.TryGraze()) Animal.RegisterGrazing();
-                grass = null; path = null; return;
+                bool grazed = grass != null ? grass.TryGraze() : terrainGrass.TryGraze(terrainGrassIndex);
+                if (grazed) Animal.RegisterGrazing();
+                ClearGrassTarget(); path = null; return;
             }
-            destination = grass.transform.position + delta.normalized;
+            destination = grassPosition + (delta.sqrMagnitude > 0.0001f ? delta.normalized : Vector3.forward);
             Activity = "Menuju rumput";
         }
         if (Time.time >= nextPathTime && (path == null || (destination - pathDestination).sqrMagnitude > 1f))
@@ -133,6 +147,7 @@ public sealed class AnimalRoutine : MonoBehaviour
         if (Vector3.Distance(transform.position, path[waypoint]) < 0.12f) waypoint++;
     }
     void RecallIfNeeded() { if (!returning) Recall(); }
+    void ClearGrassTarget() { grass = null; terrainGrass = null; terrainGrassIndex = -1; }
     WorldGatherable FindGrass(Vector3 origin)
     {
         WorldGatherable best = null; float bestDistance = float.PositiveInfinity;
@@ -162,7 +177,7 @@ public sealed class AnimalRoutine : MonoBehaviour
     public void RestoreHome(string id, bool inside, bool goingHome)
     {
         ShowModel(); homeId = id; housed = inside; returning = goingHome;
-        path = null; grass = null; nextPathTime = 0;
+        path = null; ClearGrassTarget(); nextPathTime = 0;
     }
     public void RelocateHome(string id)
     {

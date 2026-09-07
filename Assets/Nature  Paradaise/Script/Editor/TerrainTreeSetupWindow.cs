@@ -61,6 +61,8 @@ public sealed class TerrainTreeSetupWindow : EditorWindow
             Debug.LogWarning("[Trees] Tambahkan prototype lewat Terrain > Paint Trees > Edit Trees dahulu.", target);
             return;
         }
+        if (target.GetComponent<TerrainRuntimeDataHost>() == null)
+            Undo.AddComponent<TerrainRuntimeDataHost>(target.gameObject);
         TerrainTreeManager manager = target.GetComponent<TerrainTreeManager>();
         bool newlyAdded = manager == null;
         if (newlyAdded) manager = Undo.AddComponent<TerrainTreeManager>(target.gameObject);

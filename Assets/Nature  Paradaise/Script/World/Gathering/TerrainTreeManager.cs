@@ -84,6 +84,8 @@ public sealed class TerrainTreeManager : MonoBehaviour
     TerrainData runtimeData;
     TerrainData sourceColliderData;
     TerrainCollider terrainCollider;
+    TerrainRuntimeDataHost runtimeHost;
+    bool ownsRuntimeData;
     Transform runtimeRoot;
     TreeInstance[] originalInstances;
     float nextCheckTime;
@@ -121,12 +123,22 @@ public sealed class TerrainTreeManager : MonoBehaviour
             enabled = false;
             return;
         }
-        sourceData = targetTerrain.terrainData;
+        runtimeHost = targetTerrain.GetComponent<TerrainRuntimeDataHost>();
         terrainCollider = targetTerrain.GetComponent<TerrainCollider>();
-        if (terrainCollider != null) sourceColliderData = terrainCollider.terrainData;
+        if (runtimeHost != null && runtimeHost.EnsureInitialized())
+        {
+            sourceData = runtimeHost.SourceData;
+            runtimeData = runtimeHost.RuntimeData;
+        }
+        else
+        {
+            sourceData = targetTerrain.terrainData;
+            if (terrainCollider != null) sourceColliderData = terrainCollider.terrainData;
+            runtimeData = Instantiate(sourceData);
+            runtimeData.name = sourceData.name + " (Tree Streaming Runtime)";
+            ownsRuntimeData = true;
+        }
         originalInstances = sourceData.treeInstances;
-        runtimeData = Instantiate(sourceData);
-        runtimeData.name = sourceData.name + " (Tree Streaming Runtime)";
         runtimeRoot = new GameObject("InteractiveTrees_Runtime").transform;
         runtimeRoot.SetParent(transform, false);
         // Root pool tidak mewarisi scale/rotation manager agar ukuran sama dengan Terrain tree.
@@ -148,8 +160,11 @@ public sealed class TerrainTreeManager : MonoBehaviour
         TimeManager.OnBeforeDayChange += AdvanceGrowth;
         if (!initialized) return;
         if (!EnabledManagers.Contains(this)) EnabledManagers.Add(this);
-        targetTerrain.terrainData = runtimeData;
-        if (terrainCollider != null) terrainCollider.terrainData = runtimeData;
+        if (runtimeHost == null)
+        {
+            targetTerrain.terrainData = runtimeData;
+            if (terrainCollider != null) terrainCollider.terrainData = runtimeData;
+        }
         HandleDayChanged();
         nextCheckTime = 0f;
     }
@@ -161,8 +176,11 @@ public sealed class TerrainTreeManager : MonoBehaviour
         if (!initialized) return;
         for (int i = active.Count - 1; i >= 0; i--) Deactivate(active[i], true);
         EnabledManagers.Remove(this);
-        if (targetTerrain != null) targetTerrain.terrainData = sourceData;
-        if (terrainCollider != null) terrainCollider.terrainData = sourceColliderData;
+        if (runtimeHost == null)
+        {
+            if (targetTerrain != null) targetTerrain.terrainData = sourceData;
+            if (terrainCollider != null) terrainCollider.terrainData = sourceColliderData;
+        }
         scanning = false;
         desired.Clear();
         desiredSet.Clear();
@@ -172,7 +190,7 @@ public sealed class TerrainTreeManager : MonoBehaviour
     {
         // Hanya salinan runtime milik manager; bukan asset Terrain atau prefab pengguna.
         if (runtimeRoot != null) Destroy(runtimeRoot.gameObject);
-        if (runtimeData != null) Destroy(runtimeData);
+        if (ownsRuntimeData && runtimeData != null) Destroy(runtimeData);
     }
 
     void BuildRecords()

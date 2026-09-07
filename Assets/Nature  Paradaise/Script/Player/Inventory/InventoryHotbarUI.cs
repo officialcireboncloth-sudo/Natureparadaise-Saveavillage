@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Inventory))]
 public sealed class InventoryHotbarUI : MonoBehaviour
 {
+    static InventoryHotbarUI instance;
     [Header("Optional PNG Sprites")]
     [SerializeField] Sprite hotbarPanelSprite;
     [SerializeField] Sprite slotSprite;
@@ -26,6 +28,9 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     PlayerToolHotbar toolHotbar;
     PlayerEatingSystem eatingSystem;
     readonly List<SlotView> views = new();
+    TMP_Text actionHint;
+    Coroutine temporaryHintRoutine;
+    string temporaryHint;
     int selectedIndex;
 
     public int SelectedIndex => selectedIndex;
@@ -35,6 +40,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
 
     void Awake()
     {
+        instance = this;
         inventory = GetComponent<Inventory>();
         toolHotbar = GetComponent<PlayerToolHotbar>();
         if (toolHotbar == null) toolHotbar = gameObject.AddComponent<PlayerToolHotbar>();
@@ -49,6 +55,11 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     void OnDisable()
     {
         if (inventory != null) inventory.OnInventoryChanged -= Refresh;
+    }
+
+    void OnDestroy()
+    {
+        if (instance == this) instance = null;
     }
 
     void Start()
@@ -75,6 +86,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     {
         selectedIndex = Mathf.Clamp(index, 0, inventory.HotbarSlotCount - 1);
         EquipSelectedItem();
+        RefreshActionHint();
         Refresh();
         SelectionChanged?.Invoke(selectedIndex);
     }
@@ -99,6 +111,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
                 : $"{i + 1}\nEMPTY";
         }
         EquipSelectedItem();
+        RefreshActionHint();
     }
 
     void EquipSelectedItem()
@@ -114,6 +127,65 @@ public sealed class InventoryHotbarUI : MonoBehaviour
                 eatingSystem?.SetSelectedFood(stack.item);
         }
         toolHotbar.SelectTool(selectedTool);
+    }
+
+    void RefreshActionHint()
+    {
+        if (actionHint == null || toolHotbar == null) return;
+        if (!string.IsNullOrEmpty(temporaryHint))
+        {
+            actionHint.text = $"<b>{temporaryHint}</b>";
+            return;
+        }
+        ItemSO item = SelectedItem;
+        AnimalCareCatalog animalCare = AnimalCareCatalog.Load();
+        string itemName = item != null ? item.itemName : "Slot kosong";
+        string action = toolHotbar.SelectedTool switch
+        {
+            PlayerToolType.Hoe => "F: cangkul tanah",
+            PlayerToolType.Seed => "F: tanam bibit",
+            PlayerToolType.WateringCan => "F: siram tanah atau tanaman",
+            PlayerToolType.Fertilizer => "F: pupuk tanah",
+            PlayerToolType.Sickle => "F: sabit rumput atau tanaman",
+            PlayerToolType.Hammer => "F: hancurkan batu",
+            PlayerToolType.Axe => "F: tebang pohon",
+            PlayerToolType.FishingRod => "F: gunakan pancing",
+            PlayerToolType.CropBooster => "F: gunakan crop booster",
+            _ when item != null && item.IsAnimalMedicine => "Dekati hewan sakit lalu tekan F: Give Medicine",
+            _ when item != null && animalCare != null && item == animalCare.fodder => "Dekati hewan lalu tekan F: beri makan",
+            _ when item != null && animalCare != null && item == animalCare.treat => "Dekati hewan lalu tekan F: beri treat",
+            _ when item != null && item.category == ItemCategory.Food => "C: makan item terpilih",
+            _ when item != null && item.canPlaceInWorld && item.canDropToWorld => "P: letakkan  |  G: jatuhkan  |  Shift: seluruh stack",
+            _ when item != null && item.canPlaceInWorld => "P: letakkan item",
+            _ when item != null && item.canDropToWorld => "G: jatuhkan item",
+            _ => "Pilih slot 1–8 untuk melihat aksi"
+        };
+        actionHint.text = $"<b>{itemName}</b>   —   {action}";
+    }
+
+    /// <summary>Memakai panel petunjuk hotbar untuk feedback agar tidak muncul dua kotak UI.</summary>
+    public static bool TryShowTemporaryMessage(string message, float duration)
+    {
+        if (instance == null || instance.actionHint == null || string.IsNullOrWhiteSpace(message))
+            return false;
+        instance.ShowTemporaryMessage(message, duration);
+        return true;
+    }
+
+    void ShowTemporaryMessage(string message, float duration)
+    {
+        if (temporaryHintRoutine != null) StopCoroutine(temporaryHintRoutine);
+        temporaryHint = message;
+        RefreshActionHint();
+        temporaryHintRoutine = StartCoroutine(ClearTemporaryMessage(Mathf.Max(0.2f, duration)));
+    }
+
+    IEnumerator ClearTemporaryMessage(float duration)
+    {
+        yield return new WaitForSecondsRealtime(duration);
+        temporaryHint = null;
+        temporaryHintRoutine = null;
+        RefreshActionHint();
     }
 
     void BuildUI()
@@ -132,6 +204,26 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920f, 1080f);
         scaler.matchWidthOrHeight = 0.5f;
+
+        RectTransform hintPanel = CreateRect("HotbarActionHint", canvasObject.transform);
+        hintPanel.anchorMin = hintPanel.anchorMax = new Vector2(0.5f, 0f);
+        hintPanel.pivot = new Vector2(0.5f, 0f);
+        hintPanel.anchoredPosition = new Vector2(0f, 136f);
+        hintPanel.sizeDelta = new Vector2(Mathf.Min(900f, totalWidth), 48f);
+        Image hintBackground = hintPanel.gameObject.AddComponent<Image>();
+        hintBackground.color = new Color(0.025f, 0.032f, 0.045f, 0.9f);
+        hintBackground.raycastTarget = false;
+        actionHint = CreateRect("ActionText", hintPanel).gameObject.AddComponent<TextMeshProUGUI>();
+        actionHint.rectTransform.anchorMin = Vector2.zero;
+        actionHint.rectTransform.anchorMax = Vector2.one;
+        actionHint.rectTransform.offsetMin = new Vector2(14f, 4f);
+        actionHint.rectTransform.offsetMax = new Vector2(-14f, -4f);
+        actionHint.font = TMP_Settings.defaultFontAsset;
+        actionHint.fontSize = 17f;
+        actionHint.color = Color.white;
+        actionHint.alignment = TextAlignmentOptions.Center;
+        actionHint.textWrappingMode = TextWrappingModes.NoWrap;
+        actionHint.raycastTarget = false;
 
         RectTransform panel = CreateRect("HotbarPanel", canvasObject.transform);
         panel.anchorMin = panel.anchorMax = new Vector2(0.5f, 0f);
@@ -179,6 +271,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             label.raycastTarget = false;
             views.Add(new SlotView(background, icon, label));
         }
+        RefreshActionHint();
     }
 
     static RectTransform CreateRect(string name, Transform parent)

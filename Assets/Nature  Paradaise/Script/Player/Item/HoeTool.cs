@@ -23,11 +23,11 @@ public class FarmingTool : MonoBehaviour
     [Tooltip("Layer Field dan Crop.")]
     public LayerMask fieldMask;
 
-    [Header("Input")]
-    public KeyCode actionKey = KeyCode.H;
-    public KeyCode waterKey = KeyCode.V;
-    public KeyCode fertilizeKey = KeyCode.N;
-    public KeyCode cropBoosterKey = KeyCode.M;
+    [Header("Legacy Input (Disabled - use held hotbar item + F)")]
+    [HideInInspector] public KeyCode actionKey = KeyCode.H;
+    [HideInInspector] public KeyCode waterKey = KeyCode.V;
+    [HideInInspector] public KeyCode fertilizeKey = KeyCode.N;
+    [HideInInspector] public KeyCode cropBoosterKey = KeyCode.M;
 
     [Header("Raycast Distance")]
     public float maxDist = 100f;
@@ -127,13 +127,12 @@ public class FarmingTool : MonoBehaviour
         if (movement != null && movement.IsMovementLocked)
             return;
 
-        bool legacyHoe = Input.GetKeyDown(actionKey);
-        bool useHoe = legacyHoe || hotbar.IsUsePressed(PlayerToolType.Hoe);
-        bool useWater = Input.GetKeyDown(waterKey) || hotbar.IsUsePressed(PlayerToolType.WateringCan);
-        bool useFertilizer = Input.GetKeyDown(fertilizeKey) || hotbar.IsUsePressed(PlayerToolType.Fertilizer);
-        bool useCropBooster = Input.GetKeyDown(cropBoosterKey) || hotbar.IsUsePressed(PlayerToolType.CropBooster);
+        bool useHoe = hotbar.IsUsePressed(PlayerToolType.Hoe);
+        bool useWater = hotbar.IsUsePressed(PlayerToolType.WateringCan);
+        bool useFertilizer = hotbar.IsUsePressed(PlayerToolType.Fertilizer);
+        bool useCropBooster = hotbar.IsUsePressed(PlayerToolType.CropBooster);
 
-        if (useHoe) UseHoe(legacyHoe);
+        if (useHoe) UseHoe(true);
         else if (useWater) UseSoilEffect(true);
         else if (useFertilizer) UseSoilEffect(false);
         else if (useCropBooster) UseCropBooster();
@@ -160,7 +159,7 @@ public class FarmingTool : MonoBehaviour
         if (!HUDManager.FarmingDebugCluesEnabled)
         {
             string label = snapshot.CropState == CropLifecycleState.HarvestReady
-                ? $"{cropName}\n{actionKey} - Panen"
+                ? $"{cropName}\nF - Panen (pegang Hoe)"
                 : cropName;
             WorldInteractionPrompt.Request(this, promptPosition, label,
                 Vector3.Distance(transform.position, promptPosition));
@@ -182,7 +181,7 @@ public class FarmingTool : MonoBehaviour
 
         string text = snapshot.CropState switch
         {
-            CropLifecycleState.HarvestReady => $"{cropName} siap panen - tekan {actionKey}",
+            CropLifecycleState.HarvestReady => $"{cropName} siap panen - pegang Hoe lalu tekan F",
             CropLifecycleState.Withered => $"{cropName} layu - perlu air untuk pulih | {fertilizerClue}",
             CropLifecycleState.Regrowing =>
                 $"{cropName} tumbuh kembali {Mathf.CeilToInt(snapshot.RegrowDaysRemaining)} hari | {waterClue}",

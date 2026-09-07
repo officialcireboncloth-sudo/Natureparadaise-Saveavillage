@@ -20,6 +20,8 @@ MonoBehaviour:
   maxStack: 32
   canDropToWorld: 1
   canPlaceInWorld: 0
+  worldPrefab: {fileID: 8233373944748900390, guid: 51d0888e2844d574182d975776b7c9f7, type: 3}
+  worldScale: {x: 0.35, y: 0.35, z: 0.35}
   isEdible: 0
   foodPreparation: 0
   healthRestore: 0

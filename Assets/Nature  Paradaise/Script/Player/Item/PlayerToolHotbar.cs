@@ -35,9 +35,10 @@ public sealed class PlayerToolHotbar : MonoBehaviour
     [SerializeField] KeyCode hammerKey = KeyCode.F6;
     [SerializeField] KeyCode axeKey = KeyCode.F7;
     [SerializeField] KeyCode cropBoosterKey = KeyCode.F8;
+    [SerializeField] bool allowDebugToolShortcuts;
     [Header("Use Tool")]
     [SerializeField] KeyCode useToolKey = KeyCode.F;
-    [SerializeField] bool allowLeftMouse = true;
+    [SerializeField] bool allowLeftMouse;
 
     bool mobileUsePending;
 
@@ -46,6 +47,7 @@ public sealed class PlayerToolHotbar : MonoBehaviour
 
     void Update()
     {
+        if (!allowDebugToolShortcuts) return;
         if (Input.GetKeyDown(hoeKey)) SelectTool(PlayerToolType.Hoe);
         else if (Input.GetKeyDown(seedKey)) SelectTool(PlayerToolType.Seed);
         else if (Input.GetKeyDown(waterKey)) SelectTool(PlayerToolType.WateringCan);
