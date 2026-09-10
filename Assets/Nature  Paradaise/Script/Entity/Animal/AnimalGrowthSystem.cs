@@ -2,6 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AnimalFoodSource : byte
+{
+    None,
+    HandFeed,
+    FeedingTrough,
+    Grazing,
+    AutoFeeder
+}
+
 [Serializable]
 public sealed class AnimalSceneStageVisual
 {
@@ -32,6 +41,8 @@ public sealed class AnimalSaveData
     public float happiness;
     public float friendship;
     public bool fedToday;
+    public AnimalFoodSource foodSource;
+    public int lastFedDay = -1;
     public bool pettedToday;
     public bool sheltered;
     public bool productReady;
@@ -81,6 +92,8 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     [SerializeField, Range(0f, 100f)] float fullness = 50f;
     [SerializeField, Min(0f)] float dailyFullnessLoss = 35f;
     [SerializeField] bool fedToday;
+    [SerializeField] AnimalFoodSource foodSource;
+    [SerializeField] int lastFedDay = -1;
     [SerializeField] bool pettedToday;
     [SerializeField] bool sheltered = true;
 
@@ -166,10 +179,12 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     public float AnimalValueMultiplier => SalePriceSettings.Multiplier(HeartLevel);
     public int AnimalSellPrice => SalePriceSettings.Calculate(HeartLevel);
     public string InfoSummary => $"{AnimalName} — {Type}\nHeart: {HeartLevel}/10 | Happiness: {(happiness >= 70 ? "Happy" : happiness >= 35 ? "Calm" : "Stressed")}\n" +
-        $"Health: {HealthSummary} | Fed: {(fedToday ? "Yes" : "No")} | Pet: {(pettedToday ? "Yes" : "No")}\n" +
+        $"Health: {HealthSummary} | Fed: {(fedToday ? $"Yes ({FoodSourceLabel})" : "No")} | Pet: {(pettedToday ? "Yes" : "No")}\n" +
         $"Growth: {GrowthStage} | Production: {(productReady ? "Ready" : "Not Ready")}\n" +
         $"Sell Value: {AnimalSellPrice} G (Heart x{AnimalValueMultiplier:0.##})";
     public bool FedToday => fedToday;
+    public AnimalFoodSource FoodSource => fedToday ? foodSource : AnimalFoodSource.None;
+    public int LastFedDay => lastFedDay;
     public bool IsSheltered => sheltered;
     public bool IsAdult => hasBeenBorn && GrowthStage == AnimalGrowthStage.Adult;
     public static int ActiveAnimalCount => Registry.Count;
@@ -195,7 +210,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     public string StatusSummary =>
         $"{Type} | {GrowthStage} | Age {ageDays}d\n" +
-        $"Growth {growthDays}/{AdultGrowthDays} | Fed: {(fedToday ? "Yes" : "No")}\n" +
+        $"Growth {growthDays}/{AdultGrowthDays} | Fed: {(fedToday ? $"Yes ({FoodSourceLabel})" : "No")}\n" +
         $"Health: {HealthSummary} | Happy {Mathf.RoundToInt(happiness)} | Heart {HeartPoints}/1000";
 
     void Awake()
@@ -290,6 +305,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         fullness = Mathf.Max(0f, fullness - dailyFullnessLoss);
         GetComponent<AnimalController>().RestoreProduction(fullness);
         fedToday = false;
+        foodSource = AnimalFoodSource.None;
         pettedToday = false;
         ApplyGrowthVisual(false);
     }
@@ -332,13 +348,16 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         }
     }
 
-    public void RegisterFeeding(float fullnessAmount)
+    public bool RegisterFeeding(float fullnessAmount, AnimalFoodSource source = AnimalFoodSource.HandFeed)
     {
-        if (!hasBeenBorn || fullnessAmount <= 0) return;
+        if (!hasBeenBorn || fedToday || fullnessAmount <= 0f) return false;
         fullness = Mathf.Clamp(fullness + Mathf.Max(0f, fullnessAmount), 0f, 100f);
         fedToday = true;
+        foodSource = source;
+        lastFedDay = CurrentDay;
         if (heart.RewardOnce(ref heart.lastFeedDay, CurrentDay, heartRules.feedingPoints))
             happiness = Mathf.Min(100f, happiness + 2f);
+        return true;
     }
 
     public void Pet()
@@ -400,10 +419,9 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     /// <summary>Hook grazing setelah makan rumput; tidak memberi reward hanya karena keluar kandang.</summary>
     public bool RegisterGrazing()
     {
-        if (!hasBeenBorn || sheltered || !CanGrazeToday || health != AnimalHealthState.Healthy || heart.grazingDay == CurrentDay) return false;
+        if (!hasBeenBorn || fedToday || sheltered || !CanGrazeToday || health != AnimalHealthState.Healthy || heart.grazingDay == CurrentDay) return false;
         heart.grazingDay = CurrentDay;
-        RegisterFeeding(35f);
-        return true;
+        return RegisterFeeding(35f, AnimalFoodSource.Grazing);
     }
 
     public void InitializePurchasedYoung(int currentDay)
@@ -760,6 +778,8 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         happiness = happiness,
         friendship = Friendship,
         fedToday = fedToday,
+        foodSource = foodSource,
+        lastFedDay = lastFedDay,
         pettedToday = pettedToday,
         sheltered = sheltered,
         productReady = productReady,
@@ -793,6 +813,10 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         happiness = Mathf.Clamp(data.happiness, 0f, 100f);
         friendship = Mathf.Clamp(data.friendship, 0f, 100f);
         fedToday = data.fedToday;
+        foodSource = data.fedToday
+            ? data.foodSource == AnimalFoodSource.None ? AnimalFoodSource.FeedingTrough : data.foodSource
+            : AnimalFoodSource.None;
+        lastFedDay = data.lastFedDay > 0 ? data.lastFedDay : heart.lastFeedDay;
         pettedToday = data.pettedToday;
         sheltered = data.sheltered;
         productReady = data.productReady;
@@ -864,4 +888,13 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         scale.y = Mathf.Max(0.01f, scale.y);
         scale.z = Mathf.Max(0.01f, scale.z);
     }
+
+    string FoodSourceLabel => foodSource switch
+    {
+        AnimalFoodSource.HandFeed => "Hand Feed",
+        AnimalFoodSource.FeedingTrough => "Trough",
+        AnimalFoodSource.Grazing => "Grazing",
+        AnimalFoodSource.AutoFeeder => "Auto Feeder",
+        _ => "Unknown"
+    };
 }

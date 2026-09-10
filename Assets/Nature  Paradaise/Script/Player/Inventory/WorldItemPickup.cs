@@ -17,6 +17,7 @@ public sealed class WorldItemPickup : MonoBehaviour
     public int QualityStars { get; set; }
     [SerializeField] bool autoPickup;
     [SerializeField] KeyCode pickupKey = KeyCode.E;
+    [SerializeField, Min(0.1f)] float pickupRadius = 2.5f;
     [SerializeField, Min(0f)] float promptHeight = 0.75f;
 
     [Header("Subtle Pickup Hint")]
@@ -86,7 +87,7 @@ public sealed class WorldItemPickup : MonoBehaviour
     {
         if (playerCandidate == null) playerCandidate = FindFirstObjectByType<Inventory>();
         Transform target = destroyTarget != null ? destroyTarget.transform : transform;
-        nearbyInventory = playerCandidate != null && PlayerInteractionTarget.Contains(playerCandidate.transform, target)
+        nearbyInventory = playerCandidate != null && PlayerInteractionTarget.ContainsPickup(playerCandidate.transform, target, pickupRadius)
             ? playerCandidate : null;
         UpdatePickupHint();
 
@@ -95,9 +96,9 @@ public sealed class WorldItemPickup : MonoBehaviour
         float ownDistance = (transform.position - nearbyInventory.transform.position).sqrMagnitude;
         foreach (WorldItemPickup other in Active)
         {
-            if (other == null || other == this || other.amount <= 0) continue;
+            if (other == null || other == this || other.amount <= 0 || other.item == null) continue;
             Transform otherTarget = other.destroyTarget != null ? other.destroyTarget.transform : other.transform;
-            if (!PlayerInteractionTarget.Contains(nearbyInventory.transform, otherTarget)) continue;
+            if (!PlayerInteractionTarget.ContainsPickup(nearbyInventory.transform, otherTarget, other.pickupRadius)) continue;
             float otherDistance = (other.transform.position - nearbyInventory.transform.position).sqrMagnitude;
             if (otherDistance < ownDistance || (Mathf.Approximately(otherDistance, ownDistance) && other.GetInstanceID() < GetInstanceID())) return;
         }
@@ -112,7 +113,7 @@ public sealed class WorldItemPickup : MonoBehaviour
             promptHeight
         );
 
-        if (PlayerInteractionTarget.Press(nearbyInventory.transform, target, pickupKey))
+        if (PlayerInteractionTarget.PressPickup(nearbyInventory.transform, target, pickupKey, pickupRadius))
             TryPickup();
     }
 
@@ -138,7 +139,7 @@ public sealed class WorldItemPickup : MonoBehaviour
     {
         if (nearbyInventory == null || item == null || amount <= 0)
             return false;
-        if (!PlayerInteractionTarget.Contains(nearbyInventory.transform, destroyTarget != null ? destroyTarget.transform : transform)) return false;
+        if (!PlayerInteractionTarget.ContainsPickup(nearbyInventory.transform, destroyTarget != null ? destroyTarget.transform : transform, pickupRadius)) return false;
 
         if (!nearbyInventory.Add(item, amount, QualityStars))
         {
@@ -146,7 +147,9 @@ public sealed class WorldItemPickup : MonoBehaviour
             return false;
         }
 
+        int collectedAmount = amount;
         SaveLoadFeedback.Instance?.ShowMessage($"Mengambil {item.itemName} x{amount}");
+        QuestEventHub.Publish(QuestObjectiveType.Collect, item.name, collectedAmount, item);
         amount = 0;
         if (destroyTarget != null) destroyTarget.SetActive(false);
         Destroy(destroyTarget != null ? destroyTarget : gameObject);

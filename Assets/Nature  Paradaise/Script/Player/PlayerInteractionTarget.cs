@@ -52,6 +52,25 @@ public static class PlayerInteractionTarget
     public static bool Press(Transform player, Transform target, KeyCode key)
     {
         if (!Input.GetKeyDown(key) || !Contains(player, target)) return false;
+        return ConsumeKey(key);
+    }
+
+    public static bool ContainsPickup(Transform player, Transform target, float radius)
+    {
+        if (player == null || target == null || WorldInteractionPrompt.IsSuppressed) return false;
+        PlayerController controller = player.GetComponent<PlayerController>();
+        if (controller != null && controller.IsMovementLocked) return false;
+        Vector3 delta = target.position - player.position;
+        return Mathf.Abs(delta.y) <= 2f && delta.x * delta.x + delta.z * delta.z <= radius * radius;
+    }
+
+    public static bool PressPickup(Transform player, Transform target, KeyCode key, float radius)
+    {
+        return Input.GetKeyDown(key) && ContainsPickup(player, target, radius) && ConsumeKey(key);
+    }
+
+    static bool ConsumeKey(KeyCode key)
+    {
         if (inputFrame != Time.frameCount) { inputFrame = Time.frameCount; UsedKeys.Clear(); }
         return UsedKeys.Add(key);
     }

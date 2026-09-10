@@ -62,6 +62,12 @@ public class ItemSO : ScriptableObject
     [Tooltip("Dipakai untuk sorting dan validasi fitur seperti eating atau tool selection.")]
     public ItemCategory category = ItemCategory.General;
     public bool isAnimalProduct;
+    [Tooltip("Key Item tidak dapat dijual melalui shop, shipping, atau Market Stand.")]
+    public bool isKeyItem;
+    [Tooltip("Blokir item ini dari seluruh sistem penjualan meskipun Sell Price lebih dari 0.")]
+    public bool isNotSellable;
+    [Tooltip("Minta konfirmasi sebelum item dimasukkan ke Shipping Bin.")]
+    public bool requiresSellConfirmation;
     [Tooltip("Jumlah maksimum dalam satu slot inventory.")]
     [Min(1)] public int maxStack = 16;
     [Tooltip("Jika item ini diletakkan di hotbar, tool ini yang aktif. None untuk item biasa.")]
@@ -140,6 +146,32 @@ public class ItemSO : ScriptableObject
         category == ItemCategory.Seed || equippedTool == PlayerToolType.Seed;
 
     public bool IsAnimalMedicine => animalMedicineLevel != AnimalMedicineLevel.None;
+
+    /// <summary>Aturan tunggal untuk barang yang boleh dititipkan pada Market Stand.</summary>
+    public bool CanSellAtMarket =>
+        sellPrice > 0 &&
+        !isKeyItem &&
+        !isNotSellable &&
+        category != ItemCategory.Tool &&
+        category != ItemCategory.Quest &&
+        equippedTool == PlayerToolType.None;
+
+    /// <summary>
+    /// Harga jual aktual. Setiap quality star menambah 20%; ikan memakai ukuran
+    /// 5-100 cm untuk multiplier 0.75-1.75 jika ukuran tersedia.
+    /// </summary>
+    public int GetMarketSellPrice(int qualityStars = 0, float fishSizeCm = 0f)
+    {
+        if (!CanSellAtMarket)
+            return 0;
+
+        float qualityMultiplier = 1f + Mathf.Clamp(qualityStars, 0, 5) * 0.2f;
+        float sizeMultiplier = 1f;
+        if (category == ItemCategory.Fish && fishSizeCm > 0f)
+            sizeMultiplier = Mathf.Lerp(0.75f, 1.75f, Mathf.InverseLerp(5f, 100f, fishSizeCm));
+
+        return Mathf.Max(1, Mathf.RoundToInt(sellPrice * qualityMultiplier * sizeMultiplier));
+    }
 
     /// <summary>True jika item memiliki setidaknya satu aksi world dan perlu divisualkan di tangan.</summary>
     public bool HasHeldWorldAction => canDropToWorld || canPlaceInWorld || IsSeed;

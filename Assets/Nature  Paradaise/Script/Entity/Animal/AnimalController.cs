@@ -218,7 +218,7 @@ public class AnimalController : MonoBehaviour
 
         // Clamp supaya tidak lebih dari max
         hunger = Mathf.Clamp(hunger, 0f, maxHunger);
-        growth?.RegisterFeeding(cabbageHunger);
+        growth?.RegisterFeeding(cabbageHunger, AnimalFoodSource.HandFeed);
 
         Debug.Log(
             $"[ANIMAL] Diberi makan {cabbageItem.itemName}. " +

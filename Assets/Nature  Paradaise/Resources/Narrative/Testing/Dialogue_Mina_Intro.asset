@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10240fb7eccb4dc5aa9192f4362b9b17, type: 3}
+  m_Name: Dialogue_Mina_Intro
+  m_EditorClassIdentifier: 
+  conversationId: test.mina.intro
+  defaultSpeaker: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+  entryNodeId: start
+  nodes:
+  - nodeId: start
+    speakerOverride: {fileID: 0}
+    text: Halo! Aku butuh 3 Wood. Pegang Axe dari hotbar, tebang pohon, lalu ambil
+      kayu yang jatuh. Tracker di layar akan mencatat jumlahnya.
+    localizationKey: 
+    emotion: Friendly
+    nextNodeId: 
+    commands:
+    - type: 2
+      flagId: 
+      flagValue: 1
+      quest: {fileID: 11400000, guid: dc0e2178f504d0540afbb481f00ef789, type: 2}
+      objectiveId: 
+      amount: 1
+      item: {fileID: 0}
+      goldAmount: 0
+    choices: []

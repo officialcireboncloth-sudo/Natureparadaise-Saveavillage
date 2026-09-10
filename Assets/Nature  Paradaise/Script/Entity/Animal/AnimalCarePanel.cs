@@ -41,7 +41,7 @@ public sealed class AnimalCarePanel : MonoBehaviour
         scroll = GUILayout.BeginScrollView(scroll);
         if (home != null)
         {
-            GUILayout.Label($"{home.Label} — {home.Residents.Count}/{home.Capacity} hewan | Pakan: {home.Fodder}");
+            GUILayout.Label($"{home.Label} — {home.Residents.Count}/{home.Capacity} hewan | Pakan: {home.Fodder} | Auto Feeder: {(home.HasAutoFeeder ? "ON" : "OFF")}");
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Isi 1 Fodder")) feedback = home.Deposit(inventory, 1) ? "Pakan ditambahkan" : "Fodder kurang / tempat penuh";
             if (GUILayout.Button("Isi 10 Fodder")) feedback = home.Deposit(inventory, 10) ? "Pakan ditambahkan" : "Butuh 10 Fodder / tempat penuh";

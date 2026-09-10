@@ -108,6 +108,17 @@ public class SaveManager : MonoBehaviour
         // HEWAN: umur, growth progress, care, health, produksi, trait, dan posisi.
         public List<AnimalSaveData> animals;
         public List<AnimalHomeSaveData> animalHomes;
+        // PERSONAL COMPANION terpisah dari ternak produksi Barn/Coop.
+        public List<PersonalAnimalSaveData> personalAnimals;
+        public List<TameableCreatureSaveData> tameableCreatures;
+
+        // MARKET STAND: stok jual pasif, waktu simulasi terakhir, dan pendapatan total.
+        public List<MarketStandSaveData> marketStands;
+        // SHIPPING BIN: barang pending, snapshot harga, dan laporan penjualan terakhir.
+        public List<ShippingBinSaveData> shippingBins;
+        // NARRATIVE: progres objective quest dan flag percakapan disimpan terpisah dari UI.
+        public QuestSystemSaveData questSystem;
+        public DialogueSystemSaveData dialogueSystem;
 
         // PLAYER STATUS (hasPlayerStatus menjaga kompatibilitas save lama)
         public bool hasPlayerStatus;
@@ -135,6 +146,7 @@ public class SaveManager : MonoBehaviour
         public int count;
         public int slotIndex;
         public int qualityStars;
+        public float fishSizeCm;
     }
 
     // =====================================================
@@ -310,6 +322,7 @@ public class SaveManager : MonoBehaviour
                 itemName = stack.item.itemName,
                 count = stack.count,
                 qualityStars = stack.qualityStars,
+                fishSizeCm = stack.fishSizeCm,
                 slotIndex = i
             });
         }
@@ -346,6 +359,12 @@ public class SaveManager : MonoBehaviour
         data.animals =
             AnimalGrowthSystem.CaptureAll();
         data.animalHomes = AnimalHome.CaptureAll();
+        data.personalAnimals = PersonalAnimal.CaptureAll();
+        data.tameableCreatures = TameableCreature.CaptureAll();
+        data.marketStands = MarketStand.CaptureAll();
+        data.shippingBins = ShippingBin.CaptureAll();
+        data.questSystem = QuestService.Instance?.Capture();
+        data.dialogueSystem = DialogueService.Instance?.Capture();
 
         if (playerStatus != null)
         {
@@ -585,12 +604,12 @@ public class SaveManager : MonoBehaviour
                     int targetSlot = data.inventoryLayoutVersion < 3 && savedSlot.slotIndex >= 4
                         ? savedSlot.slotIndex + 4
                         : savedSlot.slotIndex;
-                    if (!playerInv.TrySetSlot(targetSlot, item, savedSlot.count, savedSlot.qualityStars))
-                        playerInv.Add(item, savedSlot.count, savedSlot.qualityStars);
+                    if (!playerInv.TrySetSlot(targetSlot, item, savedSlot.count, savedSlot.qualityStars, savedSlot.fishSizeCm))
+                        playerInv.Add(item, savedSlot.count, savedSlot.qualityStars, savedSlot.fishSizeCm);
                 }
                 else
                 {
-                    playerInv.Add(item, savedSlot.count, savedSlot.qualityStars);
+                    playerInv.Add(item, savedSlot.count, savedSlot.qualityStars, savedSlot.fishSizeCm);
                 }
             }
         }
@@ -645,6 +664,13 @@ public class SaveManager : MonoBehaviour
         AnimalGrowthSystem.RestoreAll(
             data.animals
         );
+        PersonalAnimal.RestoreAll(data.personalAnimals);
+        TameableCreature.RestoreAll(data.tameableCreatures);
+        MarketStand.RestoreAll(data.marketStands);
+        ShippingBin.RestoreAll(data.shippingBins);
+        // Inventory dan Village Level harus pulih lebih dahulu karena menjadi condition quest/dialogue.
+        QuestService.Instance?.Restore(data.questSystem);
+        DialogueService.Instance?.Restore(data.dialogueSystem);
 
         if (data.hasPlayerStatus)
         {

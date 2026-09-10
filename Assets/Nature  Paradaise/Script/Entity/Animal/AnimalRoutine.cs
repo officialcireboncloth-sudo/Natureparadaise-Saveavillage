@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,10 @@ public sealed class AnimalRoutine : MonoBehaviour
     [SerializeField] bool returning;
     [Min(0.1f)] public float walkSpeed = 1.5f;
     [Min(1f)] public float grazingSearchRadius = 20f;
+    [Header("Eating")]
+    [SerializeField, Min(0.1f)] float eatingDuration = 1.35f;
+    [SerializeField] string eatingTrigger = "Eat";
+    [SerializeField] RuntimeAnimatorController eatingController;
     public string HomeId => homeId;
     public bool IsHoused => housed;
     public bool Returning => returning;
@@ -23,6 +28,9 @@ public sealed class AnimalRoutine : MonoBehaviour
     Rigidbody body;
     bool originalKinematic;
     float nextPathTime;
+    bool eating;
+    Animator activeEatingAnimator;
+    RuntimeAnimatorController controllerBeforeEating;
     Vector3 pathDestination;
     readonly Dictionary<Renderer, bool> renderers = new();
     readonly Dictionary<Collider, bool> colliders = new();
@@ -40,7 +48,7 @@ public sealed class AnimalRoutine : MonoBehaviour
     }
     void OnDisable()
     {
-        Active.Remove(this); TimeManager.OnDay -= Overnight; ShowModel();
+        Active.Remove(this); TimeManager.OnDay -= Overnight; StopAllCoroutines(); RestoreEatingAnimation(); eating = false; ShowModel();
         if (body != null) body.isKinematic = originalKinematic;
     }
     public bool Assign(AnimalHome home)
@@ -93,6 +101,7 @@ public sealed class AnimalRoutine : MonoBehaviour
         }
         if (housed) { Animal.SetSheltered(true); PrepareDailyCare(); Activity = "Di kandang"; return; }
         Animal.SetSheltered(false);
+        if (eating) { Activity = "Makan rumput"; return; }
         int hour = TimeManager.Instance != null ? TimeManager.Instance.hour : 6;
         if (hour >= 18 || hour < 6 || !Animal.CanGrazeToday || !Animal.HasBeenBorn || Animal.Health != AnimalHealthState.Healthy) RecallIfNeeded();
         Vector3 destination;
@@ -103,7 +112,7 @@ public sealed class AnimalRoutine : MonoBehaviour
         }
         else
         {
-            if (Animal.GrazedToday) { Activity = "Merumput / beristirahat"; return; }
+            if (Animal.FedToday) { Activity = "Sudah makan / beristirahat"; return; }
             if (grass != null && !grass.IsAvailable) grass = null;
             if (terrainGrass != null && !terrainGrass.IsPatchAvailable(terrainGrassIndex))
             {
@@ -124,9 +133,8 @@ public sealed class AnimalRoutine : MonoBehaviour
             Vector3 delta = transform.position - grassPosition; delta.y = 0;
             if (delta.magnitude < 1.35f)
             {
-                bool grazed = grass != null ? grass.TryGraze() : terrainGrass.TryGraze(terrainGrassIndex);
-                if (grazed) Animal.RegisterGrazing();
-                ClearGrassTarget(); path = null; return;
+                StartCoroutine(EatGrass());
+                return;
             }
             destination = grassPosition + (delta.sqrMagnitude > 0.0001f ? delta.normalized : Vector3.forward);
             Activity = "Menuju rumput";
@@ -147,6 +155,46 @@ public sealed class AnimalRoutine : MonoBehaviour
         if (Vector3.Distance(transform.position, path[waypoint]) < 0.12f) waypoint++;
     }
     void RecallIfNeeded() { if (!returning) Recall(); }
+
+    IEnumerator EatGrass()
+    {
+        eating = true;
+        Activity = "Makan rumput";
+        activeEatingAnimator = GetComponentInChildren<Animator>();
+        controllerBeforeEating = activeEatingAnimator != null ? activeEatingAnimator.runtimeAnimatorController : null;
+        if (eatingController == null && Animal != null)
+            eatingController = AnimalCareCatalog.Load()?.EatingController(Animal.Type);
+        if (activeEatingAnimator != null && eatingController != null)
+            activeEatingAnimator.runtimeAnimatorController = eatingController;
+        else if (activeEatingAnimator != null && !string.IsNullOrWhiteSpace(eatingTrigger))
+            foreach (AnimatorControllerParameter parameter in activeEatingAnimator.parameters)
+                if (parameter.type == AnimatorControllerParameterType.Trigger && parameter.name == eatingTrigger)
+                { activeEatingAnimator.SetTrigger(eatingTrigger); break; }
+
+        yield return new WaitForSeconds(eatingDuration);
+
+        if (Animal != null && !Animal.FedToday && Animal.Health == AnimalHealthState.Healthy && Animal.CanGrazeToday)
+        {
+            bool consumed = grass != null ? grass.TryGraze() :
+                terrainGrass != null && terrainGrass.TryGraze(terrainGrassIndex);
+            if (consumed) Animal.RegisterGrazing();
+        }
+        RestoreEatingAnimation();
+        ClearGrassTarget();
+        path = null;
+        eating = false;
+        Activity = Animal != null && Animal.FedToday ? "Sudah makan / beristirahat" : "Mencari rumput";
+    }
+
+    void RestoreEatingAnimation()
+    {
+        if (activeEatingAnimator != null && eatingController != null &&
+            activeEatingAnimator.runtimeAnimatorController == eatingController)
+            activeEatingAnimator.runtimeAnimatorController = controllerBeforeEating;
+        activeEatingAnimator = null;
+        controllerBeforeEating = null;
+    }
+
     void ClearGrassTarget() { grass = null; terrainGrass = null; terrainGrassIndex = -1; }
     WorldGatherable FindGrass(Vector3 origin)
     {

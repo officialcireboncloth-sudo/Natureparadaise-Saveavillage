@@ -523,6 +523,7 @@ public sealed class FieldArea : MonoBehaviour
             HideCropView(index);
         NotifyChanged(x, z);
         CropHarvested?.Invoke(result);
+        QuestEventHub.Publish(QuestObjectiveType.Harvest, item.name, amount, item);
         return true;
     }
 

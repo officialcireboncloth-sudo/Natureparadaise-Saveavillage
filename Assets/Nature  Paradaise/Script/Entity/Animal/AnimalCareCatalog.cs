@@ -10,8 +10,13 @@ public sealed class AnimalCareCatalog : ScriptableObject
     [Tooltip("Urutan Basic, Strong, Premium. Field Medicine lama tetap menjadi fallback Basic.")]
     public ItemSO[] medicines = new ItemSO[3];
     public ItemSO[] products = new ItemSO[5];
+    [Tooltip("Controller animasi makan sesuai urutan AnimalType: Chicken, Duck, Goat, Sheep, Cow.")]
+    public RuntimeAnimatorController[] eatingControllers = new RuntimeAnimatorController[5];
     public static AnimalCareCatalog Load() => Resources.Load<AnimalCareCatalog>("Catalogs/AnimalCareCatalog");
     public ItemSO Product(AnimalType type) => products != null && (int)type < products.Length ? products[(int)type] : null;
+    public RuntimeAnimatorController EatingController(AnimalType type) =>
+        eatingControllers != null && (int)type >= 0 && (int)type < eatingControllers.Length
+            ? eatingControllers[(int)type] : null;
     public ItemSO Medicine(AnimalMedicineLevel level)
     {
         int index = (int)level - 1;

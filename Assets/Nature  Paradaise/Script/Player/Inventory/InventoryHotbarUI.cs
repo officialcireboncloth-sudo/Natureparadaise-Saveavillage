@@ -160,7 +160,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             _ when item != null && item.canDropToWorld => "G: jatuhkan item",
             _ => "Pilih slot 1–8 untuk melihat aksi"
         };
-        actionHint.text = $"<b>{itemName}</b>   —   {action}";
+        actionHint.text = $"<b>{itemName}</b>   —   {action}   |   Y: Animal Bell   |   V: Whistle";
     }
 
     /// <summary>Memakai panel petunjuk hotbar untuk feedback agar tidak muncul dua kotak UI.</summary>

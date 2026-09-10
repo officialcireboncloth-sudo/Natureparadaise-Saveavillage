@@ -183,6 +183,15 @@ public sealed class WorldGatherable : MonoBehaviour
     public static void SpawnLoosePickup(ItemSO item, int amount, Vector3 position)
     {
         if (item == null || amount <= 0) return;
+        // Scatter offset can land uphill from the source tree. Keep the drop above terrain.
+        foreach (Terrain terrain in Terrain.activeTerrains)
+        {
+            if (terrain.terrainData == null) continue;
+            Vector3 local = position - terrain.transform.position;
+            Vector3 size = terrain.terrainData.size;
+            if (local.x < 0f || local.z < 0f || local.x > size.x || local.z > size.z) continue;
+            position.y = Mathf.Max(position.y, terrain.SampleHeight(position) + terrain.transform.position.y + 0.25f);
+        }
         GameObject drop = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         drop.name = $"Pickup_{item.itemName}";
         drop.transform.position = position;

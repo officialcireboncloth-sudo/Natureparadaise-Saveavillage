@@ -73,7 +73,7 @@ public sealed class PlayerController : MonoBehaviour
     public MovementMode CurrentMode { get; private set; }
     public Vector3 PlanarVelocity => planarVelocity;
     public float CurrentSpeed => planarVelocity.magnitude;
-    public bool IsGrounded => characterController != null && characterController.isGrounded;
+    public bool IsGrounded => characterController != null && characterController.enabled && characterController.isGrounded;
     public bool IsMovementLocked => manualLock || movementLocks.Count > 0;
     public bool IsCarrying => isCarrying;
     public Vector3 FacingDirection { get; private set; } = Vector3.forward;
@@ -97,6 +97,17 @@ public sealed class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // Saat player menunggang horse, CharacterController sengaja dinonaktifkan agar
+        // collider player tidak melawan gerakan mount. Jangan memanggil Move pada state itu.
+        if (characterController == null || !characterController.enabled || !gameObject.activeInHierarchy)
+        {
+            planarVelocity = Vector3.zero;
+            verticalVelocity = 0f;
+            SetMovementMode(MovementMode.Idle);
+            UpdateAnimator(true, MovementMode.Idle);
+            return;
+        }
+
         if (movementCamera == null) movementCamera = Camera.main;
 
         Vector2 input = IsMovementLocked ? Vector2.zero : ReadMovementInput();

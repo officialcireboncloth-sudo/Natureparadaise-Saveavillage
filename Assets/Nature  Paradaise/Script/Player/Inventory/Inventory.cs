@@ -74,7 +74,7 @@ public class Inventory : MonoBehaviour
 
     /*------------- Tambah item -------------*/
     /// <summary>Menambahkan seluruh jumlah dengan mengisi stack kompatibel lalu slot kosong.</summary>
-    public bool Add(ItemSO item, int amount = 1, int qualityStars = 0)
+    public bool Add(ItemSO item, int amount = 1, int qualityStars = 0, float fishSizeCm = 0f)
     {
         if (item == null || amount <= 0)
             return false;
@@ -86,7 +86,7 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < slots.Count; i++)
         {
             ItemStack slot = slots[i];
-            if (IsValid(slot) && slot.item == item && slot.qualityStars == qualityStars)
+            if (IsCompatible(slot, item, qualityStars, fishSizeCm))
                 freeSpace += Mathf.Max(0, stackLimit - slot.count);
         }
 
@@ -99,7 +99,7 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < slots.Count && remaining > 0; i++)
         {
             ItemStack slot = slots[i];
-            if (!IsValid(slot) || slot.item != item || slot.qualityStars != qualityStars || slot.count >= stackLimit)
+            if (!IsCompatible(slot, item, qualityStars, fishSizeCm) || slot.count >= stackLimit)
                 continue;
 
             int added = Mathf.Min(remaining, stackLimit - slot.count);
@@ -111,7 +111,7 @@ public class Inventory : MonoBehaviour
         {
             if (IsValid(slots[i])) continue;
             int added = Mathf.Min(remaining, stackLimit);
-            slots[i] = new ItemStack { item = item, count = added, qualityStars = qualityStars };
+            slots[i] = new ItemStack { item = item, count = added, qualityStars = qualityStars, fishSizeCm = fishSizeCm };
             remaining -= added;
         }
 
@@ -162,7 +162,7 @@ public class Inventory : MonoBehaviour
     }
 
     /// <summary>Mensimulasikan kapasitas stack tanpa mengubah inventory.</summary>
-    public bool CanAdd(ItemSO item, int amount = 1, int qualityStars = 0)
+    public bool CanAdd(ItemSO item, int amount = 1, int qualityStars = 0, float fishSizeCm = 0f)
     {
         if (item == null || amount <= 0)
             return false;
@@ -172,7 +172,7 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < slots.Count; i++)
             if (!IsValid(slots[i]))
                 freeSpace += item.StackLimit;
-            else if (slots[i].item == item && slots[i].qualityStars == qualityStars)
+            else if (IsCompatible(slots[i], item, qualityStars, fishSizeCm))
                 freeSpace += Mathf.Max(0, item.StackLimit - slots[i].count);
         return freeSpace >= amount;
     }
@@ -248,12 +248,18 @@ public class Inventory : MonoBehaviour
     }
 
     /// <summary>Dipakai SaveManager untuk mengembalikan posisi slot persis.</summary>
-    public bool TrySetSlot(int index, ItemSO item, int amount, int qualityStars = 0)
+    public bool TrySetSlot(int index, ItemSO item, int amount, int qualityStars = 0, float fishSizeCm = 0f)
     {
         NormalizeSlots();
         if (index < 0 || index >= Capacity || item == null || amount <= 0 || IsValid(slots[index]))
             return false;
-        slots[index] = new ItemStack { item = item, count = Mathf.Min(amount, item.StackLimit), qualityStars = Mathf.Clamp(qualityStars, 0, 5) };
+        slots[index] = new ItemStack
+        {
+            item = item,
+            count = Mathf.Min(amount, item.StackLimit),
+            qualityStars = Mathf.Clamp(qualityStars, 0, 5),
+            fishSizeCm = Mathf.Max(0f, fishSizeCm)
+        };
         OnInventoryChanged?.Invoke();
         return true;
     }
@@ -315,7 +321,13 @@ public class Inventory : MonoBehaviour
             {
                 if (IsValid(slots[empty])) continue;
                 int split = Mathf.Min(overflow, limit);
-                slots[empty] = new ItemStack { item = slot.item, count = split, qualityStars = slot.qualityStars };
+                slots[empty] = new ItemStack
+                {
+                    item = slot.item,
+                    count = split,
+                    qualityStars = slot.qualityStars,
+                    fishSizeCm = slot.fishSizeCm
+                };
                 overflow -= split;
             }
 
@@ -337,6 +349,10 @@ public class Inventory : MonoBehaviour
     }
 
     static bool IsValid(ItemStack slot) => slot != null && slot.item != null && slot.count > 0;
+
+    static bool IsCompatible(ItemStack slot, ItemSO item, int qualityStars, float fishSizeCm) =>
+        IsValid(slot) && slot.item == item && slot.qualityStars == qualityStars &&
+        Mathf.Abs(slot.fishSizeCm - fishSizeCm) < 0.01f;
 }
 
 /*=========================================================
@@ -349,7 +365,9 @@ public class ItemStack
     public ItemSO item;
     public int count;
     [Range(0, 5)] public int qualityStars;
+    [Min(0f)] public float fishSizeCm;
     public string DisplayName => item == null ? string.Empty : item.itemName +
         (qualityStars > 0 ? (item.category == ItemCategory.AnimalProduct || item.isAnimalProduct)
-            ? $" [{AnimalCareCatalog.QualityName(qualityStars)}]" : $" [{qualityStars}★]" : string.Empty);
+            ? $" [{AnimalCareCatalog.QualityName(qualityStars)}]" : $" [{qualityStars}★]" : string.Empty) +
+        (item.category == ItemCategory.Fish && fishSizeCm > 0f ? $" [{fishSizeCm:0.#} cm]" : string.Empty);
 }

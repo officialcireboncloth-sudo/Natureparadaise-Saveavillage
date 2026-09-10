@@ -15,6 +15,9 @@ public sealed class AnimalHome : MonoBehaviour
     public Transform door;
     public PropertySite site;
     [SerializeField, Min(0)] int fodderStock;
+    [Header("Auto Feeder")]
+    [SerializeField] bool forceAutoFeeder;
+    [SerializeField, Min(1)] int autoFeederStartingLevel = 3;
     Transform runtimeDoor;
     Inventory inventory;
     public string Id => site != null ? site.SiteId : homeId;
@@ -22,6 +25,7 @@ public sealed class AnimalHome : MonoBehaviour
     public int Capacity => site != null ? site.ActiveDefinition?.GetLevel(site.CurrentLevel)?.capacity ?? 0 : capacity;
     public bool Available => site == null || (site.CurrentLevel > 0 && site.State != BuildingConstructionState.Available && Kind != AnimalHousingKind.None);
     public int Fodder => fodderStock;
+    public bool HasAutoFeeder => forceAutoFeeder || (site != null && site.CurrentLevel >= autoFeederStartingLevel);
     public string Label => site != null ? site.ActiveDefinition?.displayName ?? name : name;
     public List<AnimalRoutine> Residents => AnimalRoutine.Active.FindAll(a => a != null && a.HomeId == Id);
     public bool Accepts(AnimalType type) => Available && Kind == (AnimalGrowthProfileSO.IsBird(type) ? AnimalHousingKind.Coop : AnimalHousingKind.Barn);
@@ -88,7 +92,7 @@ public sealed class AnimalHome : MonoBehaviour
     public bool Feed(AnimalGrowthSystem animal)
     {
         if (!Available || animal == null || !AnimalCareRules.ConsumeFeed(ref fodderStock, animal.HasBeenBorn, animal.FedToday)) return false;
-        animal.RegisterFeeding(50f);
+        animal.RegisterFeeding(50f, HasAutoFeeder ? AnimalFoodSource.AutoFeeder : AnimalFoodSource.FeedingTrough);
         return true;
     }
     public static bool HasResidents(string id) => AnimalRoutine.Active.Exists(a => a != null && a.HomeId == id);
