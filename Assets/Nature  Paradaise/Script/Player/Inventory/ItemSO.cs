@@ -22,6 +22,19 @@ public enum FoodPreparation
     ReadyToEat
 }
 
+/// <summary>Kelompok item pada Refrigerator UI dan aturan bahan Kitchen.</summary>
+public enum RefrigeratorCategory : byte
+{
+    None,
+    Crop,
+    Fruit,
+    Fish,
+    AnimalProduct,
+    Ingredient,
+    CookedFood,
+    Drink
+}
+
 /// <summary>Level pupuk yang menentukan kenaikan level durability tanah.</summary>
 public enum FertilizerLevel : byte
 {
@@ -49,6 +62,9 @@ public enum AnimalMedicineLevel : byte
 /// </summary>
 public class ItemSO : ScriptableObject
 {
+    [Header("Identity")]
+    [Tooltip("ID stabil untuk CSV dan save data. Gunakan format item.nama_item dan jangan diubah setelah dirilis.")]
+    public string itemId;
     [Tooltip("Nama yang ditampilkan pada inventory, prompt pickup, dan feedback gameplay.")]
     public string itemName;
     [Tooltip("Sprite untuk slot inventory, hotbar, dan drag preview.")]
@@ -127,7 +143,12 @@ public class ItemSO : ScriptableObject
     [Tooltip("Hunger/fullness yang dipulihkan per satu item.")]
     [Min(0f)] public float hungerRestore;
 
+    [Header("Refrigerator")]
+    [Tooltip("None menolak item dari Refrigerator. Pilih kelompok makanan agar item dapat disimpan dan dibaca Kitchen.")]
+    public RefrigeratorCategory refrigeratorCategory = RefrigeratorCategory.None;
+
     public int StackLimit => Mathf.Max(1, maxStack);
+    public string Id => string.IsNullOrWhiteSpace(itemId) ? ItemCatalog.LegacyId(name) : itemId.Trim();
     public bool CanConsume =>
         category == ItemCategory.Food &&
         isEdible &&
@@ -146,6 +167,19 @@ public class ItemSO : ScriptableObject
         category == ItemCategory.Seed || equippedTool == PlayerToolType.Seed;
 
     public bool IsAnimalMedicine => animalMedicineLevel != AnimalMedicineLevel.None;
+
+    /// <summary>Aturan tunggal item Refrigerator; key item, seed, tool, dan furniture tetap ditolak.</summary>
+    public bool CanStoreInRefrigerator =>
+        refrigeratorCategory != RefrigeratorCategory.None &&
+        !isKeyItem &&
+        category != ItemCategory.Tool &&
+        category != ItemCategory.Seed &&
+        category != ItemCategory.Quest &&
+        equippedTool == PlayerToolType.None;
+
+    /// <summary>Tool penting yang boleh dipindahkan ke Tool Storage Chest.</summary>
+    public bool CanStoreInToolStorage =>
+        category == ItemCategory.Tool && equippedTool != PlayerToolType.None;
 
     /// <summary>Aturan tunggal untuk barang yang boleh dititipkan pada Market Stand.</summary>
     public bool CanSellAtMarket =>

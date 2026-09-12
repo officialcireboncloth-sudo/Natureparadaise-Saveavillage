@@ -35,23 +35,25 @@ public sealed class PlayerAnimalBell : MonoBehaviour
         nextUseTime = Time.unscaledTime + cooldown;
         audioSource?.PlayOneShot(bellClip != null ? bellClip : GetFallbackBell());
 
-        bool anyOutside = AnimalRoutine.Active.Exists(routine =>
-            routine != null && routine.Home != null && !routine.IsHoused);
+        AnimalHome selectedHome = BarnInterior.Current != null ? BarnInterior.Current.home : null;
+        bool IsTarget(AnimalRoutine routine) => routine != null && routine.Home != null &&
+                                                (selectedHome == null || routine.Home == selectedHome);
+        bool anyOutside = AnimalRoutine.Active.Exists(routine => IsTarget(routine) && !routine.IsHoused);
         int changed = 0;
         if (anyOutside)
         {
             foreach (AnimalRoutine routine in AnimalRoutine.Active)
             {
-                if (routine == null || routine.Home == null || routine.IsHoused) continue;
+                if (!IsTarget(routine) || routine.IsHoused) continue;
                 routine.Recall();
                 changed++;
             }
-            SaveLoadFeedback.Instance?.ShowMessage($"Animal Bell: {changed} ternak dipanggil pulang.");
+            SaveLoadFeedback.Instance?.ShowMessage($"Animal Bell: {changed} ternak dipanggil masuk kandang.");
             return;
         }
 
         foreach (AnimalRoutine routine in AnimalRoutine.Active)
-            if (routine != null && routine.Release()) changed++;
+            if (IsTarget(routine) && routine.Release()) changed++;
         SaveLoadFeedback.Instance?.ShowMessage(changed > 0
             ? $"Animal Bell: {changed} ternak keluar untuk grazing."
             : "Tidak ada ternak yang bisa keluar. Cek waktu, cuaca, kesehatan, dan kandang.");

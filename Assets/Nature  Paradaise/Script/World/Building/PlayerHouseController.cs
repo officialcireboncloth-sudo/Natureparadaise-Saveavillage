@@ -52,6 +52,20 @@ public sealed class PlayerHouseController : MonoBehaviour
     public BuildingLevelDefinition NextLevel => houseDefinition?.GetLevel(currentLevel + 1);
     public bool HasNextLevel => NextLevel != null;
 
+    /// <summary>Hook untuk progression/upgrade Kitchen terpisah. House Lv.2 wajib sudah terbuka.</summary>
+    public bool SetRefrigeratorLevel(int level)
+    {
+        int target = Mathf.Clamp(level, 0, 4);
+        if (target > 0 && currentLevel < 2)
+            return false;
+        if (refrigeratorLevel == target)
+            return true;
+        refrigeratorLevel = target;
+        HouseFeatureService.NotifyHouseLevelChanged();
+        SaveManager.Instance?.SaveGame();
+        return true;
+    }
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -198,7 +212,10 @@ public sealed class PlayerHouseController : MonoBehaviour
         pendingLevel = Mathf.Max(0, data.pendingLevel);
         state = data.state;
         completionDay = Mathf.Max(0, data.completionDay);
-        refrigeratorLevel = Mathf.Max(0, data.refrigeratorLevel);
+        // Save lama belum mempunyai refrigeratorLevel. Turunkan level minimum dari
+        // House progression agar House Lv.2+ tidak kembali mengunci Refrigerator.
+        int progressionLevel = currentLevel >= 2 ? currentLevel - 1 : 0;
+        refrigeratorLevel = Mathf.Clamp(Mathf.Max(data.refrigeratorLevel, progressionLevel), 0, 4);
         if (IsUnderConstruction && CurrentDay >= completionDay)
             CompleteUpgrade();
         else

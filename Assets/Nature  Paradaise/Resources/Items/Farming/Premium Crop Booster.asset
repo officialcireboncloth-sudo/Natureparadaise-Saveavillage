@@ -5,6 +5,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
   m_Name: Premium Crop Booster
+  itemId: item.premium_crop_booster
   m_EditorClassIdentifier:
   itemName: Premium Crop Booster
   buyPrice: 500

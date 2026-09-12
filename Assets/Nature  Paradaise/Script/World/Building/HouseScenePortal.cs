@@ -33,6 +33,12 @@ public sealed class HouseScenePortal : MonoBehaviour
         WorldInteractionPrompt.Request(this, transform, $"{interactKey}: {action}", distance, promptHeight);
         if (!PlayerInteractionTarget.Press(player, transform, interactKey))
             return;
+        if (exitsInterior && WeatherSystem.Instance != null &&
+            WeatherSystem.BlocksLeavingHome(WeatherSystem.Instance.CurrentWeather))
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Angin topan terlalu berbahaya. Kamu harus tetap di rumah.");
+            return;
+        }
         if (exitsInterior)
             SceneTransitionManager.Instance.ReturnToWorld(exteriorSpawnId);
         else

@@ -15,8 +15,26 @@ public static class HouseSystemSetup
     const string HouseAssetPath = "Assets/Nature  Paradaise/Resources/Buildings/Player House Building.asset";
     const string InteriorScenePath = "Assets/Nature  Paradaise/Map/Scenes/Interiors/HouseInterior.unity";
     const string WorldRootName = "PlayerHouse_Editable";
+    const string HouseMaterialFolder = "Assets/Nature  Paradaise/Material/House";
+    const string RefrigeratorBodyMaterialPath = HouseMaterialFolder + "/m_RefrigeratorDummyBody.mat";
+    const string RefrigeratorDoorMaterialPath = HouseMaterialFolder + "/m_RefrigeratorDummyDoor.mat";
+    const string RefrigeratorHandleMaterialPath = HouseMaterialFolder + "/m_RefrigeratorDummyHandle.mat";
 
-    [MenuItem("Nature Paradise/Setup Player House System")]
+    [InitializeOnLoadMethod]
+    static void QueueRefrigeratorDummyUpgrade()
+    {
+        const string sessionKey = "NatureParadise.House.RefrigeratorDummy.V2";
+        if (SessionState.GetBool(sessionKey, false)) return;
+        EditorApplication.delayCall += () =>
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode ||
+                AssetDatabase.LoadAssetAtPath<SceneAsset>(InteriorScenePath) == null) return;
+            SessionState.SetBool(sessionKey, true);
+            InstallRefrigerator();
+        };
+    }
+
+    [MenuItem("Nature Paradise/House/Setup or Update Player House",false,100)]
     public static void SetupAll()
     {
         if (EditorApplication.isPlayingOrWillChangePlaymode)
@@ -27,6 +45,8 @@ public static class HouseSystemSetup
 
         BuildingDefinitionSO definition = GetOrCreateHouseDefinition();
         CreateInteriorSceneIfMissing();
+        InstallToolStorageChest();
+        InstallRefrigerator();
         SetupWorldObjects(definition);
         AddInteriorToBuildSettings();
         AssetDatabase.SaveAssets();
@@ -219,14 +239,16 @@ public static class HouseSystemSetup
         GameObject tv = CreatePrimitiveChild(layout.transform, "TV_MeshSlot", PrimitiveType.Cube,
             new Vector3(2.5f, 1f, 2.4f), new Vector3(1.5f, 1.5f, 0.35f));
         tv.AddComponent<WeatherForecastTV>();
-        CreatePrimitiveChild(layout.transform, "BasicStorage_MeshSlot", PrimitiveType.Cube,
+        GameObject toolStorage = CreatePrimitiveChild(layout.transform, "ToolStorageChest_Editable", PrimitiveType.Cube,
             new Vector3(-3.2f, 0.8f, -1.6f), new Vector3(1.4f, 1.6f, 1f));
+        toolStorage.AddComponent<ToolStorageChest>();
         if (level >= 2)
         {
             CreatePrimitiveChild(layout.transform, "Kitchen_MeshSlot", PrimitiveType.Cube,
                 new Vector3(2.6f, 0.8f, 0.5f), new Vector3(3f, 1.6f, 0.8f));
-            CreatePrimitiveChild(layout.transform, "Refrigerator_MeshSlot", PrimitiveType.Cube,
+            GameObject refrigerator = CreatePrimitiveChild(layout.transform, "Refrigerator_MeshSlot", PrimitiveType.Cube,
                 new Vector3(4f, 1.2f, 1.8f), new Vector3(1f, 2.4f, 1f));
+            refrigerator.AddComponent<Refrigerator>();
         }
         if (level >= 3)
             CreatePrimitiveChild(layout.transform, "ExtraBedroom_MeshSlot", PrimitiveType.Cube,
@@ -237,6 +259,150 @@ public static class HouseSystemSetup
 
         layout.SetActive(level == 1);
         return layout;
+    }
+
+    public static void InstallToolStorageChest()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode)
+        {
+            Debug.LogWarning("[TOOL STORAGE] Hentikan Play Mode sebelum memasang peti.");
+            return;
+        }
+
+        Scene scene = SceneManager.GetSceneByPath(InteriorScenePath);
+        bool openedForSetup = !scene.IsValid() || !scene.isLoaded;
+        Scene previousActive = SceneManager.GetActiveScene();
+        if (openedForSetup)
+            scene = EditorSceneManager.OpenScene(InteriorScenePath, OpenSceneMode.Additive);
+
+        int installed = 0;
+        foreach (GameObject root in scene.GetRootGameObjects())
+        foreach (Transform candidate in root.GetComponentsInChildren<Transform>(true))
+        {
+            if (candidate.name != "BasicStorage_MeshSlot" && candidate.name != "ToolStorageChest_Editable")
+                continue;
+            candidate.name = "ToolStorageChest_Editable";
+            if (candidate.GetComponent<ToolStorageChest>() == null)
+            {
+                Undo.AddComponent<ToolStorageChest>(candidate.gameObject);
+                installed++;
+            }
+        }
+
+        if (installed > 0)
+        {
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+        }
+        if (openedForSetup)
+            EditorSceneManager.CloseScene(scene, true);
+        if (previousActive.IsValid() && previousActive.isLoaded)
+            SceneManager.SetActiveScene(previousActive);
+
+        Debug.Log($"[TOOL STORAGE] Siap di HouseInterior. Komponen baru: {installed}.");
+    }
+
+    [MenuItem("Nature Paradise/House/Install Refrigerator", false, 125)]
+    public static void InstallRefrigerator()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode)
+        {
+            Debug.LogWarning("[REFRIGERATOR] Hentikan Play Mode sebelum memasang Refrigerator.");
+            return;
+        }
+        Scene scene = SceneManager.GetSceneByPath(InteriorScenePath);
+        bool openedForSetup = !scene.IsValid() || !scene.isLoaded;
+        Scene previousActive = SceneManager.GetActiveScene();
+        if (openedForSetup) scene = EditorSceneManager.OpenScene(InteriorScenePath, OpenSceneMode.Additive);
+        int installed = 0;
+        bool changed = false;
+        Transform[] layouts = scene.GetRootGameObjects()
+            .SelectMany(root => root.GetComponentsInChildren<Transform>(true))
+            .Where(candidate => candidate.name.StartsWith("InteriorLayout_Lv"))
+            .ToArray();
+        foreach (Transform layout in layouts)
+        {
+            Transform candidate = layout.Find("Refrigerator_MeshSlot");
+            if (candidate == null)
+            {
+                candidate = CreatePrimitiveChild(layout, "Refrigerator_MeshSlot", PrimitiveType.Cube,
+                    new Vector3(4f, 1.2f, 1.8f), new Vector3(1f, 2.4f, 1f)).transform;
+                changed = true;
+            }
+            if (candidate.GetComponent<Refrigerator>() == null)
+            {
+                Undo.AddComponent<Refrigerator>(candidate.gameObject);
+                installed++;
+                changed = true;
+            }
+            changed |= EnsureRefrigeratorDummyVisual(candidate);
+        }
+        if (changed)
+        {
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+        }
+        if (openedForSetup) EditorSceneManager.CloseScene(scene, true);
+        if (previousActive.IsValid() && previousActive.isLoaded) SceneManager.SetActiveScene(previousActive);
+        Debug.Log($"[REFRIGERATOR] Dummy siap pada seluruh layout House. Komponen baru: {installed}.");
+    }
+
+    static bool EnsureRefrigeratorDummyVisual(Transform refrigerator)
+    {
+        Material body = GetOrCreateDummyMaterial(RefrigeratorBodyMaterialPath, new Color(0.55f, 0.72f, 0.78f), 0.35f);
+        Material door = GetOrCreateDummyMaterial(RefrigeratorDoorMaterialPath, new Color(0.82f, 0.93f, 0.96f), 0.5f);
+        Material handle = GetOrCreateDummyMaterial(RefrigeratorHandleMaterialPath, new Color(0.08f, 0.12f, 0.15f), 0.65f);
+        bool changed = false;
+        Renderer bodyRenderer = refrigerator.GetComponent<Renderer>();
+        if (bodyRenderer != null && bodyRenderer.sharedMaterial != body)
+        {
+            bodyRenderer.sharedMaterial = body;
+            changed = true;
+        }
+        changed |= EnsureRefrigeratorPart(refrigerator, "DummyVisual_UpperDoor",
+            new Vector3(0f, 0.22f, -0.515f), new Vector3(0.88f, 0.35f, 0.045f), door);
+        changed |= EnsureRefrigeratorPart(refrigerator, "DummyVisual_LowerDoor",
+            new Vector3(0f, -0.23f, -0.515f), new Vector3(0.88f, 0.43f, 0.045f), door);
+        changed |= EnsureRefrigeratorPart(refrigerator, "DummyVisual_DoorDivider",
+            new Vector3(0f, 0.015f, -0.55f), new Vector3(0.9f, 0.022f, 0.055f), handle);
+        changed |= EnsureRefrigeratorPart(refrigerator, "DummyVisual_Handle",
+            new Vector3(0.32f, 0.18f, -0.575f), new Vector3(0.075f, 0.16f, 0.065f), handle);
+        return changed;
+    }
+
+    static bool EnsureRefrigeratorPart(Transform parent, string partName, Vector3 position,
+        Vector3 scale, Material material)
+    {
+        if (parent.Find(partName) != null) return false;
+        GameObject part = CreatePrimitiveChild(parent, partName, PrimitiveType.Cube, position, scale);
+        Object.DestroyImmediate(part.GetComponent<Collider>());
+        part.GetComponent<Renderer>().sharedMaterial = material;
+        return true;
+    }
+
+    static Material GetOrCreateDummyMaterial(string path, Color color, float smoothness)
+    {
+        EnsureEditorFolder(HouseMaterialFolder);
+        Material material = AssetDatabase.LoadAssetAtPath<Material>(path);
+        if (material == null)
+        {
+            material = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
+            AssetDatabase.CreateAsset(material, path);
+        }
+        if (material.HasProperty("_BaseColor")) material.SetColor("_BaseColor", color);
+        if (material.HasProperty("_Color")) material.SetColor("_Color", color);
+        if (material.HasProperty("_Smoothness")) material.SetFloat("_Smoothness", smoothness);
+        EditorUtility.SetDirty(material);
+        return material;
+    }
+
+    static void EnsureEditorFolder(string path)
+    {
+        if (AssetDatabase.IsValidFolder(path)) return;
+        int separator = path.LastIndexOf('/');
+        string parent = path.Substring(0, separator);
+        EnsureEditorFolder(parent);
+        AssetDatabase.CreateFolder(parent, path.Substring(separator + 1));
     }
 
     static GameObject CreatePrimitiveChild(

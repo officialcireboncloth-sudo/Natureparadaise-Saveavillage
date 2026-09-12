@@ -7,6 +7,7 @@ using UnityEngine;
 public sealed class PlacedItemSaveData
 {
     public string id;
+    public string itemId;
     public string assetName;
     public string itemName;
     public int amount;
@@ -109,6 +110,7 @@ public sealed class PlacedWorldItem : MonoBehaviour
     public PlacedItemSaveData Capture() => new()
     {
         id = persistentId,
+        itemId = item != null ? item.Id : string.Empty,
         assetName = item != null ? item.name : string.Empty,
         itemName = item != null ? item.itemName : string.Empty,
         amount = amount,
@@ -142,7 +144,7 @@ public sealed class PlacedWorldItem : MonoBehaviour
         for (int i = 0; i < data.Count; i++)
         {
             PlacedItemSaveData saved = data[i];
-            ItemSO resolved = ResolveItem(saved.assetName, saved.itemName);
+            ItemSO resolved = ItemCatalog.Resolve(saved.itemId, saved.assetName, saved.itemName);
             PlacedWorldItem restored = Spawn(resolved, saved.amount, saved.position, Quaternion.Euler(saved.eulerAngles), saved.physicsDrop, saved.qualityStars);
             if (restored != null)
             {
@@ -152,12 +154,4 @@ public sealed class PlacedWorldItem : MonoBehaviour
         }
     }
 
-    static ItemSO ResolveItem(string assetName, string displayName)
-    {
-        FarmEquipmentCatalog.Load();
-        ItemSO[] items = Resources.FindObjectsOfTypeAll<ItemSO>();
-        for (int i = 0; i < items.Length; i++)
-            if (items[i] != null && (items[i].name == assetName || items[i].itemName == displayName)) return items[i];
-        return null;
-    }
 }

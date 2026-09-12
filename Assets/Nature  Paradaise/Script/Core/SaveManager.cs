@@ -66,6 +66,8 @@ public class SaveManager : MonoBehaviour
         public int weatherDay;
         public WeatherType currentWeather;
         public WeatherType tomorrowWeather;
+        public WeatherType previousWeather;
+        public int weatherCleanupDay = -1;
 
         // -------------------------
         // INVENTORY
@@ -81,6 +83,11 @@ public class SaveManager : MonoBehaviour
         public int inventoryLayoutVersion;
         public int backpackLevel;
         public List<InventorySlotSaveData> inventorySlots;
+
+        // TOOL STORAGE: satu storage global yang dapat diakses dari peti mana pun di rumah.
+        public List<ToolStorageEntrySaveData> toolStorage;
+        // REFRIGERATOR: quality dan fish size dipertahankan per stack.
+        public List<RefrigeratorEntrySaveData> refrigerator;
 
         // -------------------------
         // MODULAR FIELD AREAS
@@ -104,6 +111,8 @@ public class SaveManager : MonoBehaviour
         public List<PlacedItemSaveData> placedItems;
         public List<TreeSaveData> trees;
         public List<FertilizerProcessorSaveData> fertilizerProcessors;
+        public List<FeedMakerSaveData> feedMakers;
+        public List<FeedSiloSaveData> feedSilos;
 
         // HEWAN: umur, growth progress, care, health, produksi, trait, dan posisi.
         public List<AnimalSaveData> animals;
@@ -141,6 +150,7 @@ public class SaveManager : MonoBehaviour
     /// <summary>Representasi satu slot inventory beserta identitas asset dan jumlah stack.</summary>
     public class InventorySlotSaveData
     {
+        public string itemId;
         public string assetName;
         public string itemName;
         public int count;
@@ -255,6 +265,7 @@ public class SaveManager : MonoBehaviour
         // Interior additive tidak dimuat saat startup. Simpan posisi world terakhir agar
         // load berikutnya tidak menaruh player di koordinat interior tanpa lantai.
         Vector3 savedPlayerPosition = player.position;
+        if (BarnInterior.TryGetReturnPosition(out Vector3 barnReturnPosition)) savedPlayerPosition = barnReturnPosition;
         if (SceneTransitionManager.Instance != null &&
             SceneTransitionManager.Instance.TryGetWorldReturnPosition(out Vector3 worldReturnPosition))
         {
@@ -290,6 +301,10 @@ public class SaveManager : MonoBehaviour
             data.weatherDay = WeatherSystem.Instance.CurrentWeatherDay;
             data.currentWeather = WeatherSystem.Instance.CurrentWeather;
             data.tomorrowWeather = WeatherSystem.Instance.TomorrowWeather;
+            data.previousWeather = WeatherSystem.Instance.PreviousWeather;
+            data.weatherCleanupDay = WeatherSystem.Instance.IsCommunityCleanupDay
+                ? WeatherSystem.Instance.CurrentWeatherDay
+                : -1;
         }
 
         // -------------------------
@@ -318,6 +333,7 @@ public class SaveManager : MonoBehaviour
 
             data.inventorySlots.Add(new InventorySlotSaveData
             {
+                itemId = stack.item.Id,
                 assetName = stack.item.name,
                 itemName = stack.item.itemName,
                 count = stack.count,
@@ -326,6 +342,9 @@ public class SaveManager : MonoBehaviour
                 slotIndex = i
             });
         }
+
+        data.toolStorage = ToolStorageService.Capture();
+        data.refrigerator = RefrigeratorService.Capture();
 
         data.fields =
             FieldArea.CaptureAll();
@@ -341,6 +360,8 @@ public class SaveManager : MonoBehaviour
 
         // Tree capture menyelesaikan drop yang masih tertunda sebelum pickup disnapshot.
         data.fertilizerProcessors = FertilizerProcessor.CaptureAll();
+        data.feedMakers = FeedMaker.CaptureAll();
+        data.feedSilos = FeedSilo.CaptureAll();
         data.trees = WorldTree.CaptureAll();
         foreach (TerrainTreeManager manager in FindObjectsByType<TerrainTreeManager>(
                      FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -562,7 +583,9 @@ public class SaveManager : MonoBehaviour
                     data.weatherDay,
                     data.weatherSeed,
                     data.currentWeather,
-                    data.tomorrowWeather
+                    data.tomorrowWeather,
+                    data.previousWeather,
+                    data.weatherCleanupDay
                 );
             }
             else
@@ -621,6 +644,8 @@ public class SaveManager : MonoBehaviour
             AddItem(milkItem, data.milk);
         }
 
+        ToolStorageService.Restore(data.toolStorage);
+
         // -------------------------
         // LOAD FIELD AREAS
         // -------------------------
@@ -642,6 +667,9 @@ public class SaveManager : MonoBehaviour
             data.playerHouse
         );
 
+        // Restore setelah House agar kapasitas/unlock Refrigerator sudah memakai level save.
+        RefrigeratorService.Restore(data.refrigerator);
+
         WorldGatherable.RestoreAll(
             data.gatherables
         );
@@ -655,6 +683,9 @@ public class SaveManager : MonoBehaviour
         );
 
         FertilizerProcessor.RestoreAll(data.fertilizerProcessors);
+        FeedMaker.RestoreAll(data.feedMakers);
+        FeedSilo.RestoreAll(data.feedSilos);
+        BarnInterior.ResetVisit();
         WorldTree.RestoreAll(data.trees);
         foreach (TerrainTreeManager manager in FindObjectsByType<TerrainTreeManager>(
                      FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -865,6 +896,10 @@ public class SaveManager : MonoBehaviour
         if (savedSlot == null)
             return null;
 
+        ItemSO catalogItem = ItemCatalog.Resolve(savedSlot.itemId, savedSlot.assetName, savedSlot.itemName);
+        if (catalogItem != null)
+            return catalogItem;
+
         ItemSO[] knownItems = { seedItem, cabbageItem, milkItem };
         for (int i = 0; i < knownItems.Length; i++)
         {
@@ -956,6 +991,9 @@ public class SaveManager : MonoBehaviour
         File.Delete(
             SavePath
         );
+
+        ToolStorageService.Clear();
+        RefrigeratorService.Clear();
 
         Debug.Log(
             "[SAVE] Save game berhasil dihapus."

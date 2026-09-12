@@ -98,7 +98,7 @@ public class AnimalController : MonoBehaviour
         if (growth == null) growth = GetComponent<AnimalGrowthSystem>();
         AnimalCareCatalog catalog = AnimalCareCatalog.Load();
         if (catalog == null) return;
-        if (cabbageItem == null || cabbageItem.itemName == "Cabbage") cabbageItem = catalog.fodder;
+        if (cabbageItem == null || cabbageItem.itemName == "Cabbage" || cabbageItem.name == "Grass") cabbageItem = catalog.fodder;
         if (favoriteTreatItem == null) favoriteTreatItem = catalog.treat;
         if (medicineItem == null) medicineItem = catalog.medicine;
         if (milkItem == null && growth != null) milkItem = catalog.Product(growth.Type);

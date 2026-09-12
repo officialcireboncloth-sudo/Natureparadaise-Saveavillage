@@ -70,6 +70,10 @@ public class CropDataSO : ScriptableObject
     [Tooltip("Jumlah dasar hasil sebelum bonus grade diterapkan.")]
     [Min(1)] public int baseYield = 1;
 
+    [Header("Weather Resistance")]
+    [Tooltip("Pengali risiko tercabut angin. Contoh: Carrot 0.6, crop biasa 1.0, Corn 1.5.")]
+    [Range(0.1f, 3f)] public float windVulnerability = 1f;
+
     [Header("Water & Wither")]
     [Tooltip("Jumlah hari kering berturut-turut sebelum tanaman menjadi layu.")]
     [Min(1)] public int dryDaysBeforeWither = 3;
@@ -198,6 +202,7 @@ public class CropDataSO : ScriptableObject
     {
         daysUntilFirstHarvest = Mathf.Max(1, daysUntilFirstHarvest);
         regrowDays = Mathf.Max(1, regrowDays);
+        windVulnerability = Mathf.Clamp(windVulnerability, 0.1f, 3f);
 
         if (visualStages == null)
             return;

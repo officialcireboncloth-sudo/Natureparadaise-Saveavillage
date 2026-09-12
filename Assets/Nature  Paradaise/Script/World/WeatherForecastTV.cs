@@ -64,6 +64,11 @@ public sealed class WeatherForecastTV : MonoBehaviour
     {
         if (isOpen)
             return;
+        if (WeatherSystem.Instance != null && WeatherSystem.BlocksTelevision(WeatherSystem.Instance.CurrentWeather))
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("TV tidak dapat dinyalakan saat badai petir.");
+            return;
+        }
         BuildUI();
         isOpen = true;
         showingForecast = false;
@@ -88,7 +93,10 @@ public sealed class WeatherForecastTV : MonoBehaviour
         WeatherSystem weather = WeatherSystem.Instance;
         currentWeatherText.text = $"TODAY\n{WeatherSystem.GetDisplayName(weather.CurrentWeather)}";
         tomorrowWeatherText.text = $"TOMORROW\n{WeatherSystem.GetDisplayName(weather.TomorrowWeather)}";
-        presenterText.text = $"Presenter:\n\"{WeatherSystem.GetForecastMessage(weather.TomorrowWeather)}\"";
+        string cleanup = weather.IsCommunityCleanupDay
+            ? "\n\nINFO DESA: Hari ini warga bergotong royong membersihkan sisa topan."
+            : string.Empty;
+        presenterText.text = $"Presenter:\n\"{WeatherSystem.GetForecastMessage(weather.TomorrowWeather)}\"{cleanup}";
     }
 
     /// <summary>Menutup TV dan melepaskan lock yang dimiliki interaksi ini.</summary>

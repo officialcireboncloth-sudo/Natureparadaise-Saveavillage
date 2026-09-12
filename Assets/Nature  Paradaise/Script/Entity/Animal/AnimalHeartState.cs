@@ -47,7 +47,8 @@ public sealed class AnimalHeartState
         return true;
     }
 
-    public void EndDay(AnimalHeartRules rules, int day, bool fed, bool pet, bool healthy, bool outside, bool rain, bool storm)
+    public void EndDay(AnimalHeartRules rules, int day, bool fed, bool pet, bool healthy, bool outside, bool rain, bool storm,
+        int weatherPenalty = -1)
     {
         if (day <= lastDailyDay) return;
         lastDailyDay = day;
@@ -61,7 +62,8 @@ public sealed class AnimalHeartState
         if (hungryDays > Math.Max(0, rules.hungryGraceDays)) Add(-Math.Max(0, rules.hungerPenalty));
         if (ignoredDays > Math.Max(0, rules.ignoredGraceDays)) Add(-Math.Max(0, rules.ignoredPenalty));
         if (sickDays > Math.Max(0, rules.sickGraceDays)) Add(-Math.Max(0, rules.untreatedPenalty));
-        if (outside && storm) Add(-Math.Max(0, rules.stormPenalty));
+        if (outside && weatherPenalty >= 0) Add(-Math.Max(0, weatherPenalty));
+        else if (outside && storm) Add(-Math.Max(0, rules.stormPenalty));
         else if (outside && rain) Add(-Math.Max(0, rules.rainPenalty));
     }
 

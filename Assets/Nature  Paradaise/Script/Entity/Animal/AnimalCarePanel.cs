@@ -41,10 +41,11 @@ public sealed class AnimalCarePanel : MonoBehaviour
         scroll = GUILayout.BeginScrollView(scroll);
         if (home != null)
         {
-            GUILayout.Label($"{home.Label} — {home.Residents.Count}/{home.Capacity} hewan | Pakan: {home.Fodder} | Auto Feeder: {(home.HasAutoFeeder ? "ON" : "OFF")}");
+            GUILayout.Label($"{home.Label} Lv.{(home.site != null ? home.site.CurrentLevel : 1)} — Animals: {home.AnimalCount}/{home.Capacity} | Reserved: {home.ReservedSlots} | Available: {home.AvailableSlots}");
+            GUILayout.Label($"Animal Feed: {home.Fodder} | Auto Feeder: {(home.HasAutoFeeder ? "ON" : "OFF")}");
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Isi 1 Fodder")) feedback = home.Deposit(inventory, 1) ? "Pakan ditambahkan" : "Fodder kurang / tempat penuh";
-            if (GUILayout.Button("Isi 10 Fodder")) feedback = home.Deposit(inventory, 10) ? "Pakan ditambahkan" : "Butuh 10 Fodder / tempat penuh";
+            if (GUILayout.Button("Isi 1 Animal Feed")) feedback = home.Deposit(inventory, 1) ? "Pakan ditambahkan" : "Animal Feed kurang / tempat penuh";
+            if (GUILayout.Button("Isi 10 Animal Feed")) feedback = home.Deposit(inventory, 10) ? "Pakan ditambahkan" : "Butuh 10 Animal Feed / tempat penuh";
             if (GUILayout.Button("Ambil sisa pakan")) feedback = home.Withdraw(inventory) ? "Pakan dikembalikan" : "Tas penuh / pakan kosong";
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
@@ -63,13 +64,20 @@ public sealed class AnimalCarePanel : MonoBehaviour
         {
             GUILayout.Space(12); GUILayout.Label(animal.InfoSummary);
             AnimalRoutine routine = animal.GetComponent<AnimalRoutine>();
+            if (animal.IsAdult && GUILayout.Button(AnimalGrowthProfileSO.IsBird(animal.Type) ? "Mulai inkubasi (1 telur, 1 slot)" : "Mulai breeding (1 slot)"))
+            {
+                ShopManager shop = FindFirstObjectByType<ShopManager>();
+                feedback = shop != null && shop.TryStartBreeding(animal, inventory)
+                    ? "Proses dimulai; slot sudah direservasi."
+                    : "Butuh induk dewasa, sehat, sudah makan, slot kosong dan tidak ada proses sejenis. Inkubasi butuh telur.";
+            }
             GUILayout.Label($"Kandang: {routine?.Home?.Label ?? "Belum ditugaskan"} | {routine?.Activity}");
             editedName = GUILayout.TextField(editedName ?? "", 24);
             if (GUILayout.Button("Simpan nama")) { animal.SetAnimalName(editedName); editedName = animal.AnimalName; }
             AnimalController controller = animal.GetComponent<AnimalController>();
             controller.playerInv = inventory;
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Feed (1 Fodder)")) controller.FeedCabbage();
+            if (GUILayout.Button("Feed (1 Animal Feed)")) controller.FeedCabbage();
             if (GUILayout.Button("Pet")) animal.Pet();
             if (GUILayout.Button("Treat")) feedback = controller.TryGiveTreat() ? "Treat diberikan" : "Treat kurang / sudah diberikan hari ini";
             if (GUILayout.Button("Medicine")) feedback = controller.TryGiveBestMedicine() ? "Obat diberikan; cek status kondisi hewan" : "Obat kurang / hewan sehat atau sedang pemulihan";

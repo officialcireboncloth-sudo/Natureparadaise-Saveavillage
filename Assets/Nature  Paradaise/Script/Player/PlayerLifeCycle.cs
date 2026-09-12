@@ -38,6 +38,9 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     [SerializeField, Min(1f)] float debugDamage = 25f;
 
     bool busy;
+    bool hasPendingWeatherFaint;
+    bool pendingWeatherFaintAtHospital = true;
+    int pendingWeatherWakeHour = 12;
     Vector3 fallbackSpawnPosition;
     Quaternion fallbackSpawnRotation;
 
@@ -109,6 +112,17 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         TeleportTo(hospitalSpawnId);
     }
 
+    /// <summary>Memicu faint cuaca dengan tujuan dan jam bangun khusus.</summary>
+    public void RequestWeatherFaint(int recoveryHour, bool atHospital, string message)
+    {
+        if (busy || status == null || status.IsFainted) return;
+        hasPendingWeatherFaint = true;
+        pendingWeatherWakeHour = Mathf.Clamp(recoveryHour, 0, 23);
+        pendingWeatherFaintAtHospital = atHospital;
+        if (!string.IsNullOrWhiteSpace(message)) SaveLoadFeedback.Instance?.ShowMessage(message);
+        status.ForceFaint();
+    }
+
     void HandleFainted()
     {
         if (!busy)
@@ -149,6 +163,10 @@ public sealed class PlayerLifeCycle : MonoBehaviour
 
     IEnumerator FaintRoutine()
     {
+        bool weatherFaint = hasPendingWeatherFaint;
+        int recoveryHour = weatherFaint ? pendingWeatherWakeHour : wakeHour;
+        bool recoverAtHospital = !weatherFaint || pendingWeatherFaintAtHospital;
+        hasPendingWeatherFaint = false;
         busy = true;
         status.AcquireActivity(this, PlayerMovementState.Faint);
         SetGameplayEnabled(false);
@@ -158,12 +176,12 @@ public sealed class PlayerLifeCycle : MonoBehaviour
             yield return new WaitForSecondsRealtime(faintDelay);
 
         if (advanceDayWhenFainted)
-            AdvanceToNextDay();
+            AdvanceToNextDay(recoveryHour);
 
         if (faintGoldPenalty > 0 && ScoreManager.Instance != null)
             ScoreManager.Instance.points = Mathf.Max(0, ScoreManager.Instance.points - faintGoldPenalty);
 
-        TeleportTo(hospitalSpawnId);
+        TeleportTo(recoverAtHospital ? hospitalSpawnId : homeSpawnId);
         status.RestoreAfterFaint(faintHealthRecovery, faintStaminaRecovery);
 
         if (saveAfterFaint)
@@ -172,13 +190,13 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         SetGameplayEnabled(true);
         status.ReleaseActivity(this);
         busy = false;
-        Debug.Log("[PLAYER] Bangun di klinik.");
+        Debug.Log(recoverAtHospital ? "[PLAYER] Bangun di klinik." : "[PLAYER] Bangun di rumah.");
     }
 
-    void AdvanceToNextDay()
+    void AdvanceToNextDay(int targetHour = -1)
     {
         if (TimeManager.Instance != null)
-            TimeManager.Instance.AdvanceToNextDay(wakeHour);
+            TimeManager.Instance.AdvanceToNextDay(targetHour >= 0 ? targetHour : wakeHour);
     }
 
     void TeleportTo(string spawnId)

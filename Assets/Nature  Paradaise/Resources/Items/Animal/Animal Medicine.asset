@@ -5,6 +5,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
   m_Name: Animal Medicine
+  itemId: item.animal_medicine
   itemName: Animal Medicine Lv.1 - Basic
   buyPrice: 150
   sellPrice: 0

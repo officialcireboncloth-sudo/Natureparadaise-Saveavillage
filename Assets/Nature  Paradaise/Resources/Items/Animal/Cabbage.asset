@@ -11,6 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
   m_Name: Cabbage
+  itemId: item.cabbage
   m_EditorClassIdentifier: 
   itemName: Cabbage
   icon: {fileID: 0}
@@ -37,3 +38,4 @@ MonoBehaviour:
   healthRestore: 2
   staminaRestore: 12
   hungerRestore: 20
+  refrigeratorCategory: 1

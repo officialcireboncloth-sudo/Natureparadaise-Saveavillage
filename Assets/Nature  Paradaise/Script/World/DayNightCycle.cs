@@ -31,12 +31,40 @@ public sealed class DayNightCycle : MonoBehaviour
     float weatherAmbientMultiplier = 1f;
     float weatherExposureMultiplier = 1f;
     Color weatherTint = Color.white;
+    float targetWeatherSunMultiplier = 1f;
+    float targetWeatherAmbientMultiplier = 1f;
+    float targetWeatherExposureMultiplier = 1f;
+    Color targetWeatherTint = Color.white;
+    float weatherFogDensity;
+    float targetWeatherFogDensity;
 
     void Awake()
     {
         ResolveReferences();
         if (sun != null)
             RenderSettings.sun = sun;
+    }
+
+    void OnEnable()
+    {
+        WeatherImpactFlow.LightingUpdated += HandleWeatherImpact;
+        WeatherImpactFlow.SkyUpdated += HandleWeatherImpact;
+        if (WeatherImpactFlow.HasCurrent) HandleWeatherImpact(WeatherImpactFlow.Current);
+    }
+
+    void OnDisable()
+    {
+        WeatherImpactFlow.LightingUpdated -= HandleWeatherImpact;
+        WeatherImpactFlow.SkyUpdated -= HandleWeatherImpact;
+    }
+
+    void HandleWeatherImpact(WeatherImpactSnapshot impact)
+    {
+        targetWeatherSunMultiplier = impact.SunMultiplier;
+        targetWeatherAmbientMultiplier = impact.AmbientMultiplier;
+        targetWeatherExposureMultiplier = impact.SkyExposureMultiplier;
+        targetWeatherTint = impact.LightingTint;
+        targetWeatherFogDensity = impact.FogDensity;
     }
 
     void Update()
@@ -63,18 +91,12 @@ public sealed class DayNightCycle : MonoBehaviour
 
     void ApplyLighting(float hour)
     {
-        float targetSun = 1f;
-        float targetAmbient = 1f;
-        float targetExposure = 1f;
-        Color targetTint = Color.white;
-        if (WeatherSystem.Instance != null)
-            WeatherSystem.Instance.GetLightingModifiers(out targetSun, out targetAmbient, out targetExposure, out targetTint);
-
         float blend = 1f - Mathf.Exp(-Time.unscaledDeltaTime * 1.25f);
-        weatherSunMultiplier = Mathf.Lerp(weatherSunMultiplier, targetSun, blend);
-        weatherAmbientMultiplier = Mathf.Lerp(weatherAmbientMultiplier, targetAmbient, blend);
-        weatherExposureMultiplier = Mathf.Lerp(weatherExposureMultiplier, targetExposure, blend);
-        weatherTint = Color.Lerp(weatherTint, targetTint, blend);
+        weatherSunMultiplier = Mathf.Lerp(weatherSunMultiplier, targetWeatherSunMultiplier, blend);
+        weatherAmbientMultiplier = Mathf.Lerp(weatherAmbientMultiplier, targetWeatherAmbientMultiplier, blend);
+        weatherExposureMultiplier = Mathf.Lerp(weatherExposureMultiplier, targetWeatherExposureMultiplier, blend);
+        weatherTint = Color.Lerp(weatherTint, targetWeatherTint, blend);
+        weatherFogDensity = Mathf.Lerp(weatherFogDensity, targetWeatherFogDensity, blend);
 
         float dayProgress = Mathf.Repeat(hour, 24f) / 24f;
         float solarAngle = dayProgress * 360f - 90f;
@@ -97,6 +119,10 @@ public sealed class DayNightCycle : MonoBehaviour
         RenderSettings.ambientEquatorColor = Color.Lerp(ambient * 0.7f, ambient, daylight);
         RenderSettings.ambientGroundColor = ambient * 0.45f;
         RenderSettings.reflectionIntensity = Mathf.Lerp(nightReflectionIntensity, dayReflectionIntensity, daylight);
+        RenderSettings.fog = weatherFogDensity > 0.0001f;
+        RenderSettings.fogMode = FogMode.ExponentialSquared;
+        RenderSettings.fogDensity = weatherFogDensity;
+        RenderSettings.fogColor = Color.Lerp(ambient, weatherTint * 0.65f, 0.35f);
 
         Material skybox = RenderSettings.skybox;
         if (skybox != null && skybox.HasProperty("_Exposure"))

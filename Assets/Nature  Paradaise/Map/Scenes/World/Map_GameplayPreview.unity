@@ -6625,8 +6625,6 @@ MonoBehaviour:
   jumpHeight: 1.15
   gravity: -25
   groundedForce: 2
-  slopeLimit: 45
-  stepOffset: 0.3
   jumpStaminaCost: 0.1
   status: {fileID: 0}
   sprintDrainPerSecond: 0.025

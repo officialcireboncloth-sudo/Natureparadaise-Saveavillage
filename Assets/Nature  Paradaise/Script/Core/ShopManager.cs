@@ -24,7 +24,7 @@ public class ShopManager : MonoBehaviour
     public List<AnimalShopOffer> animalOffers = new();
     [Tooltip("Lokasi hewan dikirim. Jika kosong, hewan muncul berdekatan dengan hewan farm pertama.")]
     public Transform animalDeliveryPoint;
-    [Min(1)] public int maximumOwnedAnimals = 20;
+    [HideInInspector] public int maximumOwnedAnimals = 20; // Legacy save/scene field; capacity is per home.
 
     [Header("Items Bought By Shop")]
     public ItemSO cabbageItem;
@@ -154,11 +154,6 @@ public class ShopManager : MonoBehaviour
                 ? "Bangun Coop dengan slot kosong dahulu" : "Bangun Barn dengan slot kosong dahulu");
             return false;
         }
-        if (AnimalGrowthSystem.ActiveAnimalCount >= maximumOwnedAnimals)
-        {
-            SaveLoadFeedback.Instance?.ShowMessage($"Kapasitas hewan penuh ({maximumOwnedAnimals})");
-            return false;
-        }
         if (VillageProgressionService.Instance != null &&
             !VillageProgressionService.Instance.MeetsRequirement(offer.requiredVillageLevel))
             return false;
@@ -173,13 +168,46 @@ public class ShopManager : MonoBehaviour
         {
             AnimalRoutine routine = animal.GetComponent<AnimalRoutine>();
             if (routine == null) routine = animal.gameObject.AddComponent<AnimalRoutine>();
-            routine.Assign(home);
+            if (!routine.Assign(home))
+            {
+                animal.gameObject.SetActive(false);
+                Destroy(animal.gameObject);
+                ScoreManager.Instance.AddPoints(offer.price);
+                return false;
+            }
             Debug.Log($"[SHOP] Bought {offer.displayName} for {offer.price} Gold.");
             return true;
         }
 
         ScoreManager.Instance.AddPoints(offer.price);
         return false;
+    }
+
+    public bool TryStartBreeding(AnimalGrowthSystem parent, Inventory source)
+    {
+        AnimalHome home = parent != null ? parent.GetComponent<AnimalRoutine>()?.Home : null;
+        if (home == null || !parent.IsAdult || parent.Health != AnimalHealthState.Healthy ||
+            !parent.FedToday || !home.HasRoom(parent.Type)) return false;
+        // One developing offspring of this species per home; prevents repeated breeding clicks.
+        if (home.Residents.Exists(r => r.Animal != null && r.Animal.Type == parent.Type && !r.Animal.HasBeenBorn)) return false;
+        ItemSO egg = AnimalGrowthProfileSO.IsBird(parent.Type) ? AnimalCareCatalog.Load()?.Product(parent.Type) : null;
+        if (AnimalGrowthProfileSO.IsBird(parent.Type) && (source == null || egg == null || source.GetCount(egg) < 1)) return false;
+        EnsureDefaultAnimalOffers();
+        AnimalShopOffer offer = animalOffers.Find(o => o != null && o.animalType == parent.Type && o.offerKind == AnimalShopOfferKind.Young);
+        if (offer == null) return false;
+        AnimalGrowthSystem child = SpawnAnimal(offer, home.Entry, true);
+        if (child == null) return false;
+        child.InitializeBreeding(TimeManager.Instance != null ? TimeManager.Instance.day : 1);
+        AnimalRoutine routine = child.GetComponent<AnimalRoutine>();
+        if (routine == null) routine = child.gameObject.AddComponent<AnimalRoutine>();
+        if (!routine.Assign(home) || (egg != null && !source.Remove(egg, 1)))
+        {
+            child.gameObject.SetActive(false);
+            Destroy(child.gameObject);
+            return false;
+        }
+        SaveLoadFeedback.Instance?.ShowMessage($"{home.Label}: 1 slot reserved untuk {parent.Type}");
+        return true;
     }
 
     AnimalGrowthSystem SpawnAnimal(AnimalShopOffer offer, Vector3 position, bool initializePurchase)

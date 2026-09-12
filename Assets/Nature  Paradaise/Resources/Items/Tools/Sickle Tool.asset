@@ -11,6 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
   m_Name: Sickle Tool
+  itemId: item.sickle_tool
   m_EditorClassIdentifier: 
   itemName: Sickle
   icon: {fileID: 0}

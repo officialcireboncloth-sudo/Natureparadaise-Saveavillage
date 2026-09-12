@@ -24,6 +24,8 @@ public sealed class FieldArea : MonoBehaviour
     [SerializeField, Min(0.25f)] float cellSize = 1f;
     [SerializeField] bool allowCrops = true;
     [SerializeField] bool allowBuildings = true;
+    [Tooltip("Aktifkan untuk field di dalam Greenhouse. Hujan tidak menyiram dan angin tidak dapat mencabut crop.")]
+    [SerializeField] bool protectedFromWeather;
     [SerializeField] bool showGridGizmo = true;
     [SerializeField] BoxCollider areaCollider;
 
@@ -78,6 +80,7 @@ public sealed class FieldArea : MonoBehaviour
     public float CellSize => cellSize;
     public int ChunkSize => chunkSize;
     public Vector2 WorldSize => new Vector2(columns * cellSize, rows * cellSize);
+    public bool IsWeatherProtected => protectedFromWeather;
 
     public static int GetSoilLevel(int durability)
     {
@@ -129,6 +132,14 @@ public sealed class FieldArea : MonoBehaviour
         TimeManager.OnHour += HandleHourChanged;
         TimeManager.OnBeforeDayChange += HandleDayChanged;
         WeatherSystem.CurrentWeatherChanged += HandleCurrentWeatherChanged;
+    }
+
+    void Start()
+    {
+        // Field dapat dimuat sesudah WeatherSystem mengirim event hari ini (misalnya
+        // kembali dari interior). Sinkronkan sekali agar hujan tetap menyiram map ini.
+        if (WeatherSystem.Instance != null)
+            HandleCurrentWeatherChanged(WeatherSystem.Instance.CurrentWeather);
     }
 
     void OnDisable()
@@ -227,7 +238,7 @@ public sealed class FieldArea : MonoBehaviour
         tile.state = TileState.Hoed;
         tile.dirty = true;
         tiles[index] = tile;
-        if (WeatherSystem.Instance != null && WeatherSystem.Instance.IsRainToday)
+        if (!protectedFromWeather && WeatherSystem.Instance != null && WeatherSystem.Instance.IsRainToday)
         {
             MarkWateredAtIndex(
                 index,
@@ -395,6 +406,57 @@ public sealed class FieldArea : MonoBehaviour
             watered++;
         }
         return watered;
+    }
+
+    /// <summary>Menghapus sebagian crop akibat bencana dan menyisakan tanah yang sudah dicangkul.</summary>
+    public int ApplyWeatherCropLoss(float chance, int seed)
+    {
+        chance = Mathf.Clamp01(chance);
+        if (protectedFromWeather || chance <= 0f || tiles == null) return 0;
+        System.Random random = new(unchecked(seed ^ StableFieldHash(fieldId)));
+        int lost = 0;
+        for (int index = 0; index < tiles.Length; index++)
+        {
+            FieldTileData tile = tiles[index];
+            if (!tile.HasCrop) continue;
+            float stageRisk = GetWindStageVulnerability(tile);
+            float finalChance = Mathf.Clamp01(chance * tile.crop.windVulnerability * stageRisk);
+            if (random.NextDouble() >= finalChance) continue;
+            tile.state = TileState.Hoed;
+            tile.crop = null;
+            tile.cropState = CropLifecycleState.Dead;
+            tile.growthDays = 0f;
+            tile.growthStage = 0;
+            tile.cropHealth = 0;
+            tile.qualityCare = null;
+            tile.regrowDaysRemaining = 0f;
+            tile.dirty = true;
+            tiles[index] = tile;
+            HideCropView(index);
+            IndexToCoordinate(index, out int x, out int z);
+            NotifyChanged(x, z);
+            lost++;
+        }
+        return lost;
+    }
+
+    static float GetWindStageVulnerability(FieldTileData tile)
+    {
+        int stages = Mathf.Max(1, tile.crop != null ? tile.crop.StageCount : 1);
+        float progress = stages <= 1 ? 1f : Mathf.Clamp01(tile.growthStage / (float)(stages - 1));
+        // Seed/Sprout terlindungi; crop tinggi atau mature menerima risiko penuh/lebih besar.
+        return Mathf.Lerp(0.35f, 1.25f, progress);
+    }
+
+    static int StableFieldHash(string value)
+    {
+        unchecked
+        {
+            int hash = 17;
+            if (value == null) return hash;
+            for (int i = 0; i < value.Length; i++) hash = hash * 31 + value[i];
+            return hash;
+        }
     }
 
     bool IsEditableSoilTile(int x, int z, out int index)
@@ -721,6 +783,7 @@ public sealed class FieldArea : MonoBehaviour
 
     void HandleCurrentWeatherChanged(WeatherType weather)
     {
+        if (protectedFromWeather) return;
         int rainAmount = WeatherSystem.GetRainMoistureAmount(weather);
         if (rainAmount <= 0)
             return;
@@ -730,6 +793,8 @@ public sealed class FieldArea : MonoBehaviour
             int index = activeTileIndices[i];
             FieldTileData tile = tiles[index];
             if (tile.state != TileState.Hoed && tile.state != TileState.Planted)
+                continue;
+            if ((tile.waterSourcesToday & CropWaterSource.Rain) != 0)
                 continue;
 
             MarkWateredAtIndex(index, CropWaterSource.Rain, rainAmount);

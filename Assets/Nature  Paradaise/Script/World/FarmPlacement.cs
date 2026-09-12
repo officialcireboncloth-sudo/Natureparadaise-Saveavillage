@@ -49,7 +49,7 @@ public static class FarmPlacement
     /// <summary>Dipanggil field sebelum growth dan sesudah reset, tanpa urutan event implisit.</summary>
     public static void WaterField(FieldArea field)
     {
-        if (WeatherSystem.Instance != null && WeatherSystem.Instance.IsRainToday) return;
+        if (WeatherSystem.Instance != null && WeatherSystem.Instance.IsRainToday && !field.IsWeatherProtected) return;
         foreach (PlacedWorldItem placed in PlacedWorldItem.Active)
         {
             if (placed == null || !placed.IsInstalledFarmItem || !placed.Item.IsSprinkler ||

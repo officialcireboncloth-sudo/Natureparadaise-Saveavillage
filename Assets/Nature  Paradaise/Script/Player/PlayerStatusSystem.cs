@@ -214,21 +214,41 @@ public sealed class PlayerStatusSystem : MonoBehaviour
     /// <summary>Memeriksa apakah stamina cukup tanpa mengubah nilai.</summary>
     public bool CanSpendStamina(float amount)
     {
-        return !IsFainted && amount >= 0f && currentStamina >= amount;
+        float effectiveAmount = GetWeatherAdjustedStaminaCost(amount);
+        return !IsFainted && amount >= 0f && currentStamina >= effectiveAmount;
     }
 
     /// <summary>Mengurangi stamina secara atomik jika jumlahnya cukup.</summary>
     public bool TrySpendStamina(float amount)
     {
+        float effectiveAmount = GetWeatherAdjustedStaminaCost(amount);
         if (!CanSpendStamina(amount))
+        {
+            if (!IsFainted && WeatherSystem.Instance != null &&
+                WeatherSystem.IsPlayerOutdoors() && WeatherSystem.Instance.CurrentWeather == WeatherType.WindRainStorm)
+            {
+                currentStamina = 0f;
+                NotifyChanged();
+                PlayerLifeCycle lifeCycle = GetComponent<PlayerLifeCycle>();
+                if (lifeCycle != null)
+                    lifeCycle.RequestWeatherFaint(12, false, "Kamu memaksakan aktivitas saat hujan angin dan pingsan.");
+            }
             return false;
+        }
 
         if (amount <= 0f)
             return true;
 
-        currentStamina -= amount;
+        currentStamina -= effectiveAmount;
         NotifyChanged();
         return true;
+    }
+
+    float GetWeatherAdjustedStaminaCost(float amount)
+    {
+        if (amount <= 0f || WeatherSystem.Instance == null || !WeatherSystem.IsPlayerOutdoors())
+            return amount;
+        return amount * WeatherSystem.GetOutdoorStaminaMultiplier(WeatherSystem.Instance.CurrentWeather);
     }
 
     public void RestoreStamina(float amount)

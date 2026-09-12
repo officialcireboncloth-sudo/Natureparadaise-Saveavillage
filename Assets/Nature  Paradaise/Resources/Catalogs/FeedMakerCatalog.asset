@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1060000000040008000000000000002, type: 3}
+  m_Name: FeedMakerCatalog
+  animalFeed: {fileID: 11400000, guid: d1060000000040008000000000000010, type: 2}
+  upgradeWood: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+  upgradeStone: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+  recipes:
+  - id: grass
+    input: {fileID: 11400000, guid: a33f7b52dbbf45b18c8796d0dfe5a91a, type: 2}
+    inputCount: 5
+    outputCount: 5
+    hours: 4
+  - id: corn
+    input: {fileID: 11400000, guid: d1060000000040008000000000000011, type: 2}
+    inputCount: 3
+    outputCount: 5
+    hours: 4
+  - id: wheat
+    input: {fileID: 11400000, guid: d1060000000040008000000000000012, type: 2}
+    inputCount: 3
+    outputCount: 5
+    hours: 4
+  - id: crop-cabbage
+    input: {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
+    mixedInputs:
+    - {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
+    - {fileID: 11400000, guid: d1060000000040008000000000000011, type: 2}
+    - {fileID: 11400000, guid: d1060000000040008000000000000012, type: 2}
+    inputCount: 3
+    outputCount: 4
+    hours: 4

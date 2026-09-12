@@ -23,6 +23,7 @@ MonoBehaviour:
   dailyFertilityUse: 3
   soilDepletionOnHarvest: 4
   baseYield: 1
+  windVulnerability: 1
   dryDaysBeforeWither: 3
   wateredDaysToRecover: 2
   healthLossWhenDry: 10

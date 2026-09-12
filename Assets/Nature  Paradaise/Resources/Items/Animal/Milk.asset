@@ -11,6 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
   m_Name: Milk
+  itemId: item.milk
   m_EditorClassIdentifier: 
   itemName: Milk
   icon: {fileID: 0}
@@ -26,3 +27,4 @@ MonoBehaviour:
   healthRestore: 5
   staminaRestore: 18
   hungerRestore: 15
+  refrigeratorCategory: 4

@@ -30,7 +30,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 1
     completedPrefab: {fileID: 0}
-    capacity: 4
+    capacity: 6
     unlockIds:
     - animal.coop.basic
   - level: 2
@@ -42,6 +42,30 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 3
     completedPrefab: {fileID: 0}
-    capacity: 8
+    capacity: 12
     unlockIds:
     - animal.coop.expanded
+  - level: 3
+    goldCost: 75
+    constructionDays: 4
+    materialCosts:
+    - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+      amount: 20
+    - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+      amount: 11
+    completedPrefab: {fileID: 0}
+    capacity: 20
+    unlockIds:
+    - animal.coop.level3
+  - level: 4
+    goldCost: 110
+    constructionDays: 5
+    materialCosts:
+    - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+      amount: 25
+    - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+      amount: 14
+    completedPrefab: {fileID: 0}
+    capacity: 30
+    unlockIds:
+    - animal.coop.level4

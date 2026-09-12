@@ -53,6 +53,17 @@ public sealed class AnimalHealthProgress
         if (!float.IsNaN(risk) && !float.IsInfinity(risk)) weatherExposureRisk = Math.Max(weatherExposureRisk, risk);
     }
     public void ExposeNight() => nightExposure = true;
+    /// <summary>Dipakai bencana yang menurut desain selalu membuat hewan di luar sakit.</summary>
+    public void ForceIllness(AnimalIllnessStage minimumStage)
+    {
+        if (minimumStage is AnimalIllnessStage.Healthy or AnimalIllnessStage.Recovering) return;
+        if (stage == AnimalIllnessStage.Critical) return;
+        if (stage == AnimalIllnessStage.Recovering || (int)stage < (int)minimumStage)
+            stage = minimumStage;
+        untreatedDays = 0;
+        recoveryRemaining = 0;
+        immunityRemaining = 0;
+    }
     public bool Treat(AnimalHealthRules rules, int day)
     {
         if (!CanTreat) return false;
@@ -126,9 +137,17 @@ public sealed class AnimalHealthProgress
         // Gabungkan risiko tanpa menjumlahkannya hingga melewati 100%.
         double safe = 1;
         if (hungryDays >= Math.Max(1, rules.hungryDaysBeforeRisk)) safe *= 1 - Chance(rules.hungerSicknessChance);
-        if (rainyDays >= Math.Max(1, rules.rainyDaysBeforeRisk)) safe *= 1 - Chance(rules.rainSicknessChance);
-        if (directWeatherRisk > 0) safe *= 1 - directWeatherRisk;
-        else if (storm) safe *= 1 - Chance(legacyStormChance); // Kompatibilitas save/tes lama.
+        if (directWeatherRisk > 0)
+        {
+            // Risiko cuaca eksplisit (25/60/90%) sudah mewakili paparan hari ini.
+            // Jangan kalikan lagi dengan rainyDays saat hujan terjadi berurutan.
+            safe *= 1 - directWeatherRisk;
+        }
+        else
+        {
+            if (rainyDays >= Math.Max(1, rules.rainyDaysBeforeRisk)) safe *= 1 - Chance(rules.rainSicknessChance);
+            if (storm) safe *= 1 - Chance(legacyStormChance); // Kompatibilitas save/tes lama.
+        }
         if (night) safe *= 1 - Chance(nightChance);
         if (roll < 1 - safe)
         {

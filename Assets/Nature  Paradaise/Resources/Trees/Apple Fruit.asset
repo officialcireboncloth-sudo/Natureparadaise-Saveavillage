@@ -5,6 +5,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
   m_Name: Apple Fruit
+  itemId: item.apple_fruit
   itemName: Apple
   buyPrice: 0
   sellPrice: 100
@@ -14,4 +15,4 @@ MonoBehaviour:
   foodPreparation: 1
   canDropToWorld: 1
   worldScale: {x: 0.25, y: 0.25, z: 0.25}
-
+  refrigeratorCategory: 2

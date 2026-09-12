@@ -16,6 +16,7 @@ MonoBehaviour:
   displayName: Barn
   icon: {fileID: 0}
   category: 1
+  animalHousing: 0
   footprintWidth: 4
   footprintDepth: 4
   defaultPlacementYaw: 0
@@ -31,7 +32,7 @@ MonoBehaviour:
       amount: 4
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 2
-    completedPrefab: {fileID: 919132149155446097, guid: 67d70ee819593b34a99c64fc58730d61, type: 3}
+    completedPrefab: {fileID: 8944023677633732428, guid: 75a0d5da13e027b4e8e6b886b82ebd82, type: 3}
     capacity: 4
     unlockIds:
     - animal.barn.basic
@@ -44,7 +45,33 @@ MonoBehaviour:
       amount: 7
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 4
-    completedPrefab: {fileID: 919132149155446097, guid: 67d70ee819593b34a99c64fc58730d61, type: 3}
+    completedPrefab: {fileID: 5813471847372167096, guid: 2e3f8774448ef91478acab3fb285598d, type: 3}
     capacity: 8
     unlockIds:
     - animal.barn.expanded
+  - level: 3
+    requiredVillageLevel: 0
+    goldCost: 85
+    constructionDays: 4
+    materialCosts:
+    - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+      amount: 20
+    - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+      amount: 11
+    completedPrefab: {fileID: 307818523008615334, guid: e4f7e476a3fe8974a92cf0cea5fe77e9, type: 3}
+    capacity: 14
+    unlockIds:
+    - animal.barn.level3
+  - level: 4
+    requiredVillageLevel: 0
+    goldCost: 130
+    constructionDays: 5
+    materialCosts:
+    - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+      amount: 25
+    - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+      amount: 14
+    completedPrefab: {fileID: 2476410574997840004, guid: 396d6af7894a37f49b11fd4cc0a47894, type: 3}
+    capacity: 20
+    unlockIds:
+    - animal.barn.level4

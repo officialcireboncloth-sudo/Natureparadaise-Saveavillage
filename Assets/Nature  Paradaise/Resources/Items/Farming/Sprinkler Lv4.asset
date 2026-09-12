@@ -5,6 +5,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
   m_Name: Sprinkler Lv4
+  itemId: item.sprinkler_lv4
   itemName: Sprinkler Lv.4
   buyPrice: 12000
   sellPrice: 0
@@ -16,4 +17,3 @@ MonoBehaviour:
   canPlaceInWorld: 1
   sprinklerLevel: 4
   worldScale: {x: 0.35, y: 0.6, z: 0.35}
-

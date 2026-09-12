@@ -3,7 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public sealed class AnimalHomeSaveData { public string id; public int fodder; }
+public sealed class AnimalHomeSaveData
+{
+    public string id;
+    public int fodder;
+    public int level;
+    public int maxCapacity;
+    public int currentAnimals;
+    public int reservedSlots;
+    public List<string> animalIds = new();
+    public List<AnimalType> animalTypes = new();
+}
 
 /// <summary>Kandang persisten dan trough. PropertySite memberi jenis, kapasitas, serta lokasi bangunan.</summary>
 public sealed class AnimalHome : MonoBehaviour
@@ -28,6 +38,10 @@ public sealed class AnimalHome : MonoBehaviour
     public bool HasAutoFeeder => forceAutoFeeder || (site != null && site.CurrentLevel >= autoFeederStartingLevel);
     public string Label => site != null ? site.ActiveDefinition?.displayName ?? name : name;
     public List<AnimalRoutine> Residents => AnimalRoutine.Active.FindAll(a => a != null && a.HomeId == Id);
+    // Prenatal animals already have persistent IDs and growth/save data. They reserve one slot.
+    public int AnimalCount => Residents.FindAll(a => a.Animal != null && a.Animal.HasBeenBorn).Count;
+    public int ReservedSlots => Residents.FindAll(a => a.Animal != null && !a.Animal.HasBeenBorn).Count;
+    public int AvailableSlots => Mathf.Max(0, Capacity - Residents.Count);
     public bool Accepts(AnimalType type) => Available && Kind == (AnimalGrowthProfileSO.IsBird(type) ? AnimalHousingKind.Coop : AnimalHousingKind.Barn);
     public bool HasRoom(AnimalType type) => Available && AnimalCareRules.Fits(AnimalGrowthProfileSO.IsBird(type), Kind, Residents.Count, Capacity);
     public Vector3 Entry
@@ -38,13 +52,35 @@ public sealed class AnimalHome : MonoBehaviour
             Transform anchor = site != null ? site.BuildingAnchor : transform;
             Bounds bounds = new(anchor.position, Vector3.one * 2f);
             bool found = false;
+            Renderer doorRenderer = null;
             foreach (Renderer renderer in anchor.GetComponentsInChildren<Renderer>())
             {
                 if (!renderer.enabled || renderer is LineRenderer) continue;
                 if (!found) { bounds = renderer.bounds; found = true; } else bounds.Encapsulate(renderer.bounds);
+                string childName = renderer.name.ToLowerInvariant();
+                if (doorRenderer == null && (childName.Contains("door") || childName.Contains("entrance")))
+                    doorRenderer = renderer;
             }
-            Vector3 point = new(bounds.center.x, anchor.position.y, bounds.min.z - 1.2f);
-            if (Physics.Raycast(point + Vector3.up * 2f, Vector3.down, out RaycastHit hit, 4f, ~0, QueryTriggerInteraction.Ignore)) point.y = hit.point.y;
+            Vector3 point;
+            if (doorRenderer != null)
+            {
+                point = doorRenderer.bounds.center;
+                Vector3 outward = point - bounds.center;
+                outward.y = 0f;
+                if (outward.sqrMagnitude < 0.01f) outward = -anchor.forward;
+                point += outward.normalized * 1.25f;
+            }
+            else
+            {
+                // Fallback menghormati rotasi bangunan; bounds.min.z dunia tidak dapat dipakai
+                // karena menghasilkan sisi yang salah ketika Property Site diputar.
+                Vector3 localCenter = anchor.InverseTransformPoint(bounds.center);
+                Vector3 localCorner = anchor.InverseTransformPoint(new Vector3(bounds.center.x,bounds.center.y,bounds.min.z));
+                float halfDepth = Mathf.Max(1f,Mathf.Abs(localCorner.z-localCenter.z));
+                point = anchor.TransformPoint(new Vector3(localCenter.x,0f,localCenter.z-halfDepth-1.2f));
+            }
+            if (Physics.Raycast(point + Vector3.up * 4f, Vector3.down, out RaycastHit hit, 10f, ~0, QueryTriggerInteraction.Ignore)) point.y = hit.point.y;
+            else point.y = anchor.position.y;
             return point;
         }
     }
@@ -55,6 +91,13 @@ public sealed class AnimalHome : MonoBehaviour
     void OnEnable() => Active.Add(this);
     void OnDisable() => Active.Remove(this);
     void OnDestroy() { if (runtimeDoor != null) Destroy(runtimeDoor.gameObject); }
+    void OnDrawGizmosSelected()
+    {
+        Vector3 position = door != null ? door.position : Entry;
+        Gizmos.color = new Color(1f,0.78f,0.12f,0.95f);
+        Gizmos.DrawSphere(position+Vector3.up*0.15f,0.22f);
+        Gizmos.DrawLine(position,position+Vector3.up*2f);
+    }
     void Update()
     {
         if (runtimeDoor != null) runtimeDoor.gameObject.SetActive(Available);
@@ -81,6 +124,12 @@ public sealed class AnimalHome : MonoBehaviour
         fodderStock += amount;
         foreach (AnimalRoutine animal in Residents) animal.PrepareDailyCare();
         return true;
+    }
+    public int StoreFeed(int amount)
+    {
+        int accepted = Mathf.Clamp(amount, 0, 999 - fodderStock);
+        fodderStock += accepted;
+        return accepted;
     }
     public bool Withdraw(Inventory target)
     {
@@ -113,7 +162,15 @@ public sealed class AnimalHome : MonoBehaviour
     public static List<AnimalHomeSaveData> CaptureAll()
     {
         List<AnimalHomeSaveData> result = new();
-        foreach (AnimalHome home in Active) if (home != null) result.Add(new AnimalHomeSaveData { id = home.Id, fodder = home.fodderStock });
+        foreach (AnimalHome home in Active) if (home != null)
+        {
+            var saved = new AnimalHomeSaveData { id=home.Id, fodder=home.fodderStock,
+                level=home.site!=null ? home.site.CurrentLevel : 1, maxCapacity=home.Capacity,
+                currentAnimals=home.AnimalCount, reservedSlots=home.ReservedSlots };
+            foreach(var resident in home.Residents) if(resident.Animal!=null)
+            { saved.animalIds.Add(resident.Animal.AnimalId); saved.animalTypes.Add(resident.Animal.Type); }
+            result.Add(saved);
+        }
         return result;
     }
     public static void RestoreAll(List<AnimalHomeSaveData> data)

@@ -13,7 +13,6 @@ public static class BuildingDummyReferenceSetup
     const string BarnModelPath = "Assets/Nature  Paradaise/mesh/Dummy/BarnDummy.fbx";
     const string HouseModelPath = "Assets/Nature  Paradaise/mesh/Dummy/HouseDummy.fbx";
 
-    [MenuItem("Nature Paradise/Buildings/Apply Barn Dummy Model")]
     public static void ApplyBarnReference()
     {
         if (!AssignModelToAllLevels(BarnDefinitionPath, BarnModelPath)) return;
@@ -22,7 +21,6 @@ public static class BuildingDummyReferenceSetup
         Debug.Log("[BUILDING] BarnDummy berhasil dipasang ke Building Definition.");
     }
 
-    [MenuItem("Nature Paradise/Buildings/Apply House Dummy Model (Optional)")]
     public static void ApplyHouseReference()
     {
         if (!AssignModelToAllLevels(HouseDefinitionPath, HouseModelPath)) return;

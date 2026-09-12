@@ -55,7 +55,15 @@ public sealed class AnimalRoutine : MonoBehaviour
     {
         if (home == null || !home.HasRoom(Animal.Type)) return false;
         if (housed) { transform.position = Home != null ? Home.Entry : transform.position; ShowModel(); }
-        homeId = home.Id; housed = false; returning = true; path = null;
+        homeId = home.Id; path = null;
+        if (!Animal.HasBeenBorn)
+        {
+            transform.position = home.Entry;
+            housed = true; returning = false;
+            Animal.SetSheltered(true);
+            return true;
+        }
+        housed = false; returning = true;
         Animal.SetSheltered(false);
         return true;
     }
@@ -211,6 +219,14 @@ public sealed class AnimalRoutine : MonoBehaviour
     void LateUpdate()
     {
         if (!housed) return;
+        BarnInterior interior = BarnInterior.Current;
+        if (interior != null && interior.home == Home && Animal.HasBeenBorn)
+        {
+            ShowModel();
+            transform.position = interior.AnimalPosition(this);
+            return;
+        }
+        if (Home != null) transform.position = Home.Entry;
         foreach (Renderer renderer in GetComponentsInChildren<Renderer>(true))
         { if (!renderers.ContainsKey(renderer)) renderers[renderer] = renderer.enabled; renderer.enabled = false; }
         foreach (Collider collider in GetComponentsInChildren<Collider>(true))

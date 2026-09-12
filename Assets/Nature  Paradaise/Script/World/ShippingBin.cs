@@ -28,6 +28,7 @@ public sealed class ShippingBinListing
 [Serializable]
 public sealed class ShippingBinListingSaveData
 {
+    public string itemId;
     public string assetName;
     public string itemName;
     public int count;
@@ -489,6 +490,7 @@ public sealed class ShippingBin : MonoBehaviour
             lifetimeRevenue = lifetimeRevenue,
             listings = listings.Select(entry => new ShippingBinListingSaveData
             {
+                itemId = entry.item.Id,
                 assetName = entry.item.name,
                 itemName = entry.item.itemName,
                 count = entry.count,
@@ -505,12 +507,10 @@ public sealed class ShippingBin : MonoBehaviour
         listings.Clear();
         if (data?.listings != null)
         {
-            ItemSO[] catalog = Resources.LoadAll<ItemSO>(string.Empty);
             foreach (ShippingBinListingSaveData saved in data.listings)
             {
                 if (saved == null || saved.count <= 0) continue;
-                ItemSO item = Array.Find(catalog, candidate => candidate != null &&
-                    (candidate.name == saved.assetName || candidate.itemName == saved.itemName));
+                ItemSO item = ItemCatalog.Resolve(saved.itemId, saved.assetName, saved.itemName);
                 if (item == null || !item.CanSellAtMarket) continue;
                 listings.Add(new ShippingBinListing
                 {

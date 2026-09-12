@@ -31,8 +31,6 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField, Min(0.1f)] float jumpHeight = 1.15f;
     [SerializeField] float gravity = -25f;
     [SerializeField, Min(0f)] float groundedForce = 2f;
-    [SerializeField, Range(0f, 89f)] float slopeLimit = 45f;
-    [SerializeField, Range(0f, 0.5f)] float stepOffset = 0.3f;
     [SerializeField, Min(0f)] float jumpStaminaCost = 0.1f;
 
     [Header("Run / Sprint Stamina (No Passive Recovery)")]
@@ -76,6 +74,7 @@ public sealed class PlayerController : MonoBehaviour
     public bool IsGrounded => characterController != null && characterController.enabled && characterController.isGrounded;
     public bool IsMovementLocked => manualLock || movementLocks.Count > 0;
     public bool IsCarrying => isCarrying;
+    public Animator CharacterAnimator => animator;
     public Vector3 FacingDirection { get; private set; } = Vector3.forward;
     public event Action<MovementMode> MovementModeChanged;
 
@@ -84,15 +83,50 @@ public sealed class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         if (status == null) status = GetComponent<PlayerStatusSystem>();
         if (movementCamera == null) movementCamera = Camera.main;
-        if (animator == null) animator = GetComponentInChildren<Animator>();
+        ResolveRigAnimator();
 
-        characterController.slopeLimit = slopeLimit;
-        characterController.stepOffset = Mathf.Min(stepOffset, characterController.height * 0.45f);
-        characterController.detectCollisions = true;
         FacingDirection = transform.forward.sqrMagnitude > 0.01f ? transform.forward.normalized : Vector3.forward;
         CacheAnimatorParameters();
         if (GetComponent<FootstepAudio>() == null)
             gameObject.AddComponent<FootstepAudio>();
+    }
+
+    /// <summary>
+    /// Memilih Animator yang berada langsung pada root skeleton FBX. Prefab versi lama
+    /// menaruh Animator kedua pada wrapper PlayerVisual; Humanoid lalu menghitung pose
+    /// dalam ruang transform yang salah karena model di bawahnya diskalakan.
+    /// </summary>
+    void ResolveRigAnimator()
+    {
+        Animator previous = animator;
+        Animator[] candidates = GetComponentsInChildren<Animator>(true);
+        Animator rigAnimator = null;
+        int bestScore = -1;
+
+        foreach (Animator candidate in candidates)
+        {
+            if (candidate.avatar == null || !candidate.avatar.isValid || !candidate.avatar.isHuman ||
+                candidate.GetComponentInChildren<SkinnedMeshRenderer>(true) == null)
+                continue;
+
+            int depth = 0;
+            for (Transform current = candidate.transform; current != null && current != transform; current = current.parent)
+                depth++;
+            // Animator yang sudah memiliki controller lebih layak daripada wrapper/bone
+            // Animator yang lebih dalam tetapi kosong.
+            int score = depth + (candidate.runtimeAnimatorController != null ? 1000 : 0);
+            if (score <= bestScore) continue;
+            rigAnimator = candidate;
+            bestScore = score;
+        }
+
+        if (rigAnimator == null)
+        {
+            animator = previous != null ? previous : GetComponentInChildren<Animator>(true);
+            return;
+        }
+
+        animator = rigAnimator;
     }
 
     void Update()
@@ -179,7 +213,15 @@ public sealed class PlayerController : MonoBehaviour
         bool wantsSprint = (Input.GetKey(sprintKey) || mobileSprintHeld) && status != null &&
                            !status.IsExhausted && status.CanSpendStamina(0.01f);
         if (wantsSprint) return MovementMode.Sprint;
-        if (Input.GetKey(walkKey) || inputMagnitude < analogRunThreshold) return MovementMode.Walk;
+        // Tombol keyboard selalu bernilai penuh, jadi W sebelumnya langsung dianggap Run.
+        // Keyboard normal sekarang Walk; Shift menjadi lari. Stick analog tetap dapat
+        // memilih Walk/Run berdasarkan besar input.
+        bool keyboardMovement = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
+                                Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) ||
+                                Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) ||
+                                Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow);
+        if (keyboardMovement || Input.GetKey(walkKey) || inputMagnitude < analogRunThreshold)
+            return MovementMode.Walk;
         return MovementMode.Run;
     }
 
@@ -213,7 +255,7 @@ public sealed class PlayerController : MonoBehaviour
             {
                 float elapsed = staminaTimer;
                 staminaTimer = 0f;
-                status.TrySpendStamina(Mathf.Min(status.Stamina, sprintDrainPerSecond * elapsed));
+                status.TrySpendStamina(sprintDrainPerSecond * elapsed);
             }
             return;
         }
@@ -232,7 +274,7 @@ public sealed class PlayerController : MonoBehaviour
 
     void UpdateAnimator(bool grounded, MovementMode mode)
     {
-        if (animator == null) return;
+        if (animator == null || !animator.isActiveAndEnabled || animator.runtimeAnimatorController == null) return;
         if (hasSpeedParameter) animator.SetFloat(speedParameter, CurrentSpeed / Mathf.Max(0.01f, sprintSpeed), 0.12f, Time.deltaTime);
         if (hasGroundedParameter) animator.SetBool(groundedParameter, grounded);
         if (hasSprintParameter) animator.SetBool(sprintParameter, mode == MovementMode.Sprint);
@@ -272,7 +314,8 @@ public sealed class PlayerController : MonoBehaviour
         mobileSprintHeld = false;
         externalMobileInput = Vector2.zero;
         jumpRequested = false;
-        if (animator != null && hasSpeedParameter) animator.SetFloat(speedParameter, 0f);
+        if (animator != null && animator.isActiveAndEnabled && animator.runtimeAnimatorController != null && hasSpeedParameter)
+            animator.SetFloat(speedParameter, 0f);
     }
 
     void OnValidate()

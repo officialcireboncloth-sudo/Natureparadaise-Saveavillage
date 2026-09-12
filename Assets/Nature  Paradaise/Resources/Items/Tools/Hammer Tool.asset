@@ -11,6 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
   m_Name: Hammer Tool
+  itemId: item.hammer_tool
   m_EditorClassIdentifier: 
   itemName: Hammer
   icon: {fileID: 0}

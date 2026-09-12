@@ -83,6 +83,7 @@ public sealed class PropertySite : MonoBehaviour
     [SerializeField] KeyCode previousBuildingKey = KeyCode.Q;
     [SerializeField] KeyCode nextBuildingKey = KeyCode.R;
     [SerializeField] KeyCode confirmKey = KeyCode.C;
+    [SerializeField] KeyCode debugConfirmKey = KeyCode.J;
     [SerializeField] KeyCode upgradeKey = KeyCode.U;
     [SerializeField] KeyCode relocateKey = KeyCode.M;
     [SerializeField] KeyCode demolishKey = KeyCode.X;
@@ -127,6 +128,7 @@ public sealed class PropertySite : MonoBehaviour
     public bool IsUnlocked => unlocked;
     public bool IsEmpty => state == BuildingConstructionState.Available && activeDefinition == null;
     public bool IsPreviewActive => previewActive;
+    public static bool DebugShortcutsEnabled => Application.isEditor || Debug.isDebugBuild;
 
     public static bool TryGetAvailableBuildSite(out PropertySite result)
     {
@@ -315,13 +317,19 @@ public sealed class PropertySite : MonoBehaviour
     void HandleConstructionInteraction(float distance)
     {
         int remaining = Mathf.Max(0, completionDay - CurrentDay);
+        string debugFinish = DebugShortcutsEnabled ? "  J: DEBUG langsung selesai" : string.Empty;
         WorldInteractionPrompt.Request(
             this,
             buildingAnchor,
-            $"{activeDefinition?.displayName ?? "Construction"}: {remaining} hari lagi",
+            $"{activeDefinition?.displayName ?? "Construction"}: {remaining} hari lagi{debugFinish}",
             distance,
             promptHeight
         );
+        if (DebugShortcutsEnabled && Input.GetKeyDown(debugConfirmKey))
+        {
+            CompleteConstruction();
+            SaveManager.Instance?.SaveGame();
+        }
     }
 
     void HandleCompletedInteraction(float distance)
@@ -335,16 +343,24 @@ public sealed class PropertySite : MonoBehaviour
         string demolish = activeDefinition != null && activeDefinition.canDemolish
             ? $"{demolishKey}: Demolish"
             : string.Empty;
+        string debugUpgrade = DebugShortcutsEnabled && activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel)
+            ? $"  {debugConfirmKey}: DEBUG Upgrade Instan"
+            : string.Empty;
 
         WorldInteractionPrompt.Request(
             this,
             buildingAnchor,
-            $"{activeDefinition?.displayName ?? "Building"} Lv.{currentLevel}  {upgrade}{relocate}{demolish}",
+            $"{activeDefinition?.displayName ?? "Building"} Lv.{currentLevel}  {upgrade}{relocate}{demolish}{debugUpgrade}",
             distance,
             promptHeight
         );
 
-        if (Input.GetKeyDown(upgradeKey) && activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel))
+        if (DebugShortcutsEnabled && Input.GetKeyDown(debugConfirmKey) &&
+            activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel))
+        {
+            if (BeginUpgradePreview()) ConfirmPreview(true);
+        }
+        else if (Input.GetKeyDown(upgradeKey) && activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel))
             BeginUpgradePreview();
         else if (Input.GetKeyDown(relocateKey) && activeDefinition != null && activeDefinition.canRelocate)
             BeginRelocationMode();
@@ -372,11 +388,14 @@ public sealed class PropertySite : MonoBehaviour
         string placementControls = previewUsesFreePlacement
             ? $"Gerakkan player: Pindah preview  {rotatePreviewKey}: Putar\n"
             : string.Empty;
+        string debugControls = DebugShortcutsEnabled
+            ? $"  {debugConfirmKey}: DEBUG Gratis + Instan"
+            : string.Empty;
         WorldInteractionPrompt.Request(
             this,
             promptAnchor,
             $"{previewDefinition?.displayName ?? "Building"} Lv.{previewLevel} [{validity}]\n{requirements}\n" +
-            $"{placementControls}{navigation}{confirmKey}: Konfirmasi  {cancelKey}: Batal",
+            $"{placementControls}{navigation}{confirmKey}: Konfirmasi{debugControls}  {cancelKey}: Batal",
             distance,
             promptHeight
         );
@@ -390,6 +409,8 @@ public sealed class PropertySite : MonoBehaviour
             CycleCatalog(-1);
         else if (previewAllowsCatalogNavigation && Input.GetKeyDown(nextBuildingKey))
             CycleCatalog(1);
+        else if (DebugShortcutsEnabled && Input.GetKeyDown(debugConfirmKey))
+            ConfirmPreview(true);
         else if (Input.GetKeyDown(confirmKey))
             ConfirmPreview();
         else if (Input.GetKeyDown(cancelKey))
@@ -471,7 +492,7 @@ public sealed class PropertySite : MonoBehaviour
     }
 
     /// <summary>Menjalankan transaksi build/upgrade atau transfer relocate dari preview aktif.</summary>
-    public bool ConfirmPreview()
+    public bool ConfirmPreview(bool debugInstant = false)
     {
         if (!previewActive || !previewLocationValid || previewDefinition == null)
         {
@@ -482,9 +503,10 @@ public sealed class PropertySite : MonoBehaviour
         if (previewIsRelocation)
             return ConfirmRelocation();
 
+        bool useDebug = debugInstant && DebugShortcutsEnabled;
         BuildingLevelDefinition targetLevel = previewDefinition.GetLevel(previewLevel);
         string reason = null;
-        if (targetLevel == null || !CanAfford(targetLevel, out reason))
+        if (targetLevel == null || (!useDebug && !CanAfford(targetLevel, out reason)))
         {
             SaveLoadFeedback.Instance?.ShowMessage(reason ?? "Resource tidak cukup");
             return false;
@@ -499,7 +521,7 @@ public sealed class PropertySite : MonoBehaviour
             return false;
         }
 
-        if (!SpendCost(targetLevel))
+        if (!useDebug && !SpendCost(targetLevel))
         {
             if (isNewBuilding)
                 ReleaseFootprint();
@@ -509,15 +531,19 @@ public sealed class PropertySite : MonoBehaviour
 
         activeDefinition = previewDefinition;
         pendingLevel = previewLevel;
-        completionDay = CurrentDay + Mathf.Max(0, targetLevel.constructionDays);
+        completionDay = CurrentDay + (useDebug ? 0 : Mathf.Max(0, targetLevel.constructionDays));
         state = BuildingConstructionState.UnderConstruction;
         if (previewUsesFreePlacement)
             buildingAnchor.SetPositionAndRotation(previewPlacementPosition, previewPlacementRotation);
         CancelPreview();
         ApplyVisualState();
 
-        if (targetLevel.constructionDays <= 0)
+        if (useDebug || targetLevel.constructionDays <= 0)
+        {
             CompleteConstruction();
+            if (useDebug)
+                SaveLoadFeedback.Instance?.ShowMessage($"[DEBUG] {activeDefinition.displayName} Lv.{currentLevel} gratis dan langsung selesai");
+        }
         else
             SaveLoadFeedback.Instance?.ShowMessage($"{activeDefinition.displayName} selesai hari ke-{completionDay}");
 
@@ -1284,6 +1310,8 @@ public sealed class ConstructionShortcutMenu : MonoBehaviour
             Select(selectedIndex - 1);
         else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             Select(selectedIndex + 1);
+        else if (PropertySite.DebugShortcutsEnabled && Input.GetKeyDown(KeyCode.J))
+            StartPlacement(true);
         else if (Input.GetKeyDown(confirmKey) || Input.GetKeyDown(KeyCode.C))
             StartPlacement();
     }
@@ -1330,7 +1358,7 @@ public sealed class ConstructionShortcutMenu : MonoBehaviour
         WorldInteractionPrompt.ReleaseSuppression(this);
     }
 
-    void StartPlacement()
+    void StartPlacement(bool debugInstant = false)
     {
         if (selectedSite == null || catalog == null ||
             selectedIndex < 0 || selectedIndex >= catalog.Count)
@@ -1342,6 +1370,8 @@ public sealed class ConstructionShortcutMenu : MonoBehaviour
             return;
         }
         Close();
+        if (debugInstant)
+            selectedSite.ConfirmPreview(true);
     }
 
     void Select(int index)
@@ -1413,7 +1443,9 @@ public sealed class ConstructionShortcutMenu : MonoBehaviour
         detailText.textWrappingMode = TextWrappingModes.Normal;
 
         footerText = CreateText("Footer", panel,
-            "A/D atau Panah: Pilih   Enter/C: Mulai Placement   B/Esc: Tutup", 19f,
+            PropertySite.DebugShortcutsEnabled
+                ? "A/D atau Panah: Pilih   Enter/C: Normal   J: DEBUG Gratis + Instan   B/Esc: Tutup"
+                : "A/D atau Panah: Pilih   Enter/C: Mulai Placement   B/Esc: Tutup", 19f,
             TextAlignmentOptions.Center);
         SetRect(footerText.rectTransform, new Vector2(24f, -474f), new Vector2(-24f, -520f));
         panelObject.SetActive(false);

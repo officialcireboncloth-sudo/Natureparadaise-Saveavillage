@@ -4,7 +4,13 @@ using UnityEngine;
 /// <summary>Editor setup untuk memasang whistle/companion tanpa runtime bootstrap atau dummy.</summary>
 public static class CompanionSetupUtility
 {
-    [MenuItem("Nature Paradise/Animals/Setup Whistle On Player")]
+    [MenuItem("Nature Paradise/Animals/Setup Animal Bell and Whistle",false,100)]
+    static void SetupAnimalCalls()
+    {
+        SetupWhistle();
+        SetupAnimalBell();
+    }
+
     static void SetupWhistle()
     {
         PlayerController player = Object.FindFirstObjectByType<PlayerController>();
@@ -16,7 +22,6 @@ public static class CompanionSetupUtility
         Debug.Log("[COMPANION SETUP] Player Whistle siap. Tekan V saat Play Mode.", player);
     }
 
-    [MenuItem("Nature Paradise/Animals/Setup Animal Bell On Player")]
     static void SetupAnimalBell()
     {
         PlayerController player = Object.FindFirstObjectByType<PlayerController>();

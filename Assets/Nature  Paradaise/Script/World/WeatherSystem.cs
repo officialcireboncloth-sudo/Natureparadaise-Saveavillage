@@ -30,7 +30,17 @@ public sealed class WeatherSystem : MonoBehaviour
     [SerializeField] int worldWeatherSeed = 18427;
     [SerializeField] WeatherType currentWeather = WeatherType.Sunny;
     [SerializeField] WeatherType tomorrowWeather = WeatherType.PartlyCloudy;
+    [SerializeField] WeatherType previousWeather = WeatherType.Sunny;
     [SerializeField] int currentWeatherDay = -1;
+
+    [Header("Gameplay Balancing")]
+    [Tooltip("Risiko dasar crop hilang saat Storm. Wind Vulnerability dan stage crop ikut mengalikan nilai ini.")]
+    [SerializeField, Range(0f, 1f)] float stormCropLossChance = 0.01f;
+    [Tooltip("Risiko dasar crop hilang saat Extreme Weather/Topan.")]
+    [SerializeField, Range(0f, 1f)] float extremeCropLossChance = 0.03f;
+    [SerializeField, Min(5f)] float lightningCheckInterval = 25f;
+    [SerializeField, Range(0f, 1f)] float lightningStrikeChance = 0.08f;
+    [SerializeField] int communityCleanupDay = -1;
 
     [Header("Future Weather Effect Slots")]
     [Tooltip("Belum diaktifkan pada tahap lighting-only.")]
@@ -51,10 +61,16 @@ public sealed class WeatherSystem : MonoBehaviour
 
     public WeatherType CurrentWeather => currentWeather;
     public WeatherType TomorrowWeather => tomorrowWeather;
+    public WeatherType PreviousWeather => previousWeather;
     public int CurrentWeatherDay => currentWeatherDay;
     public int WorldWeatherSeed => worldWeatherSeed;
     public bool IsRainToday => IsRainWeather(currentWeather);
     public bool IsStormToday => IsStormWeather(currentWeather);
+    public bool IsCommunityCleanupDay => currentWeatherDay == communityCleanupDay;
+    float nextLightningCheckTime;
+    int lightningResolvedDay = -1;
+    GameObject activeWeatherEffect;
+    WeatherType activeEffectWeather = (WeatherType)(-1);
 
     public event Action<WeatherType, WeatherType> WeatherChanged;
     public static event Action<WeatherType> CurrentWeatherChanged;
@@ -78,6 +94,7 @@ public sealed class WeatherSystem : MonoBehaviour
 
     void OnEnable()
     {
+        TimeManager.OnBeforeDayChange += HandleBeforeDayChanged;
         TimeManager.OnDay += HandleDayChanged;
     }
 
@@ -89,6 +106,7 @@ public sealed class WeatherSystem : MonoBehaviour
 
     void OnDisable()
     {
+        TimeManager.OnBeforeDayChange -= HandleBeforeDayChanged;
         TimeManager.OnDay -= HandleDayChanged;
     }
 
@@ -100,6 +118,9 @@ public sealed class WeatherSystem : MonoBehaviour
 
     void Update()
     {
+        FollowWeatherEffect();
+        UpdateLightningHazard();
+
         if (!enableDebugKeys || !HUDManager.DebugCluesEnabled)
             return;
 
@@ -120,14 +141,51 @@ public sealed class WeatherSystem : MonoBehaviour
         int day = TimeManager.Instance != null ? TimeManager.Instance.day : currentWeatherDay + 1;
         if (day == currentWeatherDay + 1)
         {
+            previousWeather = currentWeather;
             currentWeather = tomorrowWeather;
             currentWeatherDay = day;
+            communityCleanupDay = previousWeather == WeatherType.Cyclone ? day : -1;
             tomorrowWeather = GenerateWeather(day + 1);
             NotifyWeatherChanged();
             return;
         }
 
         EnsureForecastForDay(day);
+    }
+
+    void HandleBeforeDayChanged()
+    {
+        float cropLossChance = GetCropLossChance(currentWeather, stormCropLossChance, extremeCropLossChance);
+        if (cropLossChance <= 0f)
+            return;
+
+        int lost = 0;
+        int day = TimeManager.Instance != null ? TimeManager.Instance.day : currentWeatherDay;
+        foreach (FieldArea field in FieldArea.ActiveAreas)
+            if (field != null)
+                lost += field.ApplyWeatherCropLoss(cropLossChance, unchecked(worldWeatherSeed * 397 ^ day));
+
+        if (lost > 0)
+            SaveLoadFeedback.Instance?.ShowMessage($"{GetShortName(currentWeather)} merusak {lost} tanaman.");
+    }
+
+    void UpdateLightningHazard()
+    {
+        if (currentWeather != WeatherType.Thunderstorm || !IsPlayerOutdoors() ||
+            (TimeManager.Instance != null && TimeManager.Instance.IsPaused) ||
+            currentWeatherDay == lightningResolvedDay || Time.unscaledTime < nextLightningCheckTime)
+            return;
+
+        nextLightningCheckTime = Time.unscaledTime + Mathf.Max(5f, lightningCheckInterval);
+        int tick = TimeManager.Instance != null ? TimeManager.Instance.hour * 6 + TimeManager.Instance.minute / 10 : Mathf.FloorToInt(Time.unscaledTime);
+        System.Random random = new(unchecked(worldWeatherSeed * 31 ^ currentWeatherDay * 397 ^ tick));
+        if (random.NextDouble() >= Mathf.Clamp01(lightningStrikeChance))
+            return;
+
+        lightningResolvedDay = currentWeatherDay;
+        PlayerLifeCycle lifeCycle = FindFirstObjectByType<PlayerLifeCycle>();
+        if (lifeCycle != null)
+            lifeCycle.RequestWeatherFaint(12, true, "Kamu tersambar petir dan dibawa ke klinik.");
     }
 
     /// <summary>Memastikan current/tomorrow weather sudah tersedia untuk hari game tertentu.</summary>
@@ -144,12 +202,15 @@ public sealed class WeatherSystem : MonoBehaviour
     }
 
     /// <summary>Mengembalikan forecast persis dari save agar ramalan tidak berubah setelah load.</summary>
-    public void RestoreForecast(int savedDay, int savedSeed, WeatherType savedCurrent, WeatherType savedTomorrow)
+    public void RestoreForecast(int savedDay, int savedSeed, WeatherType savedCurrent, WeatherType savedTomorrow,
+        WeatherType savedPrevious = WeatherType.Sunny, int savedCleanupDay = -1)
     {
         worldWeatherSeed = savedSeed;
         currentWeatherDay = Mathf.Max(1, savedDay);
         currentWeather = ClampWeather(savedCurrent);
         tomorrowWeather = ClampWeather(savedTomorrow);
+        previousWeather = ClampWeather(savedPrevious);
+        communityCleanupDay = savedCleanupDay;
         NotifyWeatherChanged();
     }
 
@@ -206,10 +267,45 @@ public sealed class WeatherSystem : MonoBehaviour
 
     void NotifyWeatherChanged()
     {
+        WeatherImpactFlow.Publish(WeatherImpactSnapshot.Create(this));
+        RefreshWeatherEffect();
         WeatherChanged?.Invoke(currentWeather, tomorrowWeather);
         CurrentWeatherChanged?.Invoke(currentWeather);
         Debug.Log($"[WEATHER] Day {currentWeatherDay}: {GetDisplayName(currentWeather)} | Tomorrow: {GetDisplayName(tomorrowWeather)}");
     }
+
+    void RefreshWeatherEffect()
+    {
+        if (activeEffectWeather == currentWeather) return;
+        if (activeWeatherEffect != null) Destroy(activeWeatherEffect);
+        activeWeatherEffect = null;
+        activeEffectWeather = currentWeather;
+        GameObject prefab = currentWeather switch
+        {
+            WeatherType.Drizzle => drizzleParticlePrefab,
+            WeatherType.Rain => rainParticlePrefab,
+            WeatherType.HeavyRain => heavyRainParticlePrefab,
+            WeatherType.WindRainStorm or WeatherType.Cyclone => windVisualPrefab,
+            WeatherType.Thunderstorm => thunderEffectPrefab,
+            WeatherType.Snow => snowParticlePrefab,
+            WeatherType.Blizzard => blizzardParticlePrefab,
+            _ => null
+        };
+        if (prefab == null) return;
+        Vector3 position = effectFollowTarget != null ? effectFollowTarget.position : transform.position;
+        activeWeatherEffect = Instantiate(prefab, position, Quaternion.identity, transform);
+        activeWeatherEffect.name = $"WeatherEffect_{currentWeather}";
+    }
+
+    void FollowWeatherEffect()
+    {
+        if (activeWeatherEffect != null && effectFollowTarget != null)
+            activeWeatherEffect.transform.position = effectFollowTarget.position;
+    }
+
+    public static bool AreNpcOutdoorActivitiesAllowed => !WeatherImpactFlow.HasCurrent || WeatherImpactFlow.Current.NpcOutdoorActivitiesAllowed;
+    public static float CurrentHuntingMultiplier => WeatherImpactFlow.HasCurrent ? WeatherImpactFlow.Current.HuntingMultiplier : 1f;
+    public static float CurrentFishingMultiplier => WeatherImpactFlow.HasCurrent ? WeatherImpactFlow.Current.FishingMultiplier : 1f;
 
     static WeatherType NextWeather(WeatherType weather)
     {
@@ -256,16 +352,77 @@ public sealed class WeatherSystem : MonoBehaviour
         return weather switch
         {
             WeatherType.Heatwave => 0.8f,
-            WeatherType.Drizzle => 1.05f,
-            WeatherType.Rain => 1.08f,
-            WeatherType.HeavyRain => 0.95f,
-            WeatherType.WindRainStorm => 0.85f,
-            WeatherType.Cyclone => 0.7f,
-            WeatherType.Thunderstorm => 0.85f,
-            WeatherType.Snow => 0.55f,
-            WeatherType.Blizzard => 0.25f,
+            WeatherType.Drizzle => 1f,
+            WeatherType.Rain => 1f,
+            WeatherType.HeavyRain => 1f,
+            WeatherType.WindRainStorm => 1f,
+            WeatherType.Cyclone => 1f,
+            WeatherType.Thunderstorm => 1f,
+            // Catatan desain: hujan salju hanya visual dan tidak memberi efek gameplay.
+            WeatherType.Snow => 1f,
+            WeatherType.Blizzard => 1f,
             _ => 1f
         };
+    }
+
+    public static float GetCropLossChance(WeatherType weather, float stormChance = 0.01f, float extremeChance = 0.03f)
+    {
+        return weather switch
+        {
+            WeatherType.WindRainStorm or WeatherType.Thunderstorm => Mathf.Clamp01(stormChance),
+            WeatherType.Cyclone or WeatherType.Blizzard => Mathf.Clamp01(extremeChance),
+            _ => 0f
+        };
+    }
+
+    public static float GetOutdoorAnimalSicknessChance(WeatherType weather)
+    {
+        return weather switch
+        {
+            WeatherType.Drizzle or WeatherType.Rain or WeatherType.HeavyRain => 0.25f,
+            WeatherType.WindRainStorm or WeatherType.Thunderstorm => 0.60f,
+            WeatherType.Cyclone or WeatherType.Blizzard => 0.90f,
+            WeatherType.Heatwave => 0.80f,
+            _ => 0f
+        };
+    }
+
+    /// <summary>Penalti relationship/XP sekali pada Daily Reset untuk hewan yang masih di luar.</summary>
+    public static int GetOutdoorAnimalRelationshipPenalty(WeatherType weather)
+    {
+        return weather switch
+        {
+            WeatherType.Drizzle => 10,
+            WeatherType.Rain => 15,
+            WeatherType.HeavyRain => 20,
+            WeatherType.WindRainStorm => 50,
+            WeatherType.Cyclone => 100,
+            WeatherType.Blizzard => 30,
+            _ => 0
+        };
+    }
+
+    /// <summary>Multiplier seluruh biaya stamina ketika player melakukan aktivitas di luar.</summary>
+    public static float GetOutdoorStaminaMultiplier(WeatherType weather)
+    {
+        return weather switch
+        {
+            WeatherType.WindRainStorm => 3f,
+            WeatherType.Thunderstorm => 2.5f,
+            WeatherType.Blizzard => 4f,
+            _ => 1f
+        };
+    }
+
+    public static bool BlocksLeavingHome(WeatherType weather) => weather == WeatherType.Cyclone;
+    public static bool BlocksTelevision(WeatherType weather) => weather == WeatherType.Thunderstorm;
+
+    public static bool IsPlayerOutdoors()
+    {
+        if (SceneTransitionManager.Instance != null && SceneTransitionManager.Instance.IsInsideInterior)
+            return false;
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        return string.IsNullOrEmpty(sceneName) || sceneName.IndexOf("Interior", StringComparison.OrdinalIgnoreCase) < 0;
     }
 
     public static string GetDisplayName(WeatherType weather)
@@ -278,7 +435,7 @@ public sealed class WeatherSystem : MonoBehaviour
             WeatherType.Drizzle => "Drizzle / Gerimis",
             WeatherType.Rain => "Rainy / Hujan Sedang",
             WeatherType.HeavyRain => "Heavy Rain / Hujan Lebat",
-            WeatherType.WindRainStorm => "Wind Rainstorm / Hujan Angin",
+            WeatherType.WindRainStorm => "Wind Rainstorm / Hujan Angin Badai",
             WeatherType.Cyclone => "Cyclone / Angin Topan",
             WeatherType.Thunderstorm => "Thunderstorm / Badai Petir",
             WeatherType.Snow => "Snow / Hujan Salju",
@@ -297,7 +454,7 @@ public sealed class WeatherSystem : MonoBehaviour
             WeatherType.Drizzle => "Gerimis",
             WeatherType.Rain => "Hujan Sedang",
             WeatherType.HeavyRain => "Hujan Lebat",
-            WeatherType.WindRainStorm => "Hujan Angin",
+            WeatherType.WindRainStorm => "Hujan Angin Badai",
             WeatherType.Cyclone => "Angin Topan",
             WeatherType.Thunderstorm => "Badai Petir",
             WeatherType.Snow => "Hujan Salju",

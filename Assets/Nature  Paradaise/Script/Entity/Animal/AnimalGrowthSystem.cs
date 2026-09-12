@@ -281,6 +281,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
         ageDays++;
         bool healthyDuringDay = healthProgress.Healthy;
+        WeatherType dailyWeather = WeatherSystem.Instance != null ? WeatherSystem.Instance.CurrentWeather : WeatherType.Sunny;
         RecordHealthExposure();
         healthProgress.EndDay(healthRules, currentDay, fedToday, sheltered, healthRules.stormSicknessChance,
             healthRules.nightSicknessChance,
@@ -289,8 +290,11 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         ApplyConditionVisual(false);
         bool rain = WeatherSystem.Instance != null && WeatherSystem.Instance.IsRainToday;
         bool storm = WeatherSystem.Instance != null && WeatherSystem.Instance.IsStormToday;
+        int weatherPenalty = WeatherSystem.GetOutdoorAnimalRelationshipPenalty(dailyWeather);
         // Hewan yang sedang diobati tidak lagi dianggap sakit tanpa penanganan.
-        heart.EndDay(heartRules, currentDay, fedToday, pettedToday, healthProgress.Healthy || healthProgress.stage == AnimalIllnessStage.Recovering, !sheltered, rain, storm);
+        heart.EndDay(heartRules, currentDay, fedToday, pettedToday,
+            healthProgress.Healthy || healthProgress.stage == AnimalIllnessStage.Recovering,
+            !sheltered, rain, storm, weatherPenalty);
 
         // Growth hanya maju jika kebutuhan hari yang baru selesai semuanya terpenuhi.
         if (!IsAdult && fedToday && (sheltered || CanGrazeToday) && healthyDuringDay && health == AnimalHealthState.Healthy)
@@ -320,15 +324,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     {
         if (!hasBeenBorn || sheltered || WeatherSystem.Instance == null) return;
         WeatherType weather = WeatherSystem.Instance.CurrentWeather;
-        float risk = weather switch
-        {
-            WeatherType.Drizzle => healthRules.drizzleSicknessChance,
-            WeatherType.Rain => 0f, // Rain memakai streak Rainy Days agar satu paparan tidak langsung sakit.
-            WeatherType.HeavyRain => healthRules.heavyRainSicknessChance,
-            WeatherType.WindRainStorm or WeatherType.Thunderstorm => healthRules.stormSicknessChance,
-            WeatherType.Heatwave or WeatherType.Cyclone or WeatherType.Blizzard => healthRules.extremeWeatherSicknessChance,
-            _ => 0f
-        };
+        float risk = WeatherSystem.GetOutdoorAnimalSicknessChance(weather);
         bool extreme = weather is WeatherType.Heatwave or WeatherType.Cyclone or WeatherType.Blizzard;
         healthProgress.ExposeWeather(WeatherSystem.Instance.IsRainToday, WeatherSystem.Instance.IsStormToday, risk, extreme);
         if (TimeManager.Instance != null && TimeManager.Instance.hour >= Mathf.Clamp(healthRules.nightRiskStartsAtHour, 0, 23))
@@ -406,7 +402,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     int CurrentDay => TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
     public bool CanGrazeToday => WeatherSystem.Instance == null ||
-        WeatherSystem.Instance.CurrentWeather is WeatherType.Sunny or WeatherType.PartlyCloudy;
+        WeatherSystem.Instance.CurrentWeather is WeatherType.Sunny or WeatherType.PartlyCloudy or WeatherType.Snow;
     public bool CanReceiveTreat => hasBeenBorn && heart.lastTreatDay != CurrentDay;
     public bool GiveFavoriteTreat()
     {
