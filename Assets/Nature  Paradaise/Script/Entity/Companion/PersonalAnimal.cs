@@ -28,6 +28,8 @@ public sealed class PersonalAnimalSaveData
 public sealed class PersonalAnimal : MonoBehaviour
 {
     static readonly List<PersonalAnimal> Registry = new();
+    static readonly RaycastHit[] MountedGroundHits = new RaycastHit[32];
+    static readonly RaycastHit[] MountedCollisionHits = new RaycastHit[32];
 
     [Header("Identity")]
     [SerializeField] string companionId;
@@ -61,6 +63,13 @@ public sealed class PersonalAnimal : MonoBehaviour
     [SerializeField] Transform mountPoint;
     [SerializeField] Vector3 mountLocalPosition = new(0f, 1.25f, 0f);
     [SerializeField, Min(1f)] float mountedSpeed = 7f;
+    [SerializeField, Min(0.1f)] float mountedJumpHeight = 1.35f;
+    [SerializeField, Min(1f)] float mountedGravity = 22f;
+    [SerializeField, Min(0f)] float mountedJumpCooldown = 0.25f;
+    [SerializeField] RuntimeAnimatorController jumpController;
+    [SerializeField, Min(0.01f)] float mountedCollisionSkin = 0.08f;
+    [SerializeField, Min(1f)] float mountedFallRecoveryDistance = 6f;
+    [SerializeField, Min(0.5f)] float mountedFallRecoveryDelay = 3f;
 
     CompanionCommand command = CompanionCommand.Stay;
     Transform followTarget;
@@ -73,6 +82,11 @@ public sealed class PersonalAnimal : MonoBehaviour
     Transform mountedOriginalParent;
     readonly Dictionary<Collider, bool> mountedPlayerColliders = new();
     RuntimeAnimatorController appliedController;
+    float mountedVerticalVelocity;
+    float nextMountedJumpTime;
+    bool mountedGrounded = true;
+    float mountedAirborneSince;
+    Vector3 mountedLastSafePosition;
 
     public string Id => companionId;
     public string DisplayName => string.IsNullOrWhiteSpace(displayName) ? species.ToString() : displayName;
@@ -253,6 +267,12 @@ public sealed class PersonalAnimal : MonoBehaviour
     {
         if (!tamed || species != CompanionSpecies.Horse || player == null || mountedPlayer != null ||
             Vector3.Distance(player.transform.position, transform.position) > 3f) return false;
+        PlayerAnimalCarry animalCarry = player.GetComponent<PlayerAnimalCarry>();
+        if (animalCarry != null && animalCarry.HasAnimal)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Turunkan hewan yang dibawa sebelum naik kuda.");
+            return false;
+        }
         SetActiveCompanion();
         mountedPlayer = player;
         mountedOriginalParent = player.transform.parent;
@@ -267,8 +287,12 @@ public sealed class PersonalAnimal : MonoBehaviour
         player.transform.SetParent(seat, true);
         player.transform.localPosition = mountPoint != null ? Vector3.zero : mountLocalPosition;
         player.transform.localRotation = Quaternion.identity;
+        mountedVerticalVelocity = 0f;
+        mountedGrounded = true;
+        mountedAirborneSince = 0f;
+        mountedLastSafePosition = transform.position;
         command = CompanionCommand.Stay;
-        SaveLoadFeedback.Instance?.ShowMessage($"Mounted {DisplayName} — WASD bergerak, E turun");
+        SaveLoadFeedback.Instance?.ShowMessage($"Mounted {DisplayName} — WASD bergerak, Space lompat, E turun");
         return true;
     }
 
@@ -283,6 +307,9 @@ public sealed class PersonalAnimal : MonoBehaviour
         mountedPlayerColliders.Clear();
         player.ReleaseMovementLock(this);
         mountedPlayer = null;
+        mountedVerticalVelocity = 0f;
+        mountedGrounded = true;
+        mountedAirborneSince = 0f;
         SaveLoadFeedback.Instance?.ShowMessage($"Turun dari {DisplayName}");
     }
 
@@ -290,17 +317,73 @@ public sealed class PersonalAnimal : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E)) { Dismount(); return; }
         Vector2 input = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        if (input.sqrMagnitude < 0.01f) { ApplyAnimation(false, false); return; }
-        input = Vector2.ClampMagnitude(input, 1f);
         Transform cameraTransform = Camera.main != null ? Camera.main.transform : null;
         Vector3 forward = cameraTransform != null ? cameraTransform.forward : Vector3.forward;
         Vector3 right = cameraTransform != null ? cameraTransform.right : Vector3.right;
         forward.y = right.y = 0f; forward.Normalize(); right.Normalize();
-        Vector3 direction = (forward * input.y + right * input.x).normalized;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(direction), 360f * Time.deltaTime);
-        Vector3 next = transform.position + direction * mountedSpeed * Time.deltaTime;
-        if (TryGround(next, out Vector3 ground)) transform.position = ground;
-        ApplyAnimation(true, true);
+        input = Vector2.ClampMagnitude(input, 1f);
+        Vector3 direction = (forward * input.y + right * input.x);
+        if (direction.sqrMagnitude > 0.0001f)
+        {
+            direction.Normalize();
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(direction), 360f * Time.deltaTime);
+        }
+
+        Vector3 horizontalDelta = direction * mountedSpeed * Time.deltaTime;
+        Vector3 horizontalTarget = ResolveMountedHorizontalTarget(horizontalDelta);
+        bool hasGround = TryMountedGround(horizontalTarget, out Vector3 ground);
+        if (hasGround && transform.position.y <= ground.y + 0.08f && mountedVerticalVelocity <= 0f)
+        {
+            mountedGrounded = true;
+            mountedVerticalVelocity = 0f;
+            horizontalTarget.y = ground.y;
+            mountedLastSafePosition = horizontalTarget;
+            mountedAirborneSince = 0f;
+        }
+        else
+        {
+            if (mountedGrounded) mountedAirborneSince = Time.time;
+            mountedGrounded = false;
+            horizontalTarget.y = transform.position.y;
+        }
+
+        if (mountedGrounded && Input.GetKeyDown(KeyCode.Space) && Time.time >= nextMountedJumpTime)
+        {
+            mountedVerticalVelocity = Mathf.Sqrt(2f * mountedGravity * mountedJumpHeight);
+            mountedGrounded = false;
+            mountedAirborneSince = Time.time;
+            nextMountedJumpTime = Time.time + mountedJumpCooldown;
+        }
+
+        if (!mountedGrounded)
+        {
+            mountedVerticalVelocity -= mountedGravity * Time.deltaTime;
+            horizontalTarget.y = transform.position.y + mountedVerticalVelocity * Time.deltaTime;
+            if (hasGround && horizontalTarget.y <= ground.y && mountedVerticalVelocity <= 0f)
+            {
+                horizontalTarget.y = ground.y;
+                mountedVerticalVelocity = 0f;
+                mountedGrounded = true;
+                mountedLastSafePosition = horizontalTarget;
+                mountedAirborneSince = 0f;
+            }
+        }
+
+        transform.position = horizontalTarget;
+        if (!mountedGrounded && mountedVerticalVelocity <= 0f &&
+            (transform.position.y < mountedLastSafePosition.y - mountedFallRecoveryDistance ||
+             (!hasGround && mountedAirborneSince > 0f && Time.time - mountedAirborneSince >= mountedFallRecoveryDelay)))
+        {
+            transform.position = mountedLastSafePosition;
+            mountedVerticalVelocity = 0f;
+            mountedGrounded = true;
+            mountedAirborneSince = 0f;
+            SaveLoadFeedback.Instance?.ShowMessage($"{DisplayName} kembali ke posisi aman.");
+        }
+        if (!mountedGrounded && jumpController != null)
+            ApplyController(jumpController);
+        else
+            ApplyAnimation(direction.sqrMagnitude > 0.0001f, true);
     }
 
     void ScheduleSafeArrival(Vector3 destination)
@@ -353,11 +436,74 @@ public sealed class PersonalAnimal : MonoBehaviour
         ground = point; return false;
     }
 
+    /// <summary>
+    /// Ground check khusus mount. Berbeda dari pathfinding, collider di samping tidak
+    /// membatalkan terrain yang valid sehingga kuda tetap bisa mendarat dekat object.
+    /// </summary>
+    bool TryMountedGround(Vector3 point, out Vector3 ground)
+    {
+        ground = point;
+        Vector3 origin = point + Vector3.up * 3f;
+        int count = Physics.RaycastNonAlloc(origin, Vector3.down, MountedGroundHits, 10f, ~0,
+            QueryTriggerInteraction.Ignore);
+        float nearest = float.PositiveInfinity;
+        RaycastHit selected = default;
+        for (int i = 0; i < count; i++)
+        {
+            RaycastHit hit = MountedGroundHits[i];
+            if (hit.collider == null || hit.distance >= nearest || hit.normal.y < 0.65f ||
+                hit.transform.IsChildOf(transform) ||
+                (mountedPlayer != null && hit.transform.IsChildOf(mountedPlayer.transform)))
+                continue;
+            nearest = hit.distance;
+            selected = hit;
+        }
+        if (float.IsPositiveInfinity(nearest)) return false;
+        ground = selected.point;
+        return true;
+    }
+
+    /// <summary>Menahan gerak horizontal mount sebelum capsule memasuki dinding atau prop.</summary>
+    Vector3 ResolveMountedHorizontalTarget(Vector3 delta)
+    {
+        Vector3 start = transform.position;
+        delta.y = 0f;
+        float distanceToMove = delta.magnitude;
+        if (distanceToMove <= 0.0001f) return start;
+
+        Collider body = GetComponent<Collider>();
+        if (body == null) return start + delta;
+        Bounds bounds = body.bounds;
+        float radius = Mathf.Clamp(Mathf.Min(bounds.extents.x, bounds.extents.z) * 0.9f, 0.15f, 0.85f);
+        Vector3 bottom = bounds.center - Vector3.up * Mathf.Max(0f, bounds.extents.y - radius);
+        Vector3 top = bounds.center + Vector3.up * Mathf.Max(0f, bounds.extents.y - radius);
+        Vector3 moveDirection = delta / distanceToMove;
+        int count = Physics.CapsuleCastNonAlloc(bottom, top, radius, moveDirection,
+            MountedCollisionHits, distanceToMove + mountedCollisionSkin, ~0, QueryTriggerInteraction.Ignore);
+        float nearestWall = float.PositiveInfinity;
+        for (int i = 0; i < count; i++)
+        {
+            RaycastHit hit = MountedCollisionHits[i];
+            if (hit.collider == null || hit.transform.IsChildOf(transform) || hit.normal.y >= 0.65f ||
+                (mountedPlayer != null && hit.transform.IsChildOf(mountedPlayer.transform)))
+                continue;
+            nearestWall = Mathf.Min(nearestWall, hit.distance);
+        }
+        if (!float.IsPositiveInfinity(nearestWall))
+            distanceToMove = Mathf.Max(0f, nearestWall - mountedCollisionSkin);
+        return start + moveDirection * distanceToMove;
+    }
+
     void ApplyAnimation(bool moving, bool running)
     {
         if (animator == null) return;
         RuntimeAnimatorController desired = moving ? running && runController != null ? runController : moveController : idleController;
-        if (desired != null && desired != appliedController)
+        ApplyController(desired);
+    }
+
+    void ApplyController(RuntimeAnimatorController desired)
+    {
+        if (animator != null && desired != null && desired != appliedController)
         { animator.runtimeAnimatorController = desired; appliedController = desired; }
     }
 

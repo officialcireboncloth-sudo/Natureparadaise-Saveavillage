@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Old Boot
+  m_EditorClassIdentifier:
+  itemId: item.fishing_junk_old_boot
+  itemName: Old Boot
+  buyPrice: 0
+  sellPrice: 1
+  category: 0
+  maxStack: 99
+  requiredVillageLevel: 1
+  canDropToWorld: 1
+  worldScale: {x: 0.4, y: 0.4, z: 0.4}
+  fishingBaitLevel: 0
+  baitUncommonWeightMultiplier: 1
+  baitRareWeightMultiplier: 1
+  baitLegendaryWeightMultiplier: 1
+  requiredFishingLevel: 1

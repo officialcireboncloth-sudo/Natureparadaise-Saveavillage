@@ -55,6 +55,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
 
     ItemSO carriedItem;
     int carriedAmount;
+    int carriedQualityStars;
+    float carriedFishSizeCm;
     GameObject carriedVisual;
 
     int SickleLevel => status != null ? status.GetToolLevel(PlayerToolType.Sickle) : sickleLevel;
@@ -219,7 +221,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if (!SpendStamina(sickleCost)) return;
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(sickleTrigger);
-        if (sickleSwish != null) audioSource.PlayOneShot(sickleSwish);
+        if (sickleSwish != null) GameAudio.PlayOneShot(audioSource, sickleSwish, GameAudioBus.Main);
         if (grassParticles != null) grassParticles.Play();
 
         Vector3 facing = movement != null ? movement.FacingDirection : transform.forward;
@@ -256,7 +258,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if (!SpendStamina(hammerCost)) return;
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(hammerTrigger);
-        if (hammerImpact != null) audioSource.PlayOneShot(hammerImpact);
+        if (hammerImpact != null) GameAudio.PlayOneShot(audioSource, hammerImpact, GameAudioBus.Main);
         if (stoneParticles != null) stoneParticles.Play();
         target.Hammer(this, HammerLevel);
         cameraFollow?.AddImpulse(0.09f, 0.12f);
@@ -278,7 +280,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if (!SpendStamina(axeCost)) return;
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(axeTrigger);
-        if (axeImpact != null) audioSource.PlayOneShot(axeImpact);
+        if (axeImpact != null) GameAudio.PlayOneShot(audioSource, axeImpact, GameAudioBus.Main);
         treeTarget.Chop(AxeLevel);
         cameraFollow?.AddImpulse(0.07f, 0.1f);
         if (!treeTarget.IsAvailable) treeTarget = null;
@@ -297,18 +299,27 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     }
 
     /// <summary>Mencoba memegang hasil gather sebelum disimpan atau dijatuhkan.</summary>
-    public bool TryCarry(ItemSO item, int amount)
+    public bool TryCarry(ItemSO item, int amount, int qualityStars = 0, float fishSizeCm = 0f)
     {
         if (item == null || amount <= 0 || carriedItem != null) return false;
         carriedItem = item;
         carriedAmount = amount;
-        carriedVisual = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        carriedQualityStars = Mathf.Clamp(qualityStars, 0, 4);
+        carriedFishSizeCm = Mathf.Max(0f, fishSizeCm);
+        carriedVisual = item.worldPrefab != null
+            ? Instantiate(item.worldPrefab)
+            : GameObject.CreatePrimitive(item.category == ItemCategory.Fish ? PrimitiveType.Sphere : PrimitiveType.Cube);
         carriedVisual.name = $"Carried_{item.itemName}";
-        Collider collider = carriedVisual.GetComponent<Collider>();
-        if (collider != null) collider.enabled = false;
+        foreach (Collider collider in carriedVisual.GetComponentsInChildren<Collider>(true)) collider.enabled = false;
         carriedVisual.transform.SetParent(transform, false);
         carriedVisual.transform.localPosition = new Vector3(0f, 1.45f, 0.38f);
-        carriedVisual.transform.localScale = new Vector3(0.35f, 0.22f, 0.35f);
+        carriedVisual.transform.localRotation = item.category == ItemCategory.Fish
+            ? Quaternion.Euler(0f, 90f, 0f) : Quaternion.identity;
+        carriedVisual.transform.localScale = item.worldPrefab != null
+            ? item.worldScale
+            : item.category == ItemCategory.Fish
+                ? new Vector3(0.58f, 0.24f, 0.22f)
+                : new Vector3(0.35f, 0.22f, 0.35f);
         movement?.SetCarrying(true);
         UpdateToolVisuals(hotbar.SelectedTool);
         return true;
@@ -316,18 +327,21 @@ public sealed class PlayerGatheringTool : MonoBehaviour
 
     void StoreCarriedItem()
     {
-        if (inventory == null || !inventory.Add(carriedItem, carriedAmount))
+        if (inventory == null || !inventory.Add(carriedItem, carriedAmount, carriedQualityStars, carriedFishSizeCm))
         {
             SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh");
             return;
         }
+        QuestEventHub.Publish(QuestObjectiveType.Collect, carriedItem.name, carriedAmount, carriedItem);
         ClearCarry();
     }
 
     void DropCarriedItem()
     {
         Vector3 facing = movement != null ? movement.FacingDirection : transform.forward;
-        WorldGatherable.SpawnLoosePickup(carriedItem, carriedAmount, transform.position + facing.normalized * 1.1f + Vector3.up * 0.25f);
+        WorldGatherable.SpawnLoosePickup(carriedItem, carriedAmount,
+            transform.position + facing.normalized * 1.1f + Vector3.up * 0.25f,
+            carriedQualityStars, carriedFishSizeCm);
         ClearCarry();
     }
 
@@ -335,6 +349,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     {
         carriedItem = null;
         carriedAmount = 0;
+        carriedQualityStars = 0;
+        carriedFishSizeCm = 0f;
         if (carriedVisual != null) Destroy(carriedVisual);
         movement?.SetCarrying(false);
         UpdateToolVisuals(hotbar.SelectedTool);

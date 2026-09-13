@@ -17,7 +17,7 @@ public sealed class DialogueUIController : MonoBehaviour
     [SerializeField] Button choiceButtonPrefab;
     [SerializeField] KeyCode continueKey = KeyCode.E;
 
-    readonly List<Button> spawnedChoices = new();
+    readonly List<Button> choicePool = new();
     DialogueService boundService;
     int openedFrame;
 
@@ -107,18 +107,32 @@ public sealed class DialogueUIController : MonoBehaviour
         for (int i = 0; i < boundService.VisibleChoices.Count; i++)
         {
             int selectedIndex = i;
-            Button button = Instantiate(choiceButtonPrefab, choicesRoot);
+            Button button = GetChoiceButton(i);
             TMP_Text label = button.GetComponentInChildren<TMP_Text>();
             if (label != null) label.text = boundService.VisibleChoices[i].text;
+            button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => boundService?.SelectChoice(selectedIndex));
             button.gameObject.SetActive(true);
-            spawnedChoices.Add(button);
         }
     }
 
     void ClearChoices()
     {
-        foreach (Button button in spawnedChoices) if (button != null) Destroy(button.gameObject);
-        spawnedChoices.Clear();
+        foreach (Button button in choicePool)
+        {
+            if (button == null) continue;
+            button.onClick.RemoveAllListeners();
+            button.gameObject.SetActive(false);
+        }
+    }
+
+    Button GetChoiceButton(int index)
+    {
+        while (choicePool.Count <= index)
+        {
+            Button button = Instantiate(choiceButtonPrefab, choicesRoot);
+            choicePool.Add(button);
+        }
+        return choicePool[index];
     }
 }

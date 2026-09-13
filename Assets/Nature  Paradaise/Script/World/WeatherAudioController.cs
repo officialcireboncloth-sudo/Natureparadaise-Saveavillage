@@ -33,8 +33,8 @@ public sealed class WeatherAudioController : MonoBehaviour
 
     void Update()
     {
-        Fade(precipitationSource, targetPrecipitationVolume);
-        Fade(windSource, targetWindVolume);
+        Fade(precipitationSource, targetPrecipitationVolume * GameAudio.AmbientVolume);
+        Fade(windSource, targetWindVolume * GameAudio.AmbientVolume);
     }
 
     void ApplyWeather(WeatherImpactSnapshot impact)

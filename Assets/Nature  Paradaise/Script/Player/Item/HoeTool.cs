@@ -619,7 +619,7 @@ public class FarmingTool : MonoBehaviour
         if (animator != null && hasUseToolTrigger)
             animator.SetTrigger(useToolTrigger);
         if (hoeSound != null)
-            audioSource.PlayOneShot(hoeSound);
+            GameAudio.PlayOneShot(audioSource, hoeSound, GameAudioBus.Main);
         if (dirtParticles != null)
         {
             dirtParticles.transform.position = position + Vector3.up * 0.08f;

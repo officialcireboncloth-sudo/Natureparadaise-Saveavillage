@@ -93,6 +93,13 @@ MonoBehaviour:
   mountPoint: {fileID: 626000000000000006}
   mountLocalPosition: {x: 0, y: 1.65, z: 0}
   mountedSpeed: 8
+  mountedJumpHeight: 1.35
+  mountedGravity: 22
+  mountedJumpCooldown: 0.25
+  jumpController: {fileID: 9100000, guid: b10df1f923c6bbb46af317f30b41a306, type: 2}
+  mountedCollisionSkin: 0.08
+  mountedFallRecoveryDistance: 6
+  mountedFallRecoveryDelay: 3
 --- !u!1 &626000000000000007
 GameObject:
   m_ObjectHideFlags: 0

@@ -41,7 +41,7 @@ public sealed class PlayerWhistle : MonoBehaviour
     {
         nextWhistleTime = Time.unscaledTime + cooldown;
         if (hasTrigger) animator.SetTrigger(whistleTrigger);
-        if (audioSource != null) audioSource.PlayOneShot(whistleClip != null ? whistleClip : GetFallbackWhistle());
+        GameAudio.PlayOneShot(audioSource, whistleClip != null ? whistleClip : GetFallbackWhistle(), GameAudioBus.Main);
         PersonalAnimal target = FindTarget();
         if (target == null)
         {

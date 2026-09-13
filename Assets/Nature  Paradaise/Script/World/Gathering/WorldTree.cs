@@ -172,7 +172,7 @@ public sealed class WorldTree : MonoBehaviour
         if (!IsAvailable || axeLevel < minimumAxeLevel) return false;
         if (state == TreeGrowthState.Standing && definition != null && !progress.Mature(definition)) return false;
         durability = Mathf.Max(0, durability - Mathf.Max(1, damagePerHit));
-        if (axeImpactSound != null) AudioSource.PlayClipAtPoint(axeImpactSound, transform.position);
+        if (axeImpactSound != null) GameAudio.PlayClipAtPoint(axeImpactSound, transform.position, GameAudioBus.Main);
         if (woodChipParticles != null) woodChipParticles.Play();
         if (durability > 0 && state == TreeGrowthState.Standing && standingVisual != null)
             StartCoroutine(ShakeRoutine());
@@ -196,7 +196,7 @@ public sealed class WorldTree : MonoBehaviour
     {
         transitioning = true;
         SetHighlighted(false);
-        if (fallingSound != null) AudioSource.PlayClipAtPoint(fallingSound, transform.position);
+        if (fallingSound != null) GameAudio.PlayClipAtPoint(fallingSound, transform.position, GameAudioBus.Main);
         Quaternion start = standingVisual != null ? standingVisual.localRotation : Quaternion.identity;
         Quaternion end = start * Quaternion.Euler(0f, 0f, fallAngle);
         float elapsed = 0f;

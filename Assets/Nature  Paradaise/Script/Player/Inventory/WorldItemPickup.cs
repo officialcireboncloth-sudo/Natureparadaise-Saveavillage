@@ -14,7 +14,10 @@ public sealed class WorldItemPickup : MonoBehaviour
 
     [SerializeField] ItemSO item;
     [SerializeField, Min(1)] int amount = 1;
-    public int QualityStars { get; set; }
+    [SerializeField, Range(0, 4)] int qualityStars;
+    [SerializeField, Min(0f)] float fishSizeCm;
+    public int QualityStars { get => qualityStars; set => qualityStars = Mathf.Clamp(value, 0, 4); }
+    public float FishSizeCm { get => fishSizeCm; set => fishSizeCm = Mathf.Max(0f, value); }
     [SerializeField] bool autoPickup;
     [SerializeField] KeyCode pickupKey = KeyCode.E;
     [SerializeField, Min(0.1f)] float pickupRadius = 2.5f;
@@ -69,11 +72,14 @@ public sealed class WorldItemPickup : MonoBehaviour
     }
 
     /// <summary>Mengisi data stack untuk pickup yang dibuat saat runtime.</summary>
-    public void Initialize(ItemSO itemData, int itemAmount = 1, bool pickUpAutomatically = false)
+    public void Initialize(ItemSO itemData, int itemAmount = 1, bool pickUpAutomatically = false,
+        int itemQualityStars = 0, float itemFishSizeCm = 0f)
     {
         item = itemData;
         amount = Mathf.Max(1, itemAmount);
         autoPickup = pickUpAutomatically;
+        QualityStars = itemQualityStars;
+        FishSizeCm = itemFishSizeCm;
     }
 
     /// <summary>Menentukan root yang ikut dihapus ketika trigger pickup berada pada child.</summary>
@@ -141,7 +147,7 @@ public sealed class WorldItemPickup : MonoBehaviour
             return false;
         if (!PlayerInteractionTarget.ContainsPickup(nearbyInventory.transform, destroyTarget != null ? destroyTarget.transform : transform, pickupRadius)) return false;
 
-        if (!nearbyInventory.Add(item, amount, QualityStars))
+        if (!nearbyInventory.Add(item, amount, QualityStars, FishSizeCm))
         {
             SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh");
             return false;

@@ -10,7 +10,8 @@ public enum FarmShopCategory
     Booster,
     Animals,
     Sell,
-    Equipment
+    Equipment,
+    Bait
 }
 
 /// <summary>
@@ -49,6 +50,13 @@ public class ShopUI : MonoBehaviour
     static readonly Color LeafGreen = new(0.28f, 0.52f, 0.20f, 1f);
     static readonly Color Cream = new(1f, 0.96f, 0.81f, 1f);
 
+    void Awake()
+    {
+        // GameplayUI dimuat secara additive di setiap map gameplay. Modal shop tidak
+        // boleh ikut terlihat hanya karena scene UI selesai dimuat.
+        Hide();
+    }
+
     public void Show()
     {
         ResolveReferences();
@@ -82,7 +90,7 @@ public class ShopUI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            int next = ((int)currentCategory + 1) % 6;
+            int next = ((int)currentCategory + 1) % 7;
             SelectCategory((FarmShopCategory)next);
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow)) MoveSelection(-1);
@@ -152,16 +160,17 @@ public class ShopUI : MonoBehaviour
             FarmShopCategory.Booster,
             FarmShopCategory.Animals,
             FarmShopCategory.Sell,
-            FarmShopCategory.Equipment
+            FarmShopCategory.Equipment,
+            FarmShopCategory.Bait
         };
-        string[] labels = { "SEEDS", "FERTILIZER", "BOOSTER", "ANIMALS", "SELL", "EQUIPMENT" };
+        string[] labels = { "SEEDS", "FERTILIZER", "BOOSTER", "ANIMALS", "SELL", "EQUIPMENT", "BAIT" };
 
         for (int i = 0; i < categories.Length; i++)
         {
             FarmShopCategory category = categories[i];
             Button button = CreateButton(
                 $"Category_{category}", runtimeRoot, labels[i],
-                new Vector2(24f + i * 161f, -72f), new Vector2(153f, 48f),
+                new Vector2(24f + i * 138f, -72f), new Vector2(130f, 48f),
                 () => SelectCategory(category));
             categoryButtons[category] = button;
         }
@@ -248,6 +257,9 @@ public class ShopUI : MonoBehaviour
             case FarmShopCategory.Equipment:
                 if (shop.sellsFarmEquipment)
                     foreach (ItemSO sprinkler in shop.sprinklerItems) AddProduct(sprinkler, false);
+                break;
+            case FarmShopCategory.Bait:
+                foreach (ItemSO bait in shop.baitItems) AddProduct(bait, false);
                 break;
             case FarmShopCategory.Fertilizer:
                 for (int i = 0; i < shop.fertilizerItems.Count; i++) AddProduct(shop.fertilizerItems[i], false);
@@ -357,7 +369,11 @@ public class ShopUI : MonoBehaviour
     string BuildDescription(ShopProduct product, int owned, bool locked)
     {
         if (locked)
+        {
+            if (product.Item != null && product.Item.IsFishingBait)
+                return $"Terbuka pada Fishing Lv.{product.Item.requiredFishingLevel} dan Village Lv.{product.Item.requiredVillageLevel}.";
             return $"Terbuka pada Village Lv.{product.RequiredVillageLevel}.";
+        }
         if (product.Animal != null)
         {
             AnimalShopOffer offer = product.Animal;
@@ -395,6 +411,10 @@ public class ShopUI : MonoBehaviour
                 AnimalMedicineLevel.Premium => $"Untuk Severely Sick akibat cuaca ekstrem.\n\nOwned: {owned}",
                 _ => $"Obat hewan.\n\nOwned: {owned}"
             };
+        if (item.IsFishingBait)
+            return $"Bite Speed +{item.baitBiteSpeedBonus * 100f:0}%. " +
+                   $"Rare x{item.baitRareWeightMultiplier:0.##}, Legendary x{item.baitLegendaryWeightMultiplier:0.##}.\n" +
+                   $"Butuh Fishing Lv.{item.requiredFishingLevel}. Terpakai 1 setiap cast.\n\nOwned: {owned}";
         if (item.category == ItemCategory.Seed)
             return $"Tanam pada tanah yang sudah dicangkul, lalu siram setiap hari.\n\nOwned: {owned}";
         return $"Item Farm Shop.\n\nOwned: {owned}";
@@ -408,8 +428,11 @@ public class ShopUI : MonoBehaviour
 
         ItemSO item = product.Item;
         if (item == null) return true;
-        return item.requiredVillageLevel > 1 && (VillageProgressionService.Instance == null ||
+        bool villageLocked = item.requiredVillageLevel > 1 && (VillageProgressionService.Instance == null ||
                !VillageProgressionService.Instance.MeetsRequirement(item.requiredVillageLevel));
+        FishingSystem fishing = playerInventory != null ? playerInventory.GetComponent<FishingSystem>() : null;
+        bool fishingLocked = item.IsFishingBait && (fishing == null || fishing.FishingLevel < item.requiredFishingLevel);
+        return villageLocked || fishingLocked;
     }
 
     void ExecuteSelectedTransaction()
@@ -421,7 +444,9 @@ public class ShopUI : MonoBehaviour
             ? shop.TryBuyAnimal(product.Animal)
             : product.Selling
                 ? shop.TrySellItem(product.Item)
-                : shop.TryBuyItem(product.Item);
+                : product.Item != null && product.Item.IsFishingBait
+                    ? shop.TryBuyBait(product.Item)
+                    : shop.TryBuyItem(product.Item);
         SaveLoadFeedback.Instance?.ShowMessage(success
             ? $"{(product.Selling ? "Dijual" : "Dibeli")}: {product.DisplayName}"
             : "Transaksi gagal: cek Gold, kapasitas, Village Level, atau inventory");

@@ -17,8 +17,14 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     [SerializeField, Range(-180f, 180f)] float yaw;
     [SerializeField, Min(1f)] float distance = 18f;
 
+    [Header("Player Zoom")]
+    [SerializeField] bool allowPlayerZoom = true;
+    [Tooltip("Pilihan Camera Size. Mouse wheel atau pinch dua jari berpindah satu level.")]
+    [SerializeField] float[] zoomLevels = { 10f, 11f, 12f, 13f };
+    [SerializeField, Min(10f)] float mobilePinchStepPixels = 65f;
+
     [Header("Screen Adaptation")]
-    [Tooltip("Opsional. Jika mati, Camera > Size adalah nilai final dan tidak akan ditimpa script.")]
+    [Tooltip("Jika aktif, level zoom diperluas pada layar sempit agar area horizontal tetap nyaman.")]
     [SerializeField] bool adaptSizeToNarrowScreens;
     [Tooltip("Aspect ratio acuan sebelum pandangan mulai diperluas pada layar yang lebih sempit.")]
     [SerializeField, Min(0.1f)] float referenceAspect = 16f / 9f;
@@ -35,18 +41,28 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     int cachedScreenWidth = -1;
     int cachedScreenHeight = -1;
     float baseOrthographicSize;
+    float sceneOrthographicSize;
+    float pinchAccumulator;
+    int zoomIndex;
     float impulseRemaining;
     float impulseDuration;
     float impulseStrength;
 
     public Transform Target => target;
+    public int ZoomIndex => zoomIndex;
+    public float CurrentZoomSize => baseOrthographicSize;
+
+    const string ZoomPreferenceKey = "NatureParadise.CameraZoomLevel";
 
     void Awake()
     {
         cachedCamera = GetComponent<Camera>();
-        // Camera.orthographicSize adalah satu-satunya nilai framing yang disimpan di scene.
-        // Script hanya menyimpan salinannya selama Play apabila adaptasi aspect ratio dipakai.
-        baseOrthographicSize = Mathf.Max(0.01f, cachedCamera.orthographicSize);
+        sceneOrthographicSize = Mathf.Max(0.01f, cachedCamera.orthographicSize);
+        EnsureZoomLevels();
+        zoomIndex = PlayerPrefs.HasKey(ZoomPreferenceKey)
+            ? Mathf.Clamp(PlayerPrefs.GetInt(ZoomPreferenceKey), 0, zoomLevels.Length - 1)
+            : FindClosestZoomLevel(sceneOrthographicSize);
+        baseOrthographicSize = zoomLevels[zoomIndex];
         ApplyFixedRotation();
         RefreshProjection(true);
     }
@@ -55,8 +71,8 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     {
         // Mengembalikan nilai scene agar Enter Play Mode tanpa domain reload tidak meninggalkan
         // ukuran hasil adaptasi di Inspector setelah Play dihentikan.
-        if (cachedCamera != null && baseOrthographicSize > 0f)
-            cachedCamera.orthographicSize = baseOrthographicSize;
+        if (cachedCamera != null && sceneOrthographicSize > 0f)
+            cachedCamera.orthographicSize = sceneOrthographicSize;
     }
 
     void OnEnable()
@@ -65,6 +81,42 @@ public sealed class TopDownCameraFollow : MonoBehaviour
 
         if (snapToTargetOnEnable && target != null)
             transform.position = GetDesiredPosition();
+    }
+
+    void Update()
+    {
+        if (!allowPlayerZoom || zoomLevels == null || zoomLevels.Length == 0)
+            return;
+
+        if (Input.touchCount >= 2)
+        {
+            Touch first = Input.GetTouch(0);
+            Touch second = Input.GetTouch(1);
+            Vector2 firstPrevious = first.position - first.deltaPosition;
+            Vector2 secondPrevious = second.position - second.deltaPosition;
+            pinchAccumulator += Vector2.Distance(first.position, second.position) -
+                                Vector2.Distance(firstPrevious, secondPrevious);
+
+            while (Mathf.Abs(pinchAccumulator) >= mobilePinchStepPixels)
+            {
+                if (pinchAccumulator > 0f)
+                {
+                    ZoomIn();
+                    pinchAccumulator -= mobilePinchStepPixels;
+                }
+                else
+                {
+                    ZoomOut();
+                    pinchAccumulator += mobilePinchStepPixels;
+                }
+            }
+            return;
+        }
+
+        pinchAccumulator = 0f;
+        float wheel = Input.mouseScrollDelta.y;
+        if (wheel > 0.01f) ZoomIn();
+        else if (wheel < -0.01f) ZoomOut();
     }
 
     void LateUpdate()
@@ -103,6 +155,26 @@ public sealed class TopDownCameraFollow : MonoBehaviour
 
         if (snapImmediately && target != null)
             transform.position = GetDesiredPosition();
+    }
+
+    /// <summary>Zoom mendekat satu tingkat. Bisa dipanggil tombol UI mobile.</summary>
+    public void ZoomIn() => SetZoomIndex(zoomIndex - 1);
+
+    /// <summary>Zoom menjauh satu tingkat. Bisa dipanggil tombol UI mobile.</summary>
+    public void ZoomOut() => SetZoomIndex(zoomIndex + 1);
+
+    /// <summary>Memilih tingkat zoom dan menyimpan pilihan player.</summary>
+    public void SetZoomIndex(int index)
+    {
+        EnsureZoomLevels();
+        int next = Mathf.Clamp(index, 0, zoomLevels.Length - 1);
+        if (next == zoomIndex && Mathf.Approximately(baseOrthographicSize, zoomLevels[next]))
+            return;
+
+        zoomIndex = next;
+        baseOrthographicSize = zoomLevels[zoomIndex];
+        PlayerPrefs.SetInt(ZoomPreferenceKey, zoomIndex);
+        RefreshProjection(true);
     }
 
     /// <summary>Menambahkan camera impulse ringan untuk feedback tool atau impact.</summary>
@@ -155,28 +227,46 @@ public sealed class TopDownCameraFollow : MonoBehaviour
 
         cachedCamera.orthographic = true;
 
-        // Saat adaptasi mati, jangan pernah menulis Size. Dengan begitu perubahan langsung
-        // pada komponen Camera (misalnya Size 10) tetap menjadi sumber konfigurasi final.
-        if (!adaptSizeToNarrowScreens)
-            return;
-
         float adjustedSize = baseOrthographicSize;
-        if (screenHeight > 0)
+        if (adaptSizeToNarrowScreens && screenHeight > 0)
         {
             float currentAspect = (float)screenWidth / screenHeight;
             if (currentAspect > 0f && currentAspect < referenceAspect)
                 adjustedSize *= referenceAspect / currentAspect;
         }
 
-        cachedCamera.orthographicSize = Mathf.Min(
-            adjustedSize,
-            Mathf.Max(baseOrthographicSize, maximumOrthographicSize)
-        );
+        cachedCamera.orthographicSize = adaptSizeToNarrowScreens
+            ? Mathf.Min(adjustedSize, Mathf.Max(baseOrthographicSize, maximumOrthographicSize))
+            : adjustedSize;
+    }
+
+    void EnsureZoomLevels()
+    {
+        if (zoomLevels == null || zoomLevels.Length == 0)
+            zoomLevels = new[] { 10f, 11f, 12f, 13f };
+        for (int i = 0; i < zoomLevels.Length; i++)
+            zoomLevels[i] = Mathf.Max(1f, zoomLevels[i]);
+    }
+
+    int FindClosestZoomLevel(float size)
+    {
+        int closest = 0;
+        float difference = Mathf.Abs(zoomLevels[0] - size);
+        for (int i = 1; i < zoomLevels.Length; i++)
+        {
+            float candidate = Mathf.Abs(zoomLevels[i] - size);
+            if (candidate >= difference) continue;
+            closest = i;
+            difference = candidate;
+        }
+        return closest;
     }
 
 #if UNITY_EDITOR
     void OnValidate()
     {
+        EnsureZoomLevels();
+        mobilePinchStepPixels = Mathf.Max(10f, mobilePinchStepPixels);
         maximumOrthographicSize = Mathf.Max(1f, maximumOrthographicSize);
 
         if (!isActiveAndEnabled)

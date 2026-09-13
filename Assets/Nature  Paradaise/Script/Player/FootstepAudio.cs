@@ -92,7 +92,7 @@ public sealed class FootstepAudio : MonoBehaviour
             index = (index + 1) % clips.Length;
         lastClipIndex = index;
         if (clips[index] != null)
-            audioSource.PlayOneShot(clips[index], baseVolume * volumeMultiplier);
+            GameAudio.PlayOneShot(audioSource, clips[index], GameAudioBus.Main, baseVolume * volumeMultiplier);
     }
 
     SurfaceProfile FindProfile(Collider ground)

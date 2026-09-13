@@ -20,6 +20,9 @@ public class ShopManager : MonoBehaviour
     public List<ItemSO> sprinklerItems = new();
     public List<ItemSO> treeSeedItems = new();
 
+    [Header("Fishing Shop / Bait")]
+    public List<ItemSO> baitItems = new();
+
     [Header("Animals Sold By Shop")]
     public List<AnimalShopOffer> animalOffers = new();
     [Tooltip("Lokasi hewan dikirim. Jika kosong, hewan muncul berdekatan dengan hewan farm pertama.")]
@@ -39,6 +42,15 @@ public class ShopManager : MonoBehaviour
 
     void EnsureDefaultAnimalOffers()
     {
+        baitItems ??= new List<ItemSO>();
+        if (baitItems.Count == 0)
+        {
+            ItemSO[] baitCatalog = Resources.LoadAll<ItemSO>("Items/Fishing/Bait");
+            for (int i = 0; i < baitCatalog.Length; i++)
+                if (baitCatalog[i] != null && baitCatalog[i].IsFishingBait)
+                    baitItems.Add(baitCatalog[i]);
+            baitItems.Sort((left, right) => left.fishingBaitLevel.CompareTo(right.fishingBaitLevel));
+        }
         FarmEquipmentCatalog equipment = FarmEquipmentCatalog.Load();
         if (equipment != null && sellsFarmEquipment)
         {
@@ -141,6 +153,19 @@ public class ShopManager : MonoBehaviour
     }
 
     public bool TryBuyItem(ItemSO item, int amount = 1) => Buy(item, amount);
+
+    public bool TryBuyBait(ItemSO bait, int amount = 1)
+    {
+        if (bait == null || !bait.IsFishingBait || !baitItems.Contains(bait)) return false;
+        FishingSystem fishing = playerInv != null ? playerInv.GetComponent<FishingSystem>() : null;
+        int fishingLevel = fishing != null ? fishing.FishingLevel : 1;
+        if (fishingLevel < bait.requiredFishingLevel)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage($"{bait.itemName} terbuka pada Fishing Lv.{bait.requiredFishingLevel}.");
+            return false;
+        }
+        return Buy(bait, amount);
+    }
 
     public bool TryBuyAnimal(AnimalShopOffer offer)
     {

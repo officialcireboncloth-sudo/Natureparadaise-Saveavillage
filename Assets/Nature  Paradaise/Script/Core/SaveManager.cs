@@ -24,11 +24,18 @@ public class SaveManager : MonoBehaviour
     [Header("Feedback")]
     public SaveLoadFeedback feedback;
 
-    private string SavePath =>
-        Path.Combine(
-            Application.persistentDataPath,
-            "savegame.json"
-        );
+    public static string DefaultSavePath => Path.Combine(Application.persistentDataPath, "savegame.json");
+    private string SavePath => DefaultSavePath;
+
+    public static bool SaveExists() => File.Exists(DefaultSavePath);
+
+    public static void DeleteSaveFile()
+    {
+        if (File.Exists(DefaultSavePath)) File.Delete(DefaultSavePath);
+        ToolStorageService.Clear();
+        RefrigeratorService.Clear();
+        FishCollectionService.Clear();
+    }
 
     // =====================================================
     // SAVE DATA
@@ -125,6 +132,13 @@ public class SaveManager : MonoBehaviour
         public List<MarketStandSaveData> marketStands;
         // SHIPPING BIN: barang pending, snapshot harga, dan laporan penjualan terakhir.
         public List<ShippingBinSaveData> shippingBins;
+        // FISH COLLECTION: jumlah tangkapan dan rekor ukuran per jenis ikan.
+        public List<FishCollectionEntrySaveData> fishCollection;
+        // FISHING: bait terpasang dan progression skill. Gate menjaga kompatibilitas save lama.
+        public bool hasFishingProgress;
+        public string equippedFishingBaitItemId;
+        public int fishingLevel;
+        public int fishingExperience;
         // NARRATIVE: progres objective quest dan flag percakapan disimpan terpisah dari UI.
         public QuestSystemSaveData questSystem;
         public DialogueSystemSaveData dialogueSystem;
@@ -384,6 +398,17 @@ public class SaveManager : MonoBehaviour
         data.tameableCreatures = TameableCreature.CaptureAll();
         data.marketStands = MarketStand.CaptureAll();
         data.shippingBins = ShippingBin.CaptureAll();
+        data.fishCollection = FishCollectionService.Capture();
+        FishingSystem fishingSystem = playerInv.GetComponent<FishingSystem>();
+        if (fishingSystem != null)
+        {
+            data.hasFishingProgress = true;
+            data.equippedFishingBaitItemId = fishingSystem.EquippedBait != null
+                ? fishingSystem.EquippedBait.Id
+                : string.Empty;
+            data.fishingLevel = fishingSystem.FishingLevel;
+            data.fishingExperience = fishingSystem.FishingExperience;
+        }
         data.questSystem = QuestService.Instance?.Capture();
         data.dialogueSystem = DialogueService.Instance?.Capture();
 
@@ -646,6 +671,15 @@ public class SaveManager : MonoBehaviour
 
         ToolStorageService.Restore(data.toolStorage);
 
+        FishingSystem fishingSystem = playerInv.GetComponent<FishingSystem>();
+        if (fishingSystem != null)
+        {
+            fishingSystem.RestoreProgress(
+                data.hasFishingProgress ? data.equippedFishingBaitItemId : string.Empty,
+                data.hasFishingProgress ? data.fishingLevel : 1,
+                data.hasFishingProgress ? data.fishingExperience : 0);
+        }
+
         // -------------------------
         // LOAD FIELD AREAS
         // -------------------------
@@ -669,6 +703,7 @@ public class SaveManager : MonoBehaviour
 
         // Restore setelah House agar kapasitas/unlock Refrigerator sudah memakai level save.
         RefrigeratorService.Restore(data.refrigerator);
+        FishCollectionService.Restore(data.fishCollection);
 
         WorldGatherable.RestoreAll(
             data.gatherables
@@ -979,7 +1014,7 @@ public class SaveManager : MonoBehaviour
     /// <summary>Menghapus save aktif dari persistent data path.</summary>
     public void DeleteSave()
     {
-        if (!File.Exists(SavePath))
+        if (!SaveExists())
         {
             Debug.Log(
                 "[SAVE] Tidak ada save game."
@@ -988,12 +1023,7 @@ public class SaveManager : MonoBehaviour
             return;
         }
 
-        File.Delete(
-            SavePath
-        );
-
-        ToolStorageService.Clear();
-        RefrigeratorService.Clear();
+        DeleteSaveFile();
 
         Debug.Log(
             "[SAVE] Save game berhasil dihapus."
@@ -1007,9 +1037,7 @@ public class SaveManager : MonoBehaviour
     /// <summary>True jika file save aktif tersedia.</summary>
     public bool HasSave()
     {
-        return File.Exists(
-            SavePath
-        );
+        return SaveExists();
     }
 
     // =====================================================

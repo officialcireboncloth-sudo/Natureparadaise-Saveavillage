@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Premium Bait
+  m_EditorClassIdentifier:
+  itemId: item.bait_premium
+  itemName: Premium Bait Lv.3
+  buyPrice: 220
+  sellPrice: 44
+  category: 9
+  maxStack: 99
+  requiredVillageLevel: 3
+  canDropToWorld: 1
+  worldScale: {x: 0.4, y: 0.4, z: 0.4}
+  fishingBaitLevel: 3
+  baitBiteSpeedBonus: 0.3
+  baitUncommonWeightMultiplier: 1.2
+  baitRareWeightMultiplier: 1.5
+  baitLegendaryWeightMultiplier: 1.05
+  baitJunkReduction: 0.35
+  requiredFishingLevel: 6

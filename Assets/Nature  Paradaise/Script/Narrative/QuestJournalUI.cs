@@ -20,7 +20,7 @@ public sealed class QuestJournalUI : MonoBehaviour
     [SerializeField] KeyCode toggleKey = KeyCode.J;
     [SerializeField] bool includeLockedQuests;
 
-    readonly List<Button> spawnedButtons = new();
+    readonly List<Button> buttonPool = new();
     QuestService boundService;
     QuestDefinitionSO selectedQuest;
 
@@ -101,26 +101,41 @@ public sealed class QuestJournalUI : MonoBehaviour
 
     void RebuildList()
     {
-        foreach (Button button in spawnedButtons) if (button != null) Destroy(button.gameObject);
-        spawnedButtons.Clear();
+        foreach (Button button in buttonPool)
+        {
+            if (button == null) continue;
+            button.onClick.RemoveAllListeners();
+            button.gameObject.SetActive(false);
+        }
         if (boundService == null || questListRoot == null || questButtonPrefab == null) return;
 
+        int visibleIndex = 0;
         foreach (QuestDefinitionSO quest in boundService.Definitions)
         {
             QuestStatus status = boundService.GetStatus(quest);
             if (!includeLockedQuests && status == QuestStatus.Locked) continue;
             QuestDefinitionSO captured = quest;
-            Button button = Instantiate(questButtonPrefab, questListRoot);
+            Button button = GetQuestButton(visibleIndex++);
             TMP_Text label = button.GetComponentInChildren<TMP_Text>();
             if (label != null) label.text = $"{quest.title}  [{StatusLabel(status)}]";
+            button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => ShowQuest(captured));
             button.gameObject.SetActive(true);
-            spawnedButtons.Add(button);
         }
 
-        if (selectedQuest == null && spawnedButtons.Count > 0)
+        if (selectedQuest == null && visibleIndex > 0)
             foreach (QuestDefinitionSO quest in boundService.Definitions)
                 if (includeLockedQuests || boundService.GetStatus(quest) != QuestStatus.Locked) { ShowQuest(quest); break; }
+    }
+
+    Button GetQuestButton(int index)
+    {
+        while (buttonPool.Count <= index)
+        {
+            Button button = Instantiate(questButtonPrefab, questListRoot);
+            buttonPool.Add(button);
+        }
+        return buttonPool[index];
     }
 
     public void ShowQuest(QuestDefinitionSO quest)

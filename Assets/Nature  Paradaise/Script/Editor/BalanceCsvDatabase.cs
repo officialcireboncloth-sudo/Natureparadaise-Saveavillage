@@ -26,9 +26,12 @@ public static class BalanceCsvDatabase
         "health_restore","stamina_restore","hunger_restore","seed_crop_id"
     };
 
-    // refrigerator_category bersifat opsional untuk membaca CSV lama. Export baru
-    // selalu menulis kolom ini sehingga balancing selanjutnya dapat dilakukan dari CSV.
-    static readonly string[] ItemExportColumns = ItemColumns.Concat(new[] { "refrigerator_category" }).ToArray();
+    // Kolom setelah ItemColumns bersifat opsional supaya CSV lama tetap dapat di-import.
+    static readonly string[] ItemExportColumns = ItemColumns.Concat(new[]
+    {
+        "refrigerator_category", "bait_level", "bait_bite_speed_bonus", "bait_uncommon_multiplier",
+        "bait_rare_multiplier", "bait_legendary_multiplier", "bait_junk_reduction", "required_fishing_level"
+    }).ToArray();
 
     static readonly string[] CropColumns =
     {
@@ -53,6 +56,10 @@ public static class BalanceCsvDatabase
         public float healthRestore, staminaRestore, hungerRestore;
         public bool hasRefrigeratorCategory;
         public RefrigeratorCategory refrigeratorCategory;
+        public bool hasBaitData;
+        public FishingBaitLevel baitLevel;
+        public float baitBiteSpeedBonus, baitUncommonMultiplier=1f, baitRareMultiplier=1f, baitLegendaryMultiplier=1f, baitJunkReduction;
+        public int requiredFishingLevel=1;
     }
 
     sealed class CropRow
@@ -83,7 +90,9 @@ public static class BalanceCsvDatabase
             item.animalMedicineLevel.ToString(), item.fertilizerLevel.ToString(), I(item.requiredVillageLevel), I(item.soilRestoreAmount), I(item.cropBoosterLevel),
             B(item.canDropToWorld), B(item.canPlaceInWorld), I(item.sprinklerLevel), B(item.isEdible), item.foodPreparation.ToString(),
             F(item.healthRestore), F(item.staminaRestore), F(item.hungerRestore), item.seedCrop != null ? item.seedCrop.cropId : string.Empty,
-            item.refrigeratorCategory.ToString()
+            item.refrigeratorCategory.ToString(), item.fishingBaitLevel.ToString(), F(item.baitBiteSpeedBonus),
+            F(item.baitUncommonWeightMultiplier), F(item.baitRareWeightMultiplier), F(item.baitLegendaryWeightMultiplier),
+            F(item.baitJunkReduction), I(item.requiredFishingLevel)
         });
         Csv.Write(ItemsPath, ItemExportColumns, itemRows);
 
@@ -199,6 +208,13 @@ public static class BalanceCsvDatabase
         item.sprinklerLevel=row.sprinklerLevel; item.isEdible=row.edible; item.foodPreparation=row.foodPreparation;
         item.healthRestore=row.healthRestore; item.staminaRestore=row.staminaRestore; item.hungerRestore=row.hungerRestore;
         if(row.hasRefrigeratorCategory) item.refrigeratorCategory=row.refrigeratorCategory;
+        if(row.hasBaitData)
+        {
+            item.fishingBaitLevel=row.baitLevel; item.baitBiteSpeedBonus=row.baitBiteSpeedBonus;
+            item.baitUncommonWeightMultiplier=row.baitUncommonMultiplier; item.baitRareWeightMultiplier=row.baitRareMultiplier;
+            item.baitLegendaryWeightMultiplier=row.baitLegendaryMultiplier; item.baitJunkReduction=row.baitJunkReduction;
+            item.requiredFishingLevel=row.requiredFishingLevel;
+        }
     }
 
     static void Apply(CropDataSO crop, CropRow row, Dictionary<string, ItemSO> items)
@@ -251,6 +267,20 @@ public static class BalanceCsvDatabase
                 if(Enum.TryParse(refrigeratorCategory,true,out RefrigeratorCategory parsed)&&Enum.IsDefined(typeof(RefrigeratorCategory),parsed))
                     row.refrigeratorCategory=parsed;
                 else errors.Add($"{label}: 'refrigerator_category' enum tidak dikenal: '{refrigeratorCategory}'.");
+            }
+            if(source.TryGetValue("bait_level",out string baitLevel)&&!string.IsNullOrWhiteSpace(baitLevel))
+            {
+                row.hasBaitData=true;
+                if(Enum.TryParse(baitLevel,true,out FishingBaitLevel parsed)&&Enum.IsDefined(typeof(FishingBaitLevel),parsed)) row.baitLevel=parsed;
+                else errors.Add($"{label}: 'bait_level' enum tidak dikenal: '{baitLevel}'.");
+                row.baitBiteSpeedBonus=OptionalR(source,"bait_bite_speed_bonus",0f,0f,1f,label,errors);
+                row.baitUncommonMultiplier=OptionalR(source,"bait_uncommon_multiplier",1f,0.01f,100f,label,errors);
+                row.baitRareMultiplier=OptionalR(source,"bait_rare_multiplier",1f,0.01f,100f,label,errors);
+                row.baitLegendaryMultiplier=OptionalR(source,"bait_legendary_multiplier",1f,0.01f,100f,label,errors);
+                row.baitJunkReduction=OptionalR(source,"bait_junk_reduction",0f,0f,1f,label,errors);
+                row.requiredFishingLevel=OptionalN(source,"required_fishing_level",1,1,999,label,errors);
+                if(row.category==ItemCategory.Bait && row.baitLevel==FishingBaitLevel.None) errors.Add($"{label}: item Bait wajib memiliki bait_level.");
+                if(row.category!=ItemCategory.Bait && row.baitLevel!=FishingBaitLevel.None) errors.Add($"{label}: bait_level hanya boleh untuk category Bait.");
             }
         }
         for(int i=0;i<cropTable.Count;i++)
@@ -328,6 +358,8 @@ public static class BalanceCsvDatabase
     static string Required(Dictionary<string,string> row,string key,string label,List<string> errors){string value=row.TryGetValue(key,out string found)?found.Trim():string.Empty;if(value.Length==0)errors.Add($"{label}: '{key}' wajib diisi.");return value;}
     static int N(Dictionary<string,string> row,string key,int min,int max,string label,List<string> errors){if(!int.TryParse(row[key],NumberStyles.Integer,CultureInfo.InvariantCulture,out int value)||value<min||value>max){errors.Add($"{label}: '{key}' harus angka {min}..{max}.");return min;}return value;}
     static float R(Dictionary<string,string> row,string key,float min,float max,string label,List<string> errors){if(!float.TryParse(row[key],NumberStyles.Float,CultureInfo.InvariantCulture,out float value)||float.IsNaN(value)||float.IsInfinity(value)||value<min||value>max){errors.Add($"{label}: '{key}' tidak valid.");return min;}return value;}
+    static int OptionalN(Dictionary<string,string> row,string key,int fallback,int min,int max,string label,List<string> errors){if(!row.TryGetValue(key,out string raw)||string.IsNullOrWhiteSpace(raw))return fallback;if(!int.TryParse(raw,NumberStyles.Integer,CultureInfo.InvariantCulture,out int value)||value<min||value>max){errors.Add($"{label}: '{key}' harus angka {min}..{max}.");return fallback;}return value;}
+    static float OptionalR(Dictionary<string,string> row,string key,float fallback,float min,float max,string label,List<string> errors){if(!row.TryGetValue(key,out string raw)||string.IsNullOrWhiteSpace(raw))return fallback;if(!float.TryParse(raw,NumberStyles.Float,CultureInfo.InvariantCulture,out float value)||float.IsNaN(value)||float.IsInfinity(value)||value<min||value>max){errors.Add($"{label}: '{key}' tidak valid.");return fallback;}return value;}
     static bool Bool(Dictionary<string,string> row,string key,string label,List<string> errors){string value=row[key].Trim();if(value.Equals("TRUE",StringComparison.OrdinalIgnoreCase)||value=="1"||value.Equals("YES",StringComparison.OrdinalIgnoreCase))return true;if(value.Equals("FALSE",StringComparison.OrdinalIgnoreCase)||value=="0"||value.Equals("NO",StringComparison.OrdinalIgnoreCase))return false;errors.Add($"{label}: '{key}' harus TRUE/FALSE.");return false;}
     static T E<T>(Dictionary<string,string> row,string key,T fallback,string label,List<string> errors) where T:struct,Enum {bool flags=Attribute.IsDefined(typeof(T),typeof(FlagsAttribute));if(Enum.TryParse(row[key],true,out T value)&&(flags||Enum.IsDefined(typeof(T),value)))return value;errors.Add($"{label}: '{key}' enum tidak dikenal: '{row[key]}'.");return fallback;}
     static float[] Floats(Dictionary<string,string> row,string key,int expected,string label,List<string> errors){string[] parts=row[key].Split('|');if(parts.Length!=expected){errors.Add($"{label}: '{key}' harus berisi {expected} angka dipisah |.");return new float[expected];}float[] result=new float[expected];for(int i=0;i<expected;i++)if(!float.TryParse(parts[i],NumberStyles.Float,CultureInfo.InvariantCulture,out result[i])||result[i]<0){errors.Add($"{label}: '{key}' berisi angka tidak valid.");break;}return result;}

@@ -33,7 +33,7 @@ public sealed class PlayerAnimalBell : MonoBehaviour
     public void Ring()
     {
         nextUseTime = Time.unscaledTime + cooldown;
-        audioSource?.PlayOneShot(bellClip != null ? bellClip : GetFallbackBell());
+        GameAudio.PlayOneShot(audioSource, bellClip != null ? bellClip : GetFallbackBell(), GameAudioBus.Main);
 
         AnimalHome selectedHome = BarnInterior.Current != null ? BarnInterior.Current.home : null;
         bool IsTarget(AnimalRoutine routine) => routine != null && routine.Home != null &&

@@ -180,7 +180,8 @@ public sealed class WorldGatherable : MonoBehaviour
     }
 
     /// <summary>Membuat pickup fisik sementara untuk drop resource.</summary>
-    public static void SpawnLoosePickup(ItemSO item, int amount, Vector3 position)
+    public static void SpawnLoosePickup(ItemSO item, int amount, Vector3 position,
+        int qualityStars = 0, float fishSizeCm = 0f)
     {
         if (item == null || amount <= 0) return;
         // Scatter offset can land uphill from the source tree. Keep the drop above terrain.
@@ -197,7 +198,7 @@ public sealed class WorldGatherable : MonoBehaviour
         drop.transform.position = position;
         drop.transform.localScale = Vector3.one * 0.38f;
         WorldItemPickup pickup = drop.AddComponent<WorldItemPickup>();
-        pickup.Initialize(item, amount);
+        pickup.Initialize(item, amount, false, qualityStars, fishSizeCm);
     }
 
     void HandleDayChanged()
@@ -236,7 +237,7 @@ public sealed class WorldGatherable : MonoBehaviour
 
     void PlayFeedback(AudioClip clip, ParticleSystem particles)
     {
-        if (clip != null) AudioSource.PlayClipAtPoint(clip, transform.position);
+        if (clip != null) GameAudio.PlayClipAtPoint(clip, transform.position, GameAudioBus.Main);
         if (particles != null) particles.Play();
     }
 

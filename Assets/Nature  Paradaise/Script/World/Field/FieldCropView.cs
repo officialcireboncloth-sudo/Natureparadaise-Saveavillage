@@ -13,6 +13,7 @@ public sealed class FieldCropView : MonoBehaviour
     MaterialPropertyBlock propertyBlock;
     GameObject stageVisual;
     GameObject activeStagePrefab;
+    TextMesh growthDebugLabel;
     int gridX;
     int gridZ;
 
@@ -98,6 +99,60 @@ public sealed class FieldCropView : MonoBehaviour
             }
             renderer.SetPropertyBlock(propertyBlock);
         }
+
+        RefreshGrowthDebug(state);
+    }
+
+    void LateUpdate()
+    {
+        if (growthDebugLabel == null || !growthDebugLabel.gameObject.activeInHierarchy) return;
+        growthDebugLabel.transform.position = transform.position + Vector3.up * 1.35f;
+        Camera camera = Camera.main;
+        if (camera != null) growthDebugLabel.transform.rotation = camera.transform.rotation;
+        Vector3 scale = transform.lossyScale;
+        growthDebugLabel.transform.localScale = new Vector3(
+            1f / Mathf.Max(0.001f, Mathf.Abs(scale.x)),
+            1f / Mathf.Max(0.001f, Mathf.Abs(scale.y)),
+            1f / Mathf.Max(0.001f, Mathf.Abs(scale.z)));
+    }
+
+    void RefreshGrowthDebug(CropLifecycleState state)
+    {
+        bool isCabbage = definition != null &&
+            (string.Equals(definition.cropId, "crop.cabbage", System.StringComparison.OrdinalIgnoreCase) ||
+             definition.name.IndexOf("cabbage", System.StringComparison.OrdinalIgnoreCase) >= 0);
+        bool visible = isCabbage && owner != null && owner.ShowCabbageGrowthDebug;
+        if (!visible)
+        {
+            if (growthDebugLabel != null) growthDebugLabel.gameObject.SetActive(false);
+            return;
+        }
+
+        if (growthDebugLabel == null)
+        {
+            GameObject labelObject = new("CabbageGrowthDebug_0-100");
+            labelObject.transform.SetParent(transform, false);
+            growthDebugLabel = labelObject.AddComponent<TextMesh>();
+            growthDebugLabel.anchor = TextAnchor.LowerCenter;
+            growthDebugLabel.alignment = TextAlignment.Center;
+            growthDebugLabel.fontSize = 48;
+            growthDebugLabel.characterSize = 0.075f;
+            growthDebugLabel.fontStyle = FontStyle.Bold;
+            MeshRenderer labelRenderer = labelObject.GetComponent<MeshRenderer>();
+            if (labelRenderer != null) labelRenderer.sortingOrder = 5000;
+        }
+
+        growthDebugLabel.gameObject.SetActive(true);
+        float growthDays = 0f;
+        if (owner.TryGetSnapshot(gridX, gridZ, out FieldTileSnapshot snapshot))
+            growthDays = snapshot.GrowthDays;
+        int percent = state == CropLifecycleState.HarvestReady
+            ? 100
+            : Mathf.Clamp(Mathf.RoundToInt(growthDays / Mathf.Max(1f, definition.TotalGrowthDays) * 100f), 0, 99);
+        growthDebugLabel.text = percent >= 100 ? "100%\nSIAP PANEN" : $"{percent}%";
+        growthDebugLabel.color = percent >= 100
+            ? new Color(0.35f, 1f, 0.25f)
+            : Color.Lerp(new Color(1f, 0.72f, 0.12f), Color.white, percent / 100f);
     }
 
     /// <summary>Meneruskan permintaan harvest ke FieldArea pemilik tile.</summary>

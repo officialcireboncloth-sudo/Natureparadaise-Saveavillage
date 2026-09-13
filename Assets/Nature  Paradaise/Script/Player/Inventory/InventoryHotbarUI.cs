@@ -27,6 +27,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     Inventory inventory;
     PlayerToolHotbar toolHotbar;
     PlayerEatingSystem eatingSystem;
+    FishingSystem fishingSystem;
     readonly List<SlotView> views = new();
     TMP_Text actionHint;
     Coroutine temporaryHintRoutine;
@@ -45,6 +46,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         toolHotbar = GetComponent<PlayerToolHotbar>();
         if (toolHotbar == null) toolHotbar = gameObject.AddComponent<PlayerToolHotbar>();
         eatingSystem = GetComponent<PlayerEatingSystem>();
+        fishingSystem = GetComponent<FishingSystem>();
     }
 
     void OnEnable()
@@ -138,6 +140,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             return;
         }
         ItemSO item = SelectedItem;
+        if (fishingSystem == null) fishingSystem = GetComponent<FishingSystem>();
         AnimalCareCatalog animalCare = AnimalCareCatalog.Load();
         string itemName = item != null ? item.itemName : "Slot kosong";
         string action = toolHotbar.SelectedTool switch
@@ -149,9 +152,13 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             PlayerToolType.Sickle => "F: sabit rumput atau tanaman",
             PlayerToolType.Hammer => "F: hancurkan batu",
             PlayerToolType.Axe => "F: tebang pohon",
-            PlayerToolType.FishingRod => "F: gunakan pancing",
+            PlayerToolType.FishingRod => $"F: gunakan pancing  |  Bait: {(fishingSystem != null ? fishingSystem.EquippedBaitLabel : "No Bait")}",
             PlayerToolType.CropBooster => "F: gunakan crop booster",
             _ when item != null && item.IsAnimalMedicine => "Dekati hewan sakit lalu tekan F: Give Medicine",
+            _ when item != null && item.IsFishingBait =>
+                fishingSystem != null && fishingSystem.EquippedBait == item
+                    ? "F: lepas bait dari Fishing Rod"
+                    : "F: pasang bait pada Fishing Rod",
             _ when item != null && animalCare != null && item == animalCare.fodder => "Dekati hewan lalu tekan F: beri makan",
             _ when item != null && animalCare != null && item == animalCare.treat => "Dekati hewan lalu tekan F: beri treat",
             _ when item != null && item.category == ItemCategory.Food => "C: makan item terpilih",

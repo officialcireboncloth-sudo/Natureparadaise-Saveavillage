@@ -109,9 +109,13 @@ public class AnimalController : MonoBehaviour
         if (growth == null) growth = GetComponent<AnimalGrowthSystem>();
         UpdateMilkProduction();
         UpdateDebugUI();
-        if (GetComponent<AnimalRoutine>()?.IsHoused ?? false) return;
         if (playerInv == null)
             return;
+        PlayerAnimalCarry animalCarry = playerInv.GetComponent<PlayerAnimalCarry>();
+        if (animalCarry != null && animalCarry.IsCarrying(growth)) return;
+        bool housed = GetComponent<AnimalRoutine>()?.IsHoused ?? false;
+        bool carryable = growth != null && growth.HasBeenBorn && AnimalGrowthProfileSO.IsBird(growth.Type);
+        if (housed && !carryable) return;
         if (playerInv.GetComponent<PlayerController>()?.IsMovementLocked ?? false) return;
         if (WorldInteractionPrompt.IsSuppressed) return;
 
@@ -133,6 +137,8 @@ public class AnimalController : MonoBehaviour
         }
 
         string interactionPrompt = $"{petKey}: Pet";
+        if (carryable && animalCarry != null && !animalCarry.HasAnimal)
+            interactionPrompt += "   E: Angkat";
         if (IsProductReady) interactionPrompt += $"   {milkKey}: Ambil produk";
         if (HUDManager.DebugCluesEnabled)
             interactionPrompt += $"   {debugNextStageKey}: Debug Next Stage";
@@ -153,6 +159,15 @@ public class AnimalController : MonoBehaviour
 
     void HandleInput()
     {
+        PlayerAnimalCarry animalCarry = playerInv.GetComponent<PlayerAnimalCarry>();
+        if (growth != null && growth.HasBeenBorn && AnimalGrowthProfileSO.IsBird(growth.Type) &&
+            animalCarry != null && !animalCarry.HasAnimal &&
+            PlayerInteractionTarget.Press(playerInv.transform, transform, KeyCode.E))
+        {
+            animalCarry.TryPickup(growth);
+            return;
+        }
+
         if (PlayerInteractionTarget.Press(playerInv.transform, transform, KeyCode.I))
         {
             AnimalCarePanel.Show(growth, null, playerInv);

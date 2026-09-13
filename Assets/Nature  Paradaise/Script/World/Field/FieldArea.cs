@@ -59,6 +59,10 @@ public sealed class FieldArea : MonoBehaviour
     [SerializeField, Min(0.1f)] float lodCheckInterval = 0.25f;
     [SerializeField] Transform lodTarget;
 
+    [Header("Debug")]
+    [Tooltip("Tampilkan persentase 0-100 di atas tanaman cabbage untuk memeriksa growth harian.")]
+    [SerializeField] bool showCabbageGrowthDebug = true;
+
     FieldTileData[] tiles;
     GameObject[] hoeViews;
     FieldCropView[] cropViews;
@@ -81,6 +85,7 @@ public sealed class FieldArea : MonoBehaviour
     public int ChunkSize => chunkSize;
     public Vector2 WorldSize => new Vector2(columns * cellSize, rows * cellSize);
     public bool IsWeatherProtected => protectedFromWeather;
+    public bool ShowCabbageGrowthDebug => showCabbageGrowthDebug;
 
     public static int GetSoilLevel(int durability)
     {
@@ -307,6 +312,17 @@ public sealed class FieldArea : MonoBehaviour
         tile.buildingId = null;
         tile.dirty = true;
         tiles[index] = tile;
+
+        // Weather event biasanya dikirim saat awal hari. Crop yang baru ditanam setelah
+        // event itu tetap harus menerima air jika hari ini sedang hujan.
+        if (!protectedFromWeather && WeatherSystem.Instance != null && WeatherSystem.Instance.IsRainToday)
+        {
+            MarkWateredAtIndex(
+                index,
+                CropWaterSource.Rain,
+                WeatherSystem.GetRainMoistureAmount(WeatherSystem.Instance.CurrentWeather)
+            );
+        }
 
         SetActive(index, true);
         ShowCropView(index, x, z);
@@ -955,19 +971,13 @@ public sealed class FieldArea : MonoBehaviour
                 : CropLifecycleState.Growing;
         }
 
-        int maximumDurability = soilProfile != null ? soilProfile.MaximumDurability : 80;
-        float soilFactor = Mathf.Lerp(
-            0.45f,
-            1f,
-            Mathf.Clamp01(tile.soilDurability / (float)maximumDurability)
-        );
-        float fertilityFactor = crop.minimumFertility <= 0
-            ? 1f
-            : Mathf.Lerp(0.65f, 1f, Mathf.Clamp01((float)tile.fertility / crop.minimumFertility));
+        // daysUntilFirstHarvest di CSV adalah jumlah Growth Day yang pasti. Kondisi tanah
+        // dicatat untuk quality/health, tetapi tidak lagi membuat 5 hari diam-diam menjadi
+        // belasan hari. Hanya cuaca yang secara eksplisit punya growth modifier yang mengubahnya.
         float weatherFactor = WeatherSystem.Instance != null
             ? WeatherSystem.GetCropGrowthMultiplier(WeatherSystem.Instance.CurrentWeather)
             : 1f;
-        float growthAmount = soilFactor * fertilityFactor * weatherFactor;
+        float growthAmount = Mathf.Max(0f, weatherFactor);
 
         if (tile.cropState == CropLifecycleState.Regrowing)
         {
@@ -982,8 +992,11 @@ public sealed class FieldArea : MonoBehaviour
         {
             tile.growthDays = Mathf.Min(crop.TotalGrowthDays, tile.growthDays + growthAmount);
             tile.growthStage = (byte)crop.GetStageForGrowth(tile.growthDays);
-            if (tile.growthDays >= crop.TotalGrowthDays)
+            if (tile.growthDays + 0.0001f >= crop.TotalGrowthDays)
+            {
+                tile.growthDays = crop.TotalGrowthDays;
                 tile.cropState = CropLifecycleState.HarvestReady;
+            }
         }
 
         tile.fertility = AddClamped(tile.fertility, -crop.dailyFertilityUse);

@@ -69,6 +69,12 @@ public static class PlayerInteractionTarget
         return Input.GetKeyDown(key) && ContainsPickup(player, target, radius) && ConsumeKey(key);
     }
 
+    /// <summary>Memakai satu tombol untuk interaksi tanpa target dunia, misalnya menurunkan hewan.</summary>
+    public static bool Press(KeyCode key)
+    {
+        return Input.GetKeyDown(key) && ConsumeKey(key);
+    }
+
     static bool ConsumeKey(KeyCode key)
     {
         if (inputFrame != Time.frameCount) { inputFrame = Time.frameCount; UsedKeys.Clear(); }

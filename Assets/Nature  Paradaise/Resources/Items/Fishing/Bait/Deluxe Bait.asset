@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Deluxe Bait
+  m_EditorClassIdentifier:
+  itemId: item.bait_deluxe
+  itemName: Deluxe Bait Lv.4
+  buyPrice: 450
+  sellPrice: 90
+  category: 9
+  maxStack: 99
+  requiredVillageLevel: 4
+  canDropToWorld: 1
+  worldScale: {x: 0.4, y: 0.4, z: 0.4}
+  fishingBaitLevel: 4
+  baitBiteSpeedBonus: 0.4
+  baitUncommonWeightMultiplier: 1.15
+  baitRareWeightMultiplier: 1.85
+  baitLegendaryWeightMultiplier: 1.25
+  baitJunkReduction: 0.5
+  requiredFishingLevel: 10

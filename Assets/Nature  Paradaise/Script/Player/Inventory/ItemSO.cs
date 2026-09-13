@@ -11,7 +11,8 @@ public enum ItemCategory
     Weapon,
     Fish,
     AnimalProduct,
-    Quest
+    Quest,
+    Bait
 }
 
 /// <summary>Status kesiapan makanan yang menentukan apakah item dapat langsung dikonsumsi.</summary>
@@ -53,6 +54,16 @@ public enum AnimalMedicineLevel : byte
     Basic,
     Strong,
     Premium
+}
+
+/// <summary>Tingkat umpan pancing. None berarti item bukan bait.</summary>
+public enum FishingBaitLevel : byte
+{
+    None,
+    Basic,
+    Quality,
+    Premium,
+    Deluxe
 }
 
 [CreateAssetMenu(menuName = "Game/Item")]
@@ -167,6 +178,32 @@ public class ItemSO : ScriptableObject
         category == ItemCategory.Seed || equippedTool == PlayerToolType.Seed;
 
     public bool IsAnimalMedicine => animalMedicineLevel != AnimalMedicineLevel.None;
+
+    [Header("Fishing Bait")]
+    [Tooltip("Level bait. Item bait harus memakai category Bait.")]
+    public FishingBaitLevel fishingBaitLevel = FishingBaitLevel.None;
+    [Tooltip("0.10 berarti waktu tunggu bite 10% lebih cepat.")]
+    [Range(0f, 1f)] public float baitBiteSpeedBonus;
+    [Min(0.01f)] public float baitUncommonWeightMultiplier = 1f;
+    [Min(0.01f)] public float baitRareWeightMultiplier = 1f;
+    [Min(0.01f)] public float baitLegendaryWeightMultiplier = 1f;
+    [Tooltip("Disiapkan untuk loot sampah fishing. 0.25 berarti peluang sampah berkurang 25%.")]
+    [Range(0f, 1f)] public float baitJunkReduction;
+    [Min(1)] public int requiredFishingLevel = 1;
+
+    public bool IsFishingBait => category == ItemCategory.Bait && fishingBaitLevel != FishingBaitLevel.None;
+
+    public float GetBaitRarityMultiplier(FishRarity rarity)
+    {
+        if (!IsFishingBait) return 1f;
+        return rarity switch
+        {
+            FishRarity.Uncommon => Mathf.Max(0.01f, baitUncommonWeightMultiplier),
+            FishRarity.Rare => Mathf.Max(0.01f, baitRareWeightMultiplier),
+            FishRarity.Legendary => Mathf.Max(0.01f, baitLegendaryWeightMultiplier),
+            _ => 1f
+        };
+    }
 
     /// <summary>Aturan tunggal item Refrigerator; key item, seed, tool, dan furniture tetap ditolak.</summary>
     public bool CanStoreInRefrigerator =>

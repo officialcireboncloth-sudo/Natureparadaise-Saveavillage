@@ -28,6 +28,11 @@ public class NPCSeller : MonoBehaviour
 
     void Awake()
     {
+        ResolveRuntimeReferences();
+    }
+
+    void ResolveRuntimeReferences()
+    {
         // Cari Inventory otomatis
         if (playerInv == null)
             playerInv = FindFirstObjectByType<Inventory>();
@@ -53,6 +58,18 @@ public class NPCSeller : MonoBehaviour
     {
         if (playerInv == null)
             return;
+
+        // GameplayUI dimuat additive. Jika player membuka toko pada frame pemuatan,
+        // sambungkan panel segera setelah scene UI tersedia tanpa membuka ulang toko.
+        if (shopOpen && shopUI == null)
+        {
+            shopUI = FindFirstObjectByType<ShopUI>(FindObjectsInactive.Include);
+            if (shopUI != null)
+            {
+                shopUI.Show();
+                UpdateShopUI();
+            }
+        }
 
         // =====================================================
         // CEK JARAK PLAYER
@@ -145,6 +162,7 @@ public class NPCSeller : MonoBehaviour
 
     void OpenShop()
     {
+        ResolveRuntimeReferences();
         shopOpen = true;
         movement?.AcquireMovementLock(this);
         if (timeManager == null) timeManager = TimeManager.Instance;
@@ -304,6 +322,7 @@ public class NPCSeller : MonoBehaviour
 
     void UpdateShopUI()
     {
+        if (shopUI == null) shopUI = FindFirstObjectByType<ShopUI>(FindObjectsInactive.Include);
         if (shopUI == null)
             return;
 
