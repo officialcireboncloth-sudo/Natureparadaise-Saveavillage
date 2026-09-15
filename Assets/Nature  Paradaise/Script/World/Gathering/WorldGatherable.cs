@@ -85,12 +85,30 @@ public sealed class WorldGatherable : MonoBehaviour
     public int MinimumHammerLevel => minimumHammerLevel;
     public float PromptHeight => promptHeight;
 
+    /// <summary>
+    /// Titik permukaan resource yang paling dekat dengan player. Interaksi memakai titik ini
+    /// supaya prefab besar atau prefab dengan pivot yang tidak berada di tengah tetap dapat
+    /// ditargetkan secara konsisten.
+    /// </summary>
+    public Vector3 GetInteractionPoint(Vector3 observerPosition)
+    {
+        if (interactionCollider != null && interactionCollider.enabled)
+            return interactionCollider.ClosestPoint(observerPosition);
+        return transform.position;
+    }
+
     void Awake()
     {
         interactionCollider = GetComponent<Collider>();
         if (visualRoot == null) visualRoot = transform;
         if (targetRenderers == null || targetRenderers.Length == 0)
             targetRenderers = GetComponentsInChildren<Renderer>(true);
+        if (string.IsNullOrWhiteSpace(gatherableId) || gatherableId == "gatherable-01")
+        {
+            Vector3 position = transform.position;
+            gatherableId = FormattableString.Invariant(
+                $"{gameObject.scene.name}:{kind}:{position.x:0.###}:{position.y:0.###}:{position.z:0.###}");
+        }
         currentDurability = Mathf.Max(1, maximumDurability);
     }
 

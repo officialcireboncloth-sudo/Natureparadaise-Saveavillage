@@ -136,11 +136,22 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         {
             WorldGatherable candidate = all[i];
             if (candidate == null || !candidate.IsAvailable) continue;
-            Vector3 delta = candidate.transform.position - transform.position;
+            Vector3 observer = transform.position + Vector3.up * 0.8f;
+            Vector3 interactionPoint = candidate.GetInteractionPoint(observer);
+            Vector3 delta = interactionPoint - observer;
             delta.y = 0f;
             float distance = delta.magnitude;
-            if (!PlayerInteractionTarget.Contains(transform, candidate.transform) || distance < 0.01f) continue;
-            float dot = Vector3.Dot(facing, delta / distance);
+            if (distance > interactionRange) continue;
+
+            // Jika player menyentuh collider, arah dinilai dari pivot sebagai fallback.
+            Vector3 direction = delta;
+            if (direction.sqrMagnitude < 0.0025f)
+            {
+                direction = candidate.transform.position - transform.position;
+                direction.y = 0f;
+            }
+            float dot = direction.sqrMagnitude < 0.0025f ? 1f : Vector3.Dot(facing, direction.normalized);
+            if (dot < minimumFacingDot) continue;
             float score = distance - dot * 0.5f;
             if (score >= bestScore) continue;
             bestScore = score;
@@ -245,6 +256,9 @@ public sealed class PlayerGatheringTool : MonoBehaviour
 
     void UseHammer()
     {
+        // Input tool tidak boleh bergantung pada interval scan; player bisa berbalik dan
+        // langsung memukul pada frame yang sama.
+        RefreshTarget();
         if (target == null || !target.CanHammer)
         {
             SaveLoadFeedback.Instance?.ShowMessage("Tidak ada batu di depan");
