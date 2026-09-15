@@ -241,6 +241,8 @@ public sealed class QuestService : MonoBehaviour
         }
 
         if (quest.goldReward > 0) ScoreManager.Instance?.AddPoints(quest.goldReward);
+        if (quest.villageConditionReward > 0)
+            VillageProgressionService.Instance?.AddConditionPoints(quest.villageConditionReward, $"Quest {quest.title}");
         state.status = QuestStatus.Completed;
         state.completionCount++;
         QuestChanged?.Invoke(quest, state.status);

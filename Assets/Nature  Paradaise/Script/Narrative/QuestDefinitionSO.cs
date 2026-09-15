@@ -23,6 +23,8 @@ public sealed class QuestDefinitionSO : ScriptableObject
 
     [Header("Rewards")]
     [Min(0)] public int goldReward;
+    [Tooltip("Condition Point desa yang diberikan ketika quest selesai.")]
+    [Min(0)] public int villageConditionReward;
     public List<QuestItemReward> itemRewards = new();
 
     public string Id => string.IsNullOrWhiteSpace(questId) ? name : questId.Trim();

@@ -9,6 +9,7 @@ public sealed class ProgressionRequirementSettings : ScriptableObject
 {
     const string ResourcePath = "Settings/Progression Requirement Settings";
     static ProgressionRequirementSettings instance;
+    static bool? runtimeBypassOverride;
 
     [Header("Testing")]
     [Tooltip("Aktifkan untuk mengetes semua fitur tanpa menaikkan progression save game.")]
@@ -23,7 +24,18 @@ public sealed class ProgressionRequirementSettings : ScriptableObject
 
     public static ProgressionRequirementSettings Instance => instance ??= Resources.Load<ProgressionRequirementSettings>(ResourcePath);
     // Jika asset hilang pada build, requirement tetap aktif (fail closed).
-    public static bool BypassEnabled => Instance != null && Instance.bypassProgressionRequirements;
+    public static bool BypassEnabled => runtimeBypassOverride ?? (Instance != null && Instance.bypassProgressionRequirements);
+
+    /// <summary>Override khusus sesi Play Mode agar requirement dapat dites tanpa mengubah asset.</summary>
+    public static void SetRuntimeBypass(bool enabled) => runtimeBypassOverride = enabled;
+    public static void ClearRuntimeBypass() => runtimeBypassOverride = null;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetRuntimeState()
+    {
+        instance = null;
+        runtimeBypassOverride = null;
+    }
 
     public static int EffectiveHouseLevel(int actualLevel) => BypassEnabled
         ? Mathf.Max(Mathf.Max(1, actualLevel), Instance != null ? Instance.testHouseLevel : 4)
