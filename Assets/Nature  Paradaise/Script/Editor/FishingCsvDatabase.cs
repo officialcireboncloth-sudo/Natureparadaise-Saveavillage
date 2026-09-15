@@ -17,7 +17,9 @@ public static class FishingCsvDatabase
         "fish_id","asset_path","item_id","rarity","water_types","seasons","weather",
         "start_hour","end_hour","required_rod_level","encounter_weight","minimum_bite_wait",
         "maximum_bite_wait","hook_window","catch_zone_size","fish_move_speed",
-        "progress_gain_per_second","progress_loss_per_second","time_limit","minimum_size_cm","maximum_size_cm"
+        "progress_gain_per_second","progress_loss_per_second","time_limit","minimum_size_cm","maximum_size_cm",
+        "pond_medium_size_cm","pond_large_size_cm","pond_jumbo_size_cm",
+        "pond_small_growth_days","pond_medium_growth_days","pond_large_growth_days"
     };
 
     [MenuItem("Nature Paradise/Data CSV/Export Fish")]
@@ -34,7 +36,9 @@ public static class FishingCsvDatabase
                 Flags(fish.waterTypes),Flags(fish.seasons),Flags(fish.weather),fish.startHour.ToString(),fish.endHour.ToString(),
                 fish.requiredRodLevel.ToString(),F(fish.encounterWeight),F(fish.minimumBiteWait),F(fish.maximumBiteWait),
                 F(fish.hookWindow),F(fish.catchZoneSize),F(fish.fishMoveSpeed),F(fish.progressGainPerSecond),
-                F(fish.progressLossPerSecond),F(fish.timeLimit),F(fish.minimumSizeCm),F(fish.maximumSizeCm)
+                F(fish.progressLossPerSecond),F(fish.timeLimit),F(fish.minimumSizeCm),F(fish.maximumSizeCm),
+                F(fish.pondMediumSizeCm),F(fish.pondLargeSizeCm),F(fish.pondJumboSizeCm),
+                fish.pondSmallGrowthDays.ToString(),fish.pondMediumGrowthDays.ToString(),fish.pondLargeGrowthDays.ToString()
             };
             csv.AppendLine(string.Join(",", values.Select(Escape)));
         }
@@ -95,6 +99,12 @@ public static class FishingCsvDatabase
             fish.timeLimit = row.timeLimit;
             fish.minimumSizeCm = row.minSize;
             fish.maximumSizeCm = row.maxSize;
+            fish.pondMediumSizeCm = row.pondMediumSize;
+            fish.pondLargeSizeCm = row.pondLargeSize;
+            fish.pondJumboSizeCm = row.pondJumboSize;
+            fish.pondSmallGrowthDays = row.pondSmallDays;
+            fish.pondMediumGrowthDays = row.pondMediumDays;
+            fish.pondLargeGrowthDays = row.pondLargeDays;
             EditorUtility.SetDirty(fish);
         }
         AssetDatabase.SaveAssets();
@@ -191,6 +201,12 @@ public static class FishingCsvDatabase
             row.timeLimit = N(source,"time_limit",label,errors,3f,600f);
             row.minSize = N(source,"minimum_size_cm",label,errors,0.1f,10000f);
             row.maxSize = N(source,"maximum_size_cm",label,errors,row.minSize,10000f);
+            row.pondMediumSize = N(source,"pond_medium_size_cm",label,errors,row.minSize,10000f);
+            row.pondLargeSize = N(source,"pond_large_size_cm",label,errors,row.pondMediumSize+0.1f,10000f);
+            row.pondJumboSize = N(source,"pond_jumbo_size_cm",label,errors,row.pondLargeSize+0.1f,10000f);
+            row.pondSmallDays = I(source,"pond_small_growth_days",label,errors,1,999);
+            row.pondMediumDays = I(source,"pond_medium_growth_days",label,errors,1,999);
+            row.pondLargeDays = I(source,"pond_large_growth_days",label,errors,1,999);
             rows.Add(row);
         }
         return errors.Count == 0;
@@ -215,7 +231,8 @@ public static class FishingCsvDatabase
     sealed class Row
     {
         public string id,path; public ItemSO item; public FishRarity rarity; public FishingWaterMask water; public CropSeason seasons; public FishingWeatherMask weather;
-        public int startHour,endHour,rodLevel; public float weight,minBite,maxBite,hookWindow,zone,moveSpeed,gain,loss,timeLimit,minSize,maxSize;
+        public int startHour,endHour,rodLevel,pondSmallDays,pondMediumDays,pondLargeDays;
+        public float weight,minBite,maxBite,hookWindow,zone,moveSpeed,gain,loss,timeLimit,minSize,maxSize,pondMediumSize,pondLargeSize,pondJumboSize;
     }
 }
 #endif

@@ -239,7 +239,7 @@ public class ItemSO : ScriptableObject
         float qualityMultiplier = 1f + Mathf.Clamp(qualityStars, 0, 5) * 0.2f;
         float sizeMultiplier = 1f;
         if (category == ItemCategory.Fish && fishSizeCm > 0f)
-            sizeMultiplier = Mathf.Lerp(0.75f, 1.75f, Mathf.InverseLerp(5f, 100f, fishSizeCm));
+            sizeMultiplier = FishMeasurement.SizePriceMultiplier(this, fishSizeCm);
 
         return Mathf.Max(1, Mathf.RoundToInt(sellPrice * qualityMultiplier * sizeMultiplier));
     }

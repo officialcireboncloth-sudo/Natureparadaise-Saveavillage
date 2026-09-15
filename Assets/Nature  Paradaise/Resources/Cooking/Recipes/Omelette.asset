@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a8c91fb68084c2d8a45e86d34c4bb1f, type: 3}
+  m_Name: Omelette
+  recipeId: recipe.omelette
+  displayName: Omelette
+  description: Telur dan susu yang lembut.
+  ingredients:
+  - item: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000001, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: a3ff5e12700285547907d72e6ca5b7a7, type: 2}
+    amount: 1
+  resultItem: {fileID: 11400000, guid: ae46c643f14442b39117474735f1d1ec, type: 2}
+  resultAmount: 1
+  requiredKitchenLevel: 1
+  requiredEquipment: 2
+  baseCookingMinutes: 10
+  learnedByDefault: 1

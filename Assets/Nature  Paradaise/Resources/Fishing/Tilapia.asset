@@ -32,3 +32,9 @@ MonoBehaviour:
   timeLimit: 24
   minimumSizeCm: 15
   maximumSizeCm: 42
+  pondMediumSizeCm: 25
+  pondLargeSizeCm: 40
+  pondJumboSizeCm: 55
+  pondSmallGrowthDays: 7
+  pondMediumGrowthDays: 10
+  pondLargeGrowthDays: 14

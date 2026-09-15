@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>State save satu slot properti yang dapat diisi, dipindahkan, atau dikosongkan.</summary>
 [Serializable]
@@ -21,13 +19,14 @@ public sealed class PropertySiteSaveData
 }
 
 /// <summary>
-/// Slot properti yang dapat menampung bangunan mana pun dari BuildingCatalogSO.
-/// Player harus mendatangi marker site untuk memilih bangunan. Bangunan kemudian ditempatkan
-/// pada anchor site, serta dapat di-upgrade, direlokasi, didemolish, dan disimpan.
+/// Controller state satu bangunan dari BuildingCatalogSO. Instance global dibuat oleh Build Menu
+/// milik Player, lalu menyimpan konstruksi, posisi, upgrade, relocation, dan demolition.
 /// </summary>
 [DisallowMultipleComponent]
 public sealed class PropertySite : MonoBehaviour
 {
+    const string GlobalSitePrefix = "farm-world-building-";
+    const string LegacyFishPondSiteId = "farm-fish-pond-builder-01";
     static readonly List<PropertySite> Registry = new();
     static PropertySite relocationSource;
 
@@ -37,6 +36,7 @@ public sealed class PropertySite : MonoBehaviour
     [Tooltip("Daftar jenis bangunan yang dapat dipilih pada site kosong.")]
     [SerializeField] BuildingCatalogSO catalog;
     [SerializeField] bool unlocked = true;
+    [SerializeField, HideInInspector] bool globalBuildInstance;
     [SerializeField] bool startsCompleted;
     [Tooltip("Bangunan awal hanya dipakai bila Starts Completed aktif.")]
     [SerializeField] BuildingDefinitionSO startingBuilding;
@@ -79,11 +79,11 @@ public sealed class PropertySite : MonoBehaviour
 
     [Header("Interaction")]
     [Tooltip("Membuka pilihan build atau menerima relocate pada site kosong.")]
-    [SerializeField] KeyCode interactKey = KeyCode.B;
+    [SerializeField] KeyCode interactKey = KeyCode.E;
     [SerializeField] KeyCode previousBuildingKey = KeyCode.Q;
     [SerializeField] KeyCode nextBuildingKey = KeyCode.R;
     [SerializeField] KeyCode confirmKey = KeyCode.C;
-    [SerializeField] KeyCode debugConfirmKey = KeyCode.J;
+    [SerializeField] KeyCode debugConfirmKey = KeyCode.F9;
     [SerializeField] KeyCode upgradeKey = KeyCode.U;
     [SerializeField] KeyCode relocateKey = KeyCode.M;
     [SerializeField] KeyCode demolishKey = KeyCode.X;
@@ -101,7 +101,9 @@ public sealed class PropertySite : MonoBehaviour
 
     bool previewActive;
     bool previewIsRelocation;
+    bool previewRelocatesSelf;
     bool previewAllowsCatalogNavigation;
+    bool previewDebugInstant;
     int previewStartedFrame = -1;
     int previewLevel;
     int previewCatalogIndex;
@@ -128,6 +130,7 @@ public sealed class PropertySite : MonoBehaviour
     public bool IsUnlocked => unlocked;
     public bool IsEmpty => state == BuildingConstructionState.Available && activeDefinition == null;
     public bool IsPreviewActive => previewActive;
+    public bool IsGlobalBuildInstance => globalBuildInstance;
     public static bool DebugShortcutsEnabled => Application.isEditor || Debug.isDebugBuild;
 
     public static bool TryGetAvailableBuildSite(out PropertySite result)
@@ -153,6 +156,79 @@ public sealed class PropertySite : MonoBehaviour
                 return true;
         return false;
     }
+
+    /// <summary>
+    /// Menyediakan controller dunia kosong untuk satu placement dari Build Menu milik Player.
+    /// Controller yang sudah berisi bangunan tetap hidup sebagai pemilik state/save instance itu.
+    /// </summary>
+    public static PropertySite GetOrCreateGlobalBuildSite(BuildingCatalogSO sharedCatalog, Vector3 playerPosition)
+    {
+        if (sharedCatalog == null || sharedCatalog.Count == 0)
+            return null;
+
+        for (int index = 0; index < Registry.Count; index++)
+        {
+            PropertySite candidate = Registry[index];
+            if (candidate == null || !candidate.globalBuildInstance || !candidate.IsEmpty || candidate.previewActive)
+                continue;
+            candidate.catalog = sharedCatalog;
+            candidate.transform.position = playerPosition;
+            return candidate;
+        }
+
+        return CreateGlobalBuildSite(NextGlobalSiteId(), sharedCatalog, playerPosition);
+    }
+
+    static PropertySite CreateGlobalBuildSite(string id, BuildingCatalogSO sharedCatalog, Vector3 position)
+    {
+        GameObject root = GameObject.Find("PlacedFarmBuildings_Runtime");
+        if (root == null)
+        {
+            root = new GameObject("PlacedFarmBuildings_Runtime");
+            GameObject buildings = GameObject.Find("30_WORLD/Buildings");
+            if (buildings != null)
+                root.transform.SetParent(buildings.transform, false);
+        }
+
+        GameObject instance = new($"FarmBuilding_{id}");
+        instance.transform.SetParent(root.transform, false);
+        instance.transform.position = position;
+        PropertySite site = instance.AddComponent<PropertySite>();
+        site.siteId = id;
+        site.catalog = sharedCatalog;
+        site.globalBuildInstance = true;
+        site.allowFreePlacement = true;
+        site.reserveFieldFootprint = false;
+        site.fieldArea = null;
+        site.buildingAnchor = instance.transform;
+        site.showAvailableMarker = false;
+        site.availableMarker = null;
+        site.unlocked = true;
+        site.startsCompleted = false;
+        site.activeDefinition = null;
+        site.state = BuildingConstructionState.Available;
+        site.currentLevel = 0;
+        site.ApplyVisualState();
+        return site;
+    }
+
+    static string NextGlobalSiteId()
+    {
+        int next = 1;
+        for (int index = 0; index < Registry.Count; index++)
+        {
+            string id = Registry[index] != null ? Registry[index].siteId : null;
+            if (string.IsNullOrEmpty(id) || !id.StartsWith(GlobalSitePrefix, StringComparison.Ordinal))
+                continue;
+            if (int.TryParse(id.Substring(GlobalSitePrefix.Length), out int value))
+                next = Mathf.Max(next, value + 1);
+        }
+        return $"{GlobalSitePrefix}{next:D4}";
+    }
+
+    static bool IsDynamicWorldSiteId(string id) =>
+        !string.IsNullOrWhiteSpace(id) &&
+        (id.StartsWith(GlobalSitePrefix, StringComparison.Ordinal) || id == LegacyFishPondSiteId);
 
     void Awake()
     {
@@ -209,6 +285,10 @@ public sealed class PropertySite : MonoBehaviour
             HandlePreviewInteraction(previewDistance);
             return;
         }
+
+        // Instance kosong ini hanya dikontrol oleh Build Menu global pada Player.
+        if (globalBuildInstance && IsEmpty)
+            return;
 
         // Relocate harus dapat dibatalkan walaupun player sudah berjalan menjauhi source site.
         if (relocationSource == this && Input.GetKeyDown(cancelKey))
@@ -295,18 +375,21 @@ public sealed class PropertySite : MonoBehaviour
         }
 
         string firstName = FirstCatalogDefinition != null ? FirstCatalogDefinition.displayName : "Catalog kosong";
+        string actionLabel = allowFreePlacement
+            ? $"{interactKey}: Buka Construction Menu ({firstName})"
+            : $"{interactKey}: Build di sini ({firstName})";
         WorldInteractionPrompt.Request(
             this,
             buildingAnchor,
-            $"{interactKey}: Build di sini ({firstName})",
+            actionLabel,
             distance,
             promptHeight
         );
         if (!PlayerInteractionTarget.Press(playerTransform, buildingAnchor, interactKey))
             return;
 
-        ConstructionShortcutMenu menu = playerInventory != null
-            ? playerInventory.GetComponent<ConstructionShortcutMenu>()
+        PlayerBuildMenu menu = playerInventory != null
+            ? playerInventory.GetComponent<PlayerBuildMenu>()
             : null;
         if (menu != null)
             menu.OpenForSite(this);
@@ -317,7 +400,7 @@ public sealed class PropertySite : MonoBehaviour
     void HandleConstructionInteraction(float distance)
     {
         int remaining = Mathf.Max(0, completionDay - CurrentDay);
-        string debugFinish = DebugShortcutsEnabled ? "  J: DEBUG langsung selesai" : string.Empty;
+        string debugFinish = DebugShortcutsEnabled ? "  F9: DEBUG langsung selesai" : string.Empty;
         WorldInteractionPrompt.Request(
             this,
             buildingAnchor,
@@ -363,7 +446,12 @@ public sealed class PropertySite : MonoBehaviour
         else if (Input.GetKeyDown(upgradeKey) && activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel))
             BeginUpgradePreview();
         else if (Input.GetKeyDown(relocateKey) && activeDefinition != null && activeDefinition.canRelocate)
-            BeginRelocationMode();
+        {
+            if (globalBuildInstance && allowFreePlacement)
+                BeginSelfRelocationPreview();
+            else
+                BeginRelocationMode();
+        }
         else if (Input.GetKeyDown(demolishKey) && activeDefinition != null && activeDefinition.canDemolish)
             demolishConfirmationActive = true;
     }
@@ -373,23 +461,26 @@ public sealed class PropertySite : MonoBehaviour
         BuildingLevelDefinition level = previewDefinition != null
             ? previewDefinition.GetLevel(previewLevel)
             : null;
-        bool canAfford = previewIsRelocation || CanAfford(level, out _);
+        bool canAfford = previewIsRelocation || previewDebugInstant || CanAfford(level, out _);
         string validity = !previewLocationValid
             ? "TEMPAT TIDAK VALID"
             : canAfford ? "VALID" : "RESOURCE KURANG";
         string requirements = previewIsRelocation
             ? "<color=#58D982>Tanpa biaya relocate</color>"
-            : BuildRequirementLabel(level);
+            : previewDebugInstant
+                ? "<color=#58D982>DEBUG: biaya 0, waktu 0</color>"
+                : BuildRequirementLabel(level);
         string navigation = previewAllowsCatalogNavigation
             ? $"{previousBuildingKey}/{nextBuildingKey}: Pilih  "
             : string.Empty;
 
         Transform promptAnchor = previewObject != null ? previewObject.transform : buildingAnchor;
+        int previewYaw = Mathf.RoundToInt(Mathf.Repeat(previewPlacementRotation.eulerAngles.y, 360f));
         string placementControls = previewUsesFreePlacement
-            ? $"Gerakkan player: Pindah preview  {rotatePreviewKey}: Putar\n"
+            ? $"Gerakkan player: Pindah preview  {rotatePreviewKey}: Putar  Arah: {previewYaw} derajat\n"
             : string.Empty;
-        string debugControls = DebugShortcutsEnabled
-            ? $"  {debugConfirmKey}: DEBUG Gratis + Instan"
+        string debugControls = DebugShortcutsEnabled && !previewDebugInstant && !previewIsRelocation
+            ? $"  {debugConfirmKey}: Aktifkan DEBUG Gratis"
             : string.Empty;
         WorldInteractionPrompt.Request(
             this,
@@ -410,7 +501,11 @@ public sealed class PropertySite : MonoBehaviour
         else if (previewAllowsCatalogNavigation && Input.GetKeyDown(nextBuildingKey))
             CycleCatalog(1);
         else if (DebugShortcutsEnabled && Input.GetKeyDown(debugConfirmKey))
-            ConfirmPreview(true);
+        {
+            previewDebugInstant = true;
+            ApplyPreviewColor(previewLocationValid);
+            SaveLoadFeedback.Instance?.ShowMessage("DEBUG konstruksi gratis aktif. Pilih lokasi lalu tekan C.");
+        }
         else if (Input.GetKeyDown(confirmKey))
             ConfirmPreview();
         else if (Input.GetKeyDown(cancelKey))
@@ -436,6 +531,8 @@ public sealed class PropertySite : MonoBehaviour
         previewLevel = 1;
         previewAllowsCatalogNavigation = true;
         previewIsRelocation = false;
+        previewRelocatesSelf = false;
+        previewDebugInstant = false;
         previewUsesFreePlacement = allowFreePlacement;
         InitializeFreePlacementPose();
         return RefreshPreview();
@@ -449,6 +546,25 @@ public sealed class PropertySite : MonoBehaviour
         return BeginBuildSelection();
     }
 
+    /// <summary>Memulai placement dari Player Build Menu pada level yang dipilih.</summary>
+    public bool BeginBuildSelection(int catalogIndex, int targetLevel, bool debugFree)
+    {
+        if (!IsEmpty || catalog == null || catalog.Count == 0)
+            return false;
+        previewCatalogIndex = Mathf.Clamp(catalogIndex, 0, catalog.Count - 1);
+        previewDefinition = catalog.GetAt(previewCatalogIndex);
+        previewLevel = Mathf.Max(1, targetLevel);
+        if (previewDefinition == null || previewDefinition.GetLevel(previewLevel) == null)
+            return false;
+        previewAllowsCatalogNavigation = false;
+        previewIsRelocation = false;
+        previewRelocatesSelf = false;
+        previewDebugInstant = debugFree && DebugShortcutsEnabled;
+        previewUsesFreePlacement = allowFreePlacement;
+        InitializeFreePlacementPose();
+        return RefreshPreview();
+    }
+
     /// <summary>Memulai preview upgrade level berikutnya pada site yang sama.</summary>
     public bool BeginUpgradePreview()
     {
@@ -460,6 +576,8 @@ public sealed class PropertySite : MonoBehaviour
         previewLevel = currentLevel + 1;
         previewAllowsCatalogNavigation = false;
         previewIsRelocation = false;
+        previewRelocatesSelf = false;
+        previewDebugInstant = false;
         previewUsesFreePlacement = false;
         return RefreshPreview();
     }
@@ -475,6 +593,35 @@ public sealed class PropertySite : MonoBehaviour
         return true;
     }
 
+    Vector3 selfRelocationOriginalPosition;
+    Quaternion selfRelocationOriginalRotation;
+    FieldArea selfRelocationOriginalField;
+
+    bool BeginSelfRelocationPreview()
+    {
+        if (!IsRelocatableNow || !allowFreePlacement)
+            return false;
+
+        selfRelocationOriginalPosition = buildingAnchor.position;
+        selfRelocationOriginalRotation = buildingAnchor.rotation;
+        selfRelocationOriginalField = fieldArea;
+        ReleaseFootprint();
+        previewDefinition = activeDefinition;
+        previewLevel = currentLevel;
+        previewAllowsCatalogNavigation = false;
+        previewIsRelocation = true;
+        previewRelocatesSelf = true;
+        previewDebugInstant = false;
+        previewUsesFreePlacement = true;
+        if (runtimeCompletedVisual != null)
+            runtimeCompletedVisual.SetActive(false);
+        InitializeFreePlacementPose();
+        if (RefreshPreview())
+            return true;
+        CancelPreview();
+        return false;
+    }
+
     /// <summary>Menampilkan preview bangunan source pada destination site ini.</summary>
     public bool BeginRelocationPreview()
     {
@@ -486,6 +633,8 @@ public sealed class PropertySite : MonoBehaviour
         previewLevel = relocationSource.currentLevel;
         previewAllowsCatalogNavigation = false;
         previewIsRelocation = true;
+        previewRelocatesSelf = false;
+        previewDebugInstant = false;
         previewUsesFreePlacement = allowFreePlacement;
         InitializeFreePlacementPose();
         return RefreshPreview();
@@ -501,9 +650,9 @@ public sealed class PropertySite : MonoBehaviour
         }
 
         if (previewIsRelocation)
-            return ConfirmRelocation();
+            return previewRelocatesSelf ? ConfirmSelfRelocation() : ConfirmRelocation();
 
-        bool useDebug = debugInstant && DebugShortcutsEnabled;
+        bool useDebug = (debugInstant || previewDebugInstant) && DebugShortcutsEnabled;
         BuildingLevelDefinition targetLevel = previewDefinition.GetLevel(previewLevel);
         string reason = null;
         if (targetLevel == null || (!useDebug && !CanAfford(targetLevel, out reason)))
@@ -513,7 +662,12 @@ public sealed class PropertySite : MonoBehaviour
         }
 
         bool isNewBuilding = IsEmpty;
-        if (isNewBuilding && !previewUsesFreePlacement && !TryReserveFootprint(previewDefinition))
+        bool needsFieldReservation = !previewUsesFreePlacement ||
+                                     previewDefinition.placementArea == BuildingPlacementArea.FieldOnly ||
+                                     (previewDefinition.placementArea == BuildingPlacementArea.Anywhere && fieldArea != null);
+        if (isNewBuilding && needsFieldReservation && !TryReserveFootprint(
+                previewDefinition,
+                previewUsesFreePlacement ? previewPlacementPosition : buildingAnchor.position))
         {
             previewLocationValid = false;
             ApplyPreviewColor(false);
@@ -554,9 +708,20 @@ public sealed class PropertySite : MonoBehaviour
     /// <summary>Membatalkan preview tanpa mengubah inventory, gold, atau occupancy.</summary>
     public void CancelPreview()
     {
+        if (previewRelocatesSelf)
+        {
+            buildingAnchor.SetPositionAndRotation(selfRelocationOriginalPosition, selfRelocationOriginalRotation);
+            fieldArea = selfRelocationOriginalField;
+            if (activeDefinition != null)
+                TryReserveFootprint(activeDefinition, selfRelocationOriginalPosition);
+            if (runtimeCompletedVisual != null)
+                runtimeCompletedVisual.SetActive(true);
+        }
         previewActive = false;
         previewIsRelocation = false;
+        previewRelocatesSelf = false;
         previewAllowsCatalogNavigation = false;
+        previewDebugInstant = false;
         previewUsesFreePlacement = false;
         previewLevel = 0;
         previewDefinition = null;
@@ -618,7 +783,11 @@ public sealed class PropertySite : MonoBehaviour
     void UpdateFreePlacementPreview()
     {
         if (Input.GetKeyDown(rotatePreviewKey))
-            previewPlacementRotation *= Quaternion.Euler(0f, rotationStep, 0f);
+        {
+            float nextYaw = Mathf.Repeat(previewPlacementRotation.eulerAngles.y + rotationStep, 360f);
+            previewPlacementRotation = Quaternion.Euler(0f, nextYaw, 0f);
+            SaveLoadFeedback.Instance?.ShowMessage($"Arah bangunan: {Mathf.RoundToInt(nextYaw)} derajat");
+        }
 
         UpdateFreePlacementPose();
         previewLocationValid = ValidatePreviewLocation(previewDefinition);
@@ -629,6 +798,8 @@ public sealed class PropertySite : MonoBehaviour
     bool CanAffordPreview()
     {
         if (previewIsRelocation)
+            return true;
+        if (previewDebugInstant && DebugShortcutsEnabled)
             return true;
         BuildingLevelDefinition level = previewDefinition?.GetLevel(previewLevel);
         return CanAfford(level, out _);
@@ -645,8 +816,49 @@ public sealed class PropertySite : MonoBehaviour
         Vector3 candidate = playerTransform.position + forward * freePlacementDistance;
         candidate.x = Mathf.Round(candidate.x / placementGridSize) * placementGridSize;
         candidate.z = Mathf.Round(candidate.z / placementGridSize) * placementGridSize;
-        candidate.y = buildingAnchor.position.y;
+        candidate.y = ResolvePlacementHeight(candidate, buildingAnchor.position.y);
+        if (previewDefinition?.placementArea == BuildingPlacementArea.FieldOnly)
+        {
+            FieldArea targetField = fieldArea;
+            if (targetField != null && targetField.WorldToGrid(candidate, out int fieldX, out int fieldZ))
+                candidate = targetField.GridToWorld(fieldX, fieldZ);
+            else if (FieldArea.TryGetAt(candidate, out targetField, out fieldX, out fieldZ))
+            {
+                fieldArea = targetField;
+                candidate = targetField.GridToWorld(fieldX, fieldZ);
+            }
+        }
+        else if (previewDefinition?.placementArea == BuildingPlacementArea.Anywhere)
+        {
+            if (FieldArea.TryGetAt(candidate, out FieldArea targetField, out int fieldX, out int fieldZ))
+            {
+                fieldArea = targetField;
+                candidate = targetField.GridToWorld(fieldX, fieldZ);
+            }
+            else
+                fieldArea = null;
+        }
         previewPlacementPosition = candidate;
+    }
+
+    static float ResolvePlacementHeight(Vector3 position, float fallbackHeight)
+    {
+        Terrain[] terrains = Terrain.activeTerrains;
+        for (int index = 0; index < terrains.Length; index++)
+        {
+            Terrain terrain = terrains[index];
+            if (terrain == null || terrain.terrainData == null)
+                continue;
+
+            Vector3 origin = terrain.transform.position;
+            Vector3 size = terrain.terrainData.size;
+            if (position.x < origin.x || position.x > origin.x + size.x ||
+                position.z < origin.z || position.z > origin.z + size.z)
+                continue;
+
+            return terrain.SampleHeight(position) + origin.y;
+        }
+        return fallbackHeight;
     }
 
     void ApplyPreviewTransform()
@@ -675,7 +887,12 @@ public sealed class PropertySite : MonoBehaviour
         }
 
         BuildingDefinitionSO movedDefinition = source.activeDefinition;
-        if (!previewUsesFreePlacement && !TryReserveFootprint(movedDefinition))
+        bool needsFieldReservation = !previewUsesFreePlacement ||
+                                     movedDefinition.placementArea == BuildingPlacementArea.FieldOnly ||
+                                     (movedDefinition.placementArea == BuildingPlacementArea.Anywhere && fieldArea != null);
+        if (needsFieldReservation && !TryReserveFootprint(
+                movedDefinition,
+                previewUsesFreePlacement ? previewPlacementPosition : buildingAnchor.position))
         {
             previewLocationValid = false;
             ApplyPreviewColor(false);
@@ -704,6 +921,29 @@ public sealed class PropertySite : MonoBehaviour
         ApplyVisualState();
 
         AnimalHome.Transfer(source.SiteId, this);
+        FishPondService.TransferSite(source.SiteId, SiteId);
+        SaveLoadFeedback.Instance?.ShowMessage($"{activeDefinition.displayName} berhasil dipindahkan");
+        SaveManager.Instance?.SaveGame();
+        return true;
+    }
+
+    bool ConfirmSelfRelocation()
+    {
+        if (!previewRelocatesSelf || activeDefinition == null || !previewLocationValid)
+            return false;
+        if (!TryReserveFootprint(activeDefinition, previewPlacementPosition))
+        {
+            previewLocationValid = false;
+            ApplyPreviewColor(false);
+            SaveLoadFeedback.Instance?.ShowMessage("Lokasi pindah terhalang");
+            return false;
+        }
+
+        previewRelocatesSelf = false;
+        buildingAnchor.SetPositionAndRotation(previewPlacementPosition, previewPlacementRotation);
+        CancelPreview();
+        if (runtimeCompletedVisual != null)
+            runtimeCompletedVisual.SetActive(true);
         SaveLoadFeedback.Instance?.ShowMessage($"{activeDefinition.displayName} berhasil dipindahkan");
         SaveManager.Instance?.SaveGame();
         return true;
@@ -723,6 +963,12 @@ public sealed class PropertySite : MonoBehaviour
 
     void ConfirmDemolish()
     {
+        if (FishPondService.HasFishForSite(siteId))
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Ambil seluruh ikan dari Fish Pond sebelum demolish");
+            demolishConfirmationActive = false;
+            return;
+        }
         if (AnimalHome.HasResidents(siteId) || (AnimalHome.Find(siteId)?.Fodder ?? 0) > 0)
         {
             SaveLoadFeedback.Instance?.ShowMessage("Pindahkan hewan dan ambil sisa pakan sebelum demolish");
@@ -733,8 +979,10 @@ public sealed class PropertySite : MonoBehaviour
             return;
 
         string buildingName = activeDefinition.displayName;
+        bool wasFishPond = activeDefinition.buildingId == "building.fish-pond";
         ReleaseFootprint();
         ResetToEmpty(false);
+        if (wasFishPond) FishPondService.RemoveForSite(siteId);
         demolishConfirmationActive = false;
         SaveLoadFeedback.Instance?.ShowMessage($"{buildingName} sudah didemolish");
         SaveManager.Instance?.SaveGame();
@@ -773,9 +1021,38 @@ public sealed class PropertySite : MonoBehaviour
     {
         if (previewUsesFreePlacement)
         {
-            // Farm Field selalu eksklusif untuk tanah pertanian. Pengecekan sampling
-            // mencakup seluruh footprint, bukan hanya titik tengah bangunan.
-            if (OverlapsAnyFieldArea(definition, previewPlacementPosition, previewPlacementRotation))
+            if (definition.placementArea == BuildingPlacementArea.FieldOnly)
+            {
+                if (!TryResolveFieldCoordinates(definition, previewPlacementPosition,
+                        out FieldArea pondField, out int startX, out int startZ) ||
+                    !pondField.CanPlaceBuilding(startX, startZ, definition.footprintWidth, definition.footprintDepth))
+                    return false;
+                return !HasPhysicalPlacementBlocker(
+                    definition,
+                    pondField.CellSize,
+                    previewPlacementPosition,
+                    previewPlacementRotation
+                );
+            }
+            if (definition.placementArea == BuildingPlacementArea.Anywhere && fieldArea != null)
+            {
+                if (!TryResolveFieldCoordinates(definition, previewPlacementPosition,
+                        out FieldArea targetField, out int startX, out int startZ) ||
+                    !targetField.CanPlaceBuilding(startX, startZ, definition.footprintWidth, definition.footprintDepth))
+                    return false;
+                return !HasPhysicalPlacementBlocker(
+                    definition,
+                    targetField.CellSize,
+                    previewPlacementPosition,
+                    previewPlacementRotation);
+            }
+            if (definition.placementArea == BuildingPlacementArea.Anywhere &&
+                OverlapsAnyFieldArea(definition, previewPlacementPosition, previewPlacementRotation))
+                return false;
+            // Bangunan OutsideField menjaga area tanam tetap kosong. Anywhere, seperti
+            // Fish Pond, boleh diletakkan di field atau area dunia lain yang valid.
+            if (definition.placementArea == BuildingPlacementArea.OutsideField &&
+                OverlapsAnyFieldArea(definition, previewPlacementPosition, previewPlacementRotation))
                 return false;
             return !HasPhysicalPlacementBlocker(
                 definition,
@@ -788,7 +1065,7 @@ public sealed class PropertySite : MonoBehaviour
         if (state == BuildingConstructionState.Completed && definition == activeDefinition)
             return true;
         float cellSize = fieldArea != null ? fieldArea.CellSize : 1f;
-        if (reserveFieldFootprint)
+        if (reserveFieldFootprint || definition.placementArea == BuildingPlacementArea.FieldOnly)
         {
             if (!TryResolveFieldCoordinates(definition, out FieldArea area, out int startX, out int startZ))
                 return false;
@@ -885,17 +1162,19 @@ public sealed class PropertySite : MonoBehaviour
         return false;
     }
 
-    bool TryReserveFootprint(BuildingDefinitionSO definition)
+    bool TryReserveFootprint(BuildingDefinitionSO definition, Vector3 position)
     {
-        if (!reserveFieldFootprint)
+        bool anywhereOnField = definition.placementArea == BuildingPlacementArea.Anywhere && fieldArea != null;
+        if (!reserveFieldFootprint && definition.placementArea != BuildingPlacementArea.FieldOnly && !anywhereOnField)
             return true;
-        return TryResolveFieldCoordinates(definition, out FieldArea area, out int x, out int z) &&
+        return TryResolveFieldCoordinates(definition, position, out FieldArea area, out int x, out int z) &&
                area.TryPlaceBuilding(x, z, definition.footprintWidth, definition.footprintDepth, siteId);
     }
 
     void ReleaseFootprint()
     {
-        if (reserveFieldFootprint && fieldArea != null)
+        if ((reserveFieldFootprint || activeDefinition?.placementArea == BuildingPlacementArea.FieldOnly ||
+             activeDefinition?.placementArea == BuildingPlacementArea.Anywhere) && fieldArea != null)
             fieldArea.TryRemoveBuilding(siteId);
     }
 
@@ -904,9 +1183,21 @@ public sealed class PropertySite : MonoBehaviour
         out FieldArea area,
         out int startX,
         out int startZ)
+        => TryResolveFieldCoordinates(
+            definition,
+            buildingAnchor != null ? buildingAnchor.position : transform.position,
+            out area,
+            out startX,
+            out startZ);
+
+    bool TryResolveFieldCoordinates(
+        BuildingDefinitionSO definition,
+        Vector3 position,
+        out FieldArea area,
+        out int startX,
+        out int startZ)
     {
         area = fieldArea;
-        Vector3 position = buildingAnchor != null ? buildingAnchor.position : transform.position;
         int centerX;
         int centerZ;
 
@@ -1085,6 +1376,9 @@ public sealed class PropertySite : MonoBehaviour
             previewObject.transform.localScale = new Vector3(definition.footprintWidth, 1f, definition.footprintDepth);
         }
 
+        if (previewUsesFreePlacement)
+            CreatePreviewDirectionIndicator(definition, previewObject.transform);
+
         foreach (Collider itemCollider in previewObject.GetComponentsInChildren<Collider>(true))
             itemCollider.enabled = false;
 
@@ -1101,6 +1395,25 @@ public sealed class PropertySite : MonoBehaviour
             itemRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         }
         ApplyPreviewColor(valid);
+    }
+
+    static void CreatePreviewDirectionIndicator(BuildingDefinitionSO definition, Transform parent)
+    {
+        // Dummy Fish Pond berbentuk simetris. Penanda ini membuat perubahan arah
+        // tetap terlihat saat preview diputar, dan menunjukkan sisi depan bangunan.
+        float forwardEdge = Mathf.Max(0.5f, definition.footprintDepth * 0.5f);
+
+        GameObject shaft = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        shaft.name = "PreviewDirection_Forward";
+        shaft.transform.SetParent(parent, false);
+        shaft.transform.localPosition = new Vector3(0f, 1.25f, forwardEdge + 0.45f);
+        shaft.transform.localScale = new Vector3(0.18f, 0.12f, 0.9f);
+
+        GameObject head = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        head.name = "PreviewDirection_ArrowHead";
+        head.transform.SetParent(parent, false);
+        head.transform.localPosition = new Vector3(0f, 1.25f, forwardEdge + 0.95f);
+        head.transform.localScale = new Vector3(0.65f, 0.14f, 0.35f);
     }
 
     void ApplyPreviewColor(bool valid)
@@ -1154,7 +1467,8 @@ public sealed class PropertySite : MonoBehaviour
         for (int index = 0; index < Registry.Count; index++)
         {
             PropertySite site = Registry[index];
-            if (site == null || string.IsNullOrWhiteSpace(site.siteId))
+            if (site == null || string.IsNullOrWhiteSpace(site.siteId) ||
+                (site.globalBuildInstance && site.IsEmpty))
                 continue;
             result.Add(new PropertySiteSaveData
             {
@@ -1179,16 +1493,27 @@ public sealed class PropertySite : MonoBehaviour
         if (data == null)
             return;
 
+        BuildingCatalogSO sharedCatalog = Resources.Load<BuildingCatalogSO>("Buildings/Field Building Catalog");
         for (int dataIndex = 0; dataIndex < data.Count; dataIndex++)
         {
             PropertySiteSaveData saved = data[dataIndex];
+            bool found = false;
             for (int siteIndex = 0; siteIndex < Registry.Count; siteIndex++)
             {
                 PropertySite site = Registry[siteIndex];
                 if (site == null || !site.MatchesSavedSite(saved.siteId))
                     continue;
                 site.Restore(saved);
+                found = true;
                 break;
+            }
+            if (!found && IsDynamicWorldSiteId(saved.siteId) && sharedCatalog != null)
+            {
+                PropertySite created = CreateGlobalBuildSite(
+                    saved.siteId,
+                    sharedCatalog,
+                    saved.hasPlacementPose ? saved.placementPosition : Vector3.zero);
+                created.Restore(saved);
             }
         }
     }
@@ -1205,6 +1530,9 @@ public sealed class PropertySite : MonoBehaviour
         completionDay = activeDefinition != null ? Mathf.Max(0, data.completionDay) : 0;
         if (data.hasPlacementPose && activeDefinition != null)
             buildingAnchor.SetPositionAndRotation(data.placementPosition, data.placementRotation);
+        if (activeDefinition?.placementArea == BuildingPlacementArea.Anywhere &&
+            FieldArea.TryGetAt(buildingAnchor.position, out FieldArea restoredField, out _, out _))
+            fieldArea = restoredField;
 
         // Save yang dibuka setelah construction day langsung diselesaikan.
         if (state == BuildingConstructionState.UnderConstruction && CurrentDay >= completionDay)
@@ -1261,270 +1589,5 @@ public sealed class PropertySite : MonoBehaviour
         Gizmos.matrix = Matrix4x4.TRS(anchor.position, anchor.rotation, Vector3.one);
         Gizmos.DrawCube(Vector3.up * 0.05f, new Vector3(width, 0.1f, depth));
         Gizmos.DrawWireCube(Vector3.up * 0.5f, new Vector3(width, 1f, depth));
-    }
-}
-
-/// <summary>
-/// Menu katalog untuk PropertySite yang sedang dihadapi player. Menu hanya dapat dibuka
-/// oleh site tersebut sehingga shortcut B tidak memilih lokasi lain dari kejauhan.
-/// </summary>
-[DisallowMultipleComponent]
-public sealed class ConstructionShortcutMenu : MonoBehaviour
-{
-    [SerializeField] KeyCode openKey = KeyCode.B;
-    [SerializeField] KeyCode confirmKey = KeyCode.Return;
-
-    readonly List<Button> buildingButtons = new();
-    Inventory inventory;
-    PlayerController movement;
-    TimeManager timeManager;
-    PropertySite selectedSite;
-    BuildingCatalogSO catalog;
-    GameObject canvasObject;
-    GameObject panelObject;
-    TMP_Text detailText;
-    TMP_Text footerText;
-    int selectedIndex;
-    int openedFrame = -1;
-    bool isOpen;
-
-    void Awake()
-    {
-        inventory = GetComponent<Inventory>();
-        movement = GetComponent<PlayerController>();
-    }
-
-    void Update()
-    {
-        if (!isOpen)
-            return;
-
-        // B yang membuka menu tidak boleh langsung dibaca kembali sebagai perintah tutup
-        // apabila Update menu kebetulan berjalan setelah Update PropertySite pada frame sama.
-        if (Time.frameCount == openedFrame)
-            return;
-
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(openKey))
-            Close();
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-            Select(selectedIndex - 1);
-        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-            Select(selectedIndex + 1);
-        else if (PropertySite.DebugShortcutsEnabled && Input.GetKeyDown(KeyCode.J))
-            StartPlacement(true);
-        else if (Input.GetKeyDown(confirmKey) || Input.GetKeyDown(KeyCode.C))
-            StartPlacement();
-    }
-
-    /// <summary>Membuka katalog untuk site yang didatangi, bukan untuk site global pertama.</summary>
-    public bool OpenForSite(PropertySite site)
-    {
-        if (isOpen || site == null || !site.IsUnlocked || !site.IsEmpty ||
-            PropertySite.HasActivePlacementPreview() ||
-            (movement != null && movement.IsMovementLocked))
-        {
-            return false;
-        }
-
-        selectedSite = site;
-
-        catalog = selectedSite.Catalog;
-        if (catalog == null || catalog.Count == 0)
-        {
-            SaveLoadFeedback.Instance?.ShowMessage("Building Catalog kosong");
-            return false;
-        }
-
-        EnsureUI();
-        RebuildButtons();
-        isOpen = true;
-        openedFrame = Time.frameCount;
-        panelObject.SetActive(true);
-        movement?.AcquireMovementLock(this);
-        timeManager = TimeManager.Instance != null ? TimeManager.Instance : FindFirstObjectByType<TimeManager>();
-        timeManager?.AcquirePause(this);
-        WorldInteractionPrompt.AcquireSuppression(this);
-        Select(0);
-        return true;
-    }
-
-    void Close()
-    {
-        isOpen = false;
-        if (panelObject != null)
-            panelObject.SetActive(false);
-        movement?.ReleaseMovementLock(this);
-        timeManager?.ReleasePause(this);
-        WorldInteractionPrompt.ReleaseSuppression(this);
-    }
-
-    void StartPlacement(bool debugInstant = false)
-    {
-        if (selectedSite == null || catalog == null ||
-            selectedIndex < 0 || selectedIndex >= catalog.Count)
-            return;
-
-        if (!selectedSite.BeginBuildSelection(selectedIndex))
-        {
-            SaveLoadFeedback.Instance?.ShowMessage("Placement bangunan gagal dimulai");
-            return;
-        }
-        Close();
-        if (debugInstant)
-            selectedSite.ConfirmPreview(true);
-    }
-
-    void Select(int index)
-    {
-        if (catalog == null || catalog.Count == 0)
-            return;
-
-        selectedIndex = (index % catalog.Count + catalog.Count) % catalog.Count;
-        for (int buttonIndex = 0; buttonIndex < buildingButtons.Count; buttonIndex++)
-        {
-            Image image = buildingButtons[buttonIndex].GetComponent<Image>();
-            if (image != null)
-                image.color = buttonIndex == selectedIndex
-                    ? new Color(0.31f, 0.55f, 0.27f, 1f)
-                    : new Color(0.30f, 0.20f, 0.12f, 1f);
-        }
-
-        BuildingDefinitionSO definition = catalog.GetAt(selectedIndex);
-        BuildingLevelDefinition level = definition?.GetLevel(1);
-        detailText.text = definition == null
-            ? "Data bangunan tidak tersedia"
-            : $"<b>{definition.displayName}</b>\n" +
-              $"Ukuran: {definition.footprintWidth} x {definition.footprintDepth}\n" +
-              $"Konstruksi: {Mathf.Max(0, level?.constructionDays ?? 0)} hari\n\n" +
-              BuildingCostUtility.BuildRequirementLabel(level, inventory);
-    }
-
-    void EnsureUI()
-    {
-        if (canvasObject != null)
-            return;
-
-        canvasObject = new GameObject("ConstructionMenuCanvas_Runtime", typeof(RectTransform),
-            typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-        Canvas canvas = canvasObject.GetComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 460;
-        CanvasScaler scaler = canvasObject.GetComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920f, 1080f);
-        scaler.matchWidthOrHeight = 0.5f;
-
-        RectTransform panel = CreateRect("ConstructionMenu", canvasObject.transform);
-        panel.anchorMin = panel.anchorMax = new Vector2(0.5f, 0.5f);
-        panel.pivot = new Vector2(0.5f, 0.5f);
-        panel.sizeDelta = new Vector2(900f, 540f);
-        panelObject = panel.gameObject;
-        AddImage(panel, new Color(0.12f, 0.075f, 0.035f, 0.98f));
-
-        TMP_Text title = CreateText("Title", panel, "CARPENTER — BUILD MENU", 32f, TextAlignmentOptions.Center);
-        SetRect(title.rectTransform, new Vector2(20f, -18f), new Vector2(-20f, -76f));
-
-        RectTransform cards = CreateRect("BuildingCards", panel);
-        cards.anchorMin = new Vector2(0f, 1f);
-        cards.anchorMax = new Vector2(1f, 1f);
-        cards.pivot = new Vector2(0.5f, 1f);
-        cards.anchoredPosition = new Vector2(0f, -88f);
-        cards.sizeDelta = new Vector2(-40f, 150f);
-        HorizontalLayoutGroup layout = cards.gameObject.AddComponent<HorizontalLayoutGroup>();
-        layout.padding = new RectOffset(12, 12, 8, 8);
-        layout.spacing = 12f;
-        layout.childAlignment = TextAnchor.MiddleCenter;
-        layout.childControlWidth = true;
-        layout.childControlHeight = true;
-        layout.childForceExpandWidth = true;
-
-        detailText = CreateText("BuildingDetails", panel, string.Empty, 23f, TextAlignmentOptions.TopLeft);
-        SetRect(detailText.rectTransform, new Vector2(44f, -260f), new Vector2(-44f, -450f));
-        detailText.textWrappingMode = TextWrappingModes.Normal;
-
-        footerText = CreateText("Footer", panel,
-            PropertySite.DebugShortcutsEnabled
-                ? "A/D atau Panah: Pilih   Enter/C: Normal   J: DEBUG Gratis + Instan   B/Esc: Tutup"
-                : "A/D atau Panah: Pilih   Enter/C: Mulai Placement   B/Esc: Tutup", 19f,
-            TextAlignmentOptions.Center);
-        SetRect(footerText.rectTransform, new Vector2(24f, -474f), new Vector2(-24f, -520f));
-        panelObject.SetActive(false);
-    }
-
-    void RebuildButtons()
-    {
-        for (int index = 0; index < buildingButtons.Count; index++)
-            if (buildingButtons[index] != null)
-                Destroy(buildingButtons[index].gameObject);
-        buildingButtons.Clear();
-
-        Transform cards = panelObject.transform.Find("BuildingCards");
-        for (int index = 0; index < catalog.Count; index++)
-        {
-            int capturedIndex = index;
-            BuildingDefinitionSO definition = catalog.GetAt(index);
-            RectTransform card = CreateRect($"Building_{index}", cards);
-            Image background = AddImage(card, new Color(0.30f, 0.20f, 0.12f, 1f));
-            Button button = card.gameObject.AddComponent<Button>();
-            button.targetGraphic = background;
-            button.onClick.AddListener(() => Select(capturedIndex));
-            TMP_Text label = CreateText("Label", card,
-                definition != null ? definition.displayName : "Kosong", 24f, TextAlignmentOptions.Center);
-            label.rectTransform.anchorMin = Vector2.zero;
-            label.rectTransform.anchorMax = Vector2.one;
-            label.rectTransform.offsetMin = Vector2.zero;
-            label.rectTransform.offsetMax = Vector2.zero;
-            buildingButtons.Add(button);
-        }
-    }
-
-    static RectTransform CreateRect(string name, Transform parent)
-    {
-        GameObject created = new(name, typeof(RectTransform));
-        RectTransform rect = created.GetComponent<RectTransform>();
-        rect.SetParent(parent, false);
-        return rect;
-    }
-
-    static Image AddImage(RectTransform parent, Color color)
-    {
-        Image image = parent.gameObject.AddComponent<Image>();
-        image.color = color;
-        return image;
-    }
-
-    static TMP_Text CreateText(string name, Transform parent, string value, float size, TextAlignmentOptions alignment)
-    {
-        TextMeshProUGUI text = CreateRect(name, parent).gameObject.AddComponent<TextMeshProUGUI>();
-        text.font = TMP_Settings.defaultFontAsset;
-        text.fontSize = size;
-        text.color = new Color(0.96f, 0.88f, 0.68f, 1f);
-        text.alignment = alignment;
-        text.text = value;
-        text.raycastTarget = false;
-        return text;
-    }
-
-    static void SetRect(RectTransform rect, Vector2 minOffset, Vector2 maxOffset)
-    {
-        rect.anchorMin = new Vector2(0f, 1f);
-        rect.anchorMax = new Vector2(1f, 1f);
-        rect.pivot = new Vector2(0.5f, 1f);
-        rect.offsetMin = new Vector2(minOffset.x, maxOffset.y);
-        rect.offsetMax = new Vector2(maxOffset.x, minOffset.y);
-    }
-
-    void OnDisable()
-    {
-        if (isOpen)
-            Close();
-    }
-
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-    static void EnsureExists()
-    {
-        Inventory playerInventory = FindFirstObjectByType<Inventory>();
-        if (playerInventory != null && playerInventory.GetComponent<ConstructionShortcutMenu>() == null)
-            playerInventory.gameObject.AddComponent<ConstructionShortcutMenu>();
     }
 }

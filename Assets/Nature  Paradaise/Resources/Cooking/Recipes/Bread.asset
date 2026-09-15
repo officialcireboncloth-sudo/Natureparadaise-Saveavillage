@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a8c91fb68084c2d8a45e86d34c4bb1f, type: 3}
+  m_Name: Bread
+  recipeId: recipe.bread
+  displayName: Bread
+  description: Roti sederhana yang dipanggang dari wheat.
+  ingredients:
+  - item: {fileID: 11400000, guid: d1060000000040008000000000000012, type: 2}
+    amount: 3
+  resultItem: {fileID: 11400000, guid: 7247414a117e439a859292a25f953c47, type: 2}
+  resultAmount: 1
+  requiredKitchenLevel: 2
+  requiredEquipment: 8
+  baseCookingMinutes: 10
+  learnedByDefault: 1

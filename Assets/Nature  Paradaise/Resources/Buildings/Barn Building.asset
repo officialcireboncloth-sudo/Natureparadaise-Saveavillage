@@ -20,6 +20,7 @@ MonoBehaviour:
   footprintWidth: 4
   footprintDepth: 4
   defaultPlacementYaw: 0
+  placementArea: 0
   canRelocate: 1
   canDemolish: 1
   levels:

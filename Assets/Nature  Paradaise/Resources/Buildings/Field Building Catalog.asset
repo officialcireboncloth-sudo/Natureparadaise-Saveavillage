@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a14c75e2d9374a60a8457fd2b0b70119, type: 3}
+  m_Name: Field Building Catalog
+  m_EditorClassIdentifier: 
+  buildings:
+  - {fileID: 11400000, guid: bea5bc77d7383b047b5d4d5d26a06348, type: 2}

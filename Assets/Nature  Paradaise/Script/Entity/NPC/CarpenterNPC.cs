@@ -59,7 +59,7 @@ public sealed class CarpenterNPC : MonoBehaviour
         else if (Input.GetKeyDown(confirmHouseUpgradeKey))
             ConfirmHouseUpgrade();
         else if (Input.GetKeyDown(propertyInformationKey))
-            SaveLoadFeedback.Instance?.ShowMessage("Pilih Property Site kosong untuk menentukan lokasi bangunan farm");
+            SaveLoadFeedback.Instance?.ShowMessage("Tutup menu Carpenter lalu tekan B untuk membuka Build Menu Player");
     }
 
     void DrawMenuPrompt(float distance)

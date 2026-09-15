@@ -4,10 +4,11 @@ using UnityEngine;
 public class ShopTester : MonoBehaviour
 {
     public ShopManager shop;
+    [SerializeField] KeyCode debugBuySeedKey = KeyCode.F8;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(debugBuySeedKey))
         {
             Debug.Log("[TEST] Buy Seed");
             shop.BuySeed(1);

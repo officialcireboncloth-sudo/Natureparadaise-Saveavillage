@@ -20,6 +20,7 @@ public sealed class VillageProgressionService : MonoBehaviour
     [SerializeField, Min(1)] int villageLevel = 1;
 
     public int VillageLevel => villageLevel;
+    public int EffectiveVillageLevel => ProgressionRequirementSettings.EffectiveVillageLevel(villageLevel);
     public event Action<int> LevelChanged;
 
     void Awake()
@@ -50,7 +51,8 @@ public sealed class VillageProgressionService : MonoBehaviour
         LevelChanged?.Invoke(villageLevel);
     }
 
-    public bool MeetsRequirement(int requiredLevel) => villageLevel >= Mathf.Max(0, requiredLevel);
+    public bool MeetsRequirement(int requiredLevel) =>
+        ProgressionRequirementSettings.MeetsVillageLevel(villageLevel, requiredLevel);
 
     public VillageProgressSaveData Capture() => new() { level = villageLevel };
 

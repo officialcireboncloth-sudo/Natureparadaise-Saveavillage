@@ -6,6 +6,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1060000000040008000000000000002, type: 3}
   m_Name: FeedMakerCatalog
   animalFeed: {fileID: 11400000, guid: d1060000000040008000000000000010, type: 2}
+  fishFeed: {fileID: 11400000, guid: f15fee4d53d94d2385555d0f0a48bd01, type: 2}
   upgradeWood: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
   upgradeStone: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
   recipes:
@@ -33,3 +34,9 @@ MonoBehaviour:
     inputCount: 3
     outputCount: 4
     hours: 4
+  - id: fish-feed-grass
+    input: {fileID: 11400000, guid: a33f7b52dbbf45b18c8796d0dfe5a91a, type: 2}
+    inputCount: 5
+    outputCount: 5
+    hours: 4
+    producesFishFeed: 1

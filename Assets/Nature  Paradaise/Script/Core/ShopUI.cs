@@ -431,7 +431,9 @@ public class ShopUI : MonoBehaviour
         bool villageLocked = item.requiredVillageLevel > 1 && (VillageProgressionService.Instance == null ||
                !VillageProgressionService.Instance.MeetsRequirement(item.requiredVillageLevel));
         FishingSystem fishing = playerInventory != null ? playerInventory.GetComponent<FishingSystem>() : null;
-        bool fishingLocked = item.IsFishingBait && (fishing == null || fishing.FishingLevel < item.requiredFishingLevel);
+        int fishingLevel = fishing != null ? fishing.FishingLevel : 1;
+        bool fishingLocked = item.IsFishingBait &&
+            !ProgressionRequirementSettings.MeetsFishingLevel(fishingLevel, item.requiredFishingLevel);
         return villageLocked || fishingLocked;
     }
 

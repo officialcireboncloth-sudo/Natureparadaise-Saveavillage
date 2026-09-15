@@ -10,13 +10,15 @@ public sealed class RefrigeratorEntry
     [Min(1)] public int count = 1;
     [Range(0, 5)] public int qualityStars;
     [Min(0f)] public float fishSizeCm;
+    [Min(0f)] public float fishWeightKg;
 
     public string DisplayName => item == null ? string.Empty : new ItemStack
     {
         item = item,
         count = count,
         qualityStars = qualityStars,
-        fishSizeCm = fishSizeCm
+        fishSizeCm = fishSizeCm,
+        fishWeightKg = fishWeightKg
     }.DisplayName;
 }
 
@@ -29,6 +31,7 @@ public sealed class RefrigeratorEntrySaveData
     public int count;
     public int qualityStars;
     public float fishSizeCm;
+    public float fishWeightKg;
 }
 
 /// <summary>
@@ -41,8 +44,20 @@ public static class RefrigeratorService
 
     public static IReadOnlyList<RefrigeratorEntry> Entries => EntriesInternal;
     public static event Action Changed;
-    public static int Level => Mathf.Clamp(PlayerHouseController.Instance != null
-        ? PlayerHouseController.Instance.RefrigeratorLevel : 0, 0, 4);
+    public static int Level
+    {
+        get
+        {
+            int explicitLevel = PlayerHouseController.Instance != null
+                ? PlayerHouseController.Instance.RefrigeratorLevel : 0;
+            if (!ProgressionRequirementSettings.BypassEnabled)
+                return Mathf.Clamp(explicitLevel, 0, 4);
+            int actualHouse = PlayerHouseController.Instance != null
+                ? PlayerHouseController.Instance.CurrentLevel : 1;
+            int testLevel = ProgressionRequirementSettings.EffectiveHouseLevel(actualHouse);
+            return Mathf.Clamp(Mathf.Max(explicitLevel, testLevel), 1, 4);
+        }
+    }
     public static bool IsUnlocked => Level > 0 && HouseFeatureService.IsUnlocked("house.refrigerator");
     public static int MaxSlots => CapacityForLevel(Level);
     public static int UsedSlots { get { Normalize(); return EntriesInternal.Count; } }
@@ -57,7 +72,7 @@ public static class RefrigeratorService
         _ => 0
     };
 
-    public static bool CanStore(ItemSO item, int amount, int qualityStars = 0, float fishSizeCm = 0f)
+    public static bool CanStore(ItemSO item, int amount, int qualityStars = 0, float fishSizeCm = 0f, float fishWeightKg = 0f)
     {
         if (!IsUnlocked || item == null || !item.CanStoreInRefrigerator || amount <= 0)
             return false;
@@ -67,18 +82,20 @@ public static class RefrigeratorService
         for (int index = 0; index < EntriesInternal.Count; index++)
         {
             RefrigeratorEntry entry = EntriesInternal[index];
-            if (Compatible(entry, item, qualityStars, fishSizeCm))
+            if (Compatible(entry, item, qualityStars, fishSizeCm, fishWeightKg))
                 free += Mathf.Max(0, stackLimit - entry.count);
         }
         free += Mathf.Max(0, MaxSlots - EntriesInternal.Count) * stackLimit;
         return free >= amount;
     }
 
-    public static bool Store(ItemSO item, int amount, int qualityStars = 0, float fishSizeCm = 0f)
+    public static bool Store(ItemSO item, int amount, int qualityStars = 0, float fishSizeCm = 0f, float fishWeightKg = 0f)
     {
         qualityStars = Mathf.Clamp(qualityStars, 0, 5);
         fishSizeCm = Mathf.Max(0f, fishSizeCm);
-        if (!CanStore(item, amount, qualityStars, fishSizeCm))
+        fishWeightKg = item != null && item.category == ItemCategory.Fish && fishSizeCm > 0f
+            ? fishWeightKg > 0f ? fishWeightKg : FishMeasurement.EstimateWeightKg(item, fishSizeCm) : 0f;
+        if (!CanStore(item, amount, qualityStars, fishSizeCm, fishWeightKg))
             return false;
 
         int remaining = amount;
@@ -86,7 +103,7 @@ public static class RefrigeratorService
         for (int index = 0; index < EntriesInternal.Count && remaining > 0; index++)
         {
             RefrigeratorEntry entry = EntriesInternal[index];
-            if (!Compatible(entry, item, qualityStars, fishSizeCm) || entry.count >= stackLimit)
+            if (!Compatible(entry, item, qualityStars, fishSizeCm, fishWeightKg) || entry.count >= stackLimit)
                 continue;
             int moved = Mathf.Min(remaining, stackLimit - entry.count);
             entry.count += moved;
@@ -100,7 +117,8 @@ public static class RefrigeratorService
                 item = item,
                 count = moved,
                 qualityStars = qualityStars,
-                fishSizeCm = fishSizeCm
+                fishSizeCm = fishSizeCm,
+                fishWeightKg = fishWeightKg
             });
             remaining -= moved;
         }
@@ -121,7 +139,8 @@ public static class RefrigeratorService
             item = entry.item,
             count = moved,
             qualityStars = entry.qualityStars,
-            fishSizeCm = entry.fishSizeCm
+            fishSizeCm = entry.fishSizeCm,
+            fishWeightKg = entry.fishWeightKg
         };
         entry.count -= moved;
         if (entry.count <= 0)
@@ -184,7 +203,8 @@ public static class RefrigeratorService
             itemName = entry.item.itemName,
             count = entry.count,
             qualityStars = entry.qualityStars,
-            fishSizeCm = entry.fishSizeCm
+            fishSizeCm = entry.fishSizeCm,
+            fishWeightKg = entry.fishWeightKg
         }).ToList();
     }
 
@@ -202,7 +222,7 @@ public static class RefrigeratorService
                     Debug.LogWarning($"[REFRIGERATOR] Item '{data.itemName}' dari save tidak ditemukan atau bukan makanan.");
                     continue;
                 }
-                AddWithoutCapacity(item, data.count, data.qualityStars, data.fishSizeCm);
+                AddWithoutCapacity(item, data.count, data.qualityStars, data.fishSizeCm, data.fishWeightKg);
             }
         }
         Normalize();
@@ -215,7 +235,7 @@ public static class RefrigeratorService
         Changed?.Invoke();
     }
 
-    static void AddWithoutCapacity(ItemSO item, int amount, int qualityStars, float fishSizeCm)
+    static void AddWithoutCapacity(ItemSO item, int amount, int qualityStars, float fishSizeCm, float fishWeightKg)
     {
         int remaining = amount;
         while (remaining > 0)
@@ -226,15 +246,17 @@ public static class RefrigeratorService
                 item = item,
                 count = moved,
                 qualityStars = Mathf.Clamp(qualityStars, 0, 5),
-                fishSizeCm = Mathf.Max(0f, fishSizeCm)
+                fishSizeCm = Mathf.Max(0f, fishSizeCm),
+                fishWeightKg = item.category == ItemCategory.Fish && fishSizeCm > 0f
+                    ? fishWeightKg > 0f ? fishWeightKg : FishMeasurement.EstimateWeightKg(item, fishSizeCm) : 0f
             });
             remaining -= moved;
         }
     }
 
-    static bool Compatible(RefrigeratorEntry entry, ItemSO item, int qualityStars, float fishSizeCm) =>
+    static bool Compatible(RefrigeratorEntry entry, ItemSO item, int qualityStars, float fishSizeCm, float fishWeightKg) =>
         entry != null && entry.item == item && entry.qualityStars == qualityStars &&
-        Mathf.Abs(entry.fishSizeCm - fishSizeCm) < 0.01f;
+        Mathf.Abs(entry.fishSizeCm - fishSizeCm) < 0.01f && Mathf.Abs(entry.fishWeightKg - fishWeightKg) < 0.001f;
 
     static void Normalize() => EntriesInternal.RemoveAll(entry => entry == null || entry.item == null ||
         !entry.item.CanStoreInRefrigerator || entry.count <= 0);
@@ -454,15 +476,16 @@ public sealed class Refrigerator : MonoBehaviour
         ItemSO item = source.item;
         int quality = source.qualityStars;
         float size = source.fishSizeCm;
-        if (!RefrigeratorService.CanStore(item, moved, quality, size))
+        float weight = source.fishWeightKg;
+        if (!RefrigeratorService.CanStore(item, moved, quality, size, weight))
         {
             feedback = "Refrigerator penuh untuk stack ini.";
             return false;
         }
         if (!playerInventory.RemoveFromSlot(inventorySlot, moved)) return false;
-        if (!RefrigeratorService.Store(item, moved, quality, size))
+        if (!RefrigeratorService.Store(item, moved, quality, size, weight))
         {
-            playerInventory.Add(item, moved, quality, size);
+            playerInventory.Add(item, moved, quality, size, weight);
             return false;
         }
         feedback = $"{item.itemName} x{moved} disimpan.";
@@ -476,15 +499,15 @@ public sealed class Refrigerator : MonoBehaviour
             return false;
         RefrigeratorEntry entry = RefrigeratorService.Entries[refrigeratorIndex];
         int moved = Mathf.Min(amount, entry.count);
-        if (!playerInventory.CanAdd(entry.item, moved, entry.qualityStars, entry.fishSizeCm))
+        if (!playerInventory.CanAdd(entry.item, moved, entry.qualityStars, entry.fishSizeCm, entry.fishWeightKg))
         {
             feedback = "Inventory penuh.";
             return false;
         }
         if (!RefrigeratorService.Take(refrigeratorIndex, moved, out ItemStack stack)) return false;
-        if (!playerInventory.Add(stack.item, stack.count, stack.qualityStars, stack.fishSizeCm))
+        if (!playerInventory.Add(stack.item, stack.count, stack.qualityStars, stack.fishSizeCm, stack.fishWeightKg))
         {
-            RefrigeratorService.Store(stack.item, stack.count, stack.qualityStars, stack.fishSizeCm);
+            RefrigeratorService.Store(stack.item, stack.count, stack.qualityStars, stack.fishSizeCm, stack.fishWeightKg);
             return false;
         }
         feedback = $"{stack.item.itemName} x{stack.count} diambil.";

@@ -33,8 +33,8 @@ public static class BuildingCostUtility
         }
 
         int villageLevel = VillageProgressionService.Instance != null
-            ? VillageProgressionService.Instance.VillageLevel
-            : 1;
+            ? VillageProgressionService.Instance.EffectiveVillageLevel
+            : ProgressionRequirementSettings.EffectiveVillageLevel(1);
         if (villageLevel < level.requiredVillageLevel)
         {
             reason = $"Village Level kurang: {villageLevel}/{level.requiredVillageLevel}";
@@ -100,8 +100,8 @@ public static class BuildingCostUtility
 
         StringBuilder label = new();
         int villageOwned = VillageProgressionService.Instance != null
-            ? VillageProgressionService.Instance.VillageLevel
-            : 1;
+            ? VillageProgressionService.Instance.EffectiveVillageLevel
+            : ProgressionRequirementSettings.EffectiveVillageLevel(1);
         if (level.requiredVillageLevel > 0)
             Append(label, "Village Lv.", villageOwned, level.requiredVillageLevel);
 

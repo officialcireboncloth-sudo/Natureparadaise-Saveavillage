@@ -34,7 +34,11 @@ public class SaveManager : MonoBehaviour
         if (File.Exists(DefaultSavePath)) File.Delete(DefaultSavePath);
         ToolStorageService.Clear();
         RefrigeratorService.Clear();
+        KitchenService.Clear();
+        AquariumService.Clear();
+        FishPondService.Clear();
         FishCollectionService.Clear();
+        WorldMapService.Instance?.ResetProgress();
     }
 
     // =====================================================
@@ -95,6 +99,12 @@ public class SaveManager : MonoBehaviour
         public List<ToolStorageEntrySaveData> toolStorage;
         // REFRIGERATOR: quality dan fish size dipertahankan per stack.
         public List<RefrigeratorEntrySaveData> refrigerator;
+        // KITCHEN: recipe yang dipelajari dan cooking collection.
+        public KitchenProgressSaveData kitchen;
+        // AQUARIUM: furniture per-instance, dekorasi, serta fish quality/size/weight.
+        public List<AquariumSaveData> aquariums;
+        // FISH POND: ikan per-ekor, growth progress, level, dan status pakan harian.
+        public List<FishPondSaveData> fishPonds;
 
         // -------------------------
         // MODULAR FIELD AREAS
@@ -142,6 +152,8 @@ public class SaveManager : MonoBehaviour
         // NARRATIVE: progres objective quest dan flag percakapan disimpan terpisah dari UI.
         public QuestSystemSaveData questSystem;
         public DialogueSystemSaveData dialogueSystem;
+        // MAP: discovery, marker unlock, waypoint, dan pilihan mini map.
+        public WorldMapSaveData worldMap;
 
         // PLAYER STATUS (hasPlayerStatus menjaga kompatibilitas save lama)
         public bool hasPlayerStatus;
@@ -171,6 +183,7 @@ public class SaveManager : MonoBehaviour
         public int slotIndex;
         public int qualityStars;
         public float fishSizeCm;
+        public float fishWeightKg;
     }
 
     // =====================================================
@@ -353,12 +366,16 @@ public class SaveManager : MonoBehaviour
                 count = stack.count,
                 qualityStars = stack.qualityStars,
                 fishSizeCm = stack.fishSizeCm,
+                fishWeightKg = stack.fishWeightKg,
                 slotIndex = i
             });
         }
 
         data.toolStorage = ToolStorageService.Capture();
         data.refrigerator = RefrigeratorService.Capture();
+        data.kitchen = KitchenService.Capture();
+        data.aquariums = AquariumService.Capture();
+        data.fishPonds = FishPondService.Capture();
 
         data.fields =
             FieldArea.CaptureAll();
@@ -411,6 +428,7 @@ public class SaveManager : MonoBehaviour
         }
         data.questSystem = QuestService.Instance?.Capture();
         data.dialogueSystem = DialogueService.Instance?.Capture();
+        data.worldMap = WorldMapService.Instance?.Capture();
 
         if (playerStatus != null)
         {
@@ -652,12 +670,12 @@ public class SaveManager : MonoBehaviour
                     int targetSlot = data.inventoryLayoutVersion < 3 && savedSlot.slotIndex >= 4
                         ? savedSlot.slotIndex + 4
                         : savedSlot.slotIndex;
-                    if (!playerInv.TrySetSlot(targetSlot, item, savedSlot.count, savedSlot.qualityStars, savedSlot.fishSizeCm))
-                        playerInv.Add(item, savedSlot.count, savedSlot.qualityStars, savedSlot.fishSizeCm);
+                    if (!playerInv.TrySetSlot(targetSlot, item, savedSlot.count, savedSlot.qualityStars, savedSlot.fishSizeCm, savedSlot.fishWeightKg))
+                        playerInv.Add(item, savedSlot.count, savedSlot.qualityStars, savedSlot.fishSizeCm, savedSlot.fishWeightKg);
                 }
                 else
                 {
-                    playerInv.Add(item, savedSlot.count, savedSlot.qualityStars, savedSlot.fishSizeCm);
+                    playerInv.Add(item, savedSlot.count, savedSlot.qualityStars, savedSlot.fishSizeCm, savedSlot.fishWeightKg);
                 }
             }
         }
@@ -692,6 +710,7 @@ public class SaveManager : MonoBehaviour
         PropertySite.RestoreAll(
             data.buildings
         );
+        FishPondService.Restore(data.fishPonds);
 
         VillageProgressionService.Instance?.Restore(
             data.villageProgress
@@ -703,6 +722,8 @@ public class SaveManager : MonoBehaviour
 
         // Restore setelah House agar kapasitas/unlock Refrigerator sudah memakai level save.
         RefrigeratorService.Restore(data.refrigerator);
+        KitchenService.Restore(data.kitchen);
+        AquariumService.Restore(data.aquariums);
         FishCollectionService.Restore(data.fishCollection);
 
         WorldGatherable.RestoreAll(
@@ -737,6 +758,9 @@ public class SaveManager : MonoBehaviour
         // Inventory dan Village Level harus pulih lebih dahulu karena menjadi condition quest/dialogue.
         QuestService.Instance?.Restore(data.questSystem);
         DialogueService.Instance?.Restore(data.dialogueSystem);
+        WorldMapService.Instance?.Restore(data.worldMap);
+        AquariumTestFishGrant.EnsureTestFish(playerInv);
+        FishPondTestGrant.EnsureTestFeed(playerInv);
 
         if (data.hasPlayerStatus)
         {

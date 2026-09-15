@@ -1,0 +1,6 @@
+recipe_id,asset_path,display_name,description,ingredients,result_item_id,result_amount,required_kitchen_level,required_equipment,base_cooking_minutes,learned_by_default
+recipe.fried_egg,Assets/Nature  Paradaise/Resources/Cooking/Recipes/Fried Egg.asset,Fried Egg,Telur sederhana yang dimasak dengan frying pan.,item.egg:1,item.fried_egg,1,1,FryingPan,10,TRUE
+recipe.omelette,Assets/Nature  Paradaise/Resources/Cooking/Recipes/Omelette.asset,Omelette,Telur dan susu yang lembut.,item.egg:1|item.milk:1,item.omelette,1,1,FryingPan,10,TRUE
+recipe.fish_soup,Assets/Nature  Paradaise/Resources/Cooking/Recipes/Fish Soup.asset,Fish Soup,Sup ikan dan sayuran yang memulihkan banyak stamina.,item.tilapia:1|item.cabbage:1,item.fish_soup,1,1,Pot,10,FALSE
+recipe.bread,Assets/Nature  Paradaise/Resources/Cooking/Recipes/Bread.asset,Bread,Roti sederhana yang dipanggang dari wheat.,item.wheat:3,item.bread,1,2,Oven,10,TRUE
+recipe.fruit_milk,Assets/Nature  Paradaise/Resources/Cooking/Recipes/Fruit Milk.asset,Fruit Milk,Minuman buah dan susu dari blender.,item.mango_fruit:1|item.milk:1,item.fruit_milk,1,4,Blender,10,TRUE

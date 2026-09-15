@@ -17,7 +17,7 @@ public class AnimalController : MonoBehaviour
     [Header("Growth System")]
     [SerializeField] AnimalGrowthSystem growth;
     [SerializeField] KeyCode petKey = KeyCode.P;
-    [SerializeField] KeyCode debugNextStageKey = KeyCode.J;
+    [SerializeField] KeyCode debugNextStageKey = KeyCode.F10;
 
     [Header("Hunger")]
     public float maxHunger = 100f;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum QuestStatus { Locked, Available, Active, ReadyToTurnIn, Completed, Failed }
 public enum QuestCompletionMode { AutoComplete, TurnIn }
-public enum QuestObjectiveType { Talk, Collect, Harvest, Ship, MarketSale, Defeat, Tame, Build, Custom }
+public enum QuestObjectiveType { Talk, Collect, Harvest, Ship, MarketSale, Defeat, Tame, Build, Custom, Cook }
 
 [Serializable]
 public sealed class QuestObjectiveDefinition

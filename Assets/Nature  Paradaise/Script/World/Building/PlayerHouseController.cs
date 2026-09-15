@@ -56,7 +56,7 @@ public sealed class PlayerHouseController : MonoBehaviour
     public bool SetRefrigeratorLevel(int level)
     {
         int target = Mathf.Clamp(level, 0, 4);
-        if (target > 0 && currentLevel < 2)
+        if (target > 0 && !ProgressionRequirementSettings.MeetsHouseLevel(currentLevel, 2))
             return false;
         if (refrigeratorLevel == target)
             return true;

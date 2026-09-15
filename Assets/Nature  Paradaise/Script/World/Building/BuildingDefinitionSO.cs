@@ -15,6 +15,14 @@ public enum BuildingCategory
 
 public enum AnimalHousingKind { None, Barn, Coop }
 
+/// <summary>Aturan area untuk preview free-placement sebuah bangunan.</summary>
+public enum BuildingPlacementArea : byte
+{
+    OutsideField,
+    FieldOnly,
+    Anywhere
+}
+
 /// <summary>State persisten satu Property Site.</summary>
 public enum BuildingConstructionState
 {
@@ -81,6 +89,8 @@ public sealed class BuildingDefinitionSO : ScriptableObject
     [Range(-180f, 180f)] public float defaultPlacementYaw;
 
     [Header("Rules")]
+    [Tooltip("Outside Field menolak area tanam, Field Only wajib di area tanam, dan Anywhere dapat ditempatkan pada permukaan kosong mana pun.")]
+    public BuildingPlacementArea placementArea = BuildingPlacementArea.OutsideField;
     public bool canRelocate = true;
     public bool canDemolish = true;
     [Tooltip("Level bangunan dalam urutan naik. Level pertama harus bernilai 1.")]

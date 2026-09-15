@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a8c91fb68084c2d8a45e86d34c4bb1f, type: 3}
+  m_Name: Fried Egg
+  recipeId: recipe.fried_egg
+  displayName: Fried Egg
+  description: Telur sederhana yang dimasak dengan frying pan.
+  ingredients:
+  - item: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000001, type: 2}
+    amount: 1
+  resultItem: {fileID: 11400000, guid: 237d7eaa44be4dc89598cfcb726797c9, type: 2}
+  resultAmount: 1
+  requiredKitchenLevel: 1
+  requiredEquipment: 2
+  baseCookingMinutes: 10
+  learnedByDefault: 1

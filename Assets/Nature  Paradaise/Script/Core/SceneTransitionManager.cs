@@ -26,6 +26,7 @@ public sealed class SceneTransitionManager : MonoBehaviour
 
     public bool IsTransitioning => transitioning;
     public bool IsInsideInterior => !string.IsNullOrEmpty(loadedInteriorScene);
+    public string CurrentInteriorSceneName => loadedInteriorScene;
 
     /// <summary>Mengambil posisi world terakhir tanpa memindahkan player keluar dari interior.</summary>
     public bool TryGetWorldReturnPosition(out Vector3 position)
@@ -68,6 +69,44 @@ public sealed class SceneTransitionManager : MonoBehaviour
             return false;
         StartCoroutine(ReturnRoutine(exteriorSpawnId));
         return true;
+    }
+
+    /// <summary>Fast travel ke posisi world dan keluar dari interior aktif bila diperlukan.</summary>
+    public bool FastTravelToWorld(Vector3 worldPosition, Quaternion worldRotation)
+    {
+        if (transitioning) return false;
+        StartCoroutine(FastTravelWorldRoutine(worldPosition, worldRotation));
+        return true;
+    }
+
+    IEnumerator FastTravelWorldRoutine(Vector3 worldPosition, Quaternion worldRotation)
+    {
+        transitioning = true;
+        ResolvePlayer();
+        if (player == null) { transitioning = false; yield break; }
+        player.AcquireMovementLock(this);
+        TimeManager.Instance?.AcquirePause(this);
+        yield return Fade(1f);
+
+        if (IsInsideInterior)
+        {
+            Scene interior = SceneManager.GetSceneByName(loadedInteriorScene);
+            Scene worldScene = FindLoadedWorldScene(interior);
+            if (worldScene.IsValid()) SceneManager.SetActiveScene(worldScene);
+            MovePlayerToSpawn(string.Empty, worldPosition, worldRotation);
+            AsyncOperation unload = interior.IsValid() ? SceneManager.UnloadSceneAsync(interior) : null;
+            if (unload != null) while (!unload.isDone) yield return null;
+            loadedInteriorScene = null;
+        }
+        else
+        {
+            MovePlayerToSpawn(string.Empty, worldPosition, worldRotation);
+        }
+
+        returnPosition = worldPosition;
+        returnRotation = worldRotation;
+        yield return Fade(0f);
+        ReleaseTransitionLocks();
     }
 
     IEnumerator EnterRoutine(string sceneName, string targetSpawnId)

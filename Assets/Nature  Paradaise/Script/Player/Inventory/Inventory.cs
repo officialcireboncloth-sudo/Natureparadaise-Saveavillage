@@ -74,19 +74,20 @@ public class Inventory : MonoBehaviour
 
     /*------------- Tambah item -------------*/
     /// <summary>Menambahkan seluruh jumlah dengan mengisi stack kompatibel lalu slot kosong.</summary>
-    public bool Add(ItemSO item, int amount = 1, int qualityStars = 0, float fishSizeCm = 0f)
+    public bool Add(ItemSO item, int amount = 1, int qualityStars = 0, float fishSizeCm = 0f, float fishWeightKg = 0f)
     {
         if (item == null || amount <= 0)
             return false;
 
         NormalizeSlots();
+        fishWeightKg = NormalizeFishWeight(item, fishSizeCm, fishWeightKg);
         int stackLimit = item.StackLimit;
         int freeSpace = 0;
 
         for (int i = 0; i < slots.Count; i++)
         {
             ItemStack slot = slots[i];
-            if (IsCompatible(slot, item, qualityStars, fishSizeCm))
+            if (IsCompatible(slot, item, qualityStars, fishSizeCm, fishWeightKg))
                 freeSpace += Mathf.Max(0, stackLimit - slot.count);
         }
 
@@ -99,7 +100,7 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < slots.Count && remaining > 0; i++)
         {
             ItemStack slot = slots[i];
-            if (!IsCompatible(slot, item, qualityStars, fishSizeCm) || slot.count >= stackLimit)
+            if (!IsCompatible(slot, item, qualityStars, fishSizeCm, fishWeightKg) || slot.count >= stackLimit)
                 continue;
 
             int added = Mathf.Min(remaining, stackLimit - slot.count);
@@ -111,7 +112,7 @@ public class Inventory : MonoBehaviour
         {
             if (IsValid(slots[i])) continue;
             int added = Mathf.Min(remaining, stackLimit);
-            slots[i] = new ItemStack { item = item, count = added, qualityStars = qualityStars, fishSizeCm = fishSizeCm };
+            slots[i] = new ItemStack { item = item, count = added, qualityStars = qualityStars, fishSizeCm = fishSizeCm, fishWeightKg = fishWeightKg };
             remaining -= added;
         }
 
@@ -162,17 +163,18 @@ public class Inventory : MonoBehaviour
     }
 
     /// <summary>Mensimulasikan kapasitas stack tanpa mengubah inventory.</summary>
-    public bool CanAdd(ItemSO item, int amount = 1, int qualityStars = 0, float fishSizeCm = 0f)
+    public bool CanAdd(ItemSO item, int amount = 1, int qualityStars = 0, float fishSizeCm = 0f, float fishWeightKg = 0f)
     {
         if (item == null || amount <= 0)
             return false;
 
         NormalizeSlots();
+        fishWeightKg = NormalizeFishWeight(item, fishSizeCm, fishWeightKg);
         int freeSpace = 0;
         for (int i = 0; i < slots.Count; i++)
             if (!IsValid(slots[i]))
                 freeSpace += item.StackLimit;
-            else if (IsCompatible(slots[i], item, qualityStars, fishSizeCm))
+            else if (IsCompatible(slots[i], item, qualityStars, fishSizeCm, fishWeightKg))
                 freeSpace += Mathf.Max(0, item.StackLimit - slots[i].count);
         return freeSpace >= amount;
     }
@@ -248,7 +250,7 @@ public class Inventory : MonoBehaviour
     }
 
     /// <summary>Dipakai SaveManager untuk mengembalikan posisi slot persis.</summary>
-    public bool TrySetSlot(int index, ItemSO item, int amount, int qualityStars = 0, float fishSizeCm = 0f)
+    public bool TrySetSlot(int index, ItemSO item, int amount, int qualityStars = 0, float fishSizeCm = 0f, float fishWeightKg = 0f)
     {
         NormalizeSlots();
         if (index < 0 || index >= Capacity || item == null || amount <= 0 || IsValid(slots[index]))
@@ -258,7 +260,8 @@ public class Inventory : MonoBehaviour
             item = item,
             count = Mathf.Min(amount, item.StackLimit),
             qualityStars = Mathf.Clamp(qualityStars, 0, 5),
-            fishSizeCm = Mathf.Max(0f, fishSizeCm)
+            fishSizeCm = Mathf.Max(0f, fishSizeCm),
+            fishWeightKg = NormalizeFishWeight(item, fishSizeCm, fishWeightKg)
         };
         OnInventoryChanged?.Invoke();
         return true;
@@ -326,7 +329,8 @@ public class Inventory : MonoBehaviour
                     item = slot.item,
                     count = split,
                     qualityStars = slot.qualityStars,
-                    fishSizeCm = slot.fishSizeCm
+                    fishSizeCm = slot.fishSizeCm,
+                    fishWeightKg = slot.fishWeightKg
                 };
                 overflow -= split;
             }
@@ -350,9 +354,14 @@ public class Inventory : MonoBehaviour
 
     static bool IsValid(ItemStack slot) => slot != null && slot.item != null && slot.count > 0;
 
-    static bool IsCompatible(ItemStack slot, ItemSO item, int qualityStars, float fishSizeCm) =>
+    static float NormalizeFishWeight(ItemSO item, float fishSizeCm, float fishWeightKg) =>
+        item != null && item.category == ItemCategory.Fish && fishSizeCm > 0f
+            ? fishWeightKg > 0f ? fishWeightKg : FishMeasurement.EstimateWeightKg(item, fishSizeCm)
+            : 0f;
+
+    static bool IsCompatible(ItemStack slot, ItemSO item, int qualityStars, float fishSizeCm, float fishWeightKg) =>
         IsValid(slot) && slot.item == item && slot.qualityStars == qualityStars &&
-        Mathf.Abs(slot.fishSizeCm - fishSizeCm) < 0.01f;
+        Mathf.Abs(slot.fishSizeCm - fishSizeCm) < 0.01f && Mathf.Abs(slot.fishWeightKg - fishWeightKg) < 0.001f;
 }
 
 /*=========================================================
@@ -366,8 +375,9 @@ public class ItemStack
     public int count;
     [Range(0, 5)] public int qualityStars;
     [Min(0f)] public float fishSizeCm;
+    [Min(0f)] public float fishWeightKg;
     public string DisplayName => item == null ? string.Empty : item.itemName +
         (qualityStars > 0 ? (item.category == ItemCategory.AnimalProduct || item.isAnimalProduct)
             ? $" [{AnimalCareCatalog.QualityName(qualityStars)}]" : $" [{qualityStars}★]" : string.Empty) +
-        (item.category == ItemCategory.Fish && fishSizeCm > 0f ? $" [{fishSizeCm:0.#} cm]" : string.Empty);
+        (item.category == ItemCategory.Fish && fishSizeCm > 0f ? $" [{fishSizeCm:0.#} cm | {fishWeightKg:0.00} kg]" : string.Empty);
 }

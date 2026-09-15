@@ -8,6 +8,7 @@ public sealed class FeedJob
     public string recipeId;
     public int inputs;
     public int output;
+    public bool producesFishFeed;
     public double hours;
     public double finish = -1;
 }
@@ -18,6 +19,7 @@ public sealed class FeedMakerSaveData
     public string id;
     public int level;
     public int output;
+    public int fishFeedOutput;
     public Vector3 position;
     public Quaternion rotation;
     public List<FeedJob> jobs = new();
@@ -37,6 +39,7 @@ public sealed class FeedMaker : MonoBehaviour
     [SerializeField] FeedSilo linkedSilo;
     readonly List<FeedJob> jobs = new();
     int output;
+    int fishFeedOutput;
     Inventory inventory;
     PlayerController player;
     bool open;
@@ -44,7 +47,7 @@ public sealed class FeedMaker : MonoBehaviour
     public int Level => Mathf.Clamp(level, 1, 4);
     public int InputCapacity => new[] {10,20,40,60}[Level-1];
     public int Inputs { get { int total=0; foreach(var job in jobs) total+=job.inputs; return total; } }
-    public int Output => output;
+    public int Output => output + fishFeedOutput;
     double Now => TimeManager.Instance == null ? 0 : (TimeManager.Instance.day-1)*24d + TimeManager.Instance.hour + TimeManager.Instance.minute/60d;
     void Awake()
     {
@@ -77,14 +80,18 @@ public sealed class FeedMaker : MonoBehaviour
             if (next > now) break;
             for (int i=jobs.Count-1;i>=0;i--)
                 if (jobs[i].finish >= 0 && jobs[i].finish <= next)
-                { output+=jobs[i].output; jobs.RemoveAt(i); }
+                {
+                    if (jobs[i].producesFishFeed) fishFeedOutput+=jobs[i].output;
+                    else output+=jobs[i].output;
+                    jobs.RemoveAt(i);
+                }
             StartWaiting(next);
         }
         StartWaiting(now);
     }
     void StartWaiting(double at)
     {
-        int running=0, reserved=output;
+        int running=0, reserved=output+fishFeedOutput;
         foreach(var job in jobs) if(job.finish>=0) {running++; reserved+=job.output;}
         foreach(var job in jobs)
         {
@@ -100,6 +107,7 @@ public sealed class FeedMaker : MonoBehaviour
         Advance(Now);
         FeedRecipe recipe=catalog.recipes[index];
         if(recipe?.input==null || recipe.inputCount<1 || recipe.outputCount<1 || recipe.hours<=0 || recipe.outputCount>outputCapacity || Inputs+recipe.inputCount>InputCapacity) return false;
+        if (recipe.producesFishFeed && catalog.fishFeed==null) return false;
         var needed = new Dictionary<ItemSO,int>();
         int remaining=recipe.inputCount;
         ItemSO[] allowed=recipe.mixedInputs!=null && recipe.mixedInputs.Length>0 ? recipe.mixedInputs : new[]{recipe.input};
@@ -112,7 +120,8 @@ public sealed class FeedMaker : MonoBehaviour
         }
         if(remaining>0) return false;
         foreach(var pair in needed) source.Remove(pair.Key,pair.Value);
-        jobs.Add(new FeedJob {recipeId=recipe.id, inputs=recipe.inputCount, output=recipe.outputCount, hours=recipe.hours/new[]{1d,1.25d,1.6d,2d}[Level-1]});
+        jobs.Add(new FeedJob {recipeId=recipe.id, inputs=recipe.inputCount, output=recipe.outputCount,
+            producesFishFeed=recipe.producesFishFeed, hours=recipe.hours/new[]{1d,1.25d,1.6d,2d}[Level-1]});
         StartWaiting(Now);
         return true;
     }
@@ -123,6 +132,14 @@ public sealed class FeedMaker : MonoBehaviour
         int amount=Math.Min(output,Math.Max(1,catalog.animalFeed.maxStack));
         if(!target.Add(catalog.animalFeed,amount)) return false;
         output-=amount; StartWaiting(Now); return true;
+    }
+    public bool CollectFishFeed(Inventory target)
+    {
+        Advance(Now);
+        if(fishFeedOutput<=0 || target==null || catalog?.fishFeed==null) return false;
+        int amount=Math.Min(fishFeedOutput,Math.Max(1,catalog.fishFeed.maxStack));
+        if(!target.Add(catalog.fishFeed,amount)) return false;
+        fishFeedOutput-=amount; StartWaiting(Now); return true;
     }
     public bool Upgrade(Inventory source)
     {
@@ -157,15 +174,17 @@ public sealed class FeedMaker : MonoBehaviour
         if(!open) return;
         GUILayout.BeginArea(new Rect(20,130,540,540),GUI.skin.box);
         GUILayout.Label($"FEED MAKER Lv.{Level} | Bahan {Inputs}/{InputCapacity} | Processing Slot {Level}");
-        GUILayout.Label($"Animal Feed Ready: {output}/{outputCapacity}");
+        GUILayout.Label($"Ready: Animal Feed {output} | Fish Feed {fishFeedOutput} | Total {Output}/{outputCapacity}");
         if(catalog?.recipes!=null) for(int i=0;i<catalog.recipes.Length;i++)
         {
             var recipe=catalog.recipes[i]; if(recipe?.input==null) continue;
             string label=recipe.mixedInputs!=null && recipe.mixedInputs.Length>0 ? "Mixed Crop" : recipe.input.itemName;
-            if(GUILayout.Button($"{label} x{recipe.inputCount} → Feed x{recipe.outputCount} ({recipe.hours/new[]{1f,1.25f,1.6f,2f}[Level-1]:0.##} jam)")) feedback=Queue(inventory,i)?"Bahan masuk antrean":"Bahan kurang / kapasitas penuh";
+            string product=recipe.producesFishFeed?"Fish Feed":"Animal Feed";
+            if(GUILayout.Button($"{label} x{recipe.inputCount} → {product} x{recipe.outputCount} ({recipe.hours/new[]{1f,1.25f,1.6f,2f}[Level-1]:0.##} jam)")) feedback=Queue(inventory,i)?"Bahan masuk antrean":"Bahan kurang / kapasitas penuh";
         }
         foreach(var job in jobs) GUILayout.Label(job.finish<0 ? "Antrean — menunggu slot/output kosong" : $"Processing: {Math.Max(0,job.finish-Now):0.##} jam lagi");
         if(GUILayout.Button("Ambil Animal Feed")) feedback=Collect(inventory)?"Feed masuk tas":"Belum ready / tas penuh";
+        if(GUILayout.Button("Ambil Fish Feed")) feedback=CollectFishFeed(inventory)?"Fish Feed masuk tas":"Belum ready / tas penuh";
         if(Level<4 && GUILayout.Button($"Upgrade: {Level*100} Gold + {Level*5} Wood + {Level*3} Stone")) feedback=Upgrade(inventory)?"Mesin diupgrade":"Bahan / uang kurang";
         if(Level==4) GUILayout.Label(linkedSilo!=null ? $"Silo: {linkedSilo.Stock} Feed" : linkedStorage!=null ? $"Output otomatis → {linkedStorage.Label}" : "Hubungkan Linked Storage/Silo di Inspector untuk output otomatis.");
         GUILayout.Label(feedback??"");
@@ -174,16 +193,16 @@ public sealed class FeedMaker : MonoBehaviour
     }
     FeedMakerSaveData Capture()
     {
-        var data=new FeedMakerSaveData {id=machineId,level=Level,output=output,position=transform.position,rotation=transform.rotation};
-        foreach(var j in jobs) data.jobs.Add(new FeedJob {recipeId=j.recipeId,inputs=j.inputs,output=j.output,hours=j.hours,finish=j.finish});
+        var data=new FeedMakerSaveData {id=machineId,level=Level,output=output,fishFeedOutput=fishFeedOutput,position=transform.position,rotation=transform.rotation};
+        foreach(var j in jobs) data.jobs.Add(new FeedJob {recipeId=j.recipeId,inputs=j.inputs,output=j.output,producesFishFeed=j.producesFishFeed,hours=j.hours,finish=j.finish});
         return data;
     }
     void Restore(FeedMakerSaveData data)
     {
-        level=Mathf.Clamp(data.level,1,4); output=Mathf.Clamp(data.output,0,outputCapacity);
+        level=Mathf.Clamp(data.level,1,4); output=Mathf.Clamp(data.output,0,outputCapacity); fishFeedOutput=Mathf.Clamp(data.fishFeedOutput,0,Mathf.Max(0,outputCapacity-output));
         transform.SetPositionAndRotation(data.position,data.rotation);
         jobs.Clear(); if(data.jobs!=null) foreach(var j in data.jobs)
-            jobs.Add(new FeedJob {recipeId=j.recipeId,inputs=j.inputs,output=j.output,hours=j.hours,finish=j.finish});
+            jobs.Add(new FeedJob {recipeId=j.recipeId,inputs=j.inputs,output=j.output,producesFishFeed=j.producesFishFeed,hours=j.hours,finish=j.finish});
     }
     public static List<FeedMakerSaveData> CaptureAll()
     {
@@ -196,7 +215,7 @@ public sealed class FeedMaker : MonoBehaviour
         if(data!=null) foreach(var saved in data) if(saved!=null && !string.IsNullOrEmpty(saved.id)) Cached[saved.id]=saved;
         foreach(var machine in Active)
         {
-            machine.Close(); machine.jobs.Clear(); machine.output=0;
+            machine.Close(); machine.jobs.Clear(); machine.output=0; machine.fishFeedOutput=0;
             if(!string.IsNullOrEmpty(machine.machineId) && Cached.TryGetValue(machine.machineId,out var saved)) machine.Restore(saved);
         }
     }

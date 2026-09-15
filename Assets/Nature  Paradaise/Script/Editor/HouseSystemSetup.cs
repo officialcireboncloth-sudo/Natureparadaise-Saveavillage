@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public static class HouseSystemSetup
 {
+    const string SpaciousInteriorSessionKey = "NatureParadise.House.SpaciousTwoRoomKitchen.V2";
     const string HouseAssetPath = "Assets/Nature  Paradaise/Resources/Buildings/Player House Building.asset";
     const string InteriorScenePath = "Assets/Nature  Paradaise/Map/Scenes/Interiors/HouseInterior.unity";
     const string WorldRootName = "PlayerHouse_Editable";
@@ -23,14 +24,41 @@ public static class HouseSystemSetup
     [InitializeOnLoadMethod]
     static void QueueRefrigeratorDummyUpgrade()
     {
-        const string sessionKey = "NatureParadise.House.RefrigeratorDummy.V2";
+        if (SessionState.GetBool(SpaciousInteriorSessionKey, false)) return;
+        EditorApplication.delayCall += () =>
+        {
+            if (AssetDatabase.LoadAssetAtPath<SceneAsset>(InteriorScenePath) == null) return;
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                EditorApplication.playModeStateChanged -= InstallSpaciousInteriorAfterPlayMode;
+                EditorApplication.playModeStateChanged += InstallSpaciousInteriorAfterPlayMode;
+                return;
+            }
+            SessionState.SetBool(SpaciousInteriorSessionKey, true);
+            InstallKitchenAndTwoRoomLayout();
+        };
+    }
+
+    static void InstallSpaciousInteriorAfterPlayMode(PlayModeStateChange state)
+    {
+        if (state != PlayModeStateChange.EnteredEditMode) return;
+        EditorApplication.playModeStateChanged -= InstallSpaciousInteriorAfterPlayMode;
+        if (SessionState.GetBool(SpaciousInteriorSessionKey, false)) return;
+        SessionState.SetBool(SpaciousInteriorSessionKey, true);
+        InstallKitchenAndTwoRoomLayout();
+    }
+
+    [InitializeOnLoadMethod]
+    static void QueueAquariumDummy()
+    {
+        const string sessionKey = "NatureParadise.House.AquariumDummy.V1";
         if (SessionState.GetBool(sessionKey, false)) return;
         EditorApplication.delayCall += () =>
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode ||
                 AssetDatabase.LoadAssetAtPath<SceneAsset>(InteriorScenePath) == null) return;
             SessionState.SetBool(sessionKey, true);
-            InstallRefrigerator();
+            InstallAquariumDummy();
         };
     }
 
@@ -47,6 +75,8 @@ public static class HouseSystemSetup
         CreateInteriorSceneIfMissing();
         InstallToolStorageChest();
         InstallRefrigerator();
+        InstallKitchenAndTwoRoomLayout();
+        InstallAquariumDummy();
         SetupWorldObjects(definition);
         AddInteriorToBuildSettings();
         AssetDatabase.SaveAssets();
@@ -202,7 +232,7 @@ public static class HouseSystemSetup
 
         GameObject exitDoor = CreatePrimitiveChild(
             root.transform, "HouseInteriorExitDoor_Editable", PrimitiveType.Cube,
-            new Vector3(0f, 1f, -4.5f), new Vector3(1.2f, 2f, 0.25f));
+            new Vector3(0f, 1.2f, -4.5f), new Vector3(2.4f, 2.4f, 0.25f));
         HouseScenePortal exitPortal = exitDoor.AddComponent<HouseScenePortal>();
         exitPortal.Configure(true, "HouseInterior", "house-interior-entry", "player-house-exit");
 
@@ -222,8 +252,8 @@ public static class HouseSystemSetup
     {
         GameObject layout = new($"InteriorLayout_Lv{level}_Editable");
         layout.transform.SetParent(parent, false);
-        float width = 8f + level * 2f;
-        float depth = 7f + level * 1.5f;
+        float width = InteriorWidth(level);
+        float depth = InteriorDepth(level);
         CreatePrimitiveChild(layout.transform, "Floor_MeshSlot", PrimitiveType.Cube,
             Vector3.zero, new Vector3(width, 0.2f, depth));
         CreatePrimitiveChild(layout.transform, "BackWall_MeshSlot", PrimitiveType.Cube,
@@ -244,10 +274,11 @@ public static class HouseSystemSetup
         toolStorage.AddComponent<ToolStorageChest>();
         if (level >= 2)
         {
-            CreatePrimitiveChild(layout.transform, "Kitchen_MeshSlot", PrimitiveType.Cube,
-                new Vector3(2.6f, 0.8f, 0.5f), new Vector3(3f, 1.6f, 0.8f));
+            GameObject kitchen = CreatePrimitiveChild(layout.transform, "Kitchen_MeshSlot", PrimitiveType.Cube,
+                new Vector3(width * 0.27f, 0.8f, 1.2f), new Vector3(3.8f, 1.6f, 0.8f));
+            kitchen.AddComponent<KitchenSet>();
             GameObject refrigerator = CreatePrimitiveChild(layout.transform, "Refrigerator_MeshSlot", PrimitiveType.Cube,
-                new Vector3(4f, 1.2f, 1.8f), new Vector3(1f, 2.4f, 1f));
+                new Vector3(width * 0.39f, 1.2f, depth * 0.3f), new Vector3(1f, 2.4f, 1f));
             refrigerator.AddComponent<Refrigerator>();
         }
         if (level >= 3)
@@ -345,6 +376,171 @@ public static class HouseSystemSetup
         if (openedForSetup) EditorSceneManager.CloseScene(scene, true);
         if (previousActive.IsValid() && previousActive.isLoaded) SceneManager.SetActiveScene(previousActive);
         Debug.Log($"[REFRIGERATOR] Dummy siap pada seluruh layout House. Komponen baru: {installed}.");
+    }
+
+    [MenuItem("Nature Paradise/House/Install Kitchen + Two Room Layout", false, 126)]
+    public static void InstallKitchenAndTwoRoomLayout()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode)
+        {
+            Debug.LogWarning("[KITCHEN] Hentikan Play Mode sebelum memperbarui interior.");
+            return;
+        }
+        Scene scene = SceneManager.GetSceneByPath(InteriorScenePath);
+        bool openedForSetup = !scene.IsValid() || !scene.isLoaded;
+        Scene previousActive = SceneManager.GetActiveScene();
+        if (openedForSetup) scene = EditorSceneManager.OpenScene(InteriorScenePath, OpenSceneMode.Additive);
+        if (scene.GetRootGameObjects().SelectMany(root => root.GetComponentsInChildren<Transform>(true))
+            .Any(candidate => candidate.name == "HouseInterior_SpaciousTwoRoomLayout_V2"))
+        {
+            if (openedForSetup) EditorSceneManager.CloseScene(scene, true);
+            if (previousActive.IsValid() && previousActive.isLoaded) SceneManager.SetActiveScene(previousActive);
+            return;
+        }
+        bool changed = false;
+        Transform[] layouts = scene.GetRootGameObjects().SelectMany(root => root.GetComponentsInChildren<Transform>(true))
+            .Where(candidate => candidate.name.StartsWith("InteriorLayout_Lv")).ToArray();
+        foreach (Transform layout in layouts)
+        {
+            int level = ParseLayoutLevel(layout.name);
+            float width = InteriorWidth(level);
+            float depth = InteriorDepth(level);
+            float dividerX = width * 0.055f;
+            float doorwayCenterZ = -depth * 0.17f;
+            float doorwayWidth = Mathf.Lerp(3.2f, 5.5f, (level - 1) / 3f);
+            float doorwayBottom = doorwayCenterZ - doorwayWidth * 0.5f;
+            float doorwayTop = doorwayCenterZ + doorwayWidth * 0.5f;
+            float roomBottom = -depth * 0.5f;
+            float roomTop = depth * 0.5f;
+            float frontDividerLength = Mathf.Max(0.5f, doorwayBottom - roomBottom);
+            float backDividerLength = Mathf.Max(0.5f, roomTop - doorwayTop);
+            changed |= SetSlot(layout, "Floor_MeshSlot", Vector3.zero, new Vector3(width, 0.2f, depth));
+            changed |= SetSlot(layout, "BackWall_MeshSlot", new Vector3(0f, 1.5f, depth * 0.5f), new Vector3(width, 3f, 0.2f));
+            changed |= SetSlot(layout, "LeftWall_MeshSlot", new Vector3(-width * 0.5f, 1.5f, 0f), new Vector3(0.2f, 3f, depth));
+            changed |= SetSlot(layout, "RightWall_MeshSlot", new Vector3(width * 0.5f, 1.5f, 0f), new Vector3(0.2f, 3f, depth));
+            changed |= SetSlot(layout, "RoomDivider_Back_MeshSlot",
+                new Vector3(dividerX, 1.5f, doorwayTop + backDividerLength * 0.5f),
+                new Vector3(0.18f, 3f, backDividerLength));
+            changed |= SetSlot(layout, "RoomDivider_Front_MeshSlot",
+                new Vector3(dividerX, 1.5f, roomBottom + frontDividerLength * 0.5f),
+                new Vector3(0.18f, 3f, frontDividerLength));
+            changed |= SetSlot(layout, "Bed_MeshSlot", new Vector3(-width * 0.28f, 0.45f, depth * 0.25f), new Vector3(2.2f, 0.7f, 1.2f));
+            changed |= SetSlot(layout, "TV_MeshSlot", new Vector3(-width * 0.15f, 1f, depth * 0.38f), new Vector3(1.5f, 1.5f, 0.35f));
+            changed |= SetSlot(layout, "ToolStorageChest_Editable", new Vector3(-width * 0.38f, 0.8f, -depth * 0.25f), new Vector3(1.4f, 1.6f, 1f));
+            if (level >= 2)
+            {
+                Transform kitchen = EnsureSlot(layout, "Kitchen_MeshSlot", new Vector3(width * 0.27f, 0.8f, 1.2f), new Vector3(3.8f, 1.6f, 0.8f), ref changed);
+                if (kitchen.GetComponent<KitchenSet>() == null) { Undo.AddComponent<KitchenSet>(kitchen.gameObject); changed = true; }
+                Transform fridge = EnsureSlot(layout, "Refrigerator_MeshSlot", new Vector3(width * 0.39f, 1.2f, depth * 0.3f), new Vector3(1f, 2.4f, 1f), ref changed);
+                if (fridge.GetComponent<Refrigerator>() == null) { Undo.AddComponent<Refrigerator>(fridge.gameObject); changed = true; }
+                changed |= SetSlot(layout, "KitchenCounter_MeshSlot", new Vector3(width * 0.27f, 0.55f, depth * 0.39f), new Vector3(3.8f, 1.1f, 0.65f));
+                changed |= SetSlot(layout, "DiningTable_MeshSlot", new Vector3(width * 0.22f, 0.55f, -depth * 0.2f), new Vector3(2.4f, 1.1f, 1.5f));
+            }
+            if (level >= 3)
+                changed |= SetSlot(layout, "ExtraBedroom_MeshSlot",
+                    new Vector3(-width * 0.23f, 1f, depth * 0.45f), new Vector3(4f, 2f, 0.2f));
+            if (level >= 4)
+                changed |= SetSlot(layout, "TrophyRoom_MeshSlot",
+                    new Vector3(width * 0.25f, 1f, depth * 0.45f), new Vector3(4f, 2f, 0.2f));
+        }
+        Transform houseRoot = scene.GetRootGameObjects().Select(root => root.transform)
+            .FirstOrDefault(root => root.name == "HouseInterior_Editable");
+        if (houseRoot != null)
+        {
+            GameObject marker = new("HouseInterior_SpaciousTwoRoomLayout_V2");
+            marker.transform.SetParent(houseRoot, false);
+            marker.SetActive(false);
+            changed = true;
+        }
+        if (changed) { EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene); }
+        if (openedForSetup) EditorSceneManager.CloseScene(scene, true);
+        if (previousActive.IsValid() && previousActive.isLoaded) SceneManager.SetActiveScene(previousActive);
+        Debug.Log("[KITCHEN] Interior dua ruangan V2 diperlebar; pintu dan lorong Kitchen sudah lega.");
+    }
+
+    [MenuItem("Nature Paradise/House/Install Aquarium Test Furniture", false, 127)]
+    public static void InstallAquariumDummy()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode)
+        {
+            Debug.LogWarning("[AQUARIUM] Hentikan Play Mode sebelum memasang dummy Aquarium.");
+            return;
+        }
+        Scene scene = SceneManager.GetSceneByPath(InteriorScenePath);
+        bool openedForSetup = !scene.IsValid() || !scene.isLoaded;
+        Scene previousActive = SceneManager.GetActiveScene();
+        if (openedForSetup) scene = EditorSceneManager.OpenScene(InteriorScenePath, OpenSceneMode.Additive);
+        bool changed = false;
+        Transform[] layouts = scene.GetRootGameObjects().SelectMany(root => root.GetComponentsInChildren<Transform>(true))
+            .Where(candidate => candidate.name.StartsWith("InteriorLayout_Lv")).ToArray();
+        foreach (Transform layout in layouts)
+        {
+            int level = ParseLayoutLevel(layout.name);
+            float width = InteriorWidth(level);
+            Transform aquarium = layout.Find("Aquarium_TestFurniture_Editable");
+            if (aquarium == null)
+            {
+                aquarium = CreatePrimitiveChild(layout, "Aquarium_TestFurniture_Editable", PrimitiveType.Cube,
+                    new Vector3(-width * 0.36f, 1.1f, 0.6f), new Vector3(3f, 1.8f, 0.8f)).transform;
+                changed = true;
+            }
+            changed |= SetTransform(aquarium, new Vector3(-width * 0.36f, 1.1f, 0.6f), new Vector3(3f, 1.8f, 0.8f));
+            Aquarium component = aquarium.GetComponent<Aquarium>();
+            if (component == null) { component = Undo.AddComponent<Aquarium>(aquarium.gameObject); changed = true; }
+            // Satu logical aquarium dipakai seluruh visual level rumah agar isi tidak hilang saat upgrade.
+            component.Configure("house.aquarium.test.main", AquariumSize.Medium);
+            EditorUtility.SetDirty(component);
+        }
+        if (changed) { EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene); }
+        if (openedForSetup) EditorSceneManager.CloseScene(scene, true);
+        if (previousActive.IsValid() && previousActive.isLoaded) SceneManager.SetActiveScene(previousActive);
+        Debug.Log("[AQUARIUM] Dummy Medium siap pada seluruh level HouseInterior.");
+    }
+
+    static int ParseLayoutLevel(string layoutName)
+    {
+        for (int level = 1; level <= 4; level++) if (layoutName.Contains($"Lv{level}")) return level;
+        return 1;
+    }
+
+    // Lv.4 sengaja jauh lebih luas karena karakter final lebih besar dari dummy awal.
+    static float InteriorWidth(int level) => Mathf.Clamp(level, 1, 4) switch
+    {
+        1 => 14f,
+        2 => 18f,
+        3 => 23f,
+        _ => 28f
+    };
+
+    static float InteriorDepth(int level) => Mathf.Clamp(level, 1, 4) switch
+    {
+        1 => 10f,
+        2 => 14f,
+        3 => 17f,
+        _ => 20f
+    };
+
+    static Transform EnsureSlot(Transform parent, string slotName, Vector3 position, Vector3 scale, ref bool changed)
+    {
+        Transform result = parent.Find(slotName);
+        if (result == null) { result = CreatePrimitiveChild(parent, slotName, PrimitiveType.Cube, position, scale).transform; changed = true; }
+        changed |= SetTransform(result, position, scale);
+        return result;
+    }
+
+    static bool SetSlot(Transform parent, string slotName, Vector3 position, Vector3 scale)
+    {
+        bool changed = false;
+        Transform result = EnsureSlot(parent, slotName, position, scale, ref changed);
+        return changed | SetTransform(result, position, scale);
+    }
+
+    static bool SetTransform(Transform target, Vector3 position, Vector3 scale)
+    {
+        if (target.localPosition == position && target.localScale == scale && target.localRotation == Quaternion.identity) return false;
+        Undo.RecordObject(target, "Update House Interior Layout");
+        target.localPosition = position; target.localRotation = Quaternion.identity; target.localScale = scale;
+        return true;
     }
 
     static bool EnsureRefrigeratorDummyVisual(Transform refrigerator)

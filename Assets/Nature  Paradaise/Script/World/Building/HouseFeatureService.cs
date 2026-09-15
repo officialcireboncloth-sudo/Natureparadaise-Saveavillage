@@ -23,10 +23,11 @@ public static class HouseFeatureService
         if (house?.Definition?.levels == null)
             return result;
 
+        int effectiveLevel = ProgressionRequirementSettings.EffectiveHouseLevel(house.CurrentLevel);
         for (int index = 0; index < house.Definition.levels.Count; index++)
         {
             BuildingLevelDefinition level = house.Definition.levels[index];
-            if (level == null || level.level > house.CurrentLevel || level.unlockIds == null)
+            if (level == null || level.level > effectiveLevel || level.unlockIds == null)
                 continue;
             for (int unlockIndex = 0; unlockIndex < level.unlockIds.Count; unlockIndex++)
             {

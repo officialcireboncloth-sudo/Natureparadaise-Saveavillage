@@ -431,7 +431,8 @@ public sealed class FishingSystem : MonoBehaviour
             return;
         }
         int villageLevel = VillageProgressionService.Instance != null ? VillageProgressionService.Instance.VillageLevel : 1;
-        if (fishingLevel < bait.requiredFishingLevel || villageLevel < bait.requiredVillageLevel)
+        if (!ProgressionRequirementSettings.MeetsFishingLevel(fishingLevel, bait.requiredFishingLevel) ||
+            !ProgressionRequirementSettings.MeetsVillageLevel(villageLevel, bait.requiredVillageLevel))
         {
             InventoryHotbarUI.TryShowTemporaryMessage(
                 $"Butuh Fishing Lv.{bait.requiredFishingLevel} dan Village Lv.{bait.requiredVillageLevel}.", 2f);

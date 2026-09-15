@@ -88,6 +88,15 @@ public class TimeManager : MonoBehaviour
         }
     }
 
+    /// <summary>Memajukan waktu aksi instan dalam tick 10 menit dan tetap mengirim event kalender.</summary>
+    public void AdvanceMinutes(int gameMinutes)
+    {
+        int ticks = Mathf.CeilToInt(Mathf.Max(0, gameMinutes) / 10f);
+        for (int index = 0; index < ticks; index++)
+            AdvanceMinute();
+        timer = 0f;
+    }
+
     /// <summary>Memajukan kalender satu hari dan mengatur waktu ke jam bangun.</summary>
     public void AdvanceToNextDay(int wakeHour = 6)
     {

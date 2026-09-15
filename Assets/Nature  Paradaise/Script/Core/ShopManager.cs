@@ -159,7 +159,7 @@ public class ShopManager : MonoBehaviour
         if (bait == null || !bait.IsFishingBait || !baitItems.Contains(bait)) return false;
         FishingSystem fishing = playerInv != null ? playerInv.GetComponent<FishingSystem>() : null;
         int fishingLevel = fishing != null ? fishing.FishingLevel : 1;
-        if (fishingLevel < bait.requiredFishingLevel)
+        if (!ProgressionRequirementSettings.MeetsFishingLevel(fishingLevel, bait.requiredFishingLevel))
         {
             SaveLoadFeedback.Instance?.ShowMessage($"{bait.itemName} terbuka pada Fishing Lv.{bait.requiredFishingLevel}.");
             return false;
