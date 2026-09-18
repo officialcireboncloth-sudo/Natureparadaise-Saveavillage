@@ -133,10 +133,19 @@ public sealed class AnimalHealthProgress
             }
             return;
         }
+        // Tiga hari tanpa pakan adalah kegagalan care absolut.
+        // Immunity hanya melindungi penyakit dari cuaca/malam, bukan kelaparan.
+        if (hungryDays >= Math.Max(1, rules.hungryDaysBeforeRisk))
+        {
+            stage = AnimalIllnessStage.Mild;
+            untreatedDays = 0;
+            return;
+        }
+
         if (immunityRemaining > 0) { immunityRemaining--; return; }
-        // Gabungkan risiko tanpa menjumlahkannya hingga melewati 100%.
+
+        // Gabungkan risiko penyakit lingkungan tanpa menjumlahkannya hingga melewati 100%.
         double safe = 1;
-        if (hungryDays >= Math.Max(1, rules.hungryDaysBeforeRisk)) safe *= 1 - Chance(rules.hungerSicknessChance);
         if (directWeatherRisk > 0)
         {
             // Risiko cuaca eksplisit (25/60/90%) sudah mewakili paparan hari ini.

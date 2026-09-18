@@ -71,6 +71,10 @@ public class SaveManager : MonoBehaviour
         public int hour;
         public int day;
 
+        // WATERING CAN: has flag menjaga save lama tetap dimulai dalam kondisi penuh.
+        public bool hasWateringCanState;
+        public int wateringCanWater;
+
         // WEATHER (hasWeather menjaga kompatibilitas save lama)
         public bool hasWeather;
         public int weatherSeed;
@@ -352,6 +356,9 @@ public class SaveManager : MonoBehaviour
         data.inventoryLayoutVersion = 3;
         data.backpackLevel = playerInv.BackpackLevel;
         data.inventorySlots = new List<InventorySlotSaveData>();
+        WateringCanSystem wateringCan = playerInv.GetComponent<WateringCanSystem>();
+        data.hasWateringCanState = wateringCan != null;
+        data.wateringCanWater = wateringCan != null ? wateringCan.CurrentWater : 100;
         for (int i = 0; i < playerInv.slots.Count; i++)
         {
             ItemStack stack = playerInv.slots[i];
@@ -688,6 +695,10 @@ public class SaveManager : MonoBehaviour
         }
 
         ToolStorageService.Restore(data.toolStorage);
+
+        WateringCanSystem wateringCan = playerInv.GetComponent<WateringCanSystem>();
+        if (wateringCan == null) wateringCan = playerInv.gameObject.AddComponent<WateringCanSystem>();
+        wateringCan.Restore(data.hasWateringCanState ? data.wateringCanWater : wateringCan.MaximumWater);
 
         FishingSystem fishingSystem = playerInv.GetComponent<FishingSystem>();
         if (fishingSystem != null)

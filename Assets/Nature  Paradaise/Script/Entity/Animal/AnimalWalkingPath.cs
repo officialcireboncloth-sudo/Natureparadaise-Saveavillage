@@ -81,7 +81,37 @@ public static class AnimalWalkingPath
         for (int i = 0; i < count; i++)
         {
             Collider obstacle = Obstacles[i];
-            if (obstacle == null || obstacle.transform.IsChildOf(animal) || obstacle.bounds.max.y <= ground.y + 0.12f) continue;
+            if (obstacle == null)
+                continue;
+
+            // Tubuh hewan sendiri bukan obstacle.
+            if (obstacle.transform.IsChildOf(animal))
+                continue;
+
+            // Collider yang menjadi permukaan tanah tidak boleh dianggap tembok.
+            if (hit.collider != null && obstacle == hit.collider)
+                continue;
+
+            // FieldArea hanyalah area/grid farming, bukan penghalang livestock.
+            // Larangan kuda masuk field tetap ditangani khusus oleh PersonalAnimal.
+            if (obstacle.GetComponentInParent<FieldArea>() != null)
+                continue;
+
+            // Wild Grass harus bisa didekati sampai cukup dekat untuk dimakan.
+            WorldGatherable gatherable = obstacle.GetComponentInParent<WorldGatherable>();
+            if (gatherable != null && gatherable.Kind == GatherableKind.Grass)
+                continue;
+
+            // Collider sangat rendah dianggap bagian dari permukaan/lantai.
+            if (obstacle.bounds.max.y <= ground.y + 0.12f)
+                continue;
+
+#if UNITY_EDITOR
+            Debug.LogWarning(
+                $"[AnimalPath BLOCKED] animal={animal.name} " +
+                $"obstacle={obstacle.name} layer={LayerMask.LayerToName(obstacle.gameObject.layer)} " +
+                $"point={ground}");
+#endif
             return false;
         }
         return true;

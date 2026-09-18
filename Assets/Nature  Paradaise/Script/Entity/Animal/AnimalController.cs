@@ -113,9 +113,14 @@ public class AnimalController : MonoBehaviour
             return;
         PlayerAnimalCarry animalCarry = playerInv.GetComponent<PlayerAnimalCarry>();
         if (animalCarry != null && animalCarry.IsCarrying(growth)) return;
-        bool housed = GetComponent<AnimalRoutine>()?.IsHoused ?? false;
+        AnimalRoutine routine = GetComponent<AnimalRoutine>();
+        bool housed = routine?.IsHoused ?? false;
+        bool visitingThisHome = housed && BarnInterior.Current != null &&
+                                BarnInterior.Current.home == routine?.Home;
         bool carryable = growth != null && growth.HasBeenBorn && AnimalGrowthProfileSO.IsBird(growth.Type);
-        if (housed && !carryable) return;
+        // Model housed disembunyikan di world, tetapi saat player berada di interior
+        // kandang yang benar semua jenis hewan harus bisa di-pet/feed/inspect.
+        if (housed && !visitingThisHome) return;
         if (playerInv.GetComponent<PlayerController>()?.IsMovementLocked ?? false) return;
         if (WorldInteractionPrompt.IsSuppressed) return;
 
@@ -125,14 +130,14 @@ public class AnimalController : MonoBehaviour
         );
 
         // Player terlalu jauh dari hewan
-        if (!PlayerInteractionTarget.Contains(playerInv.transform, transform))
+        if (!PlayerInteractionTarget.ContainsPickup(playerInv.transform, transform, interactionRadius))
             return;
         // Hanya hewan terdekat menerima satu tombol interaksi, bukan seluruh kandang.
         foreach (AnimalController other in Active)
         {
             if (other == this || other == null) continue;
             float otherDistance = Vector3.Distance(other.transform.position, playerInv.transform.position);
-            if (PlayerInteractionTarget.Contains(playerInv.transform, other.transform) &&
+            if (PlayerInteractionTarget.ContainsPickup(playerInv.transform, other.transform, other.interactionRadius) &&
                 (otherDistance < distance || (Mathf.Approximately(otherDistance, distance) && other.GetInstanceID() < GetInstanceID()))) return;
         }
 
@@ -162,7 +167,7 @@ public class AnimalController : MonoBehaviour
         PlayerAnimalCarry animalCarry = playerInv.GetComponent<PlayerAnimalCarry>();
         if (growth != null && growth.HasBeenBorn && AnimalGrowthProfileSO.IsBird(growth.Type) &&
             animalCarry != null && !animalCarry.HasAnimal &&
-            PlayerInteractionTarget.Press(playerInv.transform, transform, KeyCode.E))
+            PlayerInteractionTarget.PressPickup(playerInv.transform, transform, KeyCode.E, interactionRadius))
         {
             animalCarry.TryPickup(growth);
             return;

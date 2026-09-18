@@ -87,6 +87,7 @@ public sealed class PersonalAnimal : MonoBehaviour
     bool mountedGrounded = true;
     float mountedAirborneSince;
     Vector3 mountedLastSafePosition;
+    float nextFarmBoundaryFeedbackTime;
 
     public string Id => companionId;
     public string DisplayName => string.IsNullOrWhiteSpace(displayName) ? species.ToString() : displayName;
@@ -267,6 +268,11 @@ public sealed class PersonalAnimal : MonoBehaviour
     {
         if (!tamed || species != CompanionSpecies.Horse || player == null || mountedPlayer != null ||
             Vector3.Distance(player.transform.position, transform.position) > 3f) return false;
+        if (IsFarmArea(player.transform.position) || IsFarmArea(transform.position))
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Kuda tidak dapat dinaiki di area ladang.");
+            return false;
+        }
         PlayerAnimalCarry animalCarry = player.GetComponent<PlayerAnimalCarry>();
         if (animalCarry != null && animalCarry.HasAnimal)
         {
@@ -301,8 +307,19 @@ public sealed class PersonalAnimal : MonoBehaviour
         if (mountedPlayer == null) return;
         PlayerController player = mountedPlayer;
         player.transform.SetParent(mountedOriginalParent, true);
-        Vector3 side = transform.position + transform.right * 1.2f;
-        if (TryGround(side, out Vector3 ground)) player.transform.position = ground;
+        Vector3[] dismountOffsets =
+        {
+            transform.right * 1.2f,
+            -transform.right * 1.2f,
+            -transform.forward * 1.35f
+        };
+        for (int i = 0; i < dismountOffsets.Length; i++)
+        {
+            Vector3 candidate = transform.position + dismountOffsets[i];
+            if (IsFarmArea(candidate) || !TryGround(candidate, out Vector3 ground)) continue;
+            player.transform.position = ground;
+            break;
+        }
         foreach (var pair in mountedPlayerColliders) if (pair.Key != null) pair.Key.enabled = pair.Value;
         mountedPlayerColliders.Clear();
         player.ReleaseMovementLock(this);
@@ -472,7 +489,21 @@ public sealed class PersonalAnimal : MonoBehaviour
         if (distanceToMove <= 0.0001f) return start;
 
         Collider body = GetComponent<Collider>();
-        if (body == null) return start + delta;
+        float farmClearance = body != null
+            ? Mathf.Clamp(Mathf.Min(body.bounds.extents.x, body.bounds.extents.z), 0.2f, 1f)
+            : 0.45f;
+        Vector3 desiredTarget = start + delta;
+        if (MountedPathEntersFarm(start, desiredTarget, farmClearance))
+        {
+            if (Time.unscaledTime >= nextFarmBoundaryFeedbackTime)
+            {
+                nextFarmBoundaryFeedbackTime = Time.unscaledTime + 1.25f;
+                SaveLoadFeedback.Instance?.ShowMessage("Kuda tidak boleh masuk area ladang.");
+            }
+            return start;
+        }
+
+        if (body == null) return desiredTarget;
         Bounds bounds = body.bounds;
         float radius = Mathf.Clamp(Mathf.Min(bounds.extents.x, bounds.extents.z) * 0.9f, 0.15f, 0.85f);
         Vector3 bottom = bounds.center - Vector3.up * Mathf.Max(0f, bounds.extents.y - radius);
@@ -485,6 +516,8 @@ public sealed class PersonalAnimal : MonoBehaviour
         {
             RaycastHit hit = MountedCollisionHits[i];
             if (hit.collider == null || hit.transform.IsChildOf(transform) || hit.normal.y >= 0.65f ||
+                hit.distance <= 0.001f ||
+                hit.collider.GetComponentInParent<FieldArea>() != null ||
                 (mountedPlayer != null && hit.transform.IsChildOf(mountedPlayer.transform)))
                 continue;
             nearestWall = Mathf.Min(nearestWall, hit.distance);
@@ -492,6 +525,38 @@ public sealed class PersonalAnimal : MonoBehaviour
         if (!float.IsPositiveInfinity(nearestWall))
             distanceToMove = Mathf.Max(0f, nearestWall - mountedCollisionSkin);
         return start + moveDirection * distanceToMove;
+    }
+
+    static bool MountedPathEntersFarm(Vector3 start, Vector3 target, float clearance)
+    {
+        float distance = Vector3.Distance(start, target);
+        int steps = Mathf.Max(1, Mathf.CeilToInt(distance / Mathf.Max(0.2f, clearance * 0.5f)));
+        for (int step = 1; step <= steps; step++)
+        {
+            Vector3 point = Vector3.Lerp(start, target, step / (float)steps);
+            if (IsFarmArea(point) ||
+                IsFarmArea(point + Vector3.right * clearance) ||
+                IsFarmArea(point - Vector3.right * clearance) ||
+                IsFarmArea(point + Vector3.forward * clearance) ||
+                IsFarmArea(point - Vector3.forward * clearance))
+                return true;
+        }
+        return false;
+    }
+
+    static bool IsFarmArea(Vector3 worldPosition)
+    {
+        IReadOnlyList<FieldArea> fields = FieldArea.ActiveAreas;
+        for (int i = 0; i < fields.Count; i++)
+        {
+            FieldArea field = fields[i];
+            if (field == null || !field.WorldToGrid(worldPosition, out _, out _)) continue;
+            // Menghindari FieldArea berbeda lantai/interior ikut memblokir hanya karena
+            // koordinat XZ-nya bertumpuk.
+            float localHeight = Mathf.Abs(field.transform.InverseTransformPoint(worldPosition).y);
+            if (localHeight <= Mathf.Max(3f, field.CellSize * 1.5f)) return true;
+        }
+        return false;
     }
 
     void ApplyAnimation(bool moving, bool running)

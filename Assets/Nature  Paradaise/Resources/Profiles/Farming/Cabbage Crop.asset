@@ -25,6 +25,7 @@ MonoBehaviour:
   baseYield: 1
   windVulnerability: 1
   dryDaysBeforeWither: 3
+  dryDaysBeforeDeath: 5
   wateredDaysToRecover: 2
   healthLossWhenDry: 10
   daysUntilFirstHarvest: 5

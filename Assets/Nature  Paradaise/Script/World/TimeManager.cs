@@ -110,6 +110,16 @@ public class TimeManager : MonoBehaviour
         OnDay?.Invoke();
     }
 
+    /// <summary>Mengubah jam tanpa memproses Daily Reset lagi; dipakai saat hari sudah berganti di 00:00.</summary>
+    public void SetClockSameDay(int targetHour, int targetMinute = 0)
+    {
+        hour = Mathf.Clamp(targetHour, 0, 23);
+        minute = Mathf.Clamp(targetMinute / 10 * 10, 0, 50);
+        timer = 0f;
+        OnMinute?.Invoke();
+        OnHour?.Invoke();
+    }
+
     /// <summary>Menahan waktu untuk satu owner; waktu aktif kembali setelah seluruh owner melepas lock.</summary>
     public void AcquirePause(object owner)
     {

@@ -77,6 +77,8 @@ public class CropDataSO : ScriptableObject
     [Header("Water & Wither")]
     [Tooltip("Jumlah hari kering berturut-turut sebelum tanaman menjadi layu.")]
     [Min(1)] public int dryDaysBeforeWither = 3;
+    [Tooltip("Jumlah hari kering berturut-turut sebelum tanaman mati dan wajib dibersihkan dengan Sickle.")]
+    [Min(2)] public int dryDaysBeforeDeath = 5;
     [Tooltip("Jumlah hari disiram berturut-turut untuk memulihkan tanaman layu.")]
     [Min(1)] public int wateredDaysToRecover = 2;
     [Range(0, 100)] public int healthLossWhenDry = 10;
@@ -200,6 +202,8 @@ public class CropDataSO : ScriptableObject
 
     void OnValidate()
     {
+        dryDaysBeforeWither = Mathf.Max(1, dryDaysBeforeWither);
+        dryDaysBeforeDeath = Mathf.Max(dryDaysBeforeWither + 1, dryDaysBeforeDeath);
         daysUntilFirstHarvest = Mathf.Max(1, daysUntilFirstHarvest);
         regrowDays = Mathf.Max(1, regrowDays);
         windVulnerability = Mathf.Clamp(windVulnerability, 0.1f, 3f);

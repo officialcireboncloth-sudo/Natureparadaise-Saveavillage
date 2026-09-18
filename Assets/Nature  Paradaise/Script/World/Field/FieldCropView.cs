@@ -144,15 +144,61 @@ public sealed class FieldCropView : MonoBehaviour
 
         growthDebugLabel.gameObject.SetActive(true);
         float growthDays = 0f;
+        byte dryDays = 0;
+        CropWaterSource waterSources = CropWaterSource.None;
         if (owner.TryGetSnapshot(gridX, gridZ, out FieldTileSnapshot snapshot))
+        {
             growthDays = snapshot.GrowthDays;
+            dryDays = snapshot.ConsecutiveDryDays;
+            waterSources = snapshot.WaterSourcesToday;
+        }
         int percent = state == CropLifecycleState.HarvestReady
             ? 100
             : Mathf.Clamp(Mathf.RoundToInt(growthDays / Mathf.Max(1f, definition.TotalGrowthDays) * 100f), 0, 99);
-        growthDebugLabel.text = percent >= 100 ? "100%\nSIAP PANEN" : $"{percent}%";
-        growthDebugLabel.color = percent >= 100
-            ? new Color(0.35f, 1f, 0.25f)
-            : Color.Lerp(new Color(1f, 0.72f, 0.12f), Color.white, percent / 100f);
+        int deathDay = Mathf.Max(definition.dryDaysBeforeWither + 1, definition.dryDaysBeforeDeath);
+        string waterStatus = $"\nAIR: {GetWaterSourceLabel(waterSources)}";
+        if (state == CropLifecycleState.Dead)
+        {
+            growthDebugLabel.text = "MATI\nBERSIHKAN: SICKLE";
+            growthDebugLabel.color = new Color(1f, 0.18f, 0.12f);
+        }
+        else if (state == CropLifecycleState.Withered)
+        {
+            growthDebugLabel.text = $"{percent}%\nLAYU - KERING {dryDays}/{deathDay}{waterStatus}";
+            growthDebugLabel.color = new Color(1f, 0.48f, 0.08f);
+        }
+        else
+        {
+            string dryStatus = dryDays > 0 ? $"\nKERING {dryDays}/{deathDay}" : string.Empty;
+            growthDebugLabel.text = percent >= 100
+                ? $"100%\nSIAP PANEN{dryStatus}{waterStatus}"
+                : $"{percent}%{dryStatus}{waterStatus}";
+            growthDebugLabel.color = dryDays > 0
+                ? new Color(1f, 0.58f, 0.12f)
+                : percent >= 100
+                    ? new Color(0.35f, 1f, 0.25f)
+                    : Color.Lerp(new Color(1f, 0.72f, 0.12f), Color.white, percent / 100f);
+        }
+    }
+
+    /// <summary>Memperbarui clue tile setelah air, booster, atau cuaca mengubah data tanpa mengganti stage.</summary>
+    public void RefreshDebug()
+    {
+        if (owner == null || !owner.TryGetSnapshot(gridX, gridZ, out FieldTileSnapshot snapshot))
+            return;
+        RefreshGrowthDebug(snapshot.CropState);
+    }
+
+    static string GetWaterSourceLabel(CropWaterSource sources)
+    {
+        if (sources == CropWaterSource.None) return "BELUM";
+
+        System.Collections.Generic.List<string> labels = new(4);
+        if ((sources & CropWaterSource.Rain) != 0) labels.Add("HUJAN");
+        if ((sources & CropWaterSource.WateringCan) != 0) labels.Add("CAN");
+        if ((sources & CropWaterSource.Sprinkler) != 0) labels.Add("SPRINKLER");
+        if ((sources & CropWaterSource.External) != 0) labels.Add("EFEK");
+        return string.Join("+", labels);
     }
 
     /// <summary>Meneruskan permintaan harvest ke FieldArea pemilik tile.</summary>

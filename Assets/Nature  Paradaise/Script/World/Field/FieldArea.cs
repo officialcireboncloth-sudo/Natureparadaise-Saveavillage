@@ -711,13 +711,14 @@ public sealed class FieldArea : MonoBehaviour
             for (int index = 0; index < area.tiles.Length; index++)
             {
                 FieldTileData tile = area.tiles[index];
-                if (tile.state != TileState.Planted || tile.crop == null) continue;
+                if (tile.state != TileState.Planted || tile.crop == null ||
+                    tile.cropState != CropLifecycleState.Dead) continue;
                 area.IndexToCoordinate(index, out int x, out int z);
                 Vector3 delta = area.GridToWorld(x, z) - worldCenter;
                 delta.y = 0f;
                 if (delta.sqrMagnitude > radiusSquared) continue;
 
-                tile.state = TileState.Hoed;
+                tile.state = TileState.Empty;
                 tile.crop = null;
                 tile.growthDays = 0f;
                 tile.growthStage = 0;
@@ -726,6 +727,8 @@ public sealed class FieldArea : MonoBehaviour
                 tile.dirty = true;
                 area.tiles[index] = tile;
                 area.HideCropView(index);
+                area.HideHoeView(index);
+                area.SetActive(index, false);
                 area.NotifyChanged(x, z);
                 cut++;
             }
@@ -929,8 +932,37 @@ public sealed class FieldArea : MonoBehaviour
             return;
         }
 
-        if (tile.cropState == CropLifecycleState.Dead ||
-            tile.cropState == CropLifecycleState.HarvestReady)
+        if (tile.cropState == CropLifecycleState.Dead)
+        {
+            FinishCropDay(ref tile);
+            return;
+        }
+
+        // Kebutuhan air tetap berlaku setelah tanaman Harvest Ready. Sebelumnya tanaman
+        // matang keluar lebih awal di atas, sehingga kebal kekeringan selamanya.
+        // Booster hanya dicatat untuk kualitas dan tidak pernah dianggap sebagai air.
+        if (!watered)
+        {
+            tile.consecutiveDryDays = (byte)Mathf.Min(byte.MaxValue, tile.consecutiveDryDays + 1);
+            tile.recoveryWateredDays = 0;
+            tile.cropHealth = AddClamped(tile.cropHealth, -crop.healthLossWhenDry);
+            if (tile.consecutiveDryDays >= Mathf.Max(crop.dryDaysBeforeWither + 1, crop.dryDaysBeforeDeath))
+            {
+                tile.cropState = CropLifecycleState.Dead;
+                tile.cropHealth = 0;
+            }
+            else if (tile.consecutiveDryDays >= crop.dryDaysBeforeWither)
+                tile.cropState = CropLifecycleState.Withered;
+            FinishCropDay(ref tile);
+            return;
+        }
+
+        tile.consecutiveDryDays = 0;
+        tile.cropHealth = AddClamped(tile.cropHealth, 2);
+
+        // Tanaman matang tidak menambah growth lagi, tetapi penyiraman hari ini tetap
+        // mereset rangkaian hari kering sebelum keluar dari proses harian.
+        if (tile.cropState == CropLifecycleState.HarvestReady)
         {
             FinishCropDay(ref tile);
             return;
@@ -944,19 +976,6 @@ public sealed class FieldArea : MonoBehaviour
             return;
         }
 
-        if (!watered)
-        {
-            tile.consecutiveDryDays = (byte)Mathf.Min(byte.MaxValue, tile.consecutiveDryDays + 1);
-            tile.recoveryWateredDays = 0;
-            tile.cropHealth = AddClamped(tile.cropHealth, -crop.healthLossWhenDry);
-            if (tile.consecutiveDryDays >= crop.dryDaysBeforeWither)
-                tile.cropState = CropLifecycleState.Withered;
-            FinishCropDay(ref tile);
-            return;
-        }
-
-        tile.consecutiveDryDays = 0;
-        tile.cropHealth = AddClamped(tile.cropHealth, 2);
         if (tile.cropState == CropLifecycleState.Withered)
         {
             tile.recoveryWateredDays = (byte)Mathf.Min(byte.MaxValue, tile.recoveryWateredDays + 1);
@@ -1446,7 +1465,11 @@ public sealed class FieldArea : MonoBehaviour
     void NotifyChanged(int x, int z)
     {
         if (TryGetIndex(x, z, out int index))
+        {
             UpdateSoilMaterial(index);
+            if (cropViews[index] != null)
+                cropViews[index].RefreshDebug();
+        }
 
         TileChanged?.Invoke(this, new Vector2Int(x, z));
     }

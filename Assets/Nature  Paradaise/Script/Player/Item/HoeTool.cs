@@ -28,6 +28,7 @@ public class FarmingTool : MonoBehaviour
     [HideInInspector] public KeyCode waterKey = KeyCode.V;
     [HideInInspector] public KeyCode fertilizeKey = KeyCode.N;
     [HideInInspector] public KeyCode cropBoosterKey = KeyCode.M;
+    [SerializeField] KeyCode handHarvestKey = KeyCode.E;
 
     [Header("Raycast Distance")]
     public float maxDist = 100f;
@@ -70,6 +71,7 @@ public class FarmingTool : MonoBehaviour
     InventoryHotbarUI inventoryHotbar;
     PlayerController movement;
     TopDownCameraFollow cameraFollow;
+    WateringCanSystem wateringCan;
     FieldArea currentField;
     int currentX = -1;
     int currentZ = -1;
@@ -99,6 +101,8 @@ public class FarmingTool : MonoBehaviour
             hotbar = gameObject.AddComponent<PlayerToolHotbar>();
         inventoryHotbar = GetComponent<InventoryHotbarUI>();
         movement = GetComponent<PlayerController>();
+        wateringCan = GetComponent<WateringCanSystem>();
+        if (wateringCan == null) wateringCan = gameObject.AddComponent<WateringCanSystem>();
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
         if (audioSource == null)
@@ -127,12 +131,14 @@ public class FarmingTool : MonoBehaviour
         if (movement != null && movement.IsMovementLocked)
             return;
 
+        if (TryUseHandHarvest()) return;
+
         bool useHoe = hotbar.IsUsePressed(PlayerToolType.Hoe);
         bool useWater = hotbar.IsUsePressed(PlayerToolType.WateringCan);
         bool useFertilizer = hotbar.IsUsePressed(PlayerToolType.Fertilizer);
         bool useCropBooster = hotbar.IsUsePressed(PlayerToolType.CropBooster);
 
-        if (useHoe) UseHoe(true);
+        if (useHoe) UseHoe();
         else if (useWater) UseSoilEffect(true);
         else if (useFertilizer) UseSoilEffect(false);
         else if (useCropBooster) UseCropBooster();
@@ -159,7 +165,7 @@ public class FarmingTool : MonoBehaviour
         if (!HUDManager.FarmingDebugCluesEnabled)
         {
             string label = snapshot.CropState == CropLifecycleState.HarvestReady
-                ? $"{cropName}\nF - Panen (pegang Hoe)"
+                ? $"{cropName}\n{handHarvestKey} - Panen dengan tangan"
                 : cropName;
             WorldInteractionPrompt.Request(this, promptPosition, label,
                 Vector3.Distance(transform.position, promptPosition));
@@ -181,7 +187,7 @@ public class FarmingTool : MonoBehaviour
 
         string text = snapshot.CropState switch
         {
-            CropLifecycleState.HarvestReady => $"{cropName} siap panen - pegang Hoe lalu tekan F",
+            CropLifecycleState.HarvestReady => $"{cropName} siap panen - tekan {handHarvestKey} dengan tangan",
             CropLifecycleState.Withered => $"{cropName} layu - perlu air untuk pulih | {fertilizerClue}",
             CropLifecycleState.Regrowing =>
                 $"{cropName} tumbuh kembali {Mathf.CeilToInt(snapshot.RegrowDaysRemaining)} hari | {waterClue}",
@@ -247,8 +253,16 @@ public class FarmingTool : MonoBehaviour
         Vector3 facing = movement != null ? movement.FacingDirection : transform.forward;
         if (facing.sqrMagnitude < 0.001f)
             facing = transform.forward;
+        facing.y = 0f;
+        if (facing.sqrMagnitude < 0.001f)
+            facing = Vector3.forward;
+        facing.Normalize();
 
         IReadOnlyList<FieldArea> areas = FieldArea.ActiveAreas;
+        FieldArea bestField = null;
+        int bestX = -1;
+        int bestZ = -1;
+        float bestScore = float.PositiveInfinity;
         for (int i = areas.Count - 1; i >= 0; i--)
         {
             FieldArea field = areas[i];
@@ -258,46 +272,50 @@ public class FarmingTool : MonoBehaviour
             if (Mathf.Abs(field.transform.InverseTransformPoint(transform.position).y) > Mathf.Max(1f, field.CellSize))
                 continue;
 
-            Vector3 localFacing = field.transform.InverseTransformDirection(facing.normalized);
-            Vector2Int gridDirection = Mathf.Abs(localFacing.x) > Mathf.Abs(localFacing.z)
-                ? new Vector2Int(localFacing.x >= 0f ? 1 : -1, 0)
-                : new Vector2Int(0, localFacing.z >= 0f ? 1 : -1);
+            bool playerInside = field.WorldToGrid(transform.position, out int playerX, out int playerZ);
+            float maximumCenterDistance = targetDistance + field.CellSize * 0.8f;
+            float maximumCenterDistanceSqr = maximumCenterDistance * maximumCenterDistance;
 
-            // Jika Player berdiri di area field, pilih persis satu sel tetangga
-            // di depan—tidak bergantung jarak raycast atau posisi di dalam sel.
-            if (field.WorldToGrid(transform.position, out int playerX, out int playerZ))
+            // Pilih pusat tile yang paling dekat dengan ray arah hadap di world-space.
+            // Ini menjaga target tetap visual di depan player meski FieldArea diputar.
+            for (int z = 0; z < field.Rows; z++)
+            for (int x = 0; x < field.Columns; x++)
             {
-                int targetX = playerX + gridDirection.x;
-                int targetZ = playerZ + gridDirection.y;
-                if (field.TryGetSnapshot(targetX, targetZ, out _))
-                {
-                    currentField = field;
-                    currentX = targetX;
-                    currentZ = targetZ;
-                    return;
-                }
-                continue; // Menghadap keluar field tidak memilih kembali tile tempat player berdiri.
-            }
+                if (playerInside && x == playerX && z == playerZ)
+                    continue;
 
-            // Player boleh berdiri sedikit di luar tepi field; ambil sel pertama
-            // di depan selama masih dalam jangkauan satu tile.
-            float reach = Mathf.Min(targetDistance, field.CellSize);
-            Vector3 edgePoint = transform.position + facing.normalized * reach;
-            if (field.WorldToGrid(edgePoint, out int edgeX, out int edgeZ))
-            {
-                currentField = field;
-                currentX = edgeX;
-                currentZ = edgeZ;
-                return;
+                Vector3 center = field.GridToWorld(x, z);
+                Vector3 delta = center - transform.position;
+                delta.y = 0f;
+                float distanceSqr = delta.sqrMagnitude;
+                if (distanceSqr > maximumCenterDistanceSqr)
+                    continue;
+
+                float forwardDistance = Vector3.Dot(delta, facing);
+                if (forwardDistance <= 0.05f)
+                    continue;
+
+                float lateralDistanceSqr = Mathf.Max(0f,
+                    distanceSqr - forwardDistance * forwardDistance);
+                // Jarak menyamping lebih mahal daripada jarak maju, sehingga tile
+                // yang benar-benar berada di depan menang dari tile diagonal terdekat.
+                float score = lateralDistanceSqr * 10f + forwardDistance * 0.12f;
+                if (score >= bestScore)
+                    continue;
+
+                bestScore = score;
+                bestField = field;
+                bestX = x;
+                bestZ = z;
             }
         }
 
-        currentField = null;
-        currentX = -1;
-        currentZ = -1;
+        currentField = bestField;
+        currentX = bestX;
+        currentZ = bestZ;
     }
 
-    void UseHoe(bool allowLegacyHarvest)
+    void UseHoe()
     {
         RefreshCurrentTarget();
         if (currentField == null)
@@ -305,9 +323,6 @@ public class FarmingTool : MonoBehaviour
             ShowFeedback("Tidak ada field di depan Player");
             return;
         }
-
-        if (allowLegacyHarvest && TryHarvestCurrentTile())
-            return;
 
         BuildHoeTargets();
         int validCount = 0;
@@ -365,11 +380,34 @@ public class FarmingTool : MonoBehaviour
         return true;
     }
 
+    bool TryUseHandHarvest()
+    {
+        if (!Input.GetKeyDown(handHarvestKey) || currentField == null ||
+            !currentField.TryGetSnapshot(currentX, currentZ, out FieldTileSnapshot snapshot) ||
+            snapshot.State != TileState.Planted || snapshot.CropState != CropLifecycleState.HarvestReady)
+            return false;
+        if (!PlayerInteractionTarget.Press(handHarvestKey)) return false;
+        return TryHarvestCurrentTile();
+    }
+
     void UseSoilEffect(bool watering)
     {
         RefreshCurrentTarget();
         if (currentField == null)
             return;
+
+        if (watering && currentField.TryGetSnapshot(currentX, currentZ, out FieldTileSnapshot waterTarget) &&
+            waterTarget.WateredToday)
+        {
+            ShowFeedback("Tanah atau tanaman sudah disiram hari ini");
+            return;
+        }
+
+        if (watering && (wateringCan == null || wateringCan.IsEmpty))
+        {
+            ShowFeedback("Watering Can kosong. Isi ulang di sumur dekat ladang");
+            return;
+        }
 
         ItemSO fertilizer = null;
         if (!watering)
@@ -401,6 +439,11 @@ public class FarmingTool : MonoBehaviour
             : currentField.TryFertilize(currentX, currentZ, (int)fertilizer.fertilizerLevel, fertilizer.SoilRestoreAmount);
         if (success)
         {
+            if (watering && !wateringCan.TryUse())
+            {
+                Debug.LogError("[FARMING] Tile tersiram tetapi kapasitas Watering Can gagal dikurangi.");
+                return;
+            }
             if (!watering && !playerInv.RemoveFromSlot(inventoryHotbar.SelectedIndex, 1))
             {
                 Debug.LogError("[FARMING] Tanah dipupuk tetapi item Fertilizer gagal dikurangi.");
@@ -408,7 +451,7 @@ public class FarmingTool : MonoBehaviour
             }
             SpendStamina(cost);
             ShowFeedback(watering
-                ? "Tanah atau tanaman sudah disiram hari ini"
+                ? $"Tanah atau tanaman sudah disiram — air {wateringCan.CurrentWater}/{wateringCan.MaximumWater}"
                 : $"Tanah sudah dipupuk dengan {fertilizer.itemName}. Siap ditanami");
         }
         else

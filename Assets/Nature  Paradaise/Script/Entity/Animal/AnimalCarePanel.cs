@@ -1,6 +1,6 @@
 using UnityEngine;
 
-/// <summary>Menu gameplay kandang/animal: rename, trough, care, penugasan, turnout dan recall.</summary>
+/// <summary>Menu debug kandang/animal: informasi, rename, trough, care, dan penugasan.</summary>
 public sealed class AnimalCarePanel : MonoBehaviour
 {
     static AnimalCarePanel instance;
@@ -42,27 +42,22 @@ public sealed class AnimalCarePanel : MonoBehaviour
         if (home != null)
         {
             GUILayout.Label($"{home.Label} Lv.{(home.site != null ? home.site.CurrentLevel : 1)} — Animals: {home.AnimalCount}/{home.Capacity} | Reserved: {home.ReservedSlots} | Available: {home.AvailableSlots}");
-            GUILayout.Label($"Animal Feed: {home.Fodder} | Auto Feeder: {(home.HasAutoFeeder ? "ON" : "OFF")}");
+            GUILayout.Label($"Animal Feed: {home.Fodder} | Belum makan: {home.RequiredFeedToday} | Auto Feeder: {(home.HasAutoFeeder ? "ON" : "OFF")}");
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Isi 1 Animal Feed")) feedback = home.Deposit(inventory, 1) ? "Pakan ditambahkan" : "Animal Feed kurang / tempat penuh";
             if (GUILayout.Button("Isi 10 Animal Feed")) feedback = home.Deposit(inventory, 10) ? "Pakan ditambahkan" : "Butuh 10 Animal Feed / tempat penuh";
             if (GUILayout.Button("Ambil sisa pakan")) feedback = home.Withdraw(inventory) ? "Pakan dikembalikan" : "Tas penuh / pakan kosong";
             GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Keluarkan hewan"))
-            {
-                int released = 0;
-                foreach (AnimalRoutine routine in home.Residents) if (routine.Release()) released++;
-                feedback = $"{released} hewan keluar. Hanya siang, cuaca baik, dan sudah lahir.";
-            }
-            if (GUILayout.Button("Panggil pulang")) foreach (AnimalRoutine routine in home.Residents) routine.Recall();
-            GUILayout.EndHorizontal();
+            GUILayout.Label(home.AnimalsOutside
+                ? "Status saklar: DI LUAR — gunakan bell kandang untuk memasukkan semuanya."
+                : "Status saklar: DI DALAM — gunakan bell kandang untuk mengeluarkan semuanya.");
             foreach (AnimalRoutine routine in home.Residents)
                 if (GUILayout.Button($"{routine.Animal.AnimalName} — {routine.Animal.Type} — {routine.Activity}")) Select(routine.Animal);
         }
         if (animal != null)
         {
             GUILayout.Space(12); GUILayout.Label(animal.InfoSummary);
+            GUILayout.Label($"Hari berturut-turut tanpa makan: {animal.HungryDays}/3");
             AnimalRoutine routine = animal.GetComponent<AnimalRoutine>();
             if (animal.IsAdult && GUILayout.Button(AnimalGrowthProfileSO.IsBird(animal.Type) ? "Mulai inkubasi (1 telur, 1 slot)" : "Mulai breeding (1 slot)"))
             {
@@ -85,8 +80,6 @@ public sealed class AnimalCarePanel : MonoBehaviour
             if (animal.HasProductReady && GUILayout.Button($"Ambil produk — {AnimalCareCatalog.QualityName(animal.ProductQualityLevel)}")) controller.TakeMilk();
             if (routine != null)
             {
-                if (GUILayout.Button(routine.IsHoused ? "Keluar merumput" : "Kembali ke kandang"))
-                { if (routine.IsHoused) feedback = routine.Release() ? "Keluar merumput" : "Tidak bisa keluar pada kondisi ini"; else routine.Recall(); }
                 GUILayout.Label("Tugaskan / pindahkan kandang:");
                 foreach (AnimalHome candidate in AnimalHome.Active)
                     if (candidate != null && candidate.Id != routine.HomeId && candidate.HasRoom(animal.Type) &&

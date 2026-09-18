@@ -169,6 +169,7 @@ public sealed class ToolStorageChest : MonoBehaviour
 
     void Awake()
     {
+        EnsureStorageRackVisual();
         ResolvePlayer();
         windowRect = defaultWindowRect;
         CenterWindow();
@@ -204,7 +205,7 @@ public sealed class ToolStorageChest : MonoBehaviour
 
         float distance = Vector3.Distance(playerInventory.transform.position, transform.position);
         WorldInteractionPrompt.Request(this, transform,
-            $"{interactKey}: Tool Storage | {ToolStorageService.TotalCount} tool tersimpan", distance, promptHeight);
+            $"{interactKey}: Rak Penyimpanan | {ToolStorageService.TotalCount} tool tersimpan", distance, promptHeight);
         if (PlayerInteractionTarget.PressPickup(playerInventory.transform, transform, interactKey, interactionRadius))
             OpenPanel();
     }
@@ -425,5 +426,13 @@ public sealed class ToolStorageChest : MonoBehaviour
     {
         windowRect.x = Mathf.Max(12f, (Screen.width - windowRect.width) * 0.5f);
         windowRect.y = Mathf.Max(12f, (Screen.height - windowRect.height) * 0.5f);
+    }
+
+    void EnsureStorageRackVisual()
+    {
+        // Visual DummyRack disimpan langsung sebagai child scene agar desainer dapat
+        // memindahkan, memutar, dan mengubah skalanya dari Hierarchy sebelum Play.
+        Renderer placeholder = GetComponent<Renderer>();
+        if (placeholder != null) placeholder.enabled = false;
     }
 }

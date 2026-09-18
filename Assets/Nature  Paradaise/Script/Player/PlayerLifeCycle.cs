@@ -22,9 +22,11 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     [Header("Sleep")]
     [SerializeField, Range(0, 23)] int wakeHour = 6;
 
+    [Header("Forced Sleep")]
+    [Tooltip("Player yang masih terjaga pada jam ini otomatis tidur dan bangun pada wakeHour.")]
+    [SerializeField, Range(0, 23)] int forcedSleepHour = 3;
+
     [Header("Faint")]
-    [Tooltip("Player yang masih terjaga pada jam ini otomatis pingsan.")]
-    [SerializeField, Range(0, 23)] int forcedFaintHour = 4;
     [SerializeField, Min(0f)] float faintDelay = 1.25f;
     [SerializeField, Range(0f, 1f)] float faintHealthRecovery = 0.5f;
     [SerializeField, Range(0f, 1f)] float faintStaminaRecovery = 0.35f;
@@ -38,6 +40,7 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     [SerializeField, Min(1f)] float debugDamage = 25f;
 
     bool busy;
+    bool sleepBlackout;
     bool hasPendingWeatherFaint;
     bool pendingWeatherFaintAtHospital = true;
     int pendingWeatherWakeHour = 12;
@@ -97,7 +100,7 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     public void SleepAndSave()
     {
         if (!busy && !status.IsFainted)
-            StartCoroutine(SleepRoutine());
+            StartCoroutine(SleepRoutine(false));
     }
 
     /// <summary>Memindahkan player ke spawn rumah.</summary>
@@ -131,34 +134,53 @@ public sealed class PlayerLifeCycle : MonoBehaviour
 
     void HandleHourChanged()
     {
-        if (!busy && TimeManager.Instance != null && TimeManager.Instance.hour == forcedFaintHour)
+        if (!busy && TimeManager.Instance != null && TimeManager.Instance.hour == forcedSleepHour)
         {
-            SaveLoadFeedback.Instance?.ShowMessage("Terlalu larut. Kamu pingsan karena kelelahan.");
-            status?.ForceFaint();
+            SaveLoadFeedback.Instance?.ShowMessage("Sudah pukul 03:00. Player tertidur di tempat karena kelelahan.");
+            StartCoroutine(SleepRoutine(true));
         }
     }
 
-    IEnumerator SleepRoutine()
+    IEnumerator SleepRoutine(bool forcedInPlace)
     {
         busy = true;
         status.AcquireActivity(this, PlayerMovementState.Sleeping);
         SetGameplayEnabled(false);
+        sleepBlackout = true;
         SaveLoadFeedback.Instance?.ShowMessage("Tidur...");
-        yield return null;
+        yield return new WaitForSecondsRealtime(0.45f);
 
-        AdvanceToNextDay();
-        // Tidur di interior additive tidak boleh memindahkan player ke spawn world yang
-        // letaknya sangat jauh. Player bangun di sisi kasur yang sedang digunakan.
-        if (SceneTransitionManager.Instance == null || !SceneTransitionManager.Instance.IsInsideInterior)
+        // Kalender sudah berganti di 00:00. Tidur antara 00:00-05:59 hanya melompat ke
+        // jam bangun agar crop/hewan tidak menerima Daily Reset dua kali.
+        if (TimeManager.Instance != null && TimeManager.Instance.hour < wakeHour)
+            TimeManager.Instance.SetClockSameDay(wakeHour);
+        else
+            AdvanceToNextDay();
+        // Knock karena masih terjaga pukul 03:00 selalu bangun di posisi yang sama.
+        // Tidur normal melalui kasur tetap mengikuti aturan spawn rumah/interior.
+        if (!forcedInPlace && (SceneTransitionManager.Instance == null || !SceneTransitionManager.Instance.IsInsideInterior))
             TeleportTo(homeSpawnId);
         status.RestoreAfterSleep();
         SaveManager.Instance?.SaveGame();
 
         SetGameplayEnabled(true);
+        sleepBlackout = false;
         status.ReleaseActivity(this);
         busy = false;
-        SaveLoadFeedback.Instance?.ShowMessage("Bangun - hari baru");
+        SaveLoadFeedback.Instance?.ShowMessage(forcedInPlace
+            ? "Bangun pukul 06:00 di tempat kamu tertidur"
+            : "Bangun - hari baru");
         Debug.Log("[PLAYER] Bangun setelah tidur. Game tersimpan.");
+    }
+
+    void OnGUI()
+    {
+        if (!sleepBlackout) return;
+        GUI.depth = -10000;
+        GUI.DrawTexture(new Rect(0f, 0f, Screen.width, Screen.height), Texture2D.blackTexture);
+        GUIStyle style = new(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontSize = 28 };
+        style.normal.textColor = Color.white;
+        GUI.Label(new Rect(0f, 0f, Screen.width, Screen.height), "Tidur...", style);
     }
 
     IEnumerator FaintRoutine()

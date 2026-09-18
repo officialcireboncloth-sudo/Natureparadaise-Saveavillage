@@ -10,6 +10,7 @@ public sealed class MarketStandListing
     [Min(1)] public int count = 1;
     [Range(0, 5)] public int qualityStars;
     [Min(0f)] public float fishSizeCm;
+    public int listedAbsoluteHour;
 
     public int UnitPrice => item != null ? item.GetMarketSellPrice(qualityStars, fishSizeCm) : 0;
     public string DisplayName => item == null ? "Item hilang" : new ItemStack
@@ -30,6 +31,7 @@ public sealed class MarketStandListingSaveData
     public int count;
     public int qualityStars;
     public float fishSizeCm;
+    public int listedAbsoluteHour;
 }
 
 [Serializable]
@@ -232,7 +234,8 @@ public sealed class MarketStand : MonoBehaviour
                 continue;
 
             GUILayout.BeginHorizontal(GUI.skin.box);
-            GUILayout.Label($"{listing.DisplayName} x{listing.count}\n{listing.UnitPrice} G/item",
+            int hoursRemaining = Mathf.Max(0, 7 * 24 - (CurrentAbsoluteHour - listing.listedAbsoluteHour));
+            GUILayout.Label($"{listing.DisplayName} x{listing.count}\n{listing.UnitPrice} G/item | maks. {Mathf.CeilToInt(hoursRemaining / 24f)} hari",
                 GUILayout.MinWidth(220f));
             if (GUILayout.Button("Ambil 1", GUILayout.Width(68f), GUILayout.Height(38f)))
                 TryWithdraw(index, 1);
@@ -276,7 +279,8 @@ public sealed class MarketStand : MonoBehaviour
                 item = item,
                 count = 0,
                 qualityStars = quality,
-                fishSizeCm = fishSize
+                fishSizeCm = fishSize,
+                listedAbsoluteHour = CurrentAbsoluteHour
             };
             listings.Add(listing);
         }
@@ -328,18 +332,36 @@ public sealed class MarketStand : MonoBehaviour
                 SimulateBuyer(absoluteHour == now);
         }
 
+        // Semua listing yang mencapai batas tujuh hari diselesaikan pada tick yang sama.
+        // Dengan begitu beberapa stack yang dipasang bersamaan tidak melewati deadline.
+        int overdueCount = listings.Count(entry => entry != null && now - entry.listedAbsoluteHour >= 7 * 24);
+        for (int i = 0; i < overdueCount; i++)
+            SimulateBuyer(true);
+
         lastProcessedAbsoluteHour = now;
     }
 
     void SimulateBuyer(bool notify)
     {
         NormalizeListings();
-        if (listings.Count == 0 || UnityEngine.Random.value > CurrentBuyerChance)
+        if (listings.Count == 0)
             return;
 
-        int listingIndex = UnityEngine.Random.Range(0, listings.Count);
+        int listingIndex = listings.FindIndex(entry => entry != null &&
+            CurrentAbsoluteHour - entry.listedAbsoluteHour >= 7 * 24);
+        bool guaranteedSale = listingIndex >= 0;
+        if (!guaranteedSale)
+        {
+            // Barang minimal menginap satu hari agar tidak langsung laku sesaat setelah ditaruh.
+            List<int> eligible = new();
+            for (int i = 0; i < listings.Count; i++)
+                if (CurrentAbsoluteHour - listings[i].listedAbsoluteHour >= 24) eligible.Add(i);
+            if (eligible.Count == 0 || UnityEngine.Random.value > CurrentBuyerChance) return;
+            listingIndex = eligible[UnityEngine.Random.Range(0, eligible.Count)];
+        }
         MarketStandListing listing = listings[listingIndex];
-        int sold = UnityEngine.Random.Range(1, Mathf.Min(maximumItemsPerSale, listing.count) + 1);
+        int sold = guaranteedSale ? listing.count :
+            UnityEngine.Random.Range(1, Mathf.Min(maximumItemsPerSale, listing.count) + 1);
         int revenue = listing.UnitPrice * sold;
         if (revenue <= 0)
             return;
@@ -417,7 +439,8 @@ public sealed class MarketStand : MonoBehaviour
                 itemName = entry.item.itemName,
                 count = entry.count,
                 qualityStars = entry.qualityStars,
-                fishSizeCm = entry.fishSizeCm
+                fishSizeCm = entry.fishSizeCm,
+                listedAbsoluteHour = entry.listedAbsoluteHour
             }).ToList()
         };
     }
@@ -439,7 +462,8 @@ public sealed class MarketStand : MonoBehaviour
                     item = item,
                     count = saved.count,
                     qualityStars = Mathf.Clamp(saved.qualityStars, 0, 5),
-                    fishSizeCm = Mathf.Max(0f, saved.fishSizeCm)
+                    fishSizeCm = Mathf.Max(0f, saved.fishSizeCm),
+                    listedAbsoluteHour = saved.listedAbsoluteHour > 0 ? saved.listedAbsoluteHour : CurrentAbsoluteHour
                 });
             }
         }

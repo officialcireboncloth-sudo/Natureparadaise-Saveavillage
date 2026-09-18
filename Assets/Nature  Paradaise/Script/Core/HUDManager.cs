@@ -71,7 +71,7 @@ public class HUDManager : MonoBehaviour
     public bool showDebugClues;
     [Tooltip("Tombol untuk menampilkan atau menyembunyikan seluruh Debug Clues.")]
     public KeyCode debugCluesToggleKey = KeyCode.F9;
-    [Tooltip("Tampilkan cuaca runtime sebagai informasi debug.")]
+    [Tooltip("Tampilkan cuaca runtime. Dibuat terpisah dari Debug Clues agar efek auto-water hujan selalu dapat diperiksa.")]
     public bool showWeatherDebugText = true;
     [Tooltip("Tampilkan panduan kontrol dan detail target farming sebagai informasi debug.")]
     public bool showFarmingDebugControls = true;
@@ -183,10 +183,20 @@ public class HUDManager : MonoBehaviour
 
         if (weatherDebugText != null)
         {
-            string weather = WeatherSystem.Instance != null
-                ? WeatherSystem.GetShortName(WeatherSystem.Instance.CurrentWeather)
-                : "Loading...";
-            weatherDebugText.text = $"Weather: {weather}";
+            if (WeatherSystem.Instance == null)
+            {
+                weatherDebugText.text = "Cuaca: Loading...";
+            }
+            else
+            {
+                WeatherSystem weather = WeatherSystem.Instance;
+                string cropEffect = weather.IsRainToday
+                    ? "AUTO WATER TANAMAN"
+                    : "TIDAK MENYIRAM";
+                weatherDebugText.text =
+                    $"Cuaca: {WeatherSystem.GetShortName(weather.CurrentWeather)} ({cropEffect})\n" +
+                    $"Besok: {WeatherSystem.GetShortName(weather.TomorrowWeather)}";
+            }
         }
     }
 
@@ -205,7 +215,7 @@ public class HUDManager : MonoBehaviour
         rect.anchorMin = rect.anchorMax = new Vector2(1f, 1f);
         rect.pivot = new Vector2(1f, 1f);
         rect.anchoredPosition = new Vector2(0f, -66f);
-        rect.sizeDelta = new Vector2(300f, 34f);
+        rect.sizeDelta = new Vector2(420f, 58f);
         rect.localScale = Vector3.one;
     }
 
@@ -223,7 +233,7 @@ public class HUDManager : MonoBehaviour
         FarmingDebugCluesEnabled = showDebugClues && showFarmingDebugControls;
 
         if (weatherDebugText != null)
-            weatherDebugText.gameObject.SetActive(showDebugClues && showWeatherDebugText);
+            weatherDebugText.gameObject.SetActive(showWeatherDebugText);
         if (farmingDebugRoot != null)
             farmingDebugRoot.gameObject.SetActive(FarmingDebugCluesEnabled);
     }

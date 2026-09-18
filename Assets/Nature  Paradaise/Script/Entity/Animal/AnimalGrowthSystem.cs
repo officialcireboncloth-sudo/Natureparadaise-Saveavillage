@@ -185,6 +185,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     public bool FedToday => fedToday;
     public AnimalFoodSource FoodSource => fedToday ? foodSource : AnimalFoodSource.None;
     public int LastFedDay => lastFedDay;
+    public int HungryDays => healthProgress?.hungryDays ?? 0;
     public bool IsSheltered => sheltered;
     public bool IsAdult => hasBeenBorn && GrowthStage == AnimalGrowthStage.Adult;
     public static int ActiveAnimalCount => Registry.Count;

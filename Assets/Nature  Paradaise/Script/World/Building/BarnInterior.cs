@@ -86,6 +86,10 @@ public sealed class BarnInterior : MonoBehaviour
         if(player==null || home==null || !home.Available || Visiting ||
            (SceneTransitionManager.Instance!=null && SceneTransitionManager.Instance.IsInsideInterior)) return;
         Transform target=runtimeExteriorDoor!=null ? runtimeExteriorDoor : exteriorDoor!=null ? exteriorDoor : transform;
+        // Bila area portal dan bell masih bersentuhan, E selalu menjadi input bell.
+        // Ini mencegah player tidak sengaja masuk interior saat menekan saklar.
+        if((home.BellStation!=null && home.BellStation.IsPlayerInRange(player.transform)) ||
+           home.IsTroughPlayerInRange(player.transform)) return;
         if(!PlayerInteractionTarget.ContainsPickup(player.transform,target,interactionRadius)) return;
         float distance=Vector3.Distance(player.transform.position,target.position);
         WorldInteractionPrompt.Request(this,target,$"E: Masuk {home.Label}",Mathf.Max(0f,distance-0.25f),1.5f);

@@ -47,6 +47,10 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         float spacing=level==1 ? 3.5f : level==2 ? 4f : level==3 ? 4.5f : 5f;
         float startX=-(columns-1)*spacing*0.5f;
         if(animalSpots==null) return;
+        // Scene lama menyimpan container slot di Y=-200 untuk menyembunyikan dummy.
+        // Routine memakai posisi slot ini secara nyata, jadi pulihkan container ke lantai.
+        if(animalSpots.Length>0 && animalSpots[0]!=null && animalSpots[0].parent!=null)
+            animalSpots[0].parent.localPosition=Vector3.zero;
         for(int i=0;i<animalSpots.Length;i++)
         {
             if(animalSpots[i]==null) continue;
@@ -70,7 +74,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         if(player==null || exitDoor==null || BarnInterior.Current==null) return;
         if(!PlayerInteractionTarget.ContainsPickup(player.transform,exitDoor,interactionRadius)) return;
         float distance=Vector3.Distance(player.transform.position,exitDoor.position);
-        WorldInteractionPrompt.Request(this,exitDoor,"E: Keluar Barn | I: Kelola Hewan | Y: Animal Bell",distance,1.5f);
+        WorldInteractionPrompt.Request(this,exitDoor,"E: Keluar Kandang | I: Kelola Hewan",distance,1.5f);
         if(PlayerInteractionTarget.PressPickup(player.transform,exitDoor,KeyCode.E,interactionRadius)) BarnInterior.Current.Leave();
         else if(PlayerInteractionTarget.PressPickup(player.transform,exitDoor,KeyCode.I,interactionRadius))
             AnimalCarePanel.Show(null,BarnInterior.Current.home,player.GetComponent<Inventory>());

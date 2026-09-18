@@ -37,7 +37,7 @@ public static class BalanceCsvDatabase
     {
         "crop_id","asset_path","seed_item_id","produce_item_id","allowed_seasons","out_of_season_behavior",
         "ideal_moisture_min","ideal_moisture_max","minimum_fertility","daily_fertility_use",
-        "soil_depletion_on_harvest","base_yield","wind_vulnerability","dry_days_before_wither","watered_days_to_recover",
+        "soil_depletion_on_harvest","base_yield","wind_vulnerability","dry_days_before_wither","dry_days_before_death","watered_days_to_recover",
         "health_loss_when_dry","days_until_first_harvest","regrows_after_harvest","regrow_days","regrow_stage",
         "quality_weights","minimum_booster_for_stars","harvest_grace_days","soil_weight","moisture_weight",
         "fertility_weight","health_weight"
@@ -67,7 +67,7 @@ public static class BalanceCsvDatabase
         public string id, path, seedItemId, produceItemId;
         public CropSeason seasons;
         public OutOfSeasonCropBehavior outOfSeason;
-        public int moistureMin, moistureMax, fertility, dailyFertility, soilDepletion, yield, dryDays, recoveryDays,
+        public int moistureMin, moistureMax, fertility, dailyFertility, soilDepletion, yield, dryDays, deathDays, recoveryDays,
             dryHealthLoss, harvestDays, regrowDays, regrowStage, graceDays;
         public bool regrows;
         public float[] qualityWeights;
@@ -100,7 +100,7 @@ public static class BalanceCsvDatabase
         {
             crop.cropId, PathOf(crop), Id(crop.seedItem), Id(crop.produceItem), Season(crop.allowedSeasons), crop.outOfSeasonBehavior.ToString(),
             I(crop.idealMoistureMin), I(crop.idealMoistureMax), I(crop.minimumFertility), I(crop.dailyFertilityUse),
-            I(crop.soilDepletionOnHarvest), I(crop.baseYield), F(crop.windVulnerability), I(crop.dryDaysBeforeWither), I(crop.wateredDaysToRecover),
+            I(crop.soilDepletionOnHarvest), I(crop.baseYield), F(crop.windVulnerability), I(crop.dryDaysBeforeWither), I(crop.dryDaysBeforeDeath), I(crop.wateredDaysToRecover),
             I(crop.healthLossWhenDry), I(crop.daysUntilFirstHarvest), B(crop.regrowsAfterHarvest), I(crop.regrowDays), I(crop.regrowStage),
             Join(crop.qualityWeights), Join(crop.minimumBoosterForStars), I(crop.harvestGraceDays), F(crop.soilWeight), F(crop.moistureWeight),
             F(crop.fertilityWeight), F(crop.healthWeight)
@@ -226,7 +226,7 @@ public static class BalanceCsvDatabase
         crop.idealMoistureMin=row.moistureMin; crop.idealMoistureMax=row.moistureMax;
         crop.minimumFertility=row.fertility; crop.dailyFertilityUse=row.dailyFertility;
         crop.soilDepletionOnHarvest=row.soilDepletion; crop.baseYield=row.yield; crop.windVulnerability=row.windVulnerability;
-        crop.dryDaysBeforeWither=row.dryDays; crop.wateredDaysToRecover=row.recoveryDays;
+        crop.dryDaysBeforeWither=row.dryDays; crop.dryDaysBeforeDeath=row.deathDays; crop.wateredDaysToRecover=row.recoveryDays;
         crop.healthLossWhenDry=row.dryHealthLoss; crop.daysUntilFirstHarvest=row.harvestDays;
         crop.regrowsAfterHarvest=row.regrows; crop.regrowDays=row.regrowDays; crop.regrowStage=row.regrowStage;
         crop.qualityWeights=row.qualityWeights; crop.minimumBoosterForStars=row.minimumBoosters;
@@ -296,7 +296,8 @@ public static class BalanceCsvDatabase
             row.fertility=N(source,"minimum_fertility",0,100,label,errors); row.dailyFertility=N(source,"daily_fertility_use",0,100000,label,errors);
             row.soilDepletion=N(source,"soil_depletion_on_harvest",0,100000,label,errors); row.yield=N(source,"base_yield",1,100000,label,errors);
             row.windVulnerability=R(source,"wind_vulnerability",0.1f,3f,label,errors);
-            row.dryDays=N(source,"dry_days_before_wither",1,100000,label,errors); row.recoveryDays=N(source,"watered_days_to_recover",1,100000,label,errors);
+            row.dryDays=N(source,"dry_days_before_wither",1,100000,label,errors); row.deathDays=N(source,"dry_days_before_death",2,100000,label,errors); row.recoveryDays=N(source,"watered_days_to_recover",1,100000,label,errors);
+            if(row.deathDays<=row.dryDays) errors.Add($"{label}: dry_days_before_death harus lebih besar dari dry_days_before_wither.");
             row.dryHealthLoss=N(source,"health_loss_when_dry",0,100,label,errors); row.harvestDays=N(source,"days_until_first_harvest",1,100000,label,errors);
             row.regrows=Bool(source,"regrows_after_harvest",label,errors); row.regrowDays=N(source,"regrow_days",1,100000,label,errors);
             row.regrowStage=N(source,"regrow_stage",-1,1000,label,errors); row.graceDays=N(source,"harvest_grace_days",0,100000,label,errors);

@@ -28,6 +28,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     PlayerToolHotbar toolHotbar;
     PlayerEatingSystem eatingSystem;
     FishingSystem fishingSystem;
+    WateringCanSystem wateringCan;
     readonly List<SlotView> views = new();
     TMP_Text actionHint;
     Coroutine temporaryHintRoutine;
@@ -47,16 +48,20 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         if (toolHotbar == null) toolHotbar = gameObject.AddComponent<PlayerToolHotbar>();
         eatingSystem = GetComponent<PlayerEatingSystem>();
         fishingSystem = GetComponent<FishingSystem>();
+        wateringCan = GetComponent<WateringCanSystem>();
+        if (wateringCan == null) wateringCan = gameObject.AddComponent<WateringCanSystem>();
     }
 
     void OnEnable()
     {
         if (inventory != null) inventory.OnInventoryChanged += Refresh;
+        if (wateringCan != null) wateringCan.Changed += RefreshActionHint;
     }
 
     void OnDisable()
     {
         if (inventory != null) inventory.OnInventoryChanged -= Refresh;
+        if (wateringCan != null) wateringCan.Changed -= RefreshActionHint;
     }
 
     void OnDestroy()
@@ -147,7 +152,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         {
             PlayerToolType.Hoe => "F: cangkul tanah",
             PlayerToolType.Seed => "F: tanam bibit",
-            PlayerToolType.WateringCan => "F: siram tanah atau tanaman",
+            PlayerToolType.WateringCan => GetWateringCanHint(),
             PlayerToolType.Fertilizer => "F: pupuk tanah",
             PlayerToolType.Sickle => "F: sabit rumput atau tanaman",
             PlayerToolType.Hammer => "F: hancurkan batu",
@@ -167,7 +172,14 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             _ when item != null && item.canDropToWorld => "G: jatuhkan item",
             _ => "Pilih slot 1–8 untuk melihat aksi"
         };
-        actionHint.text = $"<b>{itemName}</b>   —   {action}   |   Y: Animal Bell   |   V: Whistle";
+        actionHint.text = $"<b>{itemName}</b>   —   {action}   |   V: Whistle";
+    }
+
+    string GetWateringCanHint()
+    {
+        return wateringCan != null
+            ? $"F: siram tanah atau tanaman  |  Air {wateringCan.CurrentWater}/{wateringCan.MaximumWater}"
+            : "F: siram tanah atau tanaman  |  Air 100/100";
     }
 
     /// <summary>Memakai panel petunjuk hotbar untuk feedback agar tidak muncul dua kotak UI.</summary>

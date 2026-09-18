@@ -97,6 +97,22 @@ public sealed class WorldGatherable : MonoBehaviour
         return transform.position;
     }
 
+    public void ConfigureRuntimeGrass(string id, ItemSO fodder)
+    {
+        gatherableId = id;
+        kind = GatherableKind.Grass;
+        canPullByHand = false;
+        canCutWithSickle = true;
+        canBreakWithHammer = false;
+        maximumDurability = currentDurability = 1;
+        canRespawn = true;
+        minimumRespawnDays = 2;
+        maximumRespawnDays = 4;
+        drops.Clear();
+        if (fodder != null)
+            drops.Add(new GatherableDrop { item = fodder, minimumAmount = 1, maximumAmount = 1, chance = 1f });
+    }
+
     void Awake()
     {
         interactionCollider = GetComponent<Collider>();
