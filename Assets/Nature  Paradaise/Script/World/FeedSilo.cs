@@ -11,6 +11,8 @@ public sealed class FeedSilo : MonoBehaviour
     [SerializeField] string siloId;
     [SerializeField, Min(1)] int capacity = 999;
     [SerializeField] AnimalHome[] connectedHomes;
+    [Tooltip("Fitur lanjutan. OFF berarti player tetap mengisi setiap box pakan secara manual.")]
+    [SerializeField] bool automaticDistributionEnabled;
     [SerializeField] int stock;
     public int Stock => stock;
     public int Store(int amount) { int accepted=Mathf.Clamp(amount,0,Mathf.Max(0,capacity-stock)); stock+=accepted; return accepted; }
@@ -19,7 +21,7 @@ public sealed class FeedSilo : MonoBehaviour
     void OnDisable() => Active.Remove(this);
     void Update()
     {
-        if(connectedHomes==null) return;
+        if(!automaticDistributionEnabled || connectedHomes==null) return;
         foreach(var home in connectedHomes)
         {
             if(stock<=0) break;

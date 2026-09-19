@@ -94,53 +94,10 @@ public sealed class AnimalCarePanel : MonoBehaviour
                         $"Animal Feed {home.Fodder} | Grass {home.Grass} | Kosong {home.FeedSpace}");
         GUILayout.Label($"Belum makan: {home.RequiredFeedToday} | Auto Feeder: {(home.HasAutoFeeder ? "ON" : "OFF")}");
         GUILayout.Label($"Debug: seluruh sisa pakan dikosongkan pukul 00:00 — {GameTimeDebugText.UntilMidnight()} lagi.");
-        GUILayout.Label("Drag Grass atau Animal Feed dari Inventory ke kotak tempat pakan. Tombol tersedia untuk mobile.");
-
-        GUILayout.BeginHorizontal();
-        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width(260f));
-        GUILayout.Label("INVENTORY — PAKAN");
-        feedInventoryScroll = GUILayout.BeginScrollView(feedInventoryScroll, GUILayout.Height(150f));
-        bool found = false;
-        if (inventory != null)
-        {
-            for (int index = 0; index < inventory.slots.Count; index++)
-            {
-                ItemStack stack = inventory.GetSlot(index);
-                if (stack?.item == null || stack.count <= 0 || !home.AcceptsFeedItem(stack.item)) continue;
-                found = true;
-                GUILayout.BeginHorizontal(GUI.skin.box);
-                Rect dragRect = GUILayoutUtility.GetRect(new GUIContent($"{stack.DisplayName} x{stack.count}"), GUI.skin.box,
-                    GUILayout.ExpandWidth(true), GUILayout.Height(40f));
-                GUI.Box(dragRect, $"{stack.DisplayName} x{stack.count}\nDRAG", GUI.skin.box);
-                HandleDragSource(dragRect, index, stack);
-                if (GUILayout.Button("+1", GUILayout.Width(42f), GUILayout.Height(40f))) TryDeposit(index, 1);
-                if (GUILayout.Button("All", GUILayout.Width(44f), GUILayout.Height(40f))) TryDeposit(index, stack.count);
-                GUILayout.EndHorizontal();
-            }
-        }
-        if (!found) GUILayout.Label("Tidak ada Grass atau Animal Feed.");
-        GUILayout.EndScrollView();
-        GUILayout.EndVertical();
-
-        GUILayout.BeginVertical(GUI.skin.box, GUILayout.ExpandWidth(true));
-        GUILayout.Label("TROUGH / TEMPAT PAKAN");
-        Rect targetRect = GUILayoutUtility.GetRect(GUIContent.none, GUI.skin.box,
-            GUILayout.ExpandWidth(true), GUILayout.Height(92f));
-        Color previous = GUI.color;
-        GUI.color = home.FeedSpace > 0 ? new Color(0.72f, 1f, 0.72f) : new Color(1f, 0.58f, 0.58f);
-        GUI.Box(targetRect, home.FeedSpace > 0
-            ? $"DROP DI SINI\n{home.TotalFeed} / {home.FeedingSlotCapacity}\nSisa {home.FeedSpace}"
-            : $"PENUH\n{home.TotalFeed} / {home.FeedingSlotCapacity}");
-        GUI.color = previous;
-        HandleDropTarget(targetRect);
-        if (GUILayout.Button($"Ambil Animal Feed x{home.Fodder}"))
-            feedback = home.Withdraw(inventory) ? "Animal Feed dikembalikan ke Inventory." : "Tas penuh / Animal Feed kosong.";
-        if (GUILayout.Button($"Ambil Grass x{home.Grass}"))
-            feedback = home.Withdraw(inventory, true) ? "Grass dikembalikan ke Inventory." : "Tas penuh / Grass kosong.";
-        GUILayout.EndVertical();
-        GUILayout.EndHorizontal();
-
-        DrawDraggedFeedGhost();
+        GUILayout.Space(8f);
+        GUILayout.Label("CARA MENGISI TEMPAT PAKAN",GUI.skin.box);
+        GUILayout.Label("Pilih Animal Feed atau Grass pada hotbar sampai terlihat dipegang player. " +
+                        "Dekati box kosong, lalu tekan F. Setiap tekanan memasukkan tepat 1 item.");
     }
 
     void HandleDragSource(Rect rect, int slotIndex, ItemStack stack)
@@ -158,8 +115,7 @@ public sealed class AnimalCarePanel : MonoBehaviour
         if (draggedFeedSlot < 0 || current.type != EventType.MouseUp || current.button != 0) return;
         if (rect.Contains(current.mousePosition))
         {
-            ItemStack stack = inventory?.GetSlot(draggedFeedSlot);
-            TryDeposit(draggedFeedSlot, stack?.count ?? 0);
+            TryDeposit(draggedFeedSlot, 1);
             current.Use();
         }
         draggedFeedSlot = -1;
@@ -188,9 +144,9 @@ public sealed class AnimalCarePanel : MonoBehaviour
             feedback = $"Tempat pakan penuh ({home.TotalFeed}/{home.FeedingSlotCapacity}).";
             return;
         }
-        int moved = home.DepositFromSlot(inventory, slotIndex, amount);
+        int moved = home.DepositFromSlot(inventory, slotIndex, 1);
         feedback = moved > 0
-            ? $"Pakan x{moved} dimasukkan. Isi sekarang {home.TotalFeed}/{home.FeedingSlotCapacity}."
+            ? $"Box {home.TotalFeed} terisi. Isi sekarang {home.TotalFeed}/{home.FeedingSlotCapacity}."
             : "Hanya Grass atau Animal Feed yang dapat dimasukkan.";
     }
     void Select(AnimalGrowthSystem selected) { animal = selected; editedName = selected.AnimalName; }

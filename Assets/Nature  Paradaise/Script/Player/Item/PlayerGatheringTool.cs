@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
+[DefaultExecutionOrder(1000)]
 /// <summary>
 /// Orkestrator interaksi resource di depan player: mencabut weed, menyabit rumput,
 /// memukul batu, menebang pohon, membawa hasil, dan memakai stamina/tool level.
@@ -316,6 +317,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     public bool TryCarry(ItemSO item, int amount, int qualityStars = 0, float fishSizeCm = 0f)
     {
         if (item == null || amount <= 0 || carriedItem != null) return false;
+        PlayerAnimalCarry animalCarry = GetComponent<PlayerAnimalCarry>();
+        if (animalCarry != null && animalCarry.HasAnimal) return false;
         carriedItem = item;
         carriedAmount = amount;
         carriedQualityStars = Mathf.Clamp(qualityStars, 0, 4);

@@ -39,6 +39,10 @@ public sealed class FeedMaker : MonoBehaviour
     [Tooltip("Lv.4 dapat mengirim hasil ke stok kandang ini.")]
     [SerializeField] AnimalHome linkedStorage;
     [SerializeField] FeedSilo linkedSilo;
+    [Tooltip("Fitur lanjutan. Biarkan OFF selama tempat pakan wajib diisi satu per satu.")]
+    [SerializeField] bool automaticOutputTransferEnabled;
+    [Tooltip("Interaksi F/E mesin ini ditangani controller interior Barn/Coop agar tidak terbaca dua kali.")]
+    [SerializeField] bool externalInteraction;
     readonly List<FeedJob> jobs = new();
     int output;
     int fishFeedOutput;
@@ -49,6 +53,8 @@ public sealed class FeedMaker : MonoBehaviour
     Vector2 inventoryScroll;
     Vector2 machineScroll;
     bool fishFeedMode;
+    bool dedicatedOutput;
+    bool dedicatedFishFeed;
     int draggedInputSlot = -1;
     string draggedInputLabel;
     WorldDebugStatusLabel debugLabel;
@@ -90,6 +96,43 @@ public sealed class FeedMaker : MonoBehaviour
         if(home!=null) contextLabel=home.Label;
     }
     public void SetContextLabel(string value) => contextLabel=value;
+    public void SetExternalInteraction(bool value) => externalInteraction=value;
+    /// <summary>
+    /// Mengunci mesin bangunan ke satu produk. Data lama yang salah jenis ikut
+    /// dikonversi agar output tidak tampak hilang setelah sleep/save-load.
+    /// </summary>
+    public void SetDedicatedOutput(bool fishFeed)
+    {
+        dedicatedOutput=true;
+        dedicatedFishFeed=fishFeed;
+        fishFeedMode=fishFeed;
+        if(NormalizeDedicatedOutput()) PublishState();
+    }
+
+    bool NormalizeDedicatedOutput()
+    {
+        if(!dedicatedOutput) return false;
+        bool changed=false;
+        if(dedicatedFishFeed && output>0)
+        {
+            fishFeedOutput+=output;
+            output=0;
+            changed=true;
+        }
+        else if(!dedicatedFishFeed && fishFeedOutput>0)
+        {
+            output+=fishFeedOutput;
+            fishFeedOutput=0;
+            changed=true;
+        }
+        foreach(FeedJob job in jobs)
+        {
+            if(job.producesFishFeed==dedicatedFishFeed) continue;
+            job.producesFishFeed=dedicatedFishFeed;
+            changed=true;
+        }
+        return changed;
+    }
 
     // Event simulation: complete jobs chronologically across sleep, then fill free lanes.
     public void Advance(double now)
@@ -167,7 +210,7 @@ public sealed class FeedMaker : MonoBehaviour
     {
         Advance(Now);
         if(output<=0 || target==null || catalog?.animalFeed==null) return false;
-        int amount=Math.Min(output,Math.Max(1,catalog.animalFeed.maxStack));
+        const int amount=1;
         if(!target.Add(catalog.animalFeed,amount)) return false;
         output-=amount; StartWaiting(Now); PublishState();
         PlayerPickupNotification.ShowItem(target,catalog.animalFeed,amount);
@@ -177,11 +220,24 @@ public sealed class FeedMaker : MonoBehaviour
     {
         Advance(Now);
         if(fishFeedOutput<=0 || target==null || catalog?.fishFeed==null) return false;
-        int amount=Math.Min(fishFeedOutput,Math.Max(1,catalog.fishFeed.maxStack));
+        const int amount=1;
         if(!target.Add(catalog.fishFeed,amount)) return false;
         fishFeedOutput-=amount; StartWaiting(Now); PublishState();
         PlayerPickupNotification.ShowItem(target,catalog.fishFeed,amount);
         return true;
+    }
+
+    /// <summary>Satu tekanan tombol hanya mengambil satu unit output dari mesin.</summary>
+    public bool CollectOneReady(Inventory target)
+    {
+        Advance(Now);
+        if(fishFeedMode)
+        {
+            if(CollectFishFeed(target)) return true;
+            return Collect(target);
+        }
+        if(Collect(target)) return true;
+        return CollectFishFeed(target);
     }
     public bool OpenFor(Inventory target)
     {
@@ -207,23 +263,24 @@ public sealed class FeedMaker : MonoBehaviour
     void Update()
     {
         if(TimeManager.Instance!=null) Advance(Now);
-        if(Level==4 && linkedSilo!=null && output>0)
+        if(automaticOutputTransferEnabled && Level==4 && linkedSilo!=null && output>0)
         { output-=linkedSilo.Store(output); StartWaiting(Now); }
-        else if(Level==4 && linkedStorage!=null && linkedStorage.Available && output>0)
+        else if(automaticOutputTransferEnabled && Level==4 && linkedStorage!=null && linkedStorage.Available && output>0)
         { output-=linkedStorage.StoreFeed(output); StartWaiting(Now); }
         RefreshDebugLabel();
         if(inventory==null) inventory=FindFirstObjectByType<Inventory>();
         if(open) { if(Input.GetKeyDown(KeyCode.Escape)) Close(); return; }
+        // Barn/Coop memakai controller interior. Handler generik harus dilewati agar
+        // satu tekanan F tidak diproses dua kali oleh dua komponen berbeda.
+        if(externalInteraction) return;
         if(inventory==null || !PlayerInteractionTarget.Contains(inventory.transform,transform)) return;
         string state=Output>0 ? $"Ready: Animal {output} | Fish {fishFeedOutput}" : jobs.Count>0 ? "Processing" : "Idle";
-        WorldInteractionPrompt.Request(this,transform,$"E: Buka Feed Maker Lv.{Level} — {state}\nF: Ambil hasil siap",Vector3.Distance(inventory.transform.position,transform.position),1.5f);
+        WorldInteractionPrompt.Request(this,transform,$"E: Buka Feed Maker Lv.{Level} — {state}\nF: Ambil 1 pakan",Vector3.Distance(inventory.transform.position,transform.position),1.5f);
         if(PlayerInteractionTarget.Press(inventory.transform,transform,KeyCode.F))
         {
-            bool animalCollected=Collect(inventory);
-            bool fishCollected=CollectFishFeed(inventory);
-            bool collected=animalCollected || fishCollected;
+            bool collected=CollectOneReady(inventory);
             feedback=collected
-                ? $"Hasil masuk Inventory: {(animalCollected ? "Animal Feed " : string.Empty)}{(fishCollected ? "Fish Feed" : string.Empty)}"
+                ? "1 pakan masuk Inventory"
                 : "Feed belum ready / Inventory penuh";
             SaveLoadFeedback.Instance?.ShowMessage(feedback);
             return;
@@ -244,41 +301,45 @@ public sealed class FeedMaker : MonoBehaviour
     {
         get
         {
-            int running=0;
-            int waiting=0;
-            double next=double.PositiveInfinity;
-            foreach(FeedJob job in jobs)
-            {
-                if(job.finish>=0) {running++; next=Math.Min(next,job.finish);}
-                else waiting++;
-            }
-            string estimate=jobs.Count==0 ? (Output>0 ? "SIAP" : "IDLE")
-                : running>0 ? GameTimeDebugText.FormatHours(Math.Max(0d,next-Now))
-                : "TUNGGU OUTPUT";
             string owner=string.IsNullOrWhiteSpace(contextLabel) ? string.Empty : $" {contextLabel}";
-            return $"MESIN PAKAN{owner} Lv.{Level} | {estimate}\nIN {Inputs}/{InputCapacity} | OUT {Output}/{outputCapacity}\n"+
-                   $"Animal {output} | Fish {fishFeedOutput}"+
-                   (waiting>0 ? $" | Antre {waiting}" : string.Empty);
+            return $"MESIN PAKAN{owner} Lv.{Level}\n"+
+                   $"Animal: {AnimalFeedCompactDebugStatus}\n"+
+                   $"Fish: {FishFeedCompactDebugStatus}\n"+
+                   $"IN {Inputs}/{InputCapacity} | OUT {Output}/{outputCapacity}";
         }
     }
 
+    public string AnimalFeedCompactDebugStatus => CompactDebugStatusFor(false);
+    public string FishFeedCompactDebugStatus => CompactDebugStatusFor(true);
     public string CompactDebugStatus
     {
-        get
+        get => $"Animal {AnimalFeedCompactDebugStatus} | Fish {FishFeedCompactDebugStatus}";
+    }
+
+    string CompactDebugStatusFor(bool fishFeed)
+    {
+        int ready=fishFeed ? fishFeedOutput : output;
+        FeedJob running=null;
+        int waiting=0;
+        foreach(FeedJob job in jobs)
         {
-            if(Output>0) return "READY";
-            FeedJob running=null;
-            foreach(FeedJob job in jobs)
-                if(job.finish>=0 && (running==null || job.finish<running.finish)) running=job;
-            if(running!=null)
-            {
-                double remaining=Math.Max(0d,running.finish-Now);
-                double duration=Math.Max(0.001d,running.hours);
-                int percent=Mathf.Clamp(Mathf.RoundToInt((float)((1d-remaining/duration)*100d)),0,100);
-                return $"PROCESS {percent}%";
-            }
-            return jobs.Count>0 ? "PROCESS 0%" : "EMPTY";
+            if(job.producesFishFeed!=fishFeed) continue;
+            if(job.finish<0) waiting++;
+            else if(running==null || job.finish<running.finish) running=job;
         }
+        string process=null;
+        if(running!=null)
+        {
+            double remaining=Math.Max(0d,running.finish-Now);
+            double duration=Math.Max(0.001d,running.hours);
+            int percent=Mathf.Clamp(Mathf.RoundToInt((float)((1d-remaining/duration)*100d)),0,100);
+            process=$"PROCESS {percent}% ({GameTimeDebugText.FormatHours(remaining)})";
+        }
+        else if(waiting>0) process="PROCESS 0% (ANTRE)";
+
+        if(ready>0 && process!=null) return $"READY x{ready} | {process}";
+        if(ready>0) return $"READY x{ready}";
+        return process ?? "EMPTY";
     }
 
     public void SetWorldDebugVisible(bool visible)
@@ -312,11 +373,16 @@ public sealed class FeedMaker : MonoBehaviour
         GUILayout.BeginArea(new Rect((Screen.width-width)*0.5f,(Screen.height-height)*0.5f,width,height),GUI.skin.box);
         string owner=string.IsNullOrWhiteSpace(contextLabel) ? string.Empty : $" — {contextLabel}";
         GUILayout.Label($"FEED MAKER{owner} Lv.{Level} — INPUT {Inputs}/{InputCapacity} | PROCESS SLOT {Level} | OUTPUT {Output}/{outputCapacity}");
-        GUILayout.Label("Drag bahan dari Inventory ke slot mesin. Setelah proses selesai, ambil hasil ke Inventory lalu masukkan ke tempat pakan.");
-        GUILayout.BeginHorizontal();
-        if(GUILayout.Toggle(!fishFeedMode,"ANIMAL FEED",GUI.skin.button)) fishFeedMode=false;
-        if(GUILayout.Toggle(fishFeedMode,"FISH FEED",GUI.skin.button)) fishFeedMode=true;
-        GUILayout.EndHorizontal();
+        GUILayout.Label("Drag bahan dari Inventory ke slot mesin. Setelah selesai, ambil hasil satu per satu ke Inventory lalu masukkan ke tempat pakan.");
+        if(dedicatedOutput)
+            GUILayout.Label(dedicatedFishFeed ? "OUTPUT KHUSUS: FISH FEED" : "OUTPUT KHUSUS: ANIMAL FEED",GUI.skin.box);
+        else
+        {
+            GUILayout.BeginHorizontal();
+            if(GUILayout.Toggle(!fishFeedMode,"ANIMAL FEED",GUI.skin.button)) fishFeedMode=false;
+            if(GUILayout.Toggle(fishFeedMode,"FISH FEED",GUI.skin.button)) fishFeedMode=true;
+            GUILayout.EndHorizontal();
+        }
 
         GUILayout.BeginHorizontal();
         DrawInputInventory(width);
@@ -392,13 +458,26 @@ public sealed class FeedMaker : MonoBehaviour
         }
         GUILayout.EndScrollView();
 
-        GUILayout.Label($"OUTPUT READY — Animal Feed {output} | Fish Feed {fishFeedOutput} | {Output}/{outputCapacity}");
-        GUILayout.BeginHorizontal();
-        if(GUILayout.Button($"Ambil Animal Feed x{output}",GUILayout.Height(38f)))
-            feedback=Collect(inventory)?"Animal Feed masuk Inventory":"Belum ready / Inventory penuh";
-        if(GUILayout.Button($"Ambil Fish Feed x{fishFeedOutput}",GUILayout.Height(38f)))
-            feedback=CollectFishFeed(inventory)?"Fish Feed masuk Inventory":"Belum ready / Inventory penuh";
-        GUILayout.EndHorizontal();
+        if(dedicatedOutput)
+        {
+            int ready=dedicatedFishFeed ? fishFeedOutput : output;
+            string product=dedicatedFishFeed ? "Fish Feed" : "Animal Feed";
+            GUILayout.Label($"OUTPUT READY — {product} {ready} | {Output}/{outputCapacity}");
+            if(GUILayout.Button($"Ambil 1 {product} (Ready {ready})",GUILayout.Height(38f)))
+                feedback=(dedicatedFishFeed ? CollectFishFeed(inventory) : Collect(inventory))
+                    ? $"{product} x1 masuk Inventory"
+                    : "Belum ready / Inventory penuh";
+        }
+        else
+        {
+            GUILayout.Label($"OUTPUT READY — Animal Feed {output} | Fish Feed {fishFeedOutput} | {Output}/{outputCapacity}");
+            GUILayout.BeginHorizontal();
+            if(GUILayout.Button($"Ambil 1 Animal Feed (Ready {output})",GUILayout.Height(38f)))
+                feedback=Collect(inventory)?"Animal Feed masuk Inventory":"Belum ready / Inventory penuh";
+            if(GUILayout.Button($"Ambil 1 Fish Feed (Ready {fishFeedOutput})",GUILayout.Height(38f)))
+                feedback=CollectFishFeed(inventory)?"Fish Feed masuk Inventory":"Belum ready / Inventory penuh";
+            GUILayout.EndHorizontal();
+        }
         GUILayout.EndVertical();
     }
 
@@ -499,6 +578,7 @@ public sealed class FeedMaker : MonoBehaviour
         level=Mathf.Clamp(data.level,1,4); output=Mathf.Clamp(data.output,0,outputCapacity); fishFeedOutput=Mathf.Clamp(data.fishFeedOutput,0,Mathf.Max(0,outputCapacity-output));
         jobs.Clear(); if(data.jobs!=null) foreach(var j in data.jobs)
             jobs.Add(new FeedJob {recipeId=j.recipeId,inputs=j.inputs,output=j.output,producesFishFeed=j.producesFishFeed,hours=j.hours,finish=j.finish});
+        NormalizeDedicatedOutput();
     }
     public static List<FeedMakerSaveData> CaptureAll()
     {

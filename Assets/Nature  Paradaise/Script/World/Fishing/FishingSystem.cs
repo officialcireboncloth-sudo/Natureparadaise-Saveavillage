@@ -4,6 +4,7 @@ using UnityEngine;
 public enum FishingState : byte { Idle, WaitingForBite, Bite, Minigame }
 
 [DisallowMultipleComponent]
+[DefaultExecutionOrder(1000)]
 /// <summary>Orkestrator cast, bite, hook, minigame, reward, stamina, visual, dan audio fishing.</summary>
 public sealed class FishingSystem : MonoBehaviour
 {

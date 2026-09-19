@@ -162,7 +162,7 @@ public sealed class AnimalHome : MonoBehaviour
         ItemSO feed = AnimalCareCatalog.Load()?.fodder;
         int accepted = source == null || feed == null || amount <= 0
             ? 0
-            : Mathf.Min(amount, FeedSpace, source.GetCount(feed));
+            : Mathf.Min(1, FeedSpace, source.GetCount(feed));
         if (accepted <= 0 || !source.Remove(feed, accepted)) return false;
         fodderStock += accepted;
         PrepareHousedAnimals();
@@ -183,7 +183,8 @@ public sealed class AnimalHome : MonoBehaviour
         bool rawGrass = IsRawGrass(stack.item);
         if (!processed && !rawGrass) return 0;
 
-        int accepted = Mathf.Min(amount, stack.count, FeedSpace);
+        // Satu interaksi mengisi tepat satu kompartemen trough.
+        int accepted = Mathf.Min(1, stack.count, FeedSpace);
         if (accepted <= 0 || !source.RemoveFromSlot(slotIndex, accepted)) return 0;
         if (processed) fodderStock += accepted;
         else grassStock += accepted;
@@ -214,6 +215,15 @@ public sealed class AnimalHome : MonoBehaviour
         int accepted = Mathf.Clamp(amount, 0, FeedSpace);
         fodderStock += accepted;
         return accepted;
+    }
+
+    /// <summary>Mengisi satu kompartemen trough dari pakan yang diangkut player.</summary>
+    public bool StoreCarriedFeedUnit()
+    {
+        if(!Available || FeedSpace<=0) return false;
+        fodderStock++;
+        PrepareHousedAnimals();
+        return true;
     }
     public bool Withdraw(Inventory target, bool rawGrass = false)
     {

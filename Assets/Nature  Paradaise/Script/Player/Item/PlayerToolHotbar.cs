@@ -71,7 +71,8 @@ public sealed class PlayerToolHotbar : MonoBehaviour
         if (mousePressed && EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             mousePressed = false;
 
-        bool requested = Input.GetKeyDown(useToolKey) || mousePressed || mobileUsePending;
+        bool keyboardPressed=Input.GetKeyDown(useToolKey) && !PlayerInteractionTarget.WasConsumed(useToolKey);
+        bool requested = keyboardPressed || mousePressed || mobileUsePending;
         if (mobileUsePending)
             mobileUsePending = false;
         return requested;

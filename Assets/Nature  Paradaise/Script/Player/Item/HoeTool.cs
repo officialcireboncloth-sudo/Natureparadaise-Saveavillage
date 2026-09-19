@@ -17,6 +17,7 @@ public enum HoeUpgradeTier
 /// Mengarahkan hoe, watering can, dan fertilizer ke tile di depan player,
 /// memvalidasi hambatan/field, memakai stamina, serta mengirim feedback aksi.
 /// </summary>
+[DefaultExecutionOrder(1000)]
 public class FarmingTool : MonoBehaviour
 {
     [Header("Raycast")]

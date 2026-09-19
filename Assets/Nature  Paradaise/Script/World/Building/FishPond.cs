@@ -275,27 +275,56 @@ public sealed class FishPond : MonoBehaviour
             ? Vector3.Distance(inventory.transform.position, feedingPoint.position) : float.PositiveInfinity;
         float makerDistance = feedMaker != null
             ? Vector3.Distance(inventory.transform.position, feedMaker.transform.position) : float.PositiveInfinity;
+        InventoryHotbarUI hotbar=inventory.GetComponent<InventoryHotbarUI>();
+        ItemStack heldStack=hotbar!=null ? hotbar.SelectedStack : null;
+        bool holdingFishFeed=IsFishFeed(heldStack);
         if (feedMaker != null && makerDistance <= feedInteractionRadius && makerDistance <= troughDistance)
         {
             WorldInteractionPrompt.Request(this, feedMaker.transform,
-                $"E: Kelola Feed Maker\nF: Ambil hasil — Animal {feedMaker.AnimalFeedOutput} | Fish {feedMaker.FishFeedOutput}",
+                $"E: Kelola Fish Feed Maker\nF: Ambil 1 Fish Feed — Ready {feedMaker.FishFeedOutput}",
                 makerDistance, 1.3f);
             if (PlayerInteractionTarget.PressPickup(inventory.transform, feedMaker.transform, KeyCode.F, feedInteractionRadius))
             {
-                bool animal = feedMaker.Collect(inventory);
-                bool fish = feedMaker.CollectFishFeed(inventory);
-                SaveLoadFeedback.Instance?.ShowMessage(animal || fish ? "Hasil Feed Maker masuk Inventory." : "Belum ada hasil / Inventory penuh.");
+                bool collected = feedMaker.CollectFishFeed(inventory);
+                SaveLoadFeedback.Instance?.ShowMessage(collected ? "Fish Feed x1 masuk Inventory." : "Fish Feed belum ready / Inventory penuh.");
             }
             else if (PlayerInteractionTarget.PressPickup(inventory.transform, feedMaker.transform, interactKey, feedInteractionRadius))
                 feedMaker.OpenFor(inventory);
             return;
         }
+
+        // Kolam berukuran besar membuat player sering lebih dekat ke collider kolam
+        // daripada marker trough. Saat Fish Feed sedang dipegang, prioritaskan aksi
+        // memberi pakan di seluruh area interaksi kolam dan jangan membuka UI ikan.
+        bool pondInRange=PlayerInteractionTarget.ContainsPickup(inventory.transform,transform,interactionRadius);
+        if(holdingFishFeed && pondInRange)
+        {
+            Transform target=feedingPoint!=null ? feedingPoint : transform;
+            float targetDistance=Mathf.Min(troughDistance,Vector3.Distance(inventory.transform.position,transform.position));
+            string action=FeedSpace>0 ? "F: Masukkan 1 Fish Feed" : "Tempat pakan ikan penuh";
+            WorldInteractionPrompt.Request(this,target,
+                $"{action}\nTempat Pakan Ikan — {FeedStock}/{FeedCapacity} | Butuh {FeedNeeded}/hari | {FeedRemainingText()}",
+                targetDistance,1.25f);
+            if(PlayerInteractionTarget.PressPickup(inventory.transform,transform,KeyCode.F,interactionRadius))
+                DepositHeldFishFeed(hotbar,heldStack);
+            return;
+        }
         if (feedingPoint != null && troughDistance <= feedInteractionRadius)
         {
+            string action=FeedSpace<=0
+                ? "Tempat pakan ikan penuh"
+                : holdingFishFeed
+                    ? "F: Masukkan 1 Fish Feed"
+                    : "Pilih Fish Feed di hotbar lalu tekan F";
             WorldInteractionPrompt.Request(this, feedingPoint,
-                $"{interactKey}: Tempat Pakan Ikan — {FeedStock}/{FeedCapacity}\nButuh {FeedNeeded}/hari | {FeedRemainingText()}",
+                $"{action}\nTempat Pakan Ikan — {FeedStock}/{FeedCapacity} | Butuh {FeedNeeded}/hari | {FeedRemainingText()}",
                 troughDistance, 1.25f);
-            if (PlayerInteractionTarget.PressPickup(inventory.transform, feedingPoint, interactKey, feedInteractionRadius)) OpenPanel();
+            if (PlayerInteractionTarget.PressPickup(inventory.transform, feedingPoint, KeyCode.F, feedInteractionRadius))
+            {
+                if(!holdingFishFeed)
+                    SaveLoadFeedback.Instance?.ShowMessage("Pilih Fish Feed dari hotbar terlebih dahulu.");
+                else DepositHeldFishFeed(hotbar,heldStack);
+            }
             return;
         }
         if (!PlayerInteractionTarget.ContainsPickup(inventory.transform, transform, interactionRadius)) return;
@@ -326,47 +355,16 @@ public sealed class FishPond : MonoBehaviour
         GUILayout.EndHorizontal();
         if (!string.IsNullOrWhiteSpace(feedback)) GUILayout.Label(feedback);
         if (GUILayout.Button("Tutup [E / Esc]", GUILayout.Height(30f))) ClosePanel();
-        DrawDraggedFeedGhost();
         GUI.DragWindow(new Rect(0f, 0f, windowRect.width, 28f));
     }
 
     void DrawFeedStorage()
     {
-        GUILayout.BeginHorizontal();
-        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width((windowRect.width - 38f) * 0.5f));
-        GUILayout.Label("INVENTORY — FISH FEED");
-        bool found = false;
-        for (int index = 0; inventory != null && index < inventory.slots.Count; index++)
-        {
-            ItemStack stack = inventory.GetSlot(index);
-            if (stack?.item == null || stack.item != fishFeed || stack.count <= 0) continue;
-            found = true;
-            GUILayout.BeginHorizontal(GUI.skin.box);
-            Rect dragRect = GUILayoutUtility.GetRect(new GUIContent($"{stack.DisplayName} x{stack.count}"), GUI.skin.box,
-                GUILayout.ExpandWidth(true), GUILayout.Height(44f));
-            GUI.Box(dragRect, $"{stack.DisplayName} x{stack.count}\nDRAG", GUI.skin.box);
-            HandleFeedDragSource(dragRect, index, stack);
-            if (GUILayout.Button("+1", GUILayout.Width(44f), GUILayout.Height(44f))) DepositFeed(index, 1);
-            if (GUILayout.Button("All", GUILayout.Width(48f), GUILayout.Height(44f))) DepositFeed(index, stack.count);
-            GUILayout.EndHorizontal();
-        }
-        if (!found) GUILayout.Label("Fish Feed tidak ada di Inventory.");
-        GUILayout.EndVertical();
-
-        GUILayout.BeginVertical(GUI.skin.box, GUILayout.ExpandWidth(true));
+        GUILayout.BeginVertical(GUI.skin.box);
         GUILayout.Label($"TEMPAT PAKAN IKAN — {FeedStock}/{FeedCapacity}");
-        Rect targetRect = GUILayoutUtility.GetRect(GUIContent.none, GUI.skin.box,
-            GUILayout.ExpandWidth(true), GUILayout.Height(62f));
-        Color previous = GUI.color;
-        GUI.color = FeedSpace > 0 ? new Color(0.72f, 1f, 0.72f) : new Color(1f, 0.58f, 0.58f);
-        GUI.Box(targetRect, FeedSpace > 0
-            ? $"DROP FISH FEED DI SINI\nSisa kapasitas {FeedSpace}"
-            : $"PENUH\n{FeedStock}/{FeedCapacity}");
-        GUI.color = previous;
-        HandleFeedDrop(targetRect);
-        if (GUILayout.Button($"Ambil Fish Feed x{FeedStock}")) WithdrawFeed();
+        GUILayout.Label("Pilih Fish Feed pada hotbar sampai terlihat dipegang player, dekati tempat pakan kolam, lalu tekan F. " +
+                        "Setiap tekanan memasukkan tepat 1 Fish Feed.");
         GUILayout.EndVertical();
-        GUILayout.EndHorizontal();
     }
 
     void DrawInventory()
@@ -448,12 +446,35 @@ public sealed class FishPond : MonoBehaviour
     void DepositFeed(int slotIndex, int amount)
     {
         ItemStack stack = inventory?.GetSlot(slotIndex);
-        if (stack?.item == null || stack.item != fishFeed || amount <= 0) { feedback = "Hanya Fish Feed yang dapat dimasukkan."; return; }
-        int moved = Mathf.Min(amount, stack.count, FeedSpace);
+        if (!IsFishFeed(stack) || amount <= 0) { feedback = "Hanya Fish Feed yang dapat dimasukkan."; return; }
+        int moved = Mathf.Min(1, stack.count, FeedSpace);
         if (moved <= 0 || !inventory.RemoveFromSlot(slotIndex, moved)) { feedback = "Tempat pakan penuh."; return; }
         record.feedStock += moved;
         feedback = $"Fish Feed x{moved} dimasukkan. Stok {FeedStock}/{FeedCapacity}.";
         Commit();
+    }
+
+    bool IsFishFeed(ItemStack stack) => stack?.item!=null && stack.count>0 &&
+        (stack.item==fishFeed || stack.item.itemId=="item.fish_feed");
+
+    void DepositHeldFishFeed(InventoryHotbarUI hotbar,ItemStack heldStack)
+    {
+        if(hotbar==null || !IsFishFeed(heldStack))
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Pilih Fish Feed dari hotbar terlebih dahulu.");
+            return;
+        }
+        if(FeedSpace<=0)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Tempat pakan ikan penuh.");
+            return;
+        }
+        string label=heldStack.DisplayName;
+        int before=FeedStock;
+        DepositFeed(hotbar.SelectedIndex,1);
+        if(FeedStock<=before) return;
+        PlayerPickupNotification.Show(inventory.transform,$"{label} x1 → Pakan Kolam");
+        SaveLoadFeedback.Instance?.ShowMessage($"Fish Feed x1 dimasukkan. Stok {FeedStock}/{FeedCapacity}.");
     }
 
     void WithdrawFeed()
@@ -481,8 +502,7 @@ public sealed class FishPond : MonoBehaviour
         if (draggedFeedSlot < 0 || current.type != EventType.MouseUp || current.button != 0) return;
         if (rect.Contains(current.mousePosition))
         {
-            ItemStack stack = inventory?.GetSlot(draggedFeedSlot);
-            DepositFeed(draggedFeedSlot, stack?.count ?? 0);
+            DepositFeed(draggedFeedSlot, 1);
             current.Use();
         }
         draggedFeedSlot = -1;
@@ -596,6 +616,8 @@ public sealed class FishPond : MonoBehaviour
         }
         feedMaker.Configure($"feedmaker.{pondId}", Resources.Load<FeedMakerCatalog>("Catalogs/FeedMakerCatalog"));
         feedMaker.SetContextLabel("FISH POND");
+        feedMaker.SetDedicatedOutput(true);
+        feedMaker.SetExternalInteraction(true);
         feedMaker.SetWorldDebugVisible(false);
         Transform oldFeedLabel = feedingPoint.Find("FishFeed_DebugLabel");
         if (oldFeedLabel != null) oldFeedLabel.gameObject.SetActive(false);
@@ -623,7 +645,7 @@ public sealed class FishPond : MonoBehaviour
         Transform oldFeedLabel = feedingPoint != null ? feedingPoint.Find("FishFeed_DebugLabel") : null;
         if (oldFeedLabel != null) oldFeedLabel.gameObject.SetActive(false);
 
-        string makerStatus = feedMaker != null ? feedMaker.CompactDebugStatus : "EMPTY";
+        string makerStatus = feedMaker != null ? feedMaker.FishFeedCompactDebugStatus : "EMPTY";
         int feedPercent = FeedCapacity > 0 ? Mathf.RoundToInt(FeedStock * 100f / FeedCapacity) : 0;
         string feedStatus = FeedStock <= 0
             ? "EMPTY"

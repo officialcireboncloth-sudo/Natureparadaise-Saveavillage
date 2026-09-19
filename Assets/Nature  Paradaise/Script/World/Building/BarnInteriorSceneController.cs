@@ -20,6 +20,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     [SerializeField, Min(1f)] float cameraDistance = 25f;
     readonly List<Transform> feedingSlots = new();
     readonly List<Renderer> feedFillRenderers = new();
+    readonly HashSet<int> occupiedFeedSlots = new();
     Transform feedMakerPoint;
     FeedMaker feedMaker;
     WorldDebugStatusLabel troughDebugLabel;
@@ -102,6 +103,8 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         feedMaker.Configure($"feedmaker.animal-home.{home.Id}",
             Resources.Load<FeedMakerCatalog>("Catalogs/FeedMakerCatalog"));
         feedMaker.Connect(home,null);
+        feedMaker.SetDedicatedOutput(false);
+        feedMaker.SetExternalInteraction(true);
         feedMaker.SetWorldDebugVisible(true);
     }
 
@@ -195,8 +198,18 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     void RefreshFeedVisual(AnimalHome home)
     {
         int filled=home!=null ? home.TotalFeed : 0;
+        while(occupiedFeedSlots.Count>filled)
+        {
+            int remove=-1;
+            foreach(int index in occupiedFeedSlots) if(index>remove) remove=index;
+            if(remove<0) break;
+            occupiedFeedSlots.Remove(remove);
+        }
+        for(int i=0;occupiedFeedSlots.Count<filled && i<feedingSlots.Count;i++)
+            if(feedingSlots[i]!=null && feedingSlots[i].gameObject.activeSelf) occupiedFeedSlots.Add(i);
         for(int i=0;i<feedFillRenderers.Count;i++)
-            if(feedFillRenderers[i]!=null) feedFillRenderers[i].gameObject.SetActive(i<filled && feedingSlots[i].gameObject.activeSelf);
+            if(feedFillRenderers[i]!=null) feedFillRenderers[i].gameObject.SetActive(
+                occupiedFeedSlots.Contains(i) && feedingSlots[i].gameObject.activeSelf);
     }
 
     Transform ClosestFeedingSlot(Vector3 position,out float distance)
@@ -258,6 +271,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         if(player==null || BarnInterior.Current==null) return;
         AnimalHome home=BarnInterior.Current.home;
         Inventory playerInventory=player.GetComponent<Inventory>();
+        InventoryHotbarUI hotbar=player.GetComponent<InventoryHotbarUI>();
         if(feedMaker==null) ResolveDedicatedFeedMaker(home);
         if(troughDebugLabel==null) EnsureDebugLabels();
         troughDebugLabel?.SetText($"PAKAN {home.Label}: {home.TotalFeed}/{home.FeedingSlotCapacity}\n"+
@@ -271,13 +285,13 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
             {
                 string ready=feedMaker!=null ? feedMaker.AnimalFeedOutput.ToString() : "-";
                 WorldInteractionPrompt.Request(this,feedMakerPoint,
-                    $"F: Ambil Animal Feed ({ready}) | E: Kelola Feed Maker",makerDistance,1.2f);
+                    $"F: Ambil 1 Animal Feed ke Inventory (Ready {ready}) | E: Kelola Feed Maker",makerDistance,1.2f);
                 if(PlayerInteractionTarget.PressPickup(player.transform,feedMakerPoint,KeyCode.F,interactionRadius))
                 {
                     bool collected=feedMaker!=null && feedMaker.Collect(playerInventory);
                     SaveLoadFeedback.Instance?.ShowMessage(collected
-                        ? "Animal Feed masuk ke Inventory"
-                        : "Animal Feed belum ready / Inventory penuh");
+                        ? "Animal Feed x1 masuk ke Inventory."
+                        : "Animal Feed belum ready / Inventory penuh.");
                 }
                 else if(PlayerInteractionTarget.PressPickup(player.transform,feedMakerPoint,KeyCode.E,interactionRadius))
                     feedMaker?.OpenFor(playerInventory);
@@ -288,12 +302,42 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         Transform trough=ClosestFeedingSlot(player.transform.position,out float troughDistance);
         if(trough!=null && troughDistance<=troughInteractionRadius)
         {
+            int troughIndex=feedingSlots.IndexOf(trough);
+            bool occupied=troughIndex>=0 && occupiedFeedSlots.Contains(troughIndex);
+            ItemStack heldStack=hotbar!=null ? hotbar.SelectedStack : null;
+            bool holdingFeed=heldStack?.item!=null && heldStack.count>0 && home.AcceptsFeedItem(heldStack.item);
+            string action=occupied
+                ? $"Box {troughIndex+1}: TERISI"
+                : home.FeedSpace<=0
+                    ? "Tempat pakan penuh"
+                    : holdingFeed
+                        ? $"F: Masukkan 1 {heldStack.DisplayName} ke Box {troughIndex+1}"
+                        : $"Box {troughIndex+1}: KOSONG — pilih Animal Feed/Grass di hotbar";
             WorldInteractionPrompt.Request(this,trough,
-                $"E: Tempat Pakan {home.Label}\nIsi {home.TotalFeed}/{home.FeedingSlotCapacity} " +
+                $"{action}\nTempat Pakan {home.Label}: {home.TotalFeed}/{home.FeedingSlotCapacity} " +
                 $"(Feed {home.Fodder} | Grass {home.Grass}) | Belum makan {home.RequiredFeedToday}",
                 troughDistance,1.15f);
-            if(PlayerInteractionTarget.PressPickup(player.transform,trough,KeyCode.E,troughInteractionRadius))
-                AnimalCarePanel.Show(null,home,player.GetComponent<Inventory>());
+            if(PlayerInteractionTarget.PressPickup(player.transform,trough,KeyCode.F,troughInteractionRadius))
+            {
+                if(occupied)
+                    SaveLoadFeedback.Instance?.ShowMessage($"Box {troughIndex+1} sudah terisi.");
+                else if(!holdingFeed)
+                    SaveLoadFeedback.Instance?.ShowMessage("Pilih Animal Feed atau Grass dari hotbar terlebih dahulu.");
+                else
+                {
+                    int moved=home.DepositFromSlot(playerInventory,hotbar.SelectedIndex,1);
+                    if(moved>0)
+                    {
+                        occupiedFeedSlots.Add(troughIndex);
+                        PlayerPickupNotification.Show(player.transform,$"{heldStack.DisplayName} x1 → Box {troughIndex+1}");
+                        SaveLoadFeedback.Instance?.ShowMessage($"Box {troughIndex+1} diisi 1 {heldStack.DisplayName}.");
+                        RefreshFeedVisual(home);
+                    }
+                    else SaveLoadFeedback.Instance?.ShowMessage(home.FeedSpace<=0
+                        ? "Tempat pakan penuh."
+                        : "Pakan gagal dimasukkan.");
+                }
+            }
             return;
         }
         if(exitDoor==null) return;

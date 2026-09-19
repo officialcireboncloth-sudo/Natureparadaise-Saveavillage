@@ -75,6 +75,12 @@ public static class PlayerInteractionTarget
         return Input.GetKeyDown(key) && ConsumeKey(key);
     }
 
+    /// <summary>
+    /// True jika tombol sudah dipakai interaksi dunia pada frame ini. Sistem tool
+    /// memakainya agar satu tekanan F tidak ikut mencangkul/menebang setelah mengambil item.
+    /// </summary>
+    public static bool WasConsumed(KeyCode key) => inputFrame==Time.frameCount && UsedKeys.Contains(key);
+
     static bool ConsumeKey(KeyCode key)
     {
         if (inputFrame != Time.frameCount) { inputFrame = Time.frameCount; UsedKeys.Clear(); }

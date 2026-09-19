@@ -227,14 +227,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1060000000040008000000000000001, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  machineId:
+  m_Name: 
+  m_EditorClassIdentifier: 
+  machineId: 
+  contextLabel: 
   catalog: {fileID: 11400000, guid: d1060000000040008000000000000020, type: 2}
   level: 1
   outputCapacity: 60
   linkedStorage: {fileID: 0}
   linkedSilo: {fileID: 0}
+  automaticOutputTransferEnabled: 0
+  externalAnimalHomeInteraction: 0
 --- !u!1 &2929215386653096052
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,8 +805,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d5f8e81a7bc4bf4a214b70855550d01, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   pondId: 
   fallbackLevel: 2
   fishFeed: {fileID: 11400000, guid: f15fee4d53d94d2385555d0f0a48bd01, type: 2}

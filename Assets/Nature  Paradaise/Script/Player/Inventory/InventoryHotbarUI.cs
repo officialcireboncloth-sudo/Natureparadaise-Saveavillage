@@ -164,7 +164,9 @@ public sealed class InventoryHotbarUI : MonoBehaviour
                 fishingSystem != null && fishingSystem.EquippedBait == item
                     ? "F: lepas bait dari Fishing Rod"
                     : "F: pasang bait pada Fishing Rod",
-            _ when item != null && animalCare != null && item == animalCare.fodder => "Dekati hewan lalu tekan F: beri makan",
+            _ when item != null && animalCare != null && item == animalCare.fodder => "Dekati box pakan lalu tekan F: isi 1",
+            _ when item != null && item.itemId == "item.grass" => "Dekati box pakan lalu tekan F: isi 1",
+            _ when item != null && item.itemId == "item.fish_feed" => "Dekati tempat pakan kolam lalu tekan F: isi 1",
             _ when item != null && animalCare != null && item == animalCare.treat => "Dekati hewan lalu tekan F: beri treat",
             _ when item != null && item.category == ItemCategory.Food => "C: makan item terpilih",
             _ when item != null && item.canPlaceInWorld && item.canDropToWorld => "P: letakkan  |  G: jatuhkan  |  Shift: seluruh stack",

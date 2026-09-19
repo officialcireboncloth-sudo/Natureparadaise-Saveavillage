@@ -59,7 +59,6 @@ public sealed class PlayerAnimalCarry : MonoBehaviour
             !AnimalGrowthProfileSO.IsBird(animal.Type)) return false;
         PlayerGatheringTool gathering = GetComponent<PlayerGatheringTool>();
         if (gathering != null && gathering.IsCarrying) return false;
-
         EnsureAnchor();
         carriedAnimal = animal;
         pickedUpFrame = Time.frameCount;
