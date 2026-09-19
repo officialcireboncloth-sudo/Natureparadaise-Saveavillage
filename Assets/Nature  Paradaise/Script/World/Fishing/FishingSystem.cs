@@ -295,7 +295,10 @@ public sealed class FishingSystem : MonoBehaviour
         if (!held)
         {
             if (inventory.Add(item, 1, qualityStars, sizeCm))
+            {
+                PlayerPickupNotification.ShowItem(inventory,item,1);
                 QuestEventHub.Publish(QuestObjectiveType.Collect, item.name, 1, item);
+            }
             else
                 WorldGatherable.SpawnLoosePickup(item, 1, transform.position + transform.forward + Vector3.up * 0.3f, qualityStars, sizeCm);
         }

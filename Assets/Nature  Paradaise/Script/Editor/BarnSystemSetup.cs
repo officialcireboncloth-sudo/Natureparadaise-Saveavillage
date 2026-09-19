@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public static class BarnSystemSetup
 {
     const string BarnScenePath="Assets/Nature  Paradaise/Map/Scenes/Interiors/BarnInterior.unity";
+    const string CoopScenePath="Assets/Nature  Paradaise/Map/Scenes/Interiors/CoopInterior.unity";
     const string BarnDefinitionPath="Assets/Nature  Paradaise/Resources/Buildings/Barn Building.asset";
     const string ExteriorFolder="Assets/Nature  Paradaise/Prefabs/Barn/Exterior";
     const string InteriorFolder="Assets/Nature  Paradaise/Prefabs/Barn/Interior";
@@ -50,6 +51,20 @@ public static class BarnSystemSetup
     public static void CreateOrOpenBarnScene()
     {
         EnsureBarnScene(true);
+    }
+
+    [MenuItem("Nature Paradise/Barn/Open Coop Interior Scene",false,111)]
+    public static void OpenCoopScene()
+    {
+        SceneAsset scene=AssetDatabase.LoadAssetAtPath<SceneAsset>(CoopScenePath);
+        if(scene==null)
+        {
+            Debug.LogError($"[COOP SETUP] Scene tidak ditemukan: {CoopScenePath}");
+            return;
+        }
+        Selection.activeObject=scene;
+        EditorGUIUtility.PingObject(scene);
+        AssetDatabase.OpenAsset(scene);
     }
 
     static void EnsureBarnScene(bool openAfterCreate)
@@ -100,7 +115,20 @@ public static class BarnSystemSetup
             spot.transform.localPosition=new Vector3(-4+(i%5)*2f,0.1f,2+(i/5)*2f);
             spots[i]=spot.transform;
         }
-        controller.Configure(layouts,exit.transform,spots);
+        GameObject troughRoot=new("FeedingTroughSlots_Editable");
+        troughRoot.transform.SetParent(root.transform,false);
+        troughRoot.transform.localPosition=new Vector3(0f,-200f,0f);
+        for(int i=0;i<30;i++)
+        {
+            GameObject slot=new($"FeedSlot_{i+1:00}_Editable");
+            slot.transform.SetParent(troughRoot.transform,false);
+            slot.transform.localPosition=new Vector3(i%2==0 ? -2.6f : 2.6f,0f,(i/2)*1.8f);
+        }
+        GameObject cameraMarker=new("BarnCameraAngle_Editable");
+        cameraMarker.transform.SetParent(root.transform,false);
+        cameraMarker.transform.localPosition=new Vector3(0f,-195f,-8f);
+        cameraMarker.transform.localRotation=Quaternion.Euler(55f,0f,0f);
+        controller.Configure(layouts,exit.transform,spots,troughRoot.transform,cameraMarker.transform);
 
         Directory.CreateDirectory(Path.GetDirectoryName(BarnScenePath));
         EditorSceneManager.SaveScene(scene,BarnScenePath);
@@ -216,7 +244,9 @@ public static class BarnSystemSetup
         Primitive("Wall_Left_ReplaceMe",parent,new Vector3(-width*0.5f,2.5f,centerZ),new Vector3(0.4f,5f,depth));
         Primitive("Wall_Right_ReplaceMe",parent,new Vector3(width*0.5f,2.5f,centerZ),new Vector3(0.4f,5f,depth));
         Primitive("Wall_Back_ReplaceMe",parent,new Vector3(0f,2.5f,front+depth),new Vector3(width,5f,0.4f));
-        Primitive("FeedMaker_Position_ReplaceMe",parent,new Vector3(width*0.25f,0.75f,front+depth-3f),new Vector3(1.5f,1.5f,1.5f));
+        // Mesin besar di tengah dinding belakang adalah Feed Maker. Feeding trough berada
+        // terpisah di lantai dan dibuat oleh BarnInteriorSceneController.
+        Primitive("FeedMaker_Position_ReplaceMe",parent,new Vector3(0f,1.5f,front+depth-3f),new Vector3(3f,3f,2.5f));
         Primitive("FeedSilo_Position_ReplaceMe",parent,new Vector3(-width*0.35f,1.5f,front+depth-3f),new Vector3(1.5f,3f,1.5f));
         GameObject stalls=new("AnimalArea_ReplaceMe");
         stalls.transform.SetParent(parent,false);

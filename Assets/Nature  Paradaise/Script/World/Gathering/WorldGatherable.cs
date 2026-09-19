@@ -97,7 +97,7 @@ public sealed class WorldGatherable : MonoBehaviour
         return transform.position;
     }
 
-    public void ConfigureRuntimeGrass(string id, ItemSO fodder)
+    public void ConfigureRuntimeGrass(string id, ItemSO grassItem)
     {
         gatherableId = id;
         kind = GatherableKind.Grass;
@@ -109,8 +109,9 @@ public sealed class WorldGatherable : MonoBehaviour
         minimumRespawnDays = 2;
         maximumRespawnDays = 4;
         drops.Clear();
-        if (fodder != null)
-            drops.Add(new GatherableDrop { item = fodder, minimumAmount = 1, maximumAmount = 1, chance = 1f });
+        grassItem ??= LoadGrassItem();
+        if (grassItem != null)
+            drops.Add(new GatherableDrop { item = grassItem, minimumAmount = 1, maximumAmount = 1, chance = 1f });
     }
 
     void Awake()
@@ -125,6 +126,7 @@ public sealed class WorldGatherable : MonoBehaviour
             gatherableId = FormattableString.Invariant(
                 $"{gameObject.scene.name}:{kind}:{position.x:0.###}:{position.y:0.###}:{position.z:0.###}");
         }
+        if (kind == GatherableKind.Grass) NormalizeGrassDrops();
         currentDurability = Mathf.Max(1, maximumDurability);
     }
 
@@ -163,11 +165,35 @@ public sealed class WorldGatherable : MonoBehaviour
         if (!CanSickle) return false;
         PlayFeedback(cutSound, leafParticles);
         Deplete(player, false);
-        ItemSO fodder = AnimalCareCatalog.Load()?.fodder;
-        if (kind == GatherableKind.Grass && fodder != null && !drops.Exists(drop => drop != null && drop.item == fodder))
-            PlacedWorldItem.Spawn(fodder, 1, transform.position + Vector3.up * 0.35f, Quaternion.identity, false);
         return true;
     }
+
+    /// <summary>
+    /// Memastikan rumput liar menghasilkan bahan Grass mentah. Animal Feed hanya dibuat
+    /// setelah Grass diproses melalui Feed Maker.
+    /// </summary>
+    void NormalizeGrassDrops()
+    {
+        ItemSO grassItem = LoadGrassItem();
+        if (grassItem == null) return;
+
+        ItemSO animalFeed = AnimalCareCatalog.Load()?.fodder;
+        bool hasGrass = false;
+        for (int i = 0; i < drops.Count; i++)
+        {
+            GatherableDrop drop = drops[i];
+            if (drop == null) continue;
+            if (drop.item == animalFeed || drop.item != null && drop.item.itemId == "item.animal_feed")
+                drop.item = grassItem;
+            if (drop.item == grassItem || drop.item != null && drop.item.itemId == "item.grass")
+                hasGrass = true;
+        }
+
+        if (!hasGrass)
+            drops.Add(new GatherableDrop { item = grassItem, minimumAmount = 1, maximumAmount = 1, chance = 1f });
+    }
+
+    static ItemSO LoadGrassItem() => Resources.Load<ItemSO>("Items/Materials/Grass");
 
     /// <summary>Satu patch rumput habis dimakan; tidak membuat pickup bagi player.</summary>
     public bool TryGraze()

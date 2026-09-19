@@ -44,8 +44,8 @@ public class AnimalController : MonoBehaviour
     [Header("Inventory")]
     public Inventory playerInv;
 
-    [InspectorName("Feed Item (Grass / Fodder)")]
-    [Tooltip("Pakan harian; nama field legacy dipertahankan agar referensi scene lama tetap terbaca.")]
+    [InspectorName("Animal Feed Item")]
+    [Tooltip("Pakan olahan dari Feed Maker; nama field legacy dipertahankan agar referensi scene lama tetap terbaca.")]
     public ItemSO cabbageItem;
 
     [Tooltip("ItemSO Milk.")]
@@ -73,6 +73,10 @@ public class AnimalController : MonoBehaviour
 
     void Awake()
     {
+        // Scene prototipe lama pernah menghubungkan debug text Cow ke label milik NPCSeller.
+        // Jangan menulis status hewan ke UI yang bukan child dari hewan ini.
+        if (hungerText != null && !hungerText.transform.IsChildOf(transform))
+            hungerText = null;
         ApplyCareDefaults();
         if (playerInv == null)
             playerInv = FindFirstObjectByType<Inventory>();
@@ -319,6 +323,7 @@ public class AnimalController : MonoBehaviour
 
         milkReady = false;
         growth?.MarkProductCollected();
+        PlayerPickupNotification.ShowItem(playerInv, milkItem, 1);
 
         SaveLoadFeedback.Instance?.ShowMessage($"{milkItem.itemName} ({AnimalCareCatalog.QualityName(quality)}) berhasil diambil");
 

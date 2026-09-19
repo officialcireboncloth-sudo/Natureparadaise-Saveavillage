@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>Fish Feed sementara untuk menguji Daily Growth tanpa menunggu Fishing Shop/Feed Maker.</summary>
+/// <summary>Persediaan sementara untuk menguji Fish Pond dan alur Feed Maker.</summary>
 public static class FishPondTestGrant
 {
     static bool granted;
@@ -26,13 +26,18 @@ public static class FishPondTestGrant
             scene.name.Contains("MainMenu", System.StringComparison.OrdinalIgnoreCase)) return;
         Inventory inventory = Object.FindFirstObjectByType<Inventory>();
         ItemSO feed = Resources.Load<ItemSO>("Items/Fish/Fish Feed");
-        if (inventory == null || feed == null) return;
+        ItemSO grass = Resources.Load<ItemSO>("Items/Materials/Grass");
+        if (inventory == null) return;
         granted = true;
-        if (inventory.GetCount(feed) == 0)
+        bool changed = false;
+        if (feed != null && inventory.GetCount(feed) == 0)
         {
-            inventory.Add(feed, 20);
-            InventoryHotbarUI.TryShowTemporaryMessage("TEST FISH POND: Fish Feed x20 ditambahkan.", 3f);
+            changed |= inventory.Add(feed, 20);
         }
+        if (grass != null && inventory.GetCount(grass) < 99)
+            changed |= inventory.Add(grass, 99 - inventory.GetCount(grass));
+        if (changed)
+            InventoryHotbarUI.TryShowTemporaryMessage("DEBUG FEED: Grass x99 dan Fish Feed tersedia.", 3f);
 #endif
     }
 
@@ -41,6 +46,9 @@ public static class FishPondTestGrant
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
         ItemSO feed = Resources.Load<ItemSO>("Items/Fish/Fish Feed");
         if (inventory != null && feed != null && inventory.GetCount(feed) == 0) inventory.Add(feed, 20);
+        ItemSO grass = Resources.Load<ItemSO>("Items/Materials/Grass");
+        if (inventory != null && grass != null && inventory.GetCount(grass) < 99)
+            inventory.Add(grass, 99 - inventory.GetCount(grass));
 #endif
     }
 }

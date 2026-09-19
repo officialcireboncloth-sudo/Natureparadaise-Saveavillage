@@ -21,6 +21,8 @@ public class NPCSeller : MonoBehaviour
     public Inventory playerInv;
     public ShopManager shop;
     public ShopUI shopUI;
+    [Header("Debug Label")]
+    [SerializeField] TMPro.TMP_Text debugWorldLabel;
 
     bool shopOpen = false;
     PlayerController movement;
@@ -28,6 +30,14 @@ public class NPCSeller : MonoBehaviour
 
     void Awake()
     {
+        if (debugWorldLabel == null)
+            debugWorldLabel = GetComponentInChildren<TMPro.TMP_Text>(true);
+        if (debugWorldLabel != null)
+        {
+            debugWorldLabel.text = "SELLER";
+            debugWorldLabel.raycastTarget = false;
+            debugWorldLabel.gameObject.SetActive(HUDManager.DebugCluesEnabled);
+        }
         ResolveRuntimeReferences();
     }
 
@@ -56,6 +66,8 @@ public class NPCSeller : MonoBehaviour
 
     void Update()
     {
+        if (debugWorldLabel != null && debugWorldLabel.gameObject.activeSelf != HUDManager.DebugCluesEnabled)
+            debugWorldLabel.gameObject.SetActive(HUDManager.DebugCluesEnabled);
         if (playerInv == null)
             return;
 

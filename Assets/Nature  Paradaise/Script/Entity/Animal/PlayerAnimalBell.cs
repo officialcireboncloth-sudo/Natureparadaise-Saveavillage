@@ -69,22 +69,43 @@ public sealed class PlayerAnimalBell : MonoBehaviour
 
         nextUseTime = Time.unscaledTime + cooldown;
         GameAudio.PlayOneShot(audioSource, bellClip != null ? bellClip : GetFallbackBell(), GameAudioBus.Main);
-        selectedHome?.SetAnimalsOutsideState(outside);
-
         int changed = 0;
         int targetCount = 0;
+        int alreadyInState = 0;
+        int releaseIndex = 0;
         foreach (AnimalRoutine routine in AnimalRoutine.Active)
         {
             if (!IsTarget(routine)) continue;
             targetCount++;
             if (outside)
             {
-                if (routine.Release()) changed++;
+                if (!routine.IsHoused && !routine.Returning) { alreadyInState++; continue; }
+                Vector3 position = selectedHome != null
+                    ? selectedHome.OutdoorReleasePosition(releaseIndex++)
+                    : routine.Home.OutdoorReleasePosition(releaseIndex++);
+                if (routine.ReleaseAt(position)) changed++;
             }
             else if (!routine.IsHoused)
             {
                 routine.Recall();
                 changed++;
+            }
+            else alreadyInState++;
+        }
+
+        // Status saklar baru disimpan setelah perintah berhasil. Sebelumnya status dapat
+        // berubah ke "luar" walaupun Release gagal, sehingga klik berikutnya justru mencoba masuk.
+        if (selectedHome != null)
+        {
+            bool commandAccepted = targetCount > 0 && changed + alreadyInState >= targetCount;
+            if (commandAccepted) selectedHome.SetAnimalsOutsideState(outside);
+            else
+            {
+                bool anyOutside = false;
+                foreach (AnimalRoutine resident in selectedHome.Residents)
+                    if (resident != null && resident.Animal != null && resident.Animal.HasBeenBorn && !resident.IsHoused)
+                    { anyOutside = true; break; }
+                selectedHome.SetAnimalsOutsideState(anyOutside);
             }
         }
 
@@ -94,8 +115,11 @@ public sealed class PlayerAnimalBell : MonoBehaviour
             message = $"Animal Bell: belum ada hewan di {homeName}.";
         else if (outside)
             message = changed > 0
-                ? $"Animal Bell: {changed} hewan dari {homeName} dikeluarkan."
-                : "Hewan tidak dapat keluar. Periksa waktu, cuaca, kesehatan, dan kandang.";
+                ? $"Animal Bell: {changed}/{targetCount} hewan dari {homeName} dikeluarkan" +
+                  (alreadyInState > 0 ? $" ({alreadyInState} sudah di luar)." : ".")
+                : alreadyInState == targetCount
+                    ? $"Semua {targetCount} hewan di {homeName} sudah berada di luar."
+                    : $"Hewan tidak dapat keluar dari {homeName}. Cek pesan alasan dan status penghuni.";
         else
             message = changed > 0
                 ? $"Animal Bell: {changed} hewan dipanggil masuk ke {homeName}."
@@ -215,6 +239,7 @@ public sealed class AnimalBellStation : MonoBehaviour
         ResolvePlayer();
         if (player == null || bell == null || toggleButton == null) return;
 
+        home.SynchronizeBellStateFromResidents();
         bool currentlyOutside = home.AnimalsOutside;
         if (buttonRenderer != null && buttonRenderer.material != null)
             buttonRenderer.material.color = currentlyOutside
@@ -224,7 +249,15 @@ public sealed class AnimalBellStation : MonoBehaviour
         if (distance > interactionRadius) return;
 
         string action = currentlyOutside ? "MASUKKAN SEMUA HEWAN" : "KELUARKAN SEMUA HEWAN";
-        WorldInteractionPrompt.Request(this, toggleButton, $"E: {action}\n{home.Label}", distance, 0.55f);
+        int inside = 0;
+        int outside = 0;
+        foreach (AnimalRoutine resident in home.Residents)
+        {
+            if (resident == null || resident.Animal == null || !resident.Animal.HasBeenBorn) continue;
+            if (resident.IsHoused) inside++; else outside++;
+        }
+        WorldInteractionPrompt.Request(this, toggleButton,
+            $"E: {action}\n{home.Label} | Dalam {inside} | Luar {outside}", distance, 0.55f);
         if (!PlayerInteractionTarget.PressPickup(player.transform, toggleButton, KeyCode.E, interactionRadius)) return;
         bell.ToggleAnimals(home);
     }

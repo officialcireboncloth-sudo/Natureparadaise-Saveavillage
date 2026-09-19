@@ -110,6 +110,9 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
 
     void Awake()
     {
+        ItemSO defaultGrass = Resources.Load<ItemSO>("Items/Materials/Grass");
+        if (defaultGrass != null && (grassItem == null || grassItem.itemId == "item.animal_feed"))
+            grassItem = defaultGrass;
         if (targetTerrain == null) targetTerrain = GetComponent<Terrain>();
         if (targetTerrain == null || targetTerrain.terrainData == null)
         {

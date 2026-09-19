@@ -34,7 +34,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 12
     completedPrefab: {fileID: 4114232589795680473, guid: cbdeb96389662524cac0172cf6373fb5, type: 3}
-    capacity: 20
+    capacity: 4
     unlockIds:
     - fish-pond.level-1
   - level: 2
@@ -47,7 +47,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 16
     completedPrefab: {fileID: 7777364631763218712, guid: e8ac0a9f469fc574fb1cff257c134f57, type: 3}
-    capacity: 40
+    capacity: 8
     unlockIds:
     - fish-pond.level-2
   - level: 3
@@ -60,7 +60,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 20
     completedPrefab: {fileID: 6843131606275978238, guid: 35d0513564ee879479d5f07ffeab4f8f, type: 3}
-    capacity: 70
+    capacity: 12
     unlockIds:
     - fish-pond.level-3
   - level: 4
@@ -73,6 +73,6 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 24
     completedPrefab: {fileID: 3736236243136437459, guid: e34ef04acf73a1f45aec79340666e917, type: 3}
-    capacity: 100
+    capacity: 16
     unlockIds:
     - fish-pond.level-4

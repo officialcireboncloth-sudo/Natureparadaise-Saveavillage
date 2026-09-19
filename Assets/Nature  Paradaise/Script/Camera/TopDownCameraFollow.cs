@@ -51,6 +51,9 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     public Transform Target => target;
     public int ZoomIndex => zoomIndex;
     public float CurrentZoomSize => baseOrthographicSize;
+    public float Pitch => pitch;
+    public float Yaw => yaw;
+    public float FollowDistance => distance;
 
     const string ZoomPreferenceKey = "NatureParadise.CameraZoomLevel";
 
@@ -155,6 +158,17 @@ public sealed class TopDownCameraFollow : MonoBehaviour
 
         if (snapImmediately && target != null)
             transform.position = GetDesiredPosition();
+    }
+
+    /// <summary>Mengganti framing per scene tanpa menulis nilai prefab kamera dunia.</summary>
+    public void SetFraming(float nextPitch,float nextYaw,float nextDistance,bool snapImmediately=true)
+    {
+        pitch=Mathf.Clamp(nextPitch,35f,75f);
+        yaw=Mathf.Repeat(nextYaw+180f,360f)-180f;
+        distance=Mathf.Max(1f,nextDistance);
+        ApplyFixedRotation();
+        followVelocity=Vector3.zero;
+        if(snapImmediately && target!=null) transform.position=GetDesiredPosition();
     }
 
     /// <summary>Zoom mendekat satu tingkat. Bisa dipanggil tombol UI mobile.</summary>

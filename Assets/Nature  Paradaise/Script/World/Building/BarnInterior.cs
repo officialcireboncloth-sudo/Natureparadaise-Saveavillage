@@ -1,6 +1,6 @@
 using UnityEngine;
 
-/// <summary>Portal authored di Map menuju scene BarnInterior yang dipakai bersama semua Barn.</summary>
+/// <summary>Portal authored di Map menuju scene interior Barn atau Coop sesuai jenis AnimalHome.</summary>
 public sealed class BarnInterior : MonoBehaviour
 {
     public static BarnInterior Current { get; private set; }
@@ -47,8 +47,7 @@ public sealed class BarnInterior : MonoBehaviour
         home=targetHome;
         exteriorDoor=exterior;
         exteriorBarrier=barrier!=null ? barrier : GetComponent<BoxCollider>();
-        interiorSceneName="BarnInterior";
-        entrySpawnId="barn-interior-entry";
+        ResolveInteriorDestination();
         if(roomRoot!=null) roomRoot.gameObject.SetActive(false);
         DisableLegacyRoomChildren();
     }
@@ -57,11 +56,19 @@ public sealed class BarnInterior : MonoBehaviour
     {
         if(Current!=null || home==null || !home.Available || player==null || player.IsMovementLocked ||
            SceneTransitionManager.Instance==null) return false;
+        ResolveInteriorDestination();
         returnPosition=player.transform.position;
         Current=this;
         if(SceneTransitionManager.Instance.EnterInterior(interiorSceneName,entrySpawnId)) return true;
         Current=null;
         return false;
+    }
+
+    void ResolveInteriorDestination()
+    {
+        bool coop=home!=null && home.Kind==AnimalHousingKind.Coop;
+        interiorSceneName=coop ? "CoopInterior" : "BarnInterior";
+        entrySpawnId=coop ? "coop-interior-entry" : "barn-interior-entry";
     }
 
     public void Leave()
@@ -88,8 +95,7 @@ public sealed class BarnInterior : MonoBehaviour
         Transform target=runtimeExteriorDoor!=null ? runtimeExteriorDoor : exteriorDoor!=null ? exteriorDoor : transform;
         // Bila area portal dan bell masih bersentuhan, E selalu menjadi input bell.
         // Ini mencegah player tidak sengaja masuk interior saat menekan saklar.
-        if((home.BellStation!=null && home.BellStation.IsPlayerInRange(player.transform)) ||
-           home.IsTroughPlayerInRange(player.transform)) return;
+        if(home.BellStation!=null && home.BellStation.IsPlayerInRange(player.transform)) return;
         if(!PlayerInteractionTarget.ContainsPickup(player.transform,target,interactionRadius)) return;
         float distance=Vector3.Distance(player.transform.position,target.position);
         WorldInteractionPrompt.Request(this,target,$"E: Masuk {home.Label}",Mathf.Max(0f,distance-0.25f),1.5f);

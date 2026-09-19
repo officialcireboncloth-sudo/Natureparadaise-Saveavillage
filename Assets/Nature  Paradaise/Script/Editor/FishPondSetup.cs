@@ -20,7 +20,7 @@ public static class FishPondSetup
     [InitializeOnLoadMethod]
     static void QueueSetup()
     {
-        const string sessionKey = "NatureParadise.FishPond.Setup.V2";
+        const string sessionKey = "NatureParadise.FishPond.Setup.V3";
         if (SessionState.GetBool(sessionKey, false)) return;
         EditorApplication.delayCall += () =>
         {
@@ -60,26 +60,51 @@ public static class FishPondSetup
     {
         string path = $"{PrefabFolder}/FishPond_Lv{level}.prefab";
         GameObject existing = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-        if (existing != null) return existing;
-        GameObject root = new($"FishPond_Lv{level}");
+        bool loadedPrefab = existing != null;
+        GameObject root = loadedPrefab ? PrefabUtility.LoadPrefabContents(path) : new GameObject($"FishPond_Lv{level}");
         try
         {
             float size = 4f + (level - 1) * 0.65f;
-            FishPond pond = root.AddComponent<FishPond>();
+            FishPond pond = root.GetComponent<FishPond>();
+            if (pond == null) pond = root.AddComponent<FishPond>();
             pond.Configure(string.Empty, level, feed);
 
-            GameObject waterObject = Primitive("Water_ReplaceMe", root.transform,
-                new Vector3(0f, 0.05f, 0f), new Vector3(size, 0.12f, size), PrimitiveType.Cylinder, water);
-            Object.DestroyImmediate(waterObject.GetComponent<Collider>());
-            float half = size * 0.5f;
-            Primitive("Rim_Left_ReplaceMe", root.transform, new Vector3(-half, 0.22f, 0f), new Vector3(0.35f, 0.45f, size + 0.35f), PrimitiveType.Cube, rim);
-            Primitive("Rim_Right_ReplaceMe", root.transform, new Vector3(half, 0.22f, 0f), new Vector3(0.35f, 0.45f, size + 0.35f), PrimitiveType.Cube, rim);
-            Primitive("Rim_Front_ReplaceMe", root.transform, new Vector3(0f, 0.22f, -half), new Vector3(size, 0.45f, 0.35f), PrimitiveType.Cube, rim);
-            Primitive("Rim_Back_ReplaceMe", root.transform, new Vector3(0f, 0.22f, half), new Vector3(size, 0.45f, 0.35f), PrimitiveType.Cube, rim);
+            if (!loadedPrefab)
+            {
+                GameObject waterObject = Primitive("Water_ReplaceMe", root.transform,
+                    new Vector3(0f, 0.05f, 0f), new Vector3(size, 0.12f, size), PrimitiveType.Cylinder, water);
+                Object.DestroyImmediate(waterObject.GetComponent<Collider>());
+                float half = size * 0.5f;
+                Primitive("Rim_Left_ReplaceMe", root.transform, new Vector3(-half, 0.22f, 0f), new Vector3(0.35f, 0.45f, size + 0.35f), PrimitiveType.Cube, rim);
+                Primitive("Rim_Right_ReplaceMe", root.transform, new Vector3(half, 0.22f, 0f), new Vector3(0.35f, 0.45f, size + 0.35f), PrimitiveType.Cube, rim);
+                Primitive("Rim_Front_ReplaceMe", root.transform, new Vector3(0f, 0.22f, -half), new Vector3(size, 0.45f, 0.35f), PrimitiveType.Cube, rim);
+                Primitive("Rim_Back_ReplaceMe", root.transform, new Vector3(0f, 0.22f, half), new Vector3(size, 0.45f, 0.35f), PrimitiveType.Cube, rim);
+            }
 
-            return PrefabUtility.SaveAsPrefabAsset(root, path);
+            float stationX = size * 0.5f + 1.25f;
+            Transform trough = root.transform.Find("FishFeedTrough_Editable");
+            if (trough == null)
+                trough = Primitive("FishFeedTrough_Editable", root.transform,
+                    new Vector3(stationX, 0.35f, -1.75f), new Vector3(1.15f, 0.7f, 1.35f),
+                    PrimitiveType.Cube, rim).transform;
+
+            Transform makerTransform = root.transform.Find("FishPondFeedMaker_Editable");
+            if (makerTransform == null)
+                makerTransform = Primitive("FishPondFeedMaker_Editable", root.transform,
+                    new Vector3(stationX, 0.8f, 1.75f), new Vector3(1.2f, 1.6f, 1.2f),
+                    PrimitiveType.Cube, rim).transform;
+            FeedMaker maker = makerTransform.GetComponent<FeedMaker>();
+            if (maker == null) maker = makerTransform.gameObject.AddComponent<FeedMaker>();
+            pond.EditorConfigureFeedStations(trough, maker);
+
+            PrefabUtility.SaveAsPrefabAsset(root, path);
+            return AssetDatabase.LoadAssetAtPath<GameObject>(path);
         }
-        finally { Object.DestroyImmediate(root); }
+        finally
+        {
+            if (loadedPrefab) PrefabUtility.UnloadPrefabContents(root);
+            else Object.DestroyImmediate(root);
+        }
     }
 
     static BuildingDefinitionSO CreateOrUpdateDefinition(GameObject[] prefabs)
@@ -113,7 +138,7 @@ public static class FishPondSetup
         definition.canDemolish = true;
         ItemSO wood = Resources.Load<ItemSO>("Items/Materials/Wood");
         ItemSO stone = Resources.Load<ItemSO>("Items/Materials/Stone");
-        int[] capacities = { 20, 40, 70, 100 };
+        int[] capacities = { 4, 8, 12, 16 };
         int[] gold = { 500, 1000, 1800, 3000 };
         int[] days = { 2, 3, 4, 5 };
         definition.levels = new List<BuildingLevelDefinition>();

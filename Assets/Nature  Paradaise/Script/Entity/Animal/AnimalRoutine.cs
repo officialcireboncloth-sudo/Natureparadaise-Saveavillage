@@ -121,7 +121,8 @@ public sealed class AnimalRoutine : MonoBehaviour
         AnimalHome available = AnimalHome.FindVacancy(Animal.Type);
         return available != null && Assign(available);
     }
-    public bool Release()
+    public bool Release() => ReleaseAt(null);
+    public bool ReleaseAt(Vector3? outsidePosition)
     {
         int hour = TimeManager.Instance != null ? TimeManager.Instance.hour : 6;
         // Tombol keluar juga membatalkan perjalanan pulang yang belum selesai.
@@ -139,10 +140,10 @@ public sealed class AnimalRoutine : MonoBehaviour
             return true;
         }
         if (!AnimalCareRules.CanTurnOut(Animal.HasBeenBorn, Animal.Health == AnimalHealthState.Healthy, Animal.CanGrazeToday, hour, Home != null, housed)) return false;
-        transform.position = Home.Entry;
+        transform.position = outsidePosition ?? Home.Entry;
         housed = returning = false;
         ClearGrassTarget(); ClearRoamingTarget(); path = null; nextPathTime = 0;
-        ShowModel(); Animal.SetSheltered(false);
+        ShowModel(); Animal.SetSheltered(false); Activity = "Di luar";
         return true;
     }
     public bool CanReleaseNow()

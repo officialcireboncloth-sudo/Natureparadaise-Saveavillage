@@ -7,6 +7,7 @@ public sealed class AnimalHomeSaveData
 {
     public string id;
     public int fodder;
+    public int grass;
     public int level;
     public int maxCapacity;
     public int currentAnimals;
@@ -27,22 +28,27 @@ public sealed class AnimalHome : MonoBehaviour
     public Transform door;
     public PropertySite site;
     [SerializeField, Min(0)] int fodderStock;
+    [SerializeField, Min(0)] int grassStock;
     [Header("Animal Bell State")]
     [SerializeField] bool bellStateInitialized;
     [SerializeField] bool animalsOutside;
     [Header("Auto Feeder")]
     [SerializeField] bool forceAutoFeeder;
     [SerializeField, Min(1)] int autoFeederStartingLevel = 3;
-    [Header("Feeding Trough")]
-    [SerializeField, Min(1f)] float troughInteractionRadius = 2.25f;
-    Transform runtimeTrough;
     AnimalBellStation runtimeBellStation;
-    Inventory inventory;
     public string Id => site != null ? site.SiteId : homeId;
     public AnimalHousingKind Kind => site != null ? site.ActiveDefinition?.HousingKind ?? AnimalHousingKind.None : kind;
     public int Capacity => site != null ? site.ActiveDefinition?.GetLevel(site.CurrentLevel)?.capacity ?? 0 : capacity;
+    /// <summary>
+    /// Satu kompartemen tempat makan menyediakan satu slot penghuni. Dengan begitu
+    /// kapasitas kandang selalu sama dengan jumlah slot trough pada level aktif.
+    /// </summary>
+    public int FeedingSlotCapacity => Capacity;
     public bool Available => site == null || (site.CurrentLevel > 0 && site.State != BuildingConstructionState.Available && Kind != AnimalHousingKind.None);
     public int Fodder => fodderStock;
+    public int Grass => grassStock;
+    public int TotalFeed => fodderStock + grassStock;
+    public int FeedSpace => Mathf.Max(0, FeedingSlotCapacity - TotalFeed);
     public int RequiredFeedToday => Residents.FindAll(animal =>
         animal != null && animal.Animal != null && animal.Animal.HasBeenBorn && !animal.Animal.FedToday).Count;
     public bool HasAutoFeeder => forceAutoFeeder || (site != null && site.CurrentLevel >= autoFeederStartingLevel);
@@ -103,6 +109,25 @@ public sealed class AnimalHome : MonoBehaviour
             return point;
         }
     }
+
+    /// <summary>Titik aman di luar collider kandang untuk hasil saklar bell.</summary>
+    public Vector3 OutdoorReleasePosition(int groupIndex = 0)
+    {
+        Transform anchor = site != null ? site.BuildingAnchor : transform;
+        Vector3 entry = Entry;
+        Vector3 outward = entry - anchor.position;
+        outward.y = 0f;
+        if (outward.sqrMagnitude < 0.01f) outward = -anchor.forward;
+        outward.Normalize();
+        Vector3 side = Vector3.Cross(Vector3.up, outward);
+        float lateral = ((groupIndex % 5) - 2) * 0.75f;
+        float row = groupIndex / 5 * 0.9f;
+        Vector3 position = entry + outward * (2.25f + row) + side * lateral;
+        if (Physics.Raycast(position + Vector3.up * 6f, Vector3.down, out RaycastHit hit, 14f,
+            ~0, QueryTriggerInteraction.Ignore)) position.y = hit.point.y;
+        else position.y = entry.y;
+        return position;
+    }
     void Awake()
     {
         if (string.IsNullOrWhiteSpace(homeId)) homeId = FormattableString.Invariant($"{gameObject.scene.name}/{name}/{transform.position.x:R}/{transform.position.z:R}");
@@ -119,7 +144,6 @@ public sealed class AnimalHome : MonoBehaviour
         Active.Remove(this);
         TimeManager.OnDay -= EmptyTroughAtMidnight;
     }
-    void OnDestroy() { if (runtimeTrough != null) Destroy(runtimeTrough.gameObject); }
     void OnDrawGizmosSelected()
     {
         Vector3 position = door != null ? door.position : Entry;
@@ -129,88 +153,93 @@ public sealed class AnimalHome : MonoBehaviour
     }
     void Update()
     {
-        if (runtimeTrough != null) runtimeTrough.gameObject.SetActive(Available);
         if (!Available) return;
-        if (inventory == null) inventory = FindFirstObjectByType<Inventory>();
-        if (runtimeTrough == null)
-        {
-            runtimeTrough = new GameObject("AnimalTrough_Runtime").transform;
-            runtimeTrough.SetParent(transform, true);
-            GameObject visual = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            visual.name = "FeedingTrough_Visual";
-            visual.transform.SetParent(runtimeTrough, false);
-            visual.transform.localPosition = new Vector3(0f, 0.3f, 0f);
-            visual.transform.localScale = new Vector3(1.6f, 0.55f, 0.8f);
-            visual.GetComponent<Collider>().enabled = false;
-            Renderer renderer = visual.GetComponent<Renderer>();
-            Shader shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
-            if (renderer != null && shader != null)
-                renderer.material = new Material(shader) { color = new Color(0.34f, 0.2f, 0.08f) };
-
-            GameObject labelObject = new("FeedingTrough_Label");
-            labelObject.transform.SetParent(runtimeTrough, false);
-            labelObject.transform.localPosition = new Vector3(0f, 1.05f, 0f);
-            TextMesh label = labelObject.AddComponent<TextMesh>();
-            label.text = "FEED";
-            label.anchor = TextAnchor.MiddleCenter;
-            label.alignment = TextAlignment.Center;
-            label.fontSize = 42;
-            label.characterSize = 0.09f;
-            label.color = Color.white;
-        }
         if (runtimeBellStation == null)
             runtimeBellStation = AnimalBellStation.Create(this);
-        Transform building = site != null && site.BuildingAnchor != null ? site.BuildingAnchor : transform;
-        runtimeTrough.position = Entry + building.right * 5f;
-        runtimeTrough.rotation = Quaternion.Euler(0f, building.eulerAngles.y, 0f);
-        if (inventory == null || !PlayerInteractionTarget.ContainsPickup(inventory.transform, runtimeTrough, troughInteractionRadius)) return;
-        float distance = Vector3.Distance(inventory.transform.position, runtimeTrough.position);
-        WorldInteractionPrompt.Request(this, runtimeTrough,
-            $"E: Tempat Pakan {Label}\nStok {fodderStock} | Belum makan {RequiredFeedToday}", distance, 1.1f);
-        if (PlayerInteractionTarget.PressPickup(inventory.transform, runtimeTrough, KeyCode.E, troughInteractionRadius))
-            AnimalCarePanel.Show(null, this, inventory);
     }
     public bool Deposit(Inventory source, int amount)
     {
         ItemSO feed = AnimalCareCatalog.Load()?.fodder;
-        if (source == null || feed == null || amount <= 0 || amount > 999 - fodderStock || !source.Remove(feed, amount)) return false;
-        fodderStock += amount;
-        // Hewan outdoor harus mencoba grass terlebih dahulu. Hanya penghuni yang sedang
-        // berada di dalam kandang yang langsung makan dari trough ketika stok ditambah.
-        foreach (AnimalRoutine animal in Residents)
-            if (animal.IsHoused) animal.PrepareDailyCare();
+        int accepted = source == null || feed == null || amount <= 0
+            ? 0
+            : Mathf.Min(amount, FeedSpace, source.GetCount(feed));
+        if (accepted <= 0 || !source.Remove(feed, accepted)) return false;
+        fodderStock += accepted;
+        PrepareHousedAnimals();
         return true;
     }
 
-    public bool IsTroughPlayerInRange(Transform playerTransform)
+    /// <summary>
+    /// Memindahkan Grass mentah atau Animal Feed dari slot inventory tertentu ke trough.
+    /// Nilai balik adalah jumlah yang benar-benar masuk setelah dibatasi kapasitas.
+    /// </summary>
+    public int DepositFromSlot(Inventory source, int slotIndex, int amount)
     {
-        if (playerTransform == null || runtimeTrough == null) return false;
-        Vector3 delta = runtimeTrough.position - playerTransform.position;
-        delta.y = 0f;
-        return delta.sqrMagnitude <= troughInteractionRadius * troughInteractionRadius;
+        ItemStack stack = source != null ? source.GetSlot(slotIndex) : null;
+        if (stack?.item == null || stack.count <= 0 || amount <= 0 || FeedSpace <= 0)
+            return 0;
+
+        bool processed = IsProcessedFeed(stack.item);
+        bool rawGrass = IsRawGrass(stack.item);
+        if (!processed && !rawGrass) return 0;
+
+        int accepted = Mathf.Min(amount, stack.count, FeedSpace);
+        if (accepted <= 0 || !source.RemoveFromSlot(slotIndex, accepted)) return 0;
+        if (processed) fodderStock += accepted;
+        else grassStock += accepted;
+        PrepareHousedAnimals();
+        return accepted;
     }
+
+    public bool AcceptsFeedItem(ItemSO item) => IsProcessedFeed(item) || IsRawGrass(item);
+
+    static bool IsProcessedFeed(ItemSO item)
+    {
+        ItemSO configured = AnimalCareCatalog.Load()?.fodder;
+        return item != null && (item == configured || item.itemId == "item.animal_feed");
+    }
+
+    static bool IsRawGrass(ItemSO item) => item != null && item.itemId == "item.grass";
+
+    void PrepareHousedAnimals()
+    {
+        // Hewan outdoor mencoba grazing lebih dahulu. Penghuni di dalam kandang
+        // dapat langsung mengambil satu unit dari trough yang baru diisi.
+        foreach (AnimalRoutine animal in Residents)
+            if (animal.IsHoused) animal.PrepareDailyCare();
+    }
+
     public int StoreFeed(int amount)
     {
-        int accepted = Mathf.Clamp(amount, 0, 999 - fodderStock);
+        int accepted = Mathf.Clamp(amount, 0, FeedSpace);
         fodderStock += accepted;
         return accepted;
     }
-    public bool Withdraw(Inventory target)
+    public bool Withdraw(Inventory target, bool rawGrass = false)
     {
-        ItemSO feed = AnimalCareCatalog.Load()?.fodder;
-        if (target == null || fodderStock <= 0 || feed == null || !target.Add(feed, fodderStock)) return false;
-        fodderStock = 0;
+        ItemSO feed = rawGrass
+            ? Resources.Load<ItemSO>("Items/Materials/Grass")
+            : AnimalCareCatalog.Load()?.fodder;
+        int stock = rawGrass ? grassStock : fodderStock;
+        if (target == null || stock <= 0 || feed == null || !target.Add(feed, stock)) return false;
+        if (rawGrass) grassStock = 0;
+        else fodderStock = 0;
         return true;
     }
     public bool Feed(AnimalGrowthSystem animal)
     {
-        if (!Available || animal == null || !AnimalCareRules.ConsumeFeed(ref fodderStock, animal.HasBeenBorn, animal.FedToday)) return false;
+        if (!Available || animal == null) return false;
+        bool consumed = AnimalCareRules.ConsumeFeed(ref fodderStock, animal.HasBeenBorn, animal.FedToday);
+        if (!consumed)
+            consumed = AnimalCareRules.ConsumeFeed(ref grassStock, animal.HasBeenBorn, animal.FedToday);
+        if (!consumed) return false;
         animal.RegisterFeeding(50f, HasAutoFeeder ? AnimalFoodSource.AutoFeeder : AnimalFoodSource.FeedingTrough);
         return true;
     }
     void EmptyTroughAtMidnight()
     {
         fodderStock = 0;
+        grassStock = 0;
         // Daily transition selalu memulangkan penghuni kandang.
         animalsOutside = false;
         bellStateInitialized = true;
@@ -218,6 +247,17 @@ public sealed class AnimalHome : MonoBehaviour
     public void SetAnimalsOutsideState(bool outside)
     {
         animalsOutside = outside;
+        bellStateInitialized = true;
+    }
+    public void SynchronizeBellStateFromResidents()
+    {
+        List<AnimalRoutine> born = Residents.FindAll(routine =>
+            routine != null && routine.Animal != null && routine.Animal.HasBeenBorn);
+        if (born.Count == 0) return;
+        bool allInside = born.TrueForAll(routine => routine.IsHoused);
+        bool allOutside = born.TrueForAll(routine => !routine.IsHoused && !routine.Returning);
+        if (allInside) animalsOutside = false;
+        else if (allOutside) animalsOutside = true;
         bellStateInitialized = true;
     }
     void EnsureBellState()
@@ -240,7 +280,9 @@ public sealed class AnimalHome : MonoBehaviour
         if (target == null) target = destination.gameObject.AddComponent<AnimalHome>();
         target.site = destination;
         target.fodderStock = source.fodderStock;
+        target.grassStock = source.grassStock;
         source.fodderStock = 0;
+        source.grassStock = 0;
         foreach (AnimalRoutine routine in AnimalRoutine.Active)
             if (routine != null && routine.HomeId == sourceId) routine.RelocateHome(target.Id);
     }
@@ -250,7 +292,7 @@ public sealed class AnimalHome : MonoBehaviour
         foreach (AnimalHome home in Active) if (home != null)
         {
             home.EnsureBellState();
-            var saved = new AnimalHomeSaveData { id=home.Id, fodder=home.fodderStock,
+            var saved = new AnimalHomeSaveData { id=home.Id, fodder=home.fodderStock, grass=home.grassStock,
                 level=home.site!=null ? home.site.CurrentLevel : 1, maxCapacity=home.Capacity,
                 currentAnimals=home.AnimalCount, reservedSlots=home.ReservedSlots,
                 hasBellState=true, animalsOutside=home.animalsOutside };
@@ -266,7 +308,9 @@ public sealed class AnimalHome : MonoBehaviour
         foreach (AnimalHome home in Active)
         {
             AnimalHomeSaveData saved = data?.Find(d => d.id == home.Id);
-            home.fodderStock = Mathf.Clamp(saved?.fodder ?? 0, 0, 999);
+            home.fodderStock = Mathf.Clamp(saved?.fodder ?? 0, 0, home.FeedingSlotCapacity);
+            home.grassStock = Mathf.Clamp(saved?.grass ?? 0, 0,
+                Mathf.Max(0, home.FeedingSlotCapacity - home.fodderStock));
             home.bellStateInitialized = saved?.hasBellState ?? false;
             home.animalsOutside = saved?.animalsOutside ?? false;
         }

@@ -6,7 +6,7 @@ public static class WildGrassRuntimeSpawner
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void SpawnTestingGrass()
     {
-        ItemSO fodder = AnimalCareCatalog.Load()?.fodder;
+        ItemSO grassItem = Resources.Load<ItemSO>("Items/Materials/Grass");
         foreach (FieldArea field in FieldArea.ActiveAreas)
         {
             if (field == null || field.transform.Find("WildGrass_Test_Runtime") != null) continue;
@@ -30,7 +30,7 @@ public static class WildGrassRuntimeSpawner
                 Renderer renderer = grass.GetComponent<Renderer>();
                 if (renderer != null) renderer.material.color = new Color(0.22f, 0.62f, 0.16f);
                 WorldGatherable gatherable = grass.AddComponent<WorldGatherable>();
-                gatherable.ConfigureRuntimeGrass($"{field.FieldId}:wild-grass:{x}:{z}", fodder);
+                gatherable.ConfigureRuntimeGrass($"{field.FieldId}:wild-grass:{x}:{z}", grassItem);
             }
         }
     }

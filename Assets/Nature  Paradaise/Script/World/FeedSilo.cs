@@ -25,7 +25,7 @@ public sealed class FeedSilo : MonoBehaviour
             if(stock<=0) break;
             if(home==null || !home.Available || !home.HasAutoFeeder) continue;
             // Keep a day of feed in each trough rather than draining the silo into the first home.
-            stock-=home.StoreFeed(Mathf.Min(stock,Mathf.Max(0,home.AnimalCount-home.Fodder)));
+            stock-=home.StoreFeed(Mathf.Min(stock,Mathf.Max(0,home.AnimalCount-home.TotalFeed)));
         }
     }
     public static List<FeedSiloSaveData> CaptureAll()

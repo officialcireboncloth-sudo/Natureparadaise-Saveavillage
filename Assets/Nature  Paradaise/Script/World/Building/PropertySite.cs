@@ -969,7 +969,7 @@ public sealed class PropertySite : MonoBehaviour
             demolishConfirmationActive = false;
             return;
         }
-        if (AnimalHome.HasResidents(siteId) || (AnimalHome.Find(siteId)?.Fodder ?? 0) > 0)
+        if (AnimalHome.HasResidents(siteId) || (AnimalHome.Find(siteId)?.TotalFeed ?? 0) > 0)
         {
             SaveLoadFeedback.Instance?.ShowMessage("Pindahkan hewan dan ambil sisa pakan sebelum demolish");
             demolishConfirmationActive = false;

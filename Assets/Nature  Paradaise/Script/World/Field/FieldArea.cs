@@ -550,6 +550,7 @@ public sealed class FieldArea : MonoBehaviour
         ItemSO item = tile.crop.produceItem;
         if (item == null || !inventory.Add(item, amount, (int)grade + 1))
             return false;
+        PlayerPickupNotification.ShowItem(inventory, item, amount);
 
         CropHarvestResult result = new CropHarvestResult(
             fieldId,
