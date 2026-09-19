@@ -87,7 +87,6 @@ public sealed class PersonalAnimal : MonoBehaviour
     bool mountedGrounded = true;
     float mountedAirborneSince;
     Vector3 mountedLastSafePosition;
-    float nextFarmBoundaryFeedbackTime;
 
     public string Id => companionId;
     public string DisplayName => string.IsNullOrWhiteSpace(displayName) ? species.ToString() : displayName;
@@ -268,11 +267,6 @@ public sealed class PersonalAnimal : MonoBehaviour
     {
         if (!tamed || species != CompanionSpecies.Horse || player == null || mountedPlayer != null ||
             Vector3.Distance(player.transform.position, transform.position) > 3f) return false;
-        if (IsFarmArea(player.transform.position) || IsFarmArea(transform.position))
-        {
-            SaveLoadFeedback.Instance?.ShowMessage("Kuda tidak dapat dinaiki di area ladang.");
-            return false;
-        }
         PlayerAnimalCarry animalCarry = player.GetComponent<PlayerAnimalCarry>();
         if (animalCarry != null && animalCarry.HasAnimal)
         {
@@ -316,7 +310,7 @@ public sealed class PersonalAnimal : MonoBehaviour
         for (int i = 0; i < dismountOffsets.Length; i++)
         {
             Vector3 candidate = transform.position + dismountOffsets[i];
-            if (IsFarmArea(candidate) || !TryGround(candidate, out Vector3 ground)) continue;
+            if (!TryGround(candidate, out Vector3 ground)) continue;
             player.transform.position = ground;
             break;
         }
@@ -489,20 +483,7 @@ public sealed class PersonalAnimal : MonoBehaviour
         if (distanceToMove <= 0.0001f) return start;
 
         Collider body = GetComponent<Collider>();
-        float farmClearance = body != null
-            ? Mathf.Clamp(Mathf.Min(body.bounds.extents.x, body.bounds.extents.z), 0.2f, 1f)
-            : 0.45f;
         Vector3 desiredTarget = start + delta;
-        if (MountedPathEntersFarm(start, desiredTarget, farmClearance))
-        {
-            if (Time.unscaledTime >= nextFarmBoundaryFeedbackTime)
-            {
-                nextFarmBoundaryFeedbackTime = Time.unscaledTime + 1.25f;
-                SaveLoadFeedback.Instance?.ShowMessage("Kuda tidak boleh masuk area ladang.");
-            }
-            return start;
-        }
-
         if (body == null) return desiredTarget;
         Bounds bounds = body.bounds;
         float radius = Mathf.Clamp(Mathf.Min(bounds.extents.x, bounds.extents.z) * 0.9f, 0.15f, 0.85f);
@@ -525,38 +506,6 @@ public sealed class PersonalAnimal : MonoBehaviour
         if (!float.IsPositiveInfinity(nearestWall))
             distanceToMove = Mathf.Max(0f, nearestWall - mountedCollisionSkin);
         return start + moveDirection * distanceToMove;
-    }
-
-    static bool MountedPathEntersFarm(Vector3 start, Vector3 target, float clearance)
-    {
-        float distance = Vector3.Distance(start, target);
-        int steps = Mathf.Max(1, Mathf.CeilToInt(distance / Mathf.Max(0.2f, clearance * 0.5f)));
-        for (int step = 1; step <= steps; step++)
-        {
-            Vector3 point = Vector3.Lerp(start, target, step / (float)steps);
-            if (IsFarmArea(point) ||
-                IsFarmArea(point + Vector3.right * clearance) ||
-                IsFarmArea(point - Vector3.right * clearance) ||
-                IsFarmArea(point + Vector3.forward * clearance) ||
-                IsFarmArea(point - Vector3.forward * clearance))
-                return true;
-        }
-        return false;
-    }
-
-    static bool IsFarmArea(Vector3 worldPosition)
-    {
-        IReadOnlyList<FieldArea> fields = FieldArea.ActiveAreas;
-        for (int i = 0; i < fields.Count; i++)
-        {
-            FieldArea field = fields[i];
-            if (field == null || !field.WorldToGrid(worldPosition, out _, out _)) continue;
-            // Menghindari FieldArea berbeda lantai/interior ikut memblokir hanya karena
-            // koordinat XZ-nya bertumpuk.
-            float localHeight = Mathf.Abs(field.transform.InverseTransformPoint(worldPosition).y);
-            if (localHeight <= Mathf.Max(3f, field.CellSize * 1.5f)) return true;
-        }
-        return false;
     }
 
     void ApplyAnimation(bool moving, bool running)
