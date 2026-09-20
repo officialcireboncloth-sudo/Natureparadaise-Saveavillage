@@ -13,6 +13,8 @@ public sealed class FishPondFishData
     public float sizeCm;
     public float weightKg;
     public int growthDays;
+    public int daysWithoutFood;
+    public bool sick;
 }
 
 [Serializable]
@@ -32,23 +34,31 @@ public sealed class FishPondSaveData
 /// <summary>State persisten dan simulasi harian seluruh Fish Pond, termasuk saat scene Map tidak aktif.</summary>
 public static class FishPondService
 {
+    public const int SmallGrowthDays = 30;
+    public const int MediumGrowthDays = 40;
+    public const int SicknessStartsAfterDays = 3;
+    public const int StarvationDeathDays = 7;
+
     static readonly Dictionary<string, FishPondSaveData> Records = new(StringComparer.Ordinal);
     public static event Action Changed;
 
     public static int Capacity(int level) => Mathf.Clamp(level, 1, 4) switch
     {
-        1 => 4,
-        2 => 8,
-        3 => 12,
-        _ => 16
+        1 => 99,
+        2 => 300,
+        3 => 999,
+        _ => 999
     };
 
-    public static int FeedCapacity(int level) => Mathf.Clamp(level, 1, 4) switch
+    // Setiap pond hanya memiliki satu slot Fish Food. Slot harus diisi lagi
+    // setelah pakan dipakai pada reset harian.
+    public static int FeedCapacity(int level) => 1;
+
+    public static int GrowthDaysNeeded(FishSizeTier tier) => tier switch
     {
-        1 => 4,
-        2 => 8,
-        3 => 12,
-        _ => 16
+        FishSizeTier.Small => SmallGrowthDays,
+        FishSizeTier.Medium => MediumGrowthDays,
+        _ => 0
     };
 
     public static FishPondSaveData GetOrCreate(string pondId, int level, Transform owner)
@@ -90,45 +100,75 @@ public static class FishPondService
     public static void AdvanceDay(int completedDay)
     {
         int grown = 0;
+        int newlySick = 0;
+        int died = 0;
         foreach (FishPondSaveData pond in Records.Values)
         {
             if (pond == null || pond.lastGrowthDay >= completedDay) continue;
             pond.lastGrowthDay = completedDay;
             int fishCount = pond.fish?.Count ?? 0;
-            int feedNeeded = Mathf.Max(1, Mathf.CeilToInt(fishCount / 10f));
-            bool hasFeed = pond.fedForGrowth;
-            if (!hasFeed && fishCount > 0 && pond.feedStock >= feedNeeded)
+            // Satu pack Fish Feed memberi makan seluruh ikan di satu kolam selama satu hari.
+            int feedNeeded = fishCount > 0 ? 1 : 0;
+            bool hasFeed = fishCount > 0 && pond.feedStock >= feedNeeded;
+            if (hasFeed)
             {
                 pond.feedStock -= feedNeeded;
                 pond.feedUnitsUsed = feedNeeded;
-                hasFeed = true;
             }
-            if (!hasFeed || fishCount == 0)
+            if (fishCount == 0)
             {
                 pond.fedForGrowth = false;
                 pond.feedUnitsUsed = 0;
                 continue;
             }
 
-            foreach (FishPondFishData fish in pond.fish)
+            pond.fedForGrowth = hasFeed;
+            if (!hasFeed) pond.feedUnitsUsed = 0;
+
+            // Satu kolam diproses sebagai satu kelompok: semua ikan makan dan tumbuh,
+            // atau seluruh progres berhenti bila stok tidak cukup untuk semua ikan.
+            for (int index = pond.fish.Count - 1; index >= 0; index--)
             {
+                FishPondFishData fish = pond.fish[index];
+                if (!hasFeed)
+                {
+                    fish.daysWithoutFood++;
+                    if (fish.daysWithoutFood >= StarvationDeathDays)
+                    {
+                        pond.fish.RemoveAt(index);
+                        died++;
+                        continue;
+                    }
+                    if (!fish.sick && fish.daysWithoutFood >= SicknessStartsAfterDays)
+                    {
+                        fish.sick = true;
+                        newlySick++;
+                    }
+                    continue;
+                }
+
+                fish.daysWithoutFood = 0;
+                if (fish.sick) continue;
                 ItemSO item = ItemCatalog.Resolve(fish.itemId, fish.assetName, fish.itemName);
                 FishSizeTier tier = FishMeasurement.GetSizeTier(item, fish.sizeCm);
-                if (tier == FishSizeTier.Jumbo) continue;
+                int needed = GrowthDaysNeeded(tier);
+                // Large dan Jumbo merupakan ukuran maksimal untuk pembesaran di pond.
+                if (needed <= 0) continue;
                 FishDefinitionSO definition = FishMeasurement.FindDefinition(item);
                 fish.growthDays++;
-                int needed = definition != null ? definition.GetPondGrowthDays(tier) :
-                    tier == FishSizeTier.Small ? 7 : tier == FishSizeTier.Medium ? 10 : 14;
                 if (fish.growthDays < needed) continue;
                 fish.sizeCm = definition != null ? definition.GetNextPondSize(tier) :
-                    tier == FishSizeTier.Small ? 22f : tier == FishSizeTier.Medium ? 35f : 50f;
+                    tier == FishSizeTier.Small ? 22f : 35f;
                 fish.weightKg = FishMeasurement.EstimateWeightKg(item, fish.sizeCm);
                 fish.growthDays = 0;
                 grown++;
             }
-            pond.fedForGrowth = false;
         }
-        if (grown > 0) SaveLoadFeedback.Instance?.ShowMessage($"Fish Pond: {grown} ikan naik ukuran");
+        List<string> results = new();
+        if (grown > 0) results.Add($"{grown} ikan naik ukuran");
+        if (newlySick > 0) results.Add($"{newlySick} ikan sakit");
+        if (died > 0) results.Add($"{died} ikan mati karena 7 hari tanpa pakan");
+        if (results.Count > 0) SaveLoadFeedback.Instance?.ShowMessage($"Fish Pond: {string.Join(" | ", results)}");
         Changed?.Invoke();
     }
 
@@ -163,7 +203,8 @@ public static class FishPondService
             {
                 itemId = fish.itemId, assetName = fish.assetName, itemName = fish.itemName,
                 qualityStars = fish.qualityStars, sizeCm = fish.sizeCm,
-                weightKg = fish.weightKg, growthDays = fish.growthDays
+                weightKg = fish.weightKg, growthDays = fish.growthDays,
+                daysWithoutFood = fish.daysWithoutFood, sick = fish.sick
             });
         return clone;
     }
@@ -188,7 +229,6 @@ public sealed class FishPond : MonoBehaviour
     [SerializeField] string pondId;
     [SerializeField, Range(1, 4)] int fallbackLevel = 1;
     [SerializeField] ItemSO fishFeed;
-    [SerializeField, Min(1)] int fishPerFeedUnit = 10;
     [SerializeField, Range(1, 10)] int maximumVisibleFish = 8;
     [SerializeField, Min(0.5f)] float interactionRadius = 3.5f;
     [SerializeField] KeyCode interactKey = KeyCode.E;
@@ -216,7 +256,7 @@ public sealed class FishPond : MonoBehaviour
     public int Level => site != null && site.CurrentLevel > 0 ? site.CurrentLevel : fallbackLevel;
     public int Capacity => FishPondService.Capacity(Level);
     public int FishCount => record?.fish?.Count ?? 0;
-    int FeedNeeded => Mathf.Max(1, Mathf.CeilToInt(FishCount / (float)Mathf.Max(1, fishPerFeedUnit)));
+    int FeedNeeded => FishCount > 0 ? 1 : 0;
     public int FeedCapacity => FishPondService.FeedCapacity(Level);
     public int FeedStock => record?.feedStock ?? 0;
     public int FeedSpace => Mathf.Max(0, FeedCapacity - FeedStock);
@@ -332,7 +372,7 @@ public sealed class FishPond : MonoBehaviour
         if (!PlayerInteractionTarget.ContainsPickup(inventory.transform, transform, interactionRadius)) return;
         float distance = Vector3.Distance(inventory.transform.position, transform.position);
         WorldInteractionPrompt.Request(this, transform,
-            $"{interactKey}: Fish Pond Lv.{Level} — {FishCount}/{Capacity} | {(record?.fedForGrowth == true ? "Fed" : "Needs Feed")}",
+            $"{interactKey}: Fish Pond Lv.{Level} — {FishCount}/{Capacity} | {PondFeedStatus()}",
             distance, 1.2f);
         if (PlayerInteractionTarget.PressPickup(inventory.transform, transform, interactKey, interactionRadius)) OpenPanel();
     }
@@ -350,8 +390,14 @@ public sealed class FishPond : MonoBehaviour
     {
         DrawFeedStorage();
         GUILayout.Label(FishCount > 0
-            ? $"Pertumbuhan membutuhkan {FeedNeeded} Fish Feed saat 00:00. {FeedRemainingText()}"
+            ? $"Satu Fish Feed memberi makan seluruh {FishCount} ikan saat 00:00. Small → Medium 30 hari, Medium → Large 40 hari. {FeedRemainingText()}"
             : "Masukkan ikan untuk mulai; stok pakan tidak berkurang selama kolam kosong.");
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("DEBUG +1 GROWTH DAY", GUILayout.Height(28f))) DebugAdvanceGrowth(false);
+        if (GUILayout.Button("DEBUG SKIP → NEXT SIZE", GUILayout.Height(28f))) DebugAdvanceGrowth(true);
+        GUILayout.EndHorizontal();
+#endif
         GUILayout.BeginHorizontal();
         DrawInventory(); GUILayout.Space(10f); DrawPond();
         GUILayout.EndHorizontal();
@@ -404,7 +450,9 @@ public sealed class FishPond : MonoBehaviour
                 FishPondFishData fish = record.fish[index];
                 ItemSO item = ItemCatalog.Resolve(fish.itemId, fish.assetName, fish.itemName);
                 GUILayout.BeginHorizontal(GUI.skin.box);
-                GUILayout.Label(FishLabel(item, fish.qualityStars, fish.sizeCm, fish.growthDays));
+                GUILayout.Label(FishLabel(item, fish.qualityStars, fish.sizeCm, fish.growthDays,
+                    fish.daysWithoutFood, fish.sick));
+                if (fish.sick && GUILayout.Button("Treat", GUILayout.Width(56f))) TreatFish(index);
                 if (GUILayout.Button("Take", GUILayout.Width(56f))) TakeFish(index);
                 GUILayout.EndHorizontal();
             }
@@ -442,6 +490,73 @@ public sealed class FishPond : MonoBehaviour
         if (!inventory.Add(item, 1, fish.qualityStars, fish.sizeCm, fish.weightKg)) return;
         record.fish.RemoveAt(index);
         feedback = $"{item.itemName} diambil kembali.";
+        Commit();
+    }
+
+    void TreatFish(int index)
+    {
+        if (record?.fish == null || index < 0 || index >= record.fish.Count || inventory == null) return;
+        FishPondFishData fish = record.fish[index];
+        if (!fish.sick) { feedback = "Ikan ini sehat dan tidak membutuhkan obat."; return; }
+
+        AnimalCareCatalog catalog = AnimalCareCatalog.Load();
+        ItemSO medicine = null;
+        for (int level = (int)AnimalMedicineLevel.Basic; level <= (int)AnimalMedicineLevel.Premium; level++)
+        {
+            ItemSO candidate = catalog != null ? catalog.Medicine((AnimalMedicineLevel)level) : null;
+            if (candidate != null && inventory.GetCount(candidate) > 0)
+            {
+                medicine = candidate;
+                break;
+            }
+        }
+        if (medicine == null || !inventory.Remove(medicine, 1))
+        {
+            feedback = "Animal Medicine tidak tersedia di Inventory.";
+            return;
+        }
+
+        fish.sick = false;
+        fish.daysWithoutFood = 0;
+        feedback = $"{fish.itemName} sudah diobati. Progres pertumbuhan dapat berjalan lagi saat diberi pakan.";
+        PlayerPickupNotification.Show(inventory.transform, $"{medicine.itemName} x1 → Ikan diobati");
+        Commit();
+    }
+
+    void DebugAdvanceGrowth(bool completeCurrentStage)
+    {
+        if (record?.fish == null || record.fish.Count == 0)
+        {
+            feedback = "DEBUG: Pond masih kosong.";
+            return;
+        }
+
+        int progressed = 0;
+        int grown = 0;
+        foreach (FishPondFishData fish in record.fish)
+        {
+            if (fish == null || fish.sick) continue;
+            ItemSO item = ItemCatalog.Resolve(fish.itemId, fish.assetName, fish.itemName);
+            FishSizeTier tier = FishMeasurement.GetSizeTier(item, fish.sizeCm);
+            int needed = FishPondService.GrowthDaysNeeded(tier);
+            if (needed <= 0) continue;
+            fish.growthDays = completeCurrentStage ? needed : Mathf.Min(needed, fish.growthDays + 1);
+            progressed++;
+            if (fish.growthDays < needed) continue;
+
+            FishDefinitionSO definition = FishMeasurement.FindDefinition(item);
+            fish.sizeCm = definition != null ? definition.GetNextPondSize(tier) :
+                tier == FishSizeTier.Small ? 22f : 35f;
+            fish.weightKg = FishMeasurement.EstimateWeightKg(item, fish.sizeCm);
+            fish.growthDays = 0;
+            grown++;
+        }
+
+        feedback = progressed <= 0
+            ? "DEBUG: Tidak ada ikan sehat yang masih dapat tumbuh."
+            : grown > 0
+                ? $"DEBUG: {grown} ikan naik ke ukuran berikutnya."
+                : $"DEBUG: Growth +1 hari untuk {progressed} ikan.";
         Commit();
     }
 
@@ -541,15 +656,27 @@ public sealed class FishPond : MonoBehaviour
         if (current.type == EventType.MouseDrag) current.Use();
     }
 
-    string FishLabel(ItemSO item, int quality, float size, int progress)
+    string FishLabel(ItemSO item, int quality, float size, int progress,
+        int daysWithoutFood = 0, bool sick = false)
     {
         FishSizeTier tier = FishMeasurement.GetSizeTier(item, size);
-        FishDefinitionSO definition = FishMeasurement.FindDefinition(item);
-        int target = tier == FishSizeTier.Jumbo ? 0 : definition != null ? definition.GetPondGrowthDays(tier) :
-            tier == FishSizeTier.Small ? 7 : tier == FishSizeTier.Medium ? 10 : 14;
+        int target = FishPondService.GrowthDaysNeeded(tier);
         float weight = FishMeasurement.EstimateWeightKg(item, size);
-        string growth = tier == FishSizeTier.Jumbo ? "MAX" : $"Growth {progress}/{target}";
-        return $"{item?.itemName ?? "Unknown Fish"} | {QualityLabel(quality)} | {tier} | {size:0.#} cm | {weight:0.00} kg | {growth}";
+        string growth = target <= 0 ? "Growth MAX" : sick
+            ? $"Growth PAUSED {progress}/{target}"
+            : $"Growth {progress}/{target}";
+        string health = sick ? $"SICK | No Feed {daysWithoutFood}/{FishPondService.StarvationDeathDays}"
+            : daysWithoutFood > 0 ? $"Hungry {daysWithoutFood}/{FishPondService.StarvationDeathDays}"
+            : "Healthy";
+        return $"{item?.itemName ?? "Unknown Fish"} | {QualityLabel(quality)} | {tier} | {size:0.#} cm | {weight:0.00} kg | {growth} | {health}";
+    }
+
+    string PondFeedStatus()
+    {
+        if (FishCount <= 0) return "EMPTY";
+        return FeedStock >= FeedNeeded
+            ? $"FEED READY {FeedStock}/{FeedNeeded}"
+            : $"NEEDS FEED {FeedStock}/{FeedNeeded}";
     }
 
     void Commit()
@@ -673,10 +800,20 @@ public sealed class FishPond : MonoBehaviour
             ? "EMPTY"
             : $"ADA {FeedStock}/{FeedCapacity} ({feedPercent}%) | Habis {FeedEstimateShort()}";
         string pondStatus = FishCount <= 0 ? $"EMPTY 0/{Capacity}" : $"ADA {FishCount}/{Capacity}";
+        int sickCount = record?.fish?.Count(fish => fish != null && fish.sick) ?? 0;
+        int highestHunger = record?.fish?.Count > 0
+            ? record.fish.Max(fish => fish != null ? fish.daysWithoutFood : 0)
+            : 0;
+        string healthStatus = FishCount <= 0 ? "-" : sickCount > 0
+            ? $"SICK {sickCount} | No Feed maks {highestHunger}/{FishPondService.StarvationDeathDays}"
+            : highestHunger > 0
+                ? $"Hungry {highestHunger}/{FishPondService.StarvationDeathDays}"
+                : "Healthy";
         combinedDebugLabel?.SetText($"FISH POND Lv.{Level}\n"+
             $"Feed Maker: {makerStatus}\n"+
             $"Tempat Makan: {feedStatus}\n"+
-            $"Kolam: {pondStatus}");
+            $"Kolam: {pondStatus}\n"+
+            $"Health: {healthStatus}");
     }
 
     string FeedEstimateShort()

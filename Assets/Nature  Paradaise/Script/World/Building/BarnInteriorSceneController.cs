@@ -293,7 +293,8 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         if(feedMaker==null) ResolveDedicatedFeedMaker(home);
         if(troughDebugLabel==null) EnsureDebugLabels();
         troughDebugLabel?.SetText($"PAKAN {home.Label}: {home.TotalFeed}/{home.FeedingSlotCapacity}\n"+
-            $"Feed {home.Fodder} | Grass {home.Grass}\nReset 00:00 ({GameTimeDebugText.UntilMidnight()})");
+            $"Feed {home.Fodder} | Grass {home.Grass} | Dipakai hari ini {home.FeedPortionsReserved}\n"+
+            $"Konsumsi {home.DailyFeedRequirement}/hari | Estimasi {home.EstimatedFeedDays} hari | 00:00 {GameTimeDebugText.UntilMidnight()}");
         RefreshFeedVisual(home);
         Transform trough=ClosestFeedingSlot(player.transform.position,out float troughDistance);
         if(feedMakerPoint!=null)

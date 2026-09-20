@@ -12,6 +12,7 @@ public sealed class AnimalHomeSaveData
     public int maxCapacity;
     public int currentAnimals;
     public int reservedSlots;
+    public int feedPortionsReserved;
     public bool hasBellState;
     public bool animalsOutside;
     public List<string> animalIds = new();
@@ -29,6 +30,7 @@ public sealed class AnimalHome : MonoBehaviour
     public PropertySite site;
     [SerializeField, Min(0)] int fodderStock;
     [SerializeField, Min(0)] int grassStock;
+    [SerializeField, Min(0)] int feedPortionsReserved;
     [Header("Animal Bell State")]
     [SerializeField] bool bellStateInitialized;
     [SerializeField] bool animalsOutside;
@@ -49,6 +51,9 @@ public sealed class AnimalHome : MonoBehaviour
     public int Grass => grassStock;
     public int TotalFeed => fodderStock + grassStock;
     public int FeedSpace => Mathf.Max(0, FeedingSlotCapacity - TotalFeed);
+    public int FeedPortionsReserved => Mathf.Clamp(feedPortionsReserved,0,TotalFeed);
+    public int DailyFeedRequirement => AnimalCount;
+    public int EstimatedFeedDays => AnimalCount<=0 ? 0 : Mathf.CeilToInt(TotalFeed/(float)AnimalCount);
     public int RequiredFeedToday => Residents.FindAll(animal =>
         animal != null && animal.Animal != null && animal.Animal.HasBeenBorn && !animal.Animal.FedToday).Count;
     public bool HasAutoFeeder => forceAutoFeeder || (site != null && site.CurrentLevel >= autoFeederStartingLevel);
@@ -135,14 +140,14 @@ public sealed class AnimalHome : MonoBehaviour
     void OnEnable()
     {
         Active.Add(this);
-        // Hewan menilai care hari lama pada OnBeforeDayChange. Trough baru dikosongkan
-        // setelah kalender berganti agar urutan subscription object tidak mengubah hasil.
-        TimeManager.OnDay += EmptyTroughAtMidnight;
+        // Setiap hewan yang benar-benar makan dari trough mencadangkan satu box.
+        // Box yang dicadangkan dikonsumsi setelah kalender berganti; sisanya menetap.
+        TimeManager.OnDay += ConsumeReservedFeedAtMidnight;
     }
     void OnDisable()
     {
         Active.Remove(this);
-        TimeManager.OnDay -= EmptyTroughAtMidnight;
+        TimeManager.OnDay -= ConsumeReservedFeedAtMidnight;
     }
     void OnDrawGizmosSelected()
     {
@@ -243,18 +248,23 @@ public sealed class AnimalHome : MonoBehaviour
         // Isi trough mewakili box terisi dan baru dikosongkan pada 00:00. Jangan
         // mengurangi stok saat routine hewan mengecek makan, karena secara visual
         // pakan akan tampak hilang sesaat setelah player menaruhnya.
-        int alreadyFed=0;
-        foreach(AnimalRoutine resident in Residents)
-            if(resident?.Animal!=null && resident.Animal.HasBeenBorn && resident.Animal.FedToday) alreadyFed++;
-        if(alreadyFed>=TotalFeed) return false;
+        // Hewan yang sudah makan dari grass/hand-feed tidak mencadangkan box.
+        // Hanya porsi yang benar-benar diberikan oleh trough yang dihitung di sini.
+        if(feedPortionsReserved>=TotalFeed) return false;
 
         AnimalFoodSource source=HasAutoFeeder ? AnimalFoodSource.AutoFeeder : AnimalFoodSource.FeedingTrough;
-        return animal.RegisterFeeding(50f,source);
+        bool registered=animal.RegisterFeeding(50f,source);
+        if(registered) feedPortionsReserved=Mathf.Min(TotalFeed,feedPortionsReserved+1);
+        return registered;
     }
-    void EmptyTroughAtMidnight()
+    void ConsumeReservedFeedAtMidnight()
     {
-        fodderStock = 0;
-        grassStock = 0;
+        int remaining=Mathf.Clamp(feedPortionsReserved,0,TotalFeed);
+        int usedFodder=Mathf.Min(fodderStock,remaining);
+        fodderStock-=usedFodder;
+        remaining-=usedFodder;
+        if(remaining>0) grassStock=Mathf.Max(0,grassStock-remaining);
+        feedPortionsReserved=0;
         // Daily transition selalu memulangkan penghuni kandang.
         animalsOutside = false;
         bellStateInitialized = true;
@@ -296,8 +306,10 @@ public sealed class AnimalHome : MonoBehaviour
         target.site = destination;
         target.fodderStock = source.fodderStock;
         target.grassStock = source.grassStock;
+        target.feedPortionsReserved = source.feedPortionsReserved;
         source.fodderStock = 0;
         source.grassStock = 0;
+        source.feedPortionsReserved = 0;
         foreach (AnimalRoutine routine in AnimalRoutine.Active)
             if (routine != null && routine.HomeId == sourceId) routine.RelocateHome(target.Id);
     }
@@ -310,6 +322,7 @@ public sealed class AnimalHome : MonoBehaviour
             var saved = new AnimalHomeSaveData { id=home.Id, fodder=home.fodderStock, grass=home.grassStock,
                 level=home.site!=null ? home.site.CurrentLevel : 1, maxCapacity=home.Capacity,
                 currentAnimals=home.AnimalCount, reservedSlots=home.ReservedSlots,
+                feedPortionsReserved=home.feedPortionsReserved,
                 hasBellState=true, animalsOutside=home.animalsOutside };
             foreach(var resident in home.Residents) if(resident.Animal!=null)
             { saved.animalIds.Add(resident.Animal.AnimalId); saved.animalTypes.Add(resident.Animal.Type); }
@@ -326,6 +339,7 @@ public sealed class AnimalHome : MonoBehaviour
             home.fodderStock = Mathf.Clamp(saved?.fodder ?? 0, 0, home.FeedingSlotCapacity);
             home.grassStock = Mathf.Clamp(saved?.grass ?? 0, 0,
                 Mathf.Max(0, home.FeedingSlotCapacity - home.fodderStock));
+            home.feedPortionsReserved = Mathf.Clamp(saved?.feedPortionsReserved ?? 0,0,home.TotalFeed);
             home.bellStateInitialized = saved?.hasBellState ?? false;
             home.animalsOutside = saved?.animalsOutside ?? false;
         }

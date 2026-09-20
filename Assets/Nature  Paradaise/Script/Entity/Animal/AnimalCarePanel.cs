@@ -93,7 +93,9 @@ public sealed class AnimalCarePanel : MonoBehaviour
         GUILayout.Label($"TEMPAT PAKAN — {home.TotalFeed}/{home.FeedingSlotCapacity} terisi | " +
                         $"Animal Feed {home.Fodder} | Grass {home.Grass} | Kosong {home.FeedSpace}");
         GUILayout.Label($"Belum makan: {home.RequiredFeedToday} | Auto Feeder: {(home.HasAutoFeeder ? "ON" : "OFF")}");
-        GUILayout.Label($"Debug: seluruh sisa pakan dikosongkan pukul 00:00 — {GameTimeDebugText.UntilMidnight()} lagi.");
+        GUILayout.Label($"Dipakai hari ini: {home.FeedPortionsReserved} box | Kebutuhan maksimal: {home.DailyFeedRequirement}/hari | " +
+                        $"Estimasi stok: {home.EstimatedFeedDays} hari.");
+        GUILayout.Label($"Box yang dipakai berkurang pukul 00:00 — {GameTimeDebugText.UntilMidnight()} lagi. Sisa box tetap tersimpan.");
         GUILayout.Space(8f);
         GUILayout.Label("CARA MENGISI TEMPAT PAKAN",GUI.skin.box);
         GUILayout.Label("Pilih Animal Feed atau Grass pada hotbar sampai terlihat dipegang player. " +

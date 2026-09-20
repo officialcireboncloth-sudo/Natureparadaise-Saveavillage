@@ -26,7 +26,9 @@ public static class FishPondTestGrant
             scene.name.Contains("MainMenu", System.StringComparison.OrdinalIgnoreCase)) return;
         Inventory inventory = Object.FindFirstObjectByType<Inventory>();
         ItemSO feed = Resources.Load<ItemSO>("Items/Fish/Fish Feed");
+        ItemSO fish = Resources.Load<ItemSO>("Items/Fish/Tilapia");
         ItemSO grass = Resources.Load<ItemSO>("Items/Materials/Grass");
+        ItemSO medicine = AnimalCareCatalog.Load()?.Medicine(AnimalMedicineLevel.Basic);
         if (inventory == null) return;
         granted = true;
         bool changed = false;
@@ -36,8 +38,11 @@ public static class FishPondTestGrant
         }
         if (grass != null && inventory.GetCount(grass) < 99)
             changed |= inventory.Add(grass, 99 - inventory.GetCount(grass));
+        if (medicine != null && inventory.GetCount(medicine) < 5)
+            changed |= inventory.Add(medicine, 5 - inventory.GetCount(medicine));
+        changed |= EnsureDebugFish(inventory, fish);
         if (changed)
-            InventoryHotbarUI.TryShowTemporaryMessage("DEBUG FEED: Grass x99 dan Fish Feed tersedia.", 3f);
+            InventoryHotbarUI.TryShowTemporaryMessage("DEBUG POND: Tilapia Small + Medium, Fish Feed, dan Medicine tersedia.", 3f);
 #endif
     }
 
@@ -49,6 +54,35 @@ public static class FishPondTestGrant
         ItemSO grass = Resources.Load<ItemSO>("Items/Materials/Grass");
         if (inventory != null && grass != null && inventory.GetCount(grass) < 99)
             inventory.Add(grass, 99 - inventory.GetCount(grass));
+        ItemSO medicine = AnimalCareCatalog.Load()?.Medicine(AnimalMedicineLevel.Basic);
+        if (inventory != null && medicine != null && inventory.GetCount(medicine) < 5)
+            inventory.Add(medicine, 5 - inventory.GetCount(medicine));
+        EnsureDebugFish(inventory, Resources.Load<ItemSO>("Items/Fish/Tilapia"));
 #endif
+    }
+
+    static bool EnsureDebugFish(Inventory inventory, ItemSO fish)
+    {
+        if (inventory == null || fish == null) return false;
+        FishDefinitionSO definition = FishMeasurement.FindDefinition(fish);
+        float smallSize = definition != null ? definition.minimumSizeCm : 15f;
+        float mediumSize = definition != null ? definition.PondMediumSizeCm : 25f;
+        bool hasSmall = false;
+        bool hasMedium = false;
+        for (int index = 0; index < inventory.slots.Count; index++)
+        {
+            ItemStack stack = inventory.GetSlot(index);
+            if (stack?.item != fish || stack.count <= 0) continue;
+            FishSizeTier tier = FishMeasurement.GetSizeTier(fish, stack.fishSizeCm);
+            hasSmall |= tier == FishSizeTier.Small;
+            hasMedium |= tier == FishSizeTier.Medium;
+        }
+
+        bool changed = false;
+        if (!hasSmall)
+            changed |= inventory.Add(fish, 1, 0, smallSize, FishMeasurement.EstimateWeightKg(fish, smallSize));
+        if (!hasMedium)
+            changed |= inventory.Add(fish, 1, 0, mediumSize, FishMeasurement.EstimateWeightKg(fish, mediumSize));
+        return changed;
     }
 }
