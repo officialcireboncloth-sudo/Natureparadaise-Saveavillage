@@ -182,6 +182,7 @@ public static class FishPondService
 
 /// <summary>Storage ikan hidup dan UI pond. Data dimiliki service agar aman saat visual level diganti.</summary>
 [DisallowMultipleComponent]
+[DefaultExecutionOrder(-200)]
 public sealed class FishPond : MonoBehaviour
 {
     [SerializeField] string pondId;
@@ -272,7 +273,7 @@ public sealed class FishPond : MonoBehaviour
             return;
         }
         float troughDistance = feedingPoint != null
-            ? Vector3.Distance(inventory.transform.position, feedingPoint.position) : float.PositiveInfinity;
+            ? HorizontalSurfaceDistance(feedingPoint,inventory.transform.position) : float.PositiveInfinity;
         float makerDistance = feedMaker != null
             ? Vector3.Distance(inventory.transform.position, feedMaker.transform.position) : float.PositiveInfinity;
         InventoryHotbarUI hotbar=inventory.GetComponent<InventoryHotbarUI>();
@@ -296,7 +297,8 @@ public sealed class FishPond : MonoBehaviour
         // Kolam berukuran besar membuat player sering lebih dekat ke collider kolam
         // daripada marker trough. Saat Fish Feed sedang dipegang, prioritaskan aksi
         // memberi pakan di seluruh area interaksi kolam dan jangan membuka UI ikan.
-        bool pondInRange=PlayerInteractionTarget.ContainsPickup(inventory.transform,transform,interactionRadius);
+        float pondSurfaceDistance=HorizontalSurfaceDistance(transform,inventory.transform.position);
+        bool pondInRange=pondSurfaceDistance<=interactionRadius;
         if(holdingFishFeed && pondInRange)
         {
             Transform target=feedingPoint!=null ? feedingPoint : transform;
@@ -305,7 +307,7 @@ public sealed class FishPond : MonoBehaviour
             WorldInteractionPrompt.Request(this,target,
                 $"{action}\nTempat Pakan Ikan — {FeedStock}/{FeedCapacity} | Butuh {FeedNeeded}/hari | {FeedRemainingText()}",
                 targetDistance,1.25f);
-            if(PlayerInteractionTarget.PressPickup(inventory.transform,transform,KeyCode.F,interactionRadius))
+            if(PlayerInteractionTarget.Press(KeyCode.F))
                 DepositHeldFishFeed(hotbar,heldStack);
             return;
         }
@@ -319,7 +321,7 @@ public sealed class FishPond : MonoBehaviour
             WorldInteractionPrompt.Request(this, feedingPoint,
                 $"{action}\nTempat Pakan Ikan — {FeedStock}/{FeedCapacity} | Butuh {FeedNeeded}/hari | {FeedRemainingText()}",
                 troughDistance, 1.25f);
-            if (PlayerInteractionTarget.PressPickup(inventory.transform, feedingPoint, KeyCode.F, feedInteractionRadius))
+            if (PlayerInteractionTarget.Press(KeyCode.F))
             {
                 if(!holdingFishFeed)
                     SaveLoadFeedback.Instance?.ShowMessage("Pilih Fish Feed dari hotbar terlebih dahulu.");
@@ -452,6 +454,26 @@ public sealed class FishPond : MonoBehaviour
         record.feedStock += moved;
         feedback = $"Fish Feed x{moved} dimasukkan. Stok {FeedStock}/{FeedCapacity}.";
         Commit();
+    }
+
+    static float HorizontalSurfaceDistance(Transform target,Vector3 position)
+    {
+        if(target==null) return float.PositiveInfinity;
+        float best=float.PositiveInfinity;
+        foreach(Renderer renderer in target.GetComponentsInChildren<Renderer>(true))
+        {
+            if(renderer==null || !renderer.enabled) continue;
+            Vector3 point=renderer.bounds.ClosestPoint(position);
+            point.y=position.y;
+            best=Mathf.Min(best,Vector3.Distance(position,point));
+        }
+        if(float.IsPositiveInfinity(best))
+        {
+            Vector3 delta=target.position-position;
+            delta.y=0f;
+            best=delta.magnitude;
+        }
+        return best;
     }
 
     bool IsFishFeed(ItemStack stack) => stack?.item!=null && stack.count>0 &&

@@ -238,13 +238,18 @@ public sealed class AnimalHome : MonoBehaviour
     }
     public bool Feed(AnimalGrowthSystem animal)
     {
-        if (!Available || animal == null) return false;
-        bool consumed = AnimalCareRules.ConsumeFeed(ref fodderStock, animal.HasBeenBorn, animal.FedToday);
-        if (!consumed)
-            consumed = AnimalCareRules.ConsumeFeed(ref grassStock, animal.HasBeenBorn, animal.FedToday);
-        if (!consumed) return false;
-        animal.RegisterFeeding(50f, HasAutoFeeder ? AnimalFoodSource.AutoFeeder : AnimalFoodSource.FeedingTrough);
-        return true;
+        if (!Available || animal == null || !animal.HasBeenBorn || animal.FedToday) return false;
+
+        // Isi trough mewakili box terisi dan baru dikosongkan pada 00:00. Jangan
+        // mengurangi stok saat routine hewan mengecek makan, karena secara visual
+        // pakan akan tampak hilang sesaat setelah player menaruhnya.
+        int alreadyFed=0;
+        foreach(AnimalRoutine resident in Residents)
+            if(resident?.Animal!=null && resident.Animal.HasBeenBorn && resident.Animal.FedToday) alreadyFed++;
+        if(alreadyFed>=TotalFeed) return false;
+
+        AnimalFoodSource source=HasAutoFeeder ? AnimalFoodSource.AutoFeeder : AnimalFoodSource.FeedingTrough;
+        return animal.RegisterFeeding(50f,source);
     }
     void EmptyTroughAtMidnight()
     {

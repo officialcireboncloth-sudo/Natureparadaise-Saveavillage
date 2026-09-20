@@ -3,6 +3,7 @@ using UnityEngine;
 
 /// <summary>Controller scene interior Barn/Coop: layout per level, exit, pakan, dan slot hewan.</summary>
 [DisallowMultipleComponent]
+[DefaultExecutionOrder(-200)]
 public sealed class BarnInteriorSceneController : MonoBehaviour
 {
     public static BarnInteriorSceneController Instance { get; private set; }
@@ -219,14 +220,31 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         foreach(Transform slot in feedingSlots)
         {
             if(slot==null || !slot.gameObject.activeInHierarchy) continue;
-            Vector3 delta=slot.position-position;
-            delta.y=0f;
-            float candidate=delta.magnitude;
+            float candidate=HorizontalDistanceToSlotSurface(slot,position);
             if(candidate>=distance) continue;
             distance=candidate;
             closest=slot;
         }
         return closest;
+    }
+
+    static float HorizontalDistanceToSlotSurface(Transform slot,Vector3 position)
+    {
+        float best=float.PositiveInfinity;
+        foreach(Renderer renderer in slot.GetComponentsInChildren<Renderer>(true))
+        {
+            if(renderer==null || !renderer.enabled) continue;
+            Vector3 point=renderer.bounds.ClosestPoint(position);
+            point.y=position.y;
+            best=Mathf.Min(best,Vector3.Distance(position,point));
+        }
+        if(float.IsPositiveInfinity(best))
+        {
+            Vector3 delta=slot.position-position;
+            delta.y=0f;
+            best=delta.magnitude;
+        }
+        return best;
     }
 
     void LayoutAnimalSpots(AnimalHome home,int level)
@@ -276,12 +294,14 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         if(troughDebugLabel==null) EnsureDebugLabels();
         troughDebugLabel?.SetText($"PAKAN {home.Label}: {home.TotalFeed}/{home.FeedingSlotCapacity}\n"+
             $"Feed {home.Fodder} | Grass {home.Grass}\nReset 00:00 ({GameTimeDebugText.UntilMidnight()})");
+        RefreshFeedVisual(home);
+        Transform trough=ClosestFeedingSlot(player.transform.position,out float troughDistance);
         if(feedMakerPoint!=null)
         {
             Vector3 makerDelta=feedMakerPoint.position-player.transform.position;
             makerDelta.y=0f;
             float makerDistance=makerDelta.magnitude;
-            if(makerDistance<=interactionRadius)
+            if(makerDistance<=interactionRadius && makerDistance<=troughDistance)
             {
                 string ready=feedMaker!=null ? feedMaker.AnimalFeedOutput.ToString() : "-";
                 WorldInteractionPrompt.Request(this,feedMakerPoint,
@@ -298,8 +318,6 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
                 return;
             }
         }
-        RefreshFeedVisual(home);
-        Transform trough=ClosestFeedingSlot(player.transform.position,out float troughDistance);
         if(trough!=null && troughDistance<=troughInteractionRadius)
         {
             int troughIndex=feedingSlots.IndexOf(trough);
@@ -317,7 +335,9 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
                 $"{action}\nTempat Pakan {home.Label}: {home.TotalFeed}/{home.FeedingSlotCapacity} " +
                 $"(Feed {home.Fodder} | Grass {home.Grass}) | Belum makan {home.RequiredFeedToday}",
                 troughDistance,1.15f);
-            if(PlayerInteractionTarget.PressPickup(player.transform,trough,KeyCode.F,troughInteractionRadius))
+            // Jarak sudah dihitung dari permukaan box, jadi tombol berlaku dari
+            // kanan/kiri/depan/belakang tanpa bergantung pada pivot slot.
+            if(PlayerInteractionTarget.Press(KeyCode.F))
             {
                 if(occupied)
                     SaveLoadFeedback.Instance?.ShowMessage($"Box {troughIndex+1} sudah terisi.");
