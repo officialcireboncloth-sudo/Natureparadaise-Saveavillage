@@ -810,7 +810,6 @@ MonoBehaviour:
   pondId: 
   fallbackLevel: 2
   fishFeed: {fileID: 11400000, guid: f15fee4d53d94d2385555d0f0a48bd01, type: 2}
-  fishPerFeedUnit: 10
   maximumVisibleFish: 8
   interactionRadius: 3.5
   interactKey: 101

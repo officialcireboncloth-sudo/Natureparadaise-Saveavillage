@@ -12,5 +12,12 @@ public sealed class PlayerAnimationSetSO : ScriptableObject
 
     [Header("Actions")]
     public AnimationClip jump;
+    public AnimationClip jumpForward;
+    public AnimationClip pickUpFromFloor;
+    public AnimationClip knockOut;
+    public AnimationClip wakeUpFromKnockOut;
+    public AnimationClip milkingAnimal;
+    public AnimationClip pushingObject;
+    public AnimationClip wateringPlant;
     public AnimationClip useTool;
 }

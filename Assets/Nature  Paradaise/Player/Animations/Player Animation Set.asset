@@ -12,9 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4246f316153145b79f8c79a54e334747, type: 3}
   m_Name: Player Animation Set
   m_EditorClassIdentifier: 
-  idle: {fileID: -203655887218126122, guid: c8420d5d156ea4a4aa3dd5d7f2347fd4, type: 3}
-  walk: {fileID: -1610863427237328480, guid: b659a37cccd00424caae9b71a5e6c9d2, type: 3}
-  run: {fileID: -9121621101649706817, guid: 568bb2bb8f7dc18499613c1bed6ba5a9, type: 3}
-  sprint: {fileID: -9121621101649706817, guid: 568bb2bb8f7dc18499613c1bed6ba5a9, type: 3}
-  jump: {fileID: 0}
+  idle: {fileID: -8945691123924629249, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  walk: {fileID: -4274770991410265338, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  run: {fileID: -3828583913261678786, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  sprint: {fileID: -3828583913261678786, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  jump: {fileID: 7215156504655291233, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  jumpForward: {fileID: -538540816971877416, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  pickUpFromFloor: {fileID: 5790145288713581471, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  knockOut: {fileID: -7117111858376828990, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  wakeUpFromKnockOut: {fileID: 500803277745999882, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  milkingAnimal: {fileID: -7883757391368543962, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  pushingObject: {fileID: 565841681989868258, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  wateringPlant: {fileID: 6232702652334640418, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
   useTool: {fileID: 0}

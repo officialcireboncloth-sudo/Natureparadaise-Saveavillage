@@ -154,6 +154,7 @@ public sealed class WorldItemPickup : MonoBehaviour
         }
 
         int collectedAmount = amount;
+        nearbyInventory.GetComponent<PlayerController>()?.PlayPickupAnimation();
         PlayerPickupNotification.ShowItem(nearbyInventory, item, collectedAmount);
         SaveLoadFeedback.Instance?.ShowMessage($"Mengambil {item.itemName} x{amount}");
         QuestEventHub.Publish(QuestObjectiveType.Collect, item.name, collectedAmount, item);

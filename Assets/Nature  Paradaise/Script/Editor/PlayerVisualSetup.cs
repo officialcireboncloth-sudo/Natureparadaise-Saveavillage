@@ -9,7 +9,8 @@ using UnityEngine;
 public static class PlayerVisualSetup
 {
     const string SourceFolder="Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy";
-    const string PreferredSourceModelPath=SourceFolder+"/Player_Dummy.fbx";
+    const string PreferredSourceModelPath=SourceFolder+"/Player.fbx";
+    const string LegacySourceModelPath=SourceFolder+"/Player_Dummy.fbx";
     const string PreferredBaseTexturePath=SourceFolder+"/Player_Dummy_BaseColor.JPEG";
     const string IdleAnimationPath=SourceFolder+"/Breathing Idle.fbx";
     const string WalkingAnimationPath=SourceFolder+"/Walking.fbx";
@@ -31,7 +32,15 @@ public static class PlayerVisualSetup
     {
         if(AssetDatabase.LoadAssetAtPath<GameObject>(PreferredSourceModelPath)==null) return false;
         if(AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath)==null) return true;
-        return !AssetDatabase.GetDependencies(PrefabPath).Contains(PreferredSourceModelPath);
+        PlayerAnimationSetSO set=AssetDatabase.LoadAssetAtPath<PlayerAnimationSetSO>(AnimationSetPath);
+        if(set==null || set.idle==null || set.walk==null || set.run==null || set.jump==null ||
+           set.jumpForward==null || set.pickUpFromFloor==null || set.knockOut==null ||
+           set.wakeUpFromKnockOut==null)
+            return true;
+        if(!AssetDatabase.GetDependencies(PrefabPath).Contains(PreferredSourceModelPath)) return true;
+        // Overwrite FBX mempertahankan path dan GUID sehingga dependency saja tidak cukup.
+        // Rebuild prefab bila source fisik lebih baru daripada prefab hasil setup.
+        return File.GetLastWriteTimeUtc(PreferredSourceModelPath) > File.GetLastWriteTimeUtc(PrefabPath);
     }
 
     [MenuItem("Nature Paradise/Player/Setup or Update Player Visual",false,100)]
@@ -51,6 +60,13 @@ public static class PlayerVisualSetup
             string sourceModelPath=FindSourceModelPath();
             ConfigurePlayerModelImporter(sourceModelPath);
             PlayerAnimationSetSO animationSet=GetOrCreateAnimationSet();
+            if(sourceModelPath==PreferredSourceModelPath &&
+               !PopulateEmbeddedAnimationSet(animationSet,sourceModelPath))
+            {
+                Debug.LogError("[PLAYER ANIMATION] Player.fbx belum menghasilkan AnimationClip. " +
+                    "Pilih Assets > Refresh, tunggu kompilasi/reimport selesai, lalu jalankan setup lagi.");
+                return;
+            }
             AnimatorController controller=GetOrCreateController(animationSet);
             Material material=GetOrCreateMaterial();
             GameObject prefab=GetOrCreateVisualPrefab(sourceModelPath,controller,material);
@@ -209,6 +225,32 @@ public static class PlayerVisualSetup
         return result;
     }
 
+    static bool PopulateEmbeddedAnimationSet(PlayerAnimationSetSO set,string path)
+    {
+        AnimationClip[] clips=AssetDatabase.LoadAllAssetsAtPath(path).OfType<AnimationClip>()
+            .Where(clip=>!clip.name.StartsWith("__preview__"))
+            .ToArray();
+        if(clips.Length==0) return false;
+        AnimationClip Clip(string name)=>clips.FirstOrDefault(clip=>
+            clip.name.Equals(name,System.StringComparison.OrdinalIgnoreCase));
+
+        set.idle=Clip("Idle");
+        set.walk=Clip("Walking");
+        set.run=Clip("Running");
+        set.sprint=set.run;
+        set.jump=Clip("Jumping");
+        set.jumpForward=Clip("JumpingForward");
+        set.pickUpFromFloor=Clip("PickUpFromFloor");
+        set.knockOut=Clip("KnockOut");
+        set.wakeUpFromKnockOut=Clip("WakeUpFromKnockOut");
+        set.milkingAnimal=Clip("MilkingAnimal");
+        set.pushingObject=Clip("PushingObject");
+        set.wateringPlant=Clip("WateringPlant");
+        EditorUtility.SetDirty(set);
+        return set.idle!=null && set.walk!=null && set.run!=null && set.jump!=null &&
+               set.jumpForward!=null;
+    }
+
     static AnimatorController GetOrCreateController(PlayerAnimationSetSO clips)
     {
         AnimatorController controller=AssetDatabase.LoadAssetAtPath<AnimatorController>(ControllerPath);
@@ -250,6 +292,20 @@ public static class PlayerVisualSetup
             fromTool.duration=0.08f;
         }
 
+        AddParameter(controller,"Speed",AnimatorControllerParameterType.Float);
+        AddParameter(controller,"Grounded",AnimatorControllerParameterType.Bool);
+        AddParameter(controller,"Sprint",AnimatorControllerParameterType.Bool);
+        AddParameter(controller,"Carry",AnimatorControllerParameterType.Bool);
+        AddParameter(controller,"Jump",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"JumpForward",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"PickUp",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"KnockOut",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"WakeUp",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Milking",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Pushing",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Watering",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"UseTool",AnimatorControllerParameterType.Trigger);
+
         AnimatorStateMachine stateMachine=controller.layers[0].stateMachine;
         AnimatorState locomotionState=FindState(stateMachine,"Locomotion");
         if(locomotionState?.motion is BlendTree locomotionTree)
@@ -263,10 +319,51 @@ public static class PlayerVisualSetup
         }
         AnimatorState jumpState=FindState(stateMachine,"Jump");
         AnimatorState toolState=FindState(stateMachine,"Use Tool");
-        if(jumpState!=null) jumpState.motion=clips.jump;
+        if(jumpState!=null)
+        {
+            jumpState.motion=clips.jump;
+            // Standing Jump 57 frame memuat anticipation dan landing. Pada 2x,
+            // takeoff/landingnya selaras dengan arc CharacterController (~0,6 detik).
+            jumpState.speed=2f;
+        }
         if(toolState!=null) toolState.motion=clips.useTool;
+        // 27 frame / 30 fps pada 1.25x memberi durasi sekitar 0,72 detik,
+        // dekat dengan arc fisik 0,61 detik ditambah waktu blend keluar.
+        EnsureActionState(stateMachine,"Jump Forward","JumpForward",clips.jumpForward,1.25f,true);
+        EnsureActionState(stateMachine,"Pick Up From Floor","PickUp",clips.pickUpFromFloor,4f,true);
+        EnsureActionState(stateMachine,"Knock Out","KnockOut",clips.knockOut,1f,false);
+        EnsureActionState(stateMachine,"Wake Up","WakeUp",clips.wakeUpFromKnockOut,4f,true);
+        EnsureActionState(stateMachine,"Milking Animal","Milking",clips.milkingAnimal,2f,true);
+        EnsureActionState(stateMachine,"Pushing Object","Pushing",clips.pushingObject,1f,true);
+        EnsureActionState(stateMachine,"Watering Plant","Watering",clips.wateringPlant,2f,true);
         EditorUtility.SetDirty(controller);
         return controller;
+    }
+
+    static AnimatorState EnsureActionState(AnimatorStateMachine machine,string stateName,string trigger,
+        AnimationClip clip,float speed,bool returnsToLocomotion)
+    {
+        AnimatorState state=FindState(machine,stateName)??machine.AddState(stateName);
+        state.motion=clip;
+        state.speed=speed;
+        if(!machine.anyStateTransitions.Any(transition=>transition.destinationState==state &&
+            transition.conditions.Any(condition=>condition.parameter==trigger)))
+        {
+            AnimatorStateTransition enter=machine.AddAnyStateTransition(state);
+            enter.hasExitTime=false;
+            enter.duration=0.06f;
+            enter.AddCondition(AnimatorConditionMode.If,0f,trigger);
+        }
+        AnimatorState locomotion=FindState(machine,"Locomotion");
+        if(returnsToLocomotion && locomotion!=null &&
+           !state.transitions.Any(transition=>transition.destinationState==locomotion))
+        {
+            AnimatorStateTransition exit=state.AddTransition(locomotion);
+            exit.hasExitTime=true;
+            exit.exitTime=0.95f;
+            exit.duration=0.08f;
+        }
+        return state;
     }
 
     static ChildMotion Child(AnimationClip clip,float threshold) => new() {motion=clip,threshold=threshold,timeScale=1f};
@@ -304,6 +401,8 @@ public static class PlayerVisualSetup
     {
         if(AssetDatabase.LoadAssetAtPath<GameObject>(PreferredSourceModelPath)!=null)
             return PreferredSourceModelPath;
+        if(AssetDatabase.LoadAssetAtPath<GameObject>(LegacySourceModelPath)!=null)
+            return LegacySourceModelPath;
         string guid=AssetDatabase.FindAssets("t:Model",new[]{SourceFolder})
             .Select(AssetDatabase.GUIDToAssetPath)
             .FirstOrDefault(path=>path.EndsWith(".fbx",System.StringComparison.OrdinalIgnoreCase) ||
@@ -316,13 +415,83 @@ public static class PlayerVisualSetup
     static void ConfigurePlayerModelImporter(string path)
     {
         if(AssetImporter.GetAtPath(path) is not ModelImporter importer) return;
-        bool dirty=importer.animationType!=ModelImporterAnimationType.Human ||
-                   importer.avatarSetup!=ModelImporterAvatarSetup.CreateFromThisModel || !importer.importAnimation;
-        importer.animationType=ModelImporterAnimationType.Human;
+        // Player.fbx berisi mesh, skeleton, control rig, dan semua take dalam satu file.
+        // Generic mempertahankan kurva pada skeleton aslinya; Humanoid dapat menerima
+        // nama take tetapi menghasilkan nol AnimationClip pada export Blender ini.
+        ModelImporterAnimationType targetType=path==PreferredSourceModelPath
+            ? ModelImporterAnimationType.Generic
+            : ModelImporterAnimationType.Human;
+        bool dirty=importer.animationType!=targetType ||
+                    importer.avatarSetup!=ModelImporterAvatarSetup.CreateFromThisModel || !importer.importAnimation;
+        importer.animationType=targetType;
         importer.avatarSetup=ModelImporterAvatarSetup.CreateFromThisModel;
         importer.importAnimation=true;
         if(dirty) importer.SaveAndReimport();
+        if(path!=PreferredSourceModelPath) return;
+
+        importer=AssetImporter.GetAtPath(path) as ModelImporter;
+        if(importer==null) return;
+        ModelImporterClipAnimation[] sourceClips=importer.defaultClipAnimations;
+        // Beberapa export multi-take FBX kehilangan defaultClipAnimations ketika file
+        // ditimpa pada GUID yang sama. Rekonstruksi take yang sudah diverifikasi agar
+        // controller tidak tersimpan dengan semua Motion = None.
+        if(sourceClips.Length==0)
+        {
+            sourceClips=new[]
+            {
+                EmbeddedClip("Idle","Armature|Idle",298f),
+                EmbeddedClip("Jumping","Armature|Jumping ",57f),
+                EmbeddedClip("JumpingForward","Armature|JumpingForward",27f),
+                EmbeddedClip("KnockOut","Armature|KnockOut",78f),
+                EmbeddedClip("MilkingAnimal","Armature|MilkingAnimal",136f),
+                EmbeddedClip("PickUpFromFloor","Armature|PickUpFromFloor",287f),
+                EmbeddedClip("PushingObject","Armature|PushingObject",51f),
+                EmbeddedClip("Running","Armature|Running",19f),
+                EmbeddedClip("WakeUpFromKnockOut","Armature|WakeUpFromKnockOut",342f),
+                EmbeddedClip("Walking","Armature|Walking",29f),
+                EmbeddedClip("WateringPlant","Armature|WateringPlant",168f)
+            };
+        }
+        ModelImporterClipAnimation[] configured=sourceClips.Select(source=>
+        {
+            ModelImporterClipAnimation clip=source;
+            string cleanName=source.name;
+            int separator=cleanName.LastIndexOf('|');
+            if(separator>=0) cleanName=cleanName.Substring(separator+1);
+            cleanName=cleanName.Trim();
+            clip.name=cleanName;
+            bool loop=cleanName=="Idle" || cleanName=="Walking" || cleanName=="Running";
+            clip.loopTime=loop;
+            clip.loopPose=loop;
+            clip.keepOriginalOrientation=true;
+            clip.keepOriginalPositionY=true;
+            clip.keepOriginalPositionXZ=true;
+            clip.lockRootRotation=true;
+            clip.lockRootHeightY=true;
+            clip.lockRootPositionXZ=true;
+            return clip;
+        }).ToArray();
+        bool hasImportedClips=AssetDatabase.LoadAllAssetsAtPath(path).OfType<AnimationClip>()
+            .Any(clip=>!clip.name.StartsWith("__preview__"));
+        bool needsClipUpdate=!hasImportedClips || importer.clipAnimations.Length!=configured.Length ||
+            importer.clipAnimations.Where((clip,index)=>index<configured.Length &&
+                (clip.name!=configured[index].name || clip.loopTime!=configured[index].loopTime)).Any();
+        if(needsClipUpdate)
+        {
+            importer.clipAnimations=configured;
+            importer.SaveAndReimport();
+            AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport |
+                ImportAssetOptions.ForceUpdate);
+        }
     }
+
+    static ModelImporterClipAnimation EmbeddedClip(string name,string takeName,float lastFrame) => new()
+    {
+        name=name,
+        takeName=takeName,
+        firstFrame=0f,
+        lastFrame=lastFrame
+    };
 
     static GameObject GetOrCreateVisualPrefab(string sourceModelPath,AnimatorController controller,Material material)
     {
@@ -495,6 +664,7 @@ public sealed class PlayerDummyAssetPostprocessor : AssetPostprocessor
     static void EnsureCurrentAnimations()
     {
         if(!PlayerVisualSetup.IsRunning && !EditorApplication.isPlayingOrWillChangePlaymode &&
+           AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Player.fbx")==null &&
            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Breathing Idle.fbx")!=null &&
            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Walking.fbx")!=null &&
            AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Running.fbx")!=null)
@@ -507,6 +677,7 @@ public sealed class PlayerDummyAssetPostprocessor : AssetPostprocessor
         if(PlayerVisualSetup.IsRunning || EditorApplication.isPlayingOrWillChangePlaymode)
             return;
         pendingVisual|=importedAssets.Contains("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Player_Dummy.fbx");
+        pendingVisual|=importedAssets.Contains("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Player.fbx");
         pendingAnimations|=importedAssets.Contains("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Breathing Idle.fbx") ||
                            importedAssets.Contains("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Walking.fbx") ||
                            importedAssets.Contains("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Running.fbx");
@@ -523,6 +694,8 @@ public sealed class PlayerDummyAssetPostprocessor : AssetPostprocessor
         bool updateAnimations=pendingAnimations;
         pendingVisual=pendingAnimations=false;
         if(updateVisual) PlayerVisualSetup.Setup();
-        if(updateAnimations) PlayerVisualSetup.ApplyWalkAndRunAnimations();
+        if(updateAnimations &&
+           AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Player.fbx")==null)
+            PlayerVisualSetup.ApplyWalkAndRunAnimations();
     }
 }

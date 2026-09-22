@@ -33,6 +33,8 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     [SerializeField, Min(0)] int faintGoldPenalty;
     [SerializeField] bool advanceDayWhenFainted = true;
     [SerializeField] bool saveAfterFaint = true;
+    [SerializeField, Min(0f)] float knockOutAnimationTime = 2.4f;
+    [SerializeField, Min(0f)] float wakeUpAnimationTime = 2.8f;
 
     [Header("Debug / Keyboard Testing")]
     [SerializeField] KeyCode sleepKey = KeyCode.L;
@@ -146,6 +148,12 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         busy = true;
         status.AcquireActivity(this, PlayerMovementState.Sleeping);
         SetGameplayEnabled(false);
+        if (forcedInPlace)
+        {
+            movement?.PlayKnockOutAnimation();
+            if (knockOutAnimationTime > 0f)
+                yield return new WaitForSecondsRealtime(knockOutAnimationTime);
+        }
         sleepBlackout = true;
         SaveLoadFeedback.Instance?.ShowMessage("Tidur...");
         yield return new WaitForSecondsRealtime(0.45f);
@@ -163,8 +171,14 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         status.RestoreAfterSleep();
         SaveManager.Instance?.SaveGame();
 
-        SetGameplayEnabled(true);
         sleepBlackout = false;
+        if (forcedInPlace)
+        {
+            movement?.PlayWakeUpAnimation();
+            if (wakeUpAnimationTime > 0f)
+                yield return new WaitForSecondsRealtime(wakeUpAnimationTime);
+        }
+        SetGameplayEnabled(true);
         status.ReleaseActivity(this);
         busy = false;
         SaveLoadFeedback.Instance?.ShowMessage(forcedInPlace
@@ -192,10 +206,12 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         busy = true;
         status.AcquireActivity(this, PlayerMovementState.Faint);
         SetGameplayEnabled(false);
+        movement?.PlayKnockOutAnimation();
         Debug.Log("[PLAYER] Pingsan. Player akan dibawa ke klinik.");
 
-        if (faintDelay > 0f)
-            yield return new WaitForSecondsRealtime(faintDelay);
+        float knockOutWait = Mathf.Max(faintDelay, knockOutAnimationTime);
+        if (knockOutWait > 0f)
+            yield return new WaitForSecondsRealtime(knockOutWait);
 
         if (advanceDayWhenFainted)
             AdvanceToNextDay(recoveryHour);
@@ -209,6 +225,9 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         if (saveAfterFaint)
             SaveManager.Instance?.SaveGame();
 
+        movement?.PlayWakeUpAnimation();
+        if (wakeUpAnimationTime > 0f)
+            yield return new WaitForSecondsRealtime(wakeUpAnimationTime);
         SetGameplayEnabled(true);
         status.ReleaseActivity(this);
         busy = false;

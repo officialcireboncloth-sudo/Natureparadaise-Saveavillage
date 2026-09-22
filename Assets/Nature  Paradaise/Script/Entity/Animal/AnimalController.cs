@@ -323,6 +323,7 @@ public class AnimalController : MonoBehaviour
 
         milkReady = false;
         growth?.MarkProductCollected();
+        playerInv.GetComponent<PlayerController>()?.PlayMilkingAnimation();
         PlayerPickupNotification.ShowItem(playerInv, milkItem, 1);
 
         SaveLoadFeedback.Instance?.ShowMessage($"{milkItem.itemName} ({AnimalCareCatalog.QualityName(quality)}) berhasil diambil");

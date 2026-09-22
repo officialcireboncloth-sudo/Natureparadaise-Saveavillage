@@ -374,6 +374,7 @@ public class FarmingTool : MonoBehaviour
         if (currentField.TryHarvest(currentX, currentZ, playerInv, out CropGrade grade))
         {
             SpendStamina(harvestCost);
+            movement?.PlayPickupAnimation();
             ShowFeedback($"Panen berhasil - {(int)grade + 1} bintang");
         }
         else
@@ -451,6 +452,8 @@ public class FarmingTool : MonoBehaviour
                 return;
             }
             SpendStamina(cost);
+            if (watering)
+                movement?.PlayWateringAnimation();
             ShowFeedback(watering
                 ? $"Tanah atau tanaman sudah disiram — air {wateringCan.CurrentWater}/{wateringCan.MaximumWater}"
                 : $"Tanah sudah dipupuk dengan {fertilizer.itemName}. Siap ditanami");

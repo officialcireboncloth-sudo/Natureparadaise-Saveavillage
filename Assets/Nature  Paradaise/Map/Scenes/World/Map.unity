@@ -1615,6 +1615,7 @@ MonoBehaviour:
   playerInv: {fileID: 1314698854}
   shop: {fileID: 307943571}
   shopUI: {fileID: 0}
+  debugWorldLabel: {fileID: 0}
 --- !u!114 &307943571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5013,7 +5014,7 @@ MonoBehaviour:
   minute: 0
   hour: 8
   day: 1
-  realMinutesPerFullDay: 24
+  realMinutesPerFullDay: 1
 --- !u!114 &971125959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5047,6 +5048,11 @@ MonoBehaviour:
   enableDebugKeys: 1
   nextCurrentWeatherKey: 293
   nextForecastWeatherKey: 0
+--- !u!95 &1043492153 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 907233773804583231, guid: 62b58045597702144bce200eb1ad3185, type: 3}
+  m_PrefabInstance: {fileID: 1610896751}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1061100801
 GameObject:
   m_ObjectHideFlags: 0
@@ -6040,18 +6046,27 @@ MonoBehaviour:
   gravity: -25
   groundedForce: 2
   jumpStaminaCost: 0.1
+  forwardJumpDistance: 4.5
+  standingJumpTakeoffDelay: 0.16
   status: {fileID: 0}
   sprintDrainPerSecond: 0.025
   staminaUpdateInterval: 0.2
   sprintKey: 304
   walkKey: 308
   jumpKey: 32
-  animator: {fileID: 1610896752}
+  animator: {fileID: 1043492153}
   speedParameter: Speed
   groundedParameter: Grounded
   sprintParameter: Sprint
   carryParameter: Carry
   jumpTrigger: Jump
+  jumpForwardTrigger: JumpForward
+  pickupTrigger: PickUp
+  knockOutTrigger: KnockOut
+  wakeUpTrigger: WakeUp
+  milkingTrigger: Milking
+  pushingTrigger: Pushing
+  wateringTrigger: Watering
 --- !u!114 &1314698854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6271,6 +6286,8 @@ MonoBehaviour:
   faintGoldPenalty: 0
   advanceDayWhenFainted: 1
   saveAfterFaint: 1
+  knockOutAnimationTime: 2.4
+  wakeUpAnimationTime: 2.8
   sleepKey: 108
   damageKey: 107
   debugDamage: 25
@@ -7863,11 +7880,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62b58045597702144bce200eb1ad3185, type: 3}
---- !u!95 &1610896752 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 6824510922986793194, guid: 62b58045597702144bce200eb1ad3185, type: 3}
-  m_PrefabInstance: {fileID: 1610896751}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1610896753 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5409153469968686353, guid: 62b58045597702144bce200eb1ad3185, type: 3}
@@ -10443,11 +10455,12 @@ MonoBehaviour:
   door: {fileID: 1367076274}
   site: {fileID: 2500000003}
   fodderStock: 0
+  grassStock: 0
+  feedPortionsReserved: 0
   bellStateInitialized: 0
   animalsOutside: 0
   forceAutoFeeder: 0
   autoFeederStartingLevel: 3
-  troughInteractionRadius: 2.25
 --- !u!1 &2500000011
 GameObject:
   m_ObjectHideFlags: 0
@@ -10965,11 +10978,12 @@ MonoBehaviour:
   door: {fileID: 1720504966}
   site: {fileID: 2600000003}
   fodderStock: 0
+  grassStock: 0
+  feedPortionsReserved: 0
   bellStateInitialized: 0
   animalsOutside: 0
   forceAutoFeeder: 0
   autoFeederStartingLevel: 3
-  troughInteractionRadius: 2.25
 --- !u!1 &2600000011
 GameObject:
   m_ObjectHideFlags: 0
@@ -11465,11 +11479,12 @@ MonoBehaviour:
   door: {fileID: 956350017}
   site: {fileID: 2700000003}
   fodderStock: 0
+  grassStock: 0
+  feedPortionsReserved: 0
   bellStateInitialized: 0
   animalsOutside: 0
   forceAutoFeeder: 0
   autoFeederStartingLevel: 3
-  troughInteractionRadius: 2.25
 --- !u!1 &2700000011
 GameObject:
   m_ObjectHideFlags: 0
@@ -12471,11 +12486,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   machineId: map-feed-maker-test
+  contextLabel: 
   catalog: {fileID: 11400000, guid: d1060000000040008000000000000020, type: 2}
   level: 1
   outputCapacity: 60
   linkedStorage: {fileID: 0}
   linkedSilo: {fileID: 0}
+  automaticOutputTransferEnabled: 0
+  externalInteraction: 0
 --- !u!1 &950000000000000001
 GameObject:
   m_ObjectHideFlags: 0

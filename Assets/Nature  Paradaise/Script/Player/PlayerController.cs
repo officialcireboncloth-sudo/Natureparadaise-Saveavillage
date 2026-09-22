@@ -32,6 +32,10 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField] float gravity = -25f;
     [SerializeField, Min(0f)] float groundedForce = 2f;
     [SerializeField, Min(0f)] float jumpStaminaCost = 0.1f;
+    [SerializeField, Min(0f), Tooltip("Jarak horizontal total JumpingForward dalam world unit.")]
+    float forwardJumpDistance = 4.5f;
+    [SerializeField, Range(0f, 0.5f), Tooltip("Jeda sebelum standing jump mulai naik agar takeoff fisik mengikuti pose animasi.")]
+    float standingJumpTakeoffDelay = 0.16f;
 
     [Header("Run / Sprint Stamina (No Passive Recovery)")]
     [SerializeField] PlayerStatusSystem status;
@@ -51,15 +55,26 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField] string sprintParameter = "Sprint";
     [SerializeField] string carryParameter = "Carry";
     [SerializeField] string jumpTrigger = "Jump";
+    [SerializeField] string jumpForwardTrigger = "JumpForward";
+    [SerializeField] string pickupTrigger = "PickUp";
+    [SerializeField] string knockOutTrigger = "KnockOut";
+    [SerializeField] string wakeUpTrigger = "WakeUp";
+    [SerializeField] string milkingTrigger = "Milking";
+    [SerializeField] string pushingTrigger = "Pushing";
+    [SerializeField] string wateringTrigger = "Watering";
 
     CharacterController characterController;
     readonly HashSet<object> movementLocks = new();
     Vector2 externalMobileInput;
     Vector3 planarVelocity;
+    Vector3 forwardJumpVelocity;
     float verticalVelocity;
     float staminaTimer;
     bool mobileSprintHeld;
     bool jumpRequested;
+    bool forwardJumpActive;
+    bool standingJumpPending;
+    float standingJumpTimer;
     bool manualLock;
     bool isCarrying;
     bool hasSpeedParameter;
@@ -67,6 +82,13 @@ public sealed class PlayerController : MonoBehaviour
     bool hasSprintParameter;
     bool hasCarryParameter;
     bool hasJumpTrigger;
+    bool hasJumpForwardTrigger;
+    bool hasPickupTrigger;
+    bool hasKnockOutTrigger;
+    bool hasWakeUpTrigger;
+    bool hasMilkingTrigger;
+    bool hasPushingTrigger;
+    bool hasWateringTrigger;
 
     public MovementMode CurrentMode { get; private set; }
     public Vector3 PlanarVelocity => planarVelocity;
@@ -145,15 +167,17 @@ public sealed class PlayerController : MonoBehaviour
         if (movementCamera == null) movementCamera = Camera.main;
 
         Vector2 input = IsMovementLocked ? Vector2.zero : ReadMovementInput();
+        Vector3 direction = ToCameraRelativeDirection(input);
         bool groundedBeforeMove = characterController.isGrounded;
         if (groundedBeforeMove && verticalVelocity < 0f)
             verticalVelocity = -groundedForce;
 
+        UpdatePendingStandingJump(groundedBeforeMove);
+
         if (!IsMovementLocked && (Input.GetKeyDown(jumpKey) || jumpRequested))
-            TryJump(groundedBeforeMove);
+            TryJump(groundedBeforeMove, direction);
         jumpRequested = false;
 
-        Vector3 direction = ToCameraRelativeDirection(input);
         Vector3 facingDirection = direction;
         if (facingDirection.sqrMagnitude > 0.001f)
             FacingDirection = facingDirection.normalized;
@@ -162,7 +186,7 @@ public sealed class PlayerController : MonoBehaviour
         float targetSpeed = ResolveSpeed(mode, inputMagnitude);
         if (isCarrying) targetSpeed *= carrySpeedMultiplier;
 
-        planarVelocity = direction * targetSpeed;
+        planarVelocity = forwardJumpActive ? forwardJumpVelocity : direction * targetSpeed;
         if (facingDirection.sqrMagnitude > 0.001f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(facingDirection, Vector3.up);
@@ -176,6 +200,11 @@ public sealed class PlayerController : MonoBehaviour
             verticalVelocity = 0f;
 
         bool groundedAfterMove = characterController.isGrounded;
+        if (forwardJumpActive && groundedAfterMove && verticalVelocity <= 0f)
+        {
+            forwardJumpActive = false;
+            forwardJumpVelocity = Vector3.zero;
+        }
         if (!groundedAfterMove && verticalVelocity > 0.01f)
             mode = MovementMode.Airborne;
         SetMovementMode(mode);
@@ -236,11 +265,45 @@ public sealed class PlayerController : MonoBehaviour
         };
     }
 
-    void TryJump(bool grounded)
+    void TryJump(bool grounded, Vector3 jumpDirection)
     {
-        if (!grounded || status == null || !status.TrySpendStamina(jumpStaminaCost)) return;
-        verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        if (animator != null && hasJumpTrigger) animator.SetTrigger(jumpTrigger);
+        if (!grounded || standingJumpPending || status == null || !status.TrySpendStamina(jumpStaminaCost)) return;
+        bool movingForward = jumpDirection.sqrMagnitude > 0.01f;
+        if (movingForward)
+        {
+            verticalVelocity = CalculateJumpVelocity();
+            forwardJumpActive = true;
+            forwardJumpVelocity = jumpDirection.normalized * CalculateForwardJumpSpeed();
+        }
+        else
+        {
+            standingJumpPending = true;
+            standingJumpTimer = standingJumpTakeoffDelay;
+        }
+        if (animator == null) return;
+        if (movingForward && hasJumpForwardTrigger)
+            animator.SetTrigger(jumpForwardTrigger);
+        else if (hasJumpTrigger)
+            animator.SetTrigger(jumpTrigger);
+    }
+
+    void UpdatePendingStandingJump(bool grounded)
+    {
+        if (!standingJumpPending) return;
+        standingJumpTimer -= Time.deltaTime;
+        if (standingJumpTimer > 0f) return;
+        standingJumpPending = false;
+        // Tetap lakukan takeoff bila tepi collider membuat isGrounded berkedip satu frame.
+        if (grounded || verticalVelocity <= 0f)
+            verticalVelocity = CalculateJumpVelocity();
+    }
+
+    float CalculateJumpVelocity() => Mathf.Sqrt(jumpHeight * -2f * gravity);
+
+    float CalculateForwardJumpSpeed()
+    {
+        float flightTime = 2f * CalculateJumpVelocity() / -gravity;
+        return forwardJumpDistance / Mathf.Max(0.01f, flightTime);
     }
 
     void UpdateStamina(MovementMode mode)
@@ -292,8 +355,28 @@ public sealed class PlayerController : MonoBehaviour
             if (name == sprintParameter) hasSprintParameter = true;
             if (name == carryParameter) hasCarryParameter = true;
             if (name == jumpTrigger) hasJumpTrigger = true;
+            if (name == jumpForwardTrigger) hasJumpForwardTrigger = true;
+            if (name == pickupTrigger) hasPickupTrigger = true;
+            if (name == knockOutTrigger) hasKnockOutTrigger = true;
+            if (name == wakeUpTrigger) hasWakeUpTrigger = true;
+            if (name == milkingTrigger) hasMilkingTrigger = true;
+            if (name == pushingTrigger) hasPushingTrigger = true;
+            if (name == wateringTrigger) hasWateringTrigger = true;
         }
     }
+
+    void PlayTrigger(string trigger, bool available)
+    {
+        if (available && animator != null && animator.isActiveAndEnabled && animator.runtimeAnimatorController != null)
+            animator.SetTrigger(trigger);
+    }
+
+    public void PlayPickupAnimation() => PlayTrigger(pickupTrigger, hasPickupTrigger);
+    public void PlayKnockOutAnimation() => PlayTrigger(knockOutTrigger, hasKnockOutTrigger);
+    public void PlayWakeUpAnimation() => PlayTrigger(wakeUpTrigger, hasWakeUpTrigger);
+    public void PlayMilkingAnimation() => PlayTrigger(milkingTrigger, hasMilkingTrigger);
+    public void PlayPushingAnimation() => PlayTrigger(pushingTrigger, hasPushingTrigger);
+    public void PlayWateringAnimation() => PlayTrigger(wateringTrigger, hasWateringTrigger);
 
     // Token lock mencegah satu sistem membuka movement yang masih dikunci sistem lain.
     /// <summary>Menahan movement untuk satu owner; aman dipakai beberapa sistem sekaligus.</summary>
@@ -314,6 +397,10 @@ public sealed class PlayerController : MonoBehaviour
         mobileSprintHeld = false;
         externalMobileInput = Vector2.zero;
         jumpRequested = false;
+        forwardJumpActive = false;
+        forwardJumpVelocity = Vector3.zero;
+        standingJumpPending = false;
+        standingJumpTimer = 0f;
         if (animator != null && animator.isActiveAndEnabled && animator.runtimeAnimatorController != null && hasSpeedParameter)
             animator.SetFloat(speedParameter, 0f);
     }
@@ -324,5 +411,7 @@ public sealed class PlayerController : MonoBehaviour
         runSpeed = Mathf.Max(walkSpeed, runSpeed);
         sprintSpeed = Mathf.Max(runSpeed, sprintSpeed);
         gravity = Mathf.Min(-0.1f, gravity);
+        forwardJumpDistance = Mathf.Max(0f, forwardJumpDistance);
+        standingJumpTakeoffDelay = Mathf.Max(0f, standingJumpTakeoffDelay);
     }
 }
