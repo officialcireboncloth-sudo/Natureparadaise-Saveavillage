@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,6 +45,12 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     [SerializeField] GameObject hammerVisual;
     [SerializeField] GameObject axeVisual;
 
+    [Header("Animation Impact Timing")]
+    [SerializeField, Min(0f)] float pullImpactDelay = 1.05f;
+    [SerializeField, Min(0f)] float sickleImpactDelay = 0.68f;
+    [SerializeField, Min(0f)] float hammerImpactDelay = 0.55f;
+    [SerializeField, Min(0f)] float axeImpactDelay = 0.55f;
+
     PlayerController movement;
     PlayerToolHotbar hotbar;
     PlayerStatusSystem status;
@@ -59,6 +66,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     int carriedQualityStars;
     float carriedFishSizeCm;
     GameObject carriedVisual;
+    bool actionBusy;
 
     int SickleLevel => status != null ? status.GetToolLevel(PlayerToolType.Sickle) : sickleLevel;
     int AxeLevel => status != null ? status.GetToolLevel(PlayerToolType.Axe) : axeLevel;
@@ -101,6 +109,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             nextScan = Time.unscaledTime + scanInterval;
             RefreshTarget();
         }
+
+        if (actionBusy) return;
 
         if (carriedItem != null)
         {
@@ -224,8 +234,9 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if (!SpendStamina(pullCost)) return;
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(pullTrigger);
-        target.Pull(this);
+        WorldGatherable pending = target;
         target = null;
+        StartCoroutine(PullImpactRoutine(pending));
     }
 
     void UseSickle()
@@ -233,14 +244,20 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if (!SpendStamina(sickleCost)) return;
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(sickleTrigger);
-        if (sickleSwish != null) GameAudio.PlayOneShot(audioSource, sickleSwish, GameAudioBus.Main);
-        if (grassParticles != null) grassParticles.Play();
-
         Vector3 facing = movement != null ? movement.FacingDirection : transform.forward;
         facing.y = 0f;
         facing.Normalize();
         float radius = 0.85f + SickleLevel * 0.35f;
         Vector3 center = transform.position + facing * 1.35f;
+        StartCoroutine(SickleImpactRoutine(center,radius));
+    }
+
+    IEnumerator SickleImpactRoutine(Vector3 center,float radius)
+    {
+        BeginTimedAction();
+        if(sickleImpactDelay>0f) yield return new WaitForSeconds(sickleImpactDelay);
+        if (sickleSwish != null) GameAudio.PlayOneShot(audioSource, sickleSwish, GameAudioBus.Main);
+        if (grassParticles != null) grassParticles.Play();
         int cut = 0;
         IReadOnlyList<WorldGatherable> all = WorldGatherable.Active;
         for (int i = 0; i < all.Count; i++)
@@ -253,6 +270,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         cut += TerrainDetailGrassManager.CutAllInRadius(center, radius);
         SaveLoadFeedback.Instance?.ShowMessage(cut > 0 ? $"Sabit memotong {cut} target" : "Tidak ada rumput di depan");
         if (target != null && !target.IsAvailable) target = null;
+        yield return new WaitForSeconds(Mathf.Max(0f,1.35f-sickleImpactDelay));
+        EndTimedAction();
     }
 
     void UseHammer()
@@ -273,11 +292,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if (!SpendStamina(hammerCost)) return;
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(hammerTrigger);
-        if (hammerImpact != null) GameAudio.PlayOneShot(audioSource, hammerImpact, GameAudioBus.Main);
-        if (stoneParticles != null) stoneParticles.Play();
-        target.Hammer(this, HammerLevel);
-        cameraFollow?.AddImpulse(0.09f, 0.12f);
-        if (!target.IsAvailable) target = null;
+        WorldGatherable pending=target;
+        StartCoroutine(HammerImpactRoutine(pending));
     }
 
     void UseAxe()
@@ -295,10 +311,66 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if (!SpendStamina(axeCost)) return;
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(axeTrigger);
-        if (axeImpact != null) GameAudio.PlayOneShot(audioSource, axeImpact, GameAudioBus.Main);
-        treeTarget.Chop(AxeLevel);
-        cameraFollow?.AddImpulse(0.07f, 0.1f);
-        if (!treeTarget.IsAvailable) treeTarget = null;
+        WorldTree pending=treeTarget;
+        StartCoroutine(AxeImpactRoutine(pending));
+    }
+
+    IEnumerator PullImpactRoutine(WorldGatherable pending)
+    {
+        BeginTimedAction();
+        if(pullImpactDelay>0f) yield return new WaitForSeconds(pullImpactDelay);
+        if(pending!=null && pending.IsAvailable) pending.Pull(this);
+        yield return new WaitForSeconds(Mathf.Max(0f,1.4f-pullImpactDelay));
+        EndTimedAction();
+    }
+
+    IEnumerator HammerImpactRoutine(WorldGatherable pending)
+    {
+        BeginTimedAction();
+        if(hammerImpactDelay>0f) yield return new WaitForSeconds(hammerImpactDelay);
+        if(pending!=null && pending.IsAvailable)
+        {
+            if (hammerImpact != null) GameAudio.PlayOneShot(audioSource, hammerImpact, GameAudioBus.Main);
+            if (stoneParticles != null) stoneParticles.Play();
+            pending.Hammer(this,HammerLevel);
+            cameraFollow?.AddImpulse(0.09f,0.12f);
+            if(target==pending && !pending.IsAvailable) target=null;
+        }
+        yield return new WaitForSeconds(Mathf.Max(0f,0.95f-hammerImpactDelay));
+        EndTimedAction();
+    }
+
+    IEnumerator AxeImpactRoutine(WorldTree pending)
+    {
+        BeginTimedAction();
+        if(axeImpactDelay>0f) yield return new WaitForSeconds(axeImpactDelay);
+        if(pending!=null && pending.IsAvailable)
+        {
+            if (axeImpact != null) GameAudio.PlayOneShot(audioSource, axeImpact, GameAudioBus.Main);
+            pending.Chop(AxeLevel);
+            cameraFollow?.AddImpulse(0.07f,0.1f);
+            if(treeTarget==pending && !pending.IsAvailable) treeTarget=null;
+        }
+        yield return new WaitForSeconds(Mathf.Max(0f,0.95f-axeImpactDelay));
+        EndTimedAction();
+    }
+
+    void BeginTimedAction()
+    {
+        actionBusy=true;
+        movement?.AcquireMovementLock(this);
+    }
+
+    void EndTimedAction()
+    {
+        movement?.ReleaseMovementLock(this);
+        actionBusy=false;
+    }
+
+    void OnDisable()
+    {
+        movement?.ReleaseMovementLock(this);
+        actionBusy = false;
     }
 
     bool SpendStamina(float amount)

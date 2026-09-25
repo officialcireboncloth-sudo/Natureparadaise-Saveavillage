@@ -62,6 +62,11 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField] string milkingTrigger = "Milking";
     [SerializeField] string pushingTrigger = "Pushing";
     [SerializeField] string wateringTrigger = "Watering";
+    [SerializeField] string hoeingTrigger = "Hoeing";
+    [SerializeField] string plantingTrigger = "Planting";
+    [SerializeField] string refillWateringCanTrigger = "RefillWateringCan";
+    [SerializeField] string handOverOneHandTrigger = "HandOverOneHand";
+    [SerializeField] string handOverTwoHandsTrigger = "HandOverTwoHands";
 
     CharacterController characterController;
     readonly HashSet<object> movementLocks = new();
@@ -89,6 +94,11 @@ public sealed class PlayerController : MonoBehaviour
     bool hasMilkingTrigger;
     bool hasPushingTrigger;
     bool hasWateringTrigger;
+    bool hasHoeingTrigger;
+    bool hasPlantingTrigger;
+    bool hasRefillWateringCanTrigger;
+    bool hasHandOverOneHandTrigger;
+    bool hasHandOverTwoHandsTrigger;
 
     public MovementMode CurrentMode { get; private set; }
     public Vector3 PlanarVelocity => planarVelocity;
@@ -362,6 +372,11 @@ public sealed class PlayerController : MonoBehaviour
             if (name == milkingTrigger) hasMilkingTrigger = true;
             if (name == pushingTrigger) hasPushingTrigger = true;
             if (name == wateringTrigger) hasWateringTrigger = true;
+            if (name == hoeingTrigger) hasHoeingTrigger = true;
+            if (name == plantingTrigger) hasPlantingTrigger = true;
+            if (name == refillWateringCanTrigger) hasRefillWateringCanTrigger = true;
+            if (name == handOverOneHandTrigger) hasHandOverOneHandTrigger = true;
+            if (name == handOverTwoHandsTrigger) hasHandOverTwoHandsTrigger = true;
         }
     }
 
@@ -377,6 +392,12 @@ public sealed class PlayerController : MonoBehaviour
     public void PlayMilkingAnimation() => PlayTrigger(milkingTrigger, hasMilkingTrigger);
     public void PlayPushingAnimation() => PlayTrigger(pushingTrigger, hasPushingTrigger);
     public void PlayWateringAnimation() => PlayTrigger(wateringTrigger, hasWateringTrigger);
+    public void PlayHoeingAnimation() => PlayTrigger(hoeingTrigger, hasHoeingTrigger);
+    public void PlayPlantingAnimation() => PlayTrigger(plantingTrigger, hasPlantingTrigger);
+    public void PlayRefillWateringCanAnimation() => PlayTrigger(refillWateringCanTrigger, hasRefillWateringCanTrigger);
+    public void PlayHandOverAnimation(bool twoHands = false) => PlayTrigger(
+        twoHands ? handOverTwoHandsTrigger : handOverOneHandTrigger,
+        twoHands ? hasHandOverTwoHandsTrigger : hasHandOverOneHandTrigger);
 
     // Token lock mencegah satu sistem membuka movement yang masih dikunci sistem lain.
     /// <summary>Menahan movement untuk satu owner; aman dipakai beberapa sistem sekaligus.</summary>

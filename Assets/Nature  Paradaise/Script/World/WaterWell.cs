@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>Sumur isi ulang Watering Can. Dummy otomatis ditempatkan di sisi field untuk pengujian.</summary>
@@ -8,12 +9,16 @@ public sealed class WaterWell : MonoBehaviour
     [SerializeField] KeyCode interactKey = KeyCode.E;
     [SerializeField, Min(0.5f)] float interactionRadius = 2.4f;
     [SerializeField, Min(0f)] float promptHeight = 1.5f;
+    [Header("Animation Impact Timing")]
+    [SerializeField, Min(0f)] float refillImpactDelay = 1.55f;
+    [SerializeField, Min(0f)] float refillActionDuration = 2.05f;
     Inventory playerInventory;
+    bool actionBusy;
 
     void Update()
     {
         if (playerInventory == null) playerInventory = FindFirstObjectByType<Inventory>();
-        if (playerInventory == null ||
+        if (actionBusy || playerInventory == null ||
             !PlayerInteractionTarget.ContainsPickup(playerInventory.transform, transform, interactionRadius)) return;
 
         WateringCanSystem can = playerInventory.GetComponent<WateringCanSystem>();
@@ -23,10 +28,37 @@ public sealed class WaterWell : MonoBehaviour
         if (!PlayerInteractionTarget.PressPickup(playerInventory.transform, transform, interactKey, interactionRadius)) return;
 
         if (can == null) can = playerInventory.gameObject.AddComponent<WateringCanSystem>();
-        bool changed = can.Refill();
+        if (can.CurrentWater >= can.MaximumWater)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Watering Can sudah penuh: 100/100");
+            return;
+        }
+
+        PlayerController movement = playerInventory.GetComponent<PlayerController>();
+        movement?.PlayRefillWateringCanAnimation();
+        StartCoroutine(RefillRoutine(can, movement));
+    }
+
+    IEnumerator RefillRoutine(WateringCanSystem can, PlayerController movement)
+    {
+        actionBusy = true;
+        movement?.AcquireMovementLock(this);
+        if (refillImpactDelay > 0f) yield return new WaitForSeconds(refillImpactDelay);
+        bool changed = can != null && can.Refill();
         SaveLoadFeedback.Instance?.ShowMessage(changed
             ? $"Watering Can terisi penuh: {can.CurrentWater}/{can.MaximumWater}"
             : "Watering Can sudah penuh: 100/100");
+        float remaining = Mathf.Max(0f, refillActionDuration - refillImpactDelay);
+        if (remaining > 0f) yield return new WaitForSeconds(remaining);
+        movement?.ReleaseMovementLock(this);
+        actionBusy = false;
+    }
+
+    void OnDisable()
+    {
+        if (playerInventory != null)
+            playerInventory.GetComponent<PlayerController>()?.ReleaseMovementLock(this);
+        actionBusy = false;
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]

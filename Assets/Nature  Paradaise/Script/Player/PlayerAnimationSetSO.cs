@@ -19,5 +19,17 @@ public sealed class PlayerAnimationSetSO : ScriptableObject
     public AnimationClip milkingAnimal;
     public AnimationClip pushingObject;
     public AnimationClip wateringPlant;
+    public AnimationClip hoeing;
+    public AnimationClip choppingTree;
+    public AnimationClip hammeringRock;
+    public AnimationClip planting;
+    public AnimationClip sickle;
+    public AnimationClip weedPulling;
+    public AnimationClip refillWateringCan;
+    public AnimationClip handOverOneHand;
+    public AnimationClip handOverTwoHands;
+    public AnimationClip fishingCast;
+    public AnimationClip fishingIdle;
+    public AnimationClip fishingReel;
     public AnimationClip useTool;
 }

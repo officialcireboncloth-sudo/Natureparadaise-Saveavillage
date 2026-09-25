@@ -24,4 +24,16 @@ MonoBehaviour:
   milkingAnimal: {fileID: -7883757391368543962, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
   pushingObject: {fileID: 565841681989868258, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
   wateringPlant: {fileID: 6232702652334640418, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  hoeing: {fileID: 6565956386470313317, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  choppingTree: {fileID: 7411242631735279208, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  hammeringRock: {fileID: -3291744390954489795, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  planting: {fileID: 3374137541710510720, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  sickle: {fileID: 8799538464416785831, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  weedPulling: {fileID: -4807686201781852573, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  refillWateringCan: {fileID: -5915720047466087810, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  handOverOneHand: {fileID: 1070384278039551792, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  handOverTwoHands: {fileID: -6743181756281711430, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  fishingCast: {fileID: -2669190289832261174, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  fishingIdle: {fileID: 2270246008202095099, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  fishingReel: {fileID: 1168009711626862887, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
   useTool: {fileID: 0}

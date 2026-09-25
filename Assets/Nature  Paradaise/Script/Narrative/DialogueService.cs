@@ -184,7 +184,12 @@ public sealed class DialogueService : MonoBehaviour
                     if (command.item != null) playerInventory?.Add(command.item, Mathf.Max(1, command.amount));
                     break;
                 case DialogueCommandType.TakeItem:
-                    if (command.item != null) playerInventory?.Remove(command.item, Mathf.Max(1, command.amount));
+                    if (command.item != null)
+                    {
+                        int amount = Mathf.Max(1, command.amount);
+                        if (playerInventory != null && playerInventory.Remove(command.item, amount))
+                            playerController?.PlayHandOverAnimation(amount > 1);
+                    }
                     break;
                 case DialogueCommandType.AddGold: ScoreManager.Instance?.AddPoints(command.goldAmount); break;
             }

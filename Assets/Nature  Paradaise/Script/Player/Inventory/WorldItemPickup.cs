@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,6 +24,12 @@ public sealed class WorldItemPickup : MonoBehaviour
     [SerializeField, Min(0.1f)] float pickupRadius = 2.5f;
     [SerializeField, Min(0f)] float promptHeight = 0.75f;
 
+    [Header("Pickup Animation Timing")]
+    [SerializeField, Min(0f), Tooltip("Saat tangan mencapai item dan item masuk inventory.")]
+    float pickupImpactDelay = 0.72f;
+    [SerializeField, Min(0f), Tooltip("Player tetap terkunci sampai animasi pickup selesai.")]
+    float pickupActionDuration = 1.45f;
+
     [Header("Subtle Pickup Hint")]
     [Tooltip("Menampilkan penanda halus di bawah item yang dapat diambil.")]
     [SerializeField] bool showPickupHint = true;
@@ -41,9 +48,17 @@ public sealed class WorldItemPickup : MonoBehaviour
 
     Inventory nearbyInventory;
     Inventory playerCandidate;
+    PlayerController pickupMovement;
+    bool pickupInProgress;
     static readonly List<WorldItemPickup> Active = new();
     void OnEnable() => Active.Add(this);
-    void OnDisable() => Active.Remove(this);
+    void OnDisable()
+    {
+        Active.Remove(this);
+        pickupMovement?.ReleaseMovementLock(this);
+        pickupMovement = null;
+        pickupInProgress = false;
+    }
     GameObject destroyTarget;
     Transform hintRoot;
     Transform hintAccentRoot;
@@ -91,6 +106,7 @@ public sealed class WorldItemPickup : MonoBehaviour
 
     void Update()
     {
+        if (pickupInProgress) return;
         if (playerCandidate == null) playerCandidate = FindFirstObjectByType<Inventory>();
         Transform target = destroyTarget != null ? destroyTarget.transform : transform;
         nearbyInventory = playerCandidate != null && PlayerInteractionTarget.ContainsPickup(playerCandidate.transform, target, pickupRadius)
@@ -143,25 +159,58 @@ public sealed class WorldItemPickup : MonoBehaviour
     /// <summary>Memindahkan seluruh stack ke inventory lalu menghapus representasi world jika berhasil.</summary>
     public bool TryPickup()
     {
-        if (nearbyInventory == null || item == null || amount <= 0)
+        if (pickupInProgress || nearbyInventory == null || item == null || amount <= 0)
             return false;
         if (!PlayerInteractionTarget.ContainsPickup(nearbyInventory.transform, destroyTarget != null ? destroyTarget.transform : transform, pickupRadius)) return false;
 
-        if (!nearbyInventory.Add(item, amount, QualityStars, FishSizeCm))
+        pickupMovement = nearbyInventory.GetComponent<PlayerController>();
+        pickupMovement?.AcquireMovementLock(this);
+        pickupMovement?.PlayPickupAnimation();
+        pickupInProgress = true;
+        StartCoroutine(PickupRoutine(nearbyInventory, item, amount, QualityStars, FishSizeCm));
+        return true;
+    }
+
+    IEnumerator PickupRoutine(Inventory targetInventory, ItemSO pendingItem, int pendingAmount,
+        int pendingQuality, float pendingFishSize)
+    {
+        if (pickupImpactDelay > 0f) yield return new WaitForSeconds(pickupImpactDelay);
+
+        if (targetInventory == null ||
+            !targetInventory.Add(pendingItem, pendingAmount, pendingQuality, pendingFishSize))
         {
             SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh");
-            return false;
+            FinishPickupLock();
+            yield break;
         }
 
-        int collectedAmount = amount;
-        nearbyInventory.GetComponent<PlayerController>()?.PlayPickupAnimation();
-        PlayerPickupNotification.ShowItem(nearbyInventory, item, collectedAmount);
-        SaveLoadFeedback.Instance?.ShowMessage($"Mengambil {item.itemName} x{amount}");
-        QuestEventHub.Publish(QuestObjectiveType.Collect, item.name, collectedAmount, item);
+        int collectedAmount = pendingAmount;
+        PlayerPickupNotification.ShowItem(targetInventory, pendingItem, collectedAmount);
+        SaveLoadFeedback.Instance?.ShowMessage($"Mengambil {pendingItem.itemName} x{collectedAmount}");
+        QuestEventHub.Publish(QuestObjectiveType.Collect, pendingItem.name, collectedAmount, pendingItem);
         amount = 0;
-        if (destroyTarget != null) destroyTarget.SetActive(false);
+        HideCollectedVisual();
+
+        float remaining = Mathf.Max(0f, pickupActionDuration - pickupImpactDelay);
+        if (remaining > 0f) yield return new WaitForSeconds(remaining);
+        FinishPickupLock();
         Destroy(destroyTarget != null ? destroyTarget : gameObject);
-        return true;
+    }
+
+    void HideCollectedVisual()
+    {
+        GameObject root = destroyTarget != null ? destroyTarget : gameObject;
+        foreach (Renderer renderer in root.GetComponentsInChildren<Renderer>(true))
+            renderer.enabled = false;
+        foreach (Collider pickupCollider in root.GetComponentsInChildren<Collider>(true))
+            pickupCollider.enabled = false;
+    }
+
+    void FinishPickupLock()
+    {
+        pickupMovement?.ReleaseMovementLock(this);
+        pickupMovement = null;
+        pickupInProgress = false;
     }
 
     /// <summary>

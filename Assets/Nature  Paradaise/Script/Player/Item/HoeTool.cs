@@ -62,7 +62,14 @@ public class FarmingTool : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip hoeSound;
     [SerializeField] ParticleSystem dirtParticles;
-    [SerializeField, Min(0f)] float actionLockDuration = 0.28f;
+    [SerializeField, Min(0f)] float actionLockDuration = 1.15f;
+    [SerializeField, Min(0f), Tooltip("Waktu dari awal Hoeing sampai mata cangkul menyentuh tanah.")]
+    float hoeImpactDelay = 0.72f;
+    [SerializeField, Min(0f), Tooltip("Waktu dari awal Watering sampai air menyentuh tanah.")]
+    float wateringImpactDelay = 1.35f;
+    [SerializeField, Min(0f)] float wateringActionDuration = 2.7f;
+    [SerializeField, Min(0f)] float pickupImpactDelay = 0.72f;
+    [SerializeField, Min(0f)] float pickupActionDuration = 1.45f;
     [SerializeField, Min(0f)] float cameraShakeStrength = 0.07f;
     [SerializeField, Min(0f)] float cameraShakeDuration = 0.1f;
     [SerializeField] bool controllerRumble = true;
@@ -345,23 +352,16 @@ public class FarmingTool : MonoBehaviour
             return;
         }
 
-        int changed = 0;
+        List<HoeTileTarget> pendingTargets = new(validCount);
         for (int i = 0; i < hoeTargets.Count; i++)
         {
             HoeTileTarget target = hoeTargets[i];
-            if (target.Valid && target.Field.TryHoe(target.X, target.Z))
-                changed++;
+            if (target.Valid) pendingTargets.Add(target);
         }
-
-        if (changed <= 0)
-            return;
-
-        SpendStamina(hoeCost * changed * efficiency);
+        SpendStamina(staminaCost);
         Vector3 effectPosition = currentField.GridToWorld(currentX, currentZ);
-        PlayHoeFeedback(effectPosition);
-        StartCoroutine(ActionLockRoutine());
-        RefreshIndicators(true);
-        Debug.Log($"[FARMING] {changed} tile berhasil dicangkul ({activeTier}).");
+        PlayHoeAnimation();
+        StartCoroutine(HoeActionRoutine(pendingTargets,effectPosition,activeTier));
     }
 
     bool TryHarvestCurrentTile()
@@ -371,15 +371,34 @@ public class FarmingTool : MonoBehaviour
         if (playerInv == null || !HasStamina(harvestCost))
             return true;
 
-        if (currentField.TryHarvest(currentX, currentZ, playerInv, out CropGrade grade))
+        FieldArea pendingField = currentField;
+        int pendingX = currentX;
+        int pendingZ = currentZ;
+        movement?.PlayPickupAnimation();
+        StartCoroutine(HarvestActionRoutine(pendingField, pendingX, pendingZ));
+        return true;
+    }
+
+    IEnumerator HarvestActionRoutine(FieldArea field, int x, int z)
+    {
+        actionBusy = true;
+        playerStatus?.AcquireActivity(this, PlayerMovementState.ToolAction);
+        movement?.AcquireMovementLock(this);
+        if (pickupImpactDelay > 0f) yield return new WaitForSeconds(pickupImpactDelay);
+
+        if (field != null && field.TryHarvest(x, z, playerInv, out CropGrade grade))
         {
             SpendStamina(harvestCost);
-            movement?.PlayPickupAnimation();
             ShowFeedback($"Panen berhasil - {(int)grade + 1} bintang");
         }
         else
             ShowFeedback("Tanaman belum matang atau inventory penuh");
-        return true;
+
+        float remaining = Mathf.Max(0f, pickupActionDuration - pickupImpactDelay);
+        if (remaining > 0f) yield return new WaitForSeconds(remaining);
+        movement?.ReleaseMovementLock(this);
+        playerStatus?.ReleaseActivity(this);
+        actionBusy = false;
     }
 
     bool TryUseHandHarvest()
@@ -436,32 +455,58 @@ public class FarmingTool : MonoBehaviour
             return;
         }
 
-        bool success = watering
-            ? currentField.TryWater(currentX, currentZ)
-            : currentField.TryFertilize(currentX, currentZ, (int)fertilizer.fertilizerLevel, fertilizer.SoilRestoreAmount);
+        if (watering)
+        {
+            FieldArea pendingField = currentField;
+            int pendingX = currentX;
+            int pendingZ = currentZ;
+            movement?.PlayWateringAnimation();
+            StartCoroutine(WateringActionRoutine(pendingField, pendingX, pendingZ, cost));
+            return;
+        }
+
+        bool success = currentField.TryFertilize(currentX, currentZ,
+            (int)fertilizer.fertilizerLevel, fertilizer.SoilRestoreAmount);
         if (success)
         {
-            if (watering && !wateringCan.TryUse())
-            {
-                Debug.LogError("[FARMING] Tile tersiram tetapi kapasitas Watering Can gagal dikurangi.");
-                return;
-            }
-            if (!watering && !playerInv.RemoveFromSlot(inventoryHotbar.SelectedIndex, 1))
+            if (!playerInv.RemoveFromSlot(inventoryHotbar.SelectedIndex, 1))
             {
                 Debug.LogError("[FARMING] Tanah dipupuk tetapi item Fertilizer gagal dikurangi.");
                 return;
             }
             SpendStamina(cost);
-            if (watering)
-                movement?.PlayWateringAnimation();
-            ShowFeedback(watering
-                ? $"Tanah atau tanaman sudah disiram — air {wateringCan.CurrentWater}/{wateringCan.MaximumWater}"
-                : $"Tanah sudah dipupuk dengan {fertilizer.itemName}. Siap ditanami");
+            ShowFeedback($"Tanah sudah dipupuk dengan {fertilizer.itemName}. Siap ditanami");
         }
         else
-            ShowFeedback(watering
-                ? "Tanah harus dicangkul terlebih dahulu"
-                : "Pupuk hanya bisa dipakai pada tanah cangkul yang belum penuh");
+            ShowFeedback("Pupuk hanya bisa dipakai pada tanah cangkul yang belum penuh");
+    }
+
+    IEnumerator WateringActionRoutine(FieldArea field, int x, int z, float staminaCost)
+    {
+        actionBusy = true;
+        playerStatus?.AcquireActivity(this, PlayerMovementState.ToolAction);
+        movement?.AcquireMovementLock(this);
+        if (wateringImpactDelay > 0f) yield return new WaitForSeconds(wateringImpactDelay);
+
+        if (field != null && wateringCan != null && !wateringCan.IsEmpty &&
+            field.TryWater(x, z))
+        {
+            if (wateringCan.TryUse())
+            {
+                SpendStamina(staminaCost);
+                ShowFeedback($"Tanah atau tanaman sudah disiram — air {wateringCan.CurrentWater}/{wateringCan.MaximumWater}");
+            }
+            else
+                Debug.LogError("[FARMING] Tile tersiram tetapi kapasitas Watering Can gagal dikurangi.");
+        }
+        else
+            ShowFeedback("Tanah harus dicangkul atau sudah disiram hari ini");
+
+        float remaining = Mathf.Max(0f, wateringActionDuration - wateringImpactDelay);
+        if (remaining > 0f) yield return new WaitForSeconds(remaining);
+        movement?.ReleaseMovementLock(this);
+        playerStatus?.ReleaseActivity(this);
+        actionBusy = false;
     }
 
     void UseCropBooster()
@@ -661,10 +706,16 @@ public class FarmingTool : MonoBehaviour
             indicators[i].gameObject.SetActive(false);
     }
 
-    void PlayHoeFeedback(Vector3 position)
+    void PlayHoeAnimation()
     {
-        if (animator != null && hasUseToolTrigger)
+        if (movement != null)
+            movement.PlayHoeingAnimation();
+        else if (animator != null && hasUseToolTrigger)
             animator.SetTrigger(useToolTrigger);
+    }
+
+    void PlayHoeImpactFeedback(Vector3 position)
+    {
         if (hoeSound != null)
             GameAudio.PlayOneShot(audioSource, hoeSound, GameAudioBus.Main);
         if (dirtParticles != null)
@@ -679,13 +730,29 @@ public class FarmingTool : MonoBehaviour
             StartCoroutine(ControllerRumbleRoutine());
     }
 
-    IEnumerator ActionLockRoutine()
+    IEnumerator HoeActionRoutine(List<HoeTileTarget> pendingTargets,Vector3 effectPosition,
+        HoeUpgradeTier activeTier)
     {
         actionBusy = true;
         playerStatus?.AcquireActivity(this, PlayerMovementState.ToolAction);
         movement?.AcquireMovementLock(this);
-        if (actionLockDuration > 0f)
-            yield return new WaitForSeconds(actionLockDuration);
+        if (hoeImpactDelay > 0f) yield return new WaitForSeconds(hoeImpactDelay);
+
+        int changed=0;
+        for(int i=0;i<pendingTargets.Count;i++)
+        {
+            HoeTileTarget target=pendingTargets[i];
+            if(target.Field!=null && target.Field.TryHoe(target.X,target.Z)) changed++;
+        }
+        if(changed>0)
+        {
+            PlayHoeImpactFeedback(effectPosition);
+            RefreshIndicators(true);
+            Debug.Log($"[FARMING] {changed} tile berhasil dicangkul ({activeTier}) pada frame impact.");
+        }
+
+        float remaining=Mathf.Max(0f,actionLockDuration-hoeImpactDelay);
+        if(remaining>0f) yield return new WaitForSeconds(remaining);
         movement?.ReleaseMovementLock(this);
         playerStatus?.ReleaseActivity(this);
         actionBusy = false;

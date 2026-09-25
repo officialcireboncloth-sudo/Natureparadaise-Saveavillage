@@ -29,6 +29,7 @@ public sealed class FishingSystem : MonoBehaviour
     [SerializeField] string castTrigger = "Cast";
     [SerializeField] string hookTrigger = "Hook";
     [SerializeField] string catchTrigger = "Catch";
+    [SerializeField] string fishingActiveParameter = "FishingActive";
 
     [Header("Audio / Visual Slots")]
     [SerializeField] AudioClip castSound;
@@ -201,6 +202,7 @@ public sealed class FishingSystem : MonoBehaviour
         else activeCastBaitRemaining = 0;
 
         movement.AcquireMovementLock(this);
+        SetBoolIfPresent(fishingActiveParameter, true);
         TriggerIfPresent(castTrigger);
         GameAudio.PlayOneShot(audioSource, castSound, GameAudioBus.Main);
         CreateBobber(castPoint);
@@ -323,6 +325,7 @@ public sealed class FishingSystem : MonoBehaviour
         if (fishingLine != null) Destroy(fishingLine.gameObject);
         fishingLine = null;
         movement?.ReleaseMovementLock(this);
+        SetBoolIfPresent(fishingActiveParameter, false);
         status?.EndFishing(this);
         activeSpot = null;
         activeFish = null;
@@ -402,6 +405,14 @@ public sealed class FishingSystem : MonoBehaviour
         foreach (AnimatorControllerParameter candidate in animator.parameters)
             if (candidate.type == AnimatorControllerParameterType.Trigger && candidate.name == parameter)
             { animator.SetTrigger(parameter); return; }
+    }
+
+    void SetBoolIfPresent(string parameter, bool value)
+    {
+        if (animator == null || string.IsNullOrWhiteSpace(parameter)) return;
+        foreach (AnimatorControllerParameter candidate in animator.parameters)
+            if (candidate.type == AnimatorControllerParameterType.Bool && candidate.name == parameter)
+            { animator.SetBool(parameter, value); return; }
     }
 
     static FishDefinitionSO PickWeighted(List<FishDefinitionSO> candidates, ItemSO bait, int level)

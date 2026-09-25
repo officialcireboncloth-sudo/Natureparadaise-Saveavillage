@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -6,6 +7,10 @@ using UnityEngine;
 /// </summary>
 public class SeedTool : MonoBehaviour
 {
+    [Header("Animation Impact Timing")]
+    [SerializeField, Min(0f)] float plantImpactDelay = 0.62f;
+    [SerializeField, Min(0f)] float plantActionDuration = 0.95f;
+
     [Header("Raycast")]
     [Tooltip("Layer tanah/field yang bisa ditanami.")]
     public LayerMask fieldMask;
@@ -29,6 +34,7 @@ public class SeedTool : MonoBehaviour
     InventoryHotbarUI inventoryHotbar;
     FarmingTool farmingTool;
     PlayerController movement;
+    bool actionBusy;
 
     CropDataSO ResolveCrop(ItemSO seed) => seed != null
         ? seed.seedCrop != null ? seed.seedCrop : seed == seedItem ? cropDefinition : null
@@ -62,7 +68,7 @@ public class SeedTool : MonoBehaviour
 
     void Update()
     {
-        if (movement != null && movement.IsMovementLocked)
+        if (actionBusy || (movement != null && movement.IsMovementLocked))
             return;
 
         if (inventoryHotbar == null)
@@ -113,10 +119,7 @@ public class SeedTool : MonoBehaviour
             return;
         }
 
-        // Coba tanam terlebih dahulu
-        bool planted = field.TryPlant(gx, gz, selectedCrop);
-
-        if (!planted)
+        if (!field.CanPlant(gx, gz, selectedCrop))
         {
             string reason = snapshot.State switch
             {
@@ -146,9 +149,29 @@ public class SeedTool : MonoBehaviour
             return;
         }
 
+        movement?.PlayPlantingAnimation();
+        StartCoroutine(PlantingRoutine(field, gx, gz, selectedSeed, selectedCrop));
+    }
+
+    IEnumerator PlantingRoutine(FieldArea field, int gx, int gz, ItemSO selectedSeed, CropDataSO selectedCrop)
+    {
+        actionBusy = true;
+        movement?.AcquireMovementLock(this);
+        playerStatus?.AcquireActivity(this, PlayerMovementState.ToolAction);
+        if (plantImpactDelay > 0f) yield return new WaitForSeconds(plantImpactDelay);
+
+        // Perubahan tile dan pengurangan seed terjadi ketika tangan mencapai tanah.
+        bool planted = playerInv != null && playerInv.GetCount(selectedSeed) > 0 &&
+            field != null && field.TryPlant(gx, gz, selectedCrop);
+        if (!planted)
+        {
+            ShowPlantFeedback("GAGAL MENANAM: Tile atau bibit berubah sebelum tangan mencapai tanah.");
+            FinishPlantingAction();
+            yield break;
+        }
+
         playerStatus?.TrySpendStamina(plantingCost);
         playerStatus?.PulseActivity(PlayerMovementState.ToolAction);
-
         string cropName = selectedCrop.produceItem != null
             ? selectedCrop.produceItem.itemName
             : "Bibit";
@@ -160,6 +183,22 @@ public class SeedTool : MonoBehaviour
             $"[SEED] Berhasil menanam di ({gx}, {gz}). " +
             $"{selectedSeed.itemName} tersisa: {playerInv.GetCount(selectedSeed)}"
         );
+
+        float remaining = Mathf.Max(0f, plantActionDuration - plantImpactDelay);
+        if (remaining > 0f) yield return new WaitForSeconds(remaining);
+        FinishPlantingAction();
+    }
+
+    void FinishPlantingAction()
+    {
+        movement?.ReleaseMovementLock(this);
+        playerStatus?.ReleaseActivity(this);
+        actionBusy = false;
+    }
+
+    void OnDisable()
+    {
+        FinishPlantingAction();
     }
 
     void ShowPlantFeedback(string message)

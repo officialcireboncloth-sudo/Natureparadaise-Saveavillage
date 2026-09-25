@@ -10,6 +10,7 @@ public static class PlayerVisualSetup
 {
     const string SourceFolder="Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy";
     const string PreferredSourceModelPath=SourceFolder+"/Player.fbx";
+    const string PreviousSourceModelPath=SourceFolder+"/Player_Farming.fbx";
     const string LegacySourceModelPath=SourceFolder+"/Player_Dummy.fbx";
     const string PreferredBaseTexturePath=SourceFolder+"/Player_Dummy_BaseColor.JPEG";
     const string IdleAnimationPath=SourceFolder+"/Breathing Idle.fbx";
@@ -25,7 +26,7 @@ public static class PlayerVisualSetup
     const string MaterialPath=MaterialFolder+"/m_PlayerDummy.mat";
     const string PrefabPath=PrefabFolder+"/PlayerVisual.prefab";
     const float PlayerVisualHeight=3.6f;
-    const float PlayerVisualGroundOffset=0.5f;
+    const float PlayerVisualGroundOffset=0f;
     internal static bool IsRunning { get; private set; }
 
     internal static bool NeedsSourceRefresh()
@@ -35,8 +36,12 @@ public static class PlayerVisualSetup
         PlayerAnimationSetSO set=AssetDatabase.LoadAssetAtPath<PlayerAnimationSetSO>(AnimationSetPath);
         if(set==null || set.idle==null || set.walk==null || set.run==null || set.jump==null ||
            set.jumpForward==null || set.pickUpFromFloor==null || set.knockOut==null ||
-           set.wakeUpFromKnockOut==null)
+           set.wakeUpFromKnockOut==null || set.hoeing==null || set.choppingTree==null ||
+           set.hammeringRock==null || set.planting==null || set.sickle==null ||
+           set.weedPulling==null || set.refillWateringCan==null || set.fishingCast==null ||
+           set.fishingIdle==null || set.fishingReel==null)
             return true;
+        if(AssetDatabase.GetAssetPath(set.idle)!=PreferredSourceModelPath) return true;
         if(!AssetDatabase.GetDependencies(PrefabPath).Contains(PreferredSourceModelPath)) return true;
         // Overwrite FBX mempertahankan path dan GUID sehingga dependency saja tidak cukup.
         // Rebuild prefab bila source fisik lebih baru daripada prefab hasil setup.
@@ -246,6 +251,18 @@ public static class PlayerVisualSetup
         set.milkingAnimal=Clip("MilkingAnimal");
         set.pushingObject=Clip("PushingObject");
         set.wateringPlant=Clip("WateringPlant");
+        set.hoeing=Clip("Hoeing");
+        set.choppingTree=Clip("Chopping Tree");
+        set.hammeringRock=Clip("Hammering Rock");
+        set.planting=Clip("Planting");
+        set.sickle=Clip("Sickle");
+        set.weedPulling=Clip("Weed Pulling");
+        set.refillWateringCan=Clip("Refill Watering Can");
+        set.handOverOneHand=Clip("Hand Over One Hand");
+        set.handOverTwoHands=Clip("Hand Over Two Hands");
+        set.fishingCast=Clip("Fishing Cast");
+        set.fishingIdle=Clip("Fishing Idle");
+        set.fishingReel=Clip("Fishing Reel");
         EditorUtility.SetDirty(set);
         return set.idle!=null && set.walk!=null && set.run!=null && set.jump!=null &&
                set.jumpForward!=null;
@@ -304,6 +321,19 @@ public static class PlayerVisualSetup
         AddParameter(controller,"Milking",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"Pushing",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"Watering",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Hoeing",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Axe",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Hammer",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Planting",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Sickle",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Pull",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"RefillWateringCan",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"HandOverOneHand",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"HandOverTwoHands",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Cast",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Hook",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Catch",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"FishingActive",AnimatorControllerParameterType.Bool);
         AddParameter(controller,"UseTool",AnimatorControllerParameterType.Trigger);
 
         AnimatorStateMachine stateMachine=controller.layers[0].stateMachine;
@@ -327,15 +357,25 @@ public static class PlayerVisualSetup
             jumpState.speed=2f;
         }
         if(toolState!=null) toolState.motion=clips.useTool;
-        // 27 frame / 30 fps pada 1.25x memberi durasi sekitar 0,72 detik,
+        // 30 frame / 30 fps pada 1.25x memberi durasi sekitar 0,8 detik,
         // dekat dengan arc fisik 0,61 detik ditambah waktu blend keluar.
         EnsureActionState(stateMachine,"Jump Forward","JumpForward",clips.jumpForward,1.25f,true);
-        EnsureActionState(stateMachine,"Pick Up From Floor","PickUp",clips.pickUpFromFloor,4f,true);
+        EnsureActionState(stateMachine,"Pick Up From Floor","PickUp",clips.pickUpFromFloor,6.5f,true);
         EnsureActionState(stateMachine,"Knock Out","KnockOut",clips.knockOut,1f,false);
         EnsureActionState(stateMachine,"Wake Up","WakeUp",clips.wakeUpFromKnockOut,4f,true);
         EnsureActionState(stateMachine,"Milking Animal","Milking",clips.milkingAnimal,2f,true);
         EnsureActionState(stateMachine,"Pushing Object","Pushing",clips.pushingObject,1f,true);
         EnsureActionState(stateMachine,"Watering Plant","Watering",clips.wateringPlant,2f,true);
+        EnsureActionState(stateMachine,"Hoeing","Hoeing",clips.hoeing,1f,true);
+        EnsureActionState(stateMachine,"Chopping Tree","Axe",clips.choppingTree,1f,true);
+        EnsureActionState(stateMachine,"Hammering Rock","Hammer",clips.hammeringRock,1f,true);
+        EnsureActionState(stateMachine,"Planting","Planting",clips.planting,1f,true);
+        EnsureActionState(stateMachine,"Sickle","Sickle",clips.sickle,1f,true);
+        EnsureActionState(stateMachine,"Weed Pulling","Pull",clips.weedPulling,1f,true);
+        EnsureActionState(stateMachine,"Refill Watering Can","RefillWateringCan",clips.refillWateringCan,1.5f,true);
+        EnsureActionState(stateMachine,"Hand Over One Hand","HandOverOneHand",clips.handOverOneHand,1f,true);
+        EnsureActionState(stateMachine,"Hand Over Two Hands","HandOverTwoHands",clips.handOverTwoHands,1f,true);
+        EnsureFishingStates(stateMachine,clips);
         EditorUtility.SetDirty(controller);
         return controller;
     }
@@ -364,6 +404,47 @@ public static class PlayerVisualSetup
             exit.duration=0.08f;
         }
         return state;
+    }
+
+    static void EnsureFishingStates(AnimatorStateMachine machine,PlayerAnimationSetSO clips)
+    {
+        AnimatorState locomotion=FindState(machine,"Locomotion");
+        AnimatorState cast=FindState(machine,"Fishing Cast")??machine.AddState("Fishing Cast");
+        AnimatorState idle=FindState(machine,"Fishing Idle")??machine.AddState("Fishing Idle");
+        AnimatorState reel=FindState(machine,"Fishing Reel")??machine.AddState("Fishing Reel");
+        cast.motion=clips.fishingCast;
+        idle.motion=clips.fishingIdle;
+        reel.motion=clips.fishingReel;
+
+        EnsureAnyTrigger(machine,cast,"Cast");
+        EnsureAnyTrigger(machine,reel,"Hook");
+        EnsureAnyTrigger(machine,reel,"Catch");
+        EnsureExitTransition(cast,idle,true,null);
+        EnsureExitTransition(reel,idle,true,null);
+        EnsureExitTransition(idle,locomotion,false,"FishingActive");
+    }
+
+    static void EnsureAnyTrigger(AnimatorStateMachine machine,AnimatorState state,string trigger)
+    {
+        if(machine.anyStateTransitions.Any(transition=>transition.destinationState==state &&
+           transition.conditions.Any(condition=>condition.parameter==trigger))) return;
+        AnimatorStateTransition transition=machine.AddAnyStateTransition(state);
+        transition.hasExitTime=false;
+        transition.duration=0.06f;
+        transition.AddCondition(AnimatorConditionMode.If,0f,trigger);
+    }
+
+    static void EnsureExitTransition(AnimatorState source,AnimatorState destination,bool exitTime,string falseBool)
+    {
+        if(source==null || destination==null || source.transitions.Any(transition=>
+           transition.destinationState==destination && (string.IsNullOrEmpty(falseBool) ||
+           transition.conditions.Any(condition=>condition.parameter==falseBool)))) return;
+        AnimatorStateTransition transition=source.AddTransition(destination);
+        transition.hasExitTime=exitTime;
+        transition.exitTime=0.95f;
+        transition.duration=0.08f;
+        if(!string.IsNullOrEmpty(falseBool))
+            transition.AddCondition(AnimatorConditionMode.IfNot,0f,falseBool);
     }
 
     static ChildMotion Child(AnimationClip clip,float threshold) => new() {motion=clip,threshold=threshold,timeScale=1f};
@@ -401,6 +482,8 @@ public static class PlayerVisualSetup
     {
         if(AssetDatabase.LoadAssetAtPath<GameObject>(PreferredSourceModelPath)!=null)
             return PreferredSourceModelPath;
+        if(AssetDatabase.LoadAssetAtPath<GameObject>(PreviousSourceModelPath)!=null)
+            return PreviousSourceModelPath;
         if(AssetDatabase.LoadAssetAtPath<GameObject>(LegacySourceModelPath)!=null)
             return LegacySourceModelPath;
         string guid=AssetDatabase.FindAssets("t:Model",new[]{SourceFolder})
@@ -441,15 +524,27 @@ public static class PlayerVisualSetup
             {
                 EmbeddedClip("Idle","Armature|Idle",298f),
                 EmbeddedClip("Jumping","Armature|Jumping ",57f),
-                EmbeddedClip("JumpingForward","Armature|JumpingForward",27f),
+                EmbeddedClip("JumpingForward","Armature|JumpingForward",30f),
                 EmbeddedClip("KnockOut","Armature|KnockOut",78f),
                 EmbeddedClip("MilkingAnimal","Armature|MilkingAnimal",136f),
                 EmbeddedClip("PickUpFromFloor","Armature|PickUpFromFloor",287f),
                 EmbeddedClip("PushingObject","Armature|PushingObject",51f),
                 EmbeddedClip("Running","Armature|Running",19f),
                 EmbeddedClip("WakeUpFromKnockOut","Armature|WakeUpFromKnockOut",342f),
-                EmbeddedClip("Walking","Armature|Walking",29f),
-                EmbeddedClip("WateringPlant","Armature|WateringPlant",168f)
+                EmbeddedClip("Walking","Armature|Walking",30f),
+                EmbeddedClip("WateringPlant","Armature|WateringPlant",168f),
+                EmbeddedClip("Hoeing","Armature|Hoeing",38f),
+                EmbeddedClip("Chopping Tree","Armature|Chopping Tree",30f),
+                EmbeddedClip("Hammering Rock","Armature|Hammering Rock",30f),
+                EmbeddedClip("Planting","Armature|Planting",30f),
+                EmbeddedClip("Sickle","Armature|Sickle",45f),
+                EmbeddedClip("Weed Pulling","Armature|Weed Pulling",45f),
+                EmbeddedClip("Refill Watering Can","Armature|Refill Watering Can",96f),
+                EmbeddedClip("Hand Over One Hand","Armature|Hand Over One Hand",33f),
+                EmbeddedClip("Hand Over Two Hands","Armature|Hand Over Two Hands",36f),
+                EmbeddedClip("Fishing Cast","Armature|Fishing Cast",48f),
+                EmbeddedClip("Fishing Idle","Armature|Fishing Idle",90f),
+                EmbeddedClip("Fishing Reel","Armature|Fishing Reel",75f)
             };
         }
         ModelImporterClipAnimation[] configured=sourceClips.Select(source=>
@@ -460,7 +555,8 @@ public static class PlayerVisualSetup
             if(separator>=0) cleanName=cleanName.Substring(separator+1);
             cleanName=cleanName.Trim();
             clip.name=cleanName;
-            bool loop=cleanName=="Idle" || cleanName=="Walking" || cleanName=="Running";
+            bool loop=cleanName=="Idle" || cleanName=="Walking" || cleanName=="Running" ||
+                      cleanName=="Fishing Idle";
             clip.loopTime=loop;
             clip.loopPose=loop;
             clip.keepOriginalOrientation=true;
@@ -562,7 +658,14 @@ public static class PlayerVisualSetup
 
     static void FitModelToPlayer(GameObject model,Transform root,float targetHeight)
     {
-        Renderer[] renderers=model.GetComponentsInChildren<Renderer>(true);
+        // Export Blender terbaru juga membawa geometry control-rig. Jika semua Renderer
+        // dihitung, bounds menjadi sekitar 10x tinggi badan dan player diperkecil ke 0.19.
+        // Ukuran visual harus mengikuti mesh yang benar-benar di-skin ke skeleton.
+        Renderer[] renderers=model.GetComponentsInChildren<SkinnedMeshRenderer>(true)
+            .Cast<Renderer>()
+            .ToArray();
+        if(renderers.Length==0)
+            renderers=model.GetComponentsInChildren<Renderer>(true);
         if(renderers.Length==0) return;
         Bounds bounds=renderers[0].bounds;
         for(int index=1;index<renderers.Length;index++) bounds.Encapsulate(renderers[index].bounds);
@@ -678,6 +781,7 @@ public sealed class PlayerDummyAssetPostprocessor : AssetPostprocessor
             return;
         pendingVisual|=importedAssets.Contains("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Player_Dummy.fbx");
         pendingVisual|=importedAssets.Contains("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Player.fbx");
+        pendingVisual|=importedAssets.Contains("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Player_Farming.fbx");
         pendingAnimations|=importedAssets.Contains("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Breathing Idle.fbx") ||
                            importedAssets.Contains("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Walking.fbx") ||
                            importedAssets.Contains("Assets/Nature  Paradaise/mesh/Dummy/PlayerDummy/Running.fbx");

@@ -243,6 +243,7 @@ public class AnimalController : MonoBehaviour
         // Clamp supaya tidak lebih dari max
         hunger = Mathf.Clamp(hunger, 0f, maxHunger);
         growth?.RegisterFeeding(cabbageHunger, AnimalFoodSource.HandFeed);
+        playerInv.GetComponent<PlayerController>()?.PlayHandOverAnimation();
 
         Debug.Log(
             $"[ANIMAL] Diberi makan {cabbageItem.itemName}. " +
@@ -364,6 +365,7 @@ public class AnimalController : MonoBehaviour
         if (growth == null || !growth.CanReceiveTreat || favoriteTreatItem == null || playerInv == null ||
             !playerInv.Remove(favoriteTreatItem, 1)) return false;
         growth.GiveFavoriteTreat();
+        playerInv.GetComponent<PlayerController>()?.PlayHandOverAnimation();
         SaveLoadFeedback.Instance?.ShowMessage($"{growth.AnimalName} menyukai treat ini");
         return true;
     }
@@ -420,6 +422,12 @@ public class AnimalController : MonoBehaviour
 
     void PlayMedicineAnimation()
     {
+        PlayerController controller = playerInv != null ? playerInv.GetComponent<PlayerController>() : null;
+        if (controller != null)
+        {
+            controller.PlayHandOverAnimation();
+            return;
+        }
         Animator animator = playerInv != null ? playerInv.GetComponentInChildren<Animator>() : null;
         if (animator == null) return;
         string[] candidates = { "GiveMedicine", "UseItem", "UseTool" };
