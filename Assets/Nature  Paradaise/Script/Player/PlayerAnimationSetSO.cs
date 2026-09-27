@@ -31,5 +31,7 @@ public sealed class PlayerAnimationSetSO : ScriptableObject
     public AnimationClip fishingCast;
     public AnimationClip fishingIdle;
     public AnimationClip fishingReel;
+    public AnimationClip holdItem;
+    public AnimationClip placeItem;
     public AnimationClip useTool;
 }

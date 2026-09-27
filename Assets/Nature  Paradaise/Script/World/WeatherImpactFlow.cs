@@ -49,9 +49,9 @@ public readonly struct WeatherImpactSnapshot
         {
             WeatherType.PartlyCloudy => New(weather, day, sun, ambient, exposure, tint, 0.001f, 0f, 0.1f, true, 1f, 1.05f, 1.05f),
             WeatherType.Heatwave => New(weather, day, sun, ambient, exposure, tint, 0f, 0f, 0.15f, true, 0.8f, 0.8f, 0.75f),
-            WeatherType.Drizzle => New(weather, day, sun, ambient, exposure, tint, 0.003f, 0.3f, 0.15f, true, 1f, 0.95f, 1.1f),
+            WeatherType.Drizzle => New(weather, day, sun, ambient, exposure, tint, 0.0025f, 0.24f, 0.1f, true, 1f, 0.95f, 1.1f),
             WeatherType.Rain => New(weather, day, sun, ambient, exposure, tint, 0.006f, 0.55f, 0.25f, true, 1f, 0.8f, 1.2f),
-            WeatherType.HeavyRain => New(weather, day, sun, ambient, exposure, tint, 0.011f, 0.85f, 0.45f, false, 1f, 0.45f, 0.7f),
+            WeatherType.HeavyRain => New(weather, day, sun, ambient, exposure, tint, 0.014f, 0.9f, 0.48f, false, 1f, 0.45f, 0.7f),
             WeatherType.WindRainStorm => New(weather, day, sun, ambient, exposure, tint, 0.016f, 1f, 0.85f, false, 1f, 0.15f, 0.2f),
             WeatherType.Cyclone => New(weather, day, sun, ambient, exposure, tint, 0.022f, 1f, 1f, false, 1f, 0f, 0f),
             WeatherType.Thunderstorm => New(weather, day, sun, ambient, exposure, tint, 0.018f, 1f, 0.75f, false, 1f, 0.1f, 0.15f),

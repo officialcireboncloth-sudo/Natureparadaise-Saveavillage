@@ -538,17 +538,36 @@ public sealed class PlayerStatusSystem : MonoBehaviour
 
     void HandleGameHour()
     {
-        if (IsFainted || !HungerEnabled)
+        if (IsFainted)
             return;
 
-        currentHunger = Mathf.Max(0f, currentHunger - hungerLossPerGameHour);
-        if (currentHunger <= 0f && starvationDamagePerGameHour > 0f)
+        bool statusChanged = false;
+        WeatherSystem weather = WeatherSystem.Instance;
+        if (weather != null && WeatherSystem.IsPlayerOutdoors() &&
+            WeatherSystem.DrainsOutdoorStaminaHourly(weather.CurrentWeather))
         {
-            TakeDamage(starvationDamagePerGameHour);
-            return;
+            float drain = Mathf.Min(currentStamina, weather.HeavyRainOutdoorStaminaPerHour);
+            if (drain > 0f)
+            {
+                currentStamina -= drain;
+                statusChanged = true;
+                SaveLoadFeedback.Instance?.ShowMessage($"HUJAN LEBAT: Stamina -{drain:0} karena berada di luar selama 1 jam.");
+            }
         }
 
-        NotifyChanged();
+        if (HungerEnabled)
+        {
+            currentHunger = Mathf.Max(0f, currentHunger - hungerLossPerGameHour);
+            statusChanged = true;
+            if (currentHunger <= 0f && starvationDamagePerGameHour > 0f)
+            {
+                TakeDamage(starvationDamagePerGameHour);
+                return;
+            }
+        }
+
+        if (statusChanged)
+            NotifyChanged();
     }
 
     void SetHealth(float value)

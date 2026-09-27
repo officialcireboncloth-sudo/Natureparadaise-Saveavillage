@@ -66,8 +66,8 @@ public class FarmingTool : MonoBehaviour
     [SerializeField, Min(0f), Tooltip("Waktu dari awal Hoeing sampai mata cangkul menyentuh tanah.")]
     float hoeImpactDelay = 0.72f;
     [SerializeField, Min(0f), Tooltip("Waktu dari awal Watering sampai air menyentuh tanah.")]
-    float wateringImpactDelay = 1.35f;
-    [SerializeField, Min(0f)] float wateringActionDuration = 2.7f;
+    float wateringImpactDelay = 0.68f;
+    [SerializeField, Min(0f)] float wateringActionDuration = 1.35f;
     [SerializeField, Min(0f)] float pickupImpactDelay = 0.72f;
     [SerializeField, Min(0f)] float pickupActionDuration = 1.45f;
     [SerializeField, Min(0f)] float cameraShakeStrength = 0.07f;

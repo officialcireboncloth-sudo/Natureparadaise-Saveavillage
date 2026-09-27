@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -33,6 +34,10 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     [Tooltip("Dorongan horizontal ringan ketika item dilepas.")]
     [SerializeField, Min(0f)] float dropForwardVelocity = 0.8f;
 
+    [Header("Animation Impact Timing")]
+    [SerializeField, Min(0f)] float placeImpactDelay = 0.65f;
+    [SerializeField, Min(0f)] float placeActionDuration = 1.15f;
+
     [Header("Held Visual Slot")]
     [Tooltip("Anchor tangan opsional. Jika kosong dibuat otomatis pada Player.")]
     [SerializeField] Transform handAnchor;
@@ -52,6 +57,8 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     Quaternion placementRotation = Quaternion.identity;
     bool placementValid;
     float nextPreviewRefresh;
+    bool actionBusy;
+    bool animalCarrySuppressed;
     readonly Collider[] placementOverlapBuffer = new Collider[24];
 
     /// <summary>Item world-action yang saat ini divisualkan di tangan player.</summary>
@@ -73,8 +80,12 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
 
     void OnDisable()
     {
+        StopAllCoroutines();
         if (inventory != null) inventory.OnInventoryChanged -= RefreshHeldVisual;
         if (hotbarUI != null) hotbarUI.SelectionChanged -= HandleSlotChanged;
+        movement?.ReleaseMovementLock(this);
+        movement?.SetHoldingItemAnimation(false);
+        actionBusy=false;
     }
 
     void OnDestroy()
@@ -82,10 +93,15 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         DestroyPreview();
     }
 
-    void Start() => RefreshHeldVisual();
+    void Start()
+    {
+        EnsureHandAnchor();
+        RefreshHeldVisual();
+    }
 
     void Update()
     {
+        if(actionBusy) return;
         if (movement != null && movement.IsMovementLocked)
         {
             if (previewVisual != null) previewVisual.SetActive(false);
@@ -125,24 +141,10 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         if (!CanDrop(stack)) return;
         int amount = wholeStack ? stack.count : 1;
         ItemSO item = stack.item;
-        if (!inventory.RemoveFromSlot(hotbarUI.SelectedIndex, amount)) return;
-
         Vector3 facing = GetFacing();
         Vector3 position = transform.position + facing * dropForwardOffset + Vector3.up * dropHeight;
-        PlacedWorldItem dropped = PlacedWorldItem.Spawn(item, amount, position, Quaternion.identity, true, stack.qualityStars);
-        if (dropped == null)
-        {
-            // Inventory dikembalikan jika pembuatan object gagal agar item tidak hilang.
-            inventory.Add(item, amount, stack.qualityStars);
-            SaveLoadFeedback.Instance?.ShowMessage("Drop item gagal");
-            return;
-        }
-
-        Rigidbody body = dropped.GetComponent<Rigidbody>();
-        if (body != null)
-            body.linearVelocity = facing * dropForwardVelocity;
-
-        SaveLoadFeedback.Instance?.ShowMessage($"Drop {item.itemName} x{amount}");
+        StartCoroutine(PlaceOrDropRoutine(false,item,amount,stack.qualityStars,
+            stack.fishSizeCm,stack.fishWeightKg,position,Quaternion.identity,facing));
     }
 
     void PlaceSelected(bool wholeStack)
@@ -158,17 +160,61 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
 
         int amount = wholeStack && !stack.item.IsFarmPlacement ? stack.count : 1;
         ItemSO item = stack.item;
-        if (!inventory.RemoveFromSlot(hotbarUI.SelectedIndex, amount)) return;
-        PlacedWorldItem placed = PlacedWorldItem.Spawn(item, amount, placementPoint, placementRotation, false, stack.qualityStars);
-        if (placed == null)
+        StartCoroutine(PlaceOrDropRoutine(true,item,amount,stack.qualityStars,
+            stack.fishSizeCm,stack.fishWeightKg,placementPoint,placementRotation,Vector3.zero));
+    }
+
+    IEnumerator PlaceOrDropRoutine(bool controlledPlace,ItemSO item,int amount,int qualityStars,
+        float fishSizeCm,float fishWeightKg,Vector3 position,Quaternion rotation,Vector3 dropDirection)
+    {
+        actionBusy=true;
+        movement?.AcquireMovementLock(this);
+        movement?.SetHoldingItemAnimation(false);
+        movement?.PlayPlaceItemAnimation();
+        if(placeImpactDelay>0f) yield return new WaitForSeconds(placeImpactDelay);
+
+        ItemStack current=GetSelectedStack();
+        if(current==null || current.item!=item || current.count<amount ||
+           !inventory.RemoveFromSlot(hotbarUI.SelectedIndex,amount))
         {
-            inventory.Add(item, amount, stack.qualityStars);
-            SaveLoadFeedback.Instance?.ShowMessage("Place item gagal");
-            return;
+            SaveLoadFeedback.Instance?.ShowMessage("Item yang dipegang sudah berubah");
+            float failedRemaining=Mathf.Max(0f,placeActionDuration-placeImpactDelay);
+            if(failedRemaining>0f) yield return new WaitForSeconds(failedRemaining);
+            FinishPlaceAction();
+            yield break;
         }
 
-        SaveLoadFeedback.Instance?.ShowMessage($"Place {item.itemName} x{amount}");
-        if (item.IsSprinkler && FieldArea.TryGetAt(placementPoint, out FieldArea field, out _, out _)) FarmPlacement.WaterField(field);
+        PlacedWorldItem worldItem=PlacedWorldItem.Spawn(item,amount,position,rotation,
+            !controlledPlace,qualityStars,fishSizeCm,fishWeightKg);
+        if(worldItem==null)
+        {
+            inventory.Add(item,amount,qualityStars,fishSizeCm,fishWeightKg);
+            SaveLoadFeedback.Instance?.ShowMessage(controlledPlace?"Place item gagal":"Drop item gagal");
+            float failedRemaining=Mathf.Max(0f,placeActionDuration-placeImpactDelay);
+            if(failedRemaining>0f) yield return new WaitForSeconds(failedRemaining);
+            FinishPlaceAction();
+            yield break;
+        }
+
+        if(!controlledPlace)
+        {
+            Rigidbody body=worldItem.GetComponent<Rigidbody>();
+            if(body!=null) body.linearVelocity=dropDirection*dropForwardVelocity;
+        }
+        else if(item.IsSprinkler && FieldArea.TryGetAt(position,out FieldArea field,out _,out _))
+            FarmPlacement.WaterField(field);
+
+        SaveLoadFeedback.Instance?.ShowMessage($"{(controlledPlace?"Place":"Drop")} {item.itemName} x{amount}");
+        float remaining=Mathf.Max(0f,placeActionDuration-placeImpactDelay);
+        if(remaining>0f) yield return new WaitForSeconds(remaining);
+        FinishPlaceAction();
+    }
+
+    void FinishPlaceAction()
+    {
+        movement?.ReleaseMovementLock(this);
+        actionBusy=false;
+        RefreshHeldVisual();
     }
 
     void RefreshPlacementPreview(ItemSO item)
@@ -268,7 +314,8 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     void RefreshHeldVisual()
     {
         ItemStack stack = GetSelectedStack();
-        ItemSO item = HasHeldWorldAction(stack) ? stack.item : null;
+        ItemSO item = !animalCarrySuppressed && HasHeldWorldAction(stack) ? stack.item : null;
+        movement?.SetHoldingItemAnimation(item!=null && !actionBusy);
         if (shownItem == item) return;
         shownItem = item;
         if (heldVisual != null) Destroy(heldVisual);
@@ -282,6 +329,13 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         heldVisual.transform.localRotation = Quaternion.identity;
         if (item.canPlaceInWorld)
             EnsurePreview(item);
+    }
+
+    public void SetAnimalCarrySuppressed(bool suppressed)
+    {
+        if(animalCarrySuppressed==suppressed) return;
+        animalCarrySuppressed=suppressed;
+        RefreshHeldVisual();
     }
 
     void EnsurePreview(ItemSO item)
@@ -419,7 +473,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         HasHeldWorldAction(stack) && stack.item.canDropToWorld;
 
     static bool CanPlace(ItemStack stack) =>
-        HasHeldWorldAction(stack) && stack.item.canPlaceInWorld;
+        HasHeldWorldAction(stack) && (stack.item.canPlaceInWorld || stack.item.canDropToWorld);
 
     Vector3 GetFacing()
     {
@@ -430,11 +484,26 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
 
     void EnsureHandAnchor()
     {
-        if (handAnchor != null) return;
-        GameObject anchor = new("HeldItemAnchor");
-        handAnchor = anchor.transform;
-        handAnchor.SetParent(transform, false);
-        handAnchor.localPosition = new Vector3(0f, 1.35f, 0.42f);
+        if(handAnchor==null)
+        {
+            GameObject anchor=new("HeldItemAnchor");
+            handAnchor=anchor.transform;
+            handAnchor.SetParent(transform,false);
+        }
+        Animator rig=movement!=null?movement.CharacterAnimator:GetComponentInChildren<Animator>();
+        Transform rightHand=rig!=null && rig.isHuman?rig.GetBoneTransform(HumanBodyBones.RightHand):null;
+        if(rightHand!=null)
+        {
+            handAnchor.SetParent(rightHand,false);
+            handAnchor.localPosition=new Vector3(0.02f,0.08f,0.12f);
+            handAnchor.localRotation=Quaternion.Euler(0f,90f,90f);
+        }
+        else
+        {
+            handAnchor.SetParent(transform,false);
+            handAnchor.localPosition=new Vector3(0f,1.35f,0.42f);
+            handAnchor.localRotation=Quaternion.identity;
+        }
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]

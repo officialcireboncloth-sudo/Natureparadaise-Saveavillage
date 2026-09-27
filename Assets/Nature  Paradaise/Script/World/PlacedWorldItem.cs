@@ -12,6 +12,8 @@ public sealed class PlacedItemSaveData
     public string itemName;
     public int amount;
     public int qualityStars;
+    public float fishSizeCm;
+    public float fishWeightKg;
     public Vector3 position;
     public Vector3 eulerAngles;
     public bool physicsDrop;
@@ -31,6 +33,8 @@ public sealed class PlacedWorldItem : MonoBehaviour
     [SerializeField] ItemSO item;
     [SerializeField, Min(1)] int amount = 1;
     [SerializeField, Range(0, 5)] int qualityStars;
+    [SerializeField, Min(0f)] float fishSizeCm;
+    [SerializeField, Min(0f)] float fishWeightKg;
     [SerializeField] bool physicsDrop;
 
     public static IReadOnlyList<PlacedWorldItem> Active => Registry;
@@ -45,7 +49,8 @@ public sealed class PlacedWorldItem : MonoBehaviour
     void OnDisable() => Registry.Remove(this);
 
     /// <summary>Membuat representasi world dari item inventory dalam mode drop atau place stabil.</summary>
-    public static PlacedWorldItem Spawn(ItemSO item, int amount, Vector3 position, Quaternion rotation, bool usePhysics, int qualityStars = 0)
+    public static PlacedWorldItem Spawn(ItemSO item, int amount, Vector3 position, Quaternion rotation,
+        bool usePhysics, int qualityStars = 0, float fishSizeCm = 0f, float fishWeightKg = 0f)
     {
         if (item == null || amount <= 0) return null;
 
@@ -56,6 +61,8 @@ public sealed class PlacedWorldItem : MonoBehaviour
         placed.item = item;
         placed.amount = amount;
         placed.qualityStars = qualityStars;
+        placed.fishSizeCm = Mathf.Max(0f,fishSizeCm);
+        placed.fishWeightKg = Mathf.Max(0f,fishWeightKg);
         placed.physicsDrop = usePhysics;
 
         CreateVisual(item, root.transform);
@@ -86,7 +93,7 @@ public sealed class PlacedWorldItem : MonoBehaviour
         triggerCollider.radius = 0.75f;
         triggerCollider.isTrigger = true;
         WorldItemPickup pickup = trigger.AddComponent<WorldItemPickup>();
-        pickup.Initialize(item, amount);
+        pickup.Initialize(item,amount,false,qualityStars,fishSizeCm,fishWeightKg);
         pickup.QualityStars = qualityStars;
         pickup.SetDestroyTarget(root);
         return placed;
@@ -115,6 +122,8 @@ public sealed class PlacedWorldItem : MonoBehaviour
         itemName = item != null ? item.itemName : string.Empty,
         amount = amount,
         qualityStars = qualityStars,
+        fishSizeCm = fishSizeCm,
+        fishWeightKg = fishWeightKg,
         position = transform.position,
         eulerAngles = transform.eulerAngles,
         physicsDrop = physicsDrop,
@@ -145,7 +154,9 @@ public sealed class PlacedWorldItem : MonoBehaviour
         {
             PlacedItemSaveData saved = data[i];
             ItemSO resolved = ItemCatalog.Resolve(saved.itemId, saved.assetName, saved.itemName);
-            PlacedWorldItem restored = Spawn(resolved, saved.amount, saved.position, Quaternion.Euler(saved.eulerAngles), saved.physicsDrop, saved.qualityStars);
+            PlacedWorldItem restored = Spawn(resolved,saved.amount,saved.position,
+                Quaternion.Euler(saved.eulerAngles),saved.physicsDrop,saved.qualityStars,
+                saved.fishSizeCm,saved.fishWeightKg);
             if (restored != null)
             {
                 restored.persistentId = saved.id;

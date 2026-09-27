@@ -19,6 +19,8 @@ public sealed class WorldItemPickup : MonoBehaviour
     [SerializeField, Min(0f)] float fishSizeCm;
     public int QualityStars { get => qualityStars; set => qualityStars = Mathf.Clamp(value, 0, 4); }
     public float FishSizeCm { get => fishSizeCm; set => fishSizeCm = Mathf.Max(0f, value); }
+    [SerializeField, Min(0f)] float fishWeightKg;
+    public float FishWeightKg { get => fishWeightKg; set => fishWeightKg = Mathf.Max(0f,value); }
     [SerializeField] bool autoPickup;
     [SerializeField] KeyCode pickupKey = KeyCode.E;
     [SerializeField, Min(0.1f)] float pickupRadius = 2.5f;
@@ -88,13 +90,14 @@ public sealed class WorldItemPickup : MonoBehaviour
 
     /// <summary>Mengisi data stack untuk pickup yang dibuat saat runtime.</summary>
     public void Initialize(ItemSO itemData, int itemAmount = 1, bool pickUpAutomatically = false,
-        int itemQualityStars = 0, float itemFishSizeCm = 0f)
+        int itemQualityStars = 0, float itemFishSizeCm = 0f, float itemFishWeightKg = 0f)
     {
         item = itemData;
         amount = Mathf.Max(1, itemAmount);
         autoPickup = pickUpAutomatically;
         QualityStars = itemQualityStars;
         FishSizeCm = itemFishSizeCm;
+        FishWeightKg = itemFishWeightKg;
     }
 
     /// <summary>Menentukan root yang ikut dihapus ketika trigger pickup berada pada child.</summary>
@@ -167,17 +170,17 @@ public sealed class WorldItemPickup : MonoBehaviour
         pickupMovement?.AcquireMovementLock(this);
         pickupMovement?.PlayPickupAnimation();
         pickupInProgress = true;
-        StartCoroutine(PickupRoutine(nearbyInventory, item, amount, QualityStars, FishSizeCm));
+        StartCoroutine(PickupRoutine(nearbyInventory,item,amount,QualityStars,FishSizeCm,FishWeightKg));
         return true;
     }
 
     IEnumerator PickupRoutine(Inventory targetInventory, ItemSO pendingItem, int pendingAmount,
-        int pendingQuality, float pendingFishSize)
+        int pendingQuality, float pendingFishSize, float pendingFishWeight)
     {
         if (pickupImpactDelay > 0f) yield return new WaitForSeconds(pickupImpactDelay);
 
         if (targetInventory == null ||
-            !targetInventory.Add(pendingItem, pendingAmount, pendingQuality, pendingFishSize))
+            !targetInventory.Add(pendingItem,pendingAmount,pendingQuality,pendingFishSize,pendingFishWeight))
         {
             SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh");
             FinishPickupLock();

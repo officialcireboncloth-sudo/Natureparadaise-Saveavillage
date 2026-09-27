@@ -5014,7 +5014,7 @@ MonoBehaviour:
   minute: 0
   hour: 8
   day: 1
-  realMinutesPerFullDay: 1
+  realMinutesPerFullDay: 24
 --- !u!114 &971125959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5037,6 +5037,8 @@ MonoBehaviour:
   lightningCheckInterval: 25
   lightningStrikeChance: 0.08
   communityCleanupDay: -1
+  springMorningFogChance: 0.4
+  springMorningFogDensity: 0.0028
   drizzleParticlePrefab: {fileID: 0}
   rainParticlePrefab: {fileID: 0}
   heavyRainParticlePrefab: {fileID: 0}
@@ -5048,11 +5050,6 @@ MonoBehaviour:
   enableDebugKeys: 1
   nextCurrentWeatherKey: 293
   nextForecastWeatherKey: 0
---- !u!95 &1043492153 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 907233773804583231, guid: 62b58045597702144bce200eb1ad3185, type: 3}
-  m_PrefabInstance: {fileID: 1610896751}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1061100801
 GameObject:
   m_ObjectHideFlags: 0
@@ -5922,7 +5919,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 3.6
+  m_Height: 3.1
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -6030,7 +6027,7 @@ MonoBehaviour:
   sprintKey: 304
   walkKey: 308
   jumpKey: 32
-  animator: {fileID: 1043492153}
+  animator: {fileID: 1980814006}
   speedParameter: Speed
   groundedParameter: Grounded
   sprintParameter: Sprint
@@ -6043,6 +6040,14 @@ MonoBehaviour:
   milkingTrigger: Milking
   pushingTrigger: Pushing
   wateringTrigger: Watering
+  hoeingTrigger: Hoeing
+  plantingTrigger: Planting
+  refillWateringCanTrigger: RefillWateringCan
+  handOverOneHandTrigger: HandOverOneHand
+  handOverTwoHandsTrigger: HandOverTwoHands
+  holdingItemParameter: HoldingItem
+  carryingAnimalParameter: CarryingAnimal
+  placeItemTrigger: PlaceItem
 --- !u!114 &1314698854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6113,6 +6118,11 @@ MonoBehaviour:
   hoeSound: {fileID: 0}
   dirtParticles: {fileID: 0}
   actionLockDuration: 0.28
+  hoeImpactDelay: 0.72
+  wateringImpactDelay: 1.35
+  wateringActionDuration: 2.7
+  pickupImpactDelay: 0.72
+  pickupActionDuration: 1.45
   cameraShakeStrength: 0.07
   cameraShakeDuration: 0.1
   controllerRumble: 1
@@ -6141,6 +6151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8e5d7dd20f76c4091dd3b8b32bf58a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantImpactDelay: 0.62
+  plantActionDuration: 0.95
   fieldMask:
     serializedVersion: 2
     m_Bits: 8
@@ -9662,6 +9674,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1947633215}
   m_Mesh: {fileID: 5762382881785229881, guid: 3b7dd3b2e1cf1c74dafe87aac210702f, type: 3}
+--- !u!95 &1980814006 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3992979329949453832, guid: 62b58045597702144bce200eb1ad3185, type: 3}
+  m_PrefabInstance: {fileID: 1610896751}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2011413461
 GameObject:
   m_ObjectHideFlags: 0
@@ -12540,6 +12557,8 @@ MonoBehaviour:
   interactKey: 101
   interactionRadius: 2.4
   promptHeight: 1.5
+  refillImpactDelay: 1.55
+  refillActionDuration: 2.05
 --- !u!1001 &950000000000000005
 PrefabInstance:
   m_ObjectHideFlags: 0

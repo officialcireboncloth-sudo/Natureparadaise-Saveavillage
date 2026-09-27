@@ -622,6 +622,8 @@ public class SaveManager : MonoBehaviour
         TimeManager.Instance.day =
             data.day;
 
+        SeasonVisualController.RefreshFromCalendar();
+
         WeatherSystem weatherSystem = WeatherSystem.Instance != null
             ? WeatherSystem.Instance
             : FindFirstObjectByType<WeatherSystem>();

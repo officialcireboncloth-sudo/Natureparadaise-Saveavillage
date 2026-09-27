@@ -67,6 +67,9 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField] string refillWateringCanTrigger = "RefillWateringCan";
     [SerializeField] string handOverOneHandTrigger = "HandOverOneHand";
     [SerializeField] string handOverTwoHandsTrigger = "HandOverTwoHands";
+    [SerializeField] string holdingItemParameter = "HoldingItem";
+    [SerializeField] string carryingAnimalParameter = "CarryingAnimal";
+    [SerializeField] string placeItemTrigger = "PlaceItem";
 
     CharacterController characterController;
     readonly HashSet<object> movementLocks = new();
@@ -99,6 +102,9 @@ public sealed class PlayerController : MonoBehaviour
     bool hasRefillWateringCanTrigger;
     bool hasHandOverOneHandTrigger;
     bool hasHandOverTwoHandsTrigger;
+    bool hasHoldingItemParameter;
+    bool hasCarryingAnimalParameter;
+    bool hasPlaceItemTrigger;
 
     public MovementMode CurrentMode { get; private set; }
     public Vector3 PlanarVelocity => planarVelocity;
@@ -377,6 +383,9 @@ public sealed class PlayerController : MonoBehaviour
             if (name == refillWateringCanTrigger) hasRefillWateringCanTrigger = true;
             if (name == handOverOneHandTrigger) hasHandOverOneHandTrigger = true;
             if (name == handOverTwoHandsTrigger) hasHandOverTwoHandsTrigger = true;
+            if (name == holdingItemParameter) hasHoldingItemParameter = true;
+            if (name == carryingAnimalParameter) hasCarryingAnimalParameter = true;
+            if (name == placeItemTrigger) hasPlaceItemTrigger = true;
         }
     }
 
@@ -398,6 +407,17 @@ public sealed class PlayerController : MonoBehaviour
     public void PlayHandOverAnimation(bool twoHands = false) => PlayTrigger(
         twoHands ? handOverTwoHandsTrigger : handOverOneHandTrigger,
         twoHands ? hasHandOverTwoHandsTrigger : hasHandOverOneHandTrigger);
+    public void SetHoldingItemAnimation(bool holding)
+    {
+        if (hasHoldingItemParameter && animator != null)
+            animator.SetBool(holdingItemParameter, holding);
+    }
+    public void SetCarryingAnimalAnimation(bool carrying)
+    {
+        if (hasCarryingAnimalParameter && animator != null)
+            animator.SetBool(carryingAnimalParameter,carrying);
+    }
+    public void PlayPlaceItemAnimation() => PlayTrigger(placeItemTrigger, hasPlaceItemTrigger);
 
     // Token lock mencegah satu sistem membuka movement yang masih dikunci sistem lain.
     /// <summary>Menahan movement untuk satu owner; aman dipakai beberapa sistem sekaligus.</summary>

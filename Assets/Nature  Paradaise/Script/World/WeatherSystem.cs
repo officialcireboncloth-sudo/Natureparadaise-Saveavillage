@@ -40,7 +40,33 @@ public sealed class WeatherSystem : MonoBehaviour
     [SerializeField, Range(0f, 1f)] float extremeCropLossChance = 0.03f;
     [SerializeField, Min(5f)] float lightningCheckInterval = 25f;
     [SerializeField, Range(0f, 1f)] float lightningStrikeChance = 0.08f;
+    [Tooltip("Stamina yang hilang setiap pergantian satu jam game ketika player berada di luar saat hujan lebat atau badai.")]
+    [SerializeField, Min(0f)] float heavyRainOutdoorStaminaPerHour = 5f;
     [SerializeField] int communityCleanupDay = -1;
+
+    [Header("Thunderstorm Lightning")]
+    [Tooltip("AudioSource 2D untuk suara petir. Jika kosong, WeatherSystem membuat AudioSource otomatis saat runtime.")]
+    [SerializeField] AudioSource thunderAudioSource;
+    [Tooltip("Satu klip akan dipilih secara acak setiap petir muncul.")]
+    [SerializeField] AudioClip[] thunderClips;
+    [SerializeField, Range(0f, 1f)] float thunderVolume = 0.9f;
+    [SerializeField, Min(0.5f)] float minimumThunderInterval = 5f;
+    [SerializeField, Min(0.5f)] float maximumThunderInterval = 14f;
+    [Tooltip("Tambahan intensitas Directional Light pada puncak kilat.")]
+    [SerializeField, Range(0.5f, 5f)] float lightningFlashIntensity = 2.4f;
+
+    [Header("Season Weather Rules")]
+    [Tooltip("Kabut tipis Spring hanya muncul pada sebagian pagi agar suasana bervariasi.")]
+    [SerializeField, Range(0f, 1f)] float springMorningFogChance = 0.4f;
+    [SerializeField, Range(0f, 0.01f)] float springMorningFogDensity = 0.0028f;
+
+    [Header("Fake Cloud Shadow - Atur di sini")]
+    [Tooltip("Aktifkan noise shadow yang menempel pada permukaan Terrain.")]
+    [SerializeField] bool enableTerrainCloudShadow = true;
+    [SerializeField, Range(0.05f, 0.6f)] float terrainCloudShadowOpacity = 0.34f;
+    [Tooltip("Ukuran gumpalan noise dalam world unit. Lebih besar menghasilkan bayangan awan yang lebih lebar dan natural.")]
+    [SerializeField, Range(30f, 180f)] float terrainCloudNoiseWorldScale = 80f;
+    [SerializeField] Vector2 terrainCloudDriftSpeed = new(0.012f, 0.007f);
 
     [Header("Future Weather Effect Slots")]
     [Tooltip("Belum diaktifkan pada tahap lighting-only.")]
@@ -58,6 +84,8 @@ public sealed class WeatherSystem : MonoBehaviour
     [SerializeField] KeyCode nextCurrentWeatherKey = KeyCode.F12;
     [Tooltip("None secara default agar tidak berbenturan dengan toggle/load. Dapat diisi manual jika diperlukan.")]
     [SerializeField] KeyCode nextForecastWeatherKey = KeyCode.None;
+    bool debugWeatherOverride;
+    WeatherType debugWeather;
 
     public WeatherType CurrentWeather => currentWeather;
     public WeatherType TomorrowWeather => tomorrowWeather;
@@ -67,10 +95,27 @@ public sealed class WeatherSystem : MonoBehaviour
     public bool IsRainToday => IsRainWeather(currentWeather);
     public bool IsStormToday => IsStormWeather(currentWeather);
     public bool IsCommunityCleanupDay => currentWeatherDay == communityCleanupDay;
+    public CropSeason CurrentSeason => SeasonVisualController.ResolveSeasonForDay(Mathf.Max(1, currentWeatherDay));
+    public bool IsDebugWeatherOverrideActive => debugWeatherOverride;
+    public bool TerrainCloudShadowEnabled => enableTerrainCloudShadow;
+    public float TerrainCloudShadowOpacity => terrainCloudShadowOpacity;
+    public float TerrainCloudNoiseWorldScale => terrainCloudNoiseWorldScale;
+    public Vector2 TerrainCloudDriftSpeed => terrainCloudDriftSpeed;
+    public float HeavyRainOutdoorStaminaPerHour => heavyRainOutdoorStaminaPerHour;
+    public float CurrentLightningFlash => CalculateLightningFlash();
     float nextLightningCheckTime;
     int lightningResolvedDay = -1;
+    float nextThunderTime = -1f;
+    float lightningFlashStartedAt = -100f;
     GameObject activeWeatherEffect;
     WeatherType activeEffectWeather = (WeatherType)(-1);
+    bool activeEffectUsesFallback;
+    float nextCoverageRefreshTime;
+    Camera weatherCamera;
+    static readonly Vector2[] RainViewportCorners =
+    {
+        new(0f, 0f), new(1f, 0f), new(0f, 1f), new(1f, 1f)
+    };
 
     public event Action<WeatherType, WeatherType> WeatherChanged;
     public static event Action<WeatherType> CurrentWeatherChanged;
@@ -90,12 +135,14 @@ public sealed class WeatherSystem : MonoBehaviour
             if (player != null)
                 effectFollowTarget = player.transform;
         }
+        EnsureThunderAudioSource();
     }
 
     void OnEnable()
     {
         TimeManager.OnBeforeDayChange += HandleBeforeDayChanged;
         TimeManager.OnDay += HandleDayChanged;
+        SeasonVisualController.SeasonChanged += HandleSeasonChanged;
     }
 
     void Start()
@@ -108,6 +155,7 @@ public sealed class WeatherSystem : MonoBehaviour
     {
         TimeManager.OnBeforeDayChange -= HandleBeforeDayChanged;
         TimeManager.OnDay -= HandleDayChanged;
+        SeasonVisualController.SeasonChanged -= HandleSeasonChanged;
     }
 
     void OnDestroy()
@@ -120,14 +168,14 @@ public sealed class WeatherSystem : MonoBehaviour
     {
         FollowWeatherEffect();
         UpdateLightningHazard();
+        UpdateThunderstormLightning();
 
         if (!enableDebugKeys || !HUDManager.DebugCluesEnabled)
             return;
 
         if (nextCurrentWeatherKey != KeyCode.None && Input.GetKeyDown(nextCurrentWeatherKey))
         {
-            currentWeather = NextWeather(currentWeather);
-            NotifyWeatherChanged();
+            SetDebugWeather(NextWeather(currentWeather));
         }
         if (nextForecastWeatherKey != KeyCode.None && Input.GetKeyDown(nextForecastWeatherKey))
         {
@@ -139,6 +187,15 @@ public sealed class WeatherSystem : MonoBehaviour
     void HandleDayChanged()
     {
         int day = TimeManager.Instance != null ? TimeManager.Instance.day : currentWeatherDay + 1;
+        if (debugWeatherOverride)
+        {
+            previousWeather = currentWeather;
+            currentWeatherDay = day;
+            currentWeather = debugWeather;
+            tomorrowWeather = debugWeather;
+            NotifyWeatherChanged();
+            return;
+        }
         if (day == currentWeatherDay + 1)
         {
             previousWeather = currentWeather;
@@ -169,6 +226,17 @@ public sealed class WeatherSystem : MonoBehaviour
             SaveLoadFeedback.Instance?.ShowMessage($"{GetShortName(currentWeather)} merusak {lost} tanaman.");
     }
 
+    void HandleSeasonChanged(CropSeason _)
+    {
+        // Pergantian kalender normal sudah menyiapkan forecast untuk musim hari tujuan.
+        // Regenerasi di sini hanya dibutuhkan ketika debug menu memaksa suatu musim.
+        if (debugWeatherOverride || !SeasonVisualController.IsDebugOverrideActive || currentWeatherDay < 1)
+            return;
+        currentWeather = GenerateWeather(currentWeatherDay);
+        tomorrowWeather = GenerateWeather(currentWeatherDay + 1);
+        NotifyWeatherChanged();
+    }
+
     void UpdateLightningHazard()
     {
         if (currentWeather != WeatherType.Thunderstorm || !IsPlayerOutdoors() ||
@@ -188,6 +256,79 @@ public sealed class WeatherSystem : MonoBehaviour
             lifeCycle.RequestWeatherFaint(12, true, "Kamu tersambar petir dan dibawa ke klinik.");
     }
 
+    void UpdateThunderstormLightning()
+    {
+        if (currentWeather != WeatherType.Thunderstorm)
+        {
+            nextThunderTime = -1f;
+            return;
+        }
+
+        if (TimeManager.Instance != null && TimeManager.Instance.IsPaused)
+            return;
+
+        if (nextThunderTime < 0f)
+        {
+            ScheduleNextThunder(true);
+            return;
+        }
+
+        if (Time.unscaledTime < nextThunderTime)
+            return;
+
+        lightningFlashStartedAt = Time.unscaledTime;
+        PlayThunderSound();
+        ScheduleNextThunder(false);
+    }
+
+    void ScheduleNextThunder(bool enteringStorm)
+    {
+        float minimum = Mathf.Max(0.5f, minimumThunderInterval);
+        float maximum = Mathf.Max(minimum, maximumThunderInterval);
+        float delay = UnityEngine.Random.Range(minimum, maximum);
+        if (enteringStorm)
+            delay = Mathf.Min(delay, UnityEngine.Random.Range(2f, Mathf.Min(6f, maximum) + 0.01f));
+        nextThunderTime = Time.unscaledTime + delay;
+    }
+
+    void PlayThunderSound()
+    {
+        EnsureThunderAudioSource();
+        if (thunderAudioSource == null || thunderClips == null || thunderClips.Length == 0)
+            return;
+
+        AudioClip clip = thunderClips[UnityEngine.Random.Range(0, thunderClips.Length)];
+        if (clip == null)
+            return;
+
+        thunderAudioSource.pitch = UnityEngine.Random.Range(0.94f, 1.06f);
+        GameAudio.PlayOneShot(thunderAudioSource, clip, GameAudioBus.Main, thunderVolume);
+    }
+
+    void EnsureThunderAudioSource()
+    {
+        if (thunderAudioSource != null)
+            return;
+        thunderAudioSource = gameObject.AddComponent<AudioSource>();
+        thunderAudioSource.playOnAwake = false;
+        thunderAudioSource.loop = false;
+        thunderAudioSource.spatialBlend = 0f;
+    }
+
+    float CalculateLightningFlash()
+    {
+        if (currentWeather != WeatherType.Thunderstorm)
+            return 0f;
+
+        float elapsed = Time.unscaledTime - lightningFlashStartedAt;
+        float pulse = 0f;
+        if (elapsed >= 0f && elapsed < 0.09f)
+            pulse = 1f - elapsed / 0.09f;
+        else if (elapsed >= 0.15f && elapsed < 0.23f)
+            pulse = 0.72f * (1f - (elapsed - 0.15f) / 0.08f);
+        return pulse * lightningFlashIntensity;
+    }
+
     /// <summary>Memastikan current/tomorrow weather sudah tersedia untuk hari game tertentu.</summary>
     public void EnsureForecastForDay(int day)
     {
@@ -205,6 +346,7 @@ public sealed class WeatherSystem : MonoBehaviour
     public void RestoreForecast(int savedDay, int savedSeed, WeatherType savedCurrent, WeatherType savedTomorrow,
         WeatherType savedPrevious = WeatherType.Sunny, int savedCleanupDay = -1)
     {
+        debugWeatherOverride = false;
         worldWeatherSeed = savedSeed;
         currentWeatherDay = Mathf.Max(1, savedDay);
         currentWeather = ClampWeather(savedCurrent);
@@ -212,6 +354,31 @@ public sealed class WeatherSystem : MonoBehaviour
         previousWeather = ClampWeather(savedPrevious);
         communityCleanupDay = savedCleanupDay;
         NotifyWeatherChanged();
+    }
+
+    /// <summary>Memaksa cuaca untuk pengujian sampai AUTO WEATHER dipilih.</summary>
+    public void SetDebugWeather(WeatherType weather)
+    {
+        debugWeatherOverride = true;
+        debugWeather = ClampWeather(weather);
+        currentWeather = debugWeather;
+        tomorrowWeather = debugWeather;
+        if (currentWeatherDay < 1)
+            currentWeatherDay = TimeManager.Instance != null ? Mathf.Max(1, TimeManager.Instance.day) : 1;
+        NotifyWeatherChanged();
+        SaveLoadFeedback.Instance?.ShowMessage($"DEBUG WEATHER: {GetShortName(currentWeather)}");
+    }
+
+    /// <summary>Melepas override debug dan menghitung ulang cuaca berdasarkan season aktif.</summary>
+    public void FollowSeasonWeather()
+    {
+        debugWeatherOverride = false;
+        int day = TimeManager.Instance != null ? Mathf.Max(1, TimeManager.Instance.day) : Mathf.Max(1, currentWeatherDay);
+        currentWeatherDay = day;
+        currentWeather = GenerateWeather(day);
+        tomorrowWeather = GenerateWeather(day + 1);
+        NotifyWeatherChanged();
+        SaveLoadFeedback.Instance?.ShowMessage($"WEATHER AUTO: {GetShortName(currentWeather)}");
     }
 
     /// <summary>Menyediakan modifier lighting untuk cuaca aktif tanpa mengubah lampu secara langsung.</summary>
@@ -229,15 +396,15 @@ public sealed class WeatherSystem : MonoBehaviour
             case WeatherType.Heatwave:
                 sunMultiplier = 1.18f; ambientMultiplier = 1.02f; exposureMultiplier = 1.08f; tint = new Color(1f, 0.88f, 0.7f); break;
             case WeatherType.Drizzle:
-                sunMultiplier = 0.52f; ambientMultiplier = 0.82f; exposureMultiplier = 0.7f; tint = new Color(0.72f, 0.8f, 0.9f); break;
+                sunMultiplier = 0.62f; ambientMultiplier = 0.84f; exposureMultiplier = 0.75f; tint = new Color(0.80f, 0.85f, 0.92f); break;
             case WeatherType.Rain:
-                sunMultiplier = 0.4f; ambientMultiplier = 0.72f; exposureMultiplier = 0.58f; tint = new Color(0.62f, 0.7f, 0.82f); break;
+                sunMultiplier = 0.38f; ambientMultiplier = 0.68f; exposureMultiplier = 0.52f; tint = new Color(0.61f, 0.69f, 0.82f); break;
             case WeatherType.HeavyRain:
-                sunMultiplier = 0.28f; ambientMultiplier = 0.62f; exposureMultiplier = 0.46f; tint = new Color(0.52f, 0.6f, 0.74f); break;
+                sunMultiplier = 0.22f; ambientMultiplier = 0.52f; exposureMultiplier = 0.38f; tint = new Color(0.48f, 0.56f, 0.70f); break;
             case WeatherType.WindRainStorm:
-                sunMultiplier = 0.24f; ambientMultiplier = 0.56f; exposureMultiplier = 0.42f; tint = new Color(0.48f, 0.57f, 0.7f); break;
+                sunMultiplier = 0.18f; ambientMultiplier = 0.45f; exposureMultiplier = 0.32f; tint = new Color(0.42f, 0.51f, 0.66f); break;
             case WeatherType.Cyclone:
-                sunMultiplier = 0.16f; ambientMultiplier = 0.48f; exposureMultiplier = 0.34f; tint = new Color(0.42f, 0.5f, 0.62f); break;
+                sunMultiplier = 0.12f; ambientMultiplier = 0.38f; exposureMultiplier = 0.25f; tint = new Color(0.36f, 0.44f, 0.58f); break;
             case WeatherType.Thunderstorm:
                 sunMultiplier = 0.2f; ambientMultiplier = 0.5f; exposureMultiplier = 0.36f; tint = new Color(0.46f, 0.5f, 0.66f); break;
             case WeatherType.Snow:
@@ -252,21 +419,99 @@ public sealed class WeatherSystem : MonoBehaviour
         int hash = unchecked(worldWeatherSeed * 73856093 ^ day * 19349663 ^ (day + 17) * 83492791);
         System.Random random = new(hash);
         int roll = random.Next(0, 100);
-        if (roll < 25) return WeatherType.Sunny;
-        if (roll < 45) return WeatherType.PartlyCloudy;
-        if (roll < 51) return WeatherType.Heatwave;
-        if (roll < 63) return WeatherType.Drizzle;
-        if (roll < 78) return WeatherType.Rain;
-        if (roll < 86) return WeatherType.HeavyRain;
-        if (roll < 91) return WeatherType.WindRainStorm;
-        if (roll < 92) return WeatherType.Cyclone;
-        if (roll < 97) return WeatherType.Thunderstorm;
-        if (roll < 99) return WeatherType.Snow;
+        CropSeason season = SeasonVisualController.ResolveSeasonForDay(day);
+
+        if (season == CropSeason.Spring)
+            return GenerateSpringWeather(roll);
+        if (season == CropSeason.Summer)
+            return GenerateSummerWeather(roll);
+        if (season == CropSeason.Autumn)
+            return GenerateAutumnWeather(roll);
+        return GenerateWinterWeather(roll);
+    }
+
+    /// <summary>
+    /// Spring / musim hujan: 40% gerimis, 27% cerah berawan, 17% cerah,
+    /// 10% hujan sedang, 4% hujan lebat, dan 2% panas. Tidak menghasilkan badai atau salju.
+    /// </summary>
+    static WeatherType GenerateSpringWeather(int roll)
+    {
+        if (roll < 40) return WeatherType.Drizzle;
+        if (roll < 67) return WeatherType.PartlyCloudy;
+        if (roll < 84) return WeatherType.Sunny;
+        if (roll < 94) return WeatherType.Rain;
+        if (roll < 98) return WeatherType.HeavyRain;
+        return WeatherType.Heatwave;
+    }
+
+    /// <summary>
+    /// Summer: total 60% hari cerah/panas, lalu 18% mendung, 8% gerimis,
+    /// 10% hujan sedang, dan 4% hujan lebat. Tidak menghasilkan badai atau salju.
+    /// </summary>
+    static WeatherType GenerateSummerWeather(int roll)
+    {
+        if (roll < 40) return WeatherType.Sunny;
+        if (roll < 60) return WeatherType.Heatwave;
+        if (roll < 78) return WeatherType.PartlyCloudy;
+        if (roll < 86) return WeatherType.Drizzle;
+        if (roll < 96) return WeatherType.Rain;
+        return WeatherType.HeavyRain;
+    }
+
+    /// <summary>
+    /// Fall: 45% cerah sejuk, 30% berawan, 20% hujan ringan-sedang, dan 5% hujan
+    /// lebat/badai. Tidak menghasilkan panas terik, topan, salju, atau badai salju.
+    /// </summary>
+    static WeatherType GenerateAutumnWeather(int roll)
+    {
+        if (roll < 45) return WeatherType.Sunny;
+        if (roll < 75) return WeatherType.PartlyCloudy;
+        if (roll < 85) return WeatherType.Drizzle;
+        if (roll < 95) return WeatherType.Rain;
+        if (roll < 99) return WeatherType.HeavyRain;
+        return WeatherType.WindRainStorm;
+    }
+
+    /// <summary>
+    /// Winter: salju ringan dan langit berawan menjadi cuaca utama. Hari cerah tetap
+    /// muncul dengan cahaya pucat, sedangkan badai salju hanya sesekali.
+    /// </summary>
+    static WeatherType GenerateWinterWeather(int roll)
+    {
+        if (roll < 45) return WeatherType.Snow;
+        if (roll < 75) return WeatherType.PartlyCloudy;
+        if (roll < 90) return WeatherType.Sunny;
         return WeatherType.Blizzard;
+    }
+
+    /// <summary>Kabut Spring murah berbasis RenderSettings; tidak membuat particle atau camera tambahan.</summary>
+    public float GetSeasonalMorningFogDensity(float hour)
+    {
+        if (CurrentSeason != CropSeason.Spring || hour < 5f || hour > 9.5f)
+            return 0f;
+
+        int hash = unchecked(worldWeatherSeed * 486187739 ^ Mathf.Max(1, currentWeatherDay) * 16777619);
+        System.Random random = new(hash);
+        if (random.NextDouble() >= springMorningFogChance)
+            return 0f;
+
+        float centerWeight = 1f - Mathf.Clamp01(Mathf.Abs(hour - 7f) / 2.5f);
+        return springMorningFogDensity * Mathf.SmoothStep(0f, 1f, centerWeight);
     }
 
     void NotifyWeatherChanged()
     {
+        nextThunderTime = -1f;
+        lightningFlashStartedAt = -100f;
+        float wetness = currentWeather switch
+        {
+            WeatherType.Drizzle => 0.35f,
+            WeatherType.Rain => 0.62f,
+            WeatherType.HeavyRain or WeatherType.WindRainStorm or WeatherType.Cyclone or WeatherType.Thunderstorm => 1f,
+            _ => 0f
+        };
+        Shader.SetGlobalFloat("_NP_SurfaceWetness", wetness);
+        Shader.SetGlobalFloat("_NP_LeafWetness", Mathf.Clamp01(wetness * 1.15f));
         WeatherImpactFlow.Publish(WeatherImpactSnapshot.Create(this));
         RefreshWeatherEffect();
         WeatherChanged?.Invoke(currentWeather, tomorrowWeather);
@@ -279,6 +524,7 @@ public sealed class WeatherSystem : MonoBehaviour
         if (activeEffectWeather == currentWeather) return;
         if (activeWeatherEffect != null) Destroy(activeWeatherEffect);
         activeWeatherEffect = null;
+        activeEffectUsesFallback = false;
         activeEffectWeather = currentWeather;
         GameObject prefab = currentWeather switch
         {
@@ -291,16 +537,270 @@ public sealed class WeatherSystem : MonoBehaviour
             WeatherType.Blizzard => blizzardParticlePrefab,
             _ => null
         };
-        if (prefab == null) return;
         Vector3 position = effectFollowTarget != null ? effectFollowTarget.position : transform.position;
-        activeWeatherEffect = Instantiate(prefab, position, Quaternion.identity, transform);
+        activeWeatherEffect = prefab != null
+            ? Instantiate(prefab, position, Quaternion.identity, transform)
+            : CreateFallbackPrecipitation(currentWeather, position);
+        if (activeWeatherEffect == null) return;
+        activeEffectUsesFallback = prefab == null;
         activeWeatherEffect.name = $"WeatherEffect_{currentWeather}";
+        RefreshFallbackCoverage(true);
+    }
+
+    /// <summary>
+    /// Efek cadangan ringan untuk project yang belum memasang prefab hujan.
+    /// Particle hanya hidup saat presipitasi aktif dan mengikuti player, sehingga tidak memenuhi seluruh map.
+    /// </summary>
+    GameObject CreateFallbackPrecipitation(WeatherType weather, Vector3 position)
+    {
+        bool drizzle = weather == WeatherType.Drizzle;
+        bool rain = weather is WeatherType.Rain or WeatherType.HeavyRain or WeatherType.WindRainStorm or
+            WeatherType.Cyclone or WeatherType.Thunderstorm;
+        bool snow = weather is WeatherType.Snow or WeatherType.Blizzard;
+        if (!drizzle && !rain && !snow) return null;
+
+        GameObject root = new(snow ? "Runtime Snow" : "Runtime Rain");
+        root.transform.SetParent(transform, false);
+        root.transform.position = position;
+        ParticleSystem particles = root.AddComponent<ParticleSystem>();
+
+        ParticleSystem.MainModule main = particles.main;
+        main.loop = true;
+        main.playOnAwake = true;
+        main.simulationSpace = ParticleSystemSimulationSpace.World;
+        main.startLifetime = GetFallbackParticleLifetime(weather);
+        main.startSpeed = 0f;
+        main.startSize = weather switch
+        {
+            WeatherType.Drizzle => 0.032f,
+            WeatherType.Rain => 0.05f,
+            WeatherType.HeavyRain => 0.072f,
+            WeatherType.WindRainStorm or WeatherType.Cyclone or WeatherType.Thunderstorm => 0.08f,
+            WeatherType.Snow => new ParticleSystem.MinMaxCurve(0.11f, 0.22f),
+            WeatherType.Blizzard => new ParticleSystem.MinMaxCurve(0.08f, 0.18f),
+            _ => 0.05f
+        };
+        main.startColor = snow
+            ? new ParticleSystem.MinMaxGradient(new Color(0.9f, 0.95f, 1f, 0.72f), Color.white)
+            : drizzle
+                ? new ParticleSystem.MinMaxGradient(new Color(0.72f, 0.84f, 1f, 0.42f))
+                : new ParticleSystem.MinMaxGradient(new Color(0.64f, 0.78f, 1f,
+                    weather == WeatherType.Rain ? 0.62f : 0.82f));
+        main.maxParticles = GetFallbackMaxParticles(weather);
+
+        ParticleSystem.EmissionModule emission = particles.emission;
+        emission.rateOverTime = GetFallbackMaximumEmission(weather) * 0.65f;
+
+        ParticleSystem.ShapeModule shape = particles.shape;
+        shape.shapeType = ParticleSystemShapeType.Box;
+        shape.position = new Vector3(0f, 9f, 0f);
+        shape.scale = new Vector3(38f, 1f, 34f);
+
+        ParticleSystem.VelocityOverLifetimeModule velocity = particles.velocityOverLifetime;
+        velocity.enabled = true;
+        velocity.space = ParticleSystemSimulationSpace.World;
+        velocity.y = weather switch
+        {
+            WeatherType.Drizzle => -7f,
+            WeatherType.Rain => -14f,
+            WeatherType.HeavyRain => -18f,
+            WeatherType.WindRainStorm => -17f,
+            WeatherType.Cyclone => -20f,
+            WeatherType.Thunderstorm => -19f,
+            WeatherType.Snow => -2.2f,
+            WeatherType.Blizzard => -7f,
+            _ => -12f
+        };
+        velocity.x = weather switch
+        {
+            WeatherType.WindRainStorm => 6f,
+            WeatherType.Cyclone => 12f,
+            WeatherType.Thunderstorm => 4f,
+            WeatherType.Blizzard => 10f,
+            _ => 0f
+        };
+        velocity.z = weather is WeatherType.Cyclone or WeatherType.Blizzard ? 3f : 0f;
+
+        ParticleSystem.NoiseModule noise = particles.noise;
+        noise.enabled = snow || weather is WeatherType.WindRainStorm or WeatherType.Cyclone;
+        if (noise.enabled)
+        {
+            noise.strength = weather == WeatherType.Snow ? 0.65f : weather == WeatherType.Blizzard ? 2.2f : 1.2f;
+            noise.frequency = weather == WeatherType.Snow ? 0.35f : 0.55f;
+            noise.scrollSpeed = weather == WeatherType.Snow ? 0.15f : 0.4f;
+            noise.damping = true;
+        }
+
+        ParticleSystemRenderer renderer = particles.GetComponent<ParticleSystemRenderer>();
+        renderer.renderMode = snow ? ParticleSystemRenderMode.Billboard : ParticleSystemRenderMode.Stretch;
+        renderer.velocityScale = snow ? 0f : 0.08f;
+        renderer.lengthScale = weather switch
+        {
+            WeatherType.Drizzle => 0.12f,
+            WeatherType.Rain => 0.26f,
+            WeatherType.HeavyRain => 0.42f,
+            _ => snow ? 0f : 0.52f
+        };
+        renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        renderer.receiveShadows = false;
+        Shader shader = Shader.Find("Universal Render Pipeline/Particles/Unlit");
+        if (shader == null) shader = Shader.Find("Particles/Standard Unlit");
+        if (shader != null)
+        {
+            Material material = new(shader) { hideFlags = HideFlags.HideAndDontSave };
+            Texture2D particleTexture = snow ? BuildSoftParticleTexture(32) : null;
+            if (particleTexture != null)
+            {
+                if (material.HasProperty("_BaseMap")) material.SetTexture("_BaseMap", particleTexture);
+                if (material.HasProperty("_MainTex")) material.SetTexture("_MainTex", particleTexture);
+                if (material.HasProperty("_Surface")) material.SetFloat("_Surface", 1f);
+                if (material.HasProperty("_SrcBlend")) material.SetFloat("_SrcBlend", (float)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                if (material.HasProperty("_DstBlend")) material.SetFloat("_DstBlend", (float)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                if (material.HasProperty("_ZWrite")) material.SetFloat("_ZWrite", 0f);
+                material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+                material.renderQueue = 3000;
+            }
+            renderer.sharedMaterial = material;
+            RuntimeWeatherMaterialOwner owner = root.AddComponent<RuntimeWeatherMaterialOwner>();
+            owner.Material = material;
+            owner.Texture = particleTexture;
+        }
+
+        particles.Play();
+        return root;
     }
 
     void FollowWeatherEffect()
     {
         if (activeWeatherEffect != null && effectFollowTarget != null)
             activeWeatherEffect.transform.position = effectFollowTarget.position;
+        RefreshFallbackCoverage(false);
+    }
+
+    /// <summary>
+    /// Menyesuaikan volume presipitasi dengan area tanah yang terlihat kamera. Dihitung empat kali
+    /// per detik saja agar zoom-out selalu tertutup tanpa raycast Physics atau render texture.
+    /// </summary>
+    void RefreshFallbackCoverage(bool force)
+    {
+        if (!activeEffectUsesFallback || activeWeatherEffect == null ||
+            (!force && Time.unscaledTime < nextCoverageRefreshTime))
+            return;
+        nextCoverageRefreshTime = Time.unscaledTime + 0.25f;
+
+        if (weatherCamera == null) weatherCamera = Camera.main;
+        ParticleSystem particles = activeWeatherEffect.GetComponent<ParticleSystem>();
+        if (weatherCamera == null || particles == null) return;
+
+        float groundY = effectFollowTarget != null ? effectFollowTarget.position.y : activeWeatherEffect.transform.position.y;
+        Plane groundPlane = new(Vector3.up, new Vector3(0f, groundY, 0f));
+        float minX = float.PositiveInfinity, maxX = float.NegativeInfinity;
+        float minZ = float.PositiveInfinity, maxZ = float.NegativeInfinity;
+        int hitCount = 0;
+        foreach (Vector2 corner in RainViewportCorners)
+        {
+            Ray ray = weatherCamera.ViewportPointToRay(new Vector3(corner.x, corner.y, 0f));
+            if (!groundPlane.Raycast(ray, out float distance)) continue;
+            Vector3 point = ray.GetPoint(distance);
+            minX = Mathf.Min(minX, point.x);
+            maxX = Mathf.Max(maxX, point.x);
+            minZ = Mathf.Min(minZ, point.z);
+            maxZ = Mathf.Max(maxZ, point.z);
+            hitCount++;
+        }
+        if (hitCount < 4) return;
+
+        const float screenPadding = 12f;
+        float width = Mathf.Clamp(maxX - minX + screenPadding * 2f, 48f, 110f);
+        float depth = Mathf.Clamp(maxZ - minZ + screenPadding * 2f, 44f, 100f);
+        Vector3 center = new((minX + maxX) * 0.5f, groundY + 10f, (minZ + maxZ) * 0.5f);
+        Vector3 localCenter = activeWeatherEffect.transform.InverseTransformPoint(center);
+
+        ParticleSystem.ShapeModule shape = particles.shape;
+        shape.position = localCenter;
+        shape.scale = new Vector3(width, 1f, depth);
+
+        float area = width * depth;
+        float rate = Mathf.Min(GetFallbackMaximumEmission(currentWeather),
+            area * GetFallbackEmissionDensity(currentWeather));
+        ParticleSystem.EmissionModule emission = particles.emission;
+        emission.rateOverTime = rate;
+        ParticleSystem.MainModule main = particles.main;
+        main.maxParticles = GetFallbackMaxParticles(currentWeather);
+    }
+
+    static float GetFallbackParticleLifetime(WeatherType weather) => weather switch
+    {
+        WeatherType.Drizzle => 1.35f,
+        WeatherType.Rain => 1f,
+        WeatherType.HeavyRain => 0.85f,
+        WeatherType.WindRainStorm or WeatherType.Cyclone or WeatherType.Thunderstorm => 0.8f,
+        WeatherType.Snow => 4.2f,
+        WeatherType.Blizzard => 2.4f,
+        _ => 1f
+    };
+
+    static float GetFallbackEmissionDensity(WeatherType weather) => weather switch
+    {
+        WeatherType.Drizzle => 0.22f,
+        WeatherType.Rain => 0.48f,
+        WeatherType.HeavyRain => 0.82f,
+        WeatherType.WindRainStorm => 0.92f,
+        WeatherType.Cyclone => 1.05f,
+        WeatherType.Thunderstorm => 0.98f,
+        WeatherType.Snow => 0.12f,
+        WeatherType.Blizzard => 0.42f,
+        _ => 0f
+    };
+
+    static float GetFallbackMaximumEmission(WeatherType weather) => weather switch
+    {
+        WeatherType.Drizzle => 750f,
+        WeatherType.Rain => 1450f,
+        WeatherType.HeavyRain => 2200f,
+        WeatherType.WindRainStorm => 2400f,
+        WeatherType.Cyclone => 2600f,
+        WeatherType.Thunderstorm => 2450f,
+        WeatherType.Snow => 320f,
+        WeatherType.Blizzard => 1050f,
+        _ => 0f
+    };
+
+    static int GetFallbackMaxParticles(WeatherType weather) => weather switch
+    {
+        WeatherType.Drizzle => 1100,
+        WeatherType.Rain => 1800,
+        WeatherType.HeavyRain => 2600,
+        WeatherType.WindRainStorm => 2900,
+        WeatherType.Cyclone => 3200,
+        WeatherType.Thunderstorm => 3000,
+        WeatherType.Snow => 1400,
+        WeatherType.Blizzard => 2700,
+        _ => 1000
+    };
+
+    static Texture2D BuildSoftParticleTexture(int resolution)
+    {
+        Texture2D texture = new(resolution, resolution, TextureFormat.RGBA32, false, true)
+        {
+            name = "Runtime Soft Snow Particle",
+            filterMode = FilterMode.Bilinear,
+            wrapMode = TextureWrapMode.Clamp,
+            hideFlags = HideFlags.HideAndDontSave
+        };
+        Color[] pixels = new Color[resolution * resolution];
+        Vector2 center = new((resolution - 1) * 0.5f, (resolution - 1) * 0.5f);
+        float radius = resolution * 0.5f;
+        for (int y = 0; y < resolution; y++)
+        for (int x = 0; x < resolution; x++)
+        {
+            float distance = Vector2.Distance(new Vector2(x, y), center) / radius;
+            float alpha = 1f - Mathf.SmoothStep(0.35f, 1f, distance);
+            pixels[y * resolution + x] = new Color(1f, 1f, 1f, alpha);
+        }
+        texture.SetPixels(pixels);
+        texture.Apply(false, true);
+        return texture;
     }
 
     public static bool AreNpcOutdoorActivitiesAllowed => !WeatherImpactFlow.HasCurrent || WeatherImpactFlow.Current.NpcOutdoorActivitiesAllowed;
@@ -414,6 +914,12 @@ public sealed class WeatherSystem : MonoBehaviour
         };
     }
 
+    public static bool DrainsOutdoorStaminaHourly(WeatherType weather)
+    {
+        return weather is WeatherType.HeavyRain or WeatherType.WindRainStorm or
+            WeatherType.Cyclone or WeatherType.Thunderstorm;
+    }
+
     public static bool BlocksLeavingHome(WeatherType weather) => weather == WeatherType.Cyclone;
     public static bool BlocksTelevision(WeatherType weather) => weather == WeatherType.Thunderstorm;
 
@@ -488,5 +994,20 @@ public sealed class WeatherSystem : MonoBehaviour
         if (FindFirstObjectByType<WeatherSystem>() != null)
             return;
         new GameObject("WeatherSystem_Runtime").AddComponent<WeatherSystem>();
+    }
+}
+
+/// <summary>Melepas material procedural ketika efek cuaca diganti agar tidak menumpuk di memori.</summary>
+sealed class RuntimeWeatherMaterialOwner : MonoBehaviour
+{
+    public Material Material { get; set; }
+    public Texture2D Texture { get; set; }
+
+    void OnDestroy()
+    {
+        if (Material != null)
+            Destroy(Material);
+        if (Texture != null)
+            Destroy(Texture);
     }
 }

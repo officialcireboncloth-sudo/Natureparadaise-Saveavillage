@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,9 +10,13 @@ public sealed class PlayerAnimalCarry : MonoBehaviour
     [SerializeField] Transform carryAnchor;
     [SerializeField] Vector3 carryLocalPosition = new(0f, 2.6f, 0.55f);
     [SerializeField, Min(0.5f)] float dropDistance = 1.35f;
+    [Header("Animation Timing")]
+    [SerializeField, Min(0f)] float pickupImpactDelay = 0.55f;
+    [SerializeField, Min(0f)] float pickupActionDuration = 1.15f;
 
     readonly Dictionary<Collider, bool> colliderStates = new();
     AnimalGrowthSystem carriedAnimal;
+    AnimalGrowthSystem pendingAnimal;
     AnimalRoutine carriedRoutine;
     Transform originalParent;
     Rigidbody carriedBody;
@@ -20,8 +25,9 @@ public sealed class PlayerAnimalCarry : MonoBehaviour
     bool bodyUsedGravity;
     int pickedUpFrame = -1;
     PlayerController movement;
+    bool actionBusy;
 
-    public bool HasAnimal => carriedAnimal != null;
+    public bool HasAnimal => carriedAnimal != null || pendingAnimal != null;
     public AnimalGrowthSystem CarriedAnimal => carriedAnimal;
     public bool IsCarrying(AnimalGrowthSystem animal) => carriedAnimal != null && carriedAnimal == animal;
 
@@ -34,13 +40,19 @@ public sealed class PlayerAnimalCarry : MonoBehaviour
     void OnEnable() => TimeManager.OnBeforeDayChange += DropBeforeDailyReset;
     void OnDisable()
     {
+        StopAllCoroutines();
         TimeManager.OnBeforeDayChange -= DropBeforeDailyReset;
         if (carriedAnimal != null) Drop();
+        pendingAnimal=null;
+        actionBusy=false;
+        movement?.ReleaseMovementLock(this);
+        movement?.SetCarryingAnimalAnimation(false);
+        GetComponent<HeldItemPlacementSystem>()?.SetAnimalCarrySuppressed(false);
     }
 
     void Update()
     {
-        if (carriedAnimal == null || Time.frameCount <= pickedUpFrame || WorldInteractionPrompt.IsSuppressed)
+        if (actionBusy || carriedAnimal == null || Time.frameCount <= pickedUpFrame || WorldInteractionPrompt.IsSuppressed)
             return;
 
         WorldInteractionPrompt.Request(
@@ -55,10 +67,30 @@ public sealed class PlayerAnimalCarry : MonoBehaviour
 
     public bool TryPickup(AnimalGrowthSystem animal)
     {
-        if (animal == null || carriedAnimal != null || !animal.HasBeenBorn ||
+        if (animal == null || HasAnimal || actionBusy || !animal.HasBeenBorn ||
             !AnimalGrowthProfileSO.IsBird(animal.Type)) return false;
         PlayerGatheringTool gathering = GetComponent<PlayerGatheringTool>();
         if (gathering != null && gathering.IsCarrying) return false;
+        pendingAnimal=animal;
+        actionBusy=true;
+        movement?.AcquireMovementLock(this);
+        movement?.SetCarryingAnimalAnimation(true);
+        GetComponent<HeldItemPlacementSystem>()?.SetAnimalCarrySuppressed(true);
+        StartCoroutine(PickupRoutine());
+        return true;
+    }
+
+    IEnumerator PickupRoutine()
+    {
+        if(pickupImpactDelay>0f) yield return new WaitForSeconds(pickupImpactDelay);
+        AnimalGrowthSystem animal=pendingAnimal;
+        pendingAnimal=null;
+        if(animal==null)
+        {
+            FinishPickupAction(false);
+            yield break;
+        }
+
         EnsureAnchor();
         carriedAnimal = animal;
         pickedUpFrame = Time.frameCount;
@@ -89,7 +121,20 @@ public sealed class PlayerAnimalCarry : MonoBehaviour
         animal.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         movement?.SetCarrying(true);
         SaveLoadFeedback.Instance?.ShowMessage($"Mengangkat {animal.AnimalName} — E untuk menurunkan");
-        return true;
+        float remaining=Mathf.Max(0f,pickupActionDuration-pickupImpactDelay);
+        if(remaining>0f) yield return new WaitForSeconds(remaining);
+        FinishPickupAction(true);
+    }
+
+    void FinishPickupAction(bool carrying)
+    {
+        movement?.ReleaseMovementLock(this);
+        actionBusy=false;
+        if(!carrying)
+        {
+            movement?.SetCarryingAnimalAnimation(false);
+            GetComponent<HeldItemPlacementSystem>()?.SetAnimalCarrySuppressed(false);
+        }
     }
 
     public bool Drop()
@@ -122,6 +167,8 @@ public sealed class PlayerAnimalCarry : MonoBehaviour
         carriedBody = null;
         originalParent = null;
         movement?.SetCarrying(false);
+        movement?.SetCarryingAnimalAnimation(false);
+        GetComponent<HeldItemPlacementSystem>()?.SetAnimalCarrySuppressed(false);
         SaveLoadFeedback.Instance?.ShowMessage($"Menurunkan {animal.AnimalName}");
         return true;
     }

@@ -194,6 +194,7 @@ public class HUDManager : MonoBehaviour
                     ? "AUTO WATER TANAMAN"
                     : "TIDAK MENYIRAM";
                 weatherDebugText.text =
+                    $"Musim: {SeasonVisualController.CurrentSeason}\n" +
                     $"Cuaca: {WeatherSystem.GetShortName(weather.CurrentWeather)} ({cropEffect})\n" +
                     $"Besok: {WeatherSystem.GetShortName(weather.TomorrowWeather)}";
             }
@@ -437,6 +438,7 @@ public class HUDManager : MonoBehaviour
             "[M] Pasang Crop Booster pada tanaman — pilih Booster di hotbar\n" +
             "[E] Tidur di kasur → Next Day  |  [L] Debug tidur / Next Day\n" +
             "Shortcut debug: F1 Hoe, F2 Seed, F3 Water, F4 Fertilizer, F8 Booster\n" +
+            "PageUp Buka Debug Season Menu | PageDown Ikuti musim kalender\n" +
             "F10 Save | F11 Load | F12 Ganti cuaca hari ini\n" +
             $"[{debugCluesToggleKey}] Toggle semua Debug Clues";
     }

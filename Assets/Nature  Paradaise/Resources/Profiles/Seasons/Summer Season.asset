@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 328dad8a37b842a4a74a44e959e16220, type: 3}
+  m_Name: Summer Season
+  m_EditorClassIdentifier: 
+  season: 2
+  grassLayerOverride: {fileID: 0}
+  terrainTint: {r: 1, g: 0.88, b: 0.68, a: 1}
+  vegetationTint: {r: 1, g: 0.92, b: 0.7, a: 1}
+  dryness: 0.22
+  snowAmount: 0
+  lightingTint: {r: 1, g: 0.9, b: 0.72, a: 1}
+  sunMultiplier: 1.22
+  ambientMultiplier: 1.06
+  skyExposureMultiplier: 1.14

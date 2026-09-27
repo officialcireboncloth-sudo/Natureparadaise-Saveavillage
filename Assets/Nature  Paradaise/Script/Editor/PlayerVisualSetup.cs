@@ -39,10 +39,17 @@ public static class PlayerVisualSetup
            set.wakeUpFromKnockOut==null || set.hoeing==null || set.choppingTree==null ||
            set.hammeringRock==null || set.planting==null || set.sickle==null ||
            set.weedPulling==null || set.refillWateringCan==null || set.fishingCast==null ||
-           set.fishingIdle==null || set.fishingReel==null)
+           set.fishingIdle==null || set.fishingReel==null || set.holdItem==null ||
+           set.placeItem==null)
             return true;
         if(AssetDatabase.GetAssetPath(set.idle)!=PreferredSourceModelPath) return true;
         if(!AssetDatabase.GetDependencies(PrefabPath).Contains(PreferredSourceModelPath)) return true;
+        AvatarMask holdMask=AssetDatabase.LoadAssetAtPath<AvatarMask>(AnimationFolder+"/Player Hold Upper Body.mask");
+        if(holdMask==null || holdMask.transformCount==0) return true;
+        AnimatorController controller=AssetDatabase.LoadAssetAtPath<AnimatorController>(ControllerPath);
+        if(controller==null || controller.parameters.All(parameter=>parameter.name!="CarryingAnimal") ||
+           controller.layers.All(layer=>layer.stateMachine.states.All(child=>child.state.name!="Carry Animal Two Hands")))
+            return true;
         // Overwrite FBX mempertahankan path dan GUID sehingga dependency saja tidak cukup.
         // Rebuild prefab bila source fisik lebih baru daripada prefab hasil setup.
         return File.GetLastWriteTimeUtc(PreferredSourceModelPath) > File.GetLastWriteTimeUtc(PrefabPath);
@@ -263,6 +270,8 @@ public static class PlayerVisualSetup
         set.fishingCast=Clip("Fishing Cast");
         set.fishingIdle=Clip("Fishing Idle");
         set.fishingReel=Clip("Fishing Reel");
+        set.holdItem=Clip("Hold Item");
+        set.placeItem=Clip("Place Item");
         EditorUtility.SetDirty(set);
         return set.idle!=null && set.walk!=null && set.run!=null && set.jump!=null &&
                set.jumpForward!=null;
@@ -334,6 +343,9 @@ public static class PlayerVisualSetup
         AddParameter(controller,"Hook",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"Catch",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"FishingActive",AnimatorControllerParameterType.Bool);
+        AddParameter(controller,"HoldingItem",AnimatorControllerParameterType.Bool);
+        AddParameter(controller,"CarryingAnimal",AnimatorControllerParameterType.Bool);
+        AddParameter(controller,"PlaceItem",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"UseTool",AnimatorControllerParameterType.Trigger);
 
         AnimatorStateMachine stateMachine=controller.layers[0].stateMachine;
@@ -375,6 +387,8 @@ public static class PlayerVisualSetup
         EnsureActionState(stateMachine,"Refill Watering Can","RefillWateringCan",clips.refillWateringCan,1.5f,true);
         EnsureActionState(stateMachine,"Hand Over One Hand","HandOverOneHand",clips.handOverOneHand,1f,true);
         EnsureActionState(stateMachine,"Hand Over Two Hands","HandOverTwoHands",clips.handOverTwoHands,1f,true);
+        EnsureActionState(stateMachine,"Place Item","PlaceItem",clips.placeItem,1f,true);
+        EnsureHoldItemLayer(controller,clips.holdItem,clips.handOverTwoHands);
         EnsureFishingStates(stateMachine,clips);
         EditorUtility.SetDirty(controller);
         return controller;
@@ -422,6 +436,134 @@ public static class PlayerVisualSetup
         EnsureExitTransition(cast,idle,true,null);
         EnsureExitTransition(reel,idle,true,null);
         EnsureExitTransition(idle,locomotion,false,"FishingActive");
+    }
+
+    static void EnsureHoldItemLayer(AnimatorController controller,AnimationClip clip,AnimationClip animalClip)
+    {
+        const string layerName="Held Item Upper Body";
+        const string maskPath=AnimationFolder+"/Player Hold Upper Body.mask";
+        AvatarMask mask=AssetDatabase.LoadAssetAtPath<AvatarMask>(maskPath);
+        if(mask==null)
+        {
+            mask=new AvatarMask();
+            AssetDatabase.CreateAsset(mask,maskPath);
+        }
+        for(int i=0;i<(int)AvatarMaskBodyPart.LastBodyPart;i++)
+            mask.SetHumanoidBodyPartActive((AvatarMaskBodyPart)i,false);
+        mask.SetHumanoidBodyPartActive(AvatarMaskBodyPart.Body,true);
+        mask.SetHumanoidBodyPartActive(AvatarMaskBodyPart.Head,true);
+        mask.SetHumanoidBodyPartActive(AvatarMaskBodyPart.LeftArm,true);
+        mask.SetHumanoidBodyPartActive(AvatarMaskBodyPart.RightArm,true);
+        mask.SetHumanoidBodyPartActive(AvatarMaskBodyPart.LeftFingers,true);
+        mask.SetHumanoidBodyPartActive(AvatarMaskBodyPart.RightFingers,true);
+        ConfigureGenericUpperBodyMask(mask);
+        EditorUtility.SetDirty(mask);
+
+        AnimatorControllerLayer[] layers=controller.layers;
+        int index=System.Array.FindIndex(layers,layer=>layer.name==layerName);
+        if(index<0)
+        {
+            AnimatorControllerLayer created=new()
+            {
+                name=layerName,
+                defaultWeight=1f,
+                blendingMode=AnimatorLayerBlendingMode.Override,
+                avatarMask=mask,
+                stateMachine=new AnimatorStateMachine {name=layerName}
+            };
+            AssetDatabase.AddObjectToAsset(created.stateMachine,controller);
+            controller.AddLayer(created);
+            layers=controller.layers;
+            index=System.Array.FindIndex(layers,layer=>layer.name==layerName);
+        }
+        AnimatorControllerLayer heldLayer=layers[index];
+        heldLayer.defaultWeight=1f;
+        heldLayer.avatarMask=mask;
+        AnimatorStateMachine machine=heldLayer.stateMachine;
+        AnimatorState empty=FindState(machine,"Empty")??machine.AddState("Empty");
+        AnimatorState hold=FindState(machine,"Hold Item")??machine.AddState("Hold Item");
+        AnimatorState animalHold=FindState(machine,"Carry Animal Two Hands")??machine.AddState("Carry Animal Two Hands");
+        machine.defaultState=empty;
+        hold.motion=clip;
+        hold.speed=1f;
+        animalHold.motion=animalClip;
+        animalHold.speed=1f;
+        if(!empty.transitions.Any(t=>t.destinationState==hold))
+        {
+            AnimatorStateTransition enter=empty.AddTransition(hold);
+            enter.hasExitTime=false;
+            enter.duration=0.12f;
+            enter.AddCondition(AnimatorConditionMode.If,0f,"HoldingItem");
+        }
+        if(!hold.transitions.Any(t=>t.destinationState==empty))
+        {
+            AnimatorStateTransition exit=hold.AddTransition(empty);
+            exit.hasExitTime=false;
+            exit.duration=0.08f;
+            exit.AddCondition(AnimatorConditionMode.IfNot,0f,"HoldingItem");
+        }
+        if(!hold.transitions.Any(t=>t.destinationState==animalHold))
+        {
+            AnimatorStateTransition holdToAnimal=hold.AddTransition(animalHold);
+            holdToAnimal.hasExitTime=false;
+            holdToAnimal.duration=0.08f;
+            holdToAnimal.AddCondition(AnimatorConditionMode.If,0f,"CarryingAnimal");
+        }
+        if(!empty.transitions.Any(t=>t.destinationState==animalHold))
+        {
+            AnimatorStateTransition enterAnimal=empty.AddTransition(animalHold);
+            enterAnimal.hasExitTime=false;
+            enterAnimal.duration=0.08f;
+            enterAnimal.AddCondition(AnimatorConditionMode.If,0f,"CarryingAnimal");
+        }
+        if(!animalHold.transitions.Any(t=>t.destinationState==empty))
+        {
+            AnimatorStateTransition exitAnimal=animalHold.AddTransition(empty);
+            exitAnimal.hasExitTime=false;
+            exitAnimal.duration=0.1f;
+            exitAnimal.AddCondition(AnimatorConditionMode.IfNot,0f,"CarryingAnimal");
+        }
+        layers[index]=heldLayer;
+        controller.layers=layers;
+        EditorUtility.SetDirty(machine);
+    }
+
+    static void ConfigureGenericUpperBodyMask(AvatarMask mask)
+    {
+        GameObject source=AssetDatabase.LoadAssetAtPath<GameObject>(PreferredSourceModelPath);
+        if(source==null) return;
+
+        // Player.fbx memakai Generic rig agar semua multi-take Blender tetap terbaca.
+        // Karena itu mask humanoid di atas dilengkapi daftar transform eksplisit.
+        mask.transformCount=0;
+        mask.AddTransformPath(source.transform,true);
+        for(int i=0;i<mask.transformCount;i++)
+        {
+            string path=mask.GetTransformPath(i);
+            int separator=path.LastIndexOf('/');
+            string bone=separator>=0?path.Substring(separator+1):path;
+            bool upper=bone.StartsWith("mixamorig:Spine",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("mixamorig:Neck",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("mixamorig:Head",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("mixamorig:LeftShoulder",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("mixamorig:RightShoulder",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("mixamorig:LeftArm",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("mixamorig:RightArm",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("mixamorig:LeftForeArm",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("mixamorig:RightForeArm",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("mixamorig:LeftHand",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("mixamorig:RightHand",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("Ctrl_Spine",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("Ctrl_Neck",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("Ctrl_Head",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("Ctrl_Shoulder",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("Ctrl_Arm",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("Ctrl_ForeArm",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("Ctrl_Hand",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("Arm_IK",System.StringComparison.Ordinal) ||
+                       bone.StartsWith("ForeArm_IK",System.StringComparison.Ordinal);
+            mask.SetTransformActive(i,upper);
+        }
     }
 
     static void EnsureAnyTrigger(AnimatorStateMachine machine,AnimatorState state,string trigger)
@@ -532,7 +674,7 @@ public static class PlayerVisualSetup
                 EmbeddedClip("Running","Armature|Running",19f),
                 EmbeddedClip("WakeUpFromKnockOut","Armature|WakeUpFromKnockOut",342f),
                 EmbeddedClip("Walking","Armature|Walking",30f),
-                EmbeddedClip("WateringPlant","Armature|WateringPlant",168f),
+                EmbeddedClip("WateringPlant","Armature|WateringPlant",84f),
                 EmbeddedClip("Hoeing","Armature|Hoeing",38f),
                 EmbeddedClip("Chopping Tree","Armature|Chopping Tree",30f),
                 EmbeddedClip("Hammering Rock","Armature|Hammering Rock",30f),
@@ -544,7 +686,9 @@ public static class PlayerVisualSetup
                 EmbeddedClip("Hand Over Two Hands","Armature|Hand Over Two Hands",36f),
                 EmbeddedClip("Fishing Cast","Armature|Fishing Cast",48f),
                 EmbeddedClip("Fishing Idle","Armature|Fishing Idle",90f),
-                EmbeddedClip("Fishing Reel","Armature|Fishing Reel",75f)
+                EmbeddedClip("Fishing Reel","Armature|Fishing Reel",75f),
+                EmbeddedClip("Hold Item","Armature|Hold Item",60f),
+                EmbeddedClip("Place Item","Armature|Place Item",36f)
             };
         }
         ModelImporterClipAnimation[] configured=sourceClips.Select(source=>
@@ -556,7 +700,7 @@ public static class PlayerVisualSetup
             cleanName=cleanName.Trim();
             clip.name=cleanName;
             bool loop=cleanName=="Idle" || cleanName=="Walking" || cleanName=="Running" ||
-                      cleanName=="Fishing Idle";
+                      cleanName=="Fishing Idle" || cleanName=="Hold Item";
             clip.loopTime=loop;
             clip.loopPose=loop;
             clip.keepOriginalOrientation=true;

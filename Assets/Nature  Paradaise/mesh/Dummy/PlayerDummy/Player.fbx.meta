@@ -264,6 +264,35 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
+      name: Hold Item
+      takeName: Armature|Hold Item
+      internalID: 8160576705264061315
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
       name: Idle
       takeName: Armature|Idle
       internalID: -8945691123924629249
@@ -414,6 +443,35 @@ ModelImporter:
       internalID: 5790145288713581471
       firstFrame: 0
       lastFrame: 287
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Place Item
+      takeName: Armature|Place Item
+      internalID: 332520899442020311
+      firstFrame: 0
+      lastFrame: 36
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -645,7 +703,7 @@ ModelImporter:
       takeName: Armature|WateringPlant
       internalID: 6232702652334640418
       firstFrame: 0
-      lastFrame: 168
+      lastFrame: 84
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
