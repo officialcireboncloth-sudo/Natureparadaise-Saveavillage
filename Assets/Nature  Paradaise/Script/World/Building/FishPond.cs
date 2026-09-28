@@ -326,8 +326,8 @@ public sealed class FishPond : MonoBehaviour
                 makerDistance, 1.3f);
             if (PlayerInteractionTarget.PressPickup(inventory.transform, feedMaker.transform, KeyCode.F, feedInteractionRadius))
             {
-                bool collected = feedMaker.CollectFishFeed(inventory);
-                SaveLoadFeedback.Instance?.ShowMessage(collected ? "Fish Feed x1 masuk Inventory." : "Fish Feed belum ready / Inventory penuh.");
+                if(!feedMaker.CollectAnimated(inventory,true,feedMaker.transform))
+                    SaveLoadFeedback.Instance?.ShowMessage("Fish Feed belum ready / Inventory penuh.");
             }
             else if (PlayerInteractionTarget.PressPickup(inventory.transform, feedMaker.transform, interactKey, feedInteractionRadius))
                 feedMaker.OpenFor(inventory);

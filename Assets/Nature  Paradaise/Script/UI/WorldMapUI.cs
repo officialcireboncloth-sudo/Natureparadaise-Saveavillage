@@ -17,7 +17,7 @@ public sealed class WorldMapUI : MonoBehaviour
     const float MapWidth = 1500f;
     const float MapHeight = 800f;
 
-    [SerializeField] KeyCode toggleKey = KeyCode.P;
+    [SerializeField] KeyCode toggleKey = KeyCode.M;
     [SerializeField] bool showMobileMapButton = true;
 
     readonly List<MarkerView> markerViews = new();
@@ -67,6 +67,8 @@ public sealed class WorldMapUI : MonoBehaviour
     void Awake()
     {
         if (instance != null && instance != this) { Destroy(gameObject); return; }
+        // Migrasi instance/prefab lama: P sekarang khusus Place Item, peta memakai M.
+        if(toggleKey==KeyCode.P) toggleKey=KeyCode.M;
         instance = this;
         DontDestroyOnLoad(gameObject);
         BuildUI();
@@ -546,7 +548,7 @@ public sealed class WorldMapUI : MonoBehaviour
         Stretch(safeRoot.GetComponent<RectTransform>());
         safeRoot.AddComponent<SafeAreaFitter>();
 
-        Button open = CreateButton("OpenMapButton", safeRoot.transform, "MAP [P]", new Vector2(-90f, -155f), new Vector2(142f, 54f));
+        Button open = CreateButton("OpenMapButton", safeRoot.transform, $"MAP [{toggleKey}]", new Vector2(-90f, -155f), new Vector2(142f, 54f));
         RectTransform openRect = open.GetComponent<RectTransform>();
         openRect.anchorMin = openRect.anchorMax = new Vector2(1f, 1f);
         openRect.pivot = new Vector2(1f, 1f);

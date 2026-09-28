@@ -57,6 +57,7 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField] string jumpTrigger = "Jump";
     [SerializeField] string jumpForwardTrigger = "JumpForward";
     [SerializeField] string pickupTrigger = "PickUp";
+    [SerializeField] string pickupWaistTrigger = "PickUpWaist";
     [SerializeField] string knockOutTrigger = "KnockOut";
     [SerializeField] string wakeUpTrigger = "WakeUp";
     [SerializeField] string milkingTrigger = "Milking";
@@ -70,6 +71,16 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField] string holdingItemParameter = "HoldingItem";
     [SerializeField] string carryingAnimalParameter = "CarryingAnimal";
     [SerializeField] string placeItemTrigger = "PlaceItem";
+    [SerializeField] string brushAnimalTrigger = "BrushAnimal";
+    [SerializeField] string mountHorseTrigger = "MountHorse";
+    [SerializeField] string dismountHorseTrigger = "DismountHorse";
+    [SerializeField] string ridingParameter = "Riding";
+    [SerializeField] string pickUpChickenTrigger = "PickUpChicken";
+    [SerializeField] string placeChickenTrigger = "PlaceChicken";
+    [SerializeField] string wakeUpBedTrigger = "WakeUpBed";
+    [SerializeField] string yawnTrigger = "Yawn";
+    [SerializeField] string shearSheepTrigger = "ShearSheep";
+    [SerializeField] string tiredParameter = "Tired";
 
     CharacterController characterController;
     readonly HashSet<object> movementLocks = new();
@@ -92,6 +103,7 @@ public sealed class PlayerController : MonoBehaviour
     bool hasJumpTrigger;
     bool hasJumpForwardTrigger;
     bool hasPickupTrigger;
+    bool hasPickupWaistTrigger;
     bool hasKnockOutTrigger;
     bool hasWakeUpTrigger;
     bool hasMilkingTrigger;
@@ -105,6 +117,16 @@ public sealed class PlayerController : MonoBehaviour
     bool hasHoldingItemParameter;
     bool hasCarryingAnimalParameter;
     bool hasPlaceItemTrigger;
+    bool hasBrushAnimalTrigger;
+    bool hasMountHorseTrigger;
+    bool hasDismountHorseTrigger;
+    bool hasRidingParameter;
+    bool hasPickUpChickenTrigger;
+    bool hasPlaceChickenTrigger;
+    bool hasWakeUpBedTrigger;
+    bool hasYawnTrigger;
+    bool hasShearSheepTrigger;
+    bool hasTiredParameter;
 
     public MovementMode CurrentMode { get; private set; }
     public Vector3 PlanarVelocity => planarVelocity;
@@ -358,6 +380,8 @@ public sealed class PlayerController : MonoBehaviour
         if (hasGroundedParameter) animator.SetBool(groundedParameter, grounded);
         if (hasSprintParameter) animator.SetBool(sprintParameter, mode == MovementMode.Sprint);
         if (hasCarryParameter) animator.SetBool(carryParameter, isCarrying);
+        if (hasTiredParameter)
+            animator.SetBool(tiredParameter,status != null && status.IsExhausted && grounded && CurrentSpeed<0.05f && !IsMovementLocked);
     }
 
     void CacheAnimatorParameters()
@@ -373,6 +397,7 @@ public sealed class PlayerController : MonoBehaviour
             if (name == jumpTrigger) hasJumpTrigger = true;
             if (name == jumpForwardTrigger) hasJumpForwardTrigger = true;
             if (name == pickupTrigger) hasPickupTrigger = true;
+            if (name == pickupWaistTrigger) hasPickupWaistTrigger = true;
             if (name == knockOutTrigger) hasKnockOutTrigger = true;
             if (name == wakeUpTrigger) hasWakeUpTrigger = true;
             if (name == milkingTrigger) hasMilkingTrigger = true;
@@ -386,6 +411,16 @@ public sealed class PlayerController : MonoBehaviour
             if (name == holdingItemParameter) hasHoldingItemParameter = true;
             if (name == carryingAnimalParameter) hasCarryingAnimalParameter = true;
             if (name == placeItemTrigger) hasPlaceItemTrigger = true;
+            if (name == brushAnimalTrigger) hasBrushAnimalTrigger = true;
+            if (name == mountHorseTrigger) hasMountHorseTrigger = true;
+            if (name == dismountHorseTrigger) hasDismountHorseTrigger = true;
+            if (name == ridingParameter) hasRidingParameter = true;
+            if (name == pickUpChickenTrigger) hasPickUpChickenTrigger = true;
+            if (name == placeChickenTrigger) hasPlaceChickenTrigger = true;
+            if (name == wakeUpBedTrigger) hasWakeUpBedTrigger = true;
+            if (name == yawnTrigger) hasYawnTrigger = true;
+            if (name == shearSheepTrigger) hasShearSheepTrigger = true;
+            if (name == tiredParameter) hasTiredParameter = true;
         }
     }
 
@@ -396,6 +431,7 @@ public sealed class PlayerController : MonoBehaviour
     }
 
     public void PlayPickupAnimation() => PlayTrigger(pickupTrigger, hasPickupTrigger);
+    public void PlayPickUpWaistAnimation() => PlayTrigger(pickupWaistTrigger, hasPickupWaistTrigger);
     public void PlayKnockOutAnimation() => PlayTrigger(knockOutTrigger, hasKnockOutTrigger);
     public void PlayWakeUpAnimation() => PlayTrigger(wakeUpTrigger, hasWakeUpTrigger);
     public void PlayMilkingAnimation() => PlayTrigger(milkingTrigger, hasMilkingTrigger);
@@ -418,6 +454,19 @@ public sealed class PlayerController : MonoBehaviour
             animator.SetBool(carryingAnimalParameter,carrying);
     }
     public void PlayPlaceItemAnimation() => PlayTrigger(placeItemTrigger, hasPlaceItemTrigger);
+    public void PlayBrushAnimalAnimation() => PlayTrigger(brushAnimalTrigger, hasBrushAnimalTrigger);
+    public void PlayMountHorseAnimation() => PlayTrigger(mountHorseTrigger, hasMountHorseTrigger);
+    public void PlayDismountHorseAnimation() => PlayTrigger(dismountHorseTrigger, hasDismountHorseTrigger);
+    public void PlayPickUpChickenAnimation() => PlayTrigger(pickUpChickenTrigger, hasPickUpChickenTrigger);
+    public void PlayPlaceChickenAnimation() => PlayTrigger(placeChickenTrigger, hasPlaceChickenTrigger);
+    public void PlayWakeUpBedAnimation() => PlayTrigger(wakeUpBedTrigger, hasWakeUpBedTrigger);
+    public void PlayYawnAnimation() => PlayTrigger(yawnTrigger, hasYawnTrigger);
+    public void PlayShearSheepAnimation() => PlayTrigger(shearSheepTrigger, hasShearSheepTrigger);
+    public void SetRidingAnimation(bool riding)
+    {
+        if (hasRidingParameter && animator != null)
+            animator.SetBool(ridingParameter, riding);
+    }
 
     // Token lock mencegah satu sistem membuka movement yang masih dikunci sistem lain.
     /// <summary>Menahan movement untuk satu owner; aman dipakai beberapa sistem sekaligus.</summary>
@@ -425,6 +474,21 @@ public sealed class PlayerController : MonoBehaviour
     /// <summary>Melepas movement lock milik caller tanpa memengaruhi owner lain.</summary>
     public void ReleaseMovementLock(object owner) { if (owner != null) movementLocks.Remove(owner); }
     public void SetMovementLocked(bool locked) => manualLock = locked;
+    /// <summary>
+    /// Menghadap langsung ke target interaksi pada bidang horizontal. Dipakai sebelum
+    /// animasi tool agar input gerak terakhir tidak membuat badan mengayun menyamping.
+    /// </summary>
+    public void FaceTowardsInteraction(Vector3 worldPosition)
+    {
+        Vector3 direction = worldPosition - transform.position;
+        direction.y = 0f;
+        if (direction.sqrMagnitude < 0.0025f)
+            return;
+
+        FacingDirection = direction.normalized;
+        transform.rotation = Quaternion.LookRotation(FacingDirection, Vector3.up);
+        planarVelocity = Vector3.zero;
+    }
     /// <summary>Mengaktifkan movement modifier saat player membawa benda.</summary>
     public void SetCarrying(bool carrying) => isCarrying = carrying;
     /// <summary>Menerima input analog dari joystick mobile.</summary>

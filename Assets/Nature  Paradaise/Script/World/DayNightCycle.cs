@@ -15,7 +15,8 @@ public sealed class DayNightCycle : MonoBehaviour
     [Header("Sun")]
     [SerializeField, Range(0f, 360f)] float sunYaw = 170f;
     [SerializeField, Min(0f)] float dayIntensity = 1.5f;
-    [SerializeField, Min(0f)] float nightIntensity = 0.02f;
+    [Tooltip("Intensitas cahaya bulan. Cukup untuk membaca medan, tetapi tetap jauh lebih redup dari siang.")]
+    [SerializeField, Min(0f)] float nightIntensity = 0.16f;
     [SerializeField] Color sunriseColor = new(1f, 0.48f, 0.25f, 1f);
     [SerializeField] Color noonColor = new(1f, 0.96f, 0.84f, 1f);
     [SerializeField] Color moonColor = new(0.30f, 0.38f, 0.62f, 1f);
@@ -23,9 +24,10 @@ public sealed class DayNightCycle : MonoBehaviour
     [Header("Environment")]
     [SerializeField] Color dayAmbient = new(0.68f, 0.75f, 0.83f, 1f);
     [SerializeField] Color sunsetAmbient = new(0.42f, 0.25f, 0.22f, 1f);
-    [SerializeField] Color nightAmbient = new(0.035f, 0.055f, 0.11f, 1f);
+    [SerializeField] Color nightAmbient = new(0.09f, 0.12f, 0.2f, 1f);
     [SerializeField, Range(0f, 2f)] float dayReflectionIntensity = 1f;
-    [SerializeField, Range(0f, 2f)] float nightReflectionIntensity = 0.2f;
+    [SerializeField, Range(0f, 2f)] float nightReflectionIntensity = 0.32f;
+    [SerializeField, Range(0.05f, 1f)] float nightSkyExposure = 0.3f;
 
     float weatherSunMultiplier = 1f;
     float weatherAmbientMultiplier = 1f;
@@ -148,7 +150,11 @@ public sealed class DayNightCycle : MonoBehaviour
         float daylight = Mathf.Clamp01(dawnBlend * duskBlend);
         float noonWeight = Mathf.Clamp01(sunHeight);
 
-        transform.rotation = Quaternion.Euler(solarAngle, sunYaw, 0f);
+        // Pada malam hari sumber directional beralih ke sisi bulan. Tanpa rotasi lawan ini,
+        // light mengarah dari bawah terrain sehingga menaikkan intensity tidak memberi cahaya nyata.
+        Quaternion sunRotation = Quaternion.Euler(solarAngle, sunYaw, 0f);
+        Quaternion moonRotation = Quaternion.Euler(solarAngle + 180f, sunYaw, 0f);
+        transform.rotation = Quaternion.Slerp(moonRotation, sunRotation, daylight);
         EnsureTerrainCloudShadow();
         WeatherSystem weather = WeatherSystem.Instance;
         bool cloudEnabled = weather == null || weather.TerrainCloudShadowEnabled;
@@ -158,14 +164,20 @@ public sealed class DayNightCycle : MonoBehaviour
                 weather != null ? weather.TerrainCloudShadowOpacity : 0.34f,
                 weather != null ? weather.TerrainCloudNoiseWorldScale : 80f,
                 weather != null ? weather.TerrainCloudDriftSpeed : new Vector2(0.012f, 0.007f));
-            terrainCloudShadow.SetWeight(cloudEnabled ? cloudShadowWeight : 0f);
+            // Overlay awan tetap terasa saat malam, tetapi tidak boleh menumpuk menjadi lapisan hitam.
+            float nighttimeCloudVisibility = Mathf.Lerp(0.42f, 1f, daylight);
+            terrainCloudShadow.SetWeight(cloudEnabled ? cloudShadowWeight * nighttimeCloudVisibility : 0f);
         }
         float passingCloud = Mathf.PerlinNoise(Time.unscaledTime * 0.04f, 17.35f);
         float cloudSunMultiplier = Mathf.Lerp(1f, Mathf.Lerp(0.72f, 0.9f, passingCloud), cloudShadowWeight);
         float lightningFlash = WeatherSystem.Instance != null
             ? WeatherSystem.Instance.CurrentLightningFlash
             : 0f;
-        sun.intensity = Mathf.Lerp(nightIntensity, dayIntensity, daylight) * weatherSunMultiplier *
+        float daylightIntensity = dayIntensity * weatherSunMultiplier;
+        // Awan mengurangi cahaya bulan, tetapi minimum ini menjaga siluet medan dan karakter terbaca.
+        float moonWeatherMultiplier = Mathf.Lerp(0.62f, 1f, Mathf.Clamp01(weatherSunMultiplier));
+        float moonlightIntensity = nightIntensity * moonWeatherMultiplier;
+        sun.intensity = Mathf.Lerp(moonlightIntensity, daylightIntensity, daylight) *
                         SeasonVisualController.SunMultiplier * cloudSunMultiplier + lightningFlash;
 
         Color horizonToNoon = Color.Lerp(sunriseColor, noonColor, noonWeight);
@@ -179,6 +191,10 @@ public sealed class DayNightCycle : MonoBehaviour
         float cloudAmbientMultiplier = Mathf.Lerp(1f, 0.92f, cloudShadowWeight);
         Color ambient = Color.Lerp(nightAmbient, daylightAmbient, daylight) * weatherTint * weatherAmbientMultiplier *
                         SeasonVisualController.LightingTint * SeasonVisualController.AmbientMultiplier * cloudAmbientMultiplier;
+        // Cuaca ekstrem masih meredupkan malam, tetapi tidak boleh menghapus seluruh informasi visual.
+        float nightVisibility = Mathf.Lerp(0.68f, 1f, Mathf.Clamp01(weatherAmbientMultiplier));
+        Color nightVisibilityFloor = nightAmbient * nightVisibility * SeasonVisualController.LightingTint;
+        ambient = MaxColor(ambient, nightVisibilityFloor * (1f - daylight));
         ambient = Color.Lerp(ambient, new Color(0.72f, 0.82f, 1f), lightningFlash * 0.7f);
 
         RenderSettings.ambientMode = AmbientMode.Trilight;
@@ -197,10 +213,21 @@ public sealed class DayNightCycle : MonoBehaviour
 
         Material skybox = RenderSettings.skybox;
         if (skybox != null && skybox.HasProperty("_Exposure"))
-            skybox.SetFloat("_Exposure", Mathf.Lerp(0.18f, 1f, daylight) * weatherExposureMultiplier *
+        {
+            float weatherNightExposure = nightSkyExposure *
+                Mathf.Lerp(0.68f, 1f, Mathf.Clamp01(weatherExposureMultiplier));
+            float weatherDayExposure = weatherExposureMultiplier;
+            skybox.SetFloat("_Exposure", Mathf.Lerp(weatherNightExposure, weatherDayExposure, daylight) *
                                            SeasonVisualController.SkyExposureMultiplier *
                                            Mathf.Lerp(1f, 0.88f, cloudShadowWeight));
+        }
     }
+
+    static Color MaxColor(Color value, Color minimum) => new(
+        Mathf.Max(value.r, minimum.r),
+        Mathf.Max(value.g, minimum.g),
+        Mathf.Max(value.b, minimum.b),
+        Mathf.Max(value.a, minimum.a));
 
     static void GetDaylightWindow(CropSeason season, out float sunrise, out float sunset)
     {

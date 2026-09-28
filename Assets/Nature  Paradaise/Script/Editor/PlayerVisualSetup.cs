@@ -35,12 +35,15 @@ public static class PlayerVisualSetup
         if(AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath)==null) return true;
         PlayerAnimationSetSO set=AssetDatabase.LoadAssetAtPath<PlayerAnimationSetSO>(AnimationSetPath);
         if(set==null || set.idle==null || set.walk==null || set.run==null || set.jump==null ||
-           set.jumpForward==null || set.pickUpFromFloor==null || set.knockOut==null ||
+           set.jumpForward==null || set.pickUpFromFloor==null || set.pickUpWaist==null || set.knockOut==null ||
            set.wakeUpFromKnockOut==null || set.hoeing==null || set.choppingTree==null ||
            set.hammeringRock==null || set.planting==null || set.sickle==null ||
            set.weedPulling==null || set.refillWateringCan==null || set.fishingCast==null ||
            set.fishingIdle==null || set.fishingReel==null || set.holdItem==null ||
-           set.placeItem==null)
+           set.placeItem==null || set.brushAnimal==null || set.mountHorse==null ||
+           set.dismountHorse==null || set.ridingIdle==null || set.pickUpChicken==null ||
+           set.holdTwoHands==null || set.placeChicken==null || set.scoopManure==null ||
+           set.shearSheep==null || set.tiredPose==null || set.wakeUpBed==null || set.yawn==null)
             return true;
         if(AssetDatabase.GetAssetPath(set.idle)!=PreferredSourceModelPath) return true;
         if(!AssetDatabase.GetDependencies(PrefabPath).Contains(PreferredSourceModelPath)) return true;
@@ -48,6 +51,8 @@ public static class PlayerVisualSetup
         if(holdMask==null || holdMask.transformCount==0) return true;
         AnimatorController controller=AssetDatabase.LoadAssetAtPath<AnimatorController>(ControllerPath);
         if(controller==null || controller.parameters.All(parameter=>parameter.name!="CarryingAnimal") ||
+           controller.parameters.All(parameter=>parameter.name!="Riding") ||
+           controller.parameters.All(parameter=>parameter.name!="HorseMountMirror") ||
            controller.layers.All(layer=>layer.stateMachine.states.All(child=>child.state.name!="Carry Animal Two Hands")))
             return true;
         // Overwrite FBX mempertahankan path dan GUID sehingga dependency saja tidak cukup.
@@ -243,21 +248,22 @@ public static class PlayerVisualSetup
             .Where(clip=>!clip.name.StartsWith("__preview__"))
             .ToArray();
         if(clips.Length==0) return false;
-        AnimationClip Clip(string name)=>clips.FirstOrDefault(clip=>
-            clip.name.Equals(name,System.StringComparison.OrdinalIgnoreCase));
+        AnimationClip Clip(params string[] names)=>clips.FirstOrDefault(clip=>names.Any(name=>
+            clip.name.Equals(name,System.StringComparison.OrdinalIgnoreCase)));
 
         set.idle=Clip("Idle");
         set.walk=Clip("Walking");
         set.run=Clip("Running");
         set.sprint=set.run;
         set.jump=Clip("Jumping");
-        set.jumpForward=Clip("JumpingForward");
-        set.pickUpFromFloor=Clip("PickUpFromFloor");
-        set.knockOut=Clip("KnockOut");
-        set.wakeUpFromKnockOut=Clip("WakeUpFromKnockOut");
-        set.milkingAnimal=Clip("MilkingAnimal");
-        set.pushingObject=Clip("PushingObject");
-        set.wateringPlant=Clip("WateringPlant");
+        set.jumpForward=Clip("Jumping Forward","JumpingForward");
+        set.pickUpFromFloor=Clip("Pick Up From Floor","PickUpFromFloor");
+        set.pickUpWaist=Clip("Pick Up Waist","PickUpWaist");
+        set.knockOut=Clip("Knock Out","KnockOut");
+        set.wakeUpFromKnockOut=Clip("Wake Up From Knock Out","WakeUpFromKnockOut");
+        set.milkingAnimal=Clip("Milking Animal","MilkingAnimal");
+        set.pushingObject=Clip("Pushing Object","PushingObject");
+        set.wateringPlant=Clip("Watering Plant","WateringPlant");
         set.hoeing=Clip("Hoeing");
         set.choppingTree=Clip("Chopping Tree");
         set.hammeringRock=Clip("Hammering Rock");
@@ -272,6 +278,18 @@ public static class PlayerVisualSetup
         set.fishingReel=Clip("Fishing Reel");
         set.holdItem=Clip("Hold Item");
         set.placeItem=Clip("Place Item");
+        set.brushAnimal=Clip("Brush Animal");
+        set.mountHorse=Clip("Mount Horse");
+        set.dismountHorse=Clip("Dismount Horse");
+        set.ridingIdle=Clip("Riding Idle");
+        set.pickUpChicken=Clip("Pick Up Chicken");
+        set.holdTwoHands=Clip("Hold Two Hands");
+        set.placeChicken=Clip("Place Chicken");
+        set.scoopManure=Clip("Scoop Manure");
+        set.shearSheep=Clip("Shear Sheep");
+        set.tiredPose=Clip("Tired Pose");
+        set.wakeUpBed=Clip("Wake Up Bed");
+        set.yawn=Clip("Yawn");
         EditorUtility.SetDirty(set);
         return set.idle!=null && set.walk!=null && set.run!=null && set.jump!=null &&
                set.jumpForward!=null;
@@ -325,6 +343,7 @@ public static class PlayerVisualSetup
         AddParameter(controller,"Jump",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"JumpForward",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"PickUp",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"PickUpWaist",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"KnockOut",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"WakeUp",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"Milking",AnimatorControllerParameterType.Trigger);
@@ -346,6 +365,17 @@ public static class PlayerVisualSetup
         AddParameter(controller,"HoldingItem",AnimatorControllerParameterType.Bool);
         AddParameter(controller,"CarryingAnimal",AnimatorControllerParameterType.Bool);
         AddParameter(controller,"PlaceItem",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"BrushAnimal",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"MountHorse",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"DismountHorse",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Riding",AnimatorControllerParameterType.Bool);
+        AddParameter(controller,"HorseMountMirror",AnimatorControllerParameterType.Bool);
+        AddParameter(controller,"PickUpChicken",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"PlaceChicken",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"WakeUpBed",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Yawn",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"ShearSheep",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"Tired",AnimatorControllerParameterType.Bool);
         AddParameter(controller,"UseTool",AnimatorControllerParameterType.Trigger);
 
         AnimatorStateMachine stateMachine=controller.layers[0].stateMachine;
@@ -373,6 +403,8 @@ public static class PlayerVisualSetup
         // dekat dengan arc fisik 0,61 detik ditambah waktu blend keluar.
         EnsureActionState(stateMachine,"Jump Forward","JumpForward",clips.jumpForward,1.25f,true);
         EnsureActionState(stateMachine,"Pick Up From Floor","PickUp",clips.pickUpFromFloor,6.5f,true);
+        // 30 frame pada 1.25x menghasilkan action sekitar 0,8 detik.
+        EnsureActionState(stateMachine,"Pick Up Waist","PickUpWaist",clips.pickUpWaist,1.25f,true);
         EnsureActionState(stateMachine,"Knock Out","KnockOut",clips.knockOut,1f,false);
         EnsureActionState(stateMachine,"Wake Up","WakeUp",clips.wakeUpFromKnockOut,4f,true);
         EnsureActionState(stateMachine,"Milking Animal","Milking",clips.milkingAnimal,2f,true);
@@ -388,10 +420,82 @@ public static class PlayerVisualSetup
         EnsureActionState(stateMachine,"Hand Over One Hand","HandOverOneHand",clips.handOverOneHand,1f,true);
         EnsureActionState(stateMachine,"Hand Over Two Hands","HandOverTwoHands",clips.handOverTwoHands,1f,true);
         EnsureActionState(stateMachine,"Place Item","PlaceItem",clips.placeItem,1f,true);
-        EnsureHoldItemLayer(controller,clips.holdItem,clips.handOverTwoHands);
+        EnsureActionState(stateMachine,"Brush Animal","BrushAnimal",clips.brushAnimal,1.5f,true);
+        AnimatorState mountHorse=EnsureActionState(stateMachine,"Mount Horse","MountHorse",clips.mountHorse,2f,true);
+        AnimatorState dismountHorse=EnsureActionState(stateMachine,"Dismount Horse","DismountHorse",clips.dismountHorse,2f,true);
+        ConfigureHorseSideMirror(mountHorse);
+        ConfigureHorseSideMirror(dismountHorse);
+        EnsureActionState(stateMachine,"Pick Up Chicken","PickUpChicken",clips.pickUpChicken,1.25f,true);
+        EnsureActionState(stateMachine,"Place Chicken","PlaceChicken",clips.placeChicken,1.25f,true);
+        EnsureActionState(stateMachine,"Wake Up Bed","WakeUpBed",clips.wakeUpBed,2f,true);
+        EnsureActionState(stateMachine,"Yawn","Yawn",clips.yawn,1.5f,true);
+        EnsureActionState(stateMachine,"Shear Sheep","ShearSheep",clips.shearSheep,1.5f,true);
+        EnsureRidingState(stateMachine,clips.ridingIdle);
+        EnsureTiredState(stateMachine,clips.tiredPose);
+        EnsureHoldItemLayer(controller,clips.holdItem,clips.holdTwoHands);
         EnsureFishingStates(stateMachine,clips);
         EditorUtility.SetDirty(controller);
         return controller;
+    }
+
+    static void ConfigureHorseSideMirror(AnimatorState state)
+    {
+        if(state==null) return;
+        state.mirrorParameterActive=true;
+        state.mirrorParameter="HorseMountMirror";
+        EditorUtility.SetDirty(state);
+    }
+
+    static void EnsureRidingState(AnimatorStateMachine machine,AnimationClip clip)
+    {
+        AnimatorState riding=FindState(machine,"Riding Idle")??machine.AddState("Riding Idle");
+        riding.motion=clip;
+        riding.speed=1f;
+        AnimatorStateTransition enter=machine.anyStateTransitions.FirstOrDefault(transition=>
+            transition.destinationState==riding && transition.conditions.Any(condition=>condition.parameter=="Riding"));
+        if(enter==null)
+        {
+            enter=machine.AddAnyStateTransition(riding);
+            enter.hasExitTime=false;
+            enter.duration=0.08f;
+            enter.AddCondition(AnimatorConditionMode.If,0f,"Riding");
+        }
+        enter.canTransitionToSelf=false;
+        AnimatorState locomotion=FindState(machine,"Locomotion");
+        if(locomotion!=null && !riding.transitions.Any(transition=>transition.destinationState==locomotion &&
+           transition.conditions.Any(condition=>condition.parameter=="Riding")))
+        {
+            AnimatorStateTransition exit=riding.AddTransition(locomotion);
+            exit.hasExitTime=false;
+            exit.duration=0.08f;
+            exit.AddCondition(AnimatorConditionMode.IfNot,0f,"Riding");
+        }
+    }
+
+    static void EnsureTiredState(AnimatorStateMachine machine,AnimationClip clip)
+    {
+        AnimatorState tired=FindState(machine,"Tired Pose")??machine.AddState("Tired Pose");
+        tired.motion=clip;
+        tired.speed=1f;
+        AnimatorStateTransition enter=machine.anyStateTransitions.FirstOrDefault(transition=>
+            transition.destinationState==tired && transition.conditions.Any(condition=>condition.parameter=="Tired"));
+        if(enter==null)
+        {
+            enter=machine.AddAnyStateTransition(tired);
+            enter.hasExitTime=false;
+            enter.duration=0.12f;
+            enter.AddCondition(AnimatorConditionMode.If,0f,"Tired");
+        }
+        enter.canTransitionToSelf=false;
+        AnimatorState locomotion=FindState(machine,"Locomotion");
+        if(locomotion!=null && !tired.transitions.Any(transition=>transition.destinationState==locomotion &&
+           transition.conditions.Any(condition=>condition.parameter=="Tired")))
+        {
+            AnimatorStateTransition exit=tired.AddTransition(locomotion);
+            exit.hasExitTime=false;
+            exit.duration=0.1f;
+            exit.AddCondition(AnimatorConditionMode.IfNot,0f,"Tired");
+        }
     }
 
     static AnimatorState EnsureActionState(AnimatorStateMachine machine,string stateName,string trigger,
@@ -688,7 +792,20 @@ public static class PlayerVisualSetup
                 EmbeddedClip("Fishing Idle","Armature|Fishing Idle",90f),
                 EmbeddedClip("Fishing Reel","Armature|Fishing Reel",75f),
                 EmbeddedClip("Hold Item","Armature|Hold Item",60f),
-                EmbeddedClip("Place Item","Armature|Place Item",36f)
+                EmbeddedClip("Place Item","Armature|Place Item",36f),
+                EmbeddedClip("Brush Animal","Armature|Brush Animal",45f),
+                EmbeddedClip("Dismount Horse","Armature|Dismount Horse",90f),
+                EmbeddedClip("Hold Two Hands","Armature|Hold Two Hands",60f),
+                EmbeddedClip("Mount Horse","Armature|Mount Horse",75f),
+                EmbeddedClip("Pick Up Chicken","Armature|Pick Up Chicken",45f),
+                EmbeddedClip("Pick Up Waist","Armature|Player | Pick Up Waist",30f),
+                EmbeddedClip("Place Chicken","Armature|Place Chicken",45f),
+                EmbeddedClip("Riding Idle","Armature|Riding Idle",60f),
+                EmbeddedClip("Scoop Manure","Armature|Scoop Manure",60f),
+                EmbeddedClip("Shear Sheep","Armature|Shear Sheep",60f),
+                EmbeddedClip("Tired Pose","Armature|Tired Pose",90f),
+                EmbeddedClip("Wake Up Bed","Armature|Wake Up Bed",120f),
+                EmbeddedClip("Yawn","Armature|Yawn",75f)
             };
         }
         ModelImporterClipAnimation[] configured=sourceClips.Select(source=>
@@ -700,7 +817,8 @@ public static class PlayerVisualSetup
             cleanName=cleanName.Trim();
             clip.name=cleanName;
             bool loop=cleanName=="Idle" || cleanName=="Walking" || cleanName=="Running" ||
-                      cleanName=="Fishing Idle" || cleanName=="Hold Item";
+                      cleanName=="Fishing Idle" || cleanName=="Hold Item" ||
+                      cleanName=="Hold Two Hands" || cleanName=="Riding Idle" || cleanName=="Tired Pose";
             clip.loopTime=loop;
             clip.loopPose=loop;
             clip.keepOriginalOrientation=true;

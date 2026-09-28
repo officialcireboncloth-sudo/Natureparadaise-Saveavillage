@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 626000000000000006}
@@ -87,12 +87,26 @@ MonoBehaviour:
   repathInterval: 0.7
   persistBetweenScenes: 1
   animator: {fileID: 0}
+  locomotionController: {fileID: 9100000, guid: f3b7a7cfc0d94ee0b431ef3a5e7d8216, type: 2}
+  locomotionSpeedParameter: HorseSpeed
   idleController: {fileID: 9100000, guid: 0aba9f9291b82ed4c96afa91bd8b8b99, type: 2}
   moveController: {fileID: 9100000, guid: 7520e1fcfbc5ae74baa4aec8e273c1b7, type: 2}
   runController: {fileID: 9100000, guid: 19d860432c787764cbbbaa0731983ad8, type: 2}
+  adultHorseScale: 1.25
   mountPoint: {fileID: 626000000000000006}
   mountLocalPosition: {x: 0, y: 1.65, z: 0}
+  riderSeatOffset: {x: 0, y: -0.1, z: 0}
+  mountStartOffset: {x: -0.65, y: 0, z: 0}
+  dismountEndOffset: {x: -0.65, y: 0, z: 0}
+  mountMoveStartFrame: 0
+  mountSeatFrame: 18
+  dismountMoveStartFrame: 0
+  dismountGroundFrame: 30
   mountedSpeed: 8
+  mountedAcceleration: 10
+  mountedDeceleration: 14
+  riderSeatFollowSharpness: 22
+  riderSpineRotationFollow: 0.6
   mountedJumpHeight: 1.35
   mountedGravity: 22
   mountedJumpCooldown: 0.25

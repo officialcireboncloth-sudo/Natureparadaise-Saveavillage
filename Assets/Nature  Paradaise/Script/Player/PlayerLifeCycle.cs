@@ -21,6 +21,8 @@ public sealed class PlayerLifeCycle : MonoBehaviour
 
     [Header("Sleep")]
     [SerializeField, Range(0, 23)] int wakeHour = 6;
+    [SerializeField, Min(0f)] float bedYawnAnimationTime = 1.65f;
+    [SerializeField, Min(0f)] float bedWakeAnimationTime = 2f;
 
     [Header("Forced Sleep")]
     [Tooltip("Player yang masih terjaga pada jam ini otomatis tidur dan bangun pada wakeHour.")]
@@ -154,6 +156,12 @@ public sealed class PlayerLifeCycle : MonoBehaviour
             if (knockOutAnimationTime > 0f)
                 yield return new WaitForSecondsRealtime(knockOutAnimationTime);
         }
+        else
+        {
+            movement?.PlayYawnAnimation();
+            if (bedYawnAnimationTime > 0f)
+                yield return new WaitForSecondsRealtime(bedYawnAnimationTime);
+        }
         sleepBlackout = true;
         SaveLoadFeedback.Instance?.ShowMessage("Tidur...");
         yield return new WaitForSecondsRealtime(0.45f);
@@ -177,6 +185,12 @@ public sealed class PlayerLifeCycle : MonoBehaviour
             movement?.PlayWakeUpAnimation();
             if (wakeUpAnimationTime > 0f)
                 yield return new WaitForSecondsRealtime(wakeUpAnimationTime);
+        }
+        else
+        {
+            movement?.PlayWakeUpBedAnimation();
+            if (bedWakeAnimationTime > 0f)
+                yield return new WaitForSecondsRealtime(bedWakeAnimationTime);
         }
         SetGameplayEnabled(true);
         status.ReleaseActivity(this);

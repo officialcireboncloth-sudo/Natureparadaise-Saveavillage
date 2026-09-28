@@ -20,6 +20,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
     Canvas canvas;
     RectTransform canvasRect;
     RectTransform panelRect;
+    Image panelBackground;
     TMP_Text promptText;
     Camera worldCamera;
 
@@ -27,6 +28,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
     float nearestDistance = float.PositiveInfinity;
     Vector3 requestedWorldPosition;
     string requestedText;
+    bool requestedCleanStyle;
 
     /// <summary>
     /// Minta prompt tampil pada frame ini. Jika beberapa object meminta bersamaan,
@@ -40,7 +42,21 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         Request(owner, anchor.position + Vector3.up * height, text, distance);
     }
 
+    /// <summary>Prompt ringkas tanpa panel gelap, cocok untuk aksi yang terus tersedia pada player.</summary>
+    public static void RequestClean(Object owner, Transform anchor, string text, float distance, float height = 1.2f)
+    {
+        if (anchor == null || IsSuppressed)
+            return;
+
+        RequestInternal(owner,anchor.position+Vector3.up*height,text,distance,true);
+    }
+
     public static void Request(Object owner, Vector3 worldPosition, string text, float distance)
+    {
+        RequestInternal(owner,worldPosition,text,distance,false);
+    }
+
+    static void RequestInternal(Object owner,Vector3 worldPosition,string text,float distance,bool cleanStyle)
     {
         if (owner == null || string.IsNullOrWhiteSpace(text) || IsSuppressed)
             return;
@@ -62,6 +78,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         instance.nearestDistance = distance;
         instance.requestedWorldPosition = worldPosition;
         instance.requestedText = text;
+        instance.requestedCleanStyle = cleanStyle;
     }
 
     /// <summary>True ketika minimal satu modal UI sedang menahan world prompt.</summary>
@@ -157,11 +174,18 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         }
 
         promptText.text = requestedText;
+        panelBackground.color=requestedCleanStyle
+            ? Color.clear
+            : new Color(0.035f,0.045f,0.055f,0.88f);
+        promptText.outlineWidth=requestedCleanStyle?0.22f:0f;
+        promptText.outlineColor=requestedCleanStyle?new Color32(0,0,0,210):Color.clear;
         // Prompt build dapat memiliki beberapa baris requirement. Ukuran panel mengikuti
         // konten agar daftar material tetap terbaca tanpa memenuhi seluruh layar mobile.
         Vector2 preferredSize = promptText.GetPreferredValues(requestedText);
-        float preferredWidth = Mathf.Clamp(preferredSize.x + 44f, 180f, 680f);
-        float preferredHeight = Mathf.Clamp(preferredSize.y + 18f, 52f, 360f);
+        float horizontalPadding=requestedCleanStyle?12f:44f;
+        float verticalPadding=requestedCleanStyle?6f:18f;
+        float preferredWidth = Mathf.Clamp(preferredSize.x + horizontalPadding, requestedCleanStyle?80f:180f, 680f);
+        float preferredHeight = Mathf.Clamp(preferredSize.y + verticalPadding, requestedCleanStyle?30f:52f, 360f);
         panelRect.sizeDelta = new Vector2(preferredWidth, preferredHeight);
 
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPoint, null, out Vector2 localPoint))
@@ -201,9 +225,9 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         panelRect.anchorMin = panelRect.anchorMax = new Vector2(0.5f, 0.5f);
         panelRect.pivot = new Vector2(0.5f, 0.5f);
         panelRect.sizeDelta = new Vector2(300f, 52f);
-        Image background = panel.GetComponent<Image>();
-        background.color = new Color(0.035f, 0.045f, 0.055f, 0.88f);
-        background.raycastTarget = false;
+        panelBackground = panel.GetComponent<Image>();
+        panelBackground.color = new Color(0.035f, 0.045f, 0.055f, 0.88f);
+        panelBackground.raycastTarget = false;
 
         GameObject textObject = new("Text", typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI));
         textObject.layer = gameObject.layer;

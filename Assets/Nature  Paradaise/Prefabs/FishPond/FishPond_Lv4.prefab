@@ -454,6 +454,8 @@ MonoBehaviour:
   linkedSilo: {fileID: 0}
   automaticOutputTransferEnabled: 0
   externalInteraction: 0
+  takeFeedImpactDelay: 0.4
+  takeFeedActionDuration: 0.9
 --- !u!1 &2080764010161855814
 GameObject:
   m_ObjectHideFlags: 0

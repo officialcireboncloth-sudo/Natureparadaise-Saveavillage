@@ -309,10 +309,8 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
                     $"F: Ambil 1 Animal Feed ke Inventory (Ready {ready}) | E: Kelola Feed Maker",makerDistance,1.2f);
                 if(PlayerInteractionTarget.PressPickup(player.transform,feedMakerPoint,KeyCode.F,interactionRadius))
                 {
-                    bool collected=feedMaker!=null && feedMaker.Collect(playerInventory);
-                    SaveLoadFeedback.Instance?.ShowMessage(collected
-                        ? "Animal Feed x1 masuk ke Inventory."
-                        : "Animal Feed belum ready / Inventory penuh.");
+                    if(feedMaker==null || !feedMaker.CollectAnimated(playerInventory,false,feedMakerPoint))
+                        SaveLoadFeedback.Instance?.ShowMessage("Animal Feed belum ready / Inventory penuh.");
                 }
                 else if(PlayerInteractionTarget.PressPickup(player.transform,feedMakerPoint,KeyCode.E,interactionRadius))
                     feedMaker?.OpenFor(playerInventory);

@@ -360,6 +360,7 @@ public class FarmingTool : MonoBehaviour
         }
         SpendStamina(staminaCost);
         Vector3 effectPosition = currentField.GridToWorld(currentX, currentZ);
+        movement?.FaceTowardsInteraction(effectPosition);
         PlayHoeAnimation();
         StartCoroutine(HoeActionRoutine(pendingTargets,effectPosition,activeTier));
     }

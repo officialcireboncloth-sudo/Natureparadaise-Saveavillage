@@ -232,6 +232,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     void PullTarget()
     {
         if (!SpendStamina(pullCost)) return;
+        FaceGatherable(target);
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(pullTrigger);
         WorldGatherable pending = target;
@@ -242,6 +243,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     void UseSickle()
     {
         if (!SpendStamina(sickleCost)) return;
+        if (target != null && target.CanSickle)
+            FaceGatherable(target);
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(sickleTrigger);
         Vector3 facing = movement != null ? movement.FacingDirection : transform.forward;
@@ -290,6 +293,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             return;
         }
         if (!SpendStamina(hammerCost)) return;
+        FaceGatherable(target);
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(hammerTrigger);
         WorldGatherable pending=target;
@@ -309,10 +313,27 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             return;
         }
         if (!SpendStamina(axeCost)) return;
+        movement?.FaceTowardsInteraction(treeTarget.transform.position);
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(axeTrigger);
         WorldTree pending=treeTarget;
         StartCoroutine(AxeImpactRoutine(pending));
+    }
+
+    void FaceGatherable(WorldGatherable candidate)
+    {
+        if (movement == null || candidate == null)
+            return;
+
+        Vector3 observer = transform.position + Vector3.up * 0.8f;
+        Vector3 point = candidate.GetInteractionPoint(observer);
+        Vector3 horizontal = point - transform.position;
+        horizontal.y = 0f;
+        // ClosestPoint dapat sama dengan posisi player saat collider bersentuhan.
+        // Pivot objek menjadi fallback supaya arah lock tetap stabil.
+        if (horizontal.sqrMagnitude < 0.0025f)
+            point = candidate.transform.position;
+        movement.FaceTowardsInteraction(point);
     }
 
     IEnumerator PullImpactRoutine(WorldGatherable pending)

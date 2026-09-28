@@ -14,6 +14,7 @@ public sealed class PlayerAnimationSetSO : ScriptableObject
     public AnimationClip jump;
     public AnimationClip jumpForward;
     public AnimationClip pickUpFromFloor;
+    public AnimationClip pickUpWaist;
     public AnimationClip knockOut;
     public AnimationClip wakeUpFromKnockOut;
     public AnimationClip milkingAnimal;
@@ -33,5 +34,17 @@ public sealed class PlayerAnimationSetSO : ScriptableObject
     public AnimationClip fishingReel;
     public AnimationClip holdItem;
     public AnimationClip placeItem;
+    public AnimationClip brushAnimal;
+    public AnimationClip mountHorse;
+    public AnimationClip dismountHorse;
+    public AnimationClip ridingIdle;
+    public AnimationClip pickUpChicken;
+    public AnimationClip holdTwoHands;
+    public AnimationClip placeChicken;
+    public AnimationClip scoopManure;
+    public AnimationClip shearSheep;
+    public AnimationClip tiredPose;
+    public AnimationClip wakeUpBed;
+    public AnimationClip yawn;
     public AnimationClip useTool;
 }

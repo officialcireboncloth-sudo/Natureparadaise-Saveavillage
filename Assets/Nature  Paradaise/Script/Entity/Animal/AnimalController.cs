@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// Controller prototipe ternak untuk hunger, pemberian makan, produksi milk,
@@ -9,14 +11,21 @@ public class AnimalController : MonoBehaviour
 {
     static readonly System.Collections.Generic.List<AnimalController> Active = new();
     void OnEnable() => Active.Add(this);
-    void OnDisable() => Active.Remove(this);
+    void OnDisable()
+    {
+        StopAllCoroutines();
+        Active.Remove(this);
+        playerInv?.GetComponent<PlayerController>()?.ReleaseMovementLock(this);
+        brushBusy=false;
+        productCollectBusy=false;
+    }
 
     [Header("Heart Care Items")]
     public ItemSO favoriteTreatItem;
     public ItemSO medicineItem;
     [Header("Growth System")]
     [SerializeField] AnimalGrowthSystem growth;
-    [SerializeField] KeyCode petKey = KeyCode.P;
+    [SerializeField] KeyCode petKey = KeyCode.R;
     [SerializeField] KeyCode debugNextStageKey = KeyCode.F10;
 
     [Header("Hunger")]
@@ -36,6 +45,12 @@ public class AnimalController : MonoBehaviour
 
     [Header("Interaction")]
     public float interactionRadius = 2f;
+    [SerializeField, Min(0f)] float brushImpactDelay = 0.62f;
+    [SerializeField, Min(0f)] float brushActionDuration = 1f;
+    [SerializeField, Min(0f)] float productImpactDelay = 1.1f;
+    [SerializeField, Min(0f)] float productActionDuration = 2.2f;
+    [SerializeField, Min(0f)] float shearImpactDelay = 0.72f;
+    [SerializeField, Min(0f)] float shearActionDuration = 1.35f;
 
     [InspectorName("Use Held Care Item Key")]
     public KeyCode feedKey = KeyCode.F;
@@ -56,6 +71,8 @@ public class AnimalController : MonoBehaviour
 
     bool milkReady = false;
     float milkTimer = 0f;
+    bool brushBusy;
+    bool productCollectBusy;
 
     ItemSO SelectedMedicine
     {
@@ -73,6 +90,8 @@ public class AnimalController : MonoBehaviour
 
     void Awake()
     {
+        // P bentrok dengan Place Item pada save/prefab lama. R dipakai kontekstual untuk Rawat/Elus.
+        if(petKey==KeyCode.P) petKey=KeyCode.R;
         // Scene prototipe lama pernah menghubungkan debug text Cow ke label milik NPCSeller.
         // Jangan menulis status hewan ke UI yang bukan child dari hewan ini.
         if (hungerText != null && !hungerText.transform.IsChildOf(transform))
@@ -145,23 +164,29 @@ public class AnimalController : MonoBehaviour
                 (otherDistance < distance || (Mathf.Approximately(otherDistance, distance) && other.GetInstanceID() < GetInstanceID()))) return;
         }
 
-        string interactionPrompt = $"{petKey}: Pet";
+        string displayName=LocalizedAnimalName(growth);
+        string interactionPrompt=growth!=null
+            ? $"{displayName}   ♥ {growth.HeartLevel}/10   {MoodLabel(growth.Happiness)}"
+            : displayName;
+        List<string> actions=new();
+        if(growth!=null && !growth.PetToday) actions.Add($"{petKey}: Elus");
         if (carryable && animalCarry != null && !animalCarry.HasAnimal)
-            interactionPrompt += "   E: Angkat";
-        if (IsProductReady) interactionPrompt += $"   {milkKey}: Ambil produk";
-        if (HUDManager.DebugCluesEnabled)
-            interactionPrompt += $"   {debugNextStageKey}: Debug Next Stage";
+            actions.Add("E: Angkat");
+        if (IsProductReady) actions.Add($"{milkKey}: Ambil produk");
         ItemSO selectedItem = SelectedItem;
         if (selectedItem != null && selectedItem == cabbageItem && growth != null && !growth.FedToday)
-            interactionPrompt += $"   {feedKey}: Feed";
+            actions.Add($"{feedKey}: Beri makan");
         else if (selectedItem != null && selectedItem == favoriteTreatItem && growth != null && growth.CanReceiveTreat)
-            interactionPrompt += $"   {feedKey}: Give Treat";
+            actions.Add($"{feedKey}: Beri treat");
         ItemSO selectedMedicine = SelectedMedicine;
         if (selectedMedicine != null && growth != null && growth.CanReceiveMedicine)
-            interactionPrompt += $"   {feedKey}: Give Medicine ({selectedMedicine.animalMedicineLevel})";
-        if (growth != null) interactionPrompt = growth.InfoSummary + "\n" + interactionPrompt;
-        interactionPrompt += "   I: Animal Info";
-        WorldInteractionPrompt.Request(this, transform, interactionPrompt, distance, 1.45f);
+            actions.Add($"{feedKey}: Beri obat");
+        actions.Add("I: Detail");
+        interactionPrompt+="\n"+string.Join("   ",actions);
+        if(HUDManager.DebugCluesEnabled && growth!=null)
+            interactionPrompt+=$"\nDEBUG  {growth.GrowthStage} | {growth.HealthSummary} | " +
+                $"Makan {(growth.FedToday?"✓":"✗")} | Produk {(growth.HasProductReady?"✓":"✗")} | {debugNextStageKey}: Next";
+        WorldInteractionPrompt.RequestClean(this,transform,interactionPrompt,distance,1.75f);
 
         HandleInput();
     }
@@ -206,8 +231,9 @@ public class AnimalController : MonoBehaviour
             TakeMilk();
         }
 
-        if (PlayerInteractionTarget.Press(playerInv.transform, transform, petKey))
-            growth?.Pet();
+        if (!brushBusy && !productCollectBusy && growth != null && growth.HasBeenBorn && !growth.PetToday &&
+            PlayerInteractionTarget.Press(playerInv.transform, transform, petKey))
+            StartCoroutine(BrushRoutine());
         if (HUDManager.DebugCluesEnabled && Input.GetKeyDown(debugNextStageKey))
             growth?.DebugAdvanceToNextStage();
     }
@@ -298,6 +324,7 @@ public class AnimalController : MonoBehaviour
 
     public void TakeMilk()
     {
+        if (productCollectBusy || brushBusy) return;
         if (!IsProductReady)
         {
             Debug.Log(
@@ -314,24 +341,59 @@ public class AnimalController : MonoBehaviour
             return;
         }
 
-        // Grade ditentukan saat produk siap, bukan sesudah status produksi direset.
-        int quality = growth != null ? growth.ProductQualityLevel : 1;
-        if (playerInv == null || !playerInv.Add(milkItem, 1, quality))
+        productCollectBusy=true;
+        PlayerController controller=playerInv != null ? playerInv.GetComponent<PlayerController>() : null;
+        controller?.AcquireMovementLock(this);
+        bool shearing=growth != null && growth.Type==AnimalType.Sheep;
+        if(shearing) controller?.PlayShearSheepAnimation();
+        else controller?.PlayMilkingAnimation();
+        StartCoroutine(CollectProductRoutine(controller,shearing));
+    }
+
+    static string LocalizedAnimalName(AnimalGrowthSystem animal)
+    {
+        if(animal==null) return "Hewan";
+        string defaultName=animal.Type switch
         {
-            SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh; produk tetap tersimpan pada hewan");
-            return;
+            AnimalType.Chicken=>"Ayam",
+            AnimalType.Duck=>"Bebek",
+            AnimalType.Goat=>"Kambing",
+            AnimalType.Sheep=>"Domba",
+            AnimalType.Cow=>"Sapi",
+            _=>animal.Type.ToString()
+        };
+        return string.Equals(animal.AnimalName,animal.Type.ToString(),System.StringComparison.OrdinalIgnoreCase)
+            ? defaultName
+            : animal.AnimalName;
+    }
+
+    static string MoodLabel(float happiness) => happiness>=70f?"Senang":happiness>=35f?"Tenang":"Stres";
+
+    IEnumerator CollectProductRoutine(PlayerController controller,bool shearing)
+    {
+        float impact=shearing?shearImpactDelay:productImpactDelay;
+        float duration=shearing?shearActionDuration:productActionDuration;
+        if(impact>0f) yield return new WaitForSeconds(impact);
+
+        if(IsProductReady && milkItem!=null)
+        {
+            // Grade ditentukan saat produk siap, bukan sesudah status produksi direset.
+            int quality=growth != null?growth.ProductQualityLevel:1;
+            if(playerInv != null && playerInv.Add(milkItem,1,quality))
+            {
+                milkReady=false;
+                growth?.MarkProductCollected();
+                PlayerPickupNotification.ShowItem(playerInv,milkItem,1);
+                SaveLoadFeedback.Instance?.ShowMessage($"{milkItem.itemName} ({AnimalCareCatalog.QualityName(quality)}) berhasil diambil");
+                milkTimer=0f;
+            }
+            else SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh; produk tetap tersimpan pada hewan");
         }
 
-        milkReady = false;
-        growth?.MarkProductCollected();
-        playerInv.GetComponent<PlayerController>()?.PlayMilkingAnimation();
-        PlayerPickupNotification.ShowItem(playerInv, milkItem, 1);
-
-        SaveLoadFeedback.Instance?.ShowMessage($"{milkItem.itemName} ({AnimalCareCatalog.QualityName(quality)}) berhasil diambil");
-
-        // Kalau Hunger masih > 0,
-        // produksi susu berikutnya dimulai lagi.
-        milkTimer = 0f;
+        float remaining=Mathf.Max(0f,duration-impact);
+        if(remaining>0f) yield return new WaitForSeconds(remaining);
+        controller?.ReleaseMovementLock(this);
+        productCollectBusy=false;
     }
 
     void UpdateDebugUI()
@@ -356,6 +418,20 @@ public class AnimalController : MonoBehaviour
     void Start()
     {
         UpdateDebugUI();
+    }
+
+    IEnumerator BrushRoutine()
+    {
+        brushBusy=true;
+        PlayerController controller=playerInv != null ? playerInv.GetComponent<PlayerController>() : null;
+        controller?.AcquireMovementLock(this);
+        controller?.PlayBrushAnimalAnimation();
+        if(brushImpactDelay>0f) yield return new WaitForSeconds(brushImpactDelay);
+        growth?.Pet();
+        float remaining=Mathf.Max(0f,brushActionDuration-brushImpactDelay);
+        if(remaining>0f) yield return new WaitForSeconds(remaining);
+        controller?.ReleaseMovementLock(this);
+        brushBusy=false;
     }
 
     bool IsProductReady => growth != null ? growth.HasProductReady : milkReady;
@@ -394,6 +470,17 @@ public class AnimalController : MonoBehaviour
             if (candidate != null && playerInv.GetCount(candidate) > 0) return TryAdministerMedicine(candidate);
         }
         return false;
+    }
+
+    void OnValidate()
+    {
+        if(petKey==KeyCode.P) petKey=KeyCode.R;
+        brushImpactDelay=Mathf.Max(0f,brushImpactDelay);
+        brushActionDuration=Mathf.Max(brushImpactDelay,brushActionDuration);
+        productImpactDelay=Mathf.Max(0f,productImpactDelay);
+        productActionDuration=Mathf.Max(productImpactDelay,productActionDuration);
+        shearImpactDelay=Mathf.Max(0f,shearImpactDelay);
+        shearActionDuration=Mathf.Max(shearImpactDelay,shearActionDuration);
     }
 
     bool TryAdministerMedicine(ItemSO item)

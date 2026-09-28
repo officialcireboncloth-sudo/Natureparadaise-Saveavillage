@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,6 +44,10 @@ public sealed class FeedMaker : MonoBehaviour
     [SerializeField] bool automaticOutputTransferEnabled;
     [Tooltip("Interaksi F/E mesin ini ditangani controller interior Barn/Coop agar tidak terbaca dua kali.")]
     [SerializeField] bool externalInteraction;
+    [Header("Take Feed Animation")]
+    [SerializeField, Min(0f), Tooltip("Saat tangan mencapai output mesin dan pakan benar-benar masuk Inventory.")]
+    float takeFeedImpactDelay = 0.45f;
+    [SerializeField, Min(0.05f)] float takeFeedActionDuration = 0.85f;
     readonly List<FeedJob> jobs = new();
     int output;
     int fishFeedOutput;
@@ -59,6 +64,8 @@ public sealed class FeedMaker : MonoBehaviour
     string draggedInputLabel;
     WorldDebugStatusLabel debugLabel;
     bool worldDebugVisible = true;
+    Coroutine animatedCollectionRoutine;
+    PlayerController animatedCollectionPlayer;
     public int Level => Mathf.Clamp(level, 1, 4);
     public int InputCapacity => new[] {10,20,40,60}[Level-1];
     public int Inputs { get { int total=0; foreach(var job in jobs) total+=job.inputs; return total; } }
@@ -78,6 +85,7 @@ public sealed class FeedMaker : MonoBehaviour
     }
     void OnDisable()
     {
+        CancelAnimatedCollection();
         Close();
         PublishState();
         Active.Remove(this);
@@ -227,6 +235,59 @@ public sealed class FeedMaker : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Mengambil satu output melalui animasi setinggi pinggang. Efek inventory ditunda
+    /// sampai tangan menyentuh mesin dan movement tetap terkunci sampai action selesai.
+    /// </summary>
+    public bool CollectAnimated(Inventory target, bool fishFeed, Transform interactionTarget = null)
+    {
+        Advance(Now);
+        if(animatedCollectionRoutine!=null || target==null) return false;
+        bool ready=fishFeed
+            ? fishFeedOutput>0 && catalog?.fishFeed!=null
+            : output>0 && catalog?.animalFeed!=null;
+        if(!ready) return false;
+        animatedCollectionRoutine=StartCoroutine(AnimatedCollectionRoutine(target,fishFeed,
+            interactionTarget!=null ? interactionTarget : transform));
+        return true;
+    }
+
+    IEnumerator AnimatedCollectionRoutine(Inventory target, bool fishFeed, Transform interactionTarget)
+    {
+        animatedCollectionPlayer=target.GetComponent<PlayerController>();
+        if(animatedCollectionPlayer!=null)
+        {
+            animatedCollectionPlayer.FaceTowardsInteraction(interactionTarget.position);
+            animatedCollectionPlayer.AcquireMovementLock(this);
+            animatedCollectionPlayer.PlayPickUpWaistAnimation();
+        }
+
+        float impactDelay=Mathf.Min(takeFeedImpactDelay,takeFeedActionDuration);
+        if(impactDelay>0f) yield return new WaitForSeconds(impactDelay);
+        bool collected=fishFeed ? CollectFishFeed(target) : Collect(target);
+        feedback=collected
+            ? $"{(fishFeed ? "Fish Feed" : "Animal Feed")} x1 masuk Inventory."
+            : $"{(fishFeed ? "Fish Feed" : "Animal Feed")} belum ready / Inventory penuh.";
+        SaveLoadFeedback.Instance?.ShowMessage(feedback);
+
+        float remaining=Mathf.Max(0f,takeFeedActionDuration-impactDelay);
+        if(remaining>0f) yield return new WaitForSeconds(remaining);
+        FinishAnimatedCollection();
+    }
+
+    void CancelAnimatedCollection()
+    {
+        if(animatedCollectionRoutine!=null) StopCoroutine(animatedCollectionRoutine);
+        FinishAnimatedCollection();
+    }
+
+    void FinishAnimatedCollection()
+    {
+        animatedCollectionPlayer?.ReleaseMovementLock(this);
+        animatedCollectionPlayer=null;
+        animatedCollectionRoutine=null;
+    }
+
     /// <summary>Satu tekanan tombol hanya mengambil satu unit output dari mesin.</summary>
     public bool CollectOneReady(Inventory target)
     {
@@ -278,11 +339,9 @@ public sealed class FeedMaker : MonoBehaviour
         WorldInteractionPrompt.Request(this,transform,$"E: Buka Feed Maker Lv.{Level} — {state}\nF: Ambil 1 pakan",Vector3.Distance(inventory.transform.position,transform.position),1.5f);
         if(PlayerInteractionTarget.Press(inventory.transform,transform,KeyCode.F))
         {
-            bool collected=CollectOneReady(inventory);
-            feedback=collected
-                ? "1 pakan masuk Inventory"
-                : "Feed belum ready / Inventory penuh";
-            SaveLoadFeedback.Instance?.ShowMessage(feedback);
+            bool fish=fishFeedMode ? fishFeedOutput>0 : output<=0 && fishFeedOutput>0;
+            if(!CollectAnimated(inventory,fish,transform))
+                SaveLoadFeedback.Instance?.ShowMessage("Feed belum ready / Inventory penuh");
             return;
         }
         if(!PlayerInteractionTarget.Press(inventory.transform,transform,KeyCode.E)) return;

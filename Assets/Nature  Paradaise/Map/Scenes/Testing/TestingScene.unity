@@ -3250,6 +3250,13 @@ MonoBehaviour:
   snowParticlePrefab: {fileID: 0}
   blizzardParticlePrefab: {fileID: 0}
   effectFollowTarget: {fileID: 1314698852}
+  rainVisualDensity: 0.65
+  rainOpacity: 0.5
+  rainWaterTint: {r: 0.42, g: 0.68, b: 1, a: 1}
+  rainParticleMaterial: {fileID: 2100000, guid: b9f8d37e1c2a4d54a6f085c12be11d7f, type: 2}
+  rainDropWidthScale: 1.4
+  rainStreakLengthScale: 0.8
+  rainFallSpeedScale: 0.82
   enableDebugKeys: 1
   nextCurrentWeatherKey: 293
   nextForecastWeatherKey: 0
@@ -8438,15 +8445,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 626000000000000002, guid: d9c62c7e80bf41ef811a908eb14417be, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.05
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 626000000000000002, guid: d9c62c7e80bf41ef811a908eb14417be, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.05
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 626000000000000002, guid: d9c62c7e80bf41ef811a908eb14417be, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.05
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 626000000000000002, guid: d9c62c7e80bf41ef811a908eb14417be, type: 3}
       propertyPath: m_LocalPosition.x
