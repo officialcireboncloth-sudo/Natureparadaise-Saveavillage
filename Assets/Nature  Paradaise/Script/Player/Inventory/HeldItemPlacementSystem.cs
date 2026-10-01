@@ -314,8 +314,12 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     void RefreshHeldVisual()
     {
         ItemStack stack = GetSelectedStack();
-        ItemSO item = !animalCarrySuppressed && HasHeldWorldAction(stack) ? stack.item : null;
-        movement?.SetHoldingItemAnimation(item!=null && !actionBusy);
+        bool hasWorldAction = HasHeldWorldAction(stack);
+        bool isHeldShears = IsHeldShears(stack);
+        ItemSO item = !animalCarrySuppressed && (hasWorldAction || isHeldShears) ? stack.item : null;
+        // Shears mengikuti tangan dari clip Shear Sheep. Jangan aktifkan layer Hold Item
+        // karena layer itu akan menimpa gerak lengan pencukuran.
+        movement?.SetHoldingItemAnimation(hasWorldAction && item != null && !actionBusy);
         if (shownItem == item) return;
         shownItem = item;
         if (heldVisual != null) Destroy(heldVisual);
@@ -468,6 +472,10 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         stack?.item != null && stack.count > 0 && stack.item.HasHeldWorldAction &&
         stack.item.category != ItemCategory.Tool &&
         (stack.item.equippedTool == PlayerToolType.None || stack.item.IsSeed);
+
+    static bool IsHeldShears(ItemStack stack) =>
+        stack?.item != null && stack.count > 0 &&
+        (stack.item.equippedTool == PlayerToolType.Shears || stack.item.equippedTool == PlayerToolType.Pitchfork) && stack.item.worldPrefab != null;
 
     static bool CanDrop(ItemStack stack) =>
         HasHeldWorldAction(stack) && stack.item.canDropToWorld;

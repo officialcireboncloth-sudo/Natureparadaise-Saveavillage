@@ -52,8 +52,6 @@ public sealed class WeatherSystem : MonoBehaviour
     [SerializeField, Range(0f, 1f)] float thunderVolume = 0.9f;
     [SerializeField, Min(0.5f)] float minimumThunderInterval = 5f;
     [SerializeField, Min(0.5f)] float maximumThunderInterval = 14f;
-    [Tooltip("Tambahan intensitas Directional Light pada puncak kilat.")]
-    [SerializeField, Range(0.5f, 5f)] float lightningFlashIntensity = 2.4f;
 
     [Header("Season Weather Rules")]
     [Tooltip("Kabut tipis Spring hanya muncul pada sebagian pagi agar suasana bervariasi.")]
@@ -80,6 +78,8 @@ public sealed class WeatherSystem : MonoBehaviour
     [SerializeField] Transform effectFollowTarget;
 
     [Header("Rain Visual Comfort")]
+    [Tooltip("Hanya menampilkan renderer tetesan hujan. Cuaca, simulasi partikel, dan efek gameplay tetap aktif saat dimatikan.")]
+    [SerializeField] bool enableRainVisuals = false;
     [Tooltip("Pengali jumlah garis hujan. Nilai rendah lebih nyaman dan tidak menutup gameplay.")]
     [SerializeField, Range(0.1f, 1f)] float rainVisualDensity = 0.65f;
     [Tooltip("Opacity hujan sedang. Gerimis lebih transparan; badai sedikit lebih pekat.")]
@@ -114,11 +114,12 @@ public sealed class WeatherSystem : MonoBehaviour
     public float TerrainCloudNoiseWorldScale => terrainCloudNoiseWorldScale;
     public Vector2 TerrainCloudDriftSpeed => terrainCloudDriftSpeed;
     public float HeavyRainOutdoorStaminaPerHour => heavyRainOutdoorStaminaPerHour;
-    public float CurrentLightningFlash => CalculateLightningFlash();
+    // Thunder retains its sound/gameplay behaviour without flashing the scene lighting.
+    public float CurrentLightningFlash => 0f;
     float nextLightningCheckTime;
     int lightningResolvedDay = -1;
     float nextThunderTime = -1f;
-    float lightningFlashStartedAt = -100f;
+    bool? presentedOutdoors;
     GameObject activeWeatherEffect;
     WeatherType activeEffectWeather = (WeatherType)(-1);
     bool activeEffectUsesFallback;
@@ -275,7 +276,7 @@ public sealed class WeatherSystem : MonoBehaviour
 
     void UpdateThunderstormLightning()
     {
-        if (currentWeather != WeatherType.Thunderstorm)
+        if (currentWeather != WeatherType.Thunderstorm || !IsPlayerOutdoors())
         {
             nextThunderTime = -1f;
             return;
@@ -293,7 +294,6 @@ public sealed class WeatherSystem : MonoBehaviour
         if (Time.unscaledTime < nextThunderTime)
             return;
 
-        lightningFlashStartedAt = Time.unscaledTime;
         PlayThunderSound();
         ScheduleNextThunder(false);
     }
@@ -330,20 +330,6 @@ public sealed class WeatherSystem : MonoBehaviour
         thunderAudioSource.playOnAwake = false;
         thunderAudioSource.loop = false;
         thunderAudioSource.spatialBlend = 0f;
-    }
-
-    float CalculateLightningFlash()
-    {
-        if (currentWeather != WeatherType.Thunderstorm)
-            return 0f;
-
-        float elapsed = Time.unscaledTime - lightningFlashStartedAt;
-        float pulse = 0f;
-        if (elapsed >= 0f && elapsed < 0.09f)
-            pulse = 1f - elapsed / 0.09f;
-        else if (elapsed >= 0.15f && elapsed < 0.23f)
-            pulse = 0.72f * (1f - (elapsed - 0.15f) / 0.08f);
-        return pulse * lightningFlashIntensity;
     }
 
     /// <summary>Memastikan current/tomorrow weather sudah tersedia untuk hari game tertentu.</summary>
@@ -519,8 +505,18 @@ public sealed class WeatherSystem : MonoBehaviour
     void NotifyWeatherChanged()
     {
         nextThunderTime = -1f;
-        lightningFlashStartedAt = -100f;
-        float wetness = currentWeather switch
+        ApplySurfaceWetness(IsPlayerOutdoors());
+        WeatherImpactFlow.Publish(WeatherImpactSnapshot.Create(this));
+        RefreshWeatherEffect();
+        FollowWeatherEffect();
+        WeatherChanged?.Invoke(currentWeather, tomorrowWeather);
+        CurrentWeatherChanged?.Invoke(currentWeather);
+        Debug.Log($"[WEATHER] Day {currentWeatherDay}: {GetDisplayName(currentWeather)} | Tomorrow: {GetDisplayName(tomorrowWeather)}");
+    }
+
+    void ApplySurfaceWetness(bool outdoors)
+    {
+        float wetness = !outdoors ? 0f : currentWeather switch
         {
             WeatherType.Drizzle => 0.35f,
             WeatherType.Rain => 0.62f,
@@ -529,11 +525,6 @@ public sealed class WeatherSystem : MonoBehaviour
         };
         Shader.SetGlobalFloat("_NP_SurfaceWetness", wetness);
         Shader.SetGlobalFloat("_NP_LeafWetness", Mathf.Clamp01(wetness * 1.15f));
-        WeatherImpactFlow.Publish(WeatherImpactSnapshot.Create(this));
-        RefreshWeatherEffect();
-        WeatherChanged?.Invoke(currentWeather, tomorrowWeather);
-        CurrentWeatherChanged?.Invoke(currentWeather);
-        Debug.Log($"[WEATHER] Day {currentWeatherDay}: {GetDisplayName(currentWeather)} | Tomorrow: {GetDisplayName(tomorrowWeather)}");
     }
 
     void RefreshWeatherEffect()
@@ -562,6 +553,7 @@ public sealed class WeatherSystem : MonoBehaviour
         if (activeWeatherEffect == null) return;
         activeEffectUsesFallback = prefab == null;
         activeWeatherEffect.name = $"WeatherEffect_{currentWeather}";
+        ApplyRainVisualVisibility();
         RefreshFallbackCoverage(true);
     }
 
@@ -707,9 +699,42 @@ public sealed class WeatherSystem : MonoBehaviour
 
     void FollowWeatherEffect()
     {
+        if (presentedRainVisuals != enableRainVisuals) ApplyRainVisualVisibility();
+        bool outdoors = IsPlayerOutdoors();
+        if (presentedOutdoors != outdoors)
+        {
+            presentedOutdoors = outdoors;
+            ApplySurfaceWetness(outdoors);
+        }
+        if (activeWeatherEffect != null && activeWeatherEffect.activeSelf != outdoors)
+        {
+            // Clear world-space particles so none follow the camera through the portal.
+            foreach (ParticleSystem particles in activeWeatherEffect.GetComponentsInChildren<ParticleSystem>(true))
+                particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            activeWeatherEffect.SetActive(outdoors);
+            if (outdoors)
+                foreach (ParticleSystem particles in activeWeatherEffect.GetComponentsInChildren<ParticleSystem>())
+                    particles.Play(true);
+        }
+        if (!outdoors) return;
         if (activeWeatherEffect != null && effectFollowTarget != null)
             activeWeatherEffect.transform.position = effectFollowTarget.position;
         RefreshFallbackCoverage(false);
+    }
+
+    bool presentedRainVisuals = true;
+
+    void ApplyRainVisualVisibility()
+    {
+        presentedRainVisuals = enableRainVisuals;
+        if (activeWeatherEffect == null || !IsRainWeather(currentWeather)) return;
+        bool rainOnlyEffect = activeEffectUsesFallback || currentWeather is
+            WeatherType.Drizzle or WeatherType.Rain or WeatherType.HeavyRain;
+        foreach (ParticleSystemRenderer renderer in activeWeatherEffect.GetComponentsInChildren<ParticleSystemRenderer>(true))
+        {
+            bool usesRainMaterial = rainParticleMaterial != null && renderer.sharedMaterial == rainParticleMaterial;
+            if (rainOnlyEffect || usesRainMaterial) renderer.enabled = enableRainVisuals;
+        }
     }
 
     /// <summary>

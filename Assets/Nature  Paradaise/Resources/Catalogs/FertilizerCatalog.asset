@@ -67,3 +67,17 @@ MonoBehaviour:
       amount: 1
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c900000000132, type: 2}
       amount: 1
+  - id: manure.soil
+    output: {fileID: 11400000, guid: d1a10000000000000000000000000001, type: 2}
+    outputCount: 1
+    productionHours: 2
+    ingredients:
+    - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012d, type: 2}
+      amount: 3
+  - id: manure.poultry.soil
+    output: {fileID: 11400000, guid: d1a10000000000000000000000000001, type: 2}
+    outputCount: 1
+    productionHours: 2
+    ingredients:
+    - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012c, type: 2}
+      amount: 5

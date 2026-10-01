@@ -22,6 +22,12 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField, Range(0.1f, 1f)] float analogRunThreshold = 0.72f;
     [SerializeField, Range(0.1f, 1f)] float carrySpeedMultiplier = 0.82f;
 
+    [Header("Night Fatigue")]
+    [SerializeField, Range(0.1f, 1f), Tooltip("Pengali kecepatan gerak ketika Fatigue mencapai 1.")]
+    float maximumFatigueSpeedMultiplier = 0.7f;
+    [SerializeField, Range(0.1f, 1f), Tooltip("Durasi fade layer Stagger Overlay.")]
+    float fatigueBlendTime = 0.45f;
+
     [Header("Rotation")]
     [SerializeField, Min(0f)] float rotationSpeed = 720f;
     [SerializeField] bool cameraRelativeMovement = true;
@@ -72,6 +78,7 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField] string carryingAnimalParameter = "CarryingAnimal";
     [SerializeField] string placeItemTrigger = "PlaceItem";
     [SerializeField] string brushAnimalTrigger = "BrushAnimal";
+    [SerializeField] string brushingParameter = "BrushingActive";
     [SerializeField] string mountHorseTrigger = "MountHorse";
     [SerializeField] string dismountHorseTrigger = "DismountHorse";
     [SerializeField] string ridingParameter = "Riding";
@@ -80,7 +87,12 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField] string wakeUpBedTrigger = "WakeUpBed";
     [SerializeField] string yawnTrigger = "Yawn";
     [SerializeField] string shearSheepTrigger = "ShearSheep";
+    [SerializeField] string scoopManureTrigger = "ScoopManure";
+    [SerializeField] string shearingParameter = "ShearingActive";
     [SerializeField] string tiredParameter = "Tired";
+    [SerializeField] string fatigueParameter = "Fatigue";
+    [SerializeField] string fatigueLocomotionSpeedParameter = "FatigueLocomotionSpeed";
+    [SerializeField] string fatigueLayerName = "Fatigue";
 
     CharacterController characterController;
     readonly HashSet<object> movementLocks = new();
@@ -94,8 +106,15 @@ public sealed class PlayerController : MonoBehaviour
     bool forwardJumpActive;
     bool standingJumpPending;
     float standingJumpTimer;
+    float nightFatigueLevel;
+    float fatigueLayerWeight;
+    float fatigueLayerVelocity;
     bool manualLock;
     bool isCarrying;
+    bool isPushingAnimation;
+    bool isHoldingItemAnimation;
+    bool isCarryingAnimalAnimation;
+    bool isRidingAnimation;
     bool hasSpeedParameter;
     bool hasGroundedParameter;
     bool hasSprintParameter;
@@ -118,6 +137,7 @@ public sealed class PlayerController : MonoBehaviour
     bool hasCarryingAnimalParameter;
     bool hasPlaceItemTrigger;
     bool hasBrushAnimalTrigger;
+    bool hasBrushingParameter;
     bool hasMountHorseTrigger;
     bool hasDismountHorseTrigger;
     bool hasRidingParameter;
@@ -126,7 +146,12 @@ public sealed class PlayerController : MonoBehaviour
     bool hasWakeUpBedTrigger;
     bool hasYawnTrigger;
     bool hasShearSheepTrigger;
+    bool hasScoopManureTrigger;
+    bool hasShearingParameter;
     bool hasTiredParameter;
+    bool hasFatigueParameter;
+    bool hasFatigueLocomotionSpeedParameter;
+    int fatigueLayerIndex = -1;
 
     public MovementMode CurrentMode { get; private set; }
     public Vector3 PlanarVelocity => planarVelocity;
@@ -147,6 +172,7 @@ public sealed class PlayerController : MonoBehaviour
 
         FacingDirection = transform.forward.sqrMagnitude > 0.01f ? transform.forward.normalized : Vector3.forward;
         CacheAnimatorParameters();
+        if(GetComponent<PlayerAnimalPush>()==null) gameObject.AddComponent<PlayerAnimalPush>();
         if (GetComponent<FootstepAudio>() == null)
             gameObject.AddComponent<FootstepAudio>();
     }
@@ -191,6 +217,7 @@ public sealed class PlayerController : MonoBehaviour
 
     void Update()
     {
+        UpdateNightFatigue();
         // Saat player menunggang horse, CharacterController sengaja dinonaktifkan agar
         // collider player tidak melawan gerakan mount. Jangan memanggil Move pada state itu.
         if (characterController == null || !characterController.enabled || !gameObject.activeInHierarchy)
@@ -223,6 +250,7 @@ public sealed class PlayerController : MonoBehaviour
         MovementMode mode = ResolveMovementMode(inputMagnitude, groundedBeforeMove);
         float targetSpeed = ResolveSpeed(mode, inputMagnitude);
         if (isCarrying) targetSpeed *= carrySpeedMultiplier;
+        targetSpeed *= FatigueMovementMultiplier;
 
         planarVelocity = forwardJumpActive ? forwardJumpVelocity : direction * targetSpeed;
         if (facingDirection.sqrMagnitude > 0.001f)
@@ -271,6 +299,12 @@ public sealed class PlayerController : MonoBehaviour
         direction = forward * input.y + right * input.x;
         return direction.sqrMagnitude > 1f ? direction.normalized : direction;
     }
+
+    /// <summary>
+    /// Membaca arah input dunia dengan aturan kamera yang sama seperti locomotion,
+    /// termasuk joystick. Tetap dapat dibaca sistem interaksi saat movement dikunci.
+    /// </summary>
+    public Vector3 ReadWorldMovementDirection() => ToCameraRelativeDirection(ReadMovementInput());
 
     MovementMode ResolveMovementMode(float inputMagnitude, bool grounded)
     {
@@ -376,13 +410,61 @@ public sealed class PlayerController : MonoBehaviour
     void UpdateAnimator(bool grounded, MovementMode mode)
     {
         if (animator == null || !animator.isActiveAndEnabled || animator.runtimeAnimatorController == null) return;
-        if (hasSpeedParameter) animator.SetFloat(speedParameter, CurrentSpeed / Mathf.Max(0.01f, sprintSpeed), 0.12f, Time.deltaTime);
+        // Pertahankan pilihan Idle/Walk/Run dari input aslinya. Perlambatan cycle dilakukan
+        // oleh FatigueLocomotionSpeed, jadi blend tree tidak ikut merosot ke arah Idle.
+        if (hasSpeedParameter) animator.SetFloat(speedParameter,
+            CurrentSpeed / Mathf.Max(0.01f,sprintSpeed*FatigueMovementMultiplier),0.12f,Time.deltaTime);
         if (hasGroundedParameter) animator.SetBool(groundedParameter, grounded);
         if (hasSprintParameter) animator.SetBool(sprintParameter, mode == MovementMode.Sprint);
         if (hasCarryParameter) animator.SetBool(carryParameter, isCarrying);
         if (hasTiredParameter)
             animator.SetBool(tiredParameter,status != null && status.IsExhausted && grounded && CurrentSpeed<0.05f && !IsMovementLocked);
     }
+
+    void UpdateNightFatigue()
+    {
+        float targetNightFatigue=CalculateNightFatigue();
+        float blendTime=Mathf.Max(0.01f,fatigueBlendTime);
+        nightFatigueLevel=Mathf.MoveTowards(nightFatigueLevel,targetNightFatigue,Time.deltaTime/blendTime);
+
+        bool sleepingOrFainted=status!=null && (status.IsFainted ||
+            status.CurrentMovementState is PlayerMovementState.Sleeping or PlayerMovementState.Faint);
+        float targetLayerWeight=nightFatigueLevel;
+        if(sleepingOrFainted || isRidingAnimation || isPushingAnimation || IsMovementLocked)
+            targetLayerWeight=0f;
+        else if(isCarrying || isHoldingItemAnimation || isCarryingAnimalAnimation)
+            targetLayerWeight*=0.2f;
+
+        if(sleepingOrFainted)
+        {
+            fatigueLayerWeight=0f;
+            fatigueLayerVelocity=0f;
+        }
+        else
+            fatigueLayerWeight=Mathf.SmoothDamp(fatigueLayerWeight,targetLayerWeight,
+                ref fatigueLayerVelocity,blendTime,Mathf.Infinity,Time.deltaTime);
+
+        if(animator==null || !animator.isActiveAndEnabled || animator.runtimeAnimatorController==null) return;
+        if(hasFatigueParameter) animator.SetFloat(fatigueParameter,fatigueLayerWeight);
+        if(hasFatigueLocomotionSpeedParameter)
+            animator.SetFloat(fatigueLocomotionSpeedParameter,FatigueMovementMultiplier);
+        if(fatigueLayerIndex>=0 && fatigueLayerIndex<animator.layerCount)
+            animator.SetLayerWeight(fatigueLayerIndex,fatigueLayerWeight);
+    }
+
+    static float CalculateNightFatigue()
+    {
+        if(TimeManager.Instance==null) return 0f;
+        float time=TimeManager.Instance.CurrentTimeHours;
+        if(time>=6f) return 0f;
+        if(time<1f) return Mathf.Lerp(0f,0.3f,time);
+        if(time<2f) return Mathf.Lerp(0.3f,0.7f,time-1f);
+        if(time<3f) return Mathf.Lerp(0.7f,1f,time-2f);
+        return 1f;
+    }
+
+    float FatigueMovementMultiplier =>
+        Mathf.Lerp(1f,maximumFatigueSpeedMultiplier,nightFatigueLevel);
 
     void CacheAnimatorParameters()
     {
@@ -412,6 +494,7 @@ public sealed class PlayerController : MonoBehaviour
             if (name == carryingAnimalParameter) hasCarryingAnimalParameter = true;
             if (name == placeItemTrigger) hasPlaceItemTrigger = true;
             if (name == brushAnimalTrigger) hasBrushAnimalTrigger = true;
+            if (name == brushingParameter) hasBrushingParameter = true;
             if (name == mountHorseTrigger) hasMountHorseTrigger = true;
             if (name == dismountHorseTrigger) hasDismountHorseTrigger = true;
             if (name == ridingParameter) hasRidingParameter = true;
@@ -420,8 +503,13 @@ public sealed class PlayerController : MonoBehaviour
             if (name == wakeUpBedTrigger) hasWakeUpBedTrigger = true;
             if (name == yawnTrigger) hasYawnTrigger = true;
             if (name == shearSheepTrigger) hasShearSheepTrigger = true;
+            if (name == scoopManureTrigger) hasScoopManureTrigger = true;
+            if (name == shearingParameter) hasShearingParameter = true;
             if (name == tiredParameter) hasTiredParameter = true;
+            if (name == fatigueParameter) hasFatigueParameter = true;
+            if (name == fatigueLocomotionSpeedParameter) hasFatigueLocomotionSpeedParameter = true;
         }
+        fatigueLayerIndex=animator.GetLayerIndex(fatigueLayerName);
     }
 
     void PlayTrigger(string trigger, bool available)
@@ -432,10 +520,20 @@ public sealed class PlayerController : MonoBehaviour
 
     public void PlayPickupAnimation() => PlayTrigger(pickupTrigger, hasPickupTrigger);
     public void PlayPickUpWaistAnimation() => PlayTrigger(pickupWaistTrigger, hasPickupWaistTrigger);
-    public void PlayKnockOutAnimation() => PlayTrigger(knockOutTrigger, hasKnockOutTrigger);
+    public void PlayKnockOutAnimation()
+    {
+        ClearFatigueOverlay();
+        PlayTrigger(knockOutTrigger,hasKnockOutTrigger);
+    }
     public void PlayWakeUpAnimation() => PlayTrigger(wakeUpTrigger, hasWakeUpTrigger);
     public void PlayMilkingAnimation() => PlayTrigger(milkingTrigger, hasMilkingTrigger);
-    public void PlayPushingAnimation() => PlayTrigger(pushingTrigger, hasPushingTrigger);
+    public void PlayPushingAnimation() => SetPushingAnimation(true);
+    public void SetPushingAnimation(bool pushing)
+    {
+        isPushingAnimation=pushing;
+        if(hasPushingTrigger && animator!=null)
+            animator.SetBool(pushingTrigger,pushing);
+    }
     public void PlayWateringAnimation() => PlayTrigger(wateringTrigger, hasWateringTrigger);
     public void PlayHoeingAnimation() => PlayTrigger(hoeingTrigger, hasHoeingTrigger);
     public void PlayPlantingAnimation() => PlayTrigger(plantingTrigger, hasPlantingTrigger);
@@ -445,16 +543,25 @@ public sealed class PlayerController : MonoBehaviour
         twoHands ? hasHandOverTwoHandsTrigger : hasHandOverOneHandTrigger);
     public void SetHoldingItemAnimation(bool holding)
     {
+        isHoldingItemAnimation=holding;
         if (hasHoldingItemParameter && animator != null)
             animator.SetBool(holdingItemParameter, holding);
     }
     public void SetCarryingAnimalAnimation(bool carrying)
     {
+        isCarryingAnimalAnimation=carrying;
         if (hasCarryingAnimalParameter && animator != null)
             animator.SetBool(carryingAnimalParameter,carrying);
     }
     public void PlayPlaceItemAnimation() => PlayTrigger(placeItemTrigger, hasPlaceItemTrigger);
     public void PlayBrushAnimalAnimation() => PlayTrigger(brushAnimalTrigger, hasBrushAnimalTrigger);
+    public void SetBrushingAnimation(bool active)
+    {
+        if (animator == null || animator.runtimeAnimatorController == null || (active && !animator.isActiveAndEnabled)) return;
+        if (hasBrushingParameter) animator.SetBool(brushingParameter,active);
+        if (active) PlayBrushAnimalAnimation();
+        else if (hasBrushAnimalTrigger) animator.ResetTrigger(brushAnimalTrigger);
+    }
     public void PlayMountHorseAnimation() => PlayTrigger(mountHorseTrigger, hasMountHorseTrigger);
     public void PlayDismountHorseAnimation() => PlayTrigger(dismountHorseTrigger, hasDismountHorseTrigger);
     public void PlayPickUpChickenAnimation() => PlayTrigger(pickUpChickenTrigger, hasPickUpChickenTrigger);
@@ -462,10 +569,29 @@ public sealed class PlayerController : MonoBehaviour
     public void PlayWakeUpBedAnimation() => PlayTrigger(wakeUpBedTrigger, hasWakeUpBedTrigger);
     public void PlayYawnAnimation() => PlayTrigger(yawnTrigger, hasYawnTrigger);
     public void PlayShearSheepAnimation() => PlayTrigger(shearSheepTrigger, hasShearSheepTrigger);
+    public void PlayScoopManureAnimation() => PlayTrigger(scoopManureTrigger, hasScoopManureTrigger);
+    public void SetShearingAnimation(bool active)
+    {
+        if (animator == null || !animator.isActiveAndEnabled || animator.runtimeAnimatorController == null) return;
+        if (hasShearingParameter) animator.SetBool(shearingParameter, active);
+        if (active) PlayShearSheepAnimation();
+        else if (hasShearSheepTrigger) animator.ResetTrigger(shearSheepTrigger);
+    }
     public void SetRidingAnimation(bool riding)
     {
+        isRidingAnimation=riding;
         if (hasRidingParameter && animator != null)
             animator.SetBool(ridingParameter, riding);
+    }
+
+    void ClearFatigueOverlay()
+    {
+        fatigueLayerWeight=0f;
+        fatigueLayerVelocity=0f;
+        if(animator==null) return;
+        if(hasFatigueParameter) animator.SetFloat(fatigueParameter,0f);
+        if(fatigueLayerIndex>=0 && fatigueLayerIndex<animator.layerCount)
+            animator.SetLayerWeight(fatigueLayerIndex,0f);
     }
 
     // Token lock mencegah satu sistem membuka movement yang masih dikunci sistem lain.
@@ -473,6 +599,14 @@ public sealed class PlayerController : MonoBehaviour
     public void AcquireMovementLock(object owner) { if (owner != null) movementLocks.Add(owner); }
     /// <summary>Melepas movement lock milik caller tanpa memengaruhi owner lain.</summary>
     public void ReleaseMovementLock(object owner) { if (owner != null) movementLocks.Remove(owner); }
+    /// <summary>Benar bila movement dikunci sistem lain selain owner yang disebut.</summary>
+    public bool HasMovementLockOtherThan(object owner)
+    {
+        if(manualLock) return true;
+        foreach(object lockOwner in movementLocks)
+            if(!ReferenceEquals(lockOwner,owner)) return true;
+        return false;
+    }
     public void SetMovementLocked(bool locked) => manualLock = locked;
     /// <summary>
     /// Menghadap langsung ke target interaksi pada bidang horizontal. Dipakai sebelum
@@ -498,6 +632,8 @@ public sealed class PlayerController : MonoBehaviour
 
     void OnDisable()
     {
+        SetBrushingAnimation(false);
+        SetShearingAnimation(false);
         planarVelocity = Vector3.zero;
         mobileSprintHeld = false;
         externalMobileInput = Vector2.zero;
@@ -505,6 +641,7 @@ public sealed class PlayerController : MonoBehaviour
         forwardJumpActive = false;
         forwardJumpVelocity = Vector3.zero;
         standingJumpPending = false;
+        SetPushingAnimation(false);
         standingJumpTimer = 0f;
         if (animator != null && animator.isActiveAndEnabled && animator.runtimeAnimatorController != null && hasSpeedParameter)
             animator.SetFloat(speedParameter, 0f);

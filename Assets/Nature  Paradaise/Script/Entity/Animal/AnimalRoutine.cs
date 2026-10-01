@@ -25,6 +25,12 @@ public sealed class AnimalRoutine : MonoBehaviour
     [SerializeField, Min(0.5f)] float minimumRoamingPause = 2f;
     [SerializeField, Min(0.5f)] float maximumRoamingPause = 5f;
 
+    [Header("Locomotion Animation")]
+    [SerializeField] RuntimeAnimatorController idleController;
+    [SerializeField] RuntimeAnimatorController walkController;
+    [Tooltip("Kecepatan horizontal minimum (meter/detik) sebelum animasi Walk aktif.")]
+    [SerializeField, Min(0.01f)] float movingAnimationThreshold = 0.08f;
+
     [Header("Movement Debug")]
     [Tooltip("Tampilkan garis tujuan dan status AI di Scene view.")]
     [SerializeField] bool debugMovement = true;
@@ -47,8 +53,23 @@ public sealed class AnimalRoutine : MonoBehaviour
     bool originalKinematic;
     float nextPathTime;
     bool eating;
+    bool playerPushing;
+    readonly HashSet<object> careLocks = new();
+    Transform playerPusher;
     Animator activeEatingAnimator;
+    Animator locomotionAnimator;
+    Transform animationRoot;
+    AnimalLocomotionCatalog locomotionCatalog;
+    RuntimeAnimatorController activeIdleController;
+    RuntimeAnimatorController activeWalkController;
+    RuntimeAnimatorController activeEatController;
+    RuntimeAnimatorController controllerDuringEating;
+    float lastAnimationMovementTime = float.NegativeInfinity;
     RuntimeAnimatorController controllerBeforeEating;
+    Vector3 previousAnimationPosition;
+    bool correctedOutdoorEntry;
+    bool correctedOutdoorHeight;
+    bool correctedOutdoorCrowding;
     Vector3 pathDestination;
     Vector3 roamingDestination;
     Vector3 unassignedRoamingOrigin;
@@ -69,6 +90,8 @@ public sealed class AnimalRoutine : MonoBehaviour
         body = GetComponent<Rigidbody>();
         if (body != null) originalKinematic = body.isKinematic;
         unassignedRoamingOrigin = transform.position;
+        locomotionCatalog = AnimalLocomotionCatalog.Load();
+        previousAnimationPosition = transform.position;
     }
     void OnEnable()
     {
@@ -77,7 +100,7 @@ public sealed class AnimalRoutine : MonoBehaviour
     }
     void OnDisable()
     {
-        Active.Remove(this); TimeManager.OnDay -= Overnight; StopAllCoroutines(); RestoreEatingAnimation(); eating = false; ShowModel();
+        Active.Remove(this); TimeManager.OnDay -= Overnight; StopAllCoroutines(); RestoreEatingAnimation(); eating = false; careLocks.Clear(); ShowModel();
         if (body != null) body.isKinematic = originalKinematic;
     }
     public bool Assign(AnimalHome home)
@@ -98,7 +121,8 @@ public sealed class AnimalRoutine : MonoBehaviour
         }
         // Pembelian baru mengikuti saklar kandang: ketika kelompok sedang di luar,
         // hewan baru langsung muncul di luar tanpa fase campuran "sedang pulang".
-        transform.position = home.Entry;
+        int releaseIndex = Mathf.Max(0, home.Residents.Count - 1);
+        transform.position = home.OutdoorReleasePosition(releaseIndex);
         housed = false; returning = false;
         returningSince = -1f;
         ShowModel();
@@ -142,6 +166,8 @@ public sealed class AnimalRoutine : MonoBehaviour
         if (!AnimalCareRules.CanTurnOut(Animal.HasBeenBorn, Animal.Health == AnimalHealthState.Healthy, Animal.CanGrazeToday, hour, Home != null, housed)) return false;
         transform.position = outsidePosition ?? Home.Entry;
         housed = returning = false;
+        correctedOutdoorHeight = false;
+        correctedOutdoorCrowding = false;
         ClearGrassTarget(); ClearRoamingTarget(); path = null; nextPathTime = 0;
         ShowModel(); Animal.SetSheltered(false); Activity = "Di luar";
         return true;
@@ -193,6 +219,18 @@ public sealed class AnimalRoutine : MonoBehaviour
     void Update()
     {
         if (Time.timeScale <= 0 || (TimeManager.Instance != null && TimeManager.Instance.IsPaused) || Animal == null) return;
+        if(careLocks.Count>0)
+        {
+            Activity="Sedang dirawat";
+            ClearDebugGoal("ANIMAL_CARE");
+            return;
+        }
+        if(playerPushing)
+        {
+            Activity="Didorong player";
+            ClearDebugGoal("PLAYER_PUSH");
+            return;
+        }
         TryRepairHomeAssignment();
         AnimalHome home = Home;
         if (home == null)
@@ -203,6 +241,9 @@ public sealed class AnimalRoutine : MonoBehaviour
             UpdateWithoutHome();
             return;
         }
+        CorrectOutdoorEntrySpawn(home);
+        CorrectOutdoorHeight(home);
+        CorrectOutdoorCrowding(home);
         if (housed) { Animal.SetSheltered(true); PrepareDailyCare(); Activity = "Di kandang"; ClearDebugGoal("HOUSED"); DebugMovementTick(); return; }
         Animal.SetSheltered(false);
         if (eating) { Activity = "Makan rumput"; ClearDebugGoal("EATING"); DebugMovementTick(); return; }
@@ -369,18 +410,160 @@ public sealed class AnimalRoutine : MonoBehaviour
             }
         }
     }
+
+    public bool BeginPlayerPush(Transform pusher)
+    {
+        if(Animal==null || !Animal.HasBeenBorn || AnimalGrowthProfileSO.IsBird(Animal.Type) || eating || careLocks.Count>0)
+            return false;
+        playerPushing=true;
+        playerPusher=pusher;
+        path=null;
+        ClearGrassTarget();
+        ClearRoamingTarget();
+        Activity="Didorong player";
+        if(body!=null) body.isKinematic=true;
+        return true;
+    }
+
+    public void ConfigureLocomotionAnimation(
+        RuntimeAnimatorController idle,
+        RuntimeAnimatorController walk)
+    {
+        idleController = idle != null ? idle : idleController;
+        walkController = walk;
+        animationRoot = null;
+        ResolveLocomotionAnimator();
+    }
+
+    void CorrectOutdoorEntrySpawn(AnimalHome home)
+    {
+        if (correctedOutdoorEntry || housed || returning || home == null) return;
+        correctedOutdoorEntry = true;
+        Vector3 fromEntry = transform.position - home.Entry;
+        fromEntry.y = 0f;
+        if (fromEntry.sqrMagnitude > 1.75f * 1.75f) return;
+
+        int releaseIndex = Mathf.Max(0, home.Residents.IndexOf(this));
+        transform.position = home.OutdoorReleasePosition(releaseIndex);
+        unassignedRoamingOrigin = transform.position;
+        path = null;
+        nextPathTime = 0f;
+        ClearRoamingTarget();
+        Activity = "Di luar";
+    }
+
+    void CorrectOutdoorHeight(AnimalHome home)
+    {
+        if (correctedOutdoorHeight || housed || home == null) return;
+        correctedOutdoorHeight = true;
+        if (!home.TryGroundOutdoorPosition(transform.position, out Vector3 grounded)) return;
+        if (Mathf.Abs(transform.position.y - grounded.y) <= 0.12f) return;
+        transform.position = grounded;
+        unassignedRoamingOrigin = grounded;
+        path = null;
+        nextPathTime = 0f;
+    }
+
+    void CorrectOutdoorCrowding(AnimalHome home)
+    {
+        if (correctedOutdoorCrowding || housed || returning || home == null) return;
+        correctedOutdoorCrowding = true;
+        List<AnimalRoutine> residents = home.Residents;
+        int ownIndex = residents.IndexOf(this);
+        if (ownIndex < 0) return;
+
+        float ownRadius = GetGroundRadius(transform);
+        bool overlapping = false;
+        for (int index = 0; index < residents.Count; index++)
+        {
+            AnimalRoutine other = residents[index];
+            if (other == null || other == this || other.IsHoused) continue;
+            Vector3 separation = transform.position - other.transform.position;
+            separation.y = 0f;
+            float minimumDistance = ownRadius + GetGroundRadius(other.transform) + 0.35f;
+            if (separation.sqrMagnitude >= minimumDistance * minimumDistance) continue;
+            overlapping = true;
+            break;
+        }
+
+        if (!overlapping) return;
+        transform.position = home.OutdoorReleasePosition(ownIndex);
+        unassignedRoamingOrigin = transform.position;
+        path = null;
+        nextPathTime = 0f;
+        ClearRoamingTarget();
+    }
+
+    static float GetGroundRadius(Transform root)
+    {
+        Collider collider = root != null ? root.GetComponent<Collider>() : null;
+        if (collider == null) return 0.5f;
+        return Mathf.Max(0.25f, Mathf.Max(collider.bounds.extents.x, collider.bounds.extents.z));
+    }
+
+    public bool TryMoveByPlayer(Vector3 delta)
+    {
+        if(!playerPushing || delta.sqrMagnitude<0.000001f) return false;
+        Vector3 candidate=transform.position+delta;
+        if(!AnimalWalkingPath.Ground(candidate,transform,playerPusher,out Vector3 grounded,false)) return false;
+        transform.position=grounded;
+        path=null;
+        return true;
+    }
+
+    public void EndPlayerPush()
+    {
+        if(!playerPushing) return;
+        playerPushing=false;
+        playerPusher=null;
+        path=null;
+        unassignedRoamingOrigin=transform.position;
+        ClearRoamingTarget();
+        nextRoamingTime=Time.time+Mathf.Max(0.5f,minimumRoamingPause);
+        Activity="Beristirahat";
+    }
+
+    public bool AcquireCareLock(object owner)
+    {
+        if(owner==null || eating || playerPushing || Animal==null || !Animal.HasBeenBorn ||
+           (careLocks.Count>0 && !careLocks.Contains(owner))) return false;
+        careLocks.Add(owner);
+        path=null;
+        ClearGrassTarget();
+        ClearRoamingTarget();
+        Activity="Sedang dirawat";
+        if(body!=null)
+        {
+            body.isKinematic=true;
+            body.linearVelocity=Vector3.zero;
+            body.angularVelocity=Vector3.zero;
+        }
+        return true;
+    }
+
+    public void ReleaseCareLock(object owner)
+    {
+        if(owner==null || !careLocks.Remove(owner)) return;
+        if(careLocks.Count>0) return;
+        path=null;
+        unassignedRoamingOrigin=transform.position;
+        nextRoamingTime=Time.time+Mathf.Max(1f,minimumRoamingPause);
+        Activity="Beristirahat";
+    }
     void RecallIfNeeded() { if (!returning) Recall(); }
 
     IEnumerator EatGrass()
     {
         eating = true;
         Activity = "Makan rumput";
-        activeEatingAnimator = GetComponentInChildren<Animator>();
+        ResolveLocomotionAnimator();
+        activeEatingAnimator = locomotionAnimator;
         controllerBeforeEating = activeEatingAnimator != null ? activeEatingAnimator.runtimeAnimatorController : null;
         if (eatingController == null && Animal != null)
             eatingController = AnimalCareCatalog.Load()?.EatingController(Animal.Type);
-        if (activeEatingAnimator != null && eatingController != null)
-            activeEatingAnimator.runtimeAnimatorController = eatingController;
+        controllerDuringEating = activeEatController != null ? activeEatController : eatingController;
+        if (activeEatingAnimator != null && controllerDuringEating != null)
+            activeEatingAnimator.runtimeAnimatorController = controllerDuringEating;
         else if (activeEatingAnimator != null && !string.IsNullOrWhiteSpace(eatingTrigger))
             foreach (AnimatorControllerParameter parameter in activeEatingAnimator.parameters)
                 if (parameter.type == AnimatorControllerParameterType.Trigger && parameter.name == eatingTrigger)
@@ -404,11 +587,12 @@ public sealed class AnimalRoutine : MonoBehaviour
 
     void RestoreEatingAnimation()
     {
-        if (activeEatingAnimator != null && eatingController != null &&
-            activeEatingAnimator.runtimeAnimatorController == eatingController)
+        if (activeEatingAnimator != null && controllerDuringEating != null &&
+            activeEatingAnimator.runtimeAnimatorController == controllerDuringEating)
             activeEatingAnimator.runtimeAnimatorController = controllerBeforeEating;
         activeEatingAnimator = null;
         controllerBeforeEating = null;
+        controllerDuringEating = null;
     }
 
     void ClearGrassTarget() { grass = null; terrainGrass = null; terrainGrassIndex = -1; }
@@ -559,12 +743,19 @@ public sealed class AnimalRoutine : MonoBehaviour
 
     void LateUpdate()
     {
+        UpdateLocomotionAnimation();
         if (!housed) return;
         BarnInterior interior = BarnInterior.Current;
         if (interior != null && interior.home == Home && Animal.HasBeenBorn)
         {
             ShowModel();
-            transform.position = interior.AnimalPosition(this);
+            // Perawatan mempertahankan posisi dan arah hewan selama animasi cukur.
+            if(careLocks.Count==0)
+            {
+                var controller=BarnInteriorSceneController.Instance;
+                transform.SetPositionAndRotation(interior.AnimalPosition(this),
+                    controller!=null ? controller.AnimalFacing(this) : transform.rotation);
+            }
             return;
         }
         if (Home != null) transform.position = Home.Entry;
@@ -572,6 +763,49 @@ public sealed class AnimalRoutine : MonoBehaviour
         { if (!renderers.ContainsKey(renderer)) renderers[renderer] = renderer.enabled; renderer.enabled = false; }
         foreach (Collider collider in GetComponentsInChildren<Collider>(true))
         { if (!colliders.ContainsKey(collider)) colliders[collider] = collider.enabled; collider.enabled = false; }
+    }
+
+    void UpdateLocomotionAnimation()
+    {
+        ResolveLocomotionAnimator();
+
+        Vector3 delta = transform.position - previousAnimationPosition;
+        delta.y = 0f;
+        previousAnimationPosition = transform.position;
+        if (locomotionAnimator == null || eating) return;
+
+        float horizontalSpeed = Time.deltaTime > 0.0001f ? delta.magnitude / Time.deltaTime : 0f;
+        if (horizontalSpeed >= movingAnimationThreshold) lastAnimationMovementTime = Time.time;
+        // Brief path/collision pauses must not restart the walk clip on every frame.
+        bool moving = !housed && careLocks.Count == 0 && !playerPushing &&
+            Time.time - lastAnimationMovementTime < 0.12f;
+        RuntimeAnimatorController desired = moving && activeWalkController != null
+            ? activeWalkController
+            : activeIdleController;
+        if (desired != null && locomotionAnimator.runtimeAnimatorController != desired)
+            locomotionAnimator.runtimeAnimatorController = desired;
+    }
+
+    void ResolveLocomotionAnimator()
+    {
+        Transform root = Animal != null ? Animal.CurrentAnimationRoot : transform;
+        if (root == animationRoot && locomotionAnimator != null && locomotionAnimator.isActiveAndEnabled) return;
+        animationRoot = root;
+        locomotionAnimator = root != null ? root.GetComponentInChildren<Animator>() : null;
+        activeIdleController = activeWalkController = activeEatController = null;
+        if (locomotionAnimator == null) return;
+        RuntimeAnimatorController original = locomotionAnimator.runtimeAnimatorController;
+        AnimalLocomotionCatalog.Rig rig = locomotionCatalog != null ? locomotionCatalog.Find(locomotionAnimator) : null;
+        activeIdleController = rig != null ? rig.idle : (idleController != null ? idleController : original);
+        activeWalkController = rig != null ? rig.walk : walkController;
+        activeEatController = rig != null ? rig.eat : null;
+        // Authored overrides remain usable, but an adult controller must not drive a calf/chick rig.
+        if (rig != null && locomotionCatalog.Find(idleController) == rig) activeIdleController = idleController;
+        if (rig != null && locomotionCatalog.Find(walkController) == rig) activeWalkController = walkController;
+        if (rig != null && locomotionCatalog.Find(eatingController) == rig) activeEatController = eatingController;
+        locomotionAnimator.applyRootMotion = false;
+        locomotionAnimator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+        lastAnimationMovementTime = float.NegativeInfinity;
     }
     void ShowModel()
     {

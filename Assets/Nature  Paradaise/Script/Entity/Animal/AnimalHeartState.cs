@@ -35,7 +35,10 @@ public sealed class AnimalHeartState
     public int lastPetDay = -1;
     public int lastTreatDay = -1;
     public int lastMedicineDay = -1;
+    public int lastInteractionDay = -1;
+    public int lastCompleteCareRewardDay = -1;
     public int grazingDay = -1;
+    public int neglectedCareDays;
     public int Level => Math.Max(0, Math.Min(1000, points)) / 100;
     public AnimalHeartState Copy() => (AnimalHeartState)MemberwiseClone();
     public void Add(int amount) => points = (int)Math.Max(0L, Math.Min(1000L, (long)points + amount));
@@ -44,6 +47,41 @@ public sealed class AnimalHeartState
         if (lastDay == day) return false;
         lastDay = day;
         Add(Math.Max(0, reward));
+        return true;
+    }
+
+    /// <summary>
+    /// Aturan hubungan sapi: satu hari lengkap (makan, gosok, interaksi) memberi 1%,
+    /// sedangkan tujuh hari perawatan tidak lengkap berturut-turut mengurangi 5%.
+    /// Satu persen disimpan sebagai 10 point agar tetap kompatibel dengan save lama 0..1000.
+    /// </summary>
+    public void EndCowCareDay(int day, bool fed, bool brushed, bool interacted)
+    {
+        if (day <= lastDailyDay) return;
+        lastDailyDay = day;
+        hungryDays = fed ? 0 : hungryDays + 1;
+        ignoredDays = brushed && interacted ? 0 : ignoredDays + 1;
+
+        if (fed && brushed && interacted)
+        {
+            neglectedCareDays = 0;
+            goodCareDays++;
+            TryRewardCowDailyCare(day, fed, brushed, interacted);
+            return;
+        }
+
+        goodCareDays = 0;
+        neglectedCareDays++;
+        if (neglectedCareDays < 7) return;
+        Add(-50);
+        neglectedCareDays = 0;
+    }
+
+    public bool TryRewardCowDailyCare(int day, bool fed, bool brushed, bool interacted)
+    {
+        if (!fed || !brushed || !interacted || lastCompleteCareRewardDay == day) return false;
+        lastCompleteCareRewardDay = day;
+        Add(10);
         return true;
     }
 

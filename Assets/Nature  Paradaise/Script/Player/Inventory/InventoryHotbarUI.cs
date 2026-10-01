@@ -159,6 +159,8 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             PlayerToolType.Axe => "F: tebang pohon",
             PlayerToolType.FishingRod => $"F: gunakan pancing  |  Bait: {(fishingSystem != null ? fishingSystem.EquippedBaitLabel : "No Bait")}",
             PlayerToolType.CropBooster => "F: gunakan crop booster",
+            PlayerToolType.Shears => "Dekati domba lalu G: cukur bulu",
+            PlayerToolType.Pitchfork => "Dekati kotoran hewan lalu E: ambil kotoran",
             _ when item != null && item.IsAnimalMedicine => "Dekati hewan sakit lalu tekan F: Give Medicine",
             _ when item != null && item.IsFishingBait =>
                 fishingSystem != null && fishingSystem.EquippedBait == item

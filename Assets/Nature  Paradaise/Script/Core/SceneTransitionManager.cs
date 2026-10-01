@@ -125,17 +125,21 @@ public sealed class SceneTransitionManager : MonoBehaviour
         TimeManager.Instance?.AcquirePause(this);
         yield return Fade(1f);
 
-        AsyncOperation load = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        if (load == null)
+        Scene interior = SceneManager.GetSceneByName(sceneName);
+        if (!interior.IsValid() || !interior.isLoaded)
         {
-            ReleaseTransitionLocks();
-            yield break;
+            AsyncOperation load = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            if (load == null)
+            {
+                ReleaseTransitionLocks();
+                yield break;
+            }
+            while (!load.isDone)
+                yield return null;
+            interior = SceneManager.GetSceneByName(sceneName);
         }
-        while (!load.isDone)
-            yield return null;
 
         loadedInteriorScene = sceneName;
-        Scene interior = SceneManager.GetSceneByName(sceneName);
         if (interior.IsValid())
             SceneManager.SetActiveScene(interior);
         yield return null; // Memberi PlayerSpawnPoint satu frame untuk mendaftarkan ID.

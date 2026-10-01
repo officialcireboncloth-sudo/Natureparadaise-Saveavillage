@@ -17,6 +17,7 @@ public class ShopManager : MonoBehaviour
     public List<ItemSO> cropBoosterItems = new();
     [Header("Farm Equipment / Trees")]
     public bool sellsFarmEquipment = true;
+    public List<ItemSO> toolItems = new();
     public List<ItemSO> sprinklerItems = new();
     public List<ItemSO> treeSeedItems = new();
 
@@ -28,6 +29,14 @@ public class ShopManager : MonoBehaviour
     [Tooltip("Lokasi hewan dikirim. Jika kosong, hewan muncul berdekatan dengan hewan farm pertama.")]
     public Transform animalDeliveryPoint;
     [HideInInspector] public int maximumOwnedAnimals = 20; // Legacy save/scene field; capacity is per home.
+
+    [Header("Default Livestock Presentation")]
+    [SerializeField] GameObject goatPrefab;
+    [SerializeField] RuntimeAnimatorController goatIdleController;
+    [SerializeField] RuntimeAnimatorController goatWalkController;
+    [SerializeField] GameObject sheepPrefab;
+    [SerializeField] RuntimeAnimatorController sheepIdleController;
+    [SerializeField] RuntimeAnimatorController sheepWalkController;
 
     [Header("Items Bought By Shop")]
     public ItemSO cabbageItem;
@@ -54,6 +63,14 @@ public class ShopManager : MonoBehaviour
         FarmEquipmentCatalog equipment = FarmEquipmentCatalog.Load();
         if (equipment != null && sellsFarmEquipment)
         {
+            toolItems ??= new List<ItemSO>();
+            if (toolItems.Count == 0)
+            {
+                ItemSO shears = Resources.Load<ItemSO>("Items/Tools/Shears Tool");
+                if (shears != null) toolItems.Add(shears);
+            }
+            ItemSO pitchfork = Resources.Load<ItemSO>("Items/Tools/Pitchfork Tool");
+            if (pitchfork != null && !toolItems.Contains(pitchfork)) toolItems.Add(pitchfork);
             if (sprinklerItems.Count == 0) sprinklerItems.AddRange(equipment.sprinklers);
             if (treeSeedItems.Count == 0) treeSeedItems.AddRange(equipment.treeSeeds);
         }
@@ -65,17 +82,29 @@ public class ShopManager : MonoBehaviour
             if (cropBoosterItems.Count > 0) cropBoosterItem = cropBoosterItems[0];
         }
         animalOffers ??= new List<AnimalShopOffer>();
-        if (animalOffers.Count > 0) return;
+        if (animalOffers.Count == 0)
+        {
+            animalOffers.Add(CreateDefaultOffer("Chicken Egg", AnimalType.Chicken, AnimalShopOfferKind.Egg, 500));
+            animalOffers.Add(CreateDefaultOffer("Young Chicken", AnimalType.Chicken, AnimalShopOfferKind.Young, 1000));
+            animalOffers.Add(CreateDefaultOffer("Duck Egg", AnimalType.Duck, AnimalShopOfferKind.Egg, 700));
+            animalOffers.Add(CreateDefaultOffer("Young Duck", AnimalType.Duck, AnimalShopOfferKind.Young, 1400));
+            animalOffers.Add(CreateDefaultOffer("Young Goat", AnimalType.Goat, AnimalShopOfferKind.Young, 3000));
+            animalOffers.Add(CreateDefaultOffer("Young Sheep", AnimalType.Sheep, AnimalShopOfferKind.Young, 3500));
+            AnimalShopOffer cow = CreateDefaultOffer("Young Cow", AnimalType.Cow, AnimalShopOfferKind.Young, 5000);
+            cow.productItem = milkItem;
+            animalOffers.Add(cow);
+        }
 
-        animalOffers.Add(CreateDefaultOffer("Chicken Egg", AnimalType.Chicken, AnimalShopOfferKind.Egg, 500));
-        animalOffers.Add(CreateDefaultOffer("Young Chicken", AnimalType.Chicken, AnimalShopOfferKind.Young, 1000));
-        animalOffers.Add(CreateDefaultOffer("Duck Egg", AnimalType.Duck, AnimalShopOfferKind.Egg, 700));
-        animalOffers.Add(CreateDefaultOffer("Young Duck", AnimalType.Duck, AnimalShopOfferKind.Young, 1400));
-        animalOffers.Add(CreateDefaultOffer("Young Goat", AnimalType.Goat, AnimalShopOfferKind.Young, 3000));
-        animalOffers.Add(CreateDefaultOffer("Young Sheep", AnimalType.Sheep, AnimalShopOfferKind.Young, 3500));
-        AnimalShopOffer cow = CreateDefaultOffer("Young Cow", AnimalType.Cow, AnimalShopOfferKind.Young, 5000);
-        cow.productItem = milkItem;
-        animalOffers.Add(cow);
+        // Scene lama menyimpan offer kambing tanpa prefab. Isi otomatis agar pembelian
+        // dan restore save selalu memakai model serta animasi yang sama.
+        for (int index = 0; index < animalOffers.Count; index++)
+        {
+            AnimalShopOffer offer = animalOffers[index];
+            if (offer != null && offer.animalType == AnimalType.Goat && goatPrefab != null)
+                offer.animalPrefab = goatPrefab;
+            else if (offer != null && offer.animalType == AnimalType.Sheep && sheepPrefab != null)
+                offer.animalPrefab = sheepPrefab;
+        }
     }
 
     static AnimalShopOffer CreateDefaultOffer(
@@ -237,9 +266,7 @@ public class ShopManager : MonoBehaviour
 
     AnimalGrowthSystem SpawnAnimal(AnimalShopOffer offer, Vector3 position, bool initializePurchase)
     {
-        GameObject animalObject = offer.animalPrefab != null
-            ? Instantiate(offer.animalPrefab, position, Quaternion.identity)
-            : CreateDummyAnimalObject(offer.animalType, position);
+        GameObject animalObject = CreateAnimalObject(offer, position);
         if (animalObject == null) return null;
 
         AnimalController controller = animalObject.GetComponent<AnimalController>();
@@ -257,7 +284,94 @@ public class ShopManager : MonoBehaviour
         controller.ConfigureRuntime(playerInv, care != null ? care.fodder : cabbageItem,
             offer.productItem != null ? offer.productItem : offer.growthProfile != null && offer.growthProfile.productItem != null
                 ? offer.growthProfile.productItem : care?.Product(offer.animalType), growth);
+
+        AnimalRoutine routine = animalObject.GetComponent<AnimalRoutine>();
+        if (routine == null) routine = animalObject.AddComponent<AnimalRoutine>();
+        if (offer.animalType == AnimalType.Goat)
+            routine.ConfigureLocomotionAnimation(goatIdleController, goatWalkController);
+        else if (offer.animalType == AnimalType.Sheep)
+            routine.ConfigureLocomotionAnimation(sheepIdleController, sheepWalkController);
         return growth;
+    }
+
+    GameObject CreateAnimalObject(AnimalShopOffer offer, Vector3 position)
+    {
+        if (offer == null) return null;
+
+        // Prefab Toon Farm memakai pivot model di sekitar badan, bukan di telapak kaki.
+        // Root gameplay harus tetap berada di tanah agar AI, push, dan ground check stabil.
+        if (offer.animalType == AnimalType.Goat)
+        {
+            GameObject resolvedGoatPrefab = goatPrefab != null ? goatPrefab : offer.animalPrefab;
+            if (resolvedGoatPrefab != null)
+                return CreateGroundedLivestockObject(resolvedGoatPrefab, AnimalType.Goat, position);
+
+            Debug.LogError("[SHOP] Young Goat tidak mempunyai goatPrefab. Spawn dibatalkan agar tidak berubah menjadi dummy/hewan lain.");
+            return null;
+        }
+
+        if (offer.animalType == AnimalType.Sheep)
+        {
+            GameObject resolvedSheepPrefab = sheepPrefab != null ? sheepPrefab : offer.animalPrefab;
+            if (resolvedSheepPrefab != null)
+                return CreateGroundedLivestockObject(resolvedSheepPrefab, AnimalType.Sheep, position);
+
+            Debug.LogError("[SHOP] Young Sheep tidak mempunyai sheepPrefab berbulu. Spawn dibatalkan.");
+            return null;
+        }
+
+        return offer.animalPrefab != null
+            ? Instantiate(offer.animalPrefab, position, Quaternion.identity)
+            : CreateDummyAnimalObject(offer.animalType, position);
+    }
+
+    static GameObject CreateGroundedLivestockObject(GameObject prefab, AnimalType type, Vector3 position)
+    {
+        GameObject animalObject = new($"Animal_{type}_Runtime");
+        animalObject.transform.SetPositionAndRotation(position, Quaternion.identity);
+
+        CapsuleCollider collider = animalObject.AddComponent<CapsuleCollider>();
+        bool sheep = type == AnimalType.Sheep;
+        collider.radius = sheep ? 0.48f : 0.43f;
+        collider.height = sheep ? 1.45f : 1.35f;
+        collider.center = new Vector3(0f, collider.height * 0.5f, 0f);
+
+        GameObject visualObject = new("AnimalVisual");
+        Transform visualAnchor = visualObject.transform;
+        visualAnchor.SetParent(animalObject.transform, false);
+
+        GameObject model = Instantiate(prefab, visualAnchor, false);
+        model.name = sheep ? "SheepModel_Wool" : "GoatModel";
+        model.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        model.transform.localScale = Vector3.one;
+        AlignVisualFeetToGround(visualAnchor, model.transform);
+        return animalObject;
+    }
+
+    static void AlignVisualFeetToGround(Transform visualAnchor, Transform model)
+    {
+        Renderer[] renderers = model.GetComponentsInChildren<Renderer>(true);
+        bool hasBounds = false;
+        Bounds combined = default;
+        for (int index = 0; index < renderers.Length; index++)
+        {
+            Renderer renderer = renderers[index];
+            if (renderer == null || !renderer.gameObject.activeInHierarchy) continue;
+            if (!hasBounds)
+            {
+                combined = renderer.bounds;
+                hasBounds = true;
+            }
+            else
+            {
+                combined.Encapsulate(renderer.bounds);
+            }
+        }
+
+        if (!hasBounds) return;
+        Vector3 lowestPoint = new(combined.center.x, combined.min.y, combined.center.z);
+        float localMinimumY = visualAnchor.InverseTransformPoint(lowestPoint).y;
+        model.localPosition += Vector3.up * -localMinimumY;
     }
 
     static GameObject CreateDummyAnimalObject(AnimalType type, Vector3 position)

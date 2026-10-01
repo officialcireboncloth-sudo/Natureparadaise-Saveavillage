@@ -353,6 +353,7 @@ public static class HouseSystemSetup
             .ToArray();
         foreach (Transform layout in layouts)
         {
+            if (layout.GetComponentInParent<HouseInteriorController>()?.UsesAuthoredSceneLayout == true) continue;
             Transform candidate = layout.Find("Refrigerator_MeshSlot");
             if (candidate == null)
             {
@@ -402,6 +403,7 @@ public static class HouseSystemSetup
             .Where(candidate => candidate.name.StartsWith("InteriorLayout_Lv")).ToArray();
         foreach (Transform layout in layouts)
         {
+            if (layout.GetComponentInParent<HouseInteriorController>()?.UsesAuthoredSceneLayout == true) continue;
             int level = ParseLayoutLevel(layout.name);
             float width = InteriorWidth(level);
             float depth = InteriorDepth(level);
@@ -475,6 +477,7 @@ public static class HouseSystemSetup
             .Where(candidate => candidate.name.StartsWith("InteriorLayout_Lv")).ToArray();
         foreach (Transform layout in layouts)
         {
+            if (layout.GetComponentInParent<HouseInteriorController>()?.UsesAuthoredSceneLayout == true) continue;
             int level = ParseLayoutLevel(layout.name);
             float width = InteriorWidth(level);
             Transform aquarium = layout.Find("Aquarium_TestFurniture_Editable");

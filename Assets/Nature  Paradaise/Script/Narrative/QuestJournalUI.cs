@@ -17,6 +17,7 @@ public sealed class QuestJournalUI : MonoBehaviour
     [SerializeField] TMP_Text objectivesText;
     [SerializeField] TMP_Text rewardsText;
     [SerializeField] Button turnInButton;
+    [SerializeField] Button closeButton;
     [SerializeField] KeyCode toggleKey = KeyCode.J;
     [SerializeField] bool includeLockedQuests;
 
@@ -27,7 +28,9 @@ public sealed class QuestJournalUI : MonoBehaviour
     void OnEnable()
     {
         Bind();
+        EnsureCloseButton();
         if (turnInButton != null) turnInButton.onClick.AddListener(TurnInSelected);
+        if (closeButton != null) closeButton.onClick.AddListener(Close);
     }
 
     void Start()
@@ -39,6 +42,7 @@ public sealed class QuestJournalUI : MonoBehaviour
     void OnDisable()
     {
         if (turnInButton != null) turnInButton.onClick.RemoveListener(TurnInSelected);
+        if (closeButton != null) closeButton.onClick.RemoveListener(Close);
         SetModalLock(false);
         Unbind();
     }
@@ -46,7 +50,9 @@ public sealed class QuestJournalUI : MonoBehaviour
     void Update()
     {
         if (boundService == null) Bind();
-        if (Input.GetKeyDown(toggleKey)) SetOpen(panelRoot == null || !panelRoot.activeSelf);
+        bool open = panelRoot != null && panelRoot.activeSelf;
+        if (open && (Input.GetKeyDown(toggleKey) || Input.GetKeyDown(KeyCode.Escape))) Close();
+        else if (!open && Input.GetKeyDown(toggleKey)) SetOpen(true);
     }
 
     public void SetOpen(bool open)
@@ -59,6 +65,47 @@ public sealed class QuestJournalUI : MonoBehaviour
         if (panelRoot != null) panelRoot.SetActive(open);
         SetModalLock(open);
         if (open) RebuildList();
+    }
+
+    void Close() => SetOpen(false);
+
+    void EnsureCloseButton()
+    {
+        if (panelRoot == null || closeButton != null) return;
+        Transform existing = panelRoot.transform.Find("CloseButton");
+        if (existing != null) closeButton = existing.GetComponent<Button>();
+        if (closeButton == null)
+        {
+            GameObject root = new("CloseButton", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
+            root.transform.SetParent(panelRoot.transform, false);
+            RectTransform rect = root.GetComponent<RectTransform>();
+            rect.anchorMin = rect.anchorMax = new Vector2(1f, 1f);
+            rect.pivot = new Vector2(1f, 1f);
+            rect.anchoredPosition = new Vector2(-18f, -16f);
+            rect.sizeDelta = new Vector2(116f, 42f);
+            Image image = root.GetComponent<Image>();
+            image.color = new Color(0.22f, 0.08f, 0.055f, 0.96f);
+            closeButton = root.GetComponent<Button>();
+            closeButton.targetGraphic = image;
+
+            GameObject labelObject = new("Label", typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI));
+            labelObject.transform.SetParent(root.transform, false);
+            RectTransform labelRect = labelObject.GetComponent<RectTransform>();
+            labelRect.anchorMin = Vector2.zero;
+            labelRect.anchorMax = Vector2.one;
+            labelRect.offsetMin = labelRect.offsetMax = Vector2.zero;
+            TextMeshProUGUI label = labelObject.GetComponent<TextMeshProUGUI>();
+            label.font = TMP_Settings.defaultFontAsset;
+            label.fontSize = 17f;
+            label.fontStyle = FontStyles.Bold;
+            label.alignment = TextAlignmentOptions.Center;
+            label.color = Color.white;
+            label.raycastTarget = false;
+            label.text = "TUTUP  ×";
+        }
+
+        TMP_Text heading = panelRoot.transform.Find("Heading")?.GetComponent<TMP_Text>();
+        if (heading != null) heading.text = "QUEST JOURNAL";
     }
 
     void SetModalLock(bool locked)

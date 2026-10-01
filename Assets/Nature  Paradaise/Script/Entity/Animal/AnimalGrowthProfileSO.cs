@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum AnimalType { Chicken, Duck, Goat, Sheep, Cow }
+public enum AnimalGender { Female, Male }
 public enum AnimalBirthSource { HatchedOnFarm, BornOnFarm, PurchasedYoung, PurchasedEgg }
 public enum AnimalGrowthStage { Egg, Pregnancy, Hatchling, Newborn, Baby, Young, Adolescent, Adult }
 public enum AnimalHealthState { Healthy, Sick }

@@ -64,6 +64,7 @@ public sealed class QuestService : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+        transform.SetParent(null, true);
         DontDestroyOnLoad(gameObject);
         RebuildCatalog();
     }

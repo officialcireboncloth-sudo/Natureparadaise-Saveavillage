@@ -270,12 +270,18 @@ public static class NarrativeTestingSetupUtility
         QuestTrackerUI controller = controllerObject.AddComponent<QuestTrackerUI>();
         GameObject panel = CreatePanel("ActiveQuestTracker", controllerObject.transform, new Color(0.035f, 0.055f, 0.07f, 0.92f));
         RectTransform panelRect = panel.GetComponent<RectTransform>();
-        panelRect.anchorMin = new Vector2(0.025f, 0.49f);
-        panelRect.anchorMax = new Vector2(0.34f, 0.73f);
-        panelRect.offsetMin = panelRect.offsetMax = Vector2.zero;
-        TMP_Text content = CreateText("CurrentQuest", panel.transform, 20f, FontStyles.Normal, TextAlignmentOptions.TopLeft);
+        panelRect.anchorMin = panelRect.anchorMax = new Vector2(0f, 1f);
+        panelRect.pivot = new Vector2(0f, 1f);
+        panelRect.anchoredPosition = new Vector2(22f, -190f);
+        panelRect.sizeDelta = new Vector2(380f, 104f);
+        panel.GetComponent<Image>().raycastTarget = false;
+        CanvasGroup trackerGroup = panel.AddComponent<CanvasGroup>();
+        trackerGroup.interactable = false;
+        trackerGroup.blocksRaycasts = false;
+        TMP_Text content = CreateText("CurrentQuest", panel.transform, 16f, FontStyles.Normal, TextAlignmentOptions.TopLeft);
         content.textWrappingMode = TextWrappingModes.Normal;
-        content.margin = new Vector4(18f, 14f, 18f, 14f);
+        content.margin = new Vector4(12f, 9f, 12f, 9f);
+        content.raycastTarget = false;
         Stretch(content.rectTransform);
 
         SerializedObject serialized = new(controller);

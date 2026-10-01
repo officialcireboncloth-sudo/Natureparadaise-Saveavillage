@@ -79,10 +79,11 @@ public sealed class PlayerAnimalBell : MonoBehaviour
             targetCount++;
             if (outside)
             {
+                int slotIndex = releaseIndex++;
                 if (!routine.IsHoused && !routine.Returning) { alreadyInState++; continue; }
                 Vector3 position = selectedHome != null
-                    ? selectedHome.OutdoorReleasePosition(releaseIndex++)
-                    : routine.Home.OutdoorReleasePosition(releaseIndex++);
+                    ? selectedHome.OutdoorReleasePosition(slotIndex)
+                    : routine.Home.OutdoorReleasePosition(slotIndex);
                 if (routine.ReleaseAt(position)) changed++;
             }
             else if (!routine.IsHoused)

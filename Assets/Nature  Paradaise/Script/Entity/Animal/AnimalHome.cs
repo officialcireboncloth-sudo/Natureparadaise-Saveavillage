@@ -23,6 +23,7 @@ public sealed class AnimalHomeSaveData
 public sealed class AnimalHome : MonoBehaviour
 {
     public static readonly List<AnimalHome> Active = new();
+    static readonly RaycastHit[] OutdoorGroundHits = new RaycastHit[64];
     public string homeId;
     public AnimalHousingKind kind = AnimalHousingKind.Barn;
     [Min(1)] public int capacity = 4;
@@ -109,7 +110,7 @@ public sealed class AnimalHome : MonoBehaviour
                 float halfDepth = Mathf.Max(1f,Mathf.Abs(localCorner.z-localCenter.z));
                 point = anchor.TransformPoint(new Vector3(localCenter.x,0f,localCenter.z-halfDepth-1.2f));
             }
-            if (Physics.Raycast(point + Vector3.up * 4f, Vector3.down, out RaycastHit hit, 10f, ~0, QueryTriggerInteraction.Ignore)) point.y = hit.point.y;
+            if (TryFindWalkableGround(point, anchor, out Vector3 grounded)) point.y = grounded.y;
             else point.y = anchor.position.y;
             return point;
         }
@@ -125,13 +126,51 @@ public sealed class AnimalHome : MonoBehaviour
         if (outward.sqrMagnitude < 0.01f) outward = -anchor.forward;
         outward.Normalize();
         Vector3 side = Vector3.Cross(Vector3.up, outward);
-        float lateral = ((groupIndex % 5) - 2) * 0.75f;
-        float row = groupIndex / 5 * 0.9f;
-        Vector3 position = entry + outward * (2.25f + row) + side * lateral;
-        if (Physics.Raycast(position + Vector3.up * 6f, Vector3.down, out RaycastHit hit, 14f,
-            ~0, QueryTriggerInteraction.Ignore)) position.y = hit.point.y;
-        else position.y = entry.y;
+        const int columns = 4;
+        int column = Mathf.Max(0, groupIndex) % columns;
+        int rowIndex = Mathf.Max(0, groupIndex) / columns;
+        float lateral = (column - (columns - 1) * 0.5f) * 2f;
+        float row = rowIndex * 2f;
+        Vector3 position = entry + outward * (3.5f + row) + side * lateral;
+        if (TryFindWalkableGround(position, anchor, out Vector3 grounded)) position.y = grounded.y;
+        else position.y = anchor.position.y;
         return position;
+    }
+
+    public bool TryGroundOutdoorPosition(Vector3 point, out Vector3 grounded)
+    {
+        Transform anchor = site != null ? site.BuildingAnchor : transform;
+        return TryFindWalkableGround(point, anchor, out grounded);
+    }
+
+    bool TryFindWalkableGround(Vector3 point, Transform buildingAnchor, out Vector3 grounded)
+    {
+        grounded = point;
+        float originY = Mathf.Max(point.y, buildingAnchor != null ? buildingAnchor.position.y : point.y) + 12f;
+        Vector3 origin = new(point.x, originY, point.z);
+        int hitCount = Physics.RaycastNonAlloc(origin, Vector3.down, OutdoorGroundHits, 30f,
+            ~0, QueryTriggerInteraction.Ignore);
+        float highestWalkableY = float.NegativeInfinity;
+
+        for (int index = 0; index < hitCount; index++)
+        {
+            RaycastHit hit = OutdoorGroundHits[index];
+            Collider candidate = hit.collider;
+            if (candidate == null || hit.normal.y < 0.65f) continue;
+
+            Transform candidateTransform = candidate.transform;
+            if (candidateTransform.IsChildOf(transform) ||
+                (buildingAnchor != null && candidateTransform.IsChildOf(buildingAnchor)) ||
+                candidate.GetComponentInParent<AnimalGrowthSystem>() != null ||
+                candidate.GetComponentInParent<PlayerController>() != null)
+                continue;
+
+            if (hit.point.y <= highestWalkableY) continue;
+            highestWalkableY = hit.point.y;
+            grounded = hit.point;
+        }
+
+        return !float.IsNegativeInfinity(highestWalkableY);
     }
     void Awake()
     {

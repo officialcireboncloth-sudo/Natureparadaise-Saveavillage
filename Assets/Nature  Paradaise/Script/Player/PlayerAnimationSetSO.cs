@@ -46,5 +46,6 @@ public sealed class PlayerAnimationSetSO : ScriptableObject
     public AnimationClip tiredPose;
     public AnimationClip wakeUpBed;
     public AnimationClip yawn;
+    public AnimationClip staggerOverlay;
     public AnimationClip useTool;
 }

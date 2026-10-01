@@ -256,7 +256,10 @@ public class ShopUI : MonoBehaviour
                 break;
             case FarmShopCategory.Equipment:
                 if (shop.sellsFarmEquipment)
+                {
+                    foreach (ItemSO tool in shop.toolItems) AddProduct(tool, false);
                     foreach (ItemSO sprinkler in shop.sprinklerItems) AddProduct(sprinkler, false);
+                }
                 break;
             case FarmShopCategory.Bait:
                 foreach (ItemSO bait in shop.baitItems) AddProduct(bait, false);

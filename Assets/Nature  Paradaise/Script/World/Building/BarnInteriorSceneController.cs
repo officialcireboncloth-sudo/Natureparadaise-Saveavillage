@@ -283,6 +283,23 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         return transform.position+new Vector3(0f,0.2f,2f);
     }
 
+    public Quaternion AnimalFacing(AnimalRoutine animal)
+    {
+        Vector3 position=AnimalPosition(animal);
+        Transform trough=ClosestFeedingSlot(position,out _);
+        if(trough==null) return animal.transform.rotation;
+        Vector3 direction=trough.position-position;
+        direction.y=0f;
+        return direction.sqrMagnitude>0.001f ? Quaternion.LookRotation(direction) : animal.transform.rotation;
+    }
+
+    public Vector3 AnimalSlotPosition(int index)
+    {
+        if(animalSpots!=null && index>=0 && index<animalSpots.Length && animalSpots[index]!=null)
+            return animalSpots[index].position;
+        return transform.position+new Vector3(0f,.2f,2f);
+    }
+
     void Update()
     {
         if(player==null) player=FindFirstObjectByType<PlayerController>();

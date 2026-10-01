@@ -60,6 +60,14 @@ public static class AnimalWalkingPath
     }
     static int Distance(Vector2Int a, Vector2Int b) => Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
     public static bool Ground(Vector3 point, Transform animal, out Vector3 ground)
+        => Ground(point,animal,null,out ground);
+
+    /// <summary>
+    /// Versi ground check yang dapat mengabaikan satu hierarchy obstacle. Mode dorong
+    /// memakainya agar tubuh player yang harus berdiri rapat tidak memblokir hewan.
+    /// </summary>
+    public static bool Ground(Vector3 point,Transform animal,Transform ignoredObstacleRoot,out Vector3 ground,
+        bool validateNearbyObstacles=true)
     {
         ground = point;
         // Ray ground tidak boleh menganggap tubuh hewan sendiri sebagai lantai.
@@ -69,11 +77,17 @@ public static class AnimalWalkingPath
         float nearest = float.PositiveInfinity;
         for (int i = 0; i < hits; i++)
         {
-            if (GroundHits[i].transform.IsChildOf(animal) || GroundHits[i].distance >= nearest) continue;
+            Transform hitTransform=GroundHits[i].transform;
+            if (hitTransform.IsChildOf(animal) ||
+                (ignoredObstacleRoot!=null && hitTransform.IsChildOf(ignoredObstacleRoot)) ||
+                GroundHits[i].distance >= nearest) continue;
             hit = GroundHits[i]; nearest = hit.distance;
         }
         if (float.IsPositiveInfinity(nearest) || hit.normal.y < 0.7f || Mathf.Abs(hit.point.y - point.y) > 0.65f) return false;
         ground = hit.point;
+        // Mode push sudah memakai capsule cast khusus di arah gerak. Overlap sphere
+        // umum di bawah ini terlalu konservatif ketika player/hewan berdempetan.
+        if(!validateNearbyObstacles) return true;
         Collider ownCollider = animal.GetComponent<Collider>();
         float radius = ownCollider != null ? Mathf.Clamp(Mathf.Max(ownCollider.bounds.extents.x, ownCollider.bounds.extents.z), 0.25f, 0.75f) : 0.4f;
         int count = Physics.OverlapSphereNonAlloc(ground + Vector3.up * 0.8f, radius, Obstacles, ~0, QueryTriggerInteraction.Ignore);
@@ -86,6 +100,11 @@ public static class AnimalWalkingPath
 
             // Tubuh hewan sendiri bukan obstacle.
             if (obstacle.transform.IsChildOf(animal))
+                continue;
+
+            // Saat didorong, CharacterController player memang harus menempel di belakang
+            // hewan. Jangan salah menganggap tubuh pendorong sebagai tembok.
+            if(ignoredObstacleRoot!=null && obstacle.transform.IsChildOf(ignoredObstacleRoot))
                 continue;
 
             // Collider yang menjadi permukaan tanah tidak boleh dianggap tembok.

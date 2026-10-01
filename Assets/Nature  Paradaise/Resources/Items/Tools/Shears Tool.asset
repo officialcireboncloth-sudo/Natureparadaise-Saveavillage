@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Shears Tool
+  itemId: item.shears_tool
+  m_EditorClassIdentifier: 
+  itemName: Shears
+  icon: {fileID: 0}
+  buyPrice: 750
+  sellPrice: 0
+  category: 4
+  isAnimalProduct: 0
+  isKeyItem: 0
+  isNotSellable: 1
+  requiresSellConfirmation: 0
+  maxStack: 1
+  equippedTool: 10
+  animalMedicineLevel: 0
+  seedCrop: {fileID: 0}
+  fertilizerLevel: 0
+  requiredVillageLevel: 1
+  soilRestoreAmount: 0
+  cropBoosterLevel: 1
+  cropBoosterPercent: 0
+  canDropToWorld: 0
+  canPlaceInWorld: 0
+  worldPrefab: {fileID: 2532939300605414593, guid: d39b39943dc43f54c9628b744853e180, type: 3}
+  worldScale: {x: 0.35, y: 0.35, z: 0.35}
+  sprinklerLevel: 0
+  treeDefinition: {fileID: 0}
+  isEdible: 0
+  foodPreparation: 0
+  healthRestore: 0
+  staminaRestore: 0
+  hungerRestore: 0
+  refrigeratorCategory: 0
+  fishingBaitLevel: 0
+  baitBiteSpeedBonus: 0
+  baitUncommonWeightMultiplier: 1
+  baitRareWeightMultiplier: 1
+  baitLegendaryWeightMultiplier: 1
+  baitJunkReduction: 0
+  requiredFishingLevel: 1

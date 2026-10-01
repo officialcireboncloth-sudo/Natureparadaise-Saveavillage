@@ -56,6 +56,7 @@ item.wood,Assets/Nature  Paradaise/Resources/Items/Materials/Wood.asset,Wood,Mat
 item.wood_ash,Assets/Nature  Paradaise/Resources/Items/Materials/Wood Ash.asset,Wood Ash,Material,0,0,99,FALSE,FALSE,FALSE,FALSE,None,None,None,1,0,1,TRUE,FALSE,0,FALSE,NotFood,0,0,0,,,,,,,,,
 item.wool,Assets/Nature  Paradaise/Resources/Items/Animal/Wool.asset,Wool,AnimalProduct,0,50,32,FALSE,FALSE,FALSE,FALSE,None,None,None,1,0,1,TRUE,FALSE,0,FALSE,NotFood,0,0,0,,,,,,,,,
 item.fishing_rod,Assets/Nature  Paradaise/Resources/Items/Tools/Fishing Rod.asset,Fishing Rod,Tool,0,0,1,FALSE,FALSE,TRUE,FALSE,FishingRod,None,None,1,0,1,FALSE,FALSE,0,FALSE,NotFood,0,0,0,,,,,,,,,
+item.shears_tool,Assets/Nature  Paradaise/Resources/Items/Tools/Shears Tool.asset,Shears,Tool,750,0,1,FALSE,FALSE,TRUE,FALSE,Shears,None,None,1,0,1,FALSE,FALSE,0,FALSE,NotFood,0,0,0,,,,,,,,,
 item.tilapia,Assets/Nature  Paradaise/Resources/Items/Fish/Tilapia.asset,Tilapia,Fish,0,120,16,FALSE,FALSE,FALSE,FALSE,None,None,None,1,0,1,TRUE,FALSE,0,FALSE,NotFood,0,0,0,,,,,,,,,
 item.bait_basic,Assets/Nature  Paradaise/Resources/Items/Fishing/Bait/Basic Bait.asset,Basic Bait Lv.1,Bait,40,8,99,FALSE,FALSE,FALSE,FALSE,None,None,None,1,0,1,TRUE,FALSE,0,FALSE,NotFood,0,0,0,,,Basic,0.1,1,1,1,0.1,1
 item.bait_quality,Assets/Nature  Paradaise/Resources/Items/Fishing/Bait/Quality Bait.asset,Quality Bait Lv.2,Bait,100,20,99,FALSE,FALSE,FALSE,FALSE,None,None,None,2,0,1,TRUE,FALSE,0,FALSE,NotFood,0,0,0,,,Quality,0.2,1.25,1.08,1,0.2,3

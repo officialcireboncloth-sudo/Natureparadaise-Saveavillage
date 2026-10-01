@@ -43,6 +43,9 @@ public sealed class DayNightCycle : MonoBehaviour
     float targetCloudShadowWeight;
     RuntimeTerrainCloudShadow terrainCloudShadow;
     bool receivedWeatherState;
+    Light interiorLight;
+    bool suppressingWorldSun;
+    bool worldSunWasEnabled;
 
     void Awake()
     {
@@ -67,7 +70,8 @@ public sealed class DayNightCycle : MonoBehaviour
     {
         WeatherImpactFlow.LightingUpdated -= HandleWeatherImpact;
         WeatherImpactFlow.SkyUpdated -= HandleWeatherImpact;
-        terrainCloudShadow?.SetWeight(0f);
+        if (terrainCloudShadow != null) terrainCloudShadow.SetWeight(0f);
+        RestoreWorldSun();
     }
 
     void OnDestroy()
@@ -108,6 +112,12 @@ public sealed class DayNightCycle : MonoBehaviour
 
     void Update()
     {
+        if (!WeatherSystem.IsPlayerOutdoors())
+        {
+            ApplyInteriorLighting();
+            return;
+        }
+        RestoreWorldSun();
         if (timeManager == null || sun == null)
         {
             ResolveReferences();
@@ -116,6 +126,45 @@ public sealed class DayNightCycle : MonoBehaviour
         }
 
         ApplyLighting(timeManager.CurrentTimeHours);
+    }
+
+    void ApplyInteriorLighting()
+    {
+        ResolveReferences();
+        var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        if (sun != null && sun.gameObject.scene != scene && !suppressingWorldSun)
+        {
+            worldSunWasEnabled = sun.enabled;
+            suppressingWorldSun = true;
+            sun.enabled = false;
+        }
+        if (interiorLight == null || interiorLight.gameObject.scene != scene)
+        {
+            interiorLight = sun != null && sun.gameObject.scene == scene ? sun : null;
+            foreach (Light candidate in FindObjectsByType<Light>(FindObjectsSortMode.None))
+                if (candidate != sun && candidate.type == LightType.Directional && candidate.gameObject.scene == scene)
+                {
+                    interiorLight = candidate;
+                    break;
+                }
+        }
+        RenderSettings.sun = interiorLight;
+        RenderSettings.fog = false;
+        RenderSettings.fogDensity = 0f;
+        RenderSettings.skybox = null;
+        RenderSettings.ambientMode = AmbientMode.Trilight;
+        RenderSettings.ambientSkyColor = new Color(0.68f, 0.72f, 0.78f);
+        RenderSettings.ambientEquatorColor = new Color(0.52f, 0.55f, 0.60f);
+        RenderSettings.ambientGroundColor = new Color(0.30f, 0.32f, 0.35f);
+        RenderSettings.reflectionIntensity = 0.65f;
+        if (terrainCloudShadow != null) terrainCloudShadow.SetWeight(0f);
+    }
+
+    void RestoreWorldSun()
+    {
+        if (!suppressingWorldSun) return;
+        if (sun != null) sun.enabled = worldSunWasEnabled;
+        suppressingWorldSun = false;
     }
 
     void ResolveReferences()
@@ -130,6 +179,7 @@ public sealed class DayNightCycle : MonoBehaviour
 
     void ApplyLighting(float hour)
     {
+        RenderSettings.sun = sun;
         float blend = 1f - Mathf.Exp(-Time.unscaledDeltaTime * 1.25f);
         weatherSunMultiplier = Mathf.Lerp(weatherSunMultiplier, targetWeatherSunMultiplier, blend);
         weatherAmbientMultiplier = Mathf.Lerp(weatherAmbientMultiplier, targetWeatherAmbientMultiplier, blend);
@@ -170,15 +220,12 @@ public sealed class DayNightCycle : MonoBehaviour
         }
         float passingCloud = Mathf.PerlinNoise(Time.unscaledTime * 0.04f, 17.35f);
         float cloudSunMultiplier = Mathf.Lerp(1f, Mathf.Lerp(0.72f, 0.9f, passingCloud), cloudShadowWeight);
-        float lightningFlash = WeatherSystem.Instance != null
-            ? WeatherSystem.Instance.CurrentLightningFlash
-            : 0f;
         float daylightIntensity = dayIntensity * weatherSunMultiplier;
         // Awan mengurangi cahaya bulan, tetapi minimum ini menjaga siluet medan dan karakter terbaca.
         float moonWeatherMultiplier = Mathf.Lerp(0.62f, 1f, Mathf.Clamp01(weatherSunMultiplier));
         float moonlightIntensity = nightIntensity * moonWeatherMultiplier;
         sun.intensity = Mathf.Lerp(moonlightIntensity, daylightIntensity, daylight) *
-                        SeasonVisualController.SunMultiplier * cloudSunMultiplier + lightningFlash;
+                        SeasonVisualController.SunMultiplier * cloudSunMultiplier;
 
         Color horizonToNoon = Color.Lerp(sunriseColor, noonColor, noonWeight);
         sun.color = Color.Lerp(moonColor, horizonToNoon, daylight) * weatherTint *
@@ -195,7 +242,6 @@ public sealed class DayNightCycle : MonoBehaviour
         float nightVisibility = Mathf.Lerp(0.68f, 1f, Mathf.Clamp01(weatherAmbientMultiplier));
         Color nightVisibilityFloor = nightAmbient * nightVisibility * SeasonVisualController.LightingTint;
         ambient = MaxColor(ambient, nightVisibilityFloor * (1f - daylight));
-        ambient = Color.Lerp(ambient, new Color(0.72f, 0.82f, 1f), lightningFlash * 0.7f);
 
         RenderSettings.ambientMode = AmbientMode.Trilight;
         RenderSettings.ambientSkyColor = ambient;

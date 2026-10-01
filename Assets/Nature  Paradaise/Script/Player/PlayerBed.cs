@@ -15,6 +15,12 @@ public sealed class PlayerBed : MonoBehaviour
     [Tooltip("Aktifkan hanya jika object bed memakai collider interaksi terpisah sebagai trigger.")]
     [SerializeField] bool useTriggerCollider;
 
+    [Header("Bed Animation Placement")]
+    [Tooltip("Player root position and facing for the bed wake animation; editable in the scene.")]
+    [SerializeField] Transform sleepPose;
+    [Tooltip("Safe standing position beside the bed after waking.")]
+    [SerializeField] Transform wakeStandPoint;
+
     PlayerLifeCycle nearbyPlayer;
     PlayerLifeCycle playerCandidate;
 
@@ -77,7 +83,7 @@ public sealed class PlayerBed : MonoBehaviour
         if (nearbyPlayer == null || nearbyPlayer.IsBusy || !PlayerInteractionTarget.Contains(nearbyPlayer.transform, transform))
             return;
 
-        nearbyPlayer.SleepAndSave();
+        nearbyPlayer.SleepAndSave(sleepPose, wakeStandPoint);
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]

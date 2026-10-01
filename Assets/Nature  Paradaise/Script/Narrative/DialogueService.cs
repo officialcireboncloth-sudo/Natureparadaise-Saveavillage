@@ -47,6 +47,7 @@ public sealed class DialogueService : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+        transform.SetParent(null, true);
         DontDestroyOnLoad(gameObject);
         ResolvePlayerReferences();
     }

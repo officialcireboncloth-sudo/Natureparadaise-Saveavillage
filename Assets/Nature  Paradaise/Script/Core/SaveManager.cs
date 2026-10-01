@@ -137,6 +137,7 @@ public class SaveManager : MonoBehaviour
 
         // HEWAN: umur, growth progress, care, health, produksi, trait, dan posisi.
         public List<AnimalSaveData> animals;
+        public AnimalManureSaveData animalManure;
         public List<AnimalHomeSaveData> animalHomes;
         // PERSONAL COMPANION terpisah dari ternak produksi Barn/Coop.
         public List<PersonalAnimalSaveData> personalAnimals;
@@ -418,6 +419,7 @@ public class SaveManager : MonoBehaviour
         data.animals =
             AnimalGrowthSystem.CaptureAll();
         data.animalHomes = AnimalHome.CaptureAll();
+        data.animalManure = AnimalManureSystem.Capture();
         data.personalAnimals = PersonalAnimal.CaptureAll();
         data.tameableCreatures = TameableCreature.CaptureAll();
         data.marketStands = MarketStand.CaptureAll();
@@ -765,6 +767,7 @@ public class SaveManager : MonoBehaviour
             data.animals
         );
         PersonalAnimal.RestoreAll(data.personalAnimals);
+        AnimalManureSystem.Restore(data.animalManure);
         TameableCreature.RestoreAll(data.tameableCreatures);
         MarketStand.RestoreAll(data.marketStands);
         ShippingBin.RestoreAll(data.shippingBins);

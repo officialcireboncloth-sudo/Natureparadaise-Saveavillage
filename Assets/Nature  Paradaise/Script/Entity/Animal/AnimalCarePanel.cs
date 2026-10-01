@@ -55,6 +55,8 @@ public sealed class AnimalCarePanel : MonoBehaviour
         if (animal != null)
         {
             GUILayout.Space(12); GUILayout.Label(animal.InfoSummary);
+            if (animal.Type == AnimalType.Cow)
+                GUILayout.Label("Heart sapi naik +1% saat Makan + Gosok + Interaksi lengkap dalam satu hari. Perawatan tidak lengkap 7 hari berturut-turut mengurangi 5%.");
             GUILayout.Label($"Hari berturut-turut tanpa makan: {animal.HungryDays}/3");
             AnimalRoutine routine = animal.GetComponent<AnimalRoutine>();
             if (animal.IsAdult && GUILayout.Button(AnimalGrowthProfileSO.IsBird(animal.Type) ? "Mulai inkubasi (1 telur, 1 slot)" : "Mulai breeding (1 slot)"))
@@ -71,11 +73,28 @@ public sealed class AnimalCarePanel : MonoBehaviour
             controller.playerInv = inventory;
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Feed (1 Animal Feed)")) controller.FeedCabbage();
-            if (GUILayout.Button("Pet")) animal.Pet();
+            if (GUILayout.Button("Gosok (Animasi Brush)"))
+            {
+                if (controller.TryStartBrush()) Destroy(gameObject);
+                else feedback = "Sudah digosok hari ini atau animasi masih berjalan.";
+            }
+            if (animal.Type == AnimalType.Cow && GUILayout.Button("Interaksi"))
+                feedback = animal.Interact()
+                    ? $"Interaksi hari ini selesai. {animal.CowDailyCareSummary}."
+                    : $"Sudah dihitung hari ini. {animal.CowDailyCareSummary}. Bisa dihitung lagi besok.";
             if (GUILayout.Button("Treat")) feedback = controller.TryGiveTreat() ? "Treat diberikan" : "Treat kurang / sudah diberikan hari ini";
             if (GUILayout.Button("Medicine")) feedback = controller.TryGiveBestMedicine() ? "Obat diberikan; cek status kondisi hewan" : "Obat kurang / hewan sehat atau sedang pemulihan";
             GUILayout.EndHorizontal();
-            if (animal.HasProductReady && GUILayout.Button($"Ambil produk — {AnimalCareCatalog.QualityName(animal.ProductQualityLevel)}")) controller.TakeMilk();
+            if (animal.Type == AnimalType.Sheep)
+                GUILayout.Label($"Cukur: pilih Shears, lalu G di samping domba. Durasi {controller.ShearActionDuration:0.#} detik; wol tumbuh kembali dalam {AnimalGrowthSystem.SheepWoolRegrowthDays} hari game.");
+            if (animal.HasProductReady && GUILayout.Button(animal.Type == AnimalType.Sheep
+                ? $"Cukur domba — 5 Wool ({controller.ShearActionDuration:0.#} detik)"
+                : $"Ambil produk — {animal.ProductQualityLabel}"))
+            {
+                controller.TakeMilk();
+                // Panel menjeda waktu; tutup agar animasi dan progress bisa berjalan.
+                if (animal.Type == AnimalType.Sheep && controller.IsShearing) Destroy(gameObject);
+            }
             if (routine != null)
             {
                 GUILayout.Label("Tugaskan / pindahkan kandang:");

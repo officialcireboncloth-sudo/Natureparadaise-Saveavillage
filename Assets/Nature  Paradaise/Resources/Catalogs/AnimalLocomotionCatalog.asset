@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2150e2a28ab49d8946c865aa59bf1a2, type: 3}
+  m_Name: AnimalLocomotionCatalog
+  m_EditorClassIdentifier: 
+  rigs:
+  - controllerPrefix: TFP_Cow_
+    modelToken: _Cow_
+    idle: {fileID: 9100000, guid: 44f948ff8d6acc34fba18ebe8f1ba9bc, type: 2}
+    walk: {fileID: 9100000, guid: 67ea98d4a0a1f4a4eb17974420e4b3a7, type: 2}
+    eat: {fileID: 9100000, guid: 3c91ab189ecc08a40800cb8139c4dbef, type: 2}
+  - controllerPrefix: TFP_Calf_
+    modelToken: _Calf_
+    idle: {fileID: 9100000, guid: ccd5d1016acee76459c3ae3113d458ea, type: 2}
+    walk: {fileID: 9100000, guid: aba5dc668fe87884080f7d82ff8a5cef, type: 2}
+    eat: {fileID: 9100000, guid: c8191b66d6d62fd41a3680048aae62c8, type: 2}
+  - controllerPrefix: TFP_Chicken_
+    modelToken: _Chicken_
+    idle: {fileID: 9100000, guid: 21b0eedf73b6552459cd80a9324eb200, type: 2}
+    walk: {fileID: 9100000, guid: c4c48cd3da0898e43b7ce5e7a00b6ff7, type: 2}
+    eat: {fileID: 9100000, guid: eae777ad97f8d2e489bc199c12a90531, type: 2}
+  - controllerPrefix: TFP_Chick_
+    modelToken: _Chick_
+    idle: {fileID: 9100000, guid: b6ba8647a45aa004a8a0b65a13ff1489, type: 2}
+    walk: {fileID: 9100000, guid: 619af9608b7ce7d44be94816c3e31500, type: 2}
+    eat: {fileID: 9100000, guid: 2f6dd953389fcff4ea9f51596f76fd9b, type: 2}
+  - controllerPrefix: TFP_Duck_01_
+    modelToken: _Duck_
+    idle: {fileID: 9100000, guid: 297c292d1752c3a449bb6591c2687adf, type: 2}
+    walk: {fileID: 9100000, guid: 92fc8bd7c3ba87c46844761c65c53055, type: 2}
+    eat: {fileID: 9100000, guid: 5f32dea4a36c8154aa4d5fbacbf5d5ef, type: 2}
+  - controllerPrefix: TFP_Duckling_01_
+    modelToken: _Duckling_
+    idle: {fileID: 9100000, guid: 5ec848bead347a943baff6c4d1d44fed, type: 2}
+    walk: {fileID: 9100000, guid: 2ba71d0449fa2a94297edb3c2c46a9b8, type: 2}
+    eat: {fileID: 9100000, guid: 65b5ba957b08ce14482eb0a5a4e309a5, type: 2}
+  - controllerPrefix: TFP_Goat_01_
+    modelToken: _Goat_
+    idle: {fileID: 9100000, guid: 084b0972b3714094d973bea9c086b8d4, type: 2}
+    walk: {fileID: 9100000, guid: 91b12a461c75e554dbf417732a789614, type: 2}
+    eat: {fileID: 9100000, guid: dcf00f6157fcb924c8c430ae5f6d750b, type: 2}
+  - controllerPrefix: TFP_Sheep_01_
+    modelToken: _Sheep_
+    idle: {fileID: 9100000, guid: e651805f8160db045b565719b7778721, type: 2}
+    walk: {fileID: 9100000, guid: 480b5ac937e71da48b399439316372ef, type: 2}
+    eat: {fileID: 9100000, guid: 73e5bf0d6d9291e41a9e4de27d9f74b8, type: 2}
+  - controllerPrefix: TFP_Rooster_01_
+    modelToken: _Rooster_
+    idle: {fileID: 9100000, guid: d3c3d9d53064e7043b6d52b492247929, type: 2}
+    walk: {fileID: 9100000, guid: 8399e956b53339545bd8a98aab6db354, type: 2}
+    eat: {fileID: 9100000, guid: dcdccac80735ae14da72e2b2a4dc95e3, type: 2}
+  - controllerPrefix: TFP_Ram_01_
+    modelToken: _Ram_
+    idle: {fileID: 9100000, guid: 563ffb7ef85f58245870e5bb79a6f4ea, type: 2}
+    walk: {fileID: 9100000, guid: e1595183bf24ade4fbb54ee152bdd51a, type: 2}
+    eat: {fileID: 9100000, guid: 231177dda9313db4d89779c9347ece97, type: 2}

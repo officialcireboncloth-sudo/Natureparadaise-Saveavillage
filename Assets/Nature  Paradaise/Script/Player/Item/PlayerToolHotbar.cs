@@ -14,7 +14,9 @@ public enum PlayerToolType
     Hammer,
     Axe,
     FishingRod,
-    CropBooster
+    CropBooster,
+    Shears,
+    Pitchfork
 }
 
 [DisallowMultipleComponent]
@@ -111,6 +113,8 @@ public sealed class PlayerToolHotbar : MonoBehaviour
             PlayerToolType.Axe => "Axe",
             PlayerToolType.FishingRod => "Fishing Rod",
             PlayerToolType.CropBooster => "Crop Booster",
+            PlayerToolType.Shears => "Shears",
+            PlayerToolType.Pitchfork => "Garpu",
             _ => "Empty"
         };
     }

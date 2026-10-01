@@ -15,8 +15,22 @@ public class AnimalController : MonoBehaviour
     {
         StopAllCoroutines();
         Active.Remove(this);
-        playerInv?.GetComponent<PlayerController>()?.ReleaseMovementLock(this);
+        if (playerInv != null)
+        {
+            var controller = playerInv.GetComponent<PlayerController>();
+            if (brushBusy) controller?.SetBrushingAnimation(false);
+            if (productCollectBusy && growth != null && growth.Type == AnimalType.Sheep)
+                controller?.SetShearingAnimation(false);
+            controller?.ReleaseMovementLock(this);
+            playerInv.GetComponent<PlayerAnimalPush>()?.CancelIfTarget(growth);
+        }
+        brushLockedRoutine?.ReleaseCareLock(this);
+        brushLockedRoutine=null;
+        productLockedRoutine?.ReleaseCareLock(this);
+        productLockedRoutine=null;
         brushBusy=false;
+        brushProgress=0f;
+        productProgress=0f;
         productCollectBusy=false;
     }
 
@@ -26,6 +40,7 @@ public class AnimalController : MonoBehaviour
     [Header("Growth System")]
     [SerializeField] AnimalGrowthSystem growth;
     [SerializeField] KeyCode petKey = KeyCode.R;
+    [SerializeField] KeyCode interactKey = KeyCode.T;
     [SerializeField] KeyCode debugNextStageKey = KeyCode.F10;
 
     [Header("Hunger")]
@@ -45,12 +60,16 @@ public class AnimalController : MonoBehaviour
 
     [Header("Interaction")]
     public float interactionRadius = 2f;
-    [SerializeField, Min(0f)] float brushImpactDelay = 0.62f;
-    [SerializeField, Min(0f)] float brushActionDuration = 1f;
+    [SerializeField, Min(0f)] float brushImpactDelay = 4.25f;
+    [SerializeField, Min(0f)] float brushActionDuration = 5f;
+    [SerializeField, Min(0f)] float brushStandPadding = 0.12f;
     [SerializeField, Min(0f)] float productImpactDelay = 1.1f;
     [SerializeField, Min(0f)] float productActionDuration = 2.2f;
-    [SerializeField, Min(0f)] float shearImpactDelay = 0.72f;
-    [SerializeField, Min(0f)] float shearActionDuration = 1.35f;
+    [SerializeField, Min(0f)] float shearImpactDelay = 4.6f;
+    [Tooltip("Durasi cukur dalam detik nyata; animasi berulang sampai proses selesai.")]
+    [SerializeField, Range(5f,10f)] float shearActionDuration = 5f;
+    public float ShearActionDuration => Mathf.Clamp(shearActionDuration,5f,10f);
+    public bool IsShearing => productCollectBusy && growth != null && growth.Type == AnimalType.Sheep;
 
     [InspectorName("Use Held Care Item Key")]
     public KeyCode feedKey = KeyCode.F;
@@ -72,6 +91,12 @@ public class AnimalController : MonoBehaviour
     bool milkReady = false;
     float milkTimer = 0f;
     bool brushBusy;
+    float brushProgress;
+    float productProgress;
+    float brushSideSign=1f;
+    AnimalRoutine brushLockedRoutine;
+    AnimalRoutine productLockedRoutine;
+    SheepWoolVisual sheepWoolVisual;
     bool productCollectBusy;
 
     ItemSO SelectedMedicine
@@ -114,6 +139,7 @@ public class AnimalController : MonoBehaviour
         milkItem = productItem;
         growth = growthSystem;
         ApplyCareDefaults();
+        EnsureSheepWoolVisual();
     }
 
     public void ApplyCareDefaults()
@@ -130,17 +156,29 @@ public class AnimalController : MonoBehaviour
     void Update()
     {
         if (growth == null) growth = GetComponent<AnimalGrowthSystem>();
+        EnsureSheepWoolVisual();
         UpdateMilkProduction();
         UpdateDebugUI();
         if (playerInv == null)
             return;
         PlayerAnimalCarry animalCarry = playerInv.GetComponent<PlayerAnimalCarry>();
         if (animalCarry != null && animalCarry.IsCarrying(growth)) return;
+        PlayerAnimalPush animalPush=playerInv.GetComponent<PlayerAnimalPush>();
+        if(animalPush!=null && animalPush.HasAnimal)
+        {
+            if(animalPush.IsPushing(growth))
+            {
+                float pushDistance=Vector3.Distance(transform.position,playerInv.transform.position);
+                WorldInteractionPrompt.RequestClean(this,transform,"WASD: Arah dorong | Lepas tombol: Selesai",pushDistance,1.75f);
+            }
+            return;
+        }
         AnimalRoutine routine = GetComponent<AnimalRoutine>();
         bool housed = routine?.IsHoused ?? false;
         bool visitingThisHome = housed && BarnInterior.Current != null &&
                                 BarnInterior.Current.home == routine?.Home;
         bool carryable = growth != null && growth.HasBeenBorn && AnimalGrowthProfileSO.IsBird(growth.Type);
+        bool pushable = growth != null && growth.HasBeenBorn && !AnimalGrowthProfileSO.IsBird(growth.Type);
         // Model housed disembunyikan di world, tetapi saat player berada di interior
         // kandang yang benar semua jenis hewan harus bisa di-pet/feed/inspect.
         if (housed && !visitingThisHome) return;
@@ -166,13 +204,25 @@ public class AnimalController : MonoBehaviour
 
         string displayName=LocalizedAnimalName(growth);
         string interactionPrompt=growth!=null
-            ? $"{displayName}   ♥ {growth.HeartLevel}/10   {MoodLabel(growth.Happiness)}"
+            ? growth.Type == AnimalType.Cow
+                ? $"{displayName} {growth.GenderSymbol}   ♥ {growth.CowHeartLevel}/5 ({growth.CowCarePercent}%)   {growth.AgeLabel}"
+                : $"{displayName}   ♥ {growth.HeartLevel}/10   {MoodLabel(growth.Happiness)}"
             : displayName;
         List<string> actions=new();
-        if(growth!=null && !growth.PetToday) actions.Add($"{petKey}: Elus");
+        if(growth!=null && !growth.PetToday) actions.Add($"{petKey}: Gosok");
+        if(growth!=null && growth.Type==AnimalType.Cow)
+            actions.Add(growth.InteractedToday ? $"{interactKey}: Interaksi (✓ hari ini)" : $"{interactKey}: Interaksi harian");
         if (carryable && animalCarry != null && !animalCarry.HasAnimal)
             actions.Add("E: Angkat");
-        if (IsProductReady) actions.Add($"{milkKey}: Ambil produk");
+        else if(pushable) actions.Add("E lalu WASD: Dorong");
+        if (IsProductReady)
+            actions.Add(growth!=null && growth.Type==AnimalType.Sheep
+                ? (SelectedItem!=null && SelectedItem.equippedTool==PlayerToolType.Shears
+                    ? $"{milkKey}: Cukur bulu (5 Wool)"
+                    : "Pilih Shears untuk mencukur")
+                : $"{milkKey}: Ambil produk");
+        else if(growth!=null && growth.Type==AnimalType.Sheep)
+            actions.Add(growth.SheepShearingSummary);
         ItemSO selectedItem = SelectedItem;
         if (selectedItem != null && selectedItem == cabbageItem && growth != null && !growth.FedToday)
             actions.Add($"{feedKey}: Beri makan");
@@ -201,10 +251,31 @@ public class AnimalController : MonoBehaviour
             animalCarry.TryPickup(growth);
             return;
         }
+        if(growth!=null && growth.HasBeenBorn && !AnimalGrowthProfileSO.IsBird(growth.Type) &&
+           PlayerInteractionTarget.PressPickup(playerInv.transform,transform,KeyCode.E,interactionRadius))
+        {
+            PlayerAnimalPush animalPush=playerInv.GetComponent<PlayerAnimalPush>();
+            if(animalPush==null) animalPush=playerInv.gameObject.AddComponent<PlayerAnimalPush>();
+            animalPush.TryBeginPush(growth);
+            return;
+        }
 
         if (PlayerInteractionTarget.Press(playerInv.transform, transform, KeyCode.I))
         {
             AnimalCarePanel.Show(growth, null, playerInv);
+            return;
+        }
+
+        if (growth != null && growth.Type == AnimalType.Cow &&
+            PlayerInteractionTarget.Press(playerInv.transform, transform, interactKey))
+        {
+            PlayerController controller = playerInv.GetComponent<PlayerController>();
+            controller?.FaceTowardsInteraction(transform.position);
+            controller?.PlayHandOverAnimation();
+            if (!growth.Interact())
+                SaveLoadFeedback.Instance?.ShowMessage(
+                    $"Interaksi dengan {growth.AnimalName} sudah dihitung hari ini. " +
+                    $"{growth.CowDailyCareSummary}. Bisa dihitung lagi besok.");
             return;
         }
         // =========================
@@ -233,7 +304,7 @@ public class AnimalController : MonoBehaviour
 
         if (!brushBusy && !productCollectBusy && growth != null && growth.HasBeenBorn && !growth.PetToday &&
             PlayerInteractionTarget.Press(playerInv.transform, transform, petKey))
-            StartCoroutine(BrushRoutine());
+            TryStartBrush();
         if (HUDManager.DebugCluesEnabled && Input.GetKeyDown(debugNextStageKey))
             growth?.DebugAdvanceToNextStage();
     }
@@ -282,6 +353,11 @@ public class AnimalController : MonoBehaviour
         if (TimeManager.Instance != null && TimeManager.Instance.IsPaused) return;
         // Growth adalah sumber nutrisi utama, termasuk makanan dari grazing tanpa FeedCabbage.
         if (growth != null) hunger = growth.Fullness;
+        if(growth!=null && growth.Type==AnimalType.Sheep)
+        {
+            growth.RefreshSheepWoolReadiness();
+            return;
+        }
         // Kalau susu sudah siap, jangan produksi lagi
         // sampai player mengambilnya.
         if (IsProductReady)
@@ -345,9 +421,36 @@ public class AnimalController : MonoBehaviour
         PlayerController controller=playerInv != null ? playerInv.GetComponent<PlayerController>() : null;
         controller?.AcquireMovementLock(this);
         bool shearing=growth != null && growth.Type==AnimalType.Sheep;
-        if(shearing) controller?.PlayShearSheepAnimation();
+        if(shearing)
+        {
+            if(SelectedItem==null || SelectedItem.equippedTool!=PlayerToolType.Shears)
+            {
+                productCollectBusy=false;
+                controller?.ReleaseMovementLock(this);
+                SaveLoadFeedback.Instance?.ShowMessage("Pilih Shears di hotbar untuk mencukur domba.");
+                return;
+            }
+            AnimalRoutine routine=growth.GetComponent<AnimalRoutine>();
+            if(routine!=null && !routine.AcquireCareLock(this))
+            {
+                productCollectBusy=false;
+                controller?.ReleaseMovementLock(this);
+                SaveLoadFeedback.Instance?.ShowMessage("Domba sedang melakukan aktivitas lain. Coba lagi sebentar.");
+                return;
+            }
+            productLockedRoutine=routine;
+            AlignPlayerForBrush(controller,true);
+            controller?.SetShearingAnimation(true);
+        }
         else controller?.PlayMilkingAnimation();
         StartCoroutine(CollectProductRoutine(controller,shearing));
+    }
+
+    void EnsureSheepWoolVisual()
+    {
+        if (growth == null || growth.Type != AnimalType.Sheep || sheepWoolVisual != null) return;
+        sheepWoolVisual = GetComponent<SheepWoolVisual>();
+        if (sheepWoolVisual == null) sheepWoolVisual = gameObject.AddComponent<SheepWoolVisual>();
     }
 
     static string LocalizedAnimalName(AnimalGrowthSystem animal)
@@ -372,27 +475,51 @@ public class AnimalController : MonoBehaviour
     IEnumerator CollectProductRoutine(PlayerController controller,bool shearing)
     {
         float impact=shearing?shearImpactDelay:productImpactDelay;
-        float duration=shearing?shearActionDuration:productActionDuration;
-        if(impact>0f) yield return new WaitForSeconds(impact);
+        float duration=shearing?ShearActionDuration:productActionDuration;
+        if(shearing)
+        {
+            productProgress=0f;
+            float elapsed=0f;
+            duration=Mathf.Max(0.01f,duration);
+            while(elapsed<duration)
+            {
+                elapsed+=Time.deltaTime;
+                productProgress=Mathf.Clamp01(elapsed/duration);
+                AlignPlayerForBrush(controller,false);
+                yield return null;
+            }
+            controller?.SetShearingAnimation(false);
+        }
+        else if(impact>0f) yield return new WaitForSeconds(impact);
 
         if(IsProductReady && milkItem!=null)
         {
             // Grade ditentukan saat produk siap, bukan sesudah status produksi direset.
             int quality=growth != null?growth.ProductQualityLevel:1;
-            if(playerInv != null && playerInv.Add(milkItem,1,quality))
+            int amount=shearing?5:1;
+            if(playerInv != null && playerInv.Add(milkItem,amount,quality))
             {
                 milkReady=false;
                 growth?.MarkProductCollected();
-                PlayerPickupNotification.ShowItem(playerInv,milkItem,1);
-                SaveLoadFeedback.Instance?.ShowMessage($"{milkItem.itemName} ({AnimalCareCatalog.QualityName(quality)}) berhasil diambil");
+                sheepWoolVisual?.Refresh();
+                PlayerPickupNotification.ShowItem(playerInv,milkItem,amount);
+                SaveLoadFeedback.Instance?.ShowMessage(shearing
+                    ? $"Pencukuran selesai: {amount} Wool masuk inventory. Wol tumbuh penuh lagi dalam 12 hari."
+                    : $"{milkItem.itemName} ({(growth != null ? growth.ProductQualityLabel : AnimalCareCatalog.QualityName(quality))}) berhasil diambil");
                 milkTimer=0f;
             }
             else SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh; produk tetap tersimpan pada hewan");
         }
 
-        float remaining=Mathf.Max(0f,duration-impact);
-        if(remaining>0f) yield return new WaitForSeconds(remaining);
+        if(!shearing)
+        {
+            float remaining=Mathf.Max(0f,duration-impact);
+            if(remaining>0f) yield return new WaitForSeconds(remaining);
+        }
         controller?.ReleaseMovementLock(this);
+        productLockedRoutine?.ReleaseCareLock(this);
+        productLockedRoutine=null;
+        productProgress=0f;
         productCollectBusy=false;
     }
 
@@ -406,7 +533,9 @@ public class AnimalController : MonoBehaviour
         if (!HUDManager.DebugCluesEnabled)
             return;
 
-        string milkStatus = IsProductReady
+        string milkStatus = growth != null && growth.Type == AnimalType.Sheep
+            ? (IsShearing ? $"Mencukur: {ShearActionDuration*(1f-productProgress):0.0} detik tersisa" : growth.SheepShearingSummary)
+            : IsProductReady
             ? "READY TO MILK!"
             : "Milk: Not Ready";
 
@@ -423,15 +552,109 @@ public class AnimalController : MonoBehaviour
     IEnumerator BrushRoutine()
     {
         brushBusy=true;
+        brushProgress=0f;
         PlayerController controller=playerInv != null ? playerInv.GetComponent<PlayerController>() : null;
         controller?.AcquireMovementLock(this);
-        controller?.PlayBrushAnimalAnimation();
-        if(brushImpactDelay>0f) yield return new WaitForSeconds(brushImpactDelay);
-        growth?.Pet();
-        float remaining=Mathf.Max(0f,brushActionDuration-brushImpactDelay);
-        if(remaining>0f) yield return new WaitForSeconds(remaining);
+        AlignPlayerForBrush(controller,true);
+        controller?.SetBrushingAnimation(true);
+
+        float duration=Mathf.Max(0.01f,brushActionDuration);
+        float impact=Mathf.Clamp(brushImpactDelay,0f,duration);
+        float elapsed=0f;
+        bool careApplied=false;
+        while(elapsed<duration)
+        {
+            elapsed+=Time.deltaTime;
+            brushProgress=Mathf.Clamp01(elapsed/duration);
+            AlignPlayerForBrush(controller,false);
+            if(!careApplied && elapsed>=impact)
+            {
+                growth?.Pet();
+                careApplied=true;
+            }
+            yield return null;
+        }
+        if(!careApplied) growth?.Pet();
+        controller?.SetBrushingAnimation(false);
+        brushProgress=1f;
         controller?.ReleaseMovementLock(this);
+        brushLockedRoutine?.ReleaseCareLock(this);
+        brushLockedRoutine=null;
         brushBusy=false;
+        brushProgress=0f;
+    }
+
+    public bool TryStartBrush()
+    {
+        if (brushBusy || productCollectBusy || growth == null || !growth.HasBeenBorn || growth.PetToday) return false;
+        AnimalRoutine routine=growth.GetComponent<AnimalRoutine>();
+        if(routine!=null && !routine.AcquireCareLock(this)) return false;
+        brushLockedRoutine=routine;
+        StartCoroutine(BrushRoutine());
+        return true;
+    }
+
+    void AlignPlayerForBrush(PlayerController controller,bool chooseSide)
+    {
+        if(controller==null) return;
+        Transform player=controller.transform;
+        Vector3 side=transform.right;
+        side.y=0f;
+        if(side.sqrMagnitude<0.001f) side=Vector3.right;
+        side.Normalize();
+        if(chooseSide)
+            brushSideSign=Vector3.Dot(player.position-transform.position,side)>=0f?1f:-1f;
+
+        float animalExtent=0.65f;
+        Collider animalCollider=GetComponent<Collider>();
+        if(animalCollider!=null)
+        {
+            Vector3 extents=animalCollider.bounds.extents;
+            animalExtent=Mathf.Abs(side.x)*extents.x+Mathf.Abs(side.z)*extents.z;
+        }
+        CharacterController character=player.GetComponent<CharacterController>();
+        float playerRadius=character!=null?character.radius:0.35f;
+        Vector3 target=transform.position+side*(brushSideSign*(animalExtent+playerRadius+brushStandPadding));
+        target.y=transform.position.y;
+        if(AnimalWalkingPath.Ground(target,transform,player,out Vector3 grounded,true))
+            target=grounded;
+        else
+            target.y=player.position.y;
+        bool characterEnabled=character!=null && character.enabled;
+        if(characterEnabled) character.enabled=false;
+        player.position=target;
+        if(characterEnabled) character.enabled=true;
+        controller.FaceTowardsInteraction(transform.position);
+    }
+
+    void OnGUI()
+    {
+        bool showingShearing=productCollectBusy && growth!=null && growth.Type==AnimalType.Sheep;
+        if(!brushBusy && !showingShearing) return;
+
+        float width=Mathf.Min(420f,Screen.width-32f);
+        float panelHeight=72f;
+        float x=(Screen.width-width)*0.5f;
+        float y=Mathf.Max(20f,Screen.height-230f);
+        Rect panel=new(x,y,width,panelHeight);
+        Rect label=new(x+14f,y+8f,width-28f,24f);
+        Rect track=new(x+14f,y+39f,width-28f,18f);
+        float shownProgress=showingShearing?productProgress:brushProgress;
+        Rect fill=new(track.x+2f,track.y+2f,(track.width-4f)*Mathf.Clamp01(shownProgress),track.height-4f);
+
+        Color previous=GUI.color;
+        GUI.color=new Color(0.03f,0.05f,0.05f,0.78f);
+        GUI.DrawTexture(panel,Texture2D.whiteTexture);
+        GUI.color=new Color(0.02f,0.04f,0.04f,0.9f);
+        GUI.DrawTexture(track,Texture2D.whiteTexture);
+        GUI.color=new Color(0.48f,0.94f,0.55f,0.95f);
+        GUI.DrawTexture(fill,Texture2D.whiteTexture);
+        GUI.color=Color.white;
+        float shownDuration=showingShearing?ShearActionDuration:brushActionDuration;
+        float seconds=Mathf.Max(0f,shownDuration*(1f-shownProgress));
+        string animalLabel=growth!=null?LocalizedAnimalName(growth):"Hewan";
+        GUI.Label(label,$"{(showingShearing?"Mencukur":"Menggosok")} {animalLabel}...  {seconds:0.0} detik");
+        GUI.color=previous;
     }
 
     bool IsProductReady => growth != null ? growth.HasProductReady : milkReady;
@@ -477,10 +700,11 @@ public class AnimalController : MonoBehaviour
         if(petKey==KeyCode.P) petKey=KeyCode.R;
         brushImpactDelay=Mathf.Max(0f,brushImpactDelay);
         brushActionDuration=Mathf.Max(brushImpactDelay,brushActionDuration);
+        brushStandPadding=Mathf.Max(0f,brushStandPadding);
         productImpactDelay=Mathf.Max(0f,productImpactDelay);
         productActionDuration=Mathf.Max(productImpactDelay,productActionDuration);
         shearImpactDelay=Mathf.Max(0f,shearImpactDelay);
-        shearActionDuration=Mathf.Max(shearImpactDelay,shearActionDuration);
+        shearActionDuration=Mathf.Clamp(shearActionDuration,5f,10f);
     }
 
     bool TryAdministerMedicine(ItemSO item)

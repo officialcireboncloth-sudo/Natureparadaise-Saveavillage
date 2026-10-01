@@ -7,6 +7,10 @@ public sealed class HouseInteriorController : MonoBehaviour
 {
     [Tooltip("Index 0 untuk Lv.1, index 1 untuk Lv.2, dan seterusnya.")]
     [SerializeField] List<GameObject> levelLayouts = new();
+    [Tooltip("Use the entrance and furniture authored in the scene without rebuilding or repositioning them.")]
+    [SerializeField] bool useAuthoredSceneLayout;
+
+    public bool UsesAuthoredSceneLayout => useAuthoredSceneLayout;
 
     void OnEnable() => HouseFeatureService.FeaturesChanged += RefreshLayout;
     void OnDisable() => HouseFeatureService.FeaturesChanged -= RefreshLayout;
@@ -23,8 +27,11 @@ public sealed class HouseInteriorController : MonoBehaviour
         for (int index = 0; index < levelLayouts.Count; index++)
             if (levelLayouts[index] != null)
                 levelLayouts[index].SetActive(index == level - 1);
-        AlignEntranceForLevel(level);
-        EnsureInteractiveFixtures();
+        if (!useAuthoredSceneLayout)
+        {
+            AlignEntranceForLevel(level);
+            EnsureInteractiveFixtures();
+        }
     }
 
     void AlignEntranceForLevel(int level)

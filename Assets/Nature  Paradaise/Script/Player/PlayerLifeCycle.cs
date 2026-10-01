@@ -44,6 +44,8 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     [SerializeField, Min(1f)] float debugDamage = 25f;
 
     bool busy;
+    bool bedPoseActive;
+    bool bedControllerWasEnabled;
     bool sleepBlackout;
     bool hasPendingWeatherFaint;
     bool pendingWeatherFaintAtHospital = true;
@@ -79,6 +81,7 @@ public sealed class PlayerLifeCycle : MonoBehaviour
 
     void OnDisable()
     {
+        RestoreBedController();
         if (status != null)
             status.Fainted -= HandleFainted;
         TimeManager.OnHour -= HandleHourChanged;
@@ -103,8 +106,13 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     /// <summary>Memulai rangkaian tidur jika lifecycle tidak sedang menjalankan transisi lain.</summary>
     public void SleepAndSave()
     {
+        SleepAndSave(null, null);
+    }
+
+    public void SleepAndSave(Transform sleepPose, Transform wakeStandPoint)
+    {
         if (!busy && !status.IsFainted)
-            StartCoroutine(SleepRoutine(false));
+            StartCoroutine(SleepRoutine(false, sleepPose, wakeStandPoint));
     }
 
     /// <summary>Memindahkan player ke spawn rumah.</summary>
@@ -145,8 +153,10 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         }
     }
 
-    IEnumerator SleepRoutine(bool forcedInPlace)
+    IEnumerator SleepRoutine(bool forcedInPlace, Transform sleepPose = null, Transform wakeStandPoint = null)
     {
+        Vector3 standingPosition = transform.position;
+        Quaternion standingRotation = transform.rotation;
         busy = true;
         status.AcquireActivity(this, PlayerMovementState.Sleeping);
         SetGameplayEnabled(false);
@@ -177,7 +187,13 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         if (!forcedInPlace && (SceneTransitionManager.Instance == null || !SceneTransitionManager.Instance.IsInsideInterior))
             TeleportTo(homeSpawnId);
         status.RestoreAfterSleep();
-        SaveManager.Instance?.SaveGame();
+        if (!forcedInPlace && sleepPose != null)
+        {
+            bedPoseActive = true;
+            bedControllerWasEnabled = characterController != null && characterController.enabled;
+            if (characterController != null) characterController.enabled = false;
+            PlaceAt(sleepPose.position, sleepPose.rotation);
+        }
 
         sleepBlackout = false;
         if (forcedInPlace)
@@ -191,7 +207,14 @@ public sealed class PlayerLifeCycle : MonoBehaviour
             movement?.PlayWakeUpBedAnimation();
             if (bedWakeAnimationTime > 0f)
                 yield return new WaitForSecondsRealtime(bedWakeAnimationTime);
+            if (wakeStandPoint != null)
+                PlaceAt(wakeStandPoint.position, wakeStandPoint.rotation);
+            else if (bedPoseActive)
+                PlaceAt(standingPosition, standingRotation);
+            RestoreBedController();
         }
+        // Save the standing position, never the temporary pose on the mattress.
+        SaveManager.Instance?.SaveGame();
         SetGameplayEnabled(true);
         status.ReleaseActivity(this);
         busy = false;
@@ -264,6 +287,11 @@ public sealed class PlayerLifeCycle : MonoBehaviour
             rotation = point.transform.rotation;
         }
 
+        PlaceAt(position, rotation);
+    }
+
+    void PlaceAt(Vector3 position, Quaternion rotation)
+    {
         bool controllerWasEnabled = characterController != null && characterController.enabled;
         if (characterController != null)
             characterController.enabled = false;
@@ -277,6 +305,13 @@ public sealed class PlayerLifeCycle : MonoBehaviour
             ? Camera.main.GetComponent<TopDownCameraFollow>()
             : FindFirstObjectByType<TopDownCameraFollow>();
         cameraFollow?.SetTarget(transform, true);
+    }
+
+    void RestoreBedController()
+    {
+        if (!bedPoseActive) return;
+        if (characterController != null) characterController.enabled = bedControllerWasEnabled;
+        bedPoseActive = false;
     }
 
     void SetGameplayEnabled(bool enabledState)

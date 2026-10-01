@@ -68,6 +68,15 @@ public class NPCSeller : MonoBehaviour
     {
         if (debugWorldLabel != null && debugWorldLabel.gameObject.activeSelf != HUDManager.DebugCluesEnabled)
             debugWorldLabel.gameObject.SetActive(HUDManager.DebugCluesEnabled);
+
+        // Selalu sediakan jalan keluar yang konsisten untuk modal toko.
+        // Ini diproses sebelum validasi reference agar panel tidak bisa tersangkut terbuka.
+        if (shopOpen && Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseShop();
+            return;
+        }
+
         if (playerInv == null)
             return;
 

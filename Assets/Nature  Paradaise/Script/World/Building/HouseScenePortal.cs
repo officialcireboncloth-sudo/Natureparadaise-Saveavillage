@@ -27,11 +27,11 @@ public sealed class HouseScenePortal : MonoBehaviour
             return;
 
         float distance = Vector3.Distance(transform.position, player.position);
-        if (!PlayerInteractionTarget.Contains(player, transform))
+        if (!CanInteract(player))
             return;
         string action = exitsInterior ? "Keluar Rumah" : "Masuk Rumah";
         WorldInteractionPrompt.Request(this, transform, $"{interactKey}: {action}", distance, promptHeight);
-        if (!PlayerInteractionTarget.Press(player, transform, interactKey))
+        if (!Input.GetKeyDown(interactKey) || !PlayerInteractionTarget.Press(interactKey))
             return;
         if (exitsInterior && WeatherSystem.Instance != null &&
             WeatherSystem.BlocksLeavingHome(WeatherSystem.Instance.CurrentWeather))
@@ -43,6 +43,22 @@ public sealed class HouseScenePortal : MonoBehaviour
             SceneTransitionManager.Instance.ReturnToWorld(exteriorSpawnId);
         else
             SceneTransitionManager.Instance.EnterInterior(interiorSceneName, targetSpawnId);
+    }
+
+    /// <summary>Use the door volume, including triggers, so scaled door pivots do not block interaction.</summary>
+    public bool CanInteract(Transform candidate)
+    {
+        if (candidate == null || WorldInteractionPrompt.IsSuppressed) return false;
+        PlayerController controller = candidate.GetComponent<PlayerController>();
+        if (controller != null && controller.IsMovementLocked) return false;
+        CharacterController capsule = candidate.GetComponent<CharacterController>();
+        Vector3 center = capsule != null && capsule.enabled
+            ? capsule.bounds.center : candidate.position + Vector3.up;
+        Collider door = GetComponent<Collider>();
+        Vector3 point = door != null && door.enabled ? door.ClosestPoint(center) : transform.position;
+        Vector3 delta = point - center;
+        return delta.x * delta.x + delta.z * delta.z <= interactionRadius * interactionRadius &&
+               Mathf.Abs(delta.y) <= 1.5f;
     }
 
     /// <summary>Konfigurasi portal dari setup editor agar field tetap private di runtime.</summary>

@@ -43,7 +43,8 @@ public static class PlayerVisualSetup
            set.placeItem==null || set.brushAnimal==null || set.mountHorse==null ||
            set.dismountHorse==null || set.ridingIdle==null || set.pickUpChicken==null ||
            set.holdTwoHands==null || set.placeChicken==null || set.scoopManure==null ||
-           set.shearSheep==null || set.tiredPose==null || set.wakeUpBed==null || set.yawn==null)
+           set.shearSheep==null || set.tiredPose==null || set.wakeUpBed==null || set.yawn==null ||
+           set.staggerOverlay==null)
             return true;
         if(AssetDatabase.GetAssetPath(set.idle)!=PreferredSourceModelPath) return true;
         if(!AssetDatabase.GetDependencies(PrefabPath).Contains(PreferredSourceModelPath)) return true;
@@ -53,6 +54,8 @@ public static class PlayerVisualSetup
         if(controller==null || controller.parameters.All(parameter=>parameter.name!="CarryingAnimal") ||
            controller.parameters.All(parameter=>parameter.name!="Riding") ||
            controller.parameters.All(parameter=>parameter.name!="HorseMountMirror") ||
+           controller.parameters.All(parameter=>parameter.name!="Fatigue") ||
+           controller.layers.All(layer=>layer.name!="Fatigue") ||
            controller.layers.All(layer=>layer.stateMachine.states.All(child=>child.state.name!="Carry Animal Two Hands")))
             return true;
         // Overwrite FBX mempertahankan path dan GUID sehingga dependency saja tidak cukup.
@@ -290,6 +293,7 @@ public static class PlayerVisualSetup
         set.tiredPose=Clip("Tired Pose");
         set.wakeUpBed=Clip("Wake Up Bed");
         set.yawn=Clip("Yawn");
+        set.staggerOverlay=Clip("Stagger Overlay");
         EditorUtility.SetDirty(set);
         return set.idle!=null && set.walk!=null && set.run!=null && set.jump!=null &&
                set.jumpForward!=null;
@@ -347,7 +351,7 @@ public static class PlayerVisualSetup
         AddParameter(controller,"KnockOut",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"WakeUp",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"Milking",AnimatorControllerParameterType.Trigger);
-        AddParameter(controller,"Pushing",AnimatorControllerParameterType.Trigger);
+        EnsureParameter(controller,"Pushing",AnimatorControllerParameterType.Bool);
         AddParameter(controller,"Watering",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"Hoeing",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"Axe",AnimatorControllerParameterType.Trigger);
@@ -376,6 +380,8 @@ public static class PlayerVisualSetup
         AddParameter(controller,"Yawn",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"ShearSheep",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"Tired",AnimatorControllerParameterType.Bool);
+        AddFloatParameter(controller,"Fatigue",0f);
+        AddFloatParameter(controller,"FatigueLocomotionSpeed",1f);
         AddParameter(controller,"UseTool",AnimatorControllerParameterType.Trigger);
 
         AnimatorStateMachine stateMachine=controller.layers[0].stateMachine;
@@ -388,6 +394,11 @@ public static class PlayerVisualSetup
                 Child(clips.run,0.65f), Child(clips.sprint,1f)
             };
             EditorUtility.SetDirty(locomotionTree);
+        }
+        if(locomotionState!=null)
+        {
+            locomotionState.speedParameterActive=true;
+            locomotionState.speedParameter="FatigueLocomotionSpeed";
         }
         AnimatorState jumpState=FindState(stateMachine,"Jump");
         AnimatorState toolState=FindState(stateMachine,"Use Tool");
@@ -408,7 +419,7 @@ public static class PlayerVisualSetup
         EnsureActionState(stateMachine,"Knock Out","KnockOut",clips.knockOut,1f,false);
         EnsureActionState(stateMachine,"Wake Up","WakeUp",clips.wakeUpFromKnockOut,4f,true);
         EnsureActionState(stateMachine,"Milking Animal","Milking",clips.milkingAnimal,2f,true);
-        EnsureActionState(stateMachine,"Pushing Object","Pushing",clips.pushingObject,1f,true);
+        EnsurePushingState(stateMachine,clips.pushingObject);
         EnsureActionState(stateMachine,"Watering Plant","Watering",clips.wateringPlant,2f,true);
         EnsureActionState(stateMachine,"Hoeing","Hoeing",clips.hoeing,1f,true);
         EnsureActionState(stateMachine,"Chopping Tree","Axe",clips.choppingTree,1f,true);
@@ -420,7 +431,13 @@ public static class PlayerVisualSetup
         EnsureActionState(stateMachine,"Hand Over One Hand","HandOverOneHand",clips.handOverOneHand,1f,true);
         EnsureActionState(stateMachine,"Hand Over Two Hands","HandOverTwoHands",clips.handOverTwoHands,1f,true);
         EnsureActionState(stateMachine,"Place Item","PlaceItem",clips.placeItem,1f,true);
-        EnsureActionState(stateMachine,"Brush Animal","BrushAnimal",clips.brushAnimal,1.5f,true);
+        AddParameter(controller,"BrushingActive",AnimatorControllerParameterType.Bool);
+        AnimatorState brush=EnsureActionState(stateMachine,"Brush Animal","BrushAnimal",clips.brushAnimal,1f,true);
+        foreach(var exit in brush.transitions)
+        {
+            exit.hasExitTime=false;
+            exit.conditions=new[]{new AnimatorCondition{mode=AnimatorConditionMode.IfNot,parameter="BrushingActive"}};
+        }
         AnimatorState mountHorse=EnsureActionState(stateMachine,"Mount Horse","MountHorse",clips.mountHorse,2f,true);
         AnimatorState dismountHorse=EnsureActionState(stateMachine,"Dismount Horse","DismountHorse",clips.dismountHorse,2f,true);
         ConfigureHorseSideMirror(mountHorse);
@@ -429,10 +446,19 @@ public static class PlayerVisualSetup
         EnsureActionState(stateMachine,"Place Chicken","PlaceChicken",clips.placeChicken,1.25f,true);
         EnsureActionState(stateMachine,"Wake Up Bed","WakeUpBed",clips.wakeUpBed,2f,true);
         EnsureActionState(stateMachine,"Yawn","Yawn",clips.yawn,1.5f,true);
-        EnsureActionState(stateMachine,"Shear Sheep","ShearSheep",clips.shearSheep,1.5f,true);
+        AddParameter(controller,"ShearingActive",AnimatorControllerParameterType.Bool);
+        AddParameter(controller,"ScoopManure",AnimatorControllerParameterType.Trigger);
+        EnsureActionState(stateMachine,"Scoop Manure","ScoopManure",clips.scoopManure,2f,true);
+        AnimatorState shear=EnsureActionState(stateMachine,"Shear Sheep","ShearSheep",clips.shearSheep,1f,true);
+        foreach(var exit in shear.transitions)
+        {
+            exit.hasExitTime=false;
+            exit.conditions=new[]{new AnimatorCondition{mode=AnimatorConditionMode.IfNot,parameter="ShearingActive"}};
+        }
         EnsureRidingState(stateMachine,clips.ridingIdle);
         EnsureTiredState(stateMachine,clips.tiredPose);
         EnsureHoldItemLayer(controller,clips.holdItem,clips.holdTwoHands);
+        EnsureFatigueLayer(controller,clips.staggerOverlay);
         EnsureFishingStates(stateMachine,clips);
         EditorUtility.SetDirty(controller);
         return controller;
@@ -670,6 +696,114 @@ public static class PlayerVisualSetup
         }
     }
 
+    static void EnsureFatigueLayer(AnimatorController controller,AnimationClip clip)
+    {
+        if(clip==null) return;
+        const string layerName="Fatigue";
+        const string maskPath=AnimationFolder+"/Player Fatigue Upper Body.mask";
+        AvatarMask mask=AssetDatabase.LoadAssetAtPath<AvatarMask>(maskPath);
+        if(mask==null)
+        {
+            mask=new AvatarMask();
+            AssetDatabase.CreateAsset(mask,maskPath);
+        }
+        for(int i=0;i<(int)AvatarMaskBodyPart.LastBodyPart;i++)
+            mask.SetHumanoidBodyPartActive((AvatarMaskBodyPart)i,false);
+        mask.SetHumanoidBodyPartActive(AvatarMaskBodyPart.Body,true);
+        mask.SetHumanoidBodyPartActive(AvatarMaskBodyPart.Head,true);
+        mask.SetHumanoidBodyPartActive(AvatarMaskBodyPart.LeftArm,true);
+        mask.SetHumanoidBodyPartActive(AvatarMaskBodyPart.RightArm,true);
+        ConfigureGenericFatigueMask(mask);
+        EditorUtility.SetDirty(mask);
+
+        AnimatorControllerLayer[] layers=controller.layers;
+        int index=System.Array.FindIndex(layers,layer=>layer.name==layerName);
+        if(index<0)
+        {
+            AnimatorControllerLayer created=new()
+            {
+                name=layerName,
+                defaultWeight=0f,
+                blendingMode=AnimatorLayerBlendingMode.Additive,
+                avatarMask=mask,
+                stateMachine=new AnimatorStateMachine {name=layerName}
+            };
+            AssetDatabase.AddObjectToAsset(created.stateMachine,controller);
+            controller.AddLayer(created);
+            layers=controller.layers;
+            index=System.Array.FindIndex(layers,layer=>layer.name==layerName);
+        }
+        AnimatorControllerLayer fatigueLayer=layers[index];
+        fatigueLayer.defaultWeight=0f;
+        fatigueLayer.blendingMode=AnimatorLayerBlendingMode.Additive;
+        fatigueLayer.avatarMask=mask;
+        AnimatorStateMachine machine=fatigueLayer.stateMachine;
+        AnimatorState stagger=FindState(machine,"Stagger Overlay")??machine.AddState("Stagger Overlay");
+        stagger.motion=clip;
+        stagger.speed=1f;
+        machine.defaultState=stagger;
+        layers[index]=fatigueLayer;
+        controller.layers=layers;
+        EditorUtility.SetDirty(machine);
+    }
+
+    static void EnsurePushingState(AnimatorStateMachine machine,AnimationClip clip)
+    {
+        AnimatorState locomotion=FindState(machine,"Locomotion");
+        AnimatorState pushing=FindState(machine,"Pushing Object")??machine.AddState("Pushing Object");
+        pushing.motion=clip;
+        pushing.speed=1f;
+        foreach(AnimatorStateTransition transition in machine.anyStateTransitions
+                    .Where(item=>item.destinationState==pushing).ToArray())
+            machine.RemoveAnyStateTransition(transition);
+        foreach(AnimatorStateTransition transition in pushing.transitions.ToArray())
+            pushing.RemoveTransition(transition);
+        AnimatorStateTransition enter=machine.AddAnyStateTransition(pushing);
+        enter.hasExitTime=false;
+        enter.duration=0.08f;
+        enter.canTransitionToSelf=false;
+        enter.AddCondition(AnimatorConditionMode.If,0f,"Pushing");
+        if(locomotion!=null)
+        {
+            AnimatorStateTransition exit=pushing.AddTransition(locomotion);
+            exit.hasExitTime=false;
+            exit.duration=0.1f;
+            exit.AddCondition(AnimatorConditionMode.IfNot,0f,"Pushing");
+        }
+    }
+
+    static void ConfigureGenericFatigueMask(AvatarMask mask)
+    {
+        GameObject source=AssetDatabase.LoadAssetAtPath<GameObject>(PreferredSourceModelPath);
+        if(source==null) return;
+        mask.transformCount=0;
+        mask.AddTransformPath(source.transform,true);
+        for(int i=0;i<mask.transformCount;i++)
+        {
+            string path=mask.GetTransformPath(i);
+            int separator=path.LastIndexOf('/');
+            string bone=separator>=0?path.Substring(separator+1):path;
+            bool torsoOrArm=bone.StartsWith("mixamorig:Spine",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("mixamorig:Neck",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("mixamorig:Head",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("mixamorig:LeftShoulder",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("mixamorig:RightShoulder",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("mixamorig:LeftArm",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("mixamorig:RightArm",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("mixamorig:LeftForeArm",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("mixamorig:RightForeArm",System.StringComparison.Ordinal) ||
+                            bone.Equals("mixamorig:LeftHand",System.StringComparison.Ordinal) ||
+                            bone.Equals("mixamorig:RightHand",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("Ctrl_Spine",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("Ctrl_Neck",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("Ctrl_Head",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("Ctrl_Shoulder",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("Ctrl_Arm_FK",System.StringComparison.Ordinal) ||
+                            bone.StartsWith("Ctrl_ForeArm_FK",System.StringComparison.Ordinal);
+            mask.SetTransformActive(i,torsoOrArm);
+        }
+    }
+
     static void EnsureAnyTrigger(AnimatorStateMachine machine,AnimatorState state,string trigger)
     {
         if(machine.anyStateTransitions.Any(transition=>transition.destinationState==state &&
@@ -701,6 +835,30 @@ public static class PlayerVisualSetup
     static void AddParameter(AnimatorController controller,string name,AnimatorControllerParameterType type)
     {
         if(controller.parameters.All(parameter=>parameter.name!=name)) controller.AddParameter(name,type);
+    }
+
+    static void EnsureParameter(AnimatorController controller,string name,AnimatorControllerParameterType type)
+    {
+        AnimatorControllerParameter[] parameters=controller.parameters;
+        int index=System.Array.FindIndex(parameters,item=>item.name==name);
+        if(index>=0 && parameters[index].type==type) return;
+        if(index>=0) controller.RemoveParameter(index);
+        controller.AddParameter(name,type);
+    }
+
+    static void AddFloatParameter(AnimatorController controller,string name,float defaultValue)
+    {
+        AnimatorControllerParameter[] parameters=controller.parameters;
+        int index=System.Array.FindIndex(parameters,item=>item.name==name);
+        if(index>=0 && parameters[index].type==AnimatorControllerParameterType.Float &&
+           Mathf.Approximately(parameters[index].defaultFloat,defaultValue)) return;
+        if(index>=0) controller.RemoveParameter(index);
+        controller.AddParameter(new AnimatorControllerParameter
+        {
+            name=name,
+            type=AnimatorControllerParameterType.Float,
+            defaultFloat=defaultValue
+        });
     }
 
     static Material GetOrCreateMaterial()
@@ -805,7 +963,8 @@ public static class PlayerVisualSetup
                 EmbeddedClip("Shear Sheep","Armature|Shear Sheep",60f),
                 EmbeddedClip("Tired Pose","Armature|Tired Pose",90f),
                 EmbeddedClip("Wake Up Bed","Armature|Wake Up Bed",120f),
-                EmbeddedClip("Yawn","Armature|Yawn",75f)
+                EmbeddedClip("Yawn","Armature|Yawn",75f),
+                EmbeddedClip("Stagger Overlay","Armature|Player | Stagger Overlay",91f)
             };
         }
         ModelImporterClipAnimation[] configured=sourceClips.Select(source=>
@@ -818,7 +977,15 @@ public static class PlayerVisualSetup
             clip.name=cleanName;
             bool loop=cleanName=="Idle" || cleanName=="Walking" || cleanName=="Running" ||
                       cleanName=="Fishing Idle" || cleanName=="Hold Item" ||
-                      cleanName=="Hold Two Hands" || cleanName=="Riding Idle" || cleanName=="Tired Pose";
+                      cleanName=="Hold Two Hands" || cleanName=="Riding Idle" || cleanName=="Tired Pose" ||
+                      cleanName=="Stagger Overlay" || cleanName=="Pushing Object" || cleanName=="Shear Sheep" || cleanName=="Brush Animal";
+            if(cleanName=="Stagger Overlay")
+            {
+                clip.firstFrame=1f;
+                clip.lastFrame=91f;
+                clip.hasAdditiveReferencePose=true;
+                clip.additiveReferencePoseFrame=0f;
+            }
             clip.loopTime=loop;
             clip.loopPose=loop;
             clip.keepOriginalOrientation=true;
@@ -833,7 +1000,10 @@ public static class PlayerVisualSetup
             .Any(clip=>!clip.name.StartsWith("__preview__"));
         bool needsClipUpdate=!hasImportedClips || importer.clipAnimations.Length!=configured.Length ||
             importer.clipAnimations.Where((clip,index)=>index<configured.Length &&
-                (clip.name!=configured[index].name || clip.loopTime!=configured[index].loopTime)).Any();
+                (clip.name!=configured[index].name || clip.loopTime!=configured[index].loopTime ||
+                 clip.firstFrame!=configured[index].firstFrame || clip.lastFrame!=configured[index].lastFrame ||
+                 clip.hasAdditiveReferencePose!=configured[index].hasAdditiveReferencePose ||
+                 clip.additiveReferencePoseFrame!=configured[index].additiveReferencePoseFrame)).Any();
         if(needsClipUpdate)
         {
             importer.clipAnimations=configured;
