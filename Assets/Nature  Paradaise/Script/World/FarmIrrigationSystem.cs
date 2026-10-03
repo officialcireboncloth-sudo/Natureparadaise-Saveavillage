@@ -6,7 +6,6 @@ public sealed class FarmIrrigationSystem : MonoBehaviour
     int wateredDay = -1;
     void LateUpdate()
     {
-        if (TimeManager.Instance != null && TimeManager.Instance.hour < 6) return;
         int day = TimeManager.Instance != null ? TimeManager.Instance.day : 1;
         if (wateredDay == day) return;
         wateredDay = day;

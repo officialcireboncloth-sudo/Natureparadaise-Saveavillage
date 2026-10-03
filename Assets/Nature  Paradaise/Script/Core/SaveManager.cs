@@ -34,7 +34,6 @@ public class SaveManager : MonoBehaviour
         if (File.Exists(DefaultSavePath)) File.Delete(DefaultSavePath);
         ToolStorageService.Clear();
         RefrigeratorService.Clear();
-        HouseStorageService.Clear();
         KitchenService.Clear();
         AquariumService.Clear();
         FishPondService.Clear();
@@ -104,7 +103,6 @@ public class SaveManager : MonoBehaviour
         public List<ToolStorageEntrySaveData> toolStorage;
         // REFRIGERATOR: quality dan fish size dipertahankan per stack.
         public List<RefrigeratorEntrySaveData> refrigerator;
-        public List<RefrigeratorEntrySaveData> houseStorage;
         // KITCHEN: recipe yang dipelajari dan cooking collection.
         public KitchenProgressSaveData kitchen;
         // AQUARIUM: furniture per-instance, dekorasi, serta fish quality/size/weight.
@@ -279,8 +277,6 @@ public class SaveManager : MonoBehaviour
         // CREATE SAVE DATA
         // -------------------------
 
-        playerInv.GetComponent<FishingSystem>()?.CommitPendingCatchForSave();
-
         SaveData data =
             new SaveData();
 
@@ -385,7 +381,6 @@ public class SaveManager : MonoBehaviour
 
         data.toolStorage = ToolStorageService.Capture();
         data.refrigerator = RefrigeratorService.Capture();
-        data.houseStorage = HouseStorageService.Capture();
         data.kitchen = KitchenService.Capture();
         data.aquariums = AquariumService.Capture();
         data.fishPonds = FishPondService.Capture();
@@ -736,15 +731,12 @@ public class SaveManager : MonoBehaviour
             data.villageProgress
         );
 
-        HouseStorageService.IsRestoringSave=true;
-        try
-        {
-            PlayerHouseController.Instance?.Restore(data.playerHouse);
-            RefrigeratorService.Restore(data.refrigerator);
-            HouseStorageService.Restore(data.houseStorage);
-        }
-        finally { HouseStorageService.IsRestoringSave=false; }
-        HouseStorageService.SortForHouseLevel();
+        PlayerHouseController.Instance?.Restore(
+            data.playerHouse
+        );
+
+        // Restore setelah House agar kapasitas/unlock Refrigerator sudah memakai level save.
+        RefrigeratorService.Restore(data.refrigerator);
         KitchenService.Restore(data.kitchen);
         AquariumService.Restore(data.aquariums);
         FishCollectionService.Restore(data.fishCollection);

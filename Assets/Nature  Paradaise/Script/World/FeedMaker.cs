@@ -55,13 +55,13 @@ public sealed class FeedMaker : MonoBehaviour
     PlayerController player;
     bool open;
     string feedback;
-
-
+    Vector2 inventoryScroll;
+    Vector2 machineScroll;
     bool fishFeedMode;
     bool dedicatedOutput;
     bool dedicatedFishFeed;
-    
-    
+    int draggedInputSlot = -1;
+    string draggedInputLabel;
     WorldDebugStatusLabel debugLabel;
     bool worldDebugVisible = true;
     Coroutine animatedCollectionRoutine;
@@ -72,14 +72,6 @@ public sealed class FeedMaker : MonoBehaviour
     public int Output => output + fishFeedOutput;
     public int AnimalFeedOutput => output;
     public int FishFeedOutput => fishFeedOutput;
-    // Read-only UI access. Production and save logic remain owned by this machine.
-    public FeedMakerCatalog Catalog => catalog;
-    public IReadOnlyList<FeedJob> Jobs => jobs;
-    public int OutputCapacity => outputCapacity;
-    public bool HasDedicatedOutput => dedicatedOutput;
-    public bool DedicatedFishFeed => dedicatedFishFeed;
-    public string ContextLabel => contextLabel;
-    public double CurrentGameHour => Now;
     double Now => TimeManager.Instance == null ? 0 : (TimeManager.Instance.day-1)*24d + TimeManager.Instance.hour + TimeManager.Instance.minute/60d;
     void Awake()
     {
@@ -310,7 +302,7 @@ public sealed class FeedMaker : MonoBehaviour
     }
     public bool OpenFor(Inventory target)
     {
-        if(open || target==null || FeedMakerUI.Instance!=null || WorldInteractionPrompt.IsSuppressed || GameplayPauseMenu.BlocksGameplayInput) return false;
+        if(open || target==null) return false;
         Advance(Now);
         inventory=target;
         open=true;
@@ -318,9 +310,6 @@ public sealed class FeedMaker : MonoBehaviour
         player?.AcquireMovementLock(this);
         TimeManager.Instance?.AcquirePause(this);
         WorldInteractionPrompt.AcquireSuppression(this);
-        GameplayInput.ConsumeCurrentFrame();
-        FeedMakerUI.Show(this, target);
-        RefreshDebugLabel();
         return true;
     }
     public bool Upgrade(Inventory source)
@@ -341,7 +330,7 @@ public sealed class FeedMaker : MonoBehaviour
         { output-=linkedStorage.StoreFeed(output); StartWaiting(Now); }
         RefreshDebugLabel();
         if(inventory==null) inventory=FindFirstObjectByType<Inventory>();
-        if(open) { if(GameplayInput.GetKeyDown(KeyCode.Escape)) Close(); return; }
+        if(open) { if(Input.GetKeyDown(KeyCode.Escape)) Close(); return; }
         // Barn/Coop memakai controller interior. Handler generik harus dilewati agar
         // satu tekanan F tidak diproses dua kali oleh dua komponen berbeda.
         if(externalInteraction) return;
@@ -421,7 +410,7 @@ public sealed class FeedMaker : MonoBehaviour
 
     void RefreshDebugLabel()
     {
-        if(!worldDebugVisible || open)
+        if(!worldDebugVisible)
         {
             if(debugLabel!=null) debugLabel.gameObject.SetActive(false);
             return;
@@ -430,12 +419,199 @@ public sealed class FeedMaker : MonoBehaviour
         if(debugLabel!=null && !debugLabel.gameObject.activeSelf) debugLabel.gameObject.SetActive(true);
         debugLabel?.SetText(DebugStatus);
     }
-    public void Close()
+    void Close()
     {
-        open=false;
-        if(FeedMakerUI.Instance!=null && FeedMakerUI.Instance.Machine==this) FeedMakerUI.Instance.Dispose();
+        open=false; draggedInputSlot=-1; draggedInputLabel=null;
         player?.ReleaseMovementLock(this); TimeManager.Instance?.ReleasePause(this); WorldInteractionPrompt.ReleaseSuppression(this);
-        GameplayInput.ConsumeCurrentFrame();
+    }
+    void OnGUI()
+    {
+        if(!open) return;
+        float width=Mathf.Min(920f,Screen.width-24f);
+        float height=Mathf.Min(650f,Screen.height-24f);
+        GUILayout.BeginArea(new Rect((Screen.width-width)*0.5f,(Screen.height-height)*0.5f,width,height),GUI.skin.box);
+        string owner=string.IsNullOrWhiteSpace(contextLabel) ? string.Empty : $" — {contextLabel}";
+        GUILayout.Label($"FEED MAKER{owner} Lv.{Level} — INPUT {Inputs}/{InputCapacity} | PROCESS SLOT {Level} | OUTPUT {Output}/{outputCapacity}");
+        GUILayout.Label("Drag bahan dari Inventory ke slot mesin. Setelah selesai, ambil hasil satu per satu ke Inventory lalu masukkan ke tempat pakan.");
+        if(dedicatedOutput)
+            GUILayout.Label(dedicatedFishFeed ? "OUTPUT KHUSUS: FISH FEED" : "OUTPUT KHUSUS: ANIMAL FEED",GUI.skin.box);
+        else
+        {
+            GUILayout.BeginHorizontal();
+            if(GUILayout.Toggle(!fishFeedMode,"ANIMAL FEED",GUI.skin.button)) fishFeedMode=false;
+            if(GUILayout.Toggle(fishFeedMode,"FISH FEED",GUI.skin.button)) fishFeedMode=true;
+            GUILayout.EndHorizontal();
+        }
+
+        GUILayout.BeginHorizontal();
+        DrawInputInventory(width);
+        GUILayout.Space(10f);
+        DrawMachineSlots(width);
+        GUILayout.EndHorizontal();
+
+        if(Level<4 && GUILayout.Button($"Upgrade: {Level*100} Gold + {Level*5} Wood + {Level*3} Stone"))
+            feedback=Upgrade(inventory)?"Mesin diupgrade":"Bahan / uang kurang";
+        if(Level==4) GUILayout.Label(linkedSilo!=null ? $"Silo: {linkedSilo.Stock} Feed" : linkedStorage!=null ? $"Output otomatis → {linkedStorage.Label}" : "Hubungkan Linked Storage/Silo di Inspector untuk output otomatis.");
+        GUILayout.Label(feedback??"");
+        if(GUILayout.Button("Tutup (Esc)")) Close();
+        DrawDraggedInputGhost();
+        GUILayout.EndArea();
+    }
+
+    void DrawInputInventory(float panelWidth)
+    {
+        GUILayout.BeginVertical(GUI.skin.box,GUILayout.Width((panelWidth-34f)*0.5f));
+        GUILayout.Label("PLAYER INVENTORY");
+        inventoryScroll=GUILayout.BeginScrollView(inventoryScroll,GUILayout.Height(330f));
+        bool found=false;
+        if(inventory!=null)
+        {
+            for(int slotIndex=0;slotIndex<inventory.slots.Count;slotIndex++)
+            {
+                ItemStack stack=inventory.GetSlot(slotIndex);
+                int recipeIndex=stack?.item!=null ? FindRecipeIndex(stack.item,fishFeedMode) : -1;
+                if(stack?.item==null || stack.count<=0 || recipeIndex<0) continue;
+                FeedRecipe recipe=catalog.recipes[recipeIndex];
+                found=true;
+                GUILayout.BeginHorizontal(GUI.skin.box);
+                Rect dragRect=GUILayoutUtility.GetRect(new GUIContent(stack.DisplayName),GUI.skin.box,
+                    GUILayout.ExpandWidth(true),GUILayout.Height(48f));
+                GUI.Box(dragRect,$"{stack.DisplayName} x{stack.count}\n{recipe.inputCount} → {recipe.outputCount}",GUI.skin.box);
+                HandleInputDragSource(dragRect,slotIndex,stack);
+                if(GUILayout.Button("+1",GUILayout.Width(46f),GUILayout.Height(48f))) QueueFromSlot(slotIndex,false);
+                if(GUILayout.Button("MAX",GUILayout.Width(52f),GUILayout.Height(48f))) QueueFromSlot(slotIndex,true);
+                GUILayout.EndHorizontal();
+            }
+        }
+        if(!found) GUILayout.Label(fishFeedMode
+            ? "Tidak ada bahan Fish Feed yang cocok."
+            : "Tidak ada Grass/crop yang cocok untuk Animal Feed.");
+        GUILayout.EndScrollView();
+        GUILayout.EndVertical();
+    }
+
+    void DrawMachineSlots(float panelWidth)
+    {
+        GUILayout.BeginVertical(GUI.skin.box,GUILayout.Width((panelWidth-34f)*0.5f));
+        GUILayout.Label($"FEED MAKER INPUT — {Inputs}/{InputCapacity}");
+        Rect targetRect=GUILayoutUtility.GetRect(GUIContent.none,GUI.skin.box,
+            GUILayout.ExpandWidth(true),GUILayout.Height(88f));
+        Color previous=GUI.color;
+        GUI.color=Inputs<InputCapacity ? new Color(0.72f,1f,0.72f) : new Color(1f,0.58f,0.58f);
+        GUI.Box(targetRect,Inputs<InputCapacity
+            ? $"DROP BAHAN DI SINI\nSisa kapasitas {InputCapacity-Inputs}\nOutput: {(fishFeedMode?"Fish Feed":"Animal Feed")}"
+            : $"INPUT PENUH\n{Inputs}/{InputCapacity}");
+        GUI.color=previous;
+        HandleMachineDrop(targetRect);
+
+        machineScroll=GUILayout.BeginScrollView(machineScroll,GUILayout.Height(205f));
+        if(jobs.Count==0) GUILayout.Label("Belum ada bahan di mesin.");
+        for(int i=0;i<jobs.Count;i++)
+        {
+            FeedJob job=jobs[i];
+            FeedRecipe recipe=FindRecipe(job.recipeId);
+            string ingredient=recipe?.input!=null ? recipe.input.itemName : job.recipeId;
+            string product=job.producesFishFeed ? "Fish Feed" : "Animal Feed";
+            string state=job.finish<0 ? "MENUNGGU SLOT" : $"PROCESS {Math.Max(0d,job.finish-Now):0.##} jam lagi";
+            GUILayout.Label($"SLOT {i+1}: {ingredient} x{job.inputs} → {product} x{job.output}\n{state}",GUI.skin.box);
+        }
+        GUILayout.EndScrollView();
+
+        if(dedicatedOutput)
+        {
+            int ready=dedicatedFishFeed ? fishFeedOutput : output;
+            string product=dedicatedFishFeed ? "Fish Feed" : "Animal Feed";
+            GUILayout.Label($"OUTPUT READY — {product} {ready} | {Output}/{outputCapacity}");
+            if(GUILayout.Button($"Ambil 1 {product} (Ready {ready})",GUILayout.Height(38f)))
+                feedback=(dedicatedFishFeed ? CollectFishFeed(inventory) : Collect(inventory))
+                    ? $"{product} x1 masuk Inventory"
+                    : "Belum ready / Inventory penuh";
+        }
+        else
+        {
+            GUILayout.Label($"OUTPUT READY — Animal Feed {output} | Fish Feed {fishFeedOutput} | {Output}/{outputCapacity}");
+            GUILayout.BeginHorizontal();
+            if(GUILayout.Button($"Ambil 1 Animal Feed (Ready {output})",GUILayout.Height(38f)))
+                feedback=Collect(inventory)?"Animal Feed masuk Inventory":"Belum ready / Inventory penuh";
+            if(GUILayout.Button($"Ambil 1 Fish Feed (Ready {fishFeedOutput})",GUILayout.Height(38f)))
+                feedback=CollectFishFeed(inventory)?"Fish Feed masuk Inventory":"Belum ready / Inventory penuh";
+            GUILayout.EndHorizontal();
+        }
+        GUILayout.EndVertical();
+    }
+
+    int FindRecipeIndex(ItemSO item,bool fishMode)
+    {
+        if(item==null || catalog?.recipes==null) return -1;
+        for(int i=0;i<catalog.recipes.Length;i++)
+        {
+            FeedRecipe recipe=catalog.recipes[i];
+            if(recipe?.input==item && recipe.producesFishFeed==fishMode) return i;
+        }
+        return -1;
+    }
+
+    FeedRecipe FindRecipe(string id)
+    {
+        if(catalog?.recipes==null) return null;
+        for(int i=0;i<catalog.recipes.Length;i++)
+            if(catalog.recipes[i]!=null && catalog.recipes[i].id==id) return catalog.recipes[i];
+        return null;
+    }
+
+    void QueueFromSlot(int slotIndex,bool maximum)
+    {
+        ItemStack stack=inventory?.GetSlot(slotIndex);
+        int recipeIndex=stack?.item!=null ? FindRecipeIndex(stack.item,fishFeedMode) : -1;
+        if(recipeIndex<0)
+        {
+            feedback="Bahan ini tidak cocok untuk output yang dipilih.";
+            return;
+        }
+        FeedRecipe recipe=catalog.recipes[recipeIndex];
+        int limit=maximum ? Mathf.Max(1,inventory.GetCount(recipe.input)/Mathf.Max(1,recipe.inputCount)) : 1;
+        int queued=0;
+        while(queued<limit && Queue(inventory,recipeIndex)) queued++;
+        feedback=queued>0
+            ? $"{recipe.input.itemName} masuk {queued} batch. Input {Inputs}/{InputCapacity}."
+            : $"Butuh {recipe.inputCount} {recipe.input.itemName}, atau slot/input mesin sudah penuh.";
+    }
+
+    void HandleInputDragSource(Rect rect,int slotIndex,ItemStack stack)
+    {
+        Event current=Event.current;
+        if(current.type!=EventType.MouseDown || current.button!=0 || !rect.Contains(current.mousePosition)) return;
+        draggedInputSlot=slotIndex;
+        draggedInputLabel=$"{stack.DisplayName} x{stack.count}";
+        current.Use();
+    }
+
+    void HandleMachineDrop(Rect rect)
+    {
+        Event current=Event.current;
+        if(draggedInputSlot<0 || current.type!=EventType.MouseUp || current.button!=0) return;
+        if(rect.Contains(current.mousePosition))
+        {
+            QueueFromSlot(draggedInputSlot,true);
+            current.Use();
+        }
+        draggedInputSlot=-1;
+        draggedInputLabel=null;
+    }
+
+    void DrawDraggedInputGhost()
+    {
+        if(draggedInputSlot<0) return;
+        Event current=Event.current;
+        if(current.type==EventType.MouseUp)
+        {
+            draggedInputSlot=-1;
+            draggedInputLabel=null;
+            return;
+        }
+        Vector2 mouse=current.mousePosition;
+        GUI.Box(new Rect(mouse.x+12f,mouse.y+12f,160f,34f),draggedInputLabel??"Ingredient");
+        if(current.type==EventType.MouseDrag) current.Use();
     }
     FeedMakerSaveData Capture()
     {
@@ -537,5 +713,3 @@ public sealed class FeedMaker : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void ResetStatics() { Active.Clear(); Cached.Clear(); }
 }
-
-

@@ -33,7 +33,7 @@ public sealed class PlayerEatingSystem : MonoBehaviour
 
     void Update()
     {
-        if (GameplayInput.GetKeyDown(eatKey))
+        if (Input.GetKeyDown(eatKey))
             EatSelectedFood();
     }
 

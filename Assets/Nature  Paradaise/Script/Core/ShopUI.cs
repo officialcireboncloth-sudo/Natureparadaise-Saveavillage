@@ -88,16 +88,16 @@ public class ShopUI : MonoBehaviour
         if (!IsVisible() || runtimeRoot == null)
             return;
 
-        if (GameplayInput.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             int next = ((int)currentCategory + 1) % 7;
             SelectCategory((FarmShopCategory)next);
         }
-        else if (GameplayInput.GetKeyDown(KeyCode.LeftArrow)) MoveSelection(-1);
-        else if (GameplayInput.GetKeyDown(KeyCode.RightArrow)) MoveSelection(1);
-        else if (GameplayInput.GetKeyDown(KeyCode.UpArrow)) MoveSelection(-5);
-        else if (GameplayInput.GetKeyDown(KeyCode.DownArrow)) MoveSelection(5);
-        else if (GameplayInput.GetKeyDown(KeyCode.Return) || GameplayInput.GetKeyDown(KeyCode.KeypadEnter))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow)) MoveSelection(-1);
+        else if (Input.GetKeyDown(KeyCode.RightArrow)) MoveSelection(1);
+        else if (Input.GetKeyDown(KeyCode.UpArrow)) MoveSelection(-5);
+        else if (Input.GetKeyDown(KeyCode.DownArrow)) MoveSelection(5);
+        else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             ExecuteSelectedTransaction();
     }
 
@@ -399,7 +399,7 @@ public class ShopUI : MonoBehaviour
         if (product.Selling)
             return $"Jual hasil pertanian dari inventory.\n\nOwned: {owned}";
         if (item.IsSprinkler)
-            return $"Auto water {FarmPlacement.CoverageCount(item.sprinklerLevel)} tile/hari. P: pasang di farm; E: ambil kembali. Tanpa stamina.\n\nOwned: {owned}";
+            return $"Auto water {new[] { 0, 4, 8, 24, 48 }[Mathf.Clamp(item.sprinklerLevel, 1, 4)]} tile/hari. P: pasang di farm; E: ambil kembali. Tanpa stamina.\n\nOwned: {owned}";
         if (item.treeDefinition != null)
             return $"P: tanam di tile farm kosong. Dewasa dalam {item.treeDefinition.matureDays} growth days. Siram saat muda; E untuk panen buah.\n\nOwned: {owned}";
         if (item.IsFertilizer)

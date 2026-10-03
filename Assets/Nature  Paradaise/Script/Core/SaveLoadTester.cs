@@ -12,13 +12,13 @@ public class SaveLoadTester : MonoBehaviour
         if (!HUDManager.DebugCluesEnabled)
             return;
 
-        if (GameplayInput.GetKeyDown(saveKey))
+        if (Input.GetKeyDown(saveKey))
         {
             if (SaveManager.Instance != null)
                 SaveManager.Instance.SaveGame();
         }
 
-        if (GameplayInput.GetKeyDown(loadKey))
+        if (Input.GetKeyDown(loadKey))
         {
             if (SaveManager.Instance != null)
                 SaveManager.Instance.LoadGame();

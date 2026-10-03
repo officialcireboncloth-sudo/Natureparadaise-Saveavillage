@@ -52,7 +52,6 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     Material previewMaterial;
     GameObject rangePreview;
     readonly System.Collections.Generic.List<LineRenderer> rangeLines = new();
-    readonly System.Collections.Generic.List<GameObject> rangeFills = new();
     ItemSO shownItem;
     Vector3 placementPoint;
     Quaternion placementRotation = Quaternion.identity;
@@ -126,8 +125,8 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         // memakai interval terpisah agar prompt stabil tanpa menambah beban physics.
         RequestActionPrompt(selected.item, canDrop, canPlace);
 
-        if (canDrop && GameplayInput.GetKeyDown(dropKey)) DropSelected(GameplayInput.GetKey(wholeStackModifier));
-        else if (canPlace && GameplayInput.GetKeyDown(placeKey)) PlaceSelected(GameplayInput.GetKey(wholeStackModifier));
+        if (canDrop && Input.GetKeyDown(dropKey)) DropSelected(Input.GetKey(wholeStackModifier));
+        else if (canPlace && Input.GetKeyDown(placeKey)) PlaceSelected(Input.GetKey(wholeStackModifier));
     }
 
     /// <summary>Dipakai UI mobile untuk menjatuhkan satu item atau seluruh stack.</summary>
@@ -264,7 +263,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         foreach (Vector2Int offset in FarmPlacement.Offsets(item.sprinklerLevel))
         {
             Vector3 center = field.GridToWorld(x + offset.x, z + offset.y) + Vector3.up * 0.06f;
-            if (!field.CanReceiveSprinkler(x + offset.x, z + offset.y)) continue;
+            if (!field.WorldToGrid(center, out _, out _)) continue;
             if (lineIndex == rangeLines.Count)
             {
                 GameObject cell = new("RangeTile");
@@ -275,20 +274,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
                 created.loop = true;
                 created.positionCount = 4;
                 rangeLines.Add(created);
-                GameObject fill = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                fill.name = "CoverageFill";
-                fill.transform.SetParent(cell.transform, false);
-                Destroy(fill.GetComponent<Collider>());
-                Renderer renderer = fill.GetComponent<Renderer>();
-                renderer.sharedMaterial = previewMaterial;
-                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-                renderer.receiveShadows = false;
-                rangeFills.Add(fill);
             }
-            GameObject filledTile = rangeFills[lineIndex];
-            filledTile.transform.SetPositionAndRotation(center, field.transform.rotation * Quaternion.Euler(90f, 0f, 0f));
-            filledTile.transform.localScale = new Vector3(field.CellSize * field.transform.lossyScale.x * 0.92f,
-                field.CellSize * field.transform.lossyScale.z * 0.92f, 1f);
             LineRenderer line = rangeLines[lineIndex++];
             line.gameObject.SetActive(true);
             float half = field.CellSize * 0.46f;
@@ -365,7 +351,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
 
         // Preview memakai model item asli supaya footprint dan orientasinya mudah dinilai.
         GameObject visual = CreateVisual(item, previewVisual.transform, $"PreviewMesh_{item.itemName}");
-        visual.transform.localPosition = item.IsSprinkler ? Vector3.zero : Vector3.up * 0.35f;
+        visual.transform.localPosition = Vector3.up * 0.35f;
         if (item.treeDefinition != null) visual.transform.localPosition = Vector3.up * visual.transform.localScale.y * 0.5f;
 
         Shader shader = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Sprites/Default");
@@ -451,7 +437,6 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         if (rangePreview != null) Destroy(rangePreview);
         rangePreview = null;
         rangeLines.Clear();
-        rangeFills.Clear();
         if (previewVisual != null)
         {
             if (Application.isPlaying) Destroy(previewVisual);

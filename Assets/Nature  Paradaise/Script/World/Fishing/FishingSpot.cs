@@ -17,58 +17,41 @@ public sealed class FishingSpot : MonoBehaviour
     [SerializeField, Min(1f)] float maximumCastDistance = 12f;
     Collider spotCollider;
 
-    [SerializeField] string locationName;
-    public string LocationName => string.IsNullOrWhiteSpace(locationName) ? waterType.ToString() : locationName;
     public FishingWaterType WaterType => waterType;
     public IReadOnlyList<FishDefinitionSO> FishPool => fishPool;
     public float MaximumCastDistance => maximumCastDistance;
-
-    public void ConfigureLocation(FishingWaterType type, string displayName)
-    {
-        waterType = type;
-        locationName = displayName;
-    }
 
     void Awake() => spotCollider = GetComponent<Collider>();
     void OnEnable() { if (!Registry.Contains(this)) Registry.Add(this); }
     void OnDisable() => Registry.Remove(this);
 
     public static bool TryFindCastPoint(Transform player, Vector3 facing, out FishingSpot spot, out Vector3 point)
-        => TryFindCastPoint(player, facing, 1f, out spot, out point, out _);
-
-    public static bool TryFindCastPoint(Transform player, Vector3 facing, float power, out FishingSpot spot, out Vector3 point, out float reach)
     {
-        spot=null; point=default; reach=0f;
-        if(player==null) return false;
-        facing.y=0f;
-        if(facing.sqrMagnitude<0.01f) facing=player.forward;
+        spot = null;
+        point = default;
+        if (player == null) return false;
+        facing.y = 0f;
+        if (facing.sqrMagnitude < 0.01f) facing = player.forward;
         facing.Normalize();
-        float limit=0f;
-        foreach(var entry in Registry) if(entry!=null) limit=Mathf.Max(limit,entry.maximumCastDistance);
-        List<Vector3> points=new();
-        List<FishingSpot> spots=new();
-        // Stop at the first shoreline after entering water, never skip across land.
-        for(float distance=1f;distance<=limit;distance+=0.25f)
+
+        float furthest = 0f;
+        for (int i = 0; i < Registry.Count; i++)
+            if (Registry[i] != null) furthest = Mathf.Max(furthest, Registry[i].maximumCastDistance);
+
+        // Ambil permukaan paling atas di depan player. Terrain akan menang di daratan,
+        // sedangkan collider FishingSpot menang saat sample sudah berada di atas air.
+        for (float distance = furthest; distance >= 2f; distance -= 0.5f)
         {
-            Vector3 sample=player.position+facing*distance+Vector3.up*30f;
-            FishingSpot candidate=null;
-            RaycastHit hit=default;
-            if(Physics.Raycast(sample,Vector3.down,out hit,100f,~0,QueryTriggerInteraction.Ignore))
-                candidate=hit.collider.GetComponentInParent<FishingSpot>();
-            bool valid=candidate!=null && candidate.isActiveAndEnabled && distance<=candidate.maximumCastDistance;
-            if(spot==null) { if(!valid) continue; spot=candidate; }
-            // Fish regions sharing continuous water are not shorelines.
-            // Resolve the loot region at the landing point, not the first water sample.
-            if(!valid) break;
-            points.Add(hit.point+Vector3.up*0.06f);
-            spots.Add(candidate);
+            Vector3 sample = player.position + facing * distance + Vector3.up * 30f;
+            if (!Physics.Raycast(sample, Vector3.down, out RaycastHit hit, 100f, ~0, QueryTriggerInteraction.Ignore))
+                continue;
+            FishingSpot candidate = hit.collider.GetComponentInParent<FishingSpot>();
+            if (candidate == null || distance > candidate.maximumCastDistance) continue;
+            spot = candidate;
+            point = hit.point + Vector3.up * 0.06f;
+            return true;
         }
-        if(points.Count==0) { spot=null; return false; }
-        int index=Mathf.RoundToInt(Mathf.Clamp01(power)*(points.Count-1));
-        point=points[index];
-        spot=spots[index];
-        reach=points.Count>1?(float)index/(points.Count-1):0f;
-        return true;
+        return false;
     }
 
     public List<FishDefinitionSO> GetEligibleFish(int day, int hour, WeatherType weather, int rodLevel)
@@ -116,13 +99,7 @@ public sealed class FishingSpot : MonoBehaviour
                 if (candidate == null || candidate.GetComponentInParent<FishingSpot>() != null) continue;
                 string objectName = candidate.name.ToLowerInvariant();
                 if (objectName == "water" || objectName.Contains("fishing_water"))
-                    {
-                    FishingSpot spot=candidate.gameObject.AddComponent<FishingSpot>();
-                    string context=candidate.transform.parent!=null ? candidate.transform.parent.name.ToLowerInvariant()+objectName : objectName;
-                    if(context.Contains("river")) spot.waterType=FishingWaterType.River;
-                    else if(context.Contains("ocean") || context.Contains("sea") || context.Contains("beach")) spot.waterType=FishingWaterType.Ocean;
-                    else if(context.Contains("pond")) spot.waterType=FishingWaterType.Pond;
-                }
+                    candidate.gameObject.AddComponent<FishingSpot>();
             }
         }
     }

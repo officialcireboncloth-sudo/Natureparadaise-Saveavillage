@@ -19,7 +19,7 @@ public static class FishingCsvDatabase
         "maximum_bite_wait","hook_window","catch_zone_size","fish_move_speed",
         "progress_gain_per_second","progress_loss_per_second","time_limit","minimum_size_cm","maximum_size_cm",
         "pond_medium_size_cm","pond_large_size_cm","pond_jumbo_size_cm",
-        "pond_small_growth_days","pond_medium_growth_days","pond_large_growth_days","minimum_cast_power"
+        "pond_small_growth_days","pond_medium_growth_days","pond_large_growth_days"
     };
 
     [MenuItem("Nature Paradise/Data CSV/Export Fish")]
@@ -38,7 +38,7 @@ public static class FishingCsvDatabase
                 F(fish.hookWindow),F(fish.catchZoneSize),F(fish.fishMoveSpeed),F(fish.progressGainPerSecond),
                 F(fish.progressLossPerSecond),F(fish.timeLimit),F(fish.minimumSizeCm),F(fish.maximumSizeCm),
                 F(fish.pondMediumSizeCm),F(fish.pondLargeSizeCm),F(fish.pondJumboSizeCm),
-                fish.pondSmallGrowthDays.ToString(),fish.pondMediumGrowthDays.ToString(),fish.pondLargeGrowthDays.ToString(),F(fish.minimumCastPower)
+                fish.pondSmallGrowthDays.ToString(),fish.pondMediumGrowthDays.ToString(),fish.pondLargeGrowthDays.ToString()
             };
             csv.AppendLine(string.Join(",", values.Select(Escape)));
         }
@@ -89,7 +89,6 @@ public static class FishingCsvDatabase
             fish.endHour = row.endHour;
             fish.requiredRodLevel = row.rodLevel;
             fish.encounterWeight = row.weight;
-            fish.minimumCastPower = row.minimumCastPower;
             fish.minimumBiteWait = row.minBite;
             fish.maximumBiteWait = row.maxBite;
             fish.hookWindow = row.hookWindow;
@@ -166,7 +165,7 @@ public static class FishingCsvDatabase
         string[] lines = File.ReadAllLines(CsvPath);
         if (lines.Length == 0) { errors.Add("CSV kosong."); return false; }
         List<string> header = Split(lines[0]);
-        foreach (string column in Columns) if (column != "minimum_cast_power" && !header.Contains(column)) errors.Add($"Kolom wajib hilang: {column}");
+        foreach (string column in Columns) if (!header.Contains(column)) errors.Add($"Kolom wajib hilang: {column}");
         if (errors.Count > 0) return false;
         Dictionary<string, ItemSO> items = LoadItems().Where(item => !string.IsNullOrWhiteSpace(item.Id))
             .GroupBy(item => item.Id).ToDictionary(group => group.Key, group => group.First());
@@ -191,7 +190,6 @@ public static class FishingCsvDatabase
             row.startHour = I(source,"start_hour",label,errors,0,23);
             row.endHour = I(source,"end_hour",label,errors,0,24);
             row.rodLevel = I(source,"required_rod_level",label,errors,1,99);
-            row.minimumCastPower = source.ContainsKey("minimum_cast_power") ? N(source,"minimum_cast_power",label,errors,0f,1f) : 0f;
             row.weight = N(source,"encounter_weight",label,errors,0.01f,10000f);
             row.minBite = N(source,"minimum_bite_wait",label,errors,0.1f,3600f);
             row.maxBite = N(source,"maximum_bite_wait",label,errors,row.minBite,3600f);
@@ -234,7 +232,7 @@ public static class FishingCsvDatabase
     {
         public string id,path; public ItemSO item; public FishRarity rarity; public FishingWaterMask water; public CropSeason seasons; public FishingWeatherMask weather;
         public int startHour,endHour,rodLevel,pondSmallDays,pondMediumDays,pondLargeDays;
-        public float minimumCastPower,weight,minBite,maxBite,hookWindow,zone,moveSpeed,gain,loss,timeLimit,minSize,maxSize,pondMediumSize,pondLargeSize,pondJumboSize;
+        public float weight,minBite,maxBite,hookWindow,zone,moveSpeed,gain,loss,timeLimit,minSize,maxSize,pondMediumSize,pondLargeSize,pondJumboSize;
     }
 }
 #endif

@@ -77,7 +77,7 @@ public sealed class PlayerAnimalPush : MonoBehaviour
         Vector3 delta=target.transform.position-transform.position;
         delta.y=0f;
         pushInputDirection=movement!=null?movement.ReadWorldMovementDirection():Vector3.zero;
-        bool hasPushControl=Time.unscaledTime<=inputGraceUntil || GameplayInput.GetKey(pushKey) ||
+        bool hasPushControl=Time.unscaledTime<=inputGraceUntil || Input.GetKey(pushKey) ||
                             pushInputDirection.sqrMagnitude>0.001f;
         if(!hasPushControl || delta.sqrMagnitude>breakDistance*breakDistance ||
            movement==null || movement.HasMovementLockOtherThan(this) || movement.IsCarrying ||

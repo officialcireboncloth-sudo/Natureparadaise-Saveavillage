@@ -23,8 +23,6 @@ public enum FoodPreparation
     ReadyToEat
 }
 
-public enum HomeStorageDestination { Auto, House, Refrigerator, Never }
-
 /// <summary>Kelompok item pada Refrigerator UI dan aturan bahan Kitchen.</summary>
 public enum RefrigeratorCategory : byte
 {
@@ -82,9 +80,6 @@ public class ItemSO : ScriptableObject
     public string itemName;
     [Tooltip("Sprite untuk slot inventory, hotbar, dan drag preview.")]
     public Sprite icon;
-    [Tooltip("Ilustrasi besar pada detail inventory. Kosong memakai Icon bila tersedia.")]
-    public Sprite inventoryIllustration;
-    [TextArea(2, 5)] public string inventoryDescription;
     [Tooltip("Harga beli satu item. Nilai 0 berarti tidak dijual.")]
     public int buyPrice;
     [Tooltip("Harga jual satu item. Nilai 0 berarti tidak dapat dijual normal.")]
@@ -142,7 +137,7 @@ public class ItemSO : ScriptableObject
     public Vector3 worldScale = Vector3.one * 0.4f;
 
     [Header("Farm Placement")]
-    [Range(0, 5)] public int sprinklerLevel;
+    [Range(0, 4)] public int sprinklerLevel;
     public TreeDefinition treeDefinition;
     public bool IsSprinkler => sprinklerLevel > 0;
     public bool IsFarmPlacement => IsSprinkler || treeDefinition != null;
@@ -159,11 +154,9 @@ public class ItemSO : ScriptableObject
     [Tooltip("Hunger/fullness yang dipulihkan per satu item.")]
     [Min(0f)] public float hungerRestore;
 
-    [Header("Home Storage")]
-    [Tooltip("Kategori makanan/bahan untuk Kitchen dan pengelompokan storage. Auto membaca kategori ini bersama Food Preparation.")]
+    [Header("Refrigerator")]
+    [Tooltip("None menolak item dari Refrigerator. Pilih kelompok makanan agar item dapat disimpan dan dibaca Kitchen.")]
     public RefrigeratorCategory refrigeratorCategory = RefrigeratorCategory.None;
-    [Tooltip("Auto: makanan matang/minuman ke kulkas; hasil tani mentah, seed, tools dan bahan ke storage rumah. Dapat diatur melalui storage_destination di Items.csv.")]
-    public HomeStorageDestination storageDestination = HomeStorageDestination.Auto;
 
     public int StackLimit => Mathf.Max(1, maxStack);
     public string Id => string.IsNullOrWhiteSpace(itemId) ? ItemCatalog.LegacyId(name) : itemId.Trim();
@@ -214,10 +207,7 @@ public class ItemSO : ScriptableObject
 
     /// <summary>Aturan tunggal item Refrigerator; key item, seed, tool, dan furniture tetap ditolak.</summary>
     public bool CanStoreInRefrigerator =>
-        (storageDestination == HomeStorageDestination.Refrigerator ||
-         storageDestination == HomeStorageDestination.Auto &&
-         (refrigeratorCategory == RefrigeratorCategory.CookedFood || refrigeratorCategory == RefrigeratorCategory.Drink ||
-          refrigeratorCategory == RefrigeratorCategory.None && foodPreparation == FoodPreparation.ReadyToEat)) &&
+        refrigeratorCategory != RefrigeratorCategory.None &&
         !isKeyItem &&
         category != ItemCategory.Tool &&
         category != ItemCategory.Seed &&

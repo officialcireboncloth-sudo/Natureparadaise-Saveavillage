@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum FishingState : byte { Idle, WaitingForBite, Bite, Minigame, Charging, Casting, Catching, Result }
+public enum FishingState : byte { Idle, WaitingForBite, Bite, Minigame }
 
 [DisallowMultipleComponent]
 [DefaultExecutionOrder(1000)]
@@ -39,39 +39,6 @@ public sealed class FishingSystem : MonoBehaviour
     [SerializeField] GameObject fishingRodVisual;
     [SerializeField] Transform lineOrigin;
 
-    [Header("Power Cast & Catch Presentation")]
-    [SerializeField, Min(0.1f)] float chargeDuration = 1.8f;
-    [SerializeField, Min(0.1f)] float bobberFlightDuration = 0.7f;
-    [SerializeField, Range(0f,1f)] float castReleaseNormalizedTime = 0.45f;
-    [SerializeField, Min(0.1f)] float resultDisplayDuration = 3f;
-    [SerializeField, Min(0.1f)] float catchAnimationDuration = 2.5f;
-    float chargeElapsed, castElapsed, swingDuration, castReach;
-    bool chargeWithMouse, chargeWithTouch, bobberReleased, landed;
-    Vector3 castTarget, flightOrigin;
-    FishingPresentation presentation;
-    ItemSO pendingItem;
-    int pendingQuality;
-    float pendingSize;
-    public float CastPower { get; private set; }
-    public float CastDistance { get; private set; }
-    public bool HasCastPreview { get; private set; }
-    public Vector3 CastPreviewPoint { get; private set; }
-    public float PreviewCastDistance { get; private set; }
-    public string CastBand => CastPower < 0.34f ? "LOW" : CastPower < 0.67f ? "MEDIUM" : CastPower < 0.99f ? "HIGH" : "MAX";
-    public string CatchLocation { get; private set; }
-    public ItemSO ResultItem => pendingItem;
-    public float ResultSize => pendingSize;
-    public int ResultQuality => pendingQuality;
-    public float ResultTimeRemaining => State == FishingState.Result ? stateTimer : 0f;
-
-    [Header("Rod Grip")]
-    [Tooltip("Local grip rotation for the right-hand bone during fishing.")]
-    [SerializeField] Vector3 rodGripEuler = new(0f, -90f, 90f);
-    [SerializeField, Range(0f, 85f)] float carryRodElevation = 55f;
-    public Quaternion RodGripRotation => Quaternion.Euler(rodGripEuler);
-    public Vector3 RodFacing => movement != null ? movement.FacingDirection : transform.forward;
-    public float CarryRodElevation => carryRodElevation;
-
     PlayerController movement;
     PlayerToolHotbar hotbar;
     PlayerStatusSystem status;
@@ -88,7 +55,6 @@ public sealed class FishingSystem : MonoBehaviour
     int activeCastBaitRemaining;
     GameObject bobber;
     LineRenderer fishingLine;
-    Material fishingLineMaterial;
     float stateTimer;
     float fishPosition = 0.5f;
     float fishDirection = 1f;
@@ -101,7 +67,6 @@ public sealed class FishingSystem : MonoBehaviour
     Vector3 bobberBasePosition;
 
     public FishingState State { get; private set; }
-    public KeyCode ReelKey => reelKey;
     public FishDefinitionSO ActiveFish => activeFish;
     public string ActiveCatchLabel => activeJunk != null ? activeJunk.itemName : activeFish != null ? activeFish.item.itemName : "Fishing";
     public float FishPosition => fishPosition;
@@ -109,7 +74,7 @@ public sealed class FishingSystem : MonoBehaviour
     public float CatchProgress => catchProgress;
     public float LineStress => lineStress;
     public float HookTimeRemaining => State == FishingState.Bite && activeFish != null ? Mathf.Clamp(stateTimer / activeFish.hookWindow, 0f, 1f) : 0f;
-    public bool IsReeling => State == FishingState.Minigame && (GameplayInput.GetKey(reelKey) || (allowLeftMouse && GameplayInput.GetMouseButton(0)) || (ui != null && ui.MobileReelHeld));
+    public bool IsReeling => State == FishingState.Minigame && (Input.GetKey(reelKey) || (allowLeftMouse && Input.GetMouseButton(0)) || (ui != null && ui.MobileReelHeld));
     public ItemSO EquippedBait => ResolveEquippedBait();
     public ItemSO ActiveCastBait => activeCastBait;
     public int EquippedBaitCount => EquippedBait != null && inventory != null ? inventory.GetCount(EquippedBait) : 0;
@@ -134,8 +99,6 @@ public sealed class FishingSystem : MonoBehaviour
         ui = GetComponent<FishingMinigameUI>();
         if (ui == null) ui = gameObject.AddComponent<FishingMinigameUI>();
         ui.Bind(this);
-        presentation = gameObject.AddComponent<FishingPresentation>();
-        presentation.Bind(this, animator);
         EnsureRodVisual();
     }
 
@@ -152,8 +115,7 @@ public sealed class FishingSystem : MonoBehaviour
         UpdateRodVisual();
         if (State != FishingState.Idle && hotbar.SelectedTool != PlayerToolType.FishingRod)
         {
-            if (pendingItem != null) CleanupSession(true);
-            else Fail("Memancing dibatalkan karena pancing dilepas.");
+            Fail("Memancing dibatalkan karena pancing dilepas.");
             return;
         }
 
@@ -166,36 +128,13 @@ public sealed class FishingSystem : MonoBehaviour
             if (hotbar.IsUsePressed(PlayerToolType.None)) ToggleBait(selectedItem);
             return;
         }
-        if (State == FishingState.Catching || State == FishingState.Result)
-        {
-            stateTimer -= Time.deltaTime;
-            if (State == FishingState.Catching && stateTimer <= 0f)
-            {
-                State = FishingState.Result;
-                stateTimer = resultDisplayDuration;
-                presentation.ShowCatch(pendingItem);
-            }
-            else if (State == FishingState.Result && stateTimer <= 0f) CleanupSession(true);
-            return;
-        }
         if (hotbar.SelectedTool != PlayerToolType.FishingRod || WorldInteractionPrompt.IsSuppressed) return;
 
         switch (State)
         {
             case FishingState.Idle:
-                WorldInteractionPrompt.Request(this, transform, $"F - Hold to Cast  |  Bait: {EquippedBaitLabel}", 0f, 1.9f);
-                if (hotbar.IsUsePressed(PlayerToolType.FishingRod) || (ui != null && ui.MobileCastHeld)) BeginCharge();
-                break;
-            case FishingState.Charging:
-                chargeElapsed += Time.deltaTime;
-                CastPower = Mathf.Clamp01(chargeElapsed / chargeDuration);
-                UpdateCastPreview();
-                SetFloatIfPresent("CastPower", CastPower);
-                bool held = chargeWithTouch ? ui != null && ui.MobileCastHeld : chargeWithMouse ? GameplayInput.GetMouseButton(0) : GameplayInput.GetKey(reelKey);
-                if (!held) TryCast();
-                break;
-            case FishingState.Casting:
-                UpdateCastFlight();
+                WorldInteractionPrompt.Request(this, transform, $"F: Lempar kail ke air  |  Bait: {EquippedBaitLabel}", 0f, 1.9f);
+                if (hotbar.IsUsePressed(PlayerToolType.FishingRod)) TryCast();
                 break;
             case FishingState.WaitingForBite:
                 stateTimer -= Time.deltaTime;
@@ -217,24 +156,6 @@ public sealed class FishingSystem : MonoBehaviour
         }
     }
 
-    void BeginCharge()
-    {
-        if (movement == null || movement.IsMovementLocked ||
-            (gathering != null && gathering.IsCarrying) || (animalCarry != null && animalCarry.HasAnimal)) return;
-        if (!FishingSpot.TryFindCastPoint(transform, movement.FacingDirection, out _, out _))
-        { SaveLoadFeedback.Instance?.ShowMessage("Tidak ada Fishing Spot di arah lempar."); return; }
-        chargeElapsed = 0f;
-        CastPower = 0f;
-        UpdateCastPreview();
-        chargeWithMouse = allowLeftMouse && GameplayInput.GetMouseButton(0) && !GameplayInput.GetKey(reelKey);
-        chargeWithTouch = ui != null && ui.MobileCastHeld && !GameplayInput.GetKey(reelKey) && !chargeWithMouse;
-        movement.AcquireMovementLock(this);
-        SetBoolIfPresent(fishingActiveParameter, true);
-        SetFloatIfPresent("CastPower", 0f);
-        TriggerIfPresent("FishingCharge");
-        State = FishingState.Charging;
-    }
-
     void TryCast()
     {
         if (movement == null || status == null || inventory == null) return;
@@ -244,10 +165,9 @@ public sealed class FishingSystem : MonoBehaviour
             return;
         }
         Vector3 facing = movement.FacingDirection;
-        if (!FishingSpot.TryFindCastPoint(transform, facing, CastPower, out activeSpot, out Vector3 castPoint, out castReach))
+        if (!FishingSpot.TryFindCastPoint(transform, facing, out activeSpot, out Vector3 castPoint))
         {
             SaveLoadFeedback.Instance?.ShowMessage("Tidak ada Fishing Spot di arah lempar.");
-            CleanupSession(true);
             return;
         }
         int rodLevel = Mathf.Max(1, status.GetToolLevel(PlayerToolType.FishingRod));
@@ -256,24 +176,19 @@ public sealed class FishingSystem : MonoBehaviour
         WeatherType weather = WeatherSystem.Instance != null ? WeatherSystem.Instance.CurrentWeather : WeatherType.Sunny;
         List<FishDefinitionSO> candidates = activeSpot.GetEligibleFish(day, hour, weather, rodLevel);
         ItemSO castBait = ResolveEquippedBait();
-        candidates.RemoveAll(fish => castReach + 0.001f < fish.minimumCastPower);
-        activeSpot.TryRollJunk(castBait, out activeJunk);
         activeFish = PickWeighted(candidates, castBait, fishingLevel);
-        // Junk uses an existing fish's minigame balance even when no species is eligible.
-        if(activeFish==null && activeJunk!=null) activeFish=Resources.Load<FishDefinitionSO>("Fishing/Tilapia");
         if (activeFish == null)
         {
-            SaveLoadFeedback.Instance?.ShowMessage("Tidak ada ikan aktif untuk lokasi, waktu, dan jarak ini.");
-            CleanupSession(true);
+            SaveLoadFeedback.Instance?.ShowMessage("Tidak ada ikan aktif di lokasi dan waktu ini.");
             return;
         }
+        activeSpot.TryRollJunk(castBait, out activeJunk);
         if (!status.BeginFishing(this, castStaminaCost))
         {
             SaveLoadFeedback.Instance?.ShowMessage("Stamina tidak cukup untuk memancing.");
             activeFish = null;
             activeJunk = null;
             activeSpot = null;
-            CleanupSession(true);
             return;
         }
 
@@ -288,49 +203,14 @@ public sealed class FishingSystem : MonoBehaviour
 
         movement.AcquireMovementLock(this);
         SetBoolIfPresent(fishingActiveParameter, true);
-        // A quick tap can set Charge and Cast in the same Animator update.
-        if(animator!=null) animator.ResetTrigger("FishingCharge");
-        TriggerIfPresent(CastPower < 0.34f ? "CastLow" : CastPower < 0.67f ? castTrigger : "CastHigh");
+        TriggerIfPresent(castTrigger);
         GameAudio.PlayOneShot(audioSource, castSound, GameAudioBus.Main);
-        castTarget = castPoint;
-        CastDistance = Vector3.Distance(new Vector3(transform.position.x, castPoint.y, transform.position.z), castPoint);
-        CatchLocation = activeSpot.LocationName;
-        HasCastPreview = false;
-        swingDuration = 1.6f / (CastPower >= 0.67f ? 1.25f : 1f);
-        castElapsed = 0f;
-        bobberReleased = landed = false;
-        State = FishingState.Casting;
-    }
-
-    void UpdateCastFlight()
-    {
-        castElapsed += Time.deltaTime;
-        float release = swingDuration * castReleaseNormalizedTime;
-        if (!bobberReleased && castElapsed >= release)
-        {
-            flightOrigin = lineOrigin != null ? lineOrigin.position : presentation != null ? presentation.RodTip : transform.position + Vector3.up * 2f;
-            CreateBobber(flightOrigin);
-            bobberBasePosition = castTarget;
-            bobberReleased = true;
-        }
-        if (bobberReleased && !landed)
-        {
-            float t = Mathf.Clamp01((castElapsed - release) / bobberFlightDuration);
-            bobber.transform.position = Vector3.Lerp(flightOrigin, castTarget, t) + Vector3.up * (Mathf.Sin(t * Mathf.PI) * Mathf.Lerp(1f, 2.5f, CastPower));
-            if (t >= 1f)
-            {
-                landed = true;
-                presentation?.Splash(castTarget);
-            }
-        }
-        UpdateLine();
-        if (!landed || castElapsed < swingDuration) return;
+        CreateBobber(castPoint);
         float weatherSpeed = Mathf.Max(0.25f, WeatherSystem.CurrentFishingMultiplier);
         float baitSpeed = 1f + (activeCastBait != null ? Mathf.Clamp01(activeCastBait.baitBiteSpeedBonus) : 0f);
         stateTimer = Random.Range(activeFish.minimumBiteWait, activeFish.maximumBiteWait) / (weatherSpeed * baitSpeed);
         State = FishingState.WaitingForBite;
     }
-
 
     void BeginBite()
     {
@@ -402,7 +282,8 @@ public sealed class FishingSystem : MonoBehaviour
     {
         float contactRatio = successfulContactTime / Mathf.Max(0.01f, minigameElapsed);
         int qualityStars = Mathf.Clamp(Mathf.FloorToInt(contactRatio * 5f), 0, 4);
-        float sizeCm = activeFish.RollSize(castReach);
+        float sizeBias = Mathf.Lerp(0.15f, 0.95f, Mathf.Clamp01(contactRatio));
+        float sizeCm = Mathf.Lerp(activeFish.minimumSizeCm, activeFish.maximumSizeCm, Mathf.Clamp01(sizeBias + Random.Range(-0.12f, 0.12f)));
         bool caughtJunk = activeJunk != null;
         ItemSO item = caughtJunk ? activeJunk : activeFish.item;
         if (!caughtJunk) FishCollectionService.Record(activeFish, sizeCm);
@@ -413,32 +294,22 @@ public sealed class FishingSystem : MonoBehaviour
         StopReelLoop();
         GameAudio.PlayOneShot(audioSource, catchSound, GameAudioBus.Main);
 
-        pendingItem = item;
-        pendingQuality = qualityStars;
-        pendingSize = sizeCm;
-        if (bobber != null) Destroy(bobber);
-        bobber = null;
-        if (fishingLine != null) Destroy(fishingLine.gameObject);
-        fishingLine = null;
-        if (fishingLineMaterial != null) Destroy(fishingLineMaterial);
-        fishingLineMaterial = null;
-        State = FishingState.Catching;
-        stateTimer = catchAnimationDuration;
-    }
-
-    void DeliverCatch()
-    {
-        if (pendingItem == null) return;
-        ItemSO item = pendingItem;
-        pendingItem = null; // Commit once, including tool switch / day change / disable.
-        if (inventory != null && inventory.Add(item, 1, pendingQuality, pendingSize))
+        bool held = gathering != null && gathering.TryCarry(item, 1, qualityStars, sizeCm);
+        if (!held)
         {
-            PlayerPickupNotification.ShowItem(inventory, item, 1);
-            QuestEventHub.Publish(QuestObjectiveType.Collect, item.name, 1, item);
+            if (inventory.Add(item, 1, qualityStars, sizeCm))
+            {
+                PlayerPickupNotification.ShowItem(inventory,item,1);
+                QuestEventHub.Publish(QuestObjectiveType.Collect, item.name, 1, item);
+            }
+            else
+                WorldGatherable.SpawnLoosePickup(item, 1, transform.position + transform.forward + Vector3.up * 0.3f, qualityStars, sizeCm);
         }
-        else WorldGatherable.SpawnLoosePickup(item, 1, transform.position + transform.forward + Vector3.up * 0.3f, pendingQuality, pendingSize);
+        string destination = held ? "E simpan / Q jatuhkan" : "masuk Inventory";
+        string catchDetail = caughtJunk ? "sampah memancing" : $"{sizeCm:0.0} cm, Quality {qualityStars + 1}★";
+        SaveLoadFeedback.Instance?.ShowMessage($"{item.itemName} didapat — {catchDetail}, Fishing XP +{earnedExperience} ({destination})");
+        CleanupSession(true);
     }
-
 
     void Fail(string message)
     {
@@ -448,21 +319,13 @@ public sealed class FishingSystem : MonoBehaviour
 
     void CleanupSession(bool keepRodVisible)
     {
-        HasCastPreview = false;
-        DeliverCatch();
-        presentation?.HideCatch();
         StopReelLoop();
         if (bobber != null) Destroy(bobber);
         bobber = null;
         if (fishingLine != null) Destroy(fishingLine.gameObject);
         fishingLine = null;
-        if (fishingLineMaterial != null) Destroy(fishingLineMaterial);
-        fishingLineMaterial = null;
         movement?.ReleaseMovementLock(this);
         SetBoolIfPresent(fishingActiveParameter, false);
-        if(animator!=null) foreach(var parameter in animator.parameters)
-            if(parameter.type==AnimatorControllerParameterType.Trigger &&
-               (parameter.name=="FishingCharge" || parameter.name=="CastLow" || parameter.name=="CastHigh" || parameter.name==castTrigger || parameter.name==hookTrigger || parameter.name==catchTrigger)) animator.ResetTrigger(parameter.name);
         status?.EndFishing(this);
         activeSpot = null;
         activeFish = null;
@@ -480,7 +343,6 @@ public sealed class FishingSystem : MonoBehaviour
         bobber.transform.position = point;
         bobberBasePosition = point;
         bobber.transform.localScale = Vector3.one * 0.18f;
-        presentation?.StyleBobber(bobber);
         Collider collider = bobber.GetComponent<Collider>();
         if (collider != null) collider.enabled = false;
         GameObject lineObject = new("FishingLine_Runtime");
@@ -488,21 +350,9 @@ public sealed class FishingSystem : MonoBehaviour
         fishingLine.positionCount = 2;
         fishingLine.startWidth = fishingLine.endWidth = 0.025f;
         Shader shader = Shader.Find("Sprites/Default");
-        if (shader != null) { fishingLineMaterial = new Material(shader); fishingLine.sharedMaterial = fishingLineMaterial; }
+        if (shader != null) fishingLine.material = new Material(shader);
         fishingLine.startColor = fishingLine.endColor = Color.white;
         UpdateLine();
-    }
-
-    void LateUpdate() => UpdateLine();
-
-    void UpdateCastPreview()
-    {
-        HasCastPreview = false;
-        if (movement == null || !FishingSpot.TryFindCastPoint(transform, movement.FacingDirection,
-            CastPower, out _, out Vector3 point, out _)) return;
-        HasCastPreview = true;
-        CastPreviewPoint = point;
-        PreviewCastDistance = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(point.x, point.z));
     }
 
     void StopReelLoop()
@@ -525,22 +375,28 @@ public sealed class FishingSystem : MonoBehaviour
     void UpdateLine()
     {
         if (fishingLine == null || bobber == null) return;
-        fishingLine.SetPosition(0, lineOrigin != null ? lineOrigin.position : presentation != null ? presentation.RodTip : transform.position + Vector3.up * 2f + transform.forward * 0.4f);
+        fishingLine.SetPosition(0, lineOrigin != null ? lineOrigin.position : transform.position + Vector3.up * 2f + transform.forward * 0.4f);
         fishingLine.SetPosition(1, bobber.transform.position);
     }
 
     void EnsureRodVisual()
     {
-        if (fishingRodVisual == null) fishingRodVisual = presentation.CreateRod();
+        if (fishingRodVisual != null) return;
+        fishingRodVisual = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        fishingRodVisual.name = "FishingRodVisual_Debug";
+        fishingRodVisual.transform.SetParent(transform, false);
+        fishingRodVisual.transform.localPosition = new Vector3(0.42f, 1.35f, 0.5f);
+        fishingRodVisual.transform.localRotation = Quaternion.Euler(72f, 0f, -18f);
+        fishingRodVisual.transform.localScale = new Vector3(0.025f, 0.72f, 0.025f);
+        Collider collider = fishingRodVisual.GetComponent<Collider>();
+        if (collider != null) collider.enabled = false;
     }
 
     void UpdateRodVisual()
     {
-        // Merely equipping the rod keeps normal idle / walk / run animations.
-        if(State==FishingState.Idle) SetBoolIfPresent(fishingActiveParameter, false);
         if (fishingRodVisual != null)
             fishingRodVisual.SetActive(hotbar != null && hotbar.SelectedTool == PlayerToolType.FishingRod &&
-                                       (gathering == null || !gathering.IsCarrying) && State != FishingState.Result);
+                                       (gathering == null || !gathering.IsCarrying));
     }
 
     void TriggerIfPresent(string parameter)
@@ -549,14 +405,6 @@ public sealed class FishingSystem : MonoBehaviour
         foreach (AnimatorControllerParameter candidate in animator.parameters)
             if (candidate.type == AnimatorControllerParameterType.Trigger && candidate.name == parameter)
             { animator.SetTrigger(parameter); return; }
-    }
-
-    void SetFloatIfPresent(string parameter, float value)
-    {
-        if (animator == null) return;
-        foreach (var candidate in animator.parameters)
-            if (candidate.type == AnimatorControllerParameterType.Float && candidate.name == parameter)
-            { animator.SetFloat(parameter, value); return; }
     }
 
     void SetBoolIfPresent(string parameter, bool value)
@@ -636,15 +484,8 @@ public sealed class FishingSystem : MonoBehaviour
         }
     }
 
-    public void CommitPendingCatchForSave()
-    {
-        if(pendingItem != null) CleanupSession(true);
-    }
-
     public void RestoreProgress(string baitItemId, int level, int experience)
     {
-        pendingItem = null; // Loading restores the saved inventory rather than the abandoned session.
-        CleanupSession(false);
         fishingLevel = Mathf.Max(1, level);
         fishingExperience = Mathf.Clamp(experience, 0, ExperienceToNextLevel - 1);
         equippedBait = string.IsNullOrWhiteSpace(baitItemId)

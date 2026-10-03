@@ -39,7 +39,7 @@ public static class PlayerVisualSetup
            set.wakeUpFromKnockOut==null || set.hoeing==null || set.choppingTree==null ||
            set.hammeringRock==null || set.planting==null || set.sickle==null ||
            set.weedPulling==null || set.refillWateringCan==null || set.fishingCast==null ||
-           set.fishingCharge==null || set.fishingCastLow==null || set.fishingCastHigh==null || set.fishingCatch==null || set.fishingIdle==null || set.fishingReel==null || set.holdItem==null ||
+           set.fishingIdle==null || set.fishingReel==null || set.holdItem==null ||
            set.placeItem==null || set.brushAnimal==null || set.mountHorse==null ||
            set.dismountHorse==null || set.ridingIdle==null || set.pickUpChicken==null ||
            set.holdTwoHands==null || set.placeChicken==null || set.scoopManure==null ||
@@ -276,10 +276,6 @@ public static class PlayerVisualSetup
         set.refillWateringCan=Clip("Refill Watering Can");
         set.handOverOneHand=Clip("Hand Over One Hand");
         set.handOverTwoHands=Clip("Hand Over Two Hands");
-        set.fishingCharge=Clip("Fishing Charge");
-        set.fishingCastLow=Clip("Fishing Cast Low");
-        set.fishingCastHigh=Clip("Fishing Cast High");
-        set.fishingCatch=Clip("Fishing Catch");
         set.fishingCast=Clip("Fishing Cast");
         set.fishingIdle=Clip("Fishing Idle");
         set.fishingReel=Clip("Fishing Reel");
@@ -370,8 +366,6 @@ public static class PlayerVisualSetup
         AddParameter(controller,"Hook",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"Catch",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"FishingActive",AnimatorControllerParameterType.Bool);
-        AddParameter(controller,"CastPower",AnimatorControllerParameterType.Float);
-        foreach(string trigger in new[]{"FishingCharge","CastLow","CastHigh"}) AddParameter(controller,trigger,AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"HoldingItem",AnimatorControllerParameterType.Bool);
         AddParameter(controller,"CarryingAnimal",AnimatorControllerParameterType.Bool);
         AddParameter(controller,"PlaceItem",AnimatorControllerParameterType.Trigger);
@@ -559,34 +553,19 @@ public static class PlayerVisualSetup
     static void EnsureFishingStates(AnimatorStateMachine machine,PlayerAnimationSetSO clips)
     {
         AnimatorState locomotion=FindState(machine,"Locomotion");
-        string[] names={"Fishing Charge","Fishing Cast Low","Fishing Cast","Fishing Cast High","Fishing Idle","Fishing Reel","Fishing Catch","Fishing Result"};
-        AnimationClip[] motions={clips.fishingCharge,clips.fishingCastLow,clips.fishingCast,clips.fishingCastHigh,clips.fishingIdle,clips.fishingReel,clips.fishingCatch,clips.holdTwoHands};
-        AnimatorState[] states=names.Select(name=>FindState(machine,name)??machine.AddState(name)).ToArray();
-        // Rebuild only fishing transitions: old Catch incorrectly entered Reel.
-        foreach(var transition in machine.anyStateTransitions.ToArray())
-            if(states.Contains(transition.destinationState)) machine.RemoveAnyStateTransition(transition);
-        for(int i=0;i<states.Length;i++)
-        {
-            states[i].motion=motions[i];
-            states[i].speed=i==3?1.25f:1f;
-            foreach(var transition in states[i].transitions.ToArray()) states[i].RemoveTransition(transition);
-            EnsureExitTransition(states[i],locomotion,false,"FishingActive");
-        }
-        if(locomotion!=null && !locomotion.transitions.Any(t=>t.destinationState==states[4] && t.conditions.Any(c=>c.parameter=="FishingActive")))
-        {
-            var ready=locomotion.AddTransition(states[4]); ready.hasExitTime=false; ready.duration=0.12f;
-            ready.AddCondition(AnimatorConditionMode.If,0f,"FishingActive");
-        }
-        states[0].timeParameter="CastPower";
-        states[0].timeParameterActive=true;
-        EnsureAnyTrigger(machine,states[0],"FishingCharge");
-        EnsureAnyTrigger(machine,states[1],"CastLow");
-        EnsureAnyTrigger(machine,states[2],"Cast");
-        EnsureAnyTrigger(machine,states[3],"CastHigh");
-        EnsureAnyTrigger(machine,states[5],"Hook");
-        EnsureAnyTrigger(machine,states[6],"Catch");
-        for(int i=1;i<=3;i++) EnsureExitTransition(states[i],states[4],true,null);
-        EnsureExitTransition(states[6],states[7],true,null);
+        AnimatorState cast=FindState(machine,"Fishing Cast")??machine.AddState("Fishing Cast");
+        AnimatorState idle=FindState(machine,"Fishing Idle")??machine.AddState("Fishing Idle");
+        AnimatorState reel=FindState(machine,"Fishing Reel")??machine.AddState("Fishing Reel");
+        cast.motion=clips.fishingCast;
+        idle.motion=clips.fishingIdle;
+        reel.motion=clips.fishingReel;
+
+        EnsureAnyTrigger(machine,cast,"Cast");
+        EnsureAnyTrigger(machine,reel,"Hook");
+        EnsureAnyTrigger(machine,reel,"Catch");
+        EnsureExitTransition(cast,idle,true,null);
+        EnsureExitTransition(reel,idle,true,null);
+        EnsureExitTransition(idle,locomotion,false,"FishingActive");
     }
 
     static void EnsureHoldItemLayer(AnimatorController controller,AnimationClip clip,AnimationClip animalClip)
@@ -967,13 +946,9 @@ public static class PlayerVisualSetup
                 EmbeddedClip("Refill Watering Can","Armature|Refill Watering Can",96f),
                 EmbeddedClip("Hand Over One Hand","Armature|Hand Over One Hand",33f),
                 EmbeddedClip("Hand Over Two Hands","Armature|Hand Over Two Hands",36f),
-                EmbeddedClip("Fishing Charge","Armature|Player | Fishing Charge",30f),
-                EmbeddedClip("Fishing Cast Low","Armature|Player | Fishing Cast Low",48f),
-                EmbeddedClip("Fishing Cast High","Armature|Player | Fishing Cast High",48f),
-                EmbeddedClip("Fishing Catch","Armature|Player | Fishing Catch",75f),
-                EmbeddedClip("Fishing Cast","Armature|Player | Fishing Cast",48f),
+                EmbeddedClip("Fishing Cast","Armature|Fishing Cast",48f),
                 EmbeddedClip("Fishing Idle","Armature|Fishing Idle",90f),
-                EmbeddedClip("Fishing Reel","Armature|Player | Fishing Reel",60f),
+                EmbeddedClip("Fishing Reel","Armature|Fishing Reel",75f),
                 EmbeddedClip("Hold Item","Armature|Hold Item",60f),
                 EmbeddedClip("Place Item","Armature|Place Item",36f),
                 EmbeddedClip("Brush Animal","Armature|Brush Animal",45f),
@@ -984,7 +959,7 @@ public static class PlayerVisualSetup
                 EmbeddedClip("Pick Up Waist","Armature|Player | Pick Up Waist",30f),
                 EmbeddedClip("Place Chicken","Armature|Place Chicken",45f),
                 EmbeddedClip("Riding Idle","Armature|Riding Idle",60f),
-                EmbeddedClip("Scoop Manure","Armature|Player | Scoop Manure",42f),
+                EmbeddedClip("Scoop Manure","Armature|Scoop Manure",60f),
                 EmbeddedClip("Shear Sheep","Armature|Shear Sheep",60f),
                 EmbeddedClip("Tired Pose","Armature|Tired Pose",90f),
                 EmbeddedClip("Wake Up Bed","Armature|Wake Up Bed",120f),
@@ -1001,7 +976,7 @@ public static class PlayerVisualSetup
             cleanName=cleanName.Trim();
             clip.name=cleanName;
             bool loop=cleanName=="Idle" || cleanName=="Walking" || cleanName=="Running" ||
-                      cleanName=="Fishing Idle" || cleanName=="Fishing Reel" || cleanName=="Hold Item" ||
+                      cleanName=="Fishing Idle" || cleanName=="Hold Item" ||
                       cleanName=="Hold Two Hands" || cleanName=="Riding Idle" || cleanName=="Tired Pose" ||
                       cleanName=="Stagger Overlay" || cleanName=="Pushing Object" || cleanName=="Shear Sheep" || cleanName=="Brush Animal";
             if(cleanName=="Stagger Overlay")

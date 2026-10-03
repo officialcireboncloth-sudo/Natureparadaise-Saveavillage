@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-public sealed class MainMenuButtonAudio : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler
+public sealed class MainMenuButtonAudio : MonoBehaviour, IPointerEnterHandler, ISelectHandler
 {
     [SerializeField] MainMenuController menu;
     float lastHoverTime = -1f;
@@ -12,23 +11,7 @@ public sealed class MainMenuButtonAudio : MonoBehaviour, IPointerEnterHandler, I
         if (menu == null) menu = GetComponentInParent<MainMenuController>();
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        SetPointerHighlight(true);
-        Hover();
-    }
-    public void OnPointerExit(PointerEventData eventData) => SetPointerHighlight(false);
-    void OnDisable() => SetPointerHighlight(false);
-
-    void SetPointerHighlight(bool hovered)
-    {
-        Button button = GetComponent<Button>();
-        if (button == null) return;
-        ColorBlock colors = button.colors;
-        // Selected takes priority over Highlighted in Unity, including the initial menu selection.
-        colors.selectedColor = hovered ? colors.highlightedColor : colors.normalColor;
-        button.colors = colors;
-    }
+    public void OnPointerEnter(PointerEventData eventData) => Hover();
     public void OnSelect(BaseEventData eventData) => Hover();
 
     void Hover()

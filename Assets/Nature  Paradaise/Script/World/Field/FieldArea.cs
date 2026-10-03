@@ -145,7 +145,6 @@ public sealed class FieldArea : MonoBehaviour
         // kembali dari interior). Sinkronkan sekali agar hujan tetap menyiram map ini.
         if (WeatherSystem.Instance != null)
             HandleCurrentWeatherChanged(WeatherSystem.Instance.CurrentWeather);
-        if (TimeManager.Instance == null || TimeManager.Instance.hour >= 6) FarmPlacement.WaterField(this);
     }
 
     void OnDisable()
@@ -269,13 +268,9 @@ public sealed class FieldArea : MonoBehaviour
         !FarmPlacement.Occupied(this, x, z) && TryGetIndex(x, z, out int index) &&
         (tiles[index].state == TileState.Empty || tiles[index].state == TileState.Hoed);
 
-    public bool CanReceiveSprinkler(int x, int z) => allowCrops &&
-        !FarmPlacement.Occupied(this, x, z) && TryGetIndex(x, z, out int index) &&
-        (tiles[index].state == TileState.Empty || tiles[index].state == TileState.Hoed || tiles[index].state == TileState.Planted);
-
     public void WaterBySprinkler(int x, int z)
     {
-        if (!CanReceiveSprinkler(x, z) || !IsEditableSoilTile(x, z, out int index) || tiles[index].waterSourcesToday != CropWaterSource.None) return;
+        if (!IsEditableSoilTile(x, z, out int index) || tiles[index].waterSourcesToday != CropWaterSource.None) return;
         MarkWateredAtIndex(index, CropWaterSource.Sprinkler, 35);
         NotifyChanged(x, z);
     }

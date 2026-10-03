@@ -50,14 +50,14 @@ public sealed class PlayerToolHotbar : MonoBehaviour
     void Update()
     {
         if (!allowDebugToolShortcuts) return;
-        if (GameplayInput.GetKeyDown(hoeKey)) SelectTool(PlayerToolType.Hoe);
-        else if (GameplayInput.GetKeyDown(seedKey)) SelectTool(PlayerToolType.Seed);
-        else if (GameplayInput.GetKeyDown(waterKey)) SelectTool(PlayerToolType.WateringCan);
-        else if (GameplayInput.GetKeyDown(fertilizerKey)) SelectTool(PlayerToolType.Fertilizer);
-        else if (GameplayInput.GetKeyDown(sickleKey)) SelectTool(PlayerToolType.Sickle);
-        else if (GameplayInput.GetKeyDown(hammerKey)) SelectTool(PlayerToolType.Hammer);
-        else if (GameplayInput.GetKeyDown(axeKey)) SelectTool(PlayerToolType.Axe);
-        else if (GameplayInput.GetKeyDown(cropBoosterKey)) SelectTool(PlayerToolType.CropBooster);
+        if (Input.GetKeyDown(hoeKey)) SelectTool(PlayerToolType.Hoe);
+        else if (Input.GetKeyDown(seedKey)) SelectTool(PlayerToolType.Seed);
+        else if (Input.GetKeyDown(waterKey)) SelectTool(PlayerToolType.WateringCan);
+        else if (Input.GetKeyDown(fertilizerKey)) SelectTool(PlayerToolType.Fertilizer);
+        else if (Input.GetKeyDown(sickleKey)) SelectTool(PlayerToolType.Sickle);
+        else if (Input.GetKeyDown(hammerKey)) SelectTool(PlayerToolType.Hammer);
+        else if (Input.GetKeyDown(axeKey)) SelectTool(PlayerToolType.Axe);
+        else if (Input.GetKeyDown(cropBoosterKey)) SelectTool(PlayerToolType.CropBooster);
     }
 
     /// <summary>True satu frame saat input penggunaan untuk tool aktif diterima.</summary>
@@ -66,14 +66,14 @@ public sealed class PlayerToolHotbar : MonoBehaviour
         if (selectedTool != tool)
             return false;
 
-        bool mousePressed = allowLeftMouse && GameplayInput.GetKeyDown(KeyCode.Mouse0);
+        bool mousePressed = allowLeftMouse && Input.GetKeyDown(KeyCode.Mouse0);
         if (FertilizerProcessor.BlocksWorldPointer || MarketStand.BlocksWorldPointer ||
-            ShippingBin.BlocksWorldPointer || ToolStorageChest.BlocksWorldPointer || Refrigerator.BlocksWorldPointer || HouseStorageChest.BlocksWorldPointer)
+            ShippingBin.BlocksWorldPointer || ToolStorageChest.BlocksWorldPointer || Refrigerator.BlocksWorldPointer)
             mousePressed = false;
         if (mousePressed && EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             mousePressed = false;
 
-        bool keyboardPressed=GameplayInput.GetKeyDown(useToolKey) && !PlayerInteractionTarget.WasConsumed(useToolKey);
+        bool keyboardPressed=Input.GetKeyDown(useToolKey) && !PlayerInteractionTarget.WasConsumed(useToolKey);
         bool requested = keyboardPressed || mousePressed || mobileUsePending;
         if (mobileUsePending)
             mobileUsePending = false;

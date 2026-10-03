@@ -33,7 +33,7 @@ public sealed class PlayerWhistle : MonoBehaviour
 
     void Update()
     {
-        if (!GameplayInput.GetKeyDown(whistleKey) || Time.unscaledTime < nextWhistleTime || WorldInteractionPrompt.IsSuppressed) return;
+        if (!Input.GetKeyDown(whistleKey) || Time.unscaledTime < nextWhistleTime || WorldInteractionPrompt.IsSuppressed) return;
         Whistle();
     }
 

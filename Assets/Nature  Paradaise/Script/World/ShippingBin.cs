@@ -84,6 +84,11 @@ public sealed class ShippingBin : MonoBehaviour
     [SerializeField] int lastShippingTotal;
     [SerializeField] int lifetimeRevenue;
 
+    readonly Rect defaultWindowRect = new(0f, 0f, 1020f, 690f);
+    readonly Dictionary<int, string> amountInputs = new();
+    Rect windowRect;
+    Vector2 inventoryScroll;
+    Vector2 binScroll;
     bool panelOpen;
     string feedback = string.Empty;
     int confirmationSlot = -1;
@@ -96,21 +101,22 @@ public sealed class ShippingBin : MonoBehaviour
     public int PendingEstimatedValue => listings.Sum(entry => entry != null ? entry.EstimatedTotal : 0);
     public int LastShippingTotal => lastShippingTotal;
     public int LifetimeRevenue => lifetimeRevenue;
-    public Inventory PlayerInventory { get { ResolveInventory(); return playerInventory; } }
-    public string Feedback => feedback;
-    public bool AwaitingConfirmation => confirmationSlot >= 0;
-    public string ConfirmationDescription => playerInventory?.GetSlot(confirmationSlot)?.DisplayName + " x" + confirmationAmount;
-    public void ConfirmDeposit() { if(!AwaitingConfirmation)return; int slot=confirmationSlot, amount=confirmationAmount; ClearConfirmation(); TryDeposit(slot,amount); }
-    public void CancelDeposit() => ClearConfirmation();
 
-    public static bool BlocksWorldPointer => StorageChestUI.Instance != null && StorageChestUI.Instance.Bin != null;
+    public static bool BlocksWorldPointer
+    {
+        get
+        {
+            Vector2 pointer = new(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+            return Active.Any(bin => bin != null && bin.panelOpen && bin.windowRect.Contains(pointer));
+        }
+    }
 
     void Awake()
     {
         ResolveInventory();
         NormalizeListings();
-
-
+        windowRect = defaultWindowRect;
+        CenterWindow();
     }
 
     void OnEnable()
@@ -137,7 +143,7 @@ public sealed class ShippingBin : MonoBehaviour
 
         if (panelOpen)
         {
-            if (GameplayInput.GetKeyDown(KeyCode.Escape) || GameplayInput.GetKeyDown(interactKey)) ClosePanel();
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey)) ClosePanel();
             return;
         }
 
@@ -149,7 +155,131 @@ public sealed class ShippingBin : MonoBehaviour
         if (PlayerInteractionTarget.Press(playerInventory.transform, transform, interactKey)) OpenPanel();
     }
 
-    public void RequestDeposit(int slotIndex, int amount)
+    void OnGUI()
+    {
+        if (!panelOpen) return;
+        windowRect.width = Mathf.Max(650f, Mathf.Min(defaultWindowRect.width, Screen.width - 24f));
+        windowRect.height = Mathf.Max(440f, Mathf.Min(defaultWindowRect.height, Screen.height - 24f));
+        windowRect = GUI.Window(GetInstanceID(), windowRect, DrawWindow, "SHIPPING BIN — DAILY SHIPPING");
+    }
+
+    void DrawWindow(int id)
+    {
+        GUILayout.Label($"Pending: {PendingItemCount} item   |   Estimasi: {PendingEstimatedValue} G   |   " +
+                        $"Pembayaran: Daily Reset   |   Pendapatan total: {lifetimeRevenue} G");
+        GUILayout.Label("Barang masih dapat diambil kembali sebelum tidur atau pergantian hari.");
+        if (lastShippingTotal > 0)
+            GUILayout.Label($"Penjualan hari terakhir: {lastShippingTotal:N0} G");
+        GUILayout.Space(6f);
+
+        bool awaitingConfirmation = confirmationSlot >= 0;
+        GUI.enabled = !awaitingConfirmation;
+        GUILayout.BeginHorizontal();
+        DrawInventoryColumn();
+        GUILayout.Space(12f);
+        DrawBinColumn();
+        GUILayout.EndHorizontal();
+
+        GUILayout.FlexibleSpace();
+        if (!string.IsNullOrWhiteSpace(feedback)) GUILayout.Label(feedback);
+        if (GUILayout.Button("Tutup [E / Esc]", GUILayout.Height(32f))) ClosePanel();
+        GUI.enabled = true;
+
+        if (awaitingConfirmation) DrawConfirmation();
+        GUI.DragWindow(new Rect(0f, 0f, windowRect.width, 28f));
+    }
+
+    void DrawInventoryColumn()
+    {
+        float columnWidth = (windowRect.width - 42f) * 0.5f;
+        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width(columnWidth));
+        GUILayout.Label("INVENTORY — masukkan barang");
+        inventoryScroll = GUILayout.BeginScrollView(inventoryScroll);
+        bool found = false;
+
+        if (playerInventory != null)
+        {
+            for (int index = 0; index < playerInventory.slots.Count; index++)
+            {
+                ItemStack stack = playerInventory.GetSlot(index);
+                if (stack == null || stack.item == null || stack.count <= 0 || !stack.item.CanSellAtMarket) continue;
+                found = true;
+                int unitPrice = stack.item.GetMarketSellPrice(stack.qualityStars, stack.fishSizeCm);
+                GUILayout.BeginVertical(GUI.skin.box);
+                GUILayout.Label($"{stack.DisplayName} x{stack.count} — {unitPrice} G/item");
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Sell 1", GUILayout.Height(30f))) RequestDeposit(index, 1);
+                string current = amountInputs.TryGetValue(index, out string input) ? input : "1";
+                current = GUILayout.TextField(current, 4, GUILayout.Width(42f), GUILayout.Height(30f));
+                amountInputs[index] = current;
+                if (GUILayout.Button("Sell Amount", GUILayout.Height(30f)))
+                    RequestDeposit(index, ParseAmount(current, stack.count));
+                if (GUILayout.Button("Sell Stack", GUILayout.Height(30f))) RequestDeposit(index, stack.count);
+                GUILayout.EndHorizontal();
+                GUILayout.EndVertical();
+            }
+        }
+
+        if (!found) GUILayout.Label("Tidak ada barang sellable di Inventory.");
+        GUILayout.EndScrollView();
+        GUILayout.EndVertical();
+    }
+
+    void DrawBinColumn()
+    {
+        float columnWidth = (windowRect.width - 42f) * 0.5f;
+        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width(columnWidth));
+        GUILayout.Label($"SHIPPING BIN — {listings.Count} kelompok");
+        binScroll = GUILayout.BeginScrollView(binScroll);
+        if (listings.Count == 0) GUILayout.Label("Bin masih kosong.");
+
+        for (int index = listings.Count - 1; index >= 0; index--)
+        {
+            ShippingBinListing listing = listings[index];
+            if (listing == null || listing.item == null || listing.count <= 0) continue;
+            GUILayout.BeginVertical(GUI.skin.box);
+            GUILayout.Label($"{listing.DisplayName} x{listing.count}\n" +
+                            $"{listing.unitPriceSnapshot} G/item — Est. {listing.EstimatedTotal} G");
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Take Back 1", GUILayout.Height(30f))) TryWithdraw(index, 1);
+            if (GUILayout.Button("Take Back Stack", GUILayout.Height(30f))) TryWithdraw(index, listing.count);
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+        }
+
+        GUILayout.EndScrollView();
+        GUILayout.EndVertical();
+    }
+
+    void DrawConfirmation()
+    {
+        ItemStack stack = playerInventory != null ? playerInventory.GetSlot(confirmationSlot) : null;
+        if (stack == null || stack.item == null)
+        {
+            ClearConfirmation();
+            return;
+        }
+
+        Rect box = new(windowRect.width * 0.2f, windowRect.height * 0.31f,
+            windowRect.width * 0.6f, 155f);
+        GUI.Box(box, string.Empty);
+        GUILayout.BeginArea(new Rect(box.x + 16f, box.y + 14f, box.width - 32f, box.height - 28f));
+        GUILayout.Label($"Sell this valuable item?\n{stack.DisplayName} x{confirmationAmount}");
+        GUILayout.FlexibleSpace();
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Cancel", GUILayout.Height(34f))) ClearConfirmation();
+        if (GUILayout.Button("Sell", GUILayout.Height(34f)))
+        {
+            int slot = confirmationSlot;
+            int amount = confirmationAmount;
+            ClearConfirmation();
+            TryDeposit(slot, amount);
+        }
+        GUILayout.EndHorizontal();
+        GUILayout.EndArea();
+    }
+
+    void RequestDeposit(int slotIndex, int amount)
     {
         ItemStack stack = playerInventory != null ? playerInventory.GetSlot(slotIndex) : null;
         if (stack == null || stack.item == null || amount <= 0) return;
@@ -294,6 +424,9 @@ public sealed class ShippingBin : MonoBehaviour
         return 3;
     }
 
+    static int ParseAmount(string value, int maximum) =>
+        int.TryParse(value, out int amount) ? Mathf.Clamp(amount, 1, Mathf.Max(1, maximum)) : 1;
+
     ShippingBinListing FindCompatible(ItemSO item, int quality, float fishSize, int price) => listings.Find(entry =>
         entry != null && entry.item == item && entry.qualityStars == quality &&
         Mathf.Abs(entry.fishSizeCm - fishSize) < 0.01f && entry.unitPriceSnapshot == price);
@@ -309,22 +442,37 @@ public sealed class ShippingBin : MonoBehaviour
         if (playerInventory == null) playerInventory = FindFirstObjectByType<Inventory>();
     }
 
-    public void OpenPanel()
+    void OpenPanel()
     {
-        if(panelOpen || GameplayPauseMenu.BlocksGameplayInput)return;
-        ResolveInventory();feedback=string.Empty;StorageChestUI.Show(this);
-        panelOpen=StorageChestUI.Instance!=null&&StorageChestUI.Instance.Bin==this;
+        if (panelOpen) return;
+        panelOpen = true;
+        feedback = string.Empty;
+        CenterWindow();
+        WorldInteractionPrompt.AcquireSuppression(this);
+        TimeManager.Instance?.AcquirePause(this);
+        playerInventory?.GetComponent<PlayerController>()?.AcquireMovementLock(this);
     }
-    public void ClosePanel()
+
+    void ClosePanel()
     {
-        panelOpen=false;ClearConfirmation();
-        if(StorageChestUI.Instance!=null&&StorageChestUI.Instance.Bin==this)StorageChestUI.Instance.Close();
-        GameplayInput.ConsumeCurrentFrame();
+        if (!panelOpen) return;
+        panelOpen = false;
+        ClearConfirmation();
+        WorldInteractionPrompt.ReleaseSuppression(this);
+        TimeManager.Instance?.ReleasePause(this);
+        playerInventory?.GetComponent<PlayerController>()?.ReleaseMovementLock(this);
     }
+
     void ClearConfirmation()
     {
         confirmationSlot = -1;
         confirmationAmount = 0;
+    }
+
+    void CenterWindow()
+    {
+        windowRect.x = Mathf.Max(12f, (Screen.width - windowRect.width) * 0.5f);
+        windowRect.y = Mathf.Max(12f, (Screen.height - windowRect.height) * 0.5f);
     }
 
     public ShippingBinSaveData Capture()
@@ -399,5 +547,3 @@ public sealed class ShippingBin : MonoBehaviour
 
     void OnValidate() => highValueUnitPrice = Mathf.Max(1, highValueUnitPrice);
 }
-
-

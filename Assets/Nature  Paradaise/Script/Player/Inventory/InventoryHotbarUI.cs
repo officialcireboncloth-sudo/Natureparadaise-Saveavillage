@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Hotbar mengikuti slot Inventory, dengan icon, jumlah stack dan info alat terpilih.
+/// Hotbar empat slot ala Minecraft. Slot ini adalah empat slot pertama Inventory,
 /// sehingga stack, perpindahan item, dan Save/Load memakai satu sumber data.
 /// </summary>
 [DisallowMultipleComponent]
@@ -14,7 +14,6 @@ using UnityEngine.UI;
 public sealed class InventoryHotbarUI : MonoBehaviour
 {
     static InventoryHotbarUI instance;
-    [SerializeField] bool referenceHUDStyle = true;
     [Header("Optional PNG Sprites")]
     [SerializeField] Sprite hotbarPanelSprite;
     [SerializeField] Sprite slotSprite;
@@ -32,9 +31,6 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     WateringCanSystem wateringCan;
     readonly List<SlotView> views = new();
     TMP_Text actionHint;
-    RectTransform hintRoot;
-    RectTransform waterFill;
-    CanvasGroup pauseVisibility;
     Coroutine temporaryHintRoutine;
     string temporaryHint;
     int selectedIndex;
@@ -58,14 +54,12 @@ public sealed class InventoryHotbarUI : MonoBehaviour
 
     void OnEnable()
     {
-        GameplayUISettings.Applied += Refresh;
         if (inventory != null) inventory.OnInventoryChanged += Refresh;
         if (wateringCan != null) wateringCan.Changed += RefreshActionHint;
     }
 
     void OnDisable()
     {
-        GameplayUISettings.Applied -= Refresh;
         if (inventory != null) inventory.OnInventoryChanged -= Refresh;
         if (wateringCan != null) wateringCan.Changed -= RefreshActionHint;
     }
@@ -85,18 +79,14 @@ public sealed class InventoryHotbarUI : MonoBehaviour
 
     void Update()
     {
-        if (fishingSystem == null) fishingSystem = GetComponent<FishingSystem>();
-        bool hidden = GameplayPauseMenu.IsOpen || (GetComponent<InventoryUI>()?.IsOpen ?? false) || (fishingSystem != null && fishingSystem.isActiveAndEnabled && fishingSystem.State != FishingState.Idle);
-        if (pauseVisibility != null) { pauseVisibility.alpha = hidden ? 0f : 1f; pauseVisibility.interactable = !hidden; pauseVisibility.blocksRaycasts = !hidden; }
-        if (WorldInteractionPrompt.IsSuppressed) return;
-        if (GameplayInput.GetKeyDown(KeyCode.Alpha1)) SelectSlot(0);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha2)) SelectSlot(1);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha3)) SelectSlot(2);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha4)) SelectSlot(3);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha5)) SelectSlot(4);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha6)) SelectSlot(5);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha7)) SelectSlot(6);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha8)) SelectSlot(7);
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SelectSlot(0);
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) SelectSlot(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) SelectSlot(2);
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) SelectSlot(3);
+        else if (Input.GetKeyDown(KeyCode.Alpha5)) SelectSlot(4);
+        else if (Input.GetKeyDown(KeyCode.Alpha6)) SelectSlot(5);
+        else if (Input.GetKeyDown(KeyCode.Alpha7)) SelectSlot(6);
+        else if (Input.GetKeyDown(KeyCode.Alpha8)) SelectSlot(7);
     }
 
     public void SelectSlot(int index)
@@ -117,20 +107,15 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             bool selected = i == selectedIndex;
             view.Background.sprite = selected && selectedSlotSprite != null ? selectedSlotSprite : slotSprite;
             view.Background.type = view.Background.sprite != null ? Image.Type.Sliced : Image.Type.Simple;
-            view.Background.color = referenceHUDStyle ? GameplayHUDStyle.Slot : selected ? selectedColor : slotColor;
-            if (view.Background is MainMenuRoundedImage rounded)
-            {
-                rounded.borderColor = selected ? GameplayHUDStyle.Accent : new Color(.72f,.89f,1f,.45f);
-                rounded.borderWidth = selected ? 3f : 1f;
-                rounded.SetVerticesDirty();
-            }
+            view.Background.color = selected ? selectedColor : slotColor;
 
             ItemStack stack = inventory.GetSlot(i);
             bool hasItem = stack?.item != null && stack.count > 0;
             view.Icon.enabled = hasItem && stack.item.icon != null;
             view.Icon.sprite = hasItem ? stack.item.icon : null;
-            view.Label.text = hasItem && stack.count > 1 ? stack.count.ToString() : "";
-            view.Fallback.text = hasItem && stack.item.icon == null && GameplayUISettings.Current.showItemNames ? stack.DisplayName : "";
+            view.Label.text = hasItem
+                ? $"{i + 1}  {stack.DisplayName}\nx{stack.count}"
+                : $"{i + 1}\nEMPTY";
         }
         EquipSelectedItem();
         RefreshActionHint();
@@ -156,29 +141,13 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         if (actionHint == null || toolHotbar == null) return;
         if (!string.IsNullOrEmpty(temporaryHint))
         {
-            if (hintRoot != null) hintRoot.gameObject.SetActive(true);
-            if (waterFill != null) waterFill.parent.gameObject.SetActive(false);
             actionHint.text = $"<b>{temporaryHint}</b>";
             return;
         }
         ItemSO item = SelectedItem;
-        if (hintRoot != null)
-        {
-            hintRoot.gameObject.SetActive(item != null || !string.IsNullOrEmpty(temporaryHint));
-            float width = inventory.HotbarSlotCount * 88f + (inventory.HotbarSlotCount - 1) * 8f + 20f;
-            hintRoot.anchoredPosition = new Vector2(Mathf.Clamp(-width * .5f + 10 + selectedIndex * 96f, -width * .5f, Mathf.Max(-width * .5f, width * .5f - 300f)), 160f);
-        }
-        if (waterFill != null)
-        {
-            waterFill.parent.gameObject.SetActive(toolHotbar.SelectedTool == PlayerToolType.WateringCan);
-            waterFill.anchorMax = new Vector2(wateringCan != null ? (float)wateringCan.CurrentWater / wateringCan.MaximumWater : 1f, 1f);
-        }
         if (fishingSystem == null) fishingSystem = GetComponent<FishingSystem>();
         AnimalCareCatalog animalCare = AnimalCareCatalog.Load();
         string itemName = item != null ? item.itemName : "Slot kosong";
-        PlayerStatusSystem status = GetComponent<PlayerStatusSystem>();
-        if (item != null && item.equippedTool != PlayerToolType.None && status != null)
-            itemName += $" Lv. {status.GetToolLevel(item.equippedTool)}";
         string action = toolHotbar.SelectedTool switch
         {
             PlayerToolType.Hoe => "F: cangkul tanah",
@@ -188,7 +157,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             PlayerToolType.Sickle => "F: sabit rumput atau tanaman",
             PlayerToolType.Hammer => "F: hancurkan batu",
             PlayerToolType.Axe => "F: tebang pohon",
-            PlayerToolType.FishingRod => $"Hold F: Power Cast / Release  |  Bait: {(fishingSystem != null ? fishingSystem.EquippedBaitLabel : "No Bait")}",
+            PlayerToolType.FishingRod => $"F: gunakan pancing  |  Bait: {(fishingSystem != null ? fishingSystem.EquippedBaitLabel : "No Bait")}",
             PlayerToolType.CropBooster => "F: gunakan crop booster",
             PlayerToolType.Shears => "Dekati domba lalu G: cukur bulu",
             PlayerToolType.Pitchfork => "Dekati kotoran hewan lalu E: ambil kotoran",
@@ -207,9 +176,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             _ when item != null && item.canDropToWorld => "G: jatuhkan item",
             _ => "Pilih slot 1–8 untuk melihat aksi"
         };
-        actionHint.text = toolHotbar.SelectedTool == PlayerToolType.WateringCan && wateringCan != null
-            ? $"{itemName}\n{wateringCan.CurrentWater} / {wateringCan.MaximumWater}   <size=70%>Air · F: Siram</size>"
-            : $"{itemName}\n<size=70%>{action}</size>";
+        actionHint.text = $"<b>{itemName}</b>   —   {action}   |   V: Whistle";
     }
 
     string GetWateringCanHint()
@@ -247,59 +214,49 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     void BuildUI()
     {
         int count = inventory.HotbarSlotCount;
-        const float slotWidth = 88f;
-        const float slotHeight = 88f;
+        const float slotWidth = 126f;
+        const float slotHeight = 82f;
         const float gap = 8f;
         float totalWidth = count * slotWidth + (count - 1) * gap + 20f;
 
         GameObject canvasObject = new("InventoryHotbarCanvas_Runtime", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
         Canvas canvas = canvasObject.GetComponent<Canvas>();
-        pauseVisibility = canvasObject.AddComponent<CanvasGroup>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 235;
         CanvasScaler scaler = canvasObject.GetComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920f, 1080f);
         scaler.matchWidthOrHeight = 0.5f;
-        RectTransform safe = GameplayHUDStyle.Rect("Safe Area", canvasObject.transform, Vector2.zero, Vector2.one);
-        safe.gameObject.AddComponent<SafeAreaFitter>();
-        canvasObject.transform.SetParent(transform, false);
 
-        RectTransform hintPanel = CreateRect("Selected Tool Info", safe);
-        hintRoot = hintPanel;
+        RectTransform hintPanel = CreateRect("HotbarActionHint", canvasObject.transform);
         hintPanel.anchorMin = hintPanel.anchorMax = new Vector2(0.5f, 0f);
-        hintPanel.pivot = new Vector2(0f, 0f);
-        hintPanel.anchoredPosition = new Vector2(0f, 160f);
-        hintPanel.sizeDelta = new Vector2(300f, 82f);
-        Image hintBackground = GameplayHUDStyle.Surface(hintPanel, GameplayHUDStyle.Panel);
+        hintPanel.pivot = new Vector2(0.5f, 0f);
+        hintPanel.anchoredPosition = new Vector2(0f, 136f);
+        hintPanel.sizeDelta = new Vector2(Mathf.Min(900f, totalWidth), 48f);
+        Image hintBackground = hintPanel.gameObject.AddComponent<Image>();
+        hintBackground.color = new Color(0.025f, 0.032f, 0.045f, 0.9f);
         hintBackground.raycastTarget = false;
         actionHint = CreateRect("ActionText", hintPanel).gameObject.AddComponent<TextMeshProUGUI>();
         actionHint.rectTransform.anchorMin = Vector2.zero;
         actionHint.rectTransform.anchorMax = Vector2.one;
-        actionHint.rectTransform.offsetMin = new Vector2(14f, 16f);
-        actionHint.rectTransform.offsetMax = new Vector2(-14f, -6f);
+        actionHint.rectTransform.offsetMin = new Vector2(14f, 4f);
+        actionHint.rectTransform.offsetMax = new Vector2(-14f, -4f);
         actionHint.font = TMP_Settings.defaultFontAsset;
-        actionHint.fontSize = 20f;
+        actionHint.fontSize = 17f;
         actionHint.color = Color.white;
         actionHint.alignment = TextAlignmentOptions.Center;
-        actionHint.textWrappingMode = TextWrappingModes.Normal;
-        actionHint.enableAutoSizing = true; actionHint.fontSizeMin = 12; actionHint.fontSizeMax = 20;
+        actionHint.textWrappingMode = TextWrappingModes.NoWrap;
         actionHint.raycastTarget = false;
 
-        RectTransform waterTrack = GameplayHUDStyle.Rect("Water Gauge", hintPanel, new(.08f,.07f), new(.92f,.13f));
-        GameplayHUDStyle.Surface(waterTrack, new Color(.08f,.16f,.20f,.9f), 3);
-        waterFill = GameplayHUDStyle.Rect("Fill", waterTrack, Vector2.zero, Vector2.one);
-        GameplayHUDStyle.Surface(waterFill, GameplayHUDStyle.Accent, 3).borderWidth = 0;
-
-        RectTransform panel = CreateRect("HotbarPanel", safe);
+        RectTransform panel = CreateRect("HotbarPanel", canvasObject.transform);
         panel.anchorMin = panel.anchorMax = new Vector2(0.5f, 0f);
         panel.pivot = new Vector2(0.5f, 0f);
-        panel.anchoredPosition = new Vector2(0f, 36f);
+        panel.anchoredPosition = new Vector2(0f, 22f);
         panel.sizeDelta = new Vector2(totalWidth, slotHeight + 20f);
-        Image panelImage = hotbarPanelSprite != null ? panel.gameObject.AddComponent<Image>() : GameplayHUDStyle.Surface(panel, GameplayHUDStyle.Panel);
+        Image panelImage = panel.gameObject.AddComponent<Image>();
         panelImage.sprite = hotbarPanelSprite;
         panelImage.type = hotbarPanelSprite != null ? Image.Type.Sliced : Image.Type.Simple;
-        panelImage.color = referenceHUDStyle ? GameplayHUDStyle.Panel : panelColor;
+        panelImage.color = panelColor;
 
         for (int i = 0; i < count; i++)
         {
@@ -309,17 +266,16 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             slot.pivot = new Vector2(0f, 0.5f);
             slot.anchoredPosition = new Vector2(10f + i * (slotWidth + gap), 0f);
             slot.sizeDelta = new Vector2(slotWidth, slotHeight);
-            Image background = slotSprite != null ? slot.gameObject.AddComponent<Image>() : GameplayHUDStyle.Surface(slot, GameplayHUDStyle.Slot);
+            Image background = slot.gameObject.AddComponent<Image>();
             Button button = slot.gameObject.AddComponent<Button>();
             button.targetGraphic = background;
-            button.onClick.AddListener(() => { if (!WorldInteractionPrompt.IsSuppressed) SelectSlot(captured); });
-            GameplayHUDStyle.Text("Key", slot, (i + 1).ToString(), 18, new(.09f,.72f), new(.4f,.98f));
+            button.onClick.AddListener(() => SelectSlot(captured));
 
             RectTransform iconRect = CreateRect("Icon", slot);
-            iconRect.anchorMin = iconRect.anchorMax = new Vector2(.5f, .5f);
-            iconRect.pivot = new Vector2(.5f, .5f);
-            iconRect.anchoredPosition = new Vector2(0f, -3f);
-            iconRect.sizeDelta = new Vector2(62f, 62f);
+            iconRect.anchorMin = iconRect.anchorMax = new Vector2(0f, 0.5f);
+            iconRect.pivot = new Vector2(0f, 0.5f);
+            iconRect.anchoredPosition = new Vector2(8f, 0f);
+            iconRect.sizeDelta = new Vector2(52f, 52f);
             Image icon = iconRect.gameObject.AddComponent<Image>();
             icon.preserveAspect = true;
             icon.raycastTarget = false;
@@ -327,18 +283,16 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             TextMeshProUGUI label = CreateRect("Label", slot).gameObject.AddComponent<TextMeshProUGUI>();
             label.rectTransform.anchorMin = new Vector2(0f, 0f);
             label.rectTransform.anchorMax = Vector2.one;
-            label.rectTransform.offsetMin = new Vector2(4f, 3f);
+            label.rectTransform.offsetMin = new Vector2(64f, 5f);
             label.rectTransform.offsetMax = new Vector2(-5f, -5f);
             label.font = TMP_Settings.defaultFontAsset;
-            label.fontSize = 18f;
+            label.fontSize = 13f;
             label.fontStyle = FontStyles.Bold;
             label.color = Color.white;
-            label.alignment = TextAlignmentOptions.BottomRight;
+            label.alignment = TextAlignmentOptions.MidlineLeft;
             label.textWrappingMode = TextWrappingModes.Normal;
             label.raycastTarget = false;
-            TMP_Text fallback = GameplayHUDStyle.Text("Missing Icon Item Name", slot, "", 15, new(.08f,.15f), new(.92f,.75f));
-            fallback.alignment = TextAlignmentOptions.Center;
-            views.Add(new SlotView(background, icon, label, fallback));
+            views.Add(new SlotView(background, icon, label));
         }
         RefreshActionHint();
     }
@@ -365,7 +319,6 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         public readonly Image Background;
         public readonly Image Icon;
         public readonly TMP_Text Label;
-        public readonly TMP_Text Fallback;
-        public SlotView(Image background, Image icon, TMP_Text label, TMP_Text fallback) { Background = background; Icon = icon; Label = label; Fallback = fallback; }
+        public SlotView(Image background, Image icon, TMP_Text label) { Background = background; Icon = icon; Label = label; }
     }
 }

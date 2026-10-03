@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 /// </summary>
 [DisallowMultipleComponent]
 public sealed class InventorySlotDragHandler : MonoBehaviour,
-    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler
+    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     InventoryUI owner;
     int slotIndex;
@@ -22,8 +22,4 @@ public sealed class InventorySlotDragHandler : MonoBehaviour,
     public void OnDrag(PointerEventData eventData) => owner?.UpdateSlotDrag(eventData);
     public void OnEndDrag(PointerEventData eventData) => owner?.EndSlotDrag();
     public void OnDrop(PointerEventData eventData) => owner?.DropOnSlot(slotIndex);
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Right) owner?.MoveSlot(slotIndex);
-    }
 }

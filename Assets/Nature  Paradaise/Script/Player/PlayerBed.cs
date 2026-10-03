@@ -41,14 +41,14 @@ public sealed class PlayerBed : MonoBehaviour
         // yang tidak mengirim callback trigger. Satu perhitungan ringan per frame per bed.
         if (playerCandidate != null)
         {
-            bool isInRange = CanInteract(playerCandidate.transform);
+            float radiusSquared = interactionRadius * interactionRadius;
+            bool isInRange = PlayerInteractionTarget.Contains(playerCandidate.transform, transform);
 
             if (isInRange)
             {
                 nearbyPlayer = playerCandidate;
-                var bounds = GetComponent<Collider>().bounds;
-                float distance = Vector3.Distance(playerCandidate.transform.position, bounds.ClosestPoint(playerCandidate.transform.position));
-                WorldInteractionPrompt.Request(this, bounds.center + Vector3.up * promptHeight, prompt, distance);
+                float distance = Vector3.Distance(playerCandidate.transform.position, transform.position);
+                WorldInteractionPrompt.Request(this, transform, prompt, distance, promptHeight);
             }
             else if (nearbyPlayer == playerCandidate)
             {
@@ -56,7 +56,7 @@ public sealed class PlayerBed : MonoBehaviour
             }
         }
 
-        if (nearbyPlayer != null && CanInteract(nearbyPlayer.transform) && PlayerInteractionTarget.Press(interactKey))
+        if (nearbyPlayer != null && PlayerInteractionTarget.Press(nearbyPlayer.transform, transform, interactKey))
             Sleep();
     }
 
@@ -80,23 +80,10 @@ public sealed class PlayerBed : MonoBehaviour
     // Method public ini bisa langsung dipasang ke Button mobile.
     public void Sleep()
     {
-        if (nearbyPlayer == null || nearbyPlayer.IsBusy || !CanInteract(nearbyPlayer.transform))
+        if (nearbyPlayer == null || nearbyPlayer.IsBusy || !PlayerInteractionTarget.Contains(nearbyPlayer.transform, transform))
             return;
 
-        BedRestMenu.Show(nearbyPlayer, sleepPose, wakeStandPoint);
-    }
-
-    /// <summary>Distance to the bed surface, independent of the player's facing or the imported mesh pivot.</summary>
-    public bool CanInteract(Transform player)
-    {
-        if(player == null || WorldInteractionPrompt.IsSuppressed) return false;
-        var controller = player.GetComponent<PlayerController>();
-        if(controller != null && controller.IsMovementLocked) return false;
-        var bounds = GetComponent<Collider>().bounds;
-        float dx = Mathf.Max(0f, Mathf.Abs(player.position.x - bounds.center.x) - bounds.extents.x);
-        float dz = Mathf.Max(0f, Mathf.Abs(player.position.z - bounds.center.z) - bounds.extents.z);
-        float distance = Mathf.Sqrt(dx * dx + dz * dz);
-        return distance <= interactionRadius && Mathf.Abs(player.position.y - bounds.center.y) <= 2.5f && !ToolStorageChest.HasCloserRack(player,distance) && !HouseStorageChest.HasCloserStorage(player,distance);
+        nearbyPlayer.SleepAndSave(sleepPose, wakeStandPoint);
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]

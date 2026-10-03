@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>Interaksi NPC seller yang membuka panel shop dan meneruskan input transaksi.</summary>
 public class NPCSeller : MonoBehaviour
@@ -71,7 +71,7 @@ public class NPCSeller : MonoBehaviour
 
         // Selalu sediakan jalan keluar yang konsisten untuk modal toko.
         // Ini diproses sebelum validasi reference agar panel tidak bisa tersangkut terbuka.
-        if (shopOpen && GameplayInput.GetKeyDown(KeyCode.Escape))
+        if (shopOpen && Input.GetKeyDown(KeyCode.Escape))
         {
             CloseShop();
             return;
@@ -125,7 +125,7 @@ public class NPCSeller : MonoBehaviour
         // E = OPEN / CLOSE SHOP
         // =====================================================
 
-        if (shopOpen ? GameplayInput.GetKeyDown(interactKey) : PlayerInteractionTarget.Press(playerInv.transform, transform, interactKey))
+        if (shopOpen ? Input.GetKeyDown(interactKey) : PlayerInteractionTarget.Press(playerInv.transform, transform, interactKey))
         {
             if (shopOpen)
                 CloseShop();
@@ -144,7 +144,7 @@ public class NPCSeller : MonoBehaviour
         // Q = BUY SEED
         // =====================================================
 
-        if (GameplayInput.GetKeyDown(buyKey))
+        if (Input.GetKeyDown(buyKey))
         {
             BuySeed();
             return;
@@ -154,7 +154,7 @@ public class NPCSeller : MonoBehaviour
         // R = SELL CABBAGE
         // =====================================================
 
-        if (GameplayInput.GetKeyDown(sellCabbageKey))
+        if (Input.GetKeyDown(sellCabbageKey))
         {
             SellCabbage();
             return;
@@ -164,17 +164,17 @@ public class NPCSeller : MonoBehaviour
         // T = SELL MILK
         // =====================================================
 
-        if (GameplayInput.GetKeyDown(sellMilkKey))
+        if (Input.GetKeyDown(sellMilkKey))
         {
             SellMilk();
             return;
         }
 
-        if (GameplayInput.GetKeyDown(fertilizerLevel1Key)) BuyFertilizer(1);
-        else if (GameplayInput.GetKeyDown(fertilizerLevel2Key)) BuyFertilizer(2);
-        else if (GameplayInput.GetKeyDown(fertilizerLevel3Key)) BuyFertilizer(3);
-        else if (GameplayInput.GetKeyDown(fertilizerLevel4Key)) BuyFertilizer(4);
-        else if (GameplayInput.GetKeyDown(cropBoosterKey)) BuyCropBooster();
+        if (Input.GetKeyDown(fertilizerLevel1Key)) BuyFertilizer(1);
+        else if (Input.GetKeyDown(fertilizerLevel2Key)) BuyFertilizer(2);
+        else if (Input.GetKeyDown(fertilizerLevel3Key)) BuyFertilizer(3);
+        else if (Input.GetKeyDown(fertilizerLevel4Key)) BuyFertilizer(4);
+        else if (Input.GetKeyDown(cropBoosterKey)) BuyCropBooster();
     }
 
     // =====================================================

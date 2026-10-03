@@ -82,20 +82,6 @@ public class HUDManager : MonoBehaviour
     RectTransform runtimeHudRoot;
     RectTransform runtimeCanvasRoot;
     RectTransform timePanelRoot;
-    bool animalContextVisible;
-    public void SetAnimalContextVisible(bool visible)
-    {
-        if(animalContextVisible==visible) return;
-        animalContextVisible=visible;
-        foreach(var root in new[] {runtimeHudRoot,timePanelRoot})
-        {
-            if(root==null) continue;
-            var group=root.GetComponent<CanvasGroup>();
-            if(group==null) group=root.gameObject.AddComponent<CanvasGroup>();
-            group.alpha=visible?0:1;
-            group.blocksRaycasts=!visible;
-        }
-    }
     RectTransform healthFill;
     RectTransform staminaFill;
     RectTransform hungerFill;
@@ -168,7 +154,7 @@ public class HUDManager : MonoBehaviour
 
     void Update()
     {
-        if (GameplayInput.GetKeyDown(debugCluesToggleKey))
+        if (Input.GetKeyDown(debugCluesToggleKey))
             SetDebugCluesEnabled(!DebugCluesEnabled, true);
 
         UpdateClockUI();
@@ -192,7 +178,8 @@ public class HUDManager : MonoBehaviour
         var t = TimeManager.Instance;
 
         clockText.text =
-            $"Hari {t.day}   {GetSeasonLabel()}   |   {t.hour:00}:{t.minute:00}";
+            $"{t.hour:00}:{t.minute:00}\n" +
+            $"Day {t.day}";
 
         if (weatherDebugText != null)
         {
@@ -247,7 +234,7 @@ public class HUDManager : MonoBehaviour
         FarmingDebugCluesEnabled = showDebugClues && showFarmingDebugControls;
 
         if (weatherDebugText != null)
-            weatherDebugText.gameObject.SetActive(showWeatherDebugText && DebugCluesEnabled);
+            weatherDebugText.gameObject.SetActive(showWeatherDebugText);
         if (farmingDebugRoot != null)
             farmingDebugRoot.gameObject.SetActive(FarmingDebugCluesEnabled);
     }
@@ -265,14 +252,8 @@ public class HUDManager : MonoBehaviour
             return;
 
         moneyText.text =
-            $"{ScoreManager.Instance.points.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("id-ID"))} G";
+            $"Gold : {ScoreManager.Instance.points}";
     }
-
-    static string GetSeasonLabel() => SeasonVisualController.CurrentSeason.ToString() switch
-    {
-        "Spring" => "Musim Semi", "Summer" => "Musim Panas",
-        "Autumn" or "Fall" => "Musim Gugur", "Winter" => "Musim Dingin", _ => "Musim Semi"
-    };
 
     // =====================================================
     // INVENTORY
@@ -321,20 +302,20 @@ public class HUDManager : MonoBehaviour
         runtimeHudRoot.pivot = new Vector2(0f, 1f);
         runtimeHudRoot.anchoredPosition = new Vector2(hudScreenMargin.x, -hudScreenMargin.y);
         // Hunger dan status effect tidak mengambil ruang panel utama saat tersembunyi.
-        hudPanelSize = new Vector2(300f, 68f);
+        hudPanelSize.y = 188f;
         runtimeHudRoot.sizeDelta = hudPanelSize;
-        AddSolidImage(runtimeHudRoot, GameplayHUDStyle.Panel, hudPanelSprite);
+        AddSolidImage(runtimeHudRoot, hudPanelColor, hudPanelSprite);
 
-        // Counts are shown on their inventory stacks rather than duplicating them in the HUD.
-        if (seedText != null) seedText.gameObject.SetActive(false);
-        if (cabbageText != null) cabbageText.gameObject.SetActive(false);
-        if (milkText != null) milkText.gameObject.SetActive(false);
+        ConfigureExistingText(moneyText, runtimeHudRoot, new Vector2(18f, -10f), new Vector2(250f, 32f), 24f);
+        ConfigureExistingText(seedText, runtimeHudRoot, new Vector2(18f, -46f), new Vector2(108f, 28f), 19f);
+        ConfigureExistingText(cabbageText, runtimeHudRoot, new Vector2(137f, -46f), new Vector2(130f, 28f), 19f);
+        ConfigureExistingText(milkText, runtimeHudRoot, new Vector2(278f, -46f), new Vector2(100f, 28f), 19f);
 
         CreateProgressBar(
             runtimeHudRoot,
             template,
             "HealthBar",
-            new Vector2(10f, -8f),
+            new Vector2(18f, -84f),
             barBackgroundColor,
             healthBarColor,
             healthFillSprite,
@@ -345,7 +326,7 @@ public class HUDManager : MonoBehaviour
             runtimeHudRoot,
             template,
             "StaminaBar",
-            new Vector2(10f, -36f),
+            new Vector2(18f, -132f),
             barBackgroundColor,
             staminaBarColor,
             staminaFillSprite,
@@ -356,27 +337,19 @@ public class HUDManager : MonoBehaviour
             runtimeHudRoot,
             template,
             "HungerBar",
-            new Vector2(10f, -64f),
+            new Vector2(18f, -180f),
             barBackgroundColor,
             hungerBarColor,
             null,
             out hungerFill,
             out hungerValueText
         );
-        hungerRoot = hungerFill.parent.parent as RectTransform;
+        hungerRoot = hungerFill.parent as RectTransform;
         hungerRoot.gameObject.SetActive(false);
 
         BuildStatusEffectGrid(runtimeCanvasRoot, template);
 
         ConfigureClockPanel(clockText);
-        if (timePanelRoot != null && moneyText != null)
-        {
-            ConfigureExistingText(moneyText, timePanelRoot, new Vector2(384f, -8f), new Vector2(150f, 36f), 20f);
-            moneyText.alignment = TextAlignmentOptions.MidlineLeft;
-            moneyText.margin = Vector4.zero;
-            moneyText.gameObject.SetActive(true);
-            GameplayHUDStyle.Icon(timePanelRoot, MainMenuIcon.Kind.Coin, new Color(1f,.76f,.15f), new(.65f,.23f), new(.70f,.77f));
-        }
 
         Debug.Log("[HUD] Unified HUD aktif pada Screen Space Overlay Canvas.");
     }
@@ -487,10 +460,9 @@ public class HUDManager : MonoBehaviour
     }
 
 
-    RectTransform CreateOverlayCanvas()
+    static RectTransform CreateOverlayCanvas()
     {
-        GameObject canvasObject = new("UnifiedHUDCanvas_Runtime", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-        UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(canvasObject, gameObject.scene);
+        GameObject canvasObject = new("UnifiedHUDCanvas_Runtime", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler));
         Canvas canvas = canvasObject.GetComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 200;
@@ -498,15 +470,7 @@ public class HUDManager : MonoBehaviour
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920f, 1080f);
         scaler.matchWidthOrHeight = 0.5f;
-        RectTransform safe = GameplayHUDStyle.Rect("Safe Area", canvasObject.transform, Vector2.zero, Vector2.one);
-        safe.gameObject.AddComponent<SafeAreaFitter>();
-        return safe;
-    }
-
-    void OnDestroy()
-    {
-        if (runtimeCanvasRoot != null)
-            Destroy(runtimeCanvasRoot.GetComponentInParent<Canvas>().gameObject);
+        return canvasObject.GetComponent<RectTransform>();
     }
 
     void ConfigureClockPanel(TMP_Text clock)
@@ -517,23 +481,20 @@ public class HUDManager : MonoBehaviour
         timePanelRoot = CreateRect("TimeWeatherPanel", runtimeCanvasRoot);
         timePanelRoot.anchorMin = timePanelRoot.anchorMax = new Vector2(1f, 1f);
         timePanelRoot.pivot = new Vector2(1f, 1f);
-        timePanelRoot.anchoredPosition = new Vector2(-126f, -20f);
-        timePanelRoot.sizeDelta = new Vector2(548f, 52f);
-        AddSolidImage(timePanelRoot, GameplayHUDStyle.Panel);
-        GameplayHUDStyle.Icon(timePanelRoot, MainMenuIcon.Kind.Sun, new Color(1f,.77f,.16f), new(.03f,.16f), new(.095f,.84f));
+        timePanelRoot.anchoredPosition = new Vector2(-20f, -20f);
+        timePanelRoot.sizeDelta = new Vector2(320f, 112f);
 
         RectTransform rect = clock.rectTransform;
         rect.SetParent(timePanelRoot, false);
-        rect.anchorMin = rect.anchorMax = new Vector2(0f, 1f);
-        rect.pivot = new Vector2(0f, 1f);
-        rect.anchoredPosition = new Vector2(60f, -8f);
-        rect.sizeDelta = new Vector2(300f, 36f);
+        rect.anchorMin = rect.anchorMax = new Vector2(1f, 1f);
+        rect.pivot = new Vector2(1f, 1f);
+        rect.anchoredPosition = Vector2.zero;
+        rect.sizeDelta = new Vector2(300f, 64f);
         rect.localScale = Vector3.one;
-        clock.fontSize = 19f;
-        clock.alignment = TextAlignmentOptions.MidlineLeft;
+        clock.fontSize = 24f;
+        clock.alignment = TextAlignmentOptions.TopRight;
         clock.textWrappingMode = TextWrappingModes.NoWrap;
         clock.raycastTarget = false;
-        timePanelRoot.gameObject.AddComponent<GameplayPauseMenu>();
     }
 
     static void ConfigureExistingText(
@@ -577,17 +538,14 @@ public class HUDManager : MonoBehaviour
         background.anchorMax = new Vector2(0f, 1f);
         background.pivot = new Vector2(0f, 1f);
         background.anchoredPosition = position;
-        background.sizeDelta = new Vector2(280f, 22f);
-        GameplayHUDStyle.Icon(background, objectName == "HealthBar" ? MainMenuIcon.Kind.Heart : objectName == "StaminaBar" ? MainMenuIcon.Kind.Energy : MainMenuIcon.Kind.Drop,
-            fillColor, new(0f,0f), new(.08f,1f));
-        RectTransform track = GameplayHUDStyle.Rect("Track", background, new(.12f,.27f), new(.63f,.73f));
-        AddSolidImage(track, backgroundColor, progressBackgroundSprite);
+        background.sizeDelta = new Vector2(364f, 34f);
+        AddSolidImage(background, backgroundColor, progressBackgroundSprite);
 
-        RectTransform fillRect = CreateRect("Fill", track);
+        RectTransform fillRect = CreateRect("Fill", background);
         fillRect.anchorMin = Vector2.zero;
         fillRect.anchorMax = Vector2.one;
-        fillRect.offsetMin = new Vector2(1f, 1f);
-        fillRect.offsetMax = new Vector2(-1f, -1f);
+        fillRect.offsetMin = new Vector2(3f, 3f);
+        fillRect.offsetMax = new Vector2(-3f, -3f);
         AddSolidImage(fillRect, fillColor, fillSprite);
         fill = fillRect;
 
@@ -595,14 +553,14 @@ public class HUDManager : MonoBehaviour
         valueText.name = "Value";
         valueText.gameObject.SetActive(true);
         valueText.color = Color.white;
-        valueText.fontSize = 16f;
-        valueText.fontStyle = FontStyles.Normal;
-        valueText.alignment = TextAlignmentOptions.MidlineRight;
+        valueText.fontSize = 18f;
+        valueText.fontStyle = FontStyles.Bold;
+        valueText.alignment = TextAlignmentOptions.Center;
         valueText.textWrappingMode = TextWrappingModes.NoWrap;
         valueText.raycastTarget = false;
 
         RectTransform valueRect = valueText.rectTransform;
-        valueRect.anchorMin = new Vector2(.65f, 0f);
+        valueRect.anchorMin = Vector2.zero;
         valueRect.anchorMax = Vector2.one;
         valueRect.pivot = new Vector2(0.5f, 0.5f);
         valueRect.offsetMin = Vector2.zero;
@@ -613,9 +571,9 @@ public class HUDManager : MonoBehaviour
     void BuildStatusEffectGrid(RectTransform canvasRoot, TMP_Text textTemplate)
     {
         RectTransform grid = CreateRect("StatusEffectGrid_Runtime", canvasRoot);
-        grid.anchorMin = grid.anchorMax = new Vector2(0f, 1f);
-        grid.pivot = new Vector2(0f, 1f);
-        grid.anchoredPosition = new Vector2(22f, -130f);
+        grid.anchorMin = grid.anchorMax = new Vector2(1f, 0.5f);
+        grid.pivot = new Vector2(1f, 0.5f);
+        grid.anchoredPosition = new Vector2(-28f, 0f);
         grid.sizeDelta = new Vector2(100f, 306f);
 
         for (int index = 0; index < 6; index++)
@@ -693,7 +651,7 @@ public class HUDManager : MonoBehaviour
 
     static Image AddSolidImage(RectTransform rect, Color color, Sprite sprite = null)
     {
-        Image image = sprite != null ? rect.gameObject.AddComponent<Image>() : GameplayHUDStyle.Surface(rect, color);
+        Image image = rect.gameObject.AddComponent<Image>();
         image.sprite = sprite;
         image.type = sprite != null ? Image.Type.Sliced : Image.Type.Simple;
         image.color = color;
@@ -713,13 +671,15 @@ public class HUDManager : MonoBehaviour
         if (runtimeHudRoot != null)
         {
             Vector2 panelSize = runtimeHudRoot.sizeDelta;
-            panelSize.y = status.HungerEnabled ? 96f : 68f;
+            panelSize.y = status.HungerEnabled ? 226f : 188f;
             runtimeHudRoot.sizeDelta = panelSize;
         }
         if (status.HungerEnabled && hungerFill != null)
             SetProgress(hungerFill, status.Hunger / status.MaxHunger);
-        healthValueText.text = $"{Mathf.CeilToInt(status.Health)} / {Mathf.CeilToInt(status.MaxHealth)}";
-        staminaValueText.text = $"{Mathf.CeilToInt(status.Stamina)} / {Mathf.CeilToInt(status.MaxStamina)}";
+        healthValueText.text = $"HP  {Mathf.CeilToInt(status.Health)} / {Mathf.CeilToInt(status.MaxHealth)}";
+        staminaValueText.text = status.IsExhausted
+            ? $"EXHAUSTED  {Mathf.CeilToInt(status.Stamina)} / {Mathf.CeilToInt(status.MaxStamina)}"
+            : $"STAMINA  {Mathf.CeilToInt(status.Stamina)} / {Mathf.CeilToInt(status.MaxStamina)}";
         if (status.HungerEnabled && hungerValueText != null)
             hungerValueText.text = $"HUNGER  {Mathf.CeilToInt(status.Hunger)} / {Mathf.CeilToInt(status.MaxHunger)}";
         RefreshStatusEffectColumn(buffEffectViews, status.BuffSlots);

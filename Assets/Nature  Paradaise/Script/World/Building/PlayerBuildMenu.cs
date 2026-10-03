@@ -41,7 +41,7 @@ public sealed class PlayerBuildMenu : MonoBehaviour
     {
         if (!isOpen)
         {
-            if (GameplayInput.GetKeyDown(openKey))
+            if (Input.GetKeyDown(openKey))
                 OpenGlobal();
             return;
         }
@@ -51,19 +51,19 @@ public sealed class PlayerBuildMenu : MonoBehaviour
         if (Time.frameCount == openedFrame)
             return;
 
-        if (GameplayInput.GetKeyDown(KeyCode.Escape) || GameplayInput.GetKeyDown(openKey))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(openKey))
             Close();
-        else if (GameplayInput.GetKeyDown(KeyCode.LeftArrow) || GameplayInput.GetKeyDown(KeyCode.A))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             Select(selectedIndex - 1);
-        else if (GameplayInput.GetKeyDown(KeyCode.RightArrow) || GameplayInput.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             Select(selectedIndex + 1);
-        else if (GameplayInput.GetKeyDown(KeyCode.UpArrow) || GameplayInput.GetKeyDown(KeyCode.W))
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             ChangeLevel(1);
-        else if (GameplayInput.GetKeyDown(KeyCode.DownArrow) || GameplayInput.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             ChangeLevel(-1);
-        else if (PropertySite.DebugShortcutsEnabled && GameplayInput.GetKeyDown(KeyCode.F9))
+        else if (PropertySite.DebugShortcutsEnabled && Input.GetKeyDown(KeyCode.F9))
             StartPlacement(true);
-        else if (GameplayInput.GetKeyDown(confirmKey) || GameplayInput.GetKeyDown(KeyCode.C))
+        else if (Input.GetKeyDown(confirmKey) || Input.GetKeyDown(KeyCode.C))
             StartPlacement();
     }
 

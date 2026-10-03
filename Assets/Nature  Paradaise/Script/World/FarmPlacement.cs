@@ -6,23 +6,12 @@ public static class FarmPlacement
 {
     public static IEnumerable<Vector2Int> Offsets(int level)
     {
-        level = Mathf.Clamp(level, 1, 5);
-        int radius = level <= 2 ? 1 : level == 3 ? 2 : level == 4 ? 3 : 5;
+        int radius = Mathf.Clamp(level - 1, 1, 3);
         for (int z = -radius; z <= radius; z++)
             for (int x = -radius; x <= radius; x++)
-            {
-                int distance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (distance == 0) continue;
-                // Lv2 extends the four neighbours with two front diagonals.
-                if (distance <= radius || level == 2 && z == 1 && Mathf.Abs(x) == 1)
+                if ((x != 0 || z != 0) && (level != 1 || Mathf.Abs(x) + Mathf.Abs(z) == 1))
                     yield return new Vector2Int(x, z);
-            }
     }
-
-    public static int CoverageCount(int level) => Mathf.Clamp(level, 1, 5) switch
-    {
-        1 => 4, 2 => 6, 3 => 12, 4 => 24, _ => 60
-    };
 
     public static bool Occupied(FieldArea field, int x, int z)
     {

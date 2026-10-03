@@ -217,7 +217,7 @@ public static class RefrigeratorService
             {
                 if (data == null || data.count <= 0) continue;
                 ItemSO item = ItemCatalog.Resolve(data.itemId, data.assetName, data.itemName);
-                if (item == null)
+                if (item == null || !item.CanStoreInRefrigerator)
                 {
                     Debug.LogWarning($"[REFRIGERATOR] Item '{data.itemName}' dari save tidak ditemukan atau bukan makanan.");
                     continue;
@@ -259,7 +259,7 @@ public static class RefrigeratorService
         Mathf.Abs(entry.fishSizeCm - fishSizeCm) < 0.01f && Mathf.Abs(entry.fishWeightKg - fishWeightKg) < 0.001f;
 
     static void Normalize() => EntriesInternal.RemoveAll(entry => entry == null || entry.item == null ||
-        entry.count <= 0);
+        !entry.item.CanStoreInRefrigerator || entry.count <= 0);
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void ResetStatics()
@@ -341,10 +341,8 @@ public sealed class Refrigerator : MonoBehaviour
     Vector2 inventoryScroll;
     Vector2 refrigeratorScroll;
     RefrigeratorFilter filter;
-    bool panelOpen => StorageChestUI.Instance != null && StorageChestUI.Instance.Fridge == this;
+    bool panelOpen;
     string feedback = string.Empty;
-    public Inventory PlayerInventory => playerInventory;
-    public string Feedback => feedback;
 
     public static bool BlocksWorldPointer
     {
@@ -371,6 +369,7 @@ public sealed class Refrigerator : MonoBehaviour
         if (playerInventory == null) return;
         if (panelOpen)
         {
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey)) ClosePanel();
             return;
         }
         if (!PlayerInteractionTarget.ContainsPickup(playerInventory.transform, transform, interactionRadius)) return;
@@ -390,7 +389,6 @@ public sealed class Refrigerator : MonoBehaviour
 
     void OnGUI()
     {
-        if(StorageChestUI.IsOpen) return;
         if (!panelOpen) return;
         windowRect.width = Mathf.Max(680f, Mathf.Min(defaultWindowRect.width, Screen.width - 24f));
         windowRect.height = Mathf.Max(430f, Mathf.Min(defaultWindowRect.height, Screen.height - 24f));
@@ -551,15 +549,21 @@ public sealed class Refrigerator : MonoBehaviour
 
     void OpenPanel()
     {
+        panelOpen = true;
         feedback = string.Empty;
-        HouseStorageService.SortForHouseLevel();
-        StorageChestUI.Show(this);
+        CenterWindow();
+        WorldInteractionPrompt.AcquireSuppression(this);
+        TimeManager.Instance?.AcquirePause(this);
+        playerInventory?.GetComponent<PlayerController>()?.AcquireMovementLock(this);
     }
 
     void ClosePanel()
     {
         if (!panelOpen) return;
-        StorageChestUI.Instance.Close();
+        panelOpen = false;
+        WorldInteractionPrompt.ReleaseSuppression(this);
+        TimeManager.Instance?.ReleasePause(this);
+        playerInventory?.GetComponent<PlayerController>()?.ReleaseMovementLock(this);
     }
 
     void CenterWindow()

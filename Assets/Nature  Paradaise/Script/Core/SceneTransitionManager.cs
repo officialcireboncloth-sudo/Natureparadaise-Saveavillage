@@ -14,9 +14,6 @@ public sealed class SceneTransitionManager : MonoBehaviour
 
     const string RuntimeObjectName = "SceneTransitionManager_Runtime";
 
-    [Tooltip("Extra separation from world geometry when the authored interior overlaps the additive world. No fixed teleport coordinates.")]
-    [SerializeField, Min(1f)] float interiorSeparationPadding = 32f;
-
     Canvas fadeCanvas;
     Image fadeImage;
     PlayerController player;
@@ -146,7 +143,6 @@ public sealed class SceneTransitionManager : MonoBehaviour
         if (interior.IsValid())
             SceneManager.SetActiveScene(interior);
         yield return null; // Memberi PlayerSpawnPoint satu frame untuk mendaftarkan ID.
-        SeparateHouseFromWorld(interior);
         MovePlayerToSpawn(targetSpawnId, returnPosition, returnRotation);
         yield return Fade(0f);
         ReleaseTransitionLocks();
@@ -181,59 +177,6 @@ public sealed class SceneTransitionManager : MonoBehaviour
         player?.ReleaseMovementLock(this);
         TimeManager.Instance?.ReleasePause(this);
         transitioning = false;
-    }
-
-    void SeparateHouseFromWorld(Scene interior)
-    {
-        if (!interior.IsValid() || !interior.isLoaded) return;
-        GameObject[] roots = interior.GetRootGameObjects();
-        HouseInteriorController house = null;
-        foreach (GameObject root in roots)
-        {
-            house = root.GetComponentInChildren<HouseInteriorController>(true);
-            if (house != null) break;
-        }
-        if (house == null) return;
-
-        if (!TryGetSceneBounds(interior, out Bounds interiorBounds)) return;
-        Scene world = player != null ? player.gameObject.scene : FindLoadedWorldScene(interior);
-        if (world == interior || !TryGetSceneBounds(world, out Bounds worldBounds)) return;
-        bool overlaps = interiorBounds.min.x <= worldBounds.max.x && interiorBounds.max.x >= worldBounds.min.x &&
-                        interiorBounds.min.z <= worldBounds.max.z && interiorBounds.max.z >= worldBounds.min.z;
-        if (!overlaps) return;
-
-        // Keep an already separated, authored location. If it overlaps world terrain,
-        // move just beyond the current map bounds; spawn transforms follow their scene.
-        Vector3 offset = Vector3.right * (worldBounds.max.x - interiorBounds.min.x + Mathf.Max(1f, interiorSeparationPadding));
-        foreach (GameObject root in roots) root.transform.position += offset;
-        Physics.SyncTransforms();
-    }
-
-    static bool TryGetSceneBounds(Scene scene, out Bounds bounds)
-    {
-        bounds = default;
-        if (!scene.IsValid() || !scene.isLoaded) return false;
-        bool found = false;
-        foreach (GameObject root in scene.GetRootGameObjects())
-        {
-            foreach (Collider collider in root.GetComponentsInChildren<Collider>())
-                if (collider.enabled && !collider.isTrigger && collider.GetComponentInParent<PlayerController>() == null)
-                    IncludeBounds(collider.bounds, ref bounds, ref found);
-            foreach (Renderer renderer in root.GetComponentsInChildren<Renderer>())
-                if (renderer.enabled && renderer.GetComponentInParent<PlayerController>() == null)
-                    IncludeBounds(renderer.bounds, ref bounds, ref found);
-            foreach (Terrain terrain in root.GetComponentsInChildren<Terrain>())
-                if (terrain.enabled && terrain.terrainData != null)
-                    IncludeBounds(new Bounds(terrain.transform.position + terrain.terrainData.size * .5f, terrain.terrainData.size), ref bounds, ref found);
-        }
-        return found;
-    }
-
-    static void IncludeBounds(Bounds candidate, ref Bounds total, ref bool found)
-    {
-        if (candidate.size.sqrMagnitude <= .0001f) return;
-        if (found) total.Encapsulate(candidate);
-        else { total = candidate; found = true; }
     }
 
     void ResolvePlayer()

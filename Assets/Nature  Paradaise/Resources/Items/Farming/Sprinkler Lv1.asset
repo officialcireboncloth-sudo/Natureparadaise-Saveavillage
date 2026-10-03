@@ -3,53 +3,17 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
   m_Name: Sprinkler Lv1
-  m_EditorClassIdentifier: 
   itemId: item.sprinkler_lv1
   itemName: Sprinkler Lv.1
-  icon: {fileID: 0}
-  inventoryIllustration: {fileID: 0}
-  inventoryDescription: 
   buyPrice: 500
   sellPrice: 0
   category: 0
-  isAnimalProduct: 0
-  isKeyItem: 0
-  isNotSellable: 0
-  requiresSellConfirmation: 0
   maxStack: 16
   equippedTool: 0
-  animalMedicineLevel: 0
-  seedCrop: {fileID: 0}
-  fertilizerLevel: 0
   requiredVillageLevel: 1
-  soilRestoreAmount: 0
-  cropBoosterLevel: 1
-  cropBoosterPercent: 0
   canDropToWorld: 1
   canPlaceInWorld: 1
-  worldPrefab: {fileID: 1723089686925166882, guid: 2fb14edf723724f4f915df3d06499ffc, type: 3}
-  worldScale: {x: 1, y: 1, z: 1}
   sprinklerLevel: 1
-  treeDefinition: {fileID: 0}
-  isEdible: 0
-  foodPreparation: 0
-  healthRestore: 0
-  staminaRestore: 0
-  hungerRestore: 0
-  refrigeratorCategory: 0
-  storageDestination: 0
-  fishingBaitLevel: 0
-  baitBiteSpeedBonus: 0
-  baitUncommonWeightMultiplier: 1
-  baitRareWeightMultiplier: 1
-  baitLegendaryWeightMultiplier: 1
-  baitJunkReduction: 0
-  requiredFishingLevel: 1
+  worldScale: {x: 0.35, y: 0.6, z: 0.35}

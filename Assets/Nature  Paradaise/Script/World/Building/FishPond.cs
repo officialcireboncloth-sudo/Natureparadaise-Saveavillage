@@ -309,7 +309,7 @@ public sealed class FishPond : MonoBehaviour
         if (inventory == null) return;
         if (panelOpen)
         {
-            if (GameplayInput.GetKeyDown(KeyCode.Escape) || GameplayInput.GetKeyDown(interactKey)) ClosePanel();
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey)) ClosePanel();
             return;
         }
         float troughDistance = feedingPoint != null

@@ -51,8 +51,8 @@ public sealed class QuestJournalUI : MonoBehaviour
     {
         if (boundService == null) Bind();
         bool open = panelRoot != null && panelRoot.activeSelf;
-        if (open && (GameplayInput.GetKeyDown(toggleKey) || GameplayInput.GetKeyDown(KeyCode.Escape))) Close();
-        else if (!open && GameplayInput.GetKeyDown(toggleKey)) SetOpen(true);
+        if (open && (Input.GetKeyDown(toggleKey) || Input.GetKeyDown(KeyCode.Escape))) Close();
+        else if (!open && Input.GetKeyDown(toggleKey)) SetOpen(true);
     }
 
     public void SetOpen(bool open)

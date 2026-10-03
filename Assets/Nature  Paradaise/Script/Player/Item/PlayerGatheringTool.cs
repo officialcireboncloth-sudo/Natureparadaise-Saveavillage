@@ -115,15 +115,15 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if (carriedItem != null)
         {
             WorldInteractionPrompt.Request(this, transform, $"{pullOrStoreKey}: simpan   {dropCarriedKey}: jatuhkan", 0f, 1.65f);
-            if (GameplayInput.GetKeyDown(pullOrStoreKey)) StoreCarriedItem();
-            else if (GameplayInput.GetKeyDown(dropCarriedKey)) DropCarriedItem();
+            if (Input.GetKeyDown(pullOrStoreKey)) StoreCarriedItem();
+            else if (Input.GetKeyDown(dropCarriedKey)) DropCarriedItem();
             return;
         }
 
         ShowTargetPrompt();
         if (movement != null && movement.IsMovementLocked) return;
 
-        if (target != null && GameplayInput.GetKeyDown(pullOrStoreKey) && target.CanPull)
+        if (target != null && Input.GetKeyDown(pullOrStoreKey) && target.CanPull)
             PullTarget();
         else if (hotbar.IsUsePressed(PlayerToolType.Sickle))
             UseSickle();

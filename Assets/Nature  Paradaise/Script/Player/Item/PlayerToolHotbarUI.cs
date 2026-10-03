@@ -9,16 +9,6 @@ using UnityEngine.UI;
 public sealed class PlayerToolHotbarUI : MonoBehaviour
 {
     PlayerToolHotbar hotbar;
-    CanvasGroup fishingVisibility;
-    GameObject canvasObject;
-    void LateUpdate()
-    {
-        if(fishingVisibility==null)return;
-        var fishing=GetComponent<FishingSystem>();
-        bool hidden=GameplayPauseMenu.IsOpen||(fishing!=null&&fishing.isActiveAndEnabled&&fishing.State!=FishingState.Idle);
-        fishingVisibility.alpha=hidden?0:1;fishingVisibility.interactable=!hidden;fishingVisibility.blocksRaycasts=!hidden;
-    }
-    void OnDestroy(){if(canvasObject!=null)Destroy(canvasObject);}
     readonly Dictionary<PlayerToolType, Image> slotBackgrounds = new();
     Color normalColor = new(0.08f, 0.1f, 0.14f, 0.88f);
     Color selectedColor = new(0.85f, 0.55f, 0.12f, 0.96f);
@@ -44,8 +34,7 @@ public sealed class PlayerToolHotbarUI : MonoBehaviour
     void BuildUI()
     {
         int uiLayer = LayerMask.NameToLayer("UI");
-        canvasObject = new("ToolHotbarCanvas_Runtime", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-        fishingVisibility=canvasObject.AddComponent<CanvasGroup>();
+        GameObject canvasObject = new("ToolHotbarCanvas_Runtime", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
         canvasObject.layer = uiLayer >= 0 ? uiLayer : 5;
         Canvas canvas = canvasObject.GetComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;

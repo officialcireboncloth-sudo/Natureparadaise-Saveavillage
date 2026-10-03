@@ -18,7 +18,7 @@ public sealed class CompanionCommandPanel : MonoBehaviour
         WorldInteractionPrompt.AcquireSuppression(instance);
     }
 
-    void Update() { if (GameplayInput.GetKeyDown(KeyCode.Escape)) Destroy(gameObject); }
+    void Update() { if (Input.GetKeyDown(KeyCode.Escape)) Destroy(gameObject); }
 
     void OnDestroy()
     {
