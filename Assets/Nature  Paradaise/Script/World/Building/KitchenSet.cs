@@ -18,7 +18,7 @@ public sealed class KitchenSet : MonoBehaviour
     void Update()
     {
         ResolvePlayer(); if (playerInventory == null) return;
-        if (panelOpen) { if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey)) ClosePanel(); return; }
+        if (panelOpen) { if (GameplayInput.GetKeyDown(KeyCode.Escape) || GameplayInput.GetKeyDown(interactKey)) ClosePanel(); return; }
         if (!PlayerInteractionTarget.ContainsPickup(playerInventory.transform, transform, interactionRadius)) return;
         float distance = Vector3.Distance(playerInventory.transform.position, transform.position);
         WorldInteractionPrompt.Request(this, transform, KitchenService.IsUnlocked

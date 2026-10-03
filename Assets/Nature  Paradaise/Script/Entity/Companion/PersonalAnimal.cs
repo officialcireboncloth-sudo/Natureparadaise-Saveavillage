@@ -686,7 +686,7 @@ public sealed class PersonalAnimal : MonoBehaviour
 
     void UpdateMounted()
     {
-        if (Input.GetKeyDown(KeyCode.E)) { Dismount(); return; }
+        if (GameplayInput.GetKeyDown(KeyCode.E)) { Dismount(); return; }
         Vector2 input = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Transform cameraTransform = Camera.main != null ? Camera.main.transform : null;
         Vector3 forward = cameraTransform != null ? cameraTransform.forward : Vector3.forward;
@@ -724,7 +724,7 @@ public sealed class PersonalAnimal : MonoBehaviour
             horizontalTarget.y = transform.position.y;
         }
 
-        if (mountedGrounded && Input.GetKeyDown(KeyCode.Space) && Time.time >= nextMountedJumpTime)
+        if (mountedGrounded && GameplayInput.GetKeyDown(KeyCode.Space) && Time.time >= nextMountedJumpTime)
         {
             mountedVerticalVelocity = Mathf.Sqrt(2f * mountedGravity * mountedJumpHeight);
             mountedGrounded = false;

@@ -150,29 +150,18 @@ public sealed class ToolStorageChest : MonoBehaviour
     [SerializeField, Min(0.5f)] float interactionRadius = 2.2f;
     [SerializeField, Min(0f)] float promptHeight = 1.4f;
 
-    readonly Rect defaultWindowRect = new(0f, 0f, 920f, 610f);
-    Rect windowRect;
-    Vector2 inventoryScroll;
-    Vector2 storageScroll;
-    PlayerStatusSystem playerStatus;
-    bool panelOpen;
     string feedback = string.Empty;
-
-    public static bool BlocksWorldPointer
-    {
-        get
-        {
-            Vector2 pointer = new(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
-            return Active.Any(chest => chest != null && chest.panelOpen && chest.windowRect.Contains(pointer));
-        }
-    }
-
+    PlayerStatusSystem playerStatus;
+    bool panelOpen => StorageChestUI.Instance != null && StorageChestUI.Instance.Chest == this;
+    public Inventory PlayerInventory => playerInventory;
+    public string Feedback => feedback;
+    public static bool BlocksWorldPointer => StorageChestUI.IsOpen;
     void Awake()
     {
         EnsureStorageRackVisual();
         ResolvePlayer();
-        windowRect = defaultWindowRect;
-        CenterWindow();
+
+
     }
 
     void OnEnable()
@@ -203,6 +192,11 @@ public sealed class ToolStorageChest : MonoBehaviour
         if (!PlayerInteractionTarget.ContainsPickup(playerInventory.transform, transform, interactionRadius))
             return;
 
+        var house = GetComponentInParent<HouseInteriorController>();
+        if(house != null)
+            foreach(var bed in house.GetComponentsInChildren<PlayerBed>())
+                if(bed.CanInteract(playerInventory.transform)) return;
+
         float distance = Vector3.Distance(playerInventory.transform.position, transform.position);
         WorldInteractionPrompt.Request(this, transform,
             $"{interactKey}: Rak Penyimpanan | {ToolStorageService.TotalCount} tool tersimpan", distance, promptHeight);
@@ -210,89 +204,15 @@ public sealed class ToolStorageChest : MonoBehaviour
             OpenPanel();
     }
 
-    void OnGUI()
+    public static bool HasCloserRack(Transform player, float distance)
     {
-        if (!panelOpen)
-            return;
-
-        windowRect.width = Mathf.Max(600f, Mathf.Min(defaultWindowRect.width, Screen.width - 24f));
-        windowRect.height = Mathf.Max(400f, Mathf.Min(defaultWindowRect.height, Screen.height - 24f));
-        windowRect = GUI.Window(GetInstanceID(), windowRect, DrawWindow, "TOOL STORAGE");
-    }
-
-    void DrawWindow(int id)
-    {
-        GUILayout.Label("Simpan tool yang tidak dipakai. Crop, fish, material, seed, food, dan produk hewan tidak diterima.");
-        GUILayout.Space(6f);
-        GUILayout.BeginHorizontal();
-        DrawInventoryColumn();
-        GUILayout.Space(12f);
-        DrawStorageColumn();
-        GUILayout.EndHorizontal();
-        GUILayout.FlexibleSpace();
-        if (!string.IsNullOrWhiteSpace(feedback))
-            GUILayout.Label(feedback);
-        if (GUILayout.Button("Tutup [E / Esc]", GUILayout.Height(32f)))
-            ClosePanel();
-        GUI.DragWindow(new Rect(0f, 0f, windowRect.width, 28f));
-    }
-
-    void DrawInventoryColumn()
-    {
-        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width((windowRect.width - 42f) * 0.5f));
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("INVENTORY — STORE");
-        if (GUILayout.Button("Store All Tools", GUILayout.Width(120f)))
-            StoreAllTools();
-        GUILayout.EndHorizontal();
-        inventoryScroll = GUILayout.BeginScrollView(inventoryScroll);
-        bool found = false;
-        if (playerInventory != null)
+        foreach(var rack in Active)
         {
-            for (int index = 0; index < playerInventory.slots.Count; index++)
-            {
-                ItemStack stack = playerInventory.GetSlot(index);
-                if (stack == null || stack.item == null || stack.count <= 0 || !stack.item.CanStoreInToolStorage)
-                    continue;
-                found = true;
-                GUILayout.BeginHorizontal(GUI.skin.box);
-                GUILayout.Label($"{ToolLabel(stack.item)} x{stack.count}", GUILayout.MinWidth(230f));
-                if (GUILayout.Button("Store", GUILayout.Width(76f), GUILayout.Height(36f)))
-                    TryStoreFromSlot(index, 1);
-                GUILayout.EndHorizontal();
-            }
+            if(rack == null || !PlayerInteractionTarget.ContainsPickup(player,rack.transform,rack.interactionRadius)) continue;
+            Vector3 delta=rack.transform.position-player.position;delta.y=0;
+            if(delta.magnitude < distance) return true;
         }
-        if (!found)
-            GUILayout.Label("Tidak ada Tool di Inventory/Hotbar.");
-        GUILayout.EndScrollView();
-        GUILayout.EndVertical();
-    }
-
-    void DrawStorageColumn()
-    {
-        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width((windowRect.width - 42f) * 0.5f));
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("TOOL STORAGE — TAKE");
-        if (GUILayout.Button("Take All", GUILayout.Width(92f)))
-            TakeAllTools();
-        GUILayout.EndHorizontal();
-        storageScroll = GUILayout.BeginScrollView(storageScroll);
-        IReadOnlyList<ToolStorageEntry> entries = ToolStorageService.Entries;
-        if (entries.Count == 0)
-            GUILayout.Label("Peti tool masih kosong.");
-        for (int index = entries.Count - 1; index >= 0; index--)
-        {
-            ToolStorageEntry entry = entries[index];
-            if (entry == null || entry.item == null || entry.count <= 0)
-                continue;
-            GUILayout.BeginHorizontal(GUI.skin.box);
-            GUILayout.Label($"{ToolLabel(entry.item)} x{entry.count}", GUILayout.MinWidth(230f));
-            if (GUILayout.Button("Take", GUILayout.Width(76f), GUILayout.Height(36f)))
-                TryTake(index, 1);
-            GUILayout.EndHorizontal();
-        }
-        GUILayout.EndScrollView();
-        GUILayout.EndVertical();
+        return false;
     }
 
     public bool TryStoreFromSlot(int slotIndex, int amount)
@@ -400,34 +320,17 @@ public sealed class ToolStorageChest : MonoBehaviour
             playerStatus = playerInventory.GetComponent<PlayerStatusSystem>();
     }
 
-    void OpenPanel()
+    public void OpenPanel()
     {
-        if (panelOpen)
-            return;
-        panelOpen = true;
-        feedback = string.Empty;
-        CenterWindow();
-        WorldInteractionPrompt.AcquireSuppression(this);
-        TimeManager.Instance?.AcquirePause(this);
-        playerInventory?.GetComponent<PlayerController>()?.AcquireMovementLock(this);
+        ResolvePlayer();
+        if (!panelOpen && playerInventory != null && !WorldInteractionPrompt.IsSuppressed && !GameplayPauseMenu.BlocksGameplayInput)
+            StorageChestUI.Show(this);
     }
 
     void ClosePanel()
     {
-        if (!panelOpen)
-            return;
-        panelOpen = false;
-        WorldInteractionPrompt.ReleaseSuppression(this);
-        TimeManager.Instance?.ReleasePause(this);
-        playerInventory?.GetComponent<PlayerController>()?.ReleaseMovementLock(this);
+        if (panelOpen) StorageChestUI.Instance.Close();
     }
-
-    void CenterWindow()
-    {
-        windowRect.x = Mathf.Max(12f, (Screen.width - windowRect.width) * 0.5f);
-        windowRect.y = Mathf.Max(12f, (Screen.height - windowRect.height) * 0.5f);
-    }
-
     void EnsureStorageRackVisual()
     {
         // Visual DummyRack disimpan langsung sebagai child scene agar desainer dapat

@@ -84,6 +84,8 @@ public sealed class DialogueService : MonoBehaviour
         playerController?.AcquireMovementLock(this);
         if (pauseWorldDuringDialogue) TimeManager.Instance?.AcquirePause(this);
         WorldInteractionPrompt.AcquireSuppression(this);
+        DialogueUIController.EnsurePresenter();
+        GameplayInput.ConsumeCurrentFrame();
         ConversationStarted?.Invoke();
         EnterNode(entry);
         return true;
@@ -112,6 +114,7 @@ public sealed class DialogueService : MonoBehaviour
         currentNode = null;
         visibleChoices.Clear();
         ReleaseModalLocks();
+        GameplayInput.ConsumeCurrentFrame();
         ConversationEnded?.Invoke();
     }
 
@@ -236,3 +239,4 @@ public sealed class DialogueService : MonoBehaviour
             if (flag != null && !string.IsNullOrWhiteSpace(flag.flagId)) flags[flag.flagId.Trim()] = flag.value;
     }
 }
+

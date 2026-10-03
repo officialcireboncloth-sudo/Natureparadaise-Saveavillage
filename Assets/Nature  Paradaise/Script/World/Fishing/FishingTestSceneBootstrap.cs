@@ -4,6 +4,7 @@ using UnityEngine;
 [ExecuteAlways]
 public sealed class FishingTestSceneBootstrap : MonoBehaviour
 {
+    [SerializeField] GameObject playerVisualPrefab;
     [SerializeField] Color groundColor = new(0.28f, 0.55f, 0.24f);
     [SerializeField] Color bankColor = new(0.48f, 0.34f, 0.19f);
     [SerializeField] Color waterColor = new(0.12f, 0.55f, 0.82f, 0.82f);
@@ -54,7 +55,7 @@ public sealed class FishingTestSceneBootstrap : MonoBehaviour
         BuildGround(environment, grass, bank);
         GameObject water = Cube("Fishing_Water_Pond", environment, new Vector3(0f, -0.42f, 7f), new Vector3(10f, 0.25f, 8f), waterMaterial);
         water.name = "Fishing_Water_Pond";
-        water.AddComponent<FishingSpot>();
+        EnsureFishingRegions(water.AddComponent<FishingSpot>());
 
         Transform cameraLighting = new GameObject("20_CAMERA_LIGHTING").transform;
         cameraLighting.SetParent(layout, false);
@@ -77,10 +78,12 @@ public sealed class FishingTestSceneBootstrap : MonoBehaviour
         player.transform.position = new Vector3(0f, 0.05f, -2.7f);
         player.transform.rotation = Quaternion.identity;
 
-        GameObject playerVisual = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-        playerVisual.name = "Visual_Dummy_Editable";
+        GameObject playerVisual = playerVisualPrefab != null
+            ? Instantiate(playerVisualPrefab)
+            : GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        playerVisual.name = playerVisualPrefab != null ? "PlayerVisual_Editable" : "Visual_Dummy_Editable";
         playerVisual.transform.SetParent(player.transform, false);
-        playerVisual.transform.localPosition = Vector3.up;
+        playerVisual.transform.localPosition = playerVisualPrefab != null ? Vector3.zero : Vector3.up;
         CapsuleCollider primitiveCollider = playerVisual.GetComponent<CapsuleCollider>();
         if (primitiveCollider != null) primitiveCollider.enabled = false;
         CharacterController controller = player.AddComponent<CharacterController>();
@@ -117,7 +120,7 @@ public sealed class FishingTestSceneBootstrap : MonoBehaviour
         sun.intensity = 1.15f;
         lightObject.transform.rotation = Quaternion.Euler(48f, -32f, 0f);
 
-        CreateSign(environment, new Vector3(0f, 0.9f, -5.1f), "FISHING TEST\n1: Rod | 2-5: Bait + F equip | F: Cast/Hook | Hold F: Reel | O: Fishdex");
+        CreateSign(environment, new Vector3(0f, 0.9f, -5.1f), "FISHING TEST\n1: Rod | 2-5: Bait + F equip | Hold F: Power Cast / Release | F: Hook | Hold F: Reel | O: Fishdex");
     }
 
     void BuildGround(Transform root, Material grass, Material bank)
@@ -157,6 +160,28 @@ public sealed class FishingTestSceneBootstrap : MonoBehaviour
             material.renderQueue = 3000;
         }
         return material;
+    }
+
+    public static void EnsureFishingRegions(FishingSpot water)
+    {
+        if(water==null || water.transform.Find("FishingRegions_Editable")!=null) return;
+        Transform regions=new GameObject("FishingRegions_Editable").transform;
+        regions.SetParent(water.transform,false);
+        FishingWaterType[] types={FishingWaterType.River,FishingWaterType.Lake,FishingWaterType.Ocean};
+        string[] names={"Sungai Uji","Danau Uji","Laut Uji"};
+        Bounds bounds=water.GetComponent<Collider>().bounds;
+        for(int i=0;i<3;i++)
+        {
+            GameObject region=new(names[i]); region.transform.SetParent(regions,false);
+            region.transform.localPosition=new Vector3((i-1)/3f,0.025f,0f);
+            BoxCollider collider=region.AddComponent<BoxCollider>(); collider.size=new Vector3(1f/3f,1f,1f);
+            region.AddComponent<FishingSpot>().ConfigureLocation(types[i],names[i]);
+            GameObject sign=new("Fishing Area - "+names[i]); sign.transform.SetParent(water.transform.parent,false);
+            sign.transform.position=new Vector3(bounds.center.x+(i-1)*bounds.size.x/3f,0.6f,bounds.min.z-0.65f);
+            sign.transform.rotation=Quaternion.Euler(70f,0f,0f);
+            TextMesh label=sign.AddComponent<TextMesh>(); label.text=names[i]; label.anchor=TextAnchor.MiddleCenter;
+            label.alignment=TextAlignment.Center; label.fontSize=40; label.characterSize=0.075f; label.color=Color.white;
+        }
     }
 
     static void CreateSign(Transform parent, Vector3 position, string text)

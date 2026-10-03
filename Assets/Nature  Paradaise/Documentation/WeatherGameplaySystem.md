@@ -56,3 +56,11 @@ agar hujan tidak menyiramnya dan Storm/Extreme Weather tidak mencabut crop.
 
 Prefab puing dan posisi hazard tidak dibuat otomatis supaya layout map tetap dapat
 diatur manual tanpa object dummy yang muncul kembali.
+
+## Stabilitas lighting pagi/sore
+
+`DayNightCycle` menginterpolasi sudut matahari dan bulan secara eksplisit.
+Jangan menggunakan `Quaternion.Slerp` langsung antara rotasi yang berbeda tepat
+180 derajat: jalur terpendeknya ambigu dan pembulatan bisa membalik arah cahaya
+antar-frame, menyebabkan dunia berkedip terang/gelap saat sunrise atau sunset.
+Jam, tint, ambient, dan modifier cuaca tetap bergerak mengikuti waktu game.

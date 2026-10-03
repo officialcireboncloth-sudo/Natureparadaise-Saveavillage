@@ -5,6 +5,8 @@ public sealed class DialogueSpeakerSO : ScriptableObject
 {
     public string speakerId = "npc.new";
     public string displayName = "NPC";
-    public Sprite portrait;
+    [Tooltip("Portrait NPC untuk panel dialog. Boleh kosong.")] public Sprite portrait;
+    public string roleDescription;
     public Color nameColor = new(0.22f, 0.12f, 0.06f, 1f);
 }
+

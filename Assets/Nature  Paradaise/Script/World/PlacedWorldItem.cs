@@ -106,7 +106,7 @@ public sealed class PlacedWorldItem : MonoBehaviour
             : GameObject.CreatePrimitive(PrimitiveType.Cube);
         visual.name = "ItemVisual";
         visual.transform.SetParent(parent, false);
-        visual.transform.localPosition = Vector3.up * 0.35f;
+        visual.transform.localPosition = item.IsSprinkler ? Vector3.zero : Vector3.up * 0.35f;
         visual.transform.localScale = item.worldScale == Vector3.zero ? Vector3.one * 0.4f : item.worldScale;
         if (item.treeDefinition != null) visual.transform.localPosition = Vector3.up * visual.transform.localScale.y * 0.5f;
         foreach (Collider collider in visual.GetComponentsInChildren<Collider>(true)) collider.enabled = false;

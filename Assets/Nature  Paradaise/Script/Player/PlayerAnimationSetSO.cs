@@ -29,6 +29,10 @@ public sealed class PlayerAnimationSetSO : ScriptableObject
     public AnimationClip refillWateringCan;
     public AnimationClip handOverOneHand;
     public AnimationClip handOverTwoHands;
+    public AnimationClip fishingCharge;
+    public AnimationClip fishingCastLow;
+    public AnimationClip fishingCastHigh;
+    public AnimationClip fishingCatch;
     public AnimationClip fishingCast;
     public AnimationClip fishingIdle;
     public AnimationClip fishingReel;

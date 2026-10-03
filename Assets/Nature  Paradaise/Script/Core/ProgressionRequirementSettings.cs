@@ -16,7 +16,7 @@ public sealed class ProgressionRequirementSettings : ScriptableObject
     public bool bypassProgressionRequirements = true;
 
     [Tooltip("Level rumah efektif selama bypass. Tidak mengubah level rumah pada save.")]
-    [Range(1, 4)] public int testHouseLevel = 4;
+    [Range(1, 4)] public int testHouseLevel = 1;
     [Tooltip("Level desa/kota efektif selama bypass. Tidak mengubah level pada save.")]
     [Min(1)] public int testVillageLevel = 99;
     [Tooltip("Level fishing efektif selama bypass. Tidak mengubah XP fishing pada save.")]

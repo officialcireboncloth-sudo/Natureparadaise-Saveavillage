@@ -92,21 +92,22 @@ public sealed class SeasonVisualController : MonoBehaviour
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
     void Update()
     {
-        if (nextSeasonKey != KeyCode.None && Input.GetKeyDown(nextSeasonKey))
+        if (nextSeasonKey != KeyCode.None && GameplayInput.GetKeyDown(nextSeasonKey))
         {
             if (debugMenuOpen) CloseDebugMenu();
             else OpenDebugMenu();
         }
-        if (clearOverrideKey != KeyCode.None && Input.GetKeyDown(clearOverrideKey))
+        if (clearOverrideKey != KeyCode.None && GameplayInput.GetKeyDown(clearOverrideKey))
         {
             FollowCalendar();
             CloseDebugMenu();
         }
-        if (debugMenuOpen && Input.GetKeyDown(KeyCode.Escape)) CloseDebugMenu();
+        if (debugMenuOpen && GameplayInput.GetKeyDown(KeyCode.Escape)) CloseDebugMenu();
     }
 
     void OnGUI()
     {
+        if (GameplayPauseMenu.BlocksGameplayInput) return;
         if (!debugMenuOpen) return;
         debugWindow.width = Mathf.Min(560f, Screen.width - 24f);
         debugWindow.height = Mathf.Min(650f, Screen.height - 24f);

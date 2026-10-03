@@ -10,6 +10,19 @@ public enum MainMenuTitleMode { Text, Image }
 /// <summary>Main menu scene mandiri. Seluruh visual dan audio dapat diganti lewat prefab.</summary>
 public sealed class MainMenuController : MonoBehaviour
 {
+    [HideInInspector] public int layoutVersion;
+    [Header("Reference Menu")]
+    [SerializeField] GameObject creditsPanel;
+    [SerializeField] Button creditsButton;
+    [SerializeField] Button creditsBackButton;
+    [SerializeField] RectTransform footer;
+    [SerializeField] RectTransform tagline;
+    [SerializeField] GameObject cornerQuote;
+    [SerializeField] Button languageButton;
+    [SerializeField] Button graphicsButton;
+    [SerializeField] TMP_Text languageValue;
+    [SerializeField] TMP_Text graphicsValue;
+    [SerializeField] TMP_Text versionValue;
     [Header("Scene")]
     [SerializeField] string gameplayScene = "Map";
 
@@ -71,6 +84,7 @@ public sealed class MainMenuController : MonoBehaviour
         ApplyResponsiveLayout();
         BindButtons();
         BindSliders();
+        RefreshFooter();
         ShowMain();
         StartBackgroundMusic();
     }
@@ -91,29 +105,40 @@ public sealed class MainMenuController : MonoBehaviour
         if (!responsiveLayout || Screen.height <= 0) return;
 
         bool mobile = (float)Screen.width / Screen.height < mobileAspectBreakpoint;
+        if (cornerQuote != null) cornerQuote.SetActive(!mobile);
         ApplyTitleLayout(titleText != null ? titleText.rectTransform : null, mobile);
         ApplyTitleLayout(titleImage != null ? titleImage.rectTransform : null, mobile);
         ApplyPanelLayout(mainPanel, mobile);
         ApplyPanelLayout(playPanel, mobile);
         ApplyPanelLayout(settingsPanel, mobile);
         ApplyPanelLayout(overwritePanel, mobile);
+        ApplyPanelLayout(creditsPanel, mobile);
+        Place(tagline, mobile ? new Vector2(.05f, .715f) : new Vector2(.30f, .615f), mobile ? new Vector2(.95f, .755f) : new Vector2(.70f, .655f));
+        Place(footer, mobile ? new Vector2(.05f, .025f) : new Vector2(.34f, .06f), mobile ? new Vector2(.95f, .11f) : new Vector2(.66f, .145f));
         if (titleText != null)
-            titleText.alignment = mobile ? TextAlignmentOptions.Center : TextAlignmentOptions.Left;
+            titleText.alignment = TextAlignmentOptions.Center;
+    }
+
+    static void Place(RectTransform rect, Vector2 min, Vector2 max)
+    {
+        if (rect == null) return;
+        rect.anchorMin = min; rect.anchorMax = max;
+        rect.offsetMin = rect.offsetMax = Vector2.zero;
     }
 
     static void ApplyTitleLayout(RectTransform rect, bool mobile)
     {
         if (rect == null) return;
-        rect.anchorMin = mobile ? new Vector2(0.08f, 0.78f) : new Vector2(0.06f, 0.72f);
-        rect.anchorMax = mobile ? new Vector2(0.92f, 0.95f) : new Vector2(0.58f, 0.92f);
+        rect.anchorMin = mobile ? new Vector2(0.08f, 0.77f) : new Vector2(0.35f, 0.66f);
+        rect.anchorMax = mobile ? new Vector2(0.92f, 0.95f) : new Vector2(0.65f, 0.92f);
         rect.offsetMin = rect.offsetMax = Vector2.zero;
     }
 
     static void ApplyPanelLayout(GameObject panel, bool mobile)
     {
         if (panel == null || panel.transform is not RectTransform rect) return;
-        rect.anchorMin = mobile ? new Vector2(0.07f, 0.08f) : new Vector2(0.62f, 0.16f);
-        rect.anchorMax = mobile ? new Vector2(0.93f, 0.75f) : new Vector2(0.94f, 0.84f);
+        rect.anchorMin = mobile ? new Vector2(0.07f, 0.18f) : new Vector2(0.355f, 0.215f);
+        rect.anchorMax = mobile ? new Vector2(0.93f, 0.69f) : new Vector2(0.645f, 0.60f);
         rect.offsetMin = rect.offsetMax = Vector2.zero;
     }
 
@@ -122,8 +147,14 @@ public sealed class MainMenuController : MonoBehaviour
         if (background != null)
         {
             background.sprite = backgroundSprite;
-            background.color = backgroundTint;
-            background.preserveAspect = backgroundSprite != null;
+            background.color = backgroundSprite != null ? Color.white : backgroundTint;
+            background.preserveAspect = false;
+            AspectRatioFitter fitter = background.GetComponent<AspectRatioFitter>();
+            if (fitter != null)
+            {
+                fitter.enabled = backgroundSprite != null;
+                if (backgroundSprite != null) fitter.aspectRatio = backgroundSprite.rect.width / backgroundSprite.rect.height;
+            }
         }
         bool textTitle = titleMode == MainMenuTitleMode.Text;
         if (titleText != null)
@@ -136,6 +167,7 @@ public sealed class MainMenuController : MonoBehaviour
             titleImage.gameObject.SetActive(!textTitle);
             titleImage.sprite = titleSprite;
             titleImage.preserveAspect = true;
+            titleImage.color = titleSprite != null ? Color.white : Color.clear;
         }
     }
 
@@ -143,15 +175,20 @@ public sealed class MainMenuController : MonoBehaviour
     {
         foreach (Button button in GetComponentsInChildren<Button>(true))
             button.onClick.AddListener(PlayClickSound);
-        startButton?.onClick.AddListener(ShowPlay);
+        startButton?.onClick.AddListener(RequestNewGame);
+        loadButton?.onClick.AddListener(LoadGame);
+        creditsButton?.onClick.AddListener(() => Show(creditsPanel, creditsBackButton));
+        creditsBackButton?.onClick.AddListener(ShowMain);
+        languageButton?.onClick.AddListener(() => Show(settingsPanel, settingsBackButton));
+        graphicsButton?.onClick.AddListener(CycleGraphics);
         settingsButton?.onClick.AddListener(ShowSettings);
         exitButton?.onClick.AddListener(ExitDesktop);
         newGameButton?.onClick.AddListener(RequestNewGame);
-        playLoadButton?.onClick.AddListener(LoadGame);
+        if (playLoadButton != loadButton) playLoadButton?.onClick.AddListener(LoadGame);
         playBackButton?.onClick.AddListener(ShowMain);
         settingsBackButton?.onClick.AddListener(ShowMain);
         overwriteConfirmButton?.onClick.AddListener(ConfirmNewGame);
-        overwriteCancelButton?.onClick.AddListener(ShowPlay);
+        overwriteCancelButton?.onClick.AddListener(ShowMain);
     }
 
     void BindSliders()
@@ -173,12 +210,33 @@ public sealed class MainMenuController : MonoBehaviour
     public void ShowPlay() => Show(playPanel, newGameButton);
     public void ShowSettings() => Show(settingsPanel, masterSlider);
 
+    void CycleGraphics()
+    {
+        int count = QualitySettings.names.Length;
+        if (count == 0) return;
+        int level = (QualitySettings.GetQualityLevel() + 1) % count;
+        QualitySettings.SetQualityLevel(level, true);
+        PlayerPrefs.SetInt("NatureParadise.GraphicsQuality", level);
+        PlayerPrefs.Save();
+        RefreshFooter();
+    }
+
+    void RefreshFooter()
+    {
+        if (PlayerPrefs.HasKey("NatureParadise.GraphicsQuality") && QualitySettings.names.Length > 0)
+            QualitySettings.SetQualityLevel(Mathf.Clamp(PlayerPrefs.GetInt("NatureParadise.GraphicsQuality"), 0, QualitySettings.names.Length - 1), true);
+        if (languageValue != null) languageValue.text = "Indonesia";
+        if (graphicsValue != null) graphicsValue.text = QualitySettings.names.Length > 0 ? QualitySettings.names[QualitySettings.GetQualityLevel()] : "Default";
+        if (versionValue != null) versionValue.text = Application.version;
+    }
+
     void Show(GameObject panel, Selectable selection)
     {
         if (mainPanel != null) mainPanel.SetActive(panel == mainPanel);
         if (playPanel != null) playPanel.SetActive(panel == playPanel);
         if (settingsPanel != null) settingsPanel.SetActive(panel == settingsPanel);
         if (overwritePanel != null) overwritePanel.SetActive(panel == overwritePanel);
+        if (creditsPanel != null) creditsPanel.SetActive(panel == creditsPanel);
         if (loadButton != null) loadButton.interactable = SaveManager.SaveExists();
         if (playLoadButton != null) playLoadButton.interactable = SaveManager.SaveExists();
         EventSystem.current?.SetSelectedGameObject(selection != null ? selection.gameObject : null);

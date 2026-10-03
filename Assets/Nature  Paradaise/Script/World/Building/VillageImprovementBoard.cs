@@ -33,9 +33,9 @@ public sealed class VillageImprovementBoard : MonoBehaviour
         ResolvePlayer();
         if (panelOpen)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey)) ClosePanel();
-            else if (Input.GetKeyDown(contributeKey)) Contribute(false);
-            else if (Input.GetKeyDown(debugCompleteKey)) Contribute(true);
+            if (GameplayInput.GetKeyDown(KeyCode.Escape) || GameplayInput.GetKeyDown(interactKey)) ClosePanel();
+            else if (GameplayInput.GetKeyDown(contributeKey)) Contribute(false);
+            else if (GameplayInput.GetKeyDown(debugCompleteKey)) Contribute(true);
             return;
         }
 
@@ -45,7 +45,7 @@ public sealed class VillageImprovementBoard : MonoBehaviour
         VillageProgressionService village = VillageProgressionService.Instance;
         string level = village != null ? $"Lv.{village.VillageLevel}" : "--";
         WorldInteractionPrompt.Request(this, transform, $"{interactKey}: Village Improvement Board — {level}", distance, 1.7f);
-        if (Input.GetKeyDown(interactKey)) OpenPanel();
+        if (GameplayInput.GetKeyDown(interactKey)) OpenPanel();
     }
 
     void OnGUI()

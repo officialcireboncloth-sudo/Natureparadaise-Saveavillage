@@ -31,7 +31,7 @@ public sealed class HouseScenePortal : MonoBehaviour
             return;
         string action = exitsInterior ? "Keluar Rumah" : "Masuk Rumah";
         WorldInteractionPrompt.Request(this, transform, $"{interactKey}: {action}", distance, promptHeight);
-        if (!Input.GetKeyDown(interactKey) || !PlayerInteractionTarget.Press(interactKey))
+        if (!GameplayInput.GetKeyDown(interactKey) || !PlayerInteractionTarget.Press(interactKey))
             return;
         if (exitsInterior && WeatherSystem.Instance != null &&
             WeatherSystem.BlocksLeavingHome(WeatherSystem.Instance.CurrentWeather))

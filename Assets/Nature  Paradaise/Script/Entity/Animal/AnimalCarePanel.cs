@@ -1,174 +1,89 @@
 using UnityEngine;
 
-/// <summary>Menu debug kandang/animal: informasi, rename, trough, care, dan penugasan.</summary>
+/// <summary>State and gameplay commands for the left-side animal/home detail UI.</summary>
 public sealed class AnimalCarePanel : MonoBehaviour
 {
-    static AnimalCarePanel instance;
-    AnimalGrowthSystem animal;
-    AnimalHome home;
-    Inventory inventory;
+    public static AnimalCarePanel Instance { get; private set; }
+    public static bool IsOpen => Instance != null;
+    public AnimalGrowthSystem Animal { get; private set; }
+    public AnimalHome Home { get; private set; }
+    public Inventory Inventory { get; private set; }
+    public string EditedName { get; set; }
+    public string Feedback { get; private set; }
+    public int Revision { get; private set; }
     PlayerController player;
-    string editedName;
-    string feedback;
-    Vector2 scroll;
-    Vector2 feedInventoryScroll;
-    int draggedFeedSlot = -1;
-    string draggedFeedLabel;
+    bool released;
     public static void Show(AnimalGrowthSystem selected, AnimalHome selectedHome, Inventory inv)
     {
-        if (inv == null || (selected == null && selectedHome == null) || instance != null) return;
-        instance = new GameObject("AnimalCarePanel_Runtime").AddComponent<AnimalCarePanel>();
-        instance.animal = selected; instance.home = selectedHome; instance.inventory = inv;
-        instance.player = inv.GetComponent<PlayerController>();
-        instance.editedName = selected != null ? selected.AnimalName : string.Empty;
-        instance.player?.AcquireMovementLock(instance);
-        TimeManager.Instance?.AcquirePause(instance);
-        WorldInteractionPrompt.AcquireSuppression(instance);
+        if(inv==null || (selected==null && selectedHome==null) || IsOpen || AnimalController.CurrentCareAction!=null) return;
+        Instance=new GameObject("AnimalDetail_Runtime").AddComponent<AnimalCarePanel>();
+        Instance.Animal=selected; Instance.Home=selectedHome; Instance.Inventory=inv;
+        Instance.EditedName=selected!=null?selected.AnimalName:string.Empty;
+        Instance.player=inv.GetComponent<PlayerController>();
+        Instance.player?.AcquireMovementLock(Instance);
+        TimeManager.Instance?.AcquirePause(Instance);
+        WorldInteractionPrompt.AcquireSuppression(Instance);
+        if(inv.GetComponent<AnimalInteractionHUD>()==null) inv.gameObject.AddComponent<AnimalInteractionHUD>();
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) || (animal == null && home == null)) Destroy(gameObject);
+        if(GameplayInput.GetKeyDown(KeyCode.Escape) || (Animal==null && Home==null)) Close();
     }
-    void OnDestroy()
+    public void Close()
     {
-        player?.ReleaseMovementLock(this);
-        TimeManager.Instance?.ReleasePause(this);
+        Release(); GameplayInput.ConsumeCurrentFrame(); Destroy(gameObject);
+    }
+    void Release()
+    {
+        if(released) return; released=true;
+        player?.ReleaseMovementLock(this);TimeManager.Instance?.ReleasePause(this);
         WorldInteractionPrompt.ReleaseSuppression(this);
-        if (instance == this) instance = null;
+        if(Instance==this) Instance=null;
     }
-    void OnGUI()
+    void OnDisable()=>Release();
+    void OnDestroy()=>Release();
+    public void Select(AnimalGrowthSystem selected)
+    {Animal=selected;EditedName=selected!=null?selected.AnimalName:string.Empty;Feedback="";Revision++;}
+    public void Rename()
+    {if(Animal==null)return;Animal.SetAnimalName(EditedName);EditedName=Animal.AnimalName;Feedback="Nama disimpan.";Revision++;}
+    AnimalController Controller()
     {
-        float width = Mathf.Min(570f, Screen.width - 20f);
-        GUILayout.BeginArea(new Rect((Screen.width - width) * 0.5f, 20, width, Screen.height - 40f), GUI.skin.box);
-        if (GUILayout.Button("Tutup (Esc)")) Destroy(gameObject);
-        scroll = GUILayout.BeginScrollView(scroll);
-        if (home != null)
-        {
-            GUILayout.Label($"{home.Label} Lv.{(home.site != null ? home.site.CurrentLevel : 1)} — Animals: {home.AnimalCount}/{home.FeedingSlotCapacity} | Reserved: {home.ReservedSlots} | Available: {home.AvailableSlots}");
-            DrawFeedStorage();
-            GUILayout.Label(home.AnimalsOutside
-                ? "Status saklar: DI LUAR — gunakan bell kandang untuk memasukkan semuanya."
-                : "Status saklar: DI DALAM — gunakan bell kandang untuk mengeluarkan semuanya.");
-            foreach (AnimalRoutine routine in home.Residents)
-                if (GUILayout.Button($"{routine.Animal.AnimalName} — {routine.Animal.Type} — {routine.Activity}")) Select(routine.Animal);
-        }
-        if (animal != null)
-        {
-            GUILayout.Space(12); GUILayout.Label(animal.InfoSummary);
-            if (animal.Type == AnimalType.Cow)
-                GUILayout.Label("Heart sapi naik +1% saat Makan + Gosok + Interaksi lengkap dalam satu hari. Perawatan tidak lengkap 7 hari berturut-turut mengurangi 5%.");
-            GUILayout.Label($"Hari berturut-turut tanpa makan: {animal.HungryDays}/3");
-            AnimalRoutine routine = animal.GetComponent<AnimalRoutine>();
-            if (animal.IsAdult && GUILayout.Button(AnimalGrowthProfileSO.IsBird(animal.Type) ? "Mulai inkubasi (1 telur, 1 slot)" : "Mulai breeding (1 slot)"))
-            {
-                ShopManager shop = FindFirstObjectByType<ShopManager>();
-                feedback = shop != null && shop.TryStartBreeding(animal, inventory)
-                    ? "Proses dimulai; slot sudah direservasi."
-                    : "Butuh induk dewasa, sehat, sudah makan, slot kosong dan tidak ada proses sejenis. Inkubasi butuh telur.";
-            }
-            GUILayout.Label($"Kandang: {routine?.Home?.Label ?? "Belum ditugaskan"} | {routine?.Activity}");
-            editedName = GUILayout.TextField(editedName ?? "", 24);
-            if (GUILayout.Button("Simpan nama")) { animal.SetAnimalName(editedName); editedName = animal.AnimalName; }
-            AnimalController controller = animal.GetComponent<AnimalController>();
-            controller.playerInv = inventory;
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Feed (1 Animal Feed)")) controller.FeedCabbage();
-            if (GUILayout.Button("Gosok (Animasi Brush)"))
-            {
-                if (controller.TryStartBrush()) Destroy(gameObject);
-                else feedback = "Sudah digosok hari ini atau animasi masih berjalan.";
-            }
-            if (animal.Type == AnimalType.Cow && GUILayout.Button("Interaksi"))
-                feedback = animal.Interact()
-                    ? $"Interaksi hari ini selesai. {animal.CowDailyCareSummary}."
-                    : $"Sudah dihitung hari ini. {animal.CowDailyCareSummary}. Bisa dihitung lagi besok.";
-            if (GUILayout.Button("Treat")) feedback = controller.TryGiveTreat() ? "Treat diberikan" : "Treat kurang / sudah diberikan hari ini";
-            if (GUILayout.Button("Medicine")) feedback = controller.TryGiveBestMedicine() ? "Obat diberikan; cek status kondisi hewan" : "Obat kurang / hewan sehat atau sedang pemulihan";
-            GUILayout.EndHorizontal();
-            if (animal.Type == AnimalType.Sheep)
-                GUILayout.Label($"Cukur: pilih Shears, lalu G di samping domba. Durasi {controller.ShearActionDuration:0.#} detik; wol tumbuh kembali dalam {AnimalGrowthSystem.SheepWoolRegrowthDays} hari game.");
-            if (animal.HasProductReady && GUILayout.Button(animal.Type == AnimalType.Sheep
-                ? $"Cukur domba — 5 Wool ({controller.ShearActionDuration:0.#} detik)"
-                : $"Ambil produk — {animal.ProductQualityLabel}"))
-            {
-                controller.TakeMilk();
-                // Panel menjeda waktu; tutup agar animasi dan progress bisa berjalan.
-                if (animal.Type == AnimalType.Sheep && controller.IsShearing) Destroy(gameObject);
-            }
-            if (routine != null)
-            {
-                GUILayout.Label("Tugaskan / pindahkan kandang:");
-                foreach (AnimalHome candidate in AnimalHome.Active)
-                    if (candidate != null && candidate.Id != routine.HomeId && candidate.HasRoom(animal.Type) &&
-                        GUILayout.Button($"{candidate.Label} ({candidate.Residents.Count}/{candidate.Capacity})")) routine.Assign(candidate);
-            }
-        }
-        GUILayout.Label(feedback ?? "");
-        GUILayout.EndScrollView(); GUILayout.EndArea();
+        var controller=Animal!=null?Animal.GetComponent<AnimalController>():null;
+        if(controller!=null)controller.playerInv=Inventory;
+        return controller;
     }
-
-    void DrawFeedStorage()
+    public void Feed()
     {
-        GUILayout.Label($"TEMPAT PAKAN — {home.TotalFeed}/{home.FeedingSlotCapacity} terisi | " +
-                        $"Animal Feed {home.Fodder} | Grass {home.Grass} | Kosong {home.FeedSpace}");
-        GUILayout.Label($"Belum makan: {home.RequiredFeedToday} | Auto Feeder: {(home.HasAutoFeeder ? "ON" : "OFF")}");
-        GUILayout.Label($"Dipakai hari ini: {home.FeedPortionsReserved} box | Kebutuhan maksimal: {home.DailyFeedRequirement}/hari | " +
-                        $"Estimasi stok: {home.EstimatedFeedDays} hari.");
-        GUILayout.Label($"Box yang dipakai berkurang pukul 00:00 — {GameTimeDebugText.UntilMidnight()} lagi. Sisa box tetap tersimpan.");
-        GUILayout.Space(8f);
-        GUILayout.Label("CARA MENGISI TEMPAT PAKAN",GUI.skin.box);
-        GUILayout.Label("Pilih Animal Feed atau Grass pada hotbar sampai terlihat dipegang player. " +
-                        "Dekati box kosong, lalu tekan F. Setiap tekanan memasukkan tepat 1 item.");
+        var controller=Controller(); if(controller==null)return;
+        bool before=Animal.FedToday;controller.FeedCabbage();
+        Feedback=!before && Animal.FedToday?"Hewan diberi makan.":"Sudah makan hari ini atau Animal Feed tidak tersedia.";
     }
-
-    void HandleDragSource(Rect rect, int slotIndex, ItemStack stack)
+    public void Brush()
     {
-        Event current = Event.current;
-        if (current.type != EventType.MouseDown || current.button != 0 || !rect.Contains(current.mousePosition)) return;
-        draggedFeedSlot = slotIndex;
-        draggedFeedLabel = $"{stack.DisplayName} x{stack.count}";
-        current.Use();
+        if(Controller()?.TryStartBrush()==true)Close();
+        else Feedback="Sudah digosok hari ini atau hewan sedang melakukan aktivitas lain.";
     }
-
-    void HandleDropTarget(Rect rect)
+    public void Collect()
     {
-        Event current = Event.current;
-        if (draggedFeedSlot < 0 || current.type != EventType.MouseUp || current.button != 0) return;
-        if (rect.Contains(current.mousePosition))
-        {
-            TryDeposit(draggedFeedSlot, 1);
-            current.Use();
-        }
-        draggedFeedSlot = -1;
-        draggedFeedLabel = null;
+        var controller=Controller();if(controller==null)return;
+        controller.TakeMilk();if(controller.IsCareBusy)Close();
+        else Feedback=Animal.Type==AnimalType.Sheep?"Produk belum siap atau Shears belum dipilih.":"Produk belum siap.";
     }
-
-    void DrawDraggedFeedGhost()
+    public void Interact()
+    {if(Animal!=null)Feedback=Animal.Interact()?"Interaksi harian selesai.":"Interaksi sudah dihitung hari ini.";}
+    public void Treat()=>Feedback=Controller()?.TryGiveTreat()==true?"Treat diberikan.":"Treat tidak tersedia atau sudah diberikan hari ini.";
+    public void Medicine()=>Feedback=Controller()?.TryGiveBestMedicine()==true?"Obat diberikan; kondisi hewan diperbarui.":"Obat tidak tersedia atau hewan belum memerlukan obat.";
+    public void Breed()
     {
-        if (draggedFeedSlot < 0) return;
-        Event current = Event.current;
-        if (current.type == EventType.MouseUp)
-        {
-            draggedFeedSlot = -1;
-            draggedFeedLabel = null;
-            return;
-        }
-        Vector2 mouse = current.mousePosition;
-        GUI.Box(new Rect(mouse.x + 12f, mouse.y + 12f, 150f, 34f), draggedFeedLabel ?? "Feed");
-        if (current.type == EventType.MouseDrag) current.Use();
+        var shop=FindFirstObjectByType<ShopManager>();
+        Feedback=Animal!=null && shop!=null && shop.TryStartBreeding(Animal,Inventory)?"Proses dimulai; slot kandang direservasi.":
+            "Perlu induk dewasa, sehat, sudah makan, dan slot kosong. Inkubasi juga memerlukan telur.";
+        Revision++;
     }
-
-    void TryDeposit(int slotIndex, int amount)
+    public void Assign(AnimalHome destination)
     {
-        if (home.FeedSpace <= 0)
-        {
-            feedback = $"Tempat pakan penuh ({home.TotalFeed}/{home.FeedingSlotCapacity}).";
-            return;
-        }
-        int moved = home.DepositFromSlot(inventory, slotIndex, 1);
-        feedback = moved > 0
-            ? $"Box {home.TotalFeed} terisi. Isi sekarang {home.TotalFeed}/{home.FeedingSlotCapacity}."
-            : "Hanya Grass atau Animal Feed yang dapat dimasukkan.";
+        var routine=Animal!=null?Animal.GetComponent<AnimalRoutine>():null;
+        Feedback=routine!=null && destination!=null && routine.Assign(destination)?"Penugasan kandang diperbarui.":"Hewan tidak dapat dipindahkan ke kandang ini.";
+        Revision++;
     }
-    void Select(AnimalGrowthSystem selected) { animal = selected; editedName = selected.AnimalName; }
 }

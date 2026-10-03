@@ -95,6 +95,12 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
     }
 
     static bool IsMissingOwner(Object owner) => owner == null;
+    public static bool IsSuppressedExcept(Object owner)
+    {
+        SuppressionOwners.RemoveWhere(IsMissingOwner);
+        foreach(var candidate in SuppressionOwners) if(candidate!=owner) return true;
+        return false;
+    }
 
     /// <summary>
     /// Menyembunyikan world prompt selama modal milik owner terbuka. Set multi-owner
@@ -176,7 +182,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         promptText.text = requestedText;
         panelBackground.color=requestedCleanStyle
             ? Color.clear
-            : new Color(0.035f,0.045f,0.055f,0.88f);
+            : GameplayHUDStyle.Panel;
         promptText.outlineWidth=requestedCleanStyle?0.22f:0f;
         promptText.outlineColor=requestedCleanStyle?new Color32(0,0,0,210):Color.clear;
         // Prompt build dapat memiliki beberapa baris requirement. Ukuran panel mengikuti
@@ -218,7 +224,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
 
         canvasRect = GetComponent<RectTransform>();
 
-        GameObject panel = new("Prompt", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        GameObject panel = new("Prompt", typeof(RectTransform), typeof(CanvasRenderer), typeof(MainMenuRoundedImage));
         panel.layer = gameObject.layer;
         panelRect = panel.GetComponent<RectTransform>();
         panelRect.SetParent(transform, false);
@@ -226,7 +232,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         panelRect.pivot = new Vector2(0.5f, 0.5f);
         panelRect.sizeDelta = new Vector2(300f, 52f);
         panelBackground = panel.GetComponent<Image>();
-        panelBackground.color = new Color(0.035f, 0.045f, 0.055f, 0.88f);
+        panelBackground.color = GameplayHUDStyle.Panel;
         panelBackground.raycastTarget = false;
 
         GameObject textObject = new("Text", typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI));

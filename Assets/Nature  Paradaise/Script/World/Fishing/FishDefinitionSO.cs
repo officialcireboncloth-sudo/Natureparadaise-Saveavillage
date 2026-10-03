@@ -98,6 +98,17 @@ public sealed class FishDefinitionSO : ScriptableObject
     [Min(1)] public int requiredRodLevel = 1;
     [Min(0.01f)] public float encounterWeight = 1f;
 
+    [Header("Cast Distance")]
+    [Tooltip("Minimum reach within the contiguous water in front of the player. 0.65 requires a far cast.")]
+    [Range(0f, 1f)] public float minimumCastPower;
+
+    public float RollSize(float reach)
+    {
+        float roll = UnityEngine.Random.value;
+        float fraction = reach < 0.34f ? roll * roll : reach < 0.67f ? roll : Mathf.Sqrt(roll);
+        return Mathf.Lerp(minimumSizeCm, maximumSizeCm, fraction);
+    }
+
     [Header("Catch")]
     [Min(0.1f)] public float minimumBiteWait = 2f;
     [Min(0.1f)] public float maximumBiteWait = 5f;

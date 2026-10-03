@@ -136,7 +136,7 @@ public sealed class MarketStand : MonoBehaviour
 
         if (panelOpen)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey))
+            if (GameplayInput.GetKeyDown(KeyCode.Escape) || GameplayInput.GetKeyDown(interactKey))
                 ClosePanel();
             return;
         }

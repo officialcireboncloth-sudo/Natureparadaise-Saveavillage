@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f1b74e18d9044519beb95912588f4e1, type: 3}
+  m_Name: River Carp
+  m_EditorClassIdentifier:
+  fishId: fish.river_carp
+  item: {fileID: 11400000, guid: 6471c9db920c4e8face7380461a4f609, type: 2}
+  rarity: 0
+  waterTypes: 1
+  seasons: 15
+  weather: 2047
+  startHour: 0
+  endHour: 24
+  requiredRodLevel: 1
+  encounterWeight: 1
+  minimumBiteWait: 2
+  maximumBiteWait: 5
+  hookWindow: 1.4
+  catchZoneSize: 0.42
+  fishMoveSpeed: 0.28
+  progressGainPerSecond: 0.32
+  progressLossPerSecond: 0.1
+  timeLimit: 24
+  minimumSizeCm: 12
+  maximumSizeCm: 48
+  pondMediumSizeCm: 24.0
+  pondLargeSizeCm: 38.400000000000006
+  pondJumboSizeCm: 52.800000000000004
+  pondSmallGrowthDays: 7
+  pondMediumGrowthDays: 10
+  pondLargeGrowthDays: 14
+  minimumCastPower: 0
