@@ -54,11 +54,11 @@ public sealed class CarpenterNPC : MonoBehaviour
         }
 
         DrawMenuPrompt(distance);
-        if (Input.GetKeyDown(closeKey) || Input.GetKeyDown(interactKey))
+        if (GameplayInput.GetKeyDown(closeKey) || GameplayInput.GetKeyDown(interactKey))
             CloseMenu();
-        else if (Input.GetKeyDown(confirmHouseUpgradeKey))
+        else if (GameplayInput.GetKeyDown(confirmHouseUpgradeKey))
             ConfirmHouseUpgrade();
-        else if (Input.GetKeyDown(propertyInformationKey))
+        else if (GameplayInput.GetKeyDown(propertyInformationKey))
             SaveLoadFeedback.Instance?.ShowMessage("Tutup menu Carpenter lalu tekan B untuk membuka Build Menu Player");
     }
 

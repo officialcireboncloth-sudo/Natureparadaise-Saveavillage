@@ -202,9 +202,12 @@ public sealed class DayNightCycle : MonoBehaviour
 
         // Pada malam hari sumber directional beralih ke sisi bulan. Tanpa rotasi lawan ini,
         // light mengarah dari bawah terrain sehingga menaikkan intensity tidak memberi cahaya nyata.
-        Quaternion sunRotation = Quaternion.Euler(solarAngle, sunYaw, 0f);
-        Quaternion moonRotation = Quaternion.Euler(solarAngle + 180f, sunYaw, 0f);
-        transform.rotation = Quaternion.Slerp(moonRotation, sunRotation, daylight);
+        // Moon and sun are exactly 180 degrees apart. Quaternion.Slerp's shortest
+        // arc is ambiguous at that angle: floating-point rounding can switch the
+        // arc between frames and flip the light above/below the ground at twilight.
+        // Interpolate the explicit angle so the transition always takes one path.
+        float lightingAngle = solarAngle + (1f - daylight) * 180f;
+        sun.transform.rotation = Quaternion.Euler(lightingAngle, sunYaw, 0f);
         EnsureTerrainCloudShadow();
         WeatherSystem weather = WeatherSystem.Instance;
         bool cloudEnabled = weather == null || weather.TerrainCloudShadowEnabled;

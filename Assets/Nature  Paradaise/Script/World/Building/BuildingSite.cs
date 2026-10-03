@@ -143,9 +143,9 @@ public sealed class BuildingSite : MonoBehaviour
                 promptHeight
             );
 
-            if (Input.GetKeyDown(cancelKey))
+            if (GameplayInput.GetKeyDown(cancelKey))
                 CancelPreview();
-            else if (Input.GetKeyDown(confirmKey))
+            else if (GameplayInput.GetKeyDown(confirmKey))
                 ConfirmPreview();
             return;
         }
@@ -153,7 +153,7 @@ public sealed class BuildingSite : MonoBehaviour
         if (state == BuildingConstructionState.Available)
         {
             WorldInteractionPrompt.Request(this, buildingAnchor, $"{previewKey}: Preview {definition.displayName}", distance, promptHeight);
-            if (Input.GetKeyDown(previewKey))
+            if (GameplayInput.GetKeyDown(previewKey))
                 BeginPreview(1);
         }
         else if (state == BuildingConstructionState.UnderConstruction)
@@ -164,7 +164,7 @@ public sealed class BuildingSite : MonoBehaviour
         else if (state == BuildingConstructionState.Completed && definition.HasUpgradeAfter(currentLevel))
         {
             WorldInteractionPrompt.Request(this, buildingAnchor, $"{upgradeKey}: Upgrade {definition.displayName} Lv.{currentLevel + 1}", distance, promptHeight);
-            if (Input.GetKeyDown(upgradeKey))
+            if (GameplayInput.GetKeyDown(upgradeKey))
                 BeginPreview(currentLevel + 1);
         }
     }

@@ -239,7 +239,7 @@ public sealed class PlayerController : MonoBehaviour
 
         UpdatePendingStandingJump(groundedBeforeMove);
 
-        if (!IsMovementLocked && (Input.GetKeyDown(jumpKey) || jumpRequested))
+        if (!IsMovementLocked && (GameplayInput.GetKeyDown(jumpKey) || jumpRequested))
             TryJump(groundedBeforeMove, direction);
         jumpRequested = false;
 
@@ -311,17 +311,17 @@ public sealed class PlayerController : MonoBehaviour
         if (!grounded && verticalVelocity > 0.01f) return MovementMode.Airborne;
         if (inputMagnitude <= 0.01f) return MovementMode.Idle;
 
-        bool wantsSprint = (Input.GetKey(sprintKey) || mobileSprintHeld) && status != null &&
+        bool wantsSprint = (GameplayInput.GetKey(sprintKey) || mobileSprintHeld) && status != null &&
                            !status.IsExhausted && status.CanSpendStamina(0.01f);
         if (wantsSprint) return MovementMode.Sprint;
         // Tombol keyboard selalu bernilai penuh, jadi W sebelumnya langsung dianggap Run.
         // Keyboard normal sekarang Walk; Shift menjadi lari. Stick analog tetap dapat
         // memilih Walk/Run berdasarkan besar input.
-        bool keyboardMovement = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
-                                Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) ||
-                                Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow) ||
-                                Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow);
-        if (keyboardMovement || Input.GetKey(walkKey) || inputMagnitude < analogRunThreshold)
+        bool keyboardMovement = GameplayInput.GetKey(KeyCode.W) || GameplayInput.GetKey(KeyCode.A) ||
+                                GameplayInput.GetKey(KeyCode.S) || GameplayInput.GetKey(KeyCode.D) ||
+                                GameplayInput.GetKey(KeyCode.UpArrow) || GameplayInput.GetKey(KeyCode.DownArrow) ||
+                                GameplayInput.GetKey(KeyCode.LeftArrow) || GameplayInput.GetKey(KeyCode.RightArrow);
+        if (keyboardMovement || GameplayInput.GetKey(walkKey) || inputMagnitude < analogRunThreshold)
             return MovementMode.Walk;
         return MovementMode.Run;
     }
@@ -527,6 +527,14 @@ public sealed class PlayerController : MonoBehaviour
     }
     public void PlayWakeUpAnimation() => PlayTrigger(wakeUpTrigger, hasWakeUpTrigger);
     public void PlayMilkingAnimation() => PlayTrigger(milkingTrigger, hasMilkingTrigger);
+    public void CancelAnimalCareAnimation()
+    {
+        SetBrushingAnimation(false); SetShearingAnimation(false);
+        if(animator == null) return;
+        if(hasMilkingTrigger) animator.ResetTrigger(milkingTrigger);
+        int locomotion = Animator.StringToHash("Base Layer.Locomotion");
+        if(animator.isActiveAndEnabled && animator.HasState(0,locomotion)) animator.CrossFade(locomotion,.12f,0);
+    }
     public void PlayPushingAnimation() => SetPushingAnimation(true);
     public void SetPushingAnimation(bool pushing)
     {
@@ -567,6 +575,26 @@ public sealed class PlayerController : MonoBehaviour
     public void PlayPickUpChickenAnimation() => PlayTrigger(pickUpChickenTrigger, hasPickUpChickenTrigger);
     public void PlayPlaceChickenAnimation() => PlayTrigger(placeChickenTrigger, hasPlaceChickenTrigger);
     public void PlayWakeUpBedAnimation() => PlayTrigger(wakeUpBedTrigger, hasWakeUpBedTrigger);
+    public float BedWakeAnimationDuration
+    {
+        get
+        {
+            if(animator == null || animator.runtimeAnimatorController == null) return 0f;
+            foreach(var clip in animator.runtimeAnimatorController.animationClips)
+                if(clip.name.Replace("_","").Replace(" ","").ToLowerInvariant().Contains("wakeupbed")) return clip.length;
+            return 0f;
+        }
+    }
+    public void FinishBedWakeAnimation()
+    {
+        if(animator == null || !animator.isActiveAndEnabled) return;
+        if(hasWakeUpBedTrigger) animator.ResetTrigger(wakeUpBedTrigger);
+        if(animator.HasState(0,Animator.StringToHash("Locomotion")))
+        {
+            animator.Play("Locomotion",0,0);
+            animator.Update(0);
+        }
+    }
     public void PlayYawnAnimation() => PlayTrigger(yawnTrigger, hasYawnTrigger);
     public void PlayShearSheepAnimation() => PlayTrigger(shearSheepTrigger, hasShearSheepTrigger);
     public void PlayScoopManureAnimation() => PlayTrigger(scoopManureTrigger, hasScoopManureTrigger);

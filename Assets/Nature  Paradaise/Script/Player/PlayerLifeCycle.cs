@@ -96,9 +96,9 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         // L/K adalah shortcut development dan hanya aktif ketika Debug Clues ON.
         if (HUDManager.DebugCluesEnabled)
         {
-            if (Input.GetKeyDown(sleepKey))
+            if (GameplayInput.GetKeyDown(sleepKey))
                 SleepAndSave();
-            if (Input.GetKeyDown(damageKey))
+            if (GameplayInput.GetKeyDown(damageKey))
                 status.TakeDamage(debugDamage);
         }
     }
@@ -113,6 +113,12 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     {
         if (!busy && !status.IsFainted)
             StartCoroutine(SleepRoutine(false, sleepPose, wakeStandPoint));
+    }
+
+    public void SleepWithoutSave(Transform sleepPose = null, Transform wakeStandPoint = null)
+    {
+        if (!busy && !status.IsFainted)
+            StartCoroutine(SleepRoutine(false, sleepPose, wakeStandPoint, false));
     }
 
     /// <summary>Memindahkan player ke spawn rumah.</summary>
@@ -153,7 +159,7 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         }
     }
 
-    IEnumerator SleepRoutine(bool forcedInPlace, Transform sleepPose = null, Transform wakeStandPoint = null)
+    IEnumerator SleepRoutine(bool forcedInPlace, Transform sleepPose = null, Transform wakeStandPoint = null, bool saveAfterSleep = true)
     {
         Vector3 standingPosition = transform.position;
         Quaternion standingRotation = transform.rotation;
@@ -205,23 +211,31 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         else
         {
             movement?.PlayWakeUpBedAnimation();
-            if (bedWakeAnimationTime > 0f)
-                yield return new WaitForSecondsRealtime(bedWakeAnimationTime);
+            float wakeDuration = Mathf.Max(bedWakeAnimationTime, movement != null ? movement.BedWakeAnimationDuration : 0f);
+            if (wakeDuration > 0f)
+                yield return new WaitForSecondsRealtime(wakeDuration + .15f);
+            movement?.FinishBedWakeAnimation();
             if (wakeStandPoint != null)
-                PlaceAt(wakeStandPoint.position, wakeStandPoint.rotation);
+            {
+                var house = wakeStandPoint.GetComponentInParent<HouseInteriorController>();
+                if(TryResolveStandingPoint(wakeStandPoint.position, characterController, house != null ? house.transform : null, out Vector3 safePosition) ||
+                   TryResolveStandingPoint(standingPosition, characterController, house != null ? house.transform : null, out safePosition))
+                    PlaceAt(safePosition, wakeStandPoint.rotation);
+                else PlaceAt(standingPosition, standingRotation);
+            }
             else if (bedPoseActive)
                 PlaceAt(standingPosition, standingRotation);
             RestoreBedController();
         }
         // Save the standing position, never the temporary pose on the mattress.
-        SaveManager.Instance?.SaveGame();
+        if (saveAfterSleep) SaveManager.Instance?.SaveGame();
         SetGameplayEnabled(true);
         status.ReleaseActivity(this);
         busy = false;
         SaveLoadFeedback.Instance?.ShowMessage(forcedInPlace
             ? "Bangun pukul 06:00 di tempat kamu tertidur"
             : "Bangun - hari baru");
-        Debug.Log("[PLAYER] Bangun setelah tidur. Game tersimpan.");
+        Debug.Log(saveAfterSleep ? "[PLAYER] Bangun setelah tidur. Game tersimpan." : "[PLAYER] Bangun setelah tidur tanpa save.");
     }
 
     void OnGUI()
@@ -312,6 +326,36 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         if (!bedPoseActive) return;
         if (characterController != null) characterController.enabled = bedControllerWasEnabled;
         bedPoseActive = false;
+    }
+
+    /// <summary>Ground the capsule on the house foundation and keep it clear of beds, furniture and walls.</summary>
+    public static bool TryResolveStandingPoint(Vector3 preferred, CharacterController controller, Transform houseRoot, out Vector3 result)
+    {
+        result = preferred;
+        if(controller == null) return false;
+        float scale = Mathf.Abs(controller.transform.lossyScale.y);
+        float radius = controller.radius * Mathf.Max(Mathf.Abs(controller.transform.lossyScale.x), Mathf.Abs(controller.transform.lossyScale.z));
+        float height = Mathf.Max(radius * 2, controller.height * scale);
+        Vector3 center = Vector3.Scale(controller.center, controller.transform.lossyScale);
+        for(int ring=0; ring<=3; ring++)
+        for(int direction=0; direction<(ring==0?1:8); direction++)
+        {
+            float angle=direction*Mathf.PI*.25f;
+            Vector3 candidate=preferred+new Vector3(Mathf.Cos(angle),0,Mathf.Sin(angle))*ring*1.1f;
+            foreach(var hit in Physics.RaycastAll(candidate+Vector3.up*4,Vector3.down,12,~0,QueryTriggerInteraction.Ignore))
+            {
+                if(hit.normal.y<.8f || hit.collider.GetComponentInParent<PlayerController>()!=null)continue;
+                if(houseRoot!=null && (!hit.collider.transform.IsChildOf(houseRoot) || hit.collider.name!="ContinuousFloorCollider"))continue;
+                candidate.y=hit.point.y+height*.5f-center.y+controller.skinWidth+.04f;
+                Vector3 capsuleCenter=candidate+center;
+                bool blocked=false;
+                foreach(var obstacle in Physics.OverlapCapsule(capsuleCenter+Vector3.up*(height*.5f-radius),capsuleCenter-Vector3.up*(height*.5f-radius),radius,~0,QueryTriggerInteraction.Ignore))
+                    if(obstacle.GetComponentInParent<PlayerController>()==null){blocked=true;break;}
+                if(blocked)continue;
+                result=candidate;return true;
+            }
+        }
+        return false;
     }
 
     void SetGameplayEnabled(bool enabledState)

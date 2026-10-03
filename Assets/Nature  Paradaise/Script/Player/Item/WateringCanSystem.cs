@@ -27,6 +27,8 @@ public sealed class WateringCanSystem : MonoBehaviour
 
     void OnGUI()
     {
+        // The selected-tool card owns this gauge when the inventory HUD is available.
+        if (GetComponent<InventoryHotbarUI>() != null) return;
         if (hotbar == null) hotbar = GetComponent<PlayerToolHotbar>();
         if (hotbar == null || hotbar.SelectedTool != PlayerToolType.WateringCan || Camera.main == null) return;
 

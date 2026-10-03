@@ -51,7 +51,7 @@ public static class PlayerInteractionTarget
     /// <summary>Satu penekanan tombol tidak menjalankan beberapa interaksi sekaligus.</summary>
     public static bool Press(Transform player, Transform target, KeyCode key)
     {
-        if (!Input.GetKeyDown(key) || !Contains(player, target)) return false;
+        if (!GameplayInput.GetKeyDown(key) || !Contains(player, target)) return false;
         return ConsumeKey(key);
     }
 
@@ -66,13 +66,13 @@ public static class PlayerInteractionTarget
 
     public static bool PressPickup(Transform player, Transform target, KeyCode key, float radius)
     {
-        return Input.GetKeyDown(key) && ContainsPickup(player, target, radius) && ConsumeKey(key);
+        return GameplayInput.GetKeyDown(key) && ContainsPickup(player, target, radius) && ConsumeKey(key);
     }
 
     /// <summary>Memakai satu tombol untuk interaksi tanpa target dunia, misalnya menurunkan hewan.</summary>
     public static bool Press(KeyCode key)
     {
-        return Input.GetKeyDown(key) && ConsumeKey(key);
+        return GameplayInput.GetKeyDown(key) && ConsumeKey(key);
     }
 
     /// <summary>

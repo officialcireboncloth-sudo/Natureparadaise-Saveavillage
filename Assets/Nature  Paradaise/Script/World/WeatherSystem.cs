@@ -191,11 +191,11 @@ public sealed class WeatherSystem : MonoBehaviour
         if (!enableDebugKeys || !HUDManager.DebugCluesEnabled)
             return;
 
-        if (nextCurrentWeatherKey != KeyCode.None && Input.GetKeyDown(nextCurrentWeatherKey))
+        if (nextCurrentWeatherKey != KeyCode.None && GameplayInput.GetKeyDown(nextCurrentWeatherKey))
         {
             SetDebugWeather(NextWeather(currentWeather));
         }
-        if (nextForecastWeatherKey != KeyCode.None && Input.GetKeyDown(nextForecastWeatherKey))
+        if (nextForecastWeatherKey != KeyCode.None && GameplayInput.GetKeyDown(nextForecastWeatherKey))
         {
             tomorrowWeather = NextWeather(tomorrowWeather);
             NotifyWeatherChanged();

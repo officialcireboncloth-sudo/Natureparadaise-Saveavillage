@@ -81,6 +81,9 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     void OnEnable()
     {
         followVelocity = Vector3.zero;
+        // Interior cameras replace this transform and projection while follow is disabled.
+        ApplyFixedRotation();
+        RefreshProjection(true);
 
         if (snapToTargetOnEnable && target != null)
             transform.position = GetDesiredPosition();
@@ -88,6 +91,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
 
     void Update()
     {
+        if (GameplayPauseMenu.BlocksGameplayInput) return;
         if (!allowPlayerZoom || zoomLevels == null || zoomLevels.Length == 0)
             return;
 
@@ -117,13 +121,16 @@ public sealed class TopDownCameraFollow : MonoBehaviour
         }
 
         pinchAccumulator = 0f;
-        float wheel = Input.mouseScrollDelta.y;
-        if (wheel > 0.01f) ZoomIn();
-        else if (wheel < -0.01f) ZoomOut();
+        float wheel = Input.mouseScrollDelta.y * Mathf.Lerp(.2f, 2f, GameplayUISettings.Current.cameraSensitivity);
+        wheelAccumulator += wheel;
+        while (wheelAccumulator >= 1f) { ZoomIn(); wheelAccumulator -= 1f; }
+        while (wheelAccumulator <= -1f) { ZoomOut(); wheelAccumulator += 1f; }
     }
+    float wheelAccumulator;
 
     void LateUpdate()
     {
+        if (GameplayPauseMenu.IsOpen) return;
         RefreshProjection(false);
 
         if (target == null)
@@ -194,6 +201,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     /// <summary>Menambahkan camera impulse ringan untuk feedback tool atau impact.</summary>
     public void AddImpulse(float strength = 0.08f, float duration = 0.12f)
     {
+        if (GameplayPauseMenu.IsOpen || GameplayUISettings.Current.reduceCameraMotion) return;
         impulseStrength = Mathf.Max(impulseStrength, Mathf.Max(0f, strength));
         impulseDuration = Mathf.Max(0.01f, duration);
         impulseRemaining = impulseDuration;

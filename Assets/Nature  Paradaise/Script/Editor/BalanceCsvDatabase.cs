@@ -30,7 +30,7 @@ public static class BalanceCsvDatabase
     static readonly string[] ItemExportColumns = ItemColumns.Concat(new[]
     {
         "refrigerator_category", "bait_level", "bait_bite_speed_bonus", "bait_uncommon_multiplier",
-        "bait_rare_multiplier", "bait_legendary_multiplier", "bait_junk_reduction", "required_fishing_level"
+        "bait_rare_multiplier", "bait_legendary_multiplier", "bait_junk_reduction", "required_fishing_level", "storage_destination"
     }).ToArray();
 
     static readonly string[] CropColumns =
@@ -55,6 +55,8 @@ public static class BalanceCsvDatabase
         public FoodPreparation foodPreparation;
         public float healthRestore, staminaRestore, hungerRestore;
         public bool hasRefrigeratorCategory;
+        public bool hasStorageDestination;
+        public HomeStorageDestination storageDestination;
         public RefrigeratorCategory refrigeratorCategory;
         public bool hasBaitData;
         public FishingBaitLevel baitLevel;
@@ -92,7 +94,7 @@ public static class BalanceCsvDatabase
             F(item.healthRestore), F(item.staminaRestore), F(item.hungerRestore), item.seedCrop != null ? item.seedCrop.cropId : string.Empty,
             item.refrigeratorCategory.ToString(), item.fishingBaitLevel.ToString(), F(item.baitBiteSpeedBonus),
             F(item.baitUncommonWeightMultiplier), F(item.baitRareWeightMultiplier), F(item.baitLegendaryWeightMultiplier),
-            F(item.baitJunkReduction), I(item.requiredFishingLevel)
+            F(item.baitJunkReduction), I(item.requiredFishingLevel), item.storageDestination.ToString()
         });
         Csv.Write(ItemsPath, ItemExportColumns, itemRows);
 
@@ -208,6 +210,7 @@ public static class BalanceCsvDatabase
         item.sprinklerLevel=row.sprinklerLevel; item.isEdible=row.edible; item.foodPreparation=row.foodPreparation;
         item.healthRestore=row.healthRestore; item.staminaRestore=row.staminaRestore; item.hungerRestore=row.hungerRestore;
         if(row.hasRefrigeratorCategory) item.refrigeratorCategory=row.refrigeratorCategory;
+        if(row.hasStorageDestination) item.storageDestination=row.storageDestination;
         if(row.hasBaitData)
         {
             item.fishingBaitLevel=row.baitLevel; item.baitBiteSpeedBonus=row.baitBiteSpeedBonus;
@@ -252,10 +255,12 @@ public static class BalanceCsvDatabase
             row.category=E(source,"category",ItemCategory.General,label,errors); row.equippedTool=E(source,"equipped_tool",PlayerToolType.None,label,errors);
             row.medicine=E(source,"medicine_level",AnimalMedicineLevel.None,label,errors); row.fertilizer=E(source,"fertilizer_level",FertilizerLevel.None,label,errors);
             row.foodPreparation=E(source,"food_preparation",FoodPreparation.NotFood,label,errors);
+            if(source.TryGetValue("storage_destination",out string destination)&&!string.IsNullOrWhiteSpace(destination))
+            {row.hasStorageDestination=true;row.storageDestination=E(source,"storage_destination",HomeStorageDestination.Auto,label,errors);}
             row.buyPrice=N(source,"buy_price",0,int.MaxValue,label,errors); row.sellPrice=N(source,"sell_price",0,int.MaxValue,label,errors);
             row.maxStack=N(source,"max_stack",1,9999,label,errors); row.requiredVillageLevel=N(source,"required_village_level",1,999,label,errors);
             row.soilRestoreAmount=N(source,"soil_restore_amount",0,100000,label,errors); row.cropBoosterLevel=N(source,"crop_booster_level",1,5,label,errors);
-            row.sprinklerLevel=N(source,"sprinkler_level",0,4,label,errors);
+            row.sprinklerLevel=N(source,"sprinkler_level",0,5,label,errors);
             row.animalProduct=Bool(source,"is_animal_product",label,errors); row.keyItem=Bool(source,"is_key_item",label,errors);
             row.notSellable=Bool(source,"is_not_sellable",label,errors); row.confirmSale=Bool(source,"requires_sell_confirmation",label,errors);
             row.drop=Bool(source,"can_drop_to_world",label,errors); row.place=Bool(source,"can_place_in_world",label,errors); row.edible=Bool(source,"is_edible",label,errors);

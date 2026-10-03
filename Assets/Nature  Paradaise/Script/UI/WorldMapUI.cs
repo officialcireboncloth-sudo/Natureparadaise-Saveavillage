@@ -135,12 +135,12 @@ public sealed class WorldMapUI : MonoBehaviour
     void Update()
     {
         if (safeRoot == null || !safeRoot.activeInHierarchy) return;
-        if (Input.GetKeyDown(toggleKey))
+        if (GameplayInput.GetKeyDown(toggleKey))
         {
             if (IsOpen) SetOpen(false);
             else if (!WorldInteractionPrompt.IsSuppressed) SetOpen(true);
         }
-        else if (IsOpen && Input.GetKeyDown(KeyCode.Escape)) SetOpen(false);
+        else if (IsOpen && GameplayInput.GetKeyDown(KeyCode.Escape)) SetOpen(false);
 
         if (areaToastGroup != null)
         {

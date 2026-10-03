@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 using System.Collections;
 using System.Collections.Generic;
@@ -404,7 +404,7 @@ public class FarmingTool : MonoBehaviour
 
     bool TryUseHandHarvest()
     {
-        if (!Input.GetKeyDown(handHarvestKey) || currentField == null ||
+        if (!GameplayInput.GetKeyDown(handHarvestKey) || currentField == null ||
             !currentField.TryGetSnapshot(currentX, currentZ, out FieldTileSnapshot snapshot) ||
             snapshot.State != TileState.Planted || snapshot.CropState != CropLifecycleState.HarvestReady)
             return false;

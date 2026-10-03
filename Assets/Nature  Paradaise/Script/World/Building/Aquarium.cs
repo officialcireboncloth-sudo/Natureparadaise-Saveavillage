@@ -141,7 +141,7 @@ public sealed class Aquarium : MonoBehaviour
         if (inventory == null) return;
         if (panelOpen)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey)) ClosePanel();
+            if (GameplayInput.GetKeyDown(KeyCode.Escape) || GameplayInput.GetKeyDown(interactKey)) ClosePanel();
             return;
         }
         if (!PlayerInteractionTarget.ContainsPickup(inventory.transform, transform, interactionRadius)) return;

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,9 +10,23 @@ using System.Collections.Generic;
 public class AnimalController : MonoBehaviour
 {
     static readonly System.Collections.Generic.List<AnimalController> Active = new();
+    public static AnimalController CurrentCareAction { get; private set; }
+    public AnimalGrowthSystem Growth => growth;
+    public bool IsCareBusy => brushBusy || productCollectBusy;
+    public bool IsBrushing => brushBusy;
+    public float CareProgress => brushBusy ? brushProgress : productProgress;
+    public float CareDuration => brushBusy ? Mathf.Max(.01f,brushActionDuration) : IsShearing ? ShearActionDuration :
+        growth != null && growth.Type == AnimalType.Cow ? Mathf.Max(.01f,milkingActionDuration) : Mathf.Max(.01f,productActionDuration);
+    public float CareSecondsRemaining => Mathf.Max(0,CareDuration * (1-CareProgress));
+    public string CareActionLabel => brushBusy ? "Menggosok Hewan..." : IsShearing ? "Mencukur Bulu..." :
+        growth != null && growth.Type == AnimalType.Cow ? "Memerah Susu" : "Mengambil Produk";
+    Coroutine careRoutine;
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetCareRegistry() { Active.Clear(); CurrentCareAction = null; }
     void OnEnable() => Active.Add(this);
     void OnDisable()
     {
+        CancelCareAction(false);
         StopAllCoroutines();
         Active.Remove(this);
         if (playerInv != null)
@@ -60,12 +74,13 @@ public class AnimalController : MonoBehaviour
 
     [Header("Interaction")]
     public float interactionRadius = 2f;
-    [SerializeField, Min(0f)] float brushImpactDelay = 4.25f;
+    [SerializeField, HideInInspector] float brushImpactDelay = 4.25f;
     [SerializeField, Min(0f)] float brushActionDuration = 5f;
     [SerializeField, Min(0f)] float brushStandPadding = 0.12f;
-    [SerializeField, Min(0f)] float productImpactDelay = 1.1f;
+    [SerializeField, HideInInspector] float productImpactDelay = 1.1f;
     [SerializeField, Min(0f)] float productActionDuration = 2.2f;
-    [SerializeField, Min(0f)] float shearImpactDelay = 4.6f;
+    [SerializeField, Min(.1f)] float milkingActionDuration = 3f;
+    [SerializeField, HideInInspector] float shearImpactDelay = 4.6f;
     [Tooltip("Durasi cukur dalam detik nyata; animasi berulang sampai proses selesai.")]
     [SerializeField, Range(5f,10f)] float shearActionDuration = 5f;
     public float ShearActionDuration => Mathf.Clamp(shearActionDuration,5f,10f);
@@ -203,11 +218,7 @@ public class AnimalController : MonoBehaviour
         }
 
         string displayName=LocalizedAnimalName(growth);
-        string interactionPrompt=growth!=null
-            ? growth.Type == AnimalType.Cow
-                ? $"{displayName} {growth.GenderSymbol}   ♥ {growth.CowHeartLevel}/5 ({growth.CowCarePercent}%)   {growth.AgeLabel}"
-                : $"{displayName}   ♥ {growth.HeartLevel}/10   {MoodLabel(growth.Happiness)}"
-            : displayName;
+        string interactionPrompt=displayName;
         List<string> actions=new();
         if(growth!=null && !growth.PetToday) actions.Add($"{petKey}: Gosok");
         if(growth!=null && growth.Type==AnimalType.Cow)
@@ -233,9 +244,6 @@ public class AnimalController : MonoBehaviour
             actions.Add($"{feedKey}: Beri obat");
         actions.Add("I: Detail");
         interactionPrompt+="\n"+string.Join("   ",actions);
-        if(HUDManager.DebugCluesEnabled && growth!=null)
-            interactionPrompt+=$"\nDEBUG  {growth.GrowthStage} | {growth.HealthSummary} | " +
-                $"Makan {(growth.FedToday?"✓":"✗")} | Produk {(growth.HasProductReady?"✓":"✗")} | {debugNextStageKey}: Next";
         WorldInteractionPrompt.RequestClean(this,transform,interactionPrompt,distance,1.75f);
 
         HandleInput();
@@ -305,7 +313,7 @@ public class AnimalController : MonoBehaviour
         if (!brushBusy && !productCollectBusy && growth != null && growth.HasBeenBorn && !growth.PetToday &&
             PlayerInteractionTarget.Press(playerInv.transform, transform, petKey))
             TryStartBrush();
-        if (HUDManager.DebugCluesEnabled && Input.GetKeyDown(debugNextStageKey))
+        if (HUDManager.DebugCluesEnabled && GameplayInput.GetKeyDown(debugNextStageKey))
             growth?.DebugAdvanceToNextStage();
     }
 
@@ -400,7 +408,7 @@ public class AnimalController : MonoBehaviour
 
     public void TakeMilk()
     {
-        if (productCollectBusy || brushBusy) return;
+        if (IsCareBusy || CurrentCareAction != null || playerInv == null || GameplayPauseMenu.BlocksGameplayInput) return;
         if (!IsProductReady)
         {
             Debug.Log(
@@ -418,6 +426,7 @@ public class AnimalController : MonoBehaviour
         }
 
         productCollectBusy=true;
+        productProgress=0;
         PlayerController controller=playerInv != null ? playerInv.GetComponent<PlayerController>() : null;
         controller?.AcquireMovementLock(this);
         bool shearing=growth != null && growth.Type==AnimalType.Sheep;
@@ -442,8 +451,18 @@ public class AnimalController : MonoBehaviour
             AlignPlayerForBrush(controller,true);
             controller?.SetShearingAnimation(true);
         }
-        else controller?.PlayMilkingAnimation();
-        StartCoroutine(CollectProductRoutine(controller,shearing));
+        else
+        {
+            AnimalRoutine routine = growth != null ? growth.GetComponent<AnimalRoutine>() : null;
+            if(routine != null && !routine.AcquireCareLock(this))
+            { productCollectBusy=false; controller?.ReleaseMovementLock(this); return; }
+            productLockedRoutine=routine;
+            AlignPlayerForBrush(controller,true);
+            controller?.PlayMilkingAnimation();
+        }
+        CurrentCareAction=this;
+        WorldInteractionPrompt.AcquireSuppression(this);
+        careRoutine=StartCoroutine(CollectProductRoutine(controller,shearing));
     }
 
     void EnsureSheepWoolVisual()
@@ -474,27 +493,20 @@ public class AnimalController : MonoBehaviour
 
     IEnumerator CollectProductRoutine(PlayerController controller,bool shearing)
     {
-        float impact=shearing?shearImpactDelay:productImpactDelay;
-        float duration=shearing?ShearActionDuration:productActionDuration;
-        if(shearing)
+        float duration=CareDuration;
+        float elapsed=0;
+        while(elapsed<duration)
         {
-            productProgress=0f;
-            float elapsed=0f;
-            duration=Mathf.Max(0.01f,duration);
-            while(elapsed<duration)
+            if(TimeManager.Instance == null || !TimeManager.Instance.IsPaused)
             {
                 elapsed+=Time.deltaTime;
                 productProgress=Mathf.Clamp01(elapsed/duration);
                 AlignPlayerForBrush(controller,false);
-                yield return null;
             }
-            controller?.SetShearingAnimation(false);
+            yield return null;
         }
-        else if(impact>0f) yield return new WaitForSeconds(impact);
-
         if(IsProductReady && milkItem!=null)
         {
-            // Grade ditentukan saat produk siap, bukan sesudah status produksi direset.
             int quality=growth != null?growth.ProductQualityLevel:1;
             int amount=shearing?5:1;
             if(playerInv != null && playerInv.Add(milkItem,amount,quality))
@@ -503,94 +515,97 @@ public class AnimalController : MonoBehaviour
                 growth?.MarkProductCollected();
                 sheepWoolVisual?.Refresh();
                 PlayerPickupNotification.ShowItem(playerInv,milkItem,amount);
-                SaveLoadFeedback.Instance?.ShowMessage(shearing
-                    ? $"Pencukuran selesai: {amount} Wool masuk inventory. Wol tumbuh penuh lagi dalam 12 hari."
-                    : $"{milkItem.itemName} ({(growth != null ? growth.ProductQualityLabel : AnimalCareCatalog.QualityName(quality))}) berhasil diambil");
-                milkTimer=0f;
+                SaveLoadFeedback.Instance?.ShowMessage($"{milkItem.itemName} x{amount} berhasil diambil");
+                milkTimer=0;
             }
             else SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh; produk tetap tersimpan pada hewan");
         }
-
-        if(!shearing)
-        {
-            float remaining=Mathf.Max(0f,duration-impact);
-            if(remaining>0f) yield return new WaitForSeconds(remaining);
-        }
-        controller?.ReleaseMovementLock(this);
-        productLockedRoutine?.ReleaseCareLock(this);
-        productLockedRoutine=null;
-        productProgress=0f;
-        productCollectBusy=false;
+        FinishCareAction(controller);
     }
 
     void UpdateDebugUI()
     {
-        if (hungerText == null)
-            return;
-
-        // Status rinci hewan adalah debug clue dan mengikuti master toggle HUD (F9).
-        hungerText.gameObject.SetActive(HUDManager.DebugCluesEnabled);
-        if (!HUDManager.DebugCluesEnabled)
-            return;
-
-        string milkStatus = growth != null && growth.Type == AnimalType.Sheep
-            ? (IsShearing ? $"Mencukur: {ShearActionDuration*(1f-productProgress):0.0} detik tersisa" : growth.SheepShearingSummary)
-            : IsProductReady
-            ? "READY TO MILK!"
-            : "Milk: Not Ready";
-
-        hungerText.text = growth != null
-            ? $"{growth.StatusSummary}\n{milkStatus}"
-            : $"Hunger: {Mathf.RoundToInt(hunger)}/{Mathf.RoundToInt(maxHunger)}\n{milkStatus}";
+        // Animal information is now owned by the detail UI, including in debug mode.
+        if(hungerText!=null) hungerText.gameObject.SetActive(false);
     }
 
     void Start()
     {
+        if(playerInv != null && playerInv.GetComponent<AnimalInteractionHUD>() == null)
+            playerInv.gameObject.AddComponent<AnimalInteractionHUD>();
         UpdateDebugUI();
     }
 
     IEnumerator BrushRoutine()
     {
-        brushBusy=true;
-        brushProgress=0f;
+        brushBusy=true; brushProgress=0;
         PlayerController controller=playerInv != null ? playerInv.GetComponent<PlayerController>() : null;
         controller?.AcquireMovementLock(this);
-        AlignPlayerForBrush(controller,true);
-        controller?.SetBrushingAnimation(true);
-
-        float duration=Mathf.Max(0.01f,brushActionDuration);
-        float impact=Mathf.Clamp(brushImpactDelay,0f,duration);
-        float elapsed=0f;
-        bool careApplied=false;
+        AlignPlayerForBrush(controller,true); controller?.SetBrushingAnimation(true);
+        float duration=Mathf.Max(.01f,brushActionDuration);
+        float elapsed=0;
         while(elapsed<duration)
         {
-            elapsed+=Time.deltaTime;
-            brushProgress=Mathf.Clamp01(elapsed/duration);
-            AlignPlayerForBrush(controller,false);
-            if(!careApplied && elapsed>=impact)
+            if(TimeManager.Instance == null || !TimeManager.Instance.IsPaused)
             {
-                growth?.Pet();
-                careApplied=true;
+                elapsed+=Time.deltaTime;
+                brushProgress=Mathf.Clamp01(elapsed/duration);
+                AlignPlayerForBrush(controller,false);
             }
             yield return null;
         }
-        if(!careApplied) growth?.Pet();
-        controller?.SetBrushingAnimation(false);
-        brushProgress=1f;
+        growth?.Pet();
+        FinishCareAction(controller);
+    }
+
+    void FinishCareAction(PlayerController controller)
+    {
+        controller?.SetBrushingAnimation(false); controller?.SetShearingAnimation(false);
         controller?.ReleaseMovementLock(this);
-        brushLockedRoutine?.ReleaseCareLock(this);
-        brushLockedRoutine=null;
-        brushBusy=false;
-        brushProgress=0f;
+        brushLockedRoutine?.ReleaseCareLock(this); brushLockedRoutine=null;
+        productLockedRoutine?.ReleaseCareLock(this); productLockedRoutine=null;
+        WorldInteractionPrompt.ReleaseSuppression(this);
+        if(CurrentCareAction==this) CurrentCareAction=null;
+        brushBusy=false; productCollectBusy=false; brushProgress=0; productProgress=0; careRoutine=null;
+    }
+
+    public void CancelCareAction(bool consumeInput = true)
+    {
+        if(!IsCareBusy && CurrentCareAction!=this) return;
+        if(careRoutine!=null) StopCoroutine(careRoutine);
+        var controller=playerInv != null ? playerInv.GetComponent<PlayerController>() : null;
+        controller?.CancelAnimalCareAnimation();
+        FinishCareAction(controller);
+        if(consumeInput) GameplayInput.ConsumeCurrentFrame();
+    }
+
+    public static AnimalController FindContextTarget(Inventory inventory)
+    {
+        if(inventory==null) return null;
+        if(CurrentCareAction != null && CurrentCareAction.playerInv==inventory) return CurrentCareAction;
+        AnimalController best=null; float bestDistance=float.PositiveInfinity;
+        foreach(var candidate in Active)
+        {
+            if(candidate==null || candidate.growth==null || !candidate.growth.HasBeenBorn || candidate.playerInv!=inventory) continue;
+            var routine=candidate.GetComponent<AnimalRoutine>();
+            if(routine != null && routine.IsHoused && (BarnInterior.Current==null || BarnInterior.Current.home!=routine.Home)) continue;
+            if(!PlayerInteractionTarget.ContainsPickup(inventory.transform,candidate.transform,candidate.interactionRadius)) continue;
+            float distance=(inventory.transform.position-candidate.transform.position).sqrMagnitude;
+            if(distance<bestDistance || (Mathf.Approximately(distance,bestDistance) && best!=null && candidate.GetInstanceID()<best.GetInstanceID()))
+            { best=candidate; bestDistance=distance; }
+        }
+        return best;
     }
 
     public bool TryStartBrush()
     {
-        if (brushBusy || productCollectBusy || growth == null || !growth.HasBeenBorn || growth.PetToday) return false;
+        if (IsCareBusy || CurrentCareAction != null || playerInv == null || GameplayPauseMenu.BlocksGameplayInput || growth == null || !growth.HasBeenBorn || growth.PetToday) return false;
         AnimalRoutine routine=growth.GetComponent<AnimalRoutine>();
         if(routine!=null && !routine.AcquireCareLock(this)) return false;
         brushLockedRoutine=routine;
-        StartCoroutine(BrushRoutine());
+        CurrentCareAction=this;
+        WorldInteractionPrompt.AcquireSuppression(this);
+        careRoutine=StartCoroutine(BrushRoutine());
         return true;
     }
 
@@ -625,36 +640,6 @@ public class AnimalController : MonoBehaviour
         player.position=target;
         if(characterEnabled) character.enabled=true;
         controller.FaceTowardsInteraction(transform.position);
-    }
-
-    void OnGUI()
-    {
-        bool showingShearing=productCollectBusy && growth!=null && growth.Type==AnimalType.Sheep;
-        if(!brushBusy && !showingShearing) return;
-
-        float width=Mathf.Min(420f,Screen.width-32f);
-        float panelHeight=72f;
-        float x=(Screen.width-width)*0.5f;
-        float y=Mathf.Max(20f,Screen.height-230f);
-        Rect panel=new(x,y,width,panelHeight);
-        Rect label=new(x+14f,y+8f,width-28f,24f);
-        Rect track=new(x+14f,y+39f,width-28f,18f);
-        float shownProgress=showingShearing?productProgress:brushProgress;
-        Rect fill=new(track.x+2f,track.y+2f,(track.width-4f)*Mathf.Clamp01(shownProgress),track.height-4f);
-
-        Color previous=GUI.color;
-        GUI.color=new Color(0.03f,0.05f,0.05f,0.78f);
-        GUI.DrawTexture(panel,Texture2D.whiteTexture);
-        GUI.color=new Color(0.02f,0.04f,0.04f,0.9f);
-        GUI.DrawTexture(track,Texture2D.whiteTexture);
-        GUI.color=new Color(0.48f,0.94f,0.55f,0.95f);
-        GUI.DrawTexture(fill,Texture2D.whiteTexture);
-        GUI.color=Color.white;
-        float shownDuration=showingShearing?ShearActionDuration:brushActionDuration;
-        float seconds=Mathf.Max(0f,shownDuration*(1f-shownProgress));
-        string animalLabel=growth!=null?LocalizedAnimalName(growth):"Hewan";
-        GUI.Label(label,$"{(showingShearing?"Mencukur":"Menggosok")} {animalLabel}...  {seconds:0.0} detik");
-        GUI.color=previous;
     }
 
     bool IsProductReady => growth != null ? growth.HasProductReady : milkReady;

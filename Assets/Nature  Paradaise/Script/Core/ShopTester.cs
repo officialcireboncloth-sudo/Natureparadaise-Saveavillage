@@ -8,13 +8,13 @@ public class ShopTester : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(debugBuySeedKey))
+        if (GameplayInput.GetKeyDown(debugBuySeedKey))
         {
             Debug.Log("[TEST] Buy Seed");
             shop.BuySeed(1);
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (GameplayInput.GetKeyDown(KeyCode.S))
         {
             Debug.Log("[TEST] Sell Cabbage");
             shop.SellCabbage(1);

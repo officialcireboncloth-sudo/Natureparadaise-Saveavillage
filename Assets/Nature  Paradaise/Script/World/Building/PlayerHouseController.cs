@@ -136,6 +136,7 @@ public sealed class PlayerHouseController : MonoBehaviour
         state = BuildingConstructionState.Completed;
         refrigeratorLevel = Mathf.Max(refrigeratorLevel, currentLevel >= 2 ? currentLevel - 1 : 0);
         ApplyExteriorVisual();
+        HouseStorageService.SortForHouseLevel();
         HouseFeatureService.NotifyHouseLevelChanged();
         SaveLoadFeedback.Instance?.ShowMessage($"House Lv.{currentLevel} selesai di-upgrade");
         SaveManager.Instance?.SaveGame();
