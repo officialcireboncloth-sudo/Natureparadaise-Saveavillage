@@ -14,14 +14,13 @@ public static class KitchenService
         Resources.LoadAll<KitchenRecipeSO>("Cooking/Recipes").Where(recipe => recipe != null)
             .OrderBy(recipe => recipe.requiredKitchenLevel).ThenBy(recipe => recipe.DisplayName).ToArray();
 
-    // House Lv.4 langsung memberi Kitchen Lv.4 supaya seluruh equipment tersedia pada rumah maksimum.
+    // House Lv.5 memberi Kitchen Lv.4 supaya seluruh equipment tersedia pada rumah maksimum.
     public static int Level
     {
         get
         {
-            int actualHouse = PlayerHouseController.Instance != null ? PlayerHouseController.Instance.CurrentLevel : 1;
-            int house = ProgressionRequirementSettings.EffectiveHouseLevel(actualHouse);
-            return house < 2 ? 0 : house >= 4 ? 4 : house - 1;
+            int house = HouseFeatureService.EffectiveLevel;
+            return house < 3 ? 0 : house == 3 ? 1 : house == 4 ? 3 : 4;
         }
     }
     public static bool IsUnlocked => Level > 0 && HouseFeatureService.IsUnlocked("house.kitchen");
@@ -63,7 +62,7 @@ public static class KitchenService
     public static bool CanCook(Inventory inventory, KitchenRecipeSO recipe, int batches, out string reason)
     {
         reason = string.Empty;
-        if (!IsUnlocked) { reason = "Kitchen terbuka pada House Lv.2."; return false; }
+        if (!IsUnlocked) { reason = "Kitchen terbuka pada House Lv.3."; return false; }
         if (recipe == null || recipe.resultItem == null) { reason = "Data recipe belum lengkap."; return false; }
         if (!IsLearned(recipe)) { reason = "Recipe belum dipelajari."; return false; }
         if (Level < recipe.requiredKitchenLevel) { reason = $"Perlu Kitchen Lv.{recipe.requiredKitchenLevel}."; return false; }

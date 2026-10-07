@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b25c4d56bd48e4c448781e7922d2ac9b, type: 3}
+  m_Name: Blacksmith Materials
+  m_EditorClassIdentifier: 
+  kind: 2
+  displayName: PANDAI BESI  /  BELI MATERIAL
+  theme: {fileID: 11400000, guid: be74e25789ca9394c8b7c618ef39af5a, type: 2}
+  tabs:
+  - title: Material
+    background: {fileID: 0}
+    sellInventory: 0
+    items:
+    - {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+    - {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+    animals: []
+  priceOverrides:
+  - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+    price: 50
+  - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+    price: 50

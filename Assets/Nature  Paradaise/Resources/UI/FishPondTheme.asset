@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d3d4face4254a3db91826535896210b, type: 3}
+  m_Name: FishPondTheme
+  m_EditorClassIdentifier:
+  panel: {fileID: 0}
+  headerFish: {fileID: 0}
+  bagIcon: {fileID: 0}
+  pondIcon: {fileID: 0}
+  detailIcon: {fileID: 0}
+  feedBowl: {fileID: 0}
+  feedBag: {fileID: 0}
+  fishPlaceholder: {fileID: 0}
+  waterIcon: {fileID: 0}
+  leafDecoration: {fileID: 0}

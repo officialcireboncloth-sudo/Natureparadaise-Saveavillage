@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b25c4d56bd48e4c448781e7922d2ac9b, type: 3}
+  m_Name: Animal Catalog
+  m_EditorClassIdentifier: 
+  kind: 1
+  displayName: TOKO HEWAN & PETERNAKAN
+  theme: {fileID: 11400000, guid: 7371d967bfda35848ac6fc90a4976fca, type: 2}
+  tabs:
+  - title: Ayam
+    background: {fileID: 0}
+    sellInventory: 0
+    items: []
+    animals:
+    - displayName: Chicken Egg
+      icon: {fileID: 21300000, guid: c12da3a2f7df41643ba93ff25fbb4406, type: 3}
+      animalType: 0
+      offerKind: 0
+      price: 500
+      requiredVillageLevel: 1
+      growthProfile: {fileID: 11400000, guid: ca02c022000000000000000000000002, type: 2}
+      animalPrefab: {fileID: 5737161228259277445, guid: 887baffc5664c2e49b13a56458bb948e, type: 3}
+      productItem: {fileID: 0}
+    - displayName: Young Chicken
+      icon: {fileID: 21300000, guid: 642a01d3acf3fe8469961f38061100e4, type: 3}
+      animalType: 0
+      offerKind: 1
+      price: 1000
+      requiredVillageLevel: 1
+      growthProfile: {fileID: 11400000, guid: ca02c022000000000000000000000002, type: 2}
+      animalPrefab: {fileID: 5737161228259277445, guid: 887baffc5664c2e49b13a56458bb948e, type: 3}
+      productItem: {fileID: 0}
+  - title: Bebek
+    background: {fileID: 0}
+    sellInventory: 0
+    items: []
+    animals:
+    - displayName: Duck Egg
+      icon: {fileID: 21300000, guid: 6443ab57a384d3c4e8cfaa7365b12560, type: 3}
+      animalType: 1
+      offerKind: 0
+      price: 700
+      requiredVillageLevel: 1
+      growthProfile: {fileID: 0}
+      animalPrefab: {fileID: 0}
+      productItem: {fileID: 0}
+    - displayName: Young Duck
+      icon: {fileID: 21300000, guid: 758ce4ec3c716de47aee9d8582178128, type: 3}
+      animalType: 1
+      offerKind: 1
+      price: 1400
+      requiredVillageLevel: 1
+      growthProfile: {fileID: 0}
+      animalPrefab: {fileID: 0}
+      productItem: {fileID: 0}
+  - title: Ternak
+    background: {fileID: 0}
+    sellInventory: 0
+    items: []
+    animals:
+    - displayName: Young Goat
+      icon: {fileID: 21300000, guid: d92fb7b147e22694cbd4ec45fe5cb1d5, type: 3}
+      animalType: 2
+      offerKind: 1
+      price: 3000
+      requiredVillageLevel: 1
+      growthProfile: {fileID: 0}
+      animalPrefab: {fileID: 6138874550457800520, guid: 5a26e7474e19d3b49bee8f52b38c6dba, type: 3}
+      productItem: {fileID: 0}
+    - displayName: Young Sheep
+      icon: {fileID: 21300000, guid: 24d90990e70bb8f48a44e84b02597065, type: 3}
+      animalType: 3
+      offerKind: 1
+      price: 3500
+      requiredVillageLevel: 1
+      growthProfile: {fileID: 0}
+      animalPrefab: {fileID: 3255867418874246156, guid: 39e6eba51095af7488a501108040e7a7, type: 3}
+      productItem: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000004, type: 2}
+    - displayName: Young Cow
+      icon: {fileID: 21300000, guid: cbd0ff5ca37aa094989bc8552778ca82, type: 3}
+      animalType: 4
+      offerKind: 1
+      price: 5000
+      requiredVillageLevel: 1
+      growthProfile: {fileID: 11400000, guid: ca01c011000000000000000000000001, type: 2}
+      animalPrefab: {fileID: 3192596076704916411, guid: 9c4cc366c277c934d90642903ee7416a, type: 3}
+      productItem: {fileID: 11400000, guid: a3ff5e12700285547907d72e6ca5b7a7, type: 2}
+  - title: Perlengkapan
+    background: {fileID: 0}
+    sellInventory: 0
+    items:
+    - {fileID: 11400000, guid: d1060000000040008000000000000010, type: 2}
+    - {fileID: 11400000, guid: 9f31dc224ab34790918a125000000006, type: 2}
+    - {fileID: 11400000, guid: 83f11f03f141462693f31c14c5589812, type: 2}
+    - {fileID: 11400000, guid: 36cb3af0cdcb4bf79275d94c18a42db7, type: 2}
+    - {fileID: 11400000, guid: 9f31dc224ab34790918a125000000005, type: 2}
+    - {fileID: 11400000, guid: f15fee4d53d94d2385555d0f0a48bd01, type: 2}
+    - {fileID: 11400000, guid: 799566f6bcc9489e8dfba589c377bfac, type: 2}
+    - {fileID: 11400000, guid: b9137e7d62bd4db69158ce9860ea5cef, type: 2}
+    animals: []
+  priceOverrides: []

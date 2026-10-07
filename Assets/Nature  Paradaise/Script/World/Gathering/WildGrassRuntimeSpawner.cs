@@ -22,13 +22,29 @@ public static class WildGrassRuntimeSpawner
                 int x = Mathf.Clamp(points[i, 0], 0, field.Columns - 1);
                 int z = Mathf.Clamp(points[i, 1], 0, field.Rows - 1);
                 if (!field.CanHoe(x, z)) continue;
-                GameObject grass = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+                GameObject prefab = field.WildGrassPrefab != null ? field.WildGrassPrefab : Resources.Load<GameObject>("World/Wild Grass");
+                if (prefab == null) continue;
+                GameObject grass = new GameObject($"WildGrass_{i + 1}", typeof(BoxCollider));
                 grass.name = $"WildGrass_{i + 1}";
                 grass.transform.SetParent(root, true);
-                grass.transform.position = field.GridToWorld(x, z) + Vector3.up * 0.42f;
-                grass.transform.localScale = new Vector3(0.42f, 0.42f, 0.42f);
-                Renderer renderer = grass.GetComponent<Renderer>();
-                if (renderer != null) renderer.material.color = new Color(0.22f, 0.62f, 0.16f);
+                grass.transform.position = FieldGroundSurface.GroundPosition(field.GridToWorld(x, z), .01f);
+                GameObject visual = Object.Instantiate(prefab, grass.transform);
+                visual.transform.localPosition = Vector3.zero;
+                visual.transform.localRotation = Quaternion.Euler(0, i * 137.5f, 0);
+                var renderers = visual.GetComponentsInChildren<Renderer>();
+                if (renderers.Length > 0)
+                {
+                    Bounds bounds = renderers[0].bounds;
+                    foreach (var renderer in renderers) bounds.Encapsulate(renderer.bounds);
+                    float diameter = Mathf.Max(.01f, Mathf.Max(bounds.size.x, bounds.size.z));
+                    visual.transform.localScale *= field.CellSize * (.50f + i % 3 * .055f) / diameter;
+                    bounds = renderers[0].bounds;
+                    foreach (var renderer in renderers) bounds.Encapsulate(renderer.bounds);
+                    visual.transform.position += Vector3.up * (grass.transform.position.y - bounds.min.y);
+                    var collider = grass.GetComponent<BoxCollider>();
+                    collider.center = grass.transform.InverseTransformPoint(bounds.center + Vector3.up * (grass.transform.position.y - bounds.min.y));
+                    collider.size = new Vector3(bounds.size.x, Mathf.Max(.35f, bounds.size.y), bounds.size.z);
+                }
                 WorldGatherable gatherable = grass.AddComponent<WorldGatherable>();
                 gatherable.ConfigureRuntimeGrass($"{field.FieldId}:wild-grass:{x}:{z}", grassItem);
             }

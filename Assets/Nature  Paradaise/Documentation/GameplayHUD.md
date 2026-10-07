@@ -16,8 +16,9 @@ memasang canvas lain atau mengganti scene Map.
   isi tracker; J membuka journal yang sudah ada. Quest tanpa data tenggat tidak
   menampilkan deadline contoh dari gambar. Tracker tersembunyi saat tidak ada
   quest aktif atau saat modal interaksi terbuka.
-- Bawah tengah: hotbar dengan nomor slot, icon ItemSO, jumlah stack, dan garis
-  mint pada slot terpilih. Jumlah slot mengikuti inventory (sekarang 8).
+- Bawah tengah: hotbar dengan nomor slot, icon ItemSO, jumlah stack, dan warna
+  hijau hanya pada slot aktif. Memilih angka atau mengklik slot memindahkan
+  warna hijau; slot sebelumnya kembali netral. Jumlah slot mengikuti inventory (sekarang 8).
   Slot kosong tetap kosong; item tanpa icon memakai nama singkat sebagai fallback.
 - Di atas slot aktif: nama item, level alat dari PlayerStatusSystem, dan hint
   kontrol gameplay yang sebenarnya. Watering Can menampilkan current/max water

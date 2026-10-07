@@ -16,6 +16,8 @@ public sealed class WeatherForecastTV : MonoBehaviour
     [SerializeField, Min(0.5f)] float interactionRadius = 2.2f;
     [SerializeField, Min(0f)] float promptHeight = 1.35f;
 
+    [SerializeField] bool isRadio;
+    public bool IsRadio => isRadio;
     PlayerController player;
     TimeManager timeManager;
     bool isOpen;
@@ -42,7 +44,7 @@ public sealed class WeatherForecastTV : MonoBehaviour
         }
 
         if (!isOpen)
-            WorldInteractionPrompt.Request(this, transform, "Tekan E untuk menonton TV", Vector3.Distance(player.transform.position, transform.position), promptHeight);
+            WorldInteractionPrompt.Request(this, transform, isRadio ? "E: Radio — Ramalan cuaca" : "E: TV — Ramalan cuaca", Vector3.Distance(player.transform.position, transform.position), promptHeight);
 
         if (!isOpen && PlayerInteractionTarget.Press(player.transform, transform, interactKey))
             OpenTV();
@@ -55,7 +57,7 @@ public sealed class WeatherForecastTV : MonoBehaviour
             return;
         if (WeatherSystem.Instance != null && WeatherSystem.BlocksTelevision(WeatherSystem.Instance.CurrentWeather))
         {
-            SaveLoadFeedback.Instance?.ShowMessage("TV tidak dapat dinyalakan saat badai petir.");
+            SaveLoadFeedback.Instance?.ShowMessage(isRadio ? "Radio tidak dapat dinyalakan saat badai petir." : "TV tidak dapat dinyalakan saat badai petir.");
             return;
         }
         if (WorldInteractionPrompt.IsSuppressed || GameplayPauseMenu.BlocksGameplayInput || WeatherForecastTVUI.Instance != null)

@@ -585,7 +585,7 @@ public static class HouseSystemSetup
         Material material = AssetDatabase.LoadAssetAtPath<Material>(path);
         if (material == null)
         {
-            material = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
+            material = ToonWorldStyle.CreateMaterial(color);
             AssetDatabase.CreateAsset(material, path);
         }
         if (material.HasProperty("_BaseColor")) material.SetColor("_BaseColor", color);

@@ -22,10 +22,10 @@ public sealed class KitchenSet : MonoBehaviour
         if (!PlayerInteractionTarget.ContainsPickup(playerInventory.transform, transform, interactionRadius)) return;
         float distance = Vector3.Distance(playerInventory.transform.position, transform.position);
         WorldInteractionPrompt.Request(this, transform, KitchenService.IsUnlocked
-            ? $"{interactKey}: Cooking — Kitchen Lv.{KitchenService.Level}" : "Kitchen terkunci — Upgrade House ke Lv.2",
+            ? $"{interactKey}: Cooking — Kitchen Lv.{KitchenService.Level}" : "Kitchen terkunci — Upgrade House ke Lv.3",
             distance, promptHeight);
         if (!PlayerInteractionTarget.PressPickup(playerInventory.transform, transform, interactKey, interactionRadius)) return;
-        if (!KitchenService.IsUnlocked) { SaveLoadFeedback.Instance?.ShowMessage("Kitchen Set terbuka pada House Lv.2."); return; }
+        if (!KitchenService.IsUnlocked) { SaveLoadFeedback.Instance?.ShowMessage("Kitchen Set terbuka pada House Lv.3."); return; }
         OpenPanel();
     }
     void OnGUI()

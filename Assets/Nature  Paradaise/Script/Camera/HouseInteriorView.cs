@@ -12,12 +12,25 @@ public sealed class HouseInteriorView : MonoBehaviour
     float worldSize, worldFov;
     Vector3 worldPosition;
     Quaternion worldRotation;
+    readonly Dictionary<Light, bool> authoredLights = new();
     public Camera ActiveView => levelViews.Find(view => view != null && view.gameObject.activeInHierarchy);
     public void Configure(List<Camera> views) => levelViews = views;
+
+    void Awake()
+    {
+        foreach (var root in gameObject.scene.GetRootGameObjects())
+            foreach (var light in root.GetComponentsInChildren<Light>(true))
+                authoredLights[light] = light.enabled;
+    }
 
     void LateUpdate()
     {
         var transition = SceneTransitionManager.Instance;
+        bool viewingInterior = transition != null && transition.IsInsideInterior &&
+            transition.CurrentInteriorSceneName == gameObject.scene.name;
+        // A loaded editor preview must not illuminate the world at Play startup.
+        foreach (var entry in authoredLights)
+            if (entry.Key != null) entry.Key.enabled = viewingInterior && entry.Value;
         if(transition == null || !transition.IsInsideInterior || transition.CurrentInteriorSceneName != gameObject.scene.name)
         {
             RestoreWorldView();
@@ -45,7 +58,12 @@ public sealed class HouseInteriorView : MonoBehaviour
         gameplayCamera.fieldOfView = 2f * Mathf.Atan(Mathf.Tan(view.fieldOfView * Mathf.Deg2Rad * .5f) * aspectScale) * Mathf.Rad2Deg;
     }
 
-    void OnDisable() => RestoreWorldView();
+    void OnDisable()
+    {
+        RestoreWorldView();
+        foreach (var entry in authoredLights)
+            if (entry.Key != null) entry.Key.enabled = entry.Value;
+    }
     void RestoreWorldView()
     {
         if(!captured || gameplayCamera == null) return;

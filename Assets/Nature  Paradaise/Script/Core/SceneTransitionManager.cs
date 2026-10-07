@@ -56,6 +56,14 @@ public sealed class SceneTransitionManager : MonoBehaviour
             Instance = null;
     }
 
+    void Start()
+    {
+        ResolvePlayer();
+        if (!IsInsideInterior && player != null &&
+            player.gameObject.scene.name.IndexOf("Interior", System.StringComparison.OrdinalIgnoreCase) < 0)
+            SceneManager.SetActiveScene(player.gameObject.scene);
+    }
+
     /// <summary>Memuat scene interior dan memindahkan player ke Spawn ID tujuan.</summary>
     public bool EnterInterior(string sceneName, string targetSpawnId)
     {

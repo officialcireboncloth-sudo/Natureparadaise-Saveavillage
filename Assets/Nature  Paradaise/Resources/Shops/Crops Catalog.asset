@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b25c4d56bd48e4c448781e7922d2ac9b, type: 3}
+  m_Name: Crops Catalog
+  m_EditorClassIdentifier: 
+  kind: 0
+  displayName: TOKO BIBIT & KEBUN
+  theme: {fileID: 11400000, guid: e2387f11aeafd0c4f9efaf701143b1e3, type: 2}
+  tabs:
+  - title: Benih
+    background: {fileID: 0}
+    sellInventory: 0
+    items:
+    - {fileID: 11400000, guid: fca809e92df656a4fa355e0f085ad8fe, type: 2}
+    animals: []
+  - title: Pupuk
+    background: {fileID: 0}
+    sellInventory: 0
+    items:
+    - {fileID: 11400000, guid: d1a10000000000000000000000000001, type: 2}
+    - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c900000000069, type: 2}
+    - {fileID: 11400000, guid: d1a20000000000000000000000000002, type: 2}
+    - {fileID: 11400000, guid: d1a30000000000000000000000000003, type: 2}
+    - {fileID: 11400000, guid: d1a40000000000000000000000000004, type: 2}
+    animals: []
+  - title: Alat
+    background: {fileID: 0}
+    sellInventory: 0
+    items:
+    - {fileID: 11400000, guid: f0979562422245399069598416784c76, type: 2}
+    - {fileID: 11400000, guid: 5e60c936d2e549a6e430eae67adde936, type: 2}
+    - {fileID: 11400000, guid: 0a6dd2ef559c4d6f99b04cec1c2b4ac8, type: 2}
+    - {fileID: 11400000, guid: d16ee0bb56da49f4ba7538074eb6b61e, type: 2}
+    - {fileID: 11400000, guid: 68b8dc5c9fc8443fa4d9114e2f32159c, type: 2}
+    - {fileID: 11400000, guid: 2d77872bbde74ec8a1e9700fe63daaf1, type: 2}
+    animals: []
+  - title: Lainnya
+    background: {fileID: 0}
+    sellInventory: 0
+    items:
+    - {fileID: 11400000, guid: cb002000000000000000000000000020, type: 2}
+    - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cc, type: 2}
+    - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cd, type: 2}
+    - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000ca, type: 2}
+    - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cb, type: 2}
+    - {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000065, type: 2}
+    - {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000066, type: 2}
+    - {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000067, type: 2}
+    - {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000068, type: 2}
+    - {fileID: 11400000, guid: c9c91ad3655ab1d48aabec0e39731e7a, type: 2}
+    animals: []
+  priceOverrides:
+  - item: {fileID: 11400000, guid: f0979562422245399069598416784c76, type: 2}
+    price: 100
+  - item: {fileID: 11400000, guid: 5e60c936d2e549a6e430eae67adde936, type: 2}
+    price: 100
+  - item: {fileID: 11400000, guid: 0a6dd2ef559c4d6f99b04cec1c2b4ac8, type: 2}
+    price: 100
+  - item: {fileID: 11400000, guid: d16ee0bb56da49f4ba7538074eb6b61e, type: 2}
+    price: 100
+  - item: {fileID: 11400000, guid: 68b8dc5c9fc8443fa4d9114e2f32159c, type: 2}
+    price: 100
+  - item: {fileID: 11400000, guid: 2d77872bbde74ec8a1e9700fe63daaf1, type: 2}
+    price: 100

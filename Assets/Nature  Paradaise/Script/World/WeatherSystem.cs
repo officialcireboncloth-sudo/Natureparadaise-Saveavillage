@@ -1052,7 +1052,11 @@ public sealed class WeatherSystem : MonoBehaviour
     {
         if (SceneTransitionManager.Instance != null && SceneTransitionManager.Instance.IsInsideInterior)
             return false;
-        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        // An editor preview can leave an additive interior as the active scene
+        // even though the playable character starts in the world.
+        var player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+        string sceneName = player != null ? player.gameObject.scene.name
+            : UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
         return string.IsNullOrEmpty(sceneName) || sceneName.IndexOf("Interior", StringComparison.OrdinalIgnoreCase) < 0;
     }
 

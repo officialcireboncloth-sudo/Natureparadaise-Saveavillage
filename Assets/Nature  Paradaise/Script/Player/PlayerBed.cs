@@ -96,7 +96,7 @@ public sealed class PlayerBed : MonoBehaviour
         float dx = Mathf.Max(0f, Mathf.Abs(player.position.x - bounds.center.x) - bounds.extents.x);
         float dz = Mathf.Max(0f, Mathf.Abs(player.position.z - bounds.center.z) - bounds.extents.z);
         float distance = Mathf.Sqrt(dx * dx + dz * dz);
-        return distance <= interactionRadius && Mathf.Abs(player.position.y - bounds.center.y) <= 2.5f && !ToolStorageChest.HasCloserRack(player,distance) && !HouseStorageChest.HasCloserStorage(player,distance);
+        return distance <= interactionRadius && Mathf.Abs(player.position.y - bounds.center.y) <= 2.5f && !ToolStorageChest.HasCloserRack(player,distance) && !HouseStorageChest.HasCloserStorage(player,distance) && !HouseSaveBook.HasCloserBook(player,distance);
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]

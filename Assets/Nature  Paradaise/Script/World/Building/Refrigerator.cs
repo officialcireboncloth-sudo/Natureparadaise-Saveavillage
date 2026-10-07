@@ -48,14 +48,11 @@ public static class RefrigeratorService
     {
         get
         {
-            int explicitLevel = PlayerHouseController.Instance != null
-                ? PlayerHouseController.Instance.RefrigeratorLevel : 0;
-            if (!ProgressionRequirementSettings.BypassEnabled)
-                return Mathf.Clamp(explicitLevel, 0, 4);
-            int actualHouse = PlayerHouseController.Instance != null
-                ? PlayerHouseController.Instance.CurrentLevel : 1;
-            int testLevel = ProgressionRequirementSettings.EffectiveHouseLevel(actualHouse);
-            return Mathf.Clamp(Mathf.Max(explicitLevel, testLevel), 1, 4);
+            int house = HouseFeatureService.EffectiveLevel;
+            if (house < 2) return 0;
+            int preview = HouseInteriorController.GameplayPreviewLevel;
+            int explicitLevel = PlayerHouseController.Instance != null ? PlayerHouseController.Instance.RefrigeratorLevel : 0;
+            return Mathf.Clamp(preview > 0 ? house - 1 : Mathf.Max(explicitLevel, house - 1), 1, 4);
         }
     }
     public static bool IsUnlocked => Level > 0 && HouseFeatureService.IsUnlocked("house.refrigerator");

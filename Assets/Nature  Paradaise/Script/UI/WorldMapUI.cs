@@ -769,7 +769,7 @@ public sealed class WorldMapUI : MonoBehaviour
         text.alignment = alignment;
         text.raycastTarget = false;
         text.enableAutoSizing = size > 22;
-        text.fontSizeMin = Mathf.Max(12, size - 8);
+        text.fontSizeMin = Mathf.Min(size, Mathf.Max(14, size * .85f));
         text.fontSizeMax = size;
         return text;
     }

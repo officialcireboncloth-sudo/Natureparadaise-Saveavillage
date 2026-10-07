@@ -117,11 +117,11 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             bool selected = i == selectedIndex;
             view.Background.sprite = selected && selectedSlotSprite != null ? selectedSlotSprite : slotSprite;
             view.Background.type = view.Background.sprite != null ? Image.Type.Sliced : Image.Type.Simple;
-            view.Background.color = referenceHUDStyle ? GameplayHUDStyle.Slot : selected ? selectedColor : slotColor;
+            view.Background.color = referenceHUDStyle ? selected ? new Color(.40f,.49f,.34f,.72f) : GameplayHUDStyle.Slot : selected ? selectedColor : slotColor;
             if (view.Background is MainMenuRoundedImage rounded)
             {
-                rounded.borderColor = selected ? GameplayHUDStyle.Accent : new Color(.72f,.89f,1f,.45f);
-                rounded.borderWidth = selected ? 3f : 1f;
+                rounded.borderColor = Color.clear;
+                rounded.borderWidth = 0f;
                 rounded.SetVerticesDirty();
             }
 
@@ -259,7 +259,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         canvas.sortingOrder = 235;
         CanvasScaler scaler = canvasObject.GetComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920f, 1080f);
+        scaler.referenceResolution = new Vector2(1920f, 1080f) / .82f;
         scaler.matchWidthOrHeight = 0.5f;
         RectTransform safe = GameplayHUDStyle.Rect("Safe Area", canvasObject.transform, Vector2.zero, Vector2.one);
         safe.gameObject.AddComponent<SafeAreaFitter>();
@@ -312,6 +312,11 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             Image background = slotSprite != null ? slot.gameObject.AddComponent<Image>() : GameplayHUDStyle.Surface(slot, GameplayHUDStyle.Slot);
             Button button = slot.gameObject.AddComponent<Button>();
             button.targetGraphic = background;
+            // Selection is owned by selectedIndex, not the EventSystem's last focused button.
+            // HUD surfaces default to decorative/non-raycastable, but these are actual controls.
+            background.raycastTarget = true;
+            button.transition = Selectable.Transition.None;
+            button.navigation = new Navigation { mode = Navigation.Mode.None };
             button.onClick.AddListener(() => { if (!WorldInteractionPrompt.IsSuppressed) SelectSlot(captured); });
             GameplayHUDStyle.Text("Key", slot, (i + 1).ToString(), 18, new(.09f,.72f), new(.4f,.98f));
 

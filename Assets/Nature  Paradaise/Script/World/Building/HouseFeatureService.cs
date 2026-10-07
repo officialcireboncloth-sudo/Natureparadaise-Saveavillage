@@ -8,6 +8,9 @@ using System.Collections.Generic;
 public static class HouseFeatureService
 {
     public static event Action FeaturesChanged;
+    public static int EffectiveLevel => HouseInteriorController.GameplayPreviewLevel > 0
+        ? HouseInteriorController.GameplayPreviewLevel
+        : ProgressionRequirementSettings.EffectiveHouseLevel(PlayerHouseController.Instance != null ? PlayerHouseController.Instance.CurrentLevel : 1);
 
     public static bool IsUnlocked(string featureId)
     {
@@ -16,14 +19,14 @@ public static class HouseFeatureService
         return GetUnlockedFeatureIds().Contains(featureId);
     }
 
-    public static List<string> GetUnlockedFeatureIds()
+    public static List<string> GetUnlockedFeatureIds(int houseLevel = 0)
     {
         List<string> result = new();
         PlayerHouseController house = PlayerHouseController.Instance;
         if (house?.Definition?.levels == null)
             return result;
 
-        int effectiveLevel = ProgressionRequirementSettings.EffectiveHouseLevel(house.CurrentLevel);
+        int effectiveLevel = houseLevel > 0 ? houseLevel : EffectiveLevel;
         for (int index = 0; index < house.Definition.levels.Count; index++)
         {
             BuildingLevelDefinition level = house.Definition.levels[index];

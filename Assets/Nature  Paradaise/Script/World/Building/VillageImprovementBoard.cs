@@ -234,8 +234,8 @@ public sealed class VillageImprovementBoardBootstrap : MonoBehaviour
             Shader shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
             if (shader != null)
             {
-                Material material = new(shader) { name = "VillageBoard_Placeholder_Runtime" };
-                material.color = new Color(0.24f, 0.12f, 0.045f, 1f);
+                Material material = ToonWorldStyle.CreateMaterial(new Color(0.24f, 0.12f, 0.045f, 1f));
+                material.name = "VillageBoard_Placeholder_Runtime";
                 renderer.material = material;
             }
         }

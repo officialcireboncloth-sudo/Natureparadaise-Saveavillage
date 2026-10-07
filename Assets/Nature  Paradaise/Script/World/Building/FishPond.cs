@@ -239,9 +239,6 @@ public sealed class FishPond : MonoBehaviour
 
     readonly List<Transform> visualFish = new();
     readonly List<Vector3> visualOrigins = new();
-    Rect windowRect = new(0f, 0f, 940f, 650f);
-    Vector2 inventoryScroll;
-    Vector2 pondScroll;
     FishPondSaveData record;
     Inventory inventory;
     PlayerController player;
@@ -249,10 +246,12 @@ public sealed class FishPond : MonoBehaviour
     Transform visualRoot;
     bool panelOpen;
     string feedback = string.Empty;
-    int draggedFeedSlot = -1;
-    string draggedFeedLabel;
     WorldDebugStatusLabel combinedDebugLabel;
 
+    public Inventory PlayerInventory => inventory;
+    public IReadOnlyList<FishPondFishData> Fish => record?.fish;
+    public string Feedback => feedback;
+    public bool IsPanelOpen => panelOpen;
     public int Level => site != null && site.CurrentLevel > 0 ? site.CurrentLevel : fallbackLevel;
     public int Capacity => FishPondService.Capacity(Level);
     public int FishCount => record?.fish?.Count ?? 0;
@@ -270,7 +269,7 @@ public sealed class FishPond : MonoBehaviour
             : $"fishpond.{gameObject.scene.name}.{TransformPath(transform)}".ToLowerInvariant().Replace(' ', '_');
         if (!Application.isPlaying) return;
         EnsureFeedStations();
-        ResolvePlayer(); ResolveRecord(); RebuildVisuals(); CenterWindow();
+        ResolvePlayer(); ResolveRecord(); RebuildVisuals();
     }
 
     void OnEnable()
@@ -309,7 +308,6 @@ public sealed class FishPond : MonoBehaviour
         if (inventory == null) return;
         if (panelOpen)
         {
-            if (GameplayInput.GetKeyDown(KeyCode.Escape) || GameplayInput.GetKeyDown(interactKey)) ClosePanel();
             return;
         }
         float troughDistance = feedingPoint != null
@@ -377,91 +375,7 @@ public sealed class FishPond : MonoBehaviour
         if (PlayerInteractionTarget.PressPickup(inventory.transform, transform, interactKey, interactionRadius)) OpenPanel();
     }
 
-    void OnGUI()
-    {
-        if (!panelOpen) return;
-        windowRect.width = Mathf.Clamp(Screen.width - 24f, 650f, 940f);
-        windowRect.height = Mathf.Clamp(Screen.height - 24f, 460f, 650f);
-        windowRect = GUI.Window(GetInstanceID(), windowRect, DrawWindow,
-            $"FISH POND LV.{Level} — FISH {FishCount}/{Capacity}");
-    }
-
-    void DrawWindow(int id)
-    {
-        DrawFeedStorage();
-        GUILayout.Label(FishCount > 0
-            ? $"Satu Fish Feed memberi makan seluruh {FishCount} ikan saat 00:00. Small → Medium 30 hari, Medium → Large 40 hari. {FeedRemainingText()}"
-            : "Masukkan ikan untuk mulai; stok pakan tidak berkurang selama kolam kosong.");
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-        GUILayout.BeginHorizontal();
-        if (GUILayout.Button("DEBUG +1 GROWTH DAY", GUILayout.Height(28f))) DebugAdvanceGrowth(false);
-        if (GUILayout.Button("DEBUG SKIP → NEXT SIZE", GUILayout.Height(28f))) DebugAdvanceGrowth(true);
-        GUILayout.EndHorizontal();
-#endif
-        GUILayout.BeginHorizontal();
-        DrawInventory(); GUILayout.Space(10f); DrawPond();
-        GUILayout.EndHorizontal();
-        if (!string.IsNullOrWhiteSpace(feedback)) GUILayout.Label(feedback);
-        if (GUILayout.Button("Tutup [E / Esc]", GUILayout.Height(30f))) ClosePanel();
-        GUI.DragWindow(new Rect(0f, 0f, windowRect.width, 28f));
-    }
-
-    void DrawFeedStorage()
-    {
-        GUILayout.BeginVertical(GUI.skin.box);
-        GUILayout.Label($"TEMPAT PAKAN IKAN — {FeedStock}/{FeedCapacity}");
-        GUILayout.Label("Pilih Fish Feed pada hotbar sampai terlihat dipegang player, dekati tempat pakan kolam, lalu tekan F. " +
-                        "Setiap tekanan memasukkan tepat 1 Fish Feed.");
-        GUILayout.EndVertical();
-    }
-
-    void DrawInventory()
-    {
-        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width((windowRect.width - 38f) * 0.43f));
-        GUILayout.Label("ADD FISH — INVENTORY");
-        inventoryScroll = GUILayout.BeginScrollView(inventoryScroll);
-        bool found = false;
-        for (int index = 0; inventory != null && index < inventory.slots.Count; index++)
-        {
-            ItemStack stack = inventory.GetSlot(index);
-            if (stack?.item == null || stack.item.category != ItemCategory.Fish || stack.count <= 0) continue;
-            found = true;
-            GUILayout.BeginHorizontal(GUI.skin.box);
-            GUILayout.Label($"{FishLabel(stack.item, stack.qualityStars, stack.fishSizeCm, 0)} x{stack.count}");
-            bool previousEnabled = GUI.enabled;
-            GUI.enabled = FishCount < Capacity;
-            if (GUILayout.Button("Add", GUILayout.Width(56f))) AddFish(index);
-            GUI.enabled = previousEnabled;
-            GUILayout.EndHorizontal();
-        }
-        if (!found) GUILayout.Label("Tidak ada ikan di Inventory.");
-        GUILayout.EndScrollView(); GUILayout.EndVertical();
-    }
-
-    void DrawPond()
-    {
-        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width((windowRect.width - 38f) * 0.57f));
-        GUILayout.Label("TAKE FISH — POND");
-        pondScroll = GUILayout.BeginScrollView(pondScroll);
-        if (record?.fish != null)
-        {
-            for (int index = record.fish.Count - 1; index >= 0; index--)
-            {
-                FishPondFishData fish = record.fish[index];
-                ItemSO item = ItemCatalog.Resolve(fish.itemId, fish.assetName, fish.itemName);
-                GUILayout.BeginHorizontal(GUI.skin.box);
-                GUILayout.Label(FishLabel(item, fish.qualityStars, fish.sizeCm, fish.growthDays,
-                    fish.daysWithoutFood, fish.sick));
-                if (fish.sick && GUILayout.Button("Treat", GUILayout.Width(56f))) TreatFish(index);
-                if (GUILayout.Button("Take", GUILayout.Width(56f))) TakeFish(index);
-                GUILayout.EndHorizontal();
-            }
-        }
-        if (FishCount == 0) GUILayout.Label("Pond masih kosong.");
-        GUILayout.EndScrollView(); GUILayout.EndVertical();
-    }
-
-    void AddFish(int slotIndex)
+    public void AddFish(int slotIndex)
     {
         ItemStack stack = inventory?.GetSlot(slotIndex);
         if (stack?.item == null || stack.item.category != ItemCategory.Fish || FishCount >= Capacity) return;
@@ -480,7 +394,7 @@ public sealed class FishPond : MonoBehaviour
         Commit();
     }
 
-    void TakeFish(int index)
+    public void TakeFish(int index)
     {
         if (record?.fish == null || index < 0 || index >= record.fish.Count || inventory == null) return;
         FishPondFishData fish = record.fish[index];
@@ -493,7 +407,7 @@ public sealed class FishPond : MonoBehaviour
         Commit();
     }
 
-    void TreatFish(int index)
+    public void TreatFish(int index)
     {
         if (record?.fish == null || index < 0 || index >= record.fish.Count || inventory == null) return;
         FishPondFishData fish = record.fish[index];
@@ -523,7 +437,7 @@ public sealed class FishPond : MonoBehaviour
         Commit();
     }
 
-    void DebugAdvanceGrowth(bool completeCurrentStage)
+    public void DebugAdvanceGrowth(bool completeCurrentStage)
     {
         if (record?.fish == null || record.fish.Count == 0)
         {
@@ -560,7 +474,7 @@ public sealed class FishPond : MonoBehaviour
         Commit();
     }
 
-    void DepositFeed(int slotIndex, int amount)
+    public void DepositFeed(int slotIndex, int amount)
     {
         ItemStack stack = inventory?.GetSlot(slotIndex);
         if (!IsFishFeed(stack) || amount <= 0) { feedback = "Hanya Fish Feed yang dapat dimasukkan."; return; }
@@ -591,7 +505,7 @@ public sealed class FishPond : MonoBehaviour
         return best;
     }
 
-    bool IsFishFeed(ItemStack stack) => stack?.item!=null && stack.count>0 &&
+    public bool IsFishFeed(ItemStack stack) => stack?.item!=null && stack.count>0 &&
         (stack.item==fishFeed || stack.item.itemId=="item.fish_feed");
 
     void DepositHeldFishFeed(InventoryHotbarUI hotbar,ItemStack heldStack)
@@ -622,53 +536,6 @@ public sealed class FishPond : MonoBehaviour
         record.feedStock = 0;
         feedback = $"Fish Feed x{moved} dikembalikan ke Inventory.";
         Commit();
-    }
-
-    void HandleFeedDragSource(Rect rect, int slotIndex, ItemStack stack)
-    {
-        Event current = Event.current;
-        if (current.type != EventType.MouseDown || current.button != 0 || !rect.Contains(current.mousePosition)) return;
-        draggedFeedSlot = slotIndex;
-        draggedFeedLabel = $"{stack.DisplayName} x{stack.count}";
-        current.Use();
-    }
-
-    void HandleFeedDrop(Rect rect)
-    {
-        Event current = Event.current;
-        if (draggedFeedSlot < 0 || current.type != EventType.MouseUp || current.button != 0) return;
-        if (rect.Contains(current.mousePosition))
-        {
-            DepositFeed(draggedFeedSlot, 1);
-            current.Use();
-        }
-        draggedFeedSlot = -1;
-        draggedFeedLabel = null;
-    }
-
-    void DrawDraggedFeedGhost()
-    {
-        if (draggedFeedSlot < 0) return;
-        Event current = Event.current;
-        if (current.type == EventType.MouseUp) { draggedFeedSlot = -1; draggedFeedLabel = null; return; }
-        GUI.Box(new Rect(current.mousePosition.x + 12f, current.mousePosition.y + 12f, 160f, 34f),
-            draggedFeedLabel ?? "Fish Feed");
-        if (current.type == EventType.MouseDrag) current.Use();
-    }
-
-    string FishLabel(ItemSO item, int quality, float size, int progress,
-        int daysWithoutFood = 0, bool sick = false)
-    {
-        FishSizeTier tier = FishMeasurement.GetSizeTier(item, size);
-        int target = FishPondService.GrowthDaysNeeded(tier);
-        float weight = FishMeasurement.EstimateWeightKg(item, size);
-        string growth = target <= 0 ? "Growth MAX" : sick
-            ? $"Growth PAUSED {progress}/{target}"
-            : $"Growth {progress}/{target}";
-        string health = sick ? $"SICK | No Feed {daysWithoutFood}/{FishPondService.StarvationDeathDays}"
-            : daysWithoutFood > 0 ? $"Hungry {daysWithoutFood}/{FishPondService.StarvationDeathDays}"
-            : "Healthy";
-        return $"{item?.itemName ?? "Unknown Fish"} | {QualityLabel(quality)} | {tier} | {size:0.#} cm | {weight:0.00} kg | {growth} | {health}";
     }
 
     string PondFeedStatus()
@@ -794,6 +661,7 @@ public sealed class FishPond : MonoBehaviour
         Transform oldFeedLabel = feedingPoint != null ? feedingPoint.Find("FishFeed_DebugLabel") : null;
         if (oldFeedLabel != null) oldFeedLabel.gameObject.SetActive(false);
 
+        combinedDebugLabel.gameObject.SetActive(!panelOpen);
         string makerStatus = feedMaker != null ? feedMaker.FishFeedCompactDebugStatus : "EMPTY";
         int feedPercent = FeedCapacity > 0 ? Mathf.RoundToInt(FeedStock * 100f / FeedCapacity) : 0;
         string feedStatus = FeedStock <= 0
@@ -827,27 +695,24 @@ public sealed class FishPond : MonoBehaviour
         return GameTimeDebugText.FormatMinutes(minutes);
     }
 
-    void OpenPanel()
+    public void OpenPanel()
     {
-        panelOpen = true; CenterWindow();
-        player?.AcquireMovementLock(this); TimeManager.Instance?.AcquirePause(this); WorldInteractionPrompt.AcquireSuppression(this);
+        if(panelOpen)return;
+        ResolvePlayer();ResolveRecord();if(inventory==null)return;
+        if(FishPondUI.Instance!=null)FishPondUI.Instance.Pond?.ClosePanel();
+        panelOpen=true;
+        player?.AcquireMovementLock(this);TimeManager.Instance?.AcquirePause(this);WorldInteractionPrompt.AcquireSuppression(this);
+        FishPondUI.Show(this);GameplayInput.ConsumeCurrentFrame();
     }
 
-    void ClosePanel()
+    public void ClosePanel()
     {
-        if (!panelOpen) return;
-        panelOpen = false;
-        draggedFeedSlot = -1;
-        draggedFeedLabel = null;
-        player?.ReleaseMovementLock(this); TimeManager.Instance?.ReleasePause(this); WorldInteractionPrompt.ReleaseSuppression(this);
+        if(!panelOpen)return;
+        panelOpen=false;
+        FishPondUI.Hide(this);
+        player?.ReleaseMovementLock(this);TimeManager.Instance?.ReleasePause(this);WorldInteractionPrompt.ReleaseSuppression(this);
+        GameplayInput.ConsumeCurrentFrame();
     }
-
-    void CenterWindow()
-    {
-        windowRect.x = Mathf.Max(12f, (Screen.width - windowRect.width) * 0.5f);
-        windowRect.y = Mathf.Max(12f, (Screen.height - windowRect.height) * 0.5f);
-    }
-
     static float StableHue(string value)
     {
         uint hash = 2166136261;

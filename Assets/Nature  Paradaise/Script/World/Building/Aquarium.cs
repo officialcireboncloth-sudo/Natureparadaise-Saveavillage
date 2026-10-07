@@ -104,9 +104,7 @@ public sealed class Aquarium : MonoBehaviour
 
     readonly List<Transform> visualFish = new();
     readonly List<Vector3> visualOrigins = new();
-    Rect windowRect = new(0f, 0f, 980f, 650f);
-    Vector2 inventoryScroll;
-    Vector2 aquariumScroll;
+
     Inventory inventory;
     PlayerController player;
     AquariumSaveData record;
@@ -123,7 +121,7 @@ public sealed class Aquarium : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(aquariumId)) aquariumId = BuildStableId();
         if (!Application.isPlaying) return;
-        ResolvePlayer(); ResolveRecord(); RebuildVisuals(); CenterWindow();
+        ResolvePlayer(); ResolveRecord(); RebuildVisuals();
     }
     void OnEnable() { if (!Application.isPlaying) return; AquariumService.Changed += HandleServiceChanged; ResolveRecord(); RebuildVisuals(); }
     void OnDisable() { if (!Application.isPlaying) return; AquariumService.Changed -= HandleServiceChanged; ClosePanel(); }
@@ -141,7 +139,7 @@ public sealed class Aquarium : MonoBehaviour
         if (inventory == null) return;
         if (panelOpen)
         {
-            if (GameplayInput.GetKeyDown(KeyCode.Escape) || GameplayInput.GetKeyDown(interactKey)) ClosePanel();
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey)) ClosePanel();
             return;
         }
         if (!PlayerInteractionTarget.ContainsPickup(inventory.transform, transform, interactionRadius)) return;
@@ -150,96 +148,19 @@ public sealed class Aquarium : MonoBehaviour
         if (PlayerInteractionTarget.PressPickup(inventory.transform, transform, interactKey, interactionRadius)) OpenPanel();
     }
 
-    void OnGUI()
-    {
-        if (!panelOpen) return;
-        windowRect.width = Mathf.Clamp(Screen.width - 24f, 650f, 980f);
-        windowRect.height = Mathf.Clamp(Screen.height - 24f, 450f, 650f);
-        windowRect = GUI.Window(GetInstanceID(), windowRect, DrawWindow,
-            $"AQUARIUM {aquariumSize.ToString().ToUpperInvariant()} — FISH {FishCount}/{Capacity}");
-    }
-
-    void DrawWindow(int id)
-    {
-        GUILayout.BeginHorizontal();
-        DrawInventory(); GUILayout.Space(10f); DrawAquarium();
-        GUILayout.EndHorizontal();
-        GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Feed Fish (Optional)")) { feedAnimationUntil = Time.unscaledTime + 4f; feedback = "Ikan berkumpul. Feeding tidak wajib."; }
-        if (GUILayout.Button("View")) { feedback = $"Menampilkan {visualFish.Count} dari {FishCount} ikan tersimpan."; }
-        GUILayout.EndHorizontal();
-        DrawDecorations();
-        if (!string.IsNullOrWhiteSpace(feedback)) GUILayout.Label(feedback);
-        if (GUILayout.Button("Tutup [E / Esc]", GUILayout.Height(32f))) ClosePanel();
-        GUI.DragWindow(new Rect(0f, 0f, windowRect.width, 28f));
-    }
-
-    void DrawInventory()
-    {
-        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width((windowRect.width - 38f) * 0.45f));
-        GUILayout.Label("ADD FISH — INVENTORY");
-        inventoryScroll = GUILayout.BeginScrollView(inventoryScroll);
-        bool found = false;
-        for (int index = 0; inventory != null && index < inventory.slots.Count; index++)
-        {
-            ItemStack stack = inventory.GetSlot(index);
-            if (stack?.item == null || stack.item.category != ItemCategory.Fish || stack.count <= 0) continue;
-            found = true; GUILayout.BeginHorizontal(GUI.skin.box);
-            GUILayout.Label($"{FishLabel(stack.item, stack.qualityStars, stack.fishSizeCm)} x{stack.count}");
-            bool previous = GUI.enabled; GUI.enabled = FishCount < Capacity;
-            if (GUILayout.Button("Add", GUILayout.Width(58f))) AddFish(index);
-            GUI.enabled = previous; GUILayout.EndHorizontal();
-        }
-        if (!found) GUILayout.Label("Tidak ada ikan di Inventory.");
-        GUILayout.EndScrollView(); GUILayout.EndVertical();
-    }
-
-    void DrawAquarium()
-    {
-        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width((windowRect.width - 38f) * 0.55f));
-        GUILayout.Label("TAKE FISH — AQUARIUM");
-        aquariumScroll = GUILayout.BeginScrollView(aquariumScroll);
-        if (record?.fish != null)
-        {
-            for (int index = record.fish.Count - 1; index >= 0; index--)
-            {
-                AquariumFishData fish = record.fish[index];
-                ItemSO item = ItemCatalog.Resolve(fish.itemId, fish.assetName, fish.itemName);
-                GUILayout.BeginHorizontal(GUI.skin.box);
-                GUILayout.Label($"{fish.itemName} | {QualityLabel(fish.qualityStars)} | {FishMeasurement.GetSizeTier(item, fish.sizeCm)} | {fish.weightKg:0.00} kg");
-                if (GUILayout.Button("Take", GUILayout.Width(58f))) TakeFish(index);
-                GUILayout.EndHorizontal();
-            }
-        }
-        if (FishCount == 0) GUILayout.Label("Aquarium masih kosong.");
-        GUILayout.EndScrollView(); GUILayout.EndVertical();
-    }
-
-    void DrawDecorations()
-    {
-        bool changed = false;
-        GUILayout.BeginHorizontal(GUI.skin.box);
-        if (GUILayout.Button($"Background: {record.background}")) { record.background = Next(record.background, "Blue", "River", "Ocean", "Dark"); changed = true; }
-        if (GUILayout.Button($"Base: {record.substrate}")) { record.substrate = Next(record.substrate, "Gravel", "Sand", "Black Sand"); changed = true; }
-        if (GUILayout.Button($"Plant: {record.plant}")) { record.plant = Next(record.plant, "None", "Grass", "Fern", "Coral"); changed = true; }
-        if (GUILayout.Button($"Rock: {record.rock}")) { record.rock = Next(record.rock, "None", "Small", "Cave"); changed = true; }
-        if (GUILayout.Button($"Decor: {record.decoration}")) { record.decoration = Next(record.decoration, "None", "Wood", "Castle", "Treasure"); changed = true; }
-        GUILayout.EndHorizontal();
-        if (changed) Commit();
-    }
-
-    void AddFish(int slotIndex)
+    public void AddFish(int slotIndex)
     {
         ItemStack stack = inventory?.GetSlot(slotIndex);
         if (stack?.item == null || stack.item.category != ItemCategory.Fish || FishCount >= Capacity) return;
         ItemSO item = stack.item; int quality = stack.qualityStars; float size = Mathf.Max(1f, stack.fishSizeCm);
+        float weight = stack.fishWeightKg > 0f ? stack.fishWeightKg : FishMeasurement.EstimateWeightKg(item, size);
         if (!inventory.RemoveFromSlot(slotIndex, 1)) return;
         record.fish.Add(new AquariumFishData { itemId = item.Id, assetName = item.name, itemName = item.itemName,
-            qualityStars = quality, sizeCm = size, weightKg = stack.fishWeightKg > 0f ? stack.fishWeightKg : FishMeasurement.EstimateWeightKg(item, size) });
+            qualityStars = quality, sizeCm = size, weightKg = weight });
         feedback = $"{item.itemName} dimasukkan ke Aquarium."; Commit();
     }
 
-    void TakeFish(int index)
+    public void TakeFish(int index)
     {
         if (record?.fish == null || index < 0 || index >= record.fish.Count || inventory == null) return;
         AquariumFishData fish = record.fish[index];
@@ -328,10 +249,35 @@ public sealed class Aquarium : MonoBehaviour
         }
     }
 
-    void OpenPanel() { panelOpen = true; CenterWindow(); player?.AcquireMovementLock(this); TimeManager.Instance?.AcquirePause(this); WorldInteractionPrompt.AcquireSuppression(this); }
-    void ClosePanel() { if (!panelOpen) return; panelOpen = false; player?.ReleaseMovementLock(this); TimeManager.Instance?.ReleasePause(this); WorldInteractionPrompt.ReleaseSuppression(this); }
+    public IReadOnlyList<AquariumFishData> Fish => record != null ? record.fish : Array.Empty<AquariumFishData>();
+    public Inventory PlayerInventory { get { ResolvePlayer(); return inventory; } }
+    public string Feedback => feedback;
+    public void FeedFish() { feedAnimationUntil = Time.unscaledTime + 4f; feedback = "Ikan berkumpul. Memberi makan tidak wajib."; }
+    public void CycleDecoration(string field)
+    {
+        if (record == null) return;
+        switch(field) {
+         case "Background": record.background=Next(record.background,"Blue","River","Ocean","Dark");break;
+         case "Base": record.substrate=Next(record.substrate,"Gravel","Sand","Black Sand");break;
+         case "Plant": record.plant=Next(record.plant,"None","Grass","Fern","Coral");break;
+         case "Rock": record.rock=Next(record.rock,"None","Small","Cave");break;
+         case "Decor": record.decoration=Next(record.decoration,"None","Wood","Castle","Treasure");break;
+        }
+        Commit();
+    }
+    public void OpenPanel()
+    {
+        if(panelOpen) return;
+        ResolvePlayer();ResolveRecord();panelOpen = true;
+        player?.AcquireMovementLock(this); TimeManager.Instance?.AcquirePause(this); WorldInteractionPrompt.AcquireSuppression(this);
+        AquariumUI.Show(this);
+    }
+    public void ClosePanel()
+    {
+        if (!panelOpen) return; panelOpen = false;
+        AquariumUI.Hide(this);player?.ReleaseMovementLock(this); TimeManager.Instance?.ReleasePause(this); WorldInteractionPrompt.ReleaseSuppression(this);
+    }
     void ResolvePlayer() { if (inventory == null) inventory = FindFirstObjectByType<Inventory>(); if (player == null && inventory != null) player = inventory.GetComponent<PlayerController>(); }
-    void CenterWindow() { windowRect.x = Mathf.Max(12f, (Screen.width - windowRect.width) * 0.5f); windowRect.y = Mathf.Max(12f, (Screen.height - windowRect.height) * 0.5f); }
     string BuildStableId() => $"aquarium.{gameObject.scene.name}.{TransformPath(transform)}".ToLowerInvariant().Replace(' ', '_');
     static string TransformPath(Transform value) { string path = value.name; while (value.parent != null) { value = value.parent; path = value.name + "/" + path; } return path; }
     static string FishLabel(ItemSO item, int quality, float size) => $"{item.itemName} | {QualityLabel(quality)} | {FishMeasurement.GetSizeTier(item, size)} | {FishMeasurement.EstimateWeightKg(item, size):0.00} kg";

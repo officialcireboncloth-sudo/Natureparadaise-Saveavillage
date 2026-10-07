@@ -4,8 +4,10 @@ Shader "Toon/CustomToon"
 {
 	Properties
 	{
-		_TextureSample( "Texture Sample", 2D ) = "white" {}
+		[MainTexture] _TextureSample( "Texture Sample", 2D ) = "white" {}
 		_TextureRamp( "Texture Ramp", 2D ) = "white" {}
+        // Nature Paradise: preserve tint on project-authored materials.
+        [MainColor] _Color("Color Tint", Color) = (1,1,1,1)
 
 
 		//_TransmissionShadow( "Transmission Shadow", Range( 0, 1 ) ) = 0.5
@@ -366,6 +368,7 @@ Shader "Toon/CustomToon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample_ST;
+            float4 _Color;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -700,7 +703,7 @@ Shader "Toon/CustomToon"
 				float3 localAdditionalLightsFlatMask17x292_g2 = AdditionalLightsFlatMask17x( WorldPosition292_g2 , ScreenUV292_g2 , ShadowMask292_g2 );
 				float3 temp_output_55_0 = localAdditionalLightsFlatMask17x292_g2;
 				float2 uv_TextureSample = input.ase_texcoord7.zw * _TextureSample_ST.xy + _TextureSample_ST.zw;
-				float4 tex2DNode50 = tex2D( _TextureSample, uv_TextureSample );
+				float4 tex2DNode50 = tex2D( _TextureSample, uv_TextureSample ) * _Color;
 				float ase_lightAtten = 0;
 				Light ase_mainLight = GetMainLight( ShadowCoord );
 				ase_lightAtten = ase_mainLight.distanceAttenuation * ase_mainLight.shadowAttenuation;
@@ -1078,6 +1081,7 @@ Shader "Toon/CustomToon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample_ST;
+            float4 _Color;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -1382,6 +1386,7 @@ Shader "Toon/CustomToon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample_ST;
+            float4 _Color;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -1681,6 +1686,7 @@ Shader "Toon/CustomToon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample_ST;
+            float4 _Color;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -1966,7 +1972,7 @@ Shader "Toon/CustomToon"
 				float3 localAdditionalLightsFlatMask17x292_g2 = AdditionalLightsFlatMask17x( WorldPosition292_g2 , ScreenUV292_g2 , ShadowMask292_g2 );
 				float3 temp_output_55_0 = localAdditionalLightsFlatMask17x292_g2;
 				float2 uv_TextureSample = input.ase_texcoord4.zw * _TextureSample_ST.xy + _TextureSample_ST.zw;
-				float4 tex2DNode50 = tex2D( _TextureSample, uv_TextureSample );
+				float4 tex2DNode50 = tex2D( _TextureSample, uv_TextureSample ) * _Color;
 				float ase_lightAtten = 0;
 				Light ase_mainLight = GetMainLight( ShadowCoord );
 				ase_lightAtten = ase_mainLight.distanceAttenuation * ase_mainLight.shadowAttenuation;
@@ -2111,6 +2117,7 @@ Shader "Toon/CustomToon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample_ST;
+            float4 _Color;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -2388,7 +2395,7 @@ Shader "Toon/CustomToon"
 				float3 localAdditionalLightsFlatMask17x292_g2 = AdditionalLightsFlatMask17x( WorldPosition292_g2 , ScreenUV292_g2 , ShadowMask292_g2 );
 				float3 temp_output_55_0 = localAdditionalLightsFlatMask17x292_g2;
 				float2 uv_TextureSample = input.ase_texcoord2.zw * _TextureSample_ST.xy + _TextureSample_ST.zw;
-				float4 tex2DNode50 = tex2D( _TextureSample, uv_TextureSample );
+				float4 tex2DNode50 = tex2D( _TextureSample, uv_TextureSample ) * _Color;
 				float ase_lightAtten = 0;
 				Light ase_mainLight = GetMainLight( ShadowCoord );
 				ase_lightAtten = ase_mainLight.distanceAttenuation * ase_mainLight.shadowAttenuation;
@@ -2525,6 +2532,7 @@ Shader "Toon/CustomToon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample_ST;
+            float4 _Color;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -2952,6 +2960,7 @@ Shader "Toon/CustomToon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample_ST;
+            float4 _Color;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -3283,7 +3292,7 @@ Shader "Toon/CustomToon"
 				float3 localAdditionalLightsFlatMask17x292_g2 = AdditionalLightsFlatMask17x( WorldPosition292_g2 , ScreenUV292_g2 , ShadowMask292_g2 );
 				float3 temp_output_55_0 = localAdditionalLightsFlatMask17x292_g2;
 				float2 uv_TextureSample = input.ase_texcoord7.zw * _TextureSample_ST.xy + _TextureSample_ST.zw;
-				float4 tex2DNode50 = tex2D( _TextureSample, uv_TextureSample );
+				float4 tex2DNode50 = tex2D( _TextureSample, uv_TextureSample ) * _Color;
 				float ase_lightAtten = 0;
 				Light ase_mainLight = GetMainLight( ShadowCoord );
 				ase_lightAtten = ase_mainLight.distanceAttenuation * ase_mainLight.shadowAttenuation;
@@ -3536,6 +3545,7 @@ Shader "Toon/CustomToon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample_ST;
+            float4 _Color;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -3812,6 +3822,7 @@ Shader "Toon/CustomToon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample_ST;
+            float4 _Color;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION
@@ -4102,6 +4113,7 @@ Shader "Toon/CustomToon"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _TextureSample_ST;
+            float4 _Color;
 			float _AlphaClip;
 			float _Cutoff;
 			#ifdef ASE_TRANSMISSION

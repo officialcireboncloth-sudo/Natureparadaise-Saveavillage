@@ -786,6 +786,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c43083f0fd2461ea00a7290f761807e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  referenceHUDStyle: 1
   hotbarPanelSprite: {fileID: 0}
   slotSprite: {fileID: 0}
   selectedSlotSprite: {fileID: 0}
@@ -1590,7 +1591,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &772057185 stripped
 Animator:
-  m_CorrespondingSourceObject: {fileID: 5149517031203016461, guid: 62b58045597702144bce200eb1ad3185, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6382967419714915501, guid: 62b58045597702144bce200eb1ad3185, type: 3}
   m_PrefabInstance: {fileID: 772057183}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &774378383

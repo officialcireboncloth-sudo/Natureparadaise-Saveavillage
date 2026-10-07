@@ -158,6 +158,15 @@ public sealed class AnimalBellStation : MonoBehaviour
     PlayerAnimalBell bell;
     Transform toggleButton;
     Renderer buttonRenderer;
+    public AnimalHome Home => home;
+    public PlayerAnimalBell Bell => bell;
+    public Inventory PlayerInventory => player;
+    public void OpenMenu()
+    {
+        ResolvePlayer();
+        if(home!=null&&home.Available&&player!=null&&bell!=null&&IsPlayerInRange(player.transform))AnimalBellUI.Show(this);
+    }
+    void OnDisable(){if(AnimalBellUI.Instance!=null&&AnimalBellUI.Instance.Station==this)AnimalBellUI.Instance.Dispose();}
 
     public static AnimalBellStation Create(AnimalHome owner)
     {
@@ -212,7 +221,7 @@ public sealed class AnimalBellStation : MonoBehaviour
             Shader shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
             if (shader != null)
             {
-                Material material = new(shader) { color = color };
+                Material material = ToonWorldStyle.CreateMaterial(color);
                 renderer.material = material;
             }
         }
@@ -249,7 +258,6 @@ public sealed class AnimalBellStation : MonoBehaviour
         float distance = HorizontalDistance(player.transform.position, toggleButton.position);
         if (distance > interactionRadius) return;
 
-        string action = currentlyOutside ? "MASUKKAN SEMUA HEWAN" : "KELUARKAN SEMUA HEWAN";
         int inside = 0;
         int outside = 0;
         foreach (AnimalRoutine resident in home.Residents)
@@ -258,9 +266,9 @@ public sealed class AnimalBellStation : MonoBehaviour
             if (resident.IsHoused) inside++; else outside++;
         }
         WorldInteractionPrompt.Request(this, toggleButton,
-            $"E: {action}\n{home.Label} | Dalam {inside} | Luar {outside}", distance, 0.55f);
+            $"E: Gunakan Bell\n{home.Label} | Dalam {inside} | Luar {outside}", distance, 0.55f);
         if (!PlayerInteractionTarget.PressPickup(player.transform, toggleButton, KeyCode.E, interactionRadius)) return;
-        bell.ToggleAnimals(home);
+        OpenMenu();
     }
 
     public bool IsPlayerInRange(Transform playerTransform)

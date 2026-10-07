@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [DefaultExecutionOrder(-9500)]
-public sealed class StorageChestUI : MonoBehaviour
+public sealed partial class StorageChestUI : MonoBehaviour
 {
     public static StorageChestUI Instance { get; private set; }
     public static bool IsOpen => Instance != null;
@@ -90,12 +90,13 @@ public sealed class StorageChestUI : MonoBehaviour
             Input.GetKeyDown(KeyCode.S)||Input.GetKeyDown(KeyCode.DownArrow)?4:
             Input.GetKeyDown(KeyCode.A)||Input.GetKeyDown(KeyCode.LeftArrow)?-1:
             Input.GetKeyDown(KeyCode.D)||Input.GetKeyDown(KeyCode.RightArrow)?1:0;
-        if(delta!=0)Select(storageSelected,(storageSelected?chestIndex:bagIndex)+delta);
+        if(delta!=0)NavigateSlots(delta);
         bool all=Input.GetKey(KeyCode.LeftShift)||Input.GetKey(KeyCode.RightShift);
         if(Input.GetKeyDown(KeyCode.E))Transfer(false,all);
         if(Input.GetKeyDown(KeyCode.R))Transfer(true,all);
         if(Bin==null&&Input.GetKeyDown(KeyCode.Q))StoreAll();
         if(Bin==null&&Input.GetKeyDown(KeyCode.F))TakeAll();
+        if(Fridge!=null&&Input.GetKeyDown(KeyCode.T))SortFridge();
 
     }
     void LateUpdate()
@@ -126,11 +127,12 @@ public sealed class StorageChestUI : MonoBehaviour
         else bagIndex=Mathf.Clamp(index,0,inventory.Capacity-1);
         quantity=1;dirty=true;
         var scroll=storage?chestScroll:bagScroll;int selected=storage?chestIndex:bagIndex;
+        if(Fridge!=null)selected=(storage?fridgeStoredIndices:fridgeBagIndices).IndexOf(selected);
         int rows=Mathf.CeilToInt((storage?StorageCapacity:inventory.Capacity)/4f);
         scroll.verticalNormalizedPosition=1-Mathf.Clamp01((selected/4f)/Mathf.Max(1,rows-1));
     }
     public void ChangeQuantity(int delta){quantity=Mathf.Clamp(quantity+delta,1,Mathf.Max(1,SelectedCount()));RefreshDetails();}
-    int SelectedCount()=>storageSelected?(chestIndex<StoredCount?Stored(chestIndex).count:0):(inventory.GetSlot(bagIndex)?.count??0);
+    int SelectedCount()=>storageSelected?(chestIndex>=0&&chestIndex<StoredCount?Stored(chestIndex).count:0):(inventory.GetSlot(bagIndex)?.count??0);
     public void Transfer(bool take,bool entireStack=false)
     {
         if(storageSelected!=take||(Bin!=null&&Bin.AwaitingConfirmation))return;
@@ -143,13 +145,14 @@ public sealed class StorageChestUI : MonoBehaviour
 
     void Build()
     {
-        theme=Resources.Load<StorageChestTheme>(Bin!=null?"UI/ShippingBinTheme":"UI/StorageChestTheme");
+        theme=Resources.Load<StorageChestTheme>(Fridge!=null?"UI/RefrigeratorTheme":Bin!=null?"UI/ShippingBinTheme":"UI/StorageChestTheme");
         var canvas=gameObject.AddComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.sortingOrder=460;
         var scaler=gameObject.AddComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new(1920,1080);scaler.matchWidthOrHeight=.5f;
         gameObject.AddComponent<GraphicRaycaster>();if(EventSystem.current==null)new GameObject("EventSystem_Storage",typeof(EventSystem),typeof(StandaloneInputModule));
         var dim=Rect("Dim",transform,0,0,1,1).gameObject.AddComponent<Image>();dim.color=new(0,0,0,.28f);
         var safe=Rect("Safe Area",transform,0,0,1,1);safe.gameObject.AddComponent<SafeAreaFitter>();
-        var panel=Rect("Storage Panel",safe,.315f,.015f,.99f,.985f);Surface(panel,new(.11f,.19f,.24f,.93f),theme?.panel);
+        if(Fridge!=null){BuildFridge(safe);Canvas.ForceUpdateCanvases();return;}
+        var panel=Rect("Storage Panel",safe,.315f,.015f,.99f,.985f);Surface(panel,GameplayHUDStyle.Modal,theme?.panel);
         Art("Leaf Image Slot",panel,theme?.leafIcon,.025f,.914f,.08f,.975f);
         Text(panel,Bin!=null?"KOTAK PENJUALAN":Chest!=null?"TOOL STORAGE":Fridge!=null?"REFRIGERATOR":"STORAGE RUMAH",38,.09f,.935f,.70f,.985f);
         Text(panel,Bin!=null?"Pindahkan barang dari tas untuk dijual besok pagi.":"Drag item antara tas dan storage untuk memindahkan satu stack.",23,.09f,.898f,.76f,.94f).color=new(.74f,.83f,.88f);
@@ -157,8 +160,8 @@ public sealed class StorageChestUI : MonoBehaviour
         var nameRow=Rect("Chest Appearance",panel,.02f,.82f,.98f,.891f);Surface(nameRow,new(.25f,.32f,.36f,.65f));
         Art("Chest Image Slot",nameRow,theme?.chestIcon,.02f,.1f,.09f,.9f);
         Text(nameRow,Bin!=null?"Shipping Bin • Barang dapat diambil kembali sebelum pergantian hari":Chest!=null?"Rak Alat Rumah • Hanya Tool":Fridge!=null?"Kulkas • Makanan matang dan minuman":HouseStorageService.Level==1?"Storage Rumah • Semua item":"Storage Rumah • Tools, seed dan bahan mentah",25,.12f,.12f,.94f,.88f);
-        var bag=Rect("Player Bag",panel,.02f,.29f,.44f,.807f);Surface(bag,new(.15f,.24f,.29f,.6f));
-        var chest=Rect("Chest Contents",panel,.545f,.29f,.98f,.807f);Surface(chest,new(.15f,.24f,.29f,.6f));
+        var bag=Rect("Player Bag",panel,.02f,.29f,.44f,.807f);Surface(bag,GameplayHUDStyle.Card);
+        var chest=Rect("Chest Contents",panel,.545f,.29f,.98f,.807f);Surface(chest,GameplayHUDStyle.Card);
         Art("Bag Image Slot",bag,theme?.bagIcon,.03f,.9f,.12f,.98f);Text(bag,"TAS PEMAIN",27,.15f,.9f,.76f,.98f);
         bagCount=Text(bag,"",22,.76f,.9f,.98f,.98f);
         Art("Contents Image Slot",chest,theme?.chestIcon,.03f,.9f,.12f,.98f);Text(chest,Bin!=null?"ISI SHIPPING BIN":"ISI PETI",27,.15f,.9f,.75f,.98f);
@@ -166,7 +169,7 @@ public sealed class StorageChestUI : MonoBehaviour
         bagScroll=Grid(bag,out bagViewport,out bagContent);chestScroll=Grid(chest,out chestViewport,out chestContent);
         storeButton=ButtonAt(panel,Bin!=null?"E  Jual":"E  Simpan",.451f,.56f,.532f,.69f,()=>Transfer(false),theme?.storeIcon);
         takeButton=ButtonAt(panel,Bin!=null?"R  Kembali":"R  Ambil",.451f,.40f,.532f,.53f,()=>Transfer(true),theme?.takeIcon);
-        var info=Rect("Item Details",panel,.02f,.14f,.98f,.275f);Surface(info,new(.22f,.29f,.33f,.7f));
+        var info=Rect("Item Details",panel,.02f,.14f,.98f,.275f);Surface(info,GameplayHUDStyle.Card);
         illustration=Art("Item Illustration Slot",info,null,.025f,.1f,.16f,.9f);
         detail=Text(info,"Pilih item",21,.18f,.08f,.75f,.95f);
         Text(info,"Jumlah",20,.78f,.7f,.98f,.98f);
@@ -188,7 +191,7 @@ public sealed class StorageChestUI : MonoBehaviour
     {
         confirmationPanel=Rect("Valuable Item Confirmation",panel,0,0,1,1).gameObject;
         confirmationPanel.AddComponent<Image>().color=new(0,0,0,.78f);
-        var card=Rect("Confirmation",confirmationPanel.transform,.20f,.35f,.80f,.65f);Surface(card,new(.18f,.26f,.32f));
+        var card=Rect("Confirmation",confirmationPanel.transform,.20f,.35f,.80f,.65f);Surface(card,GameplayHUDStyle.Modal);
         confirmationText=Text(card,"",26,.05f,.43f,.95f,.94f);
         ButtonAt(card,"Batal",.05f,.10f,.47f,.35f,()=>{Bin.CancelDeposit();dirty=true;});
         ButtonAt(card,"Jual",.53f,.10f,.95f,.35f,()=>{Bin.ConfirmDeposit();dirty=true;GameplayInput.ConsumeCurrentFrame();});
@@ -205,6 +208,7 @@ public sealed class StorageChestUI : MonoBehaviour
     {
         bagIndex=Mathf.Clamp(bagIndex,0,inventory.Capacity-1);chestIndex=Mathf.Clamp(chestIndex,0,Mathf.Max(0,StoredCount-1));
         bagCount.text=$"{inventory.UsedSlots} / {inventory.Capacity}";chestCount.text=Bin!=null?$"{StoredCount} jenis":Chest!=null?$"{StoredCount} jenis":$"{StoredCount}/{StorageCapacity}";
+        if(Fridge!=null)RefreshFridgeIndices();
         BuildSlots(false,bagContent,bagViewport,bagSlots,inventory.Capacity);
         BuildSlots(true,chestContent,chestViewport,chestSlots,StorageCapacity);
         RefreshDetails();
@@ -212,21 +216,24 @@ public sealed class StorageChestUI : MonoBehaviour
     void BuildSlots(bool storage,RectTransform content,RectTransform viewport,List<Button> slots,int count)
     {
         foreach(Transform child in content){child.gameObject.SetActive(false);Destroy(child.gameObject);}slots.Clear();
+        var indices=storage?fridgeStoredIndices:fridgeBagIndices;
+        if(Fridge!=null)count=indices.Count;
         float width=Mathf.Max(64,(viewport.rect.width-24)/4),height=width*1.18f;content.sizeDelta=new(0,Mathf.CeilToInt(count/4f)*(height+8));
         for(int i=0;i<count;i++)
         {
-            int index=i;ItemSO item=null;int number=0,quality=0;
-            if(storage&&i<StoredCount){var e=Stored(i);item=e.item;number=e.count;quality=e.qualityStars;}
-            else if(!storage){var s=inventory.GetSlot(i);if(s!=null){item=s.item;number=s.count;quality=s.qualityStars;}}
+            int index=Fridge!=null?indices[i]:i;ItemSO item=null;int number=0,quality=0;
+            if(storage&&index<StoredCount){var e=Stored(index);item=e.item;number=e.count;quality=e.qualityStars;}
+            else if(!storage){var s=inventory.GetSlot(index);if(s!=null){item=s.item;number=s.count;quality=s.qualityStars;}}
             var row=Rect("Slot "+i,content,0,1,0,1);row.pivot=new(0,1);row.anchoredPosition=new((i%4)*(width+8),-(i/4)*(height+8));row.sizeDelta=new(width,height);
             var button=ButtonAt(row,"",0,0,1,1,()=>Select(storage,index));slots.Add(button);row.gameObject.AddComponent<StorageSlotDragHandler>().Initialize(this,storage,index);
-            if(Bin==null&&!storage&&item!=null&&!Accepts(item))button.interactable=false;
+            if(Bin==null&&Fridge==null&&!storage&&item!=null&&!Accepts(item))button.interactable=false;
             var surface=button.targetGraphic as MainMenuRoundedImage;
-            bool selected=storageSelected==storage&&(storage?chestIndex:bagIndex)==i;
-            surface.borderColor=selected?new Color(.5f,1,.96f):accents[0]*new Color(1,1,1,.45f);surface.borderWidth=selected?2:1;
+            bool selected=storageSelected==storage&&(storage?chestIndex:bagIndex)==index;
+            surface.borderColor=selected?new Color(.5f,1,.96f):Color.clear;surface.borderWidth=selected?1.5f:0;
             if(item!=null)
             {
                 Art("Item Image Slot",row,item.icon,.08f,.39f,.92f,.96f);
+                if(Fridge!=null&&!storage&&!Accepts(item)){Art("Not Refrigeratable Image Slot",row,theme?.blockedIcon,.72f,.72f,.97f,.98f);Text(row,"Tidak dapat disimpan",12,.02f,.31f,.98f,.43f);}
                 Text(row,Bin!=null&&!storage&&!Accepts(item)?"Tidak dijual":quality>0?$"Kualitas {quality}":"",14,.04f,.3f,.96f,.41f).color=new(.95f,.80f,.45f);
                 var label=Text(row,item.itemName,18,.03f,.15f,.97f,.31f);label.alignment=TextAlignmentOptions.Midline;
                 Text(row,$"x{number}",21,.04f,.015f,.96f,.155f).alignment=TextAlignmentOptions.Midline;
@@ -238,15 +245,17 @@ public sealed class StorageChestUI : MonoBehaviour
     {
         if(shippingTotal!=null)shippingTotal.text=$"Total Penjualan: {Bin.PendingEstimatedValue.ToString("N0",System.Globalization.CultureInfo.GetCultureInfo("id-ID"))} G • Uang diterima besok pagi";
         ItemSO item=null;int quality=0;float size=0,weight=0;
-        if(storageSelected&&chestIndex<StoredCount){var e=Stored(chestIndex);item=e.item;quality=e.qualityStars;size=e.fishSizeCm;weight=e.fishWeightKg;}
+        if(storageSelected&&chestIndex>=0&&chestIndex<StoredCount){var e=Stored(chestIndex);item=e.item;quality=e.qualityStars;size=e.fishSizeCm;weight=e.fishWeightKg;}
         else if(!storageSelected){var s=inventory.GetSlot(bagIndex);if(s!=null){item=s.item;quality=s.qualityStars;size=s.fishSizeCm;weight=s.fishWeightKg;}}
         quantity=Mathf.Clamp(quantity,1,Mathf.Max(1,SelectedCount()));amount.text=quantity.ToString();
         illustration.sprite=item!=null?(item.inventoryIllustration!=null?item.inventoryIllustration:item.icon):null;illustration.enabled=illustration.sprite!=null;
-        detail.text=item==null?"Pilih item dari tas atau peti.":$"<b>{item.itemName}</b>\n{item.inventoryDescription}\nJumlah di Tas: {inventory.GetCount(item)}    Jumlah di Peti: {StorageCount(item)}";
+        detail.text=item==null?"Pilih item dari tas atau penyimpanan.":$"<b>{item.itemName}</b>\n{item.inventoryDescription}\nJumlah di Tas: {inventory.GetCount(item)}    Jumlah di {(Fridge!=null?"Kulkas":"Peti")}: {StorageCount(item)}";
+        if(Fridge!=null&&item!=null)detail.text+=$"    Kualitas {quality}/5";
         if(item!=null&&!Accepts(item))detail.text+=Bin!=null?"\nBarang ini tidak dapat dijual.":"\nItem ini tidak dapat disimpan di storage ini.";
         if(Bin!=null&&item!=null){int price=storageSelected&&chestIndex<Bin.Listings.Count?Bin.Listings[chestIndex].unitPriceSnapshot:item.GetMarketSellPrice(quality,size);detail.text+=$"\nHarga jual: {price} G • Kualitas {quality}/5";}
         if(Chest!=null&&item!=null&&Accepts(item)) { var status=inventory.GetComponent<PlayerStatusSystem>(); detail.text+=$"    Level: {(status!=null?status.GetToolLevel(item.equippedTool):1)}"; }
         if(size>0)detail.text+=$"\n{size:0.#} cm • {weight:0.##} kg";
+        if(fridgeCapacity!=null)fridgeCapacity.text=$"{StoredCount} / {StorageCapacity} Slot";
         storeButton.interactable=!storageSelected&&item!=null&&Accepts(item);takeButton.interactable=storageSelected&&item!=null;feedback.text=Feedback;
     }
     int StorageCount(ItemSO item){int count=0;for(int i=0;i<StoredCount;i++){var e=Stored(i);if(e.item==item)count+=e.count;}return count;}
@@ -288,7 +297,7 @@ public sealed class StorageChestUI : MonoBehaviour
     }
     static TMP_Text Text(Transform parent,string value,float size,float x1,float y1,float x2,float y2)
     {
-        var text=GameplayHUDStyle.Text("Text",parent,value,size,new(x1,y1),new(x2,y2));text.fontSizeMin=11;return text;
+        var text=GameplayHUDStyle.Text("Text",parent,value,size,new(x1,y1),new(x2,y2));GameplayHUDStyle.Typography(text,size);return text;
     }
     static Image Art(string name,Transform parent,Sprite sprite,float x1,float y1,float x2,float y2)
     {
@@ -298,12 +307,9 @@ public sealed class StorageChestUI : MonoBehaviour
     {
         var rect=Rect(label+" Button",parent,x1,y1,x2,y2);var image=GameplayHUDStyle.Surface(rect,Color.white,10);image.raycastTarget=true;
         var button=rect.gameObject.AddComponent<Button>();button.targetGraphic=image;var colors=button.colors;
-        colors.normalColor=Gray;colors.selectedColor=Gray;colors.highlightedColor=new(.32f,.53f,.37f,.94f);colors.pressedColor=new(.23f,.40f,.28f);colors.disabledColor=new(.16f,.22f,.25f,.45f);colors.fadeDuration=0;button.colors=colors;
+        colors.normalColor=Gray;colors.selectedColor=Gray;colors.highlightedColor=new(.32f,.53f,.37f,.94f);colors.pressedColor=new(.23f,.40f,.28f);colors.disabledColor=new(.16f,.22f,.25f,.45f);colors.fadeDuration=0;button.colors=colors;GameplayHUDStyle.ButtonStates(button);
         button.navigation=new Navigation{mode=Navigation.Mode.None};rect.gameObject.AddComponent<MainMenuButtonAudio>();button.onClick.AddListener(action);
         var text=Text(rect,label,21,icon!=null?.29f:.04f,.06f,.96f,.94f);text.alignment=TextAlignmentOptions.Midline;
         if(icon!=null)Art("Image Slot",rect,icon,.04f,.15f,.25f,.85f);return button;
     }
 }
-
-
-

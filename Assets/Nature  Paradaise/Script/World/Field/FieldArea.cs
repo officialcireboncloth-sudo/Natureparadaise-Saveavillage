@@ -33,6 +33,13 @@ public sealed class FieldArea : MonoBehaviour
     [SerializeField] Transform fieldSurface;
     [SerializeField] Vector2 fieldSurfaceBaseSize = new Vector2(10f, 10f);
     [SerializeField] float fieldSurfaceYOffset;
+    [Tooltip("Follow terrain height and soften field/tile edges. Visual only; farming grid stays unchanged.")]
+    [SerializeField] bool blendGroundSurface = true;
+    [SerializeField, Range(.05f, 2f)] float fieldEdgeFeather = .65f;
+    [SerializeField, Range(.01f, .6f)] float tileEdgeFeather = .40f;
+    [Header("Harvestable Wild Grass")]
+    [SerializeField] GameObject wildGrassPrefab;
+    public GameObject WildGrassPrefab => wildGrassPrefab;
 
     [Header("Simulation")]
     [SerializeField] SoilProfileSO soilProfile;
@@ -45,6 +52,8 @@ public sealed class FieldArea : MonoBehaviour
     [SerializeField] GameObject hoeMarkPrefab;
 
     [Header("Soil Visual State")]
+    [Tooltip("Separate textures for empty field, hoed dry and hoed watered. Path dirt remains on the Terrain.")]
+    [SerializeField] FieldSoilVisualProfile soilVisualProfile;
     [SerializeField] Material normalSoilMaterial;
     [Tooltip("Material lama dipertahankan agar scene lama tetap kompatibel; visual baru memakai property per tile.")]
     [SerializeField, HideInInspector] Material wateredSoilMaterial;
@@ -73,6 +82,11 @@ public sealed class FieldArea : MonoBehaviour
     Transform visualRoot;
     float nextLodCheckTime;
     MaterialPropertyBlock soilVisualProperties;
+    Material blendedFieldMaterial, blendedTileMaterial;
+    Mesh blendedFieldMesh;
+    Renderer originalSurfaceRenderer;
+    bool originalSurfaceVisible;
+    readonly List<Mesh> blendedTileMeshes = new();
 
     static readonly int WetnessProperty = Shader.PropertyToID("_Wetness");
     static readonly int FertilizedProperty = Shader.PropertyToID("_Fertilized");
@@ -129,6 +143,7 @@ public sealed class FieldArea : MonoBehaviour
         ResolveReferences();
         InitializeData();
         EnsureVisualRoot();
+        InitializeBlendedGround();
     }
 
     void OnEnable()
@@ -750,7 +765,8 @@ public sealed class FieldArea : MonoBehaviour
             0f,
             -rows * cellSize * 0.5f + (z + 0.5f) * cellSize
         );
-        return transform.TransformPoint(local);
+        Vector3 world = transform.TransformPoint(local);
+        return blendGroundSurface && !protectedFromWeather ? FieldGroundSurface.GroundPosition(world) : world;
     }
 
     /// <summary>Mengubah world-space ke koordinat tile jika masih berada dalam area.</summary>
@@ -1130,13 +1146,26 @@ public sealed class FieldArea : MonoBehaviour
 
     void ShowHoeView(int index, int x, int z)
     {
-        if (hoeMarkPrefab == null || hoeViews[index] != null)
+        if ((hoeMarkPrefab == null && blendedTileMaterial == null) || hoeViews[index] != null)
             return;
 
         EnsureVisualRoot();
-        GameObject view = hoePool.Count > 0 ? hoePool.Pop() : Instantiate(hoeMarkPrefab);
+        GameObject view = hoePool.Count > 0 ? hoePool.Pop() :
+            blendedTileMaterial != null ? new GameObject("HoedSoil", typeof(MeshFilter), typeof(MeshRenderer)) : Instantiate(hoeMarkPrefab);
         view.transform.SetParent(visualRoot, true);
         view.transform.SetPositionAndRotation(GridToWorld(x, z), transform.rotation);
+        if (blendedTileMaterial != null)
+        {
+            view.transform.localScale = Vector3.one;
+            var filter = view.GetComponent<MeshFilter>();
+            // Pooled geometry is resampled at the new cell, so slopes never reuse old heights.
+            if (filter.sharedMesh != null) { blendedTileMeshes.Remove(filter.sharedMesh); Destroy(filter.sharedMesh); }
+            filter.sharedMesh = FieldGroundSurface.CreateMesh(view.transform, Vector2.one * cellSize * .93f, !protectedFromWeather, .035f, 4);
+            blendedTileMeshes.Add(filter.sharedMesh);
+            var renderer = view.GetComponent<MeshRenderer>(); renderer.sharedMaterial = blendedTileMaterial;
+            FieldGroundSurface.ApplyEdges(renderer, Vector2.one * cellSize * .93f, tileEdgeFeather, cellSize * .11f,
+                new Vector2((x + .5f) * cellSize - WorldSize.x * .5f, (z + .5f) * cellSize - WorldSize.y * .5f));
+        }
         view.SetActive(true);
         hoeViews[index] = view;
         UpdateSoilMaterial(index);
@@ -1217,13 +1246,14 @@ public sealed class FieldArea : MonoBehaviour
             return;
 
         FieldTileData tile = tiles[index];
-        bool watered = tile.moisture >= wateredVisualThreshold;
+        bool watered = tile.waterSourcesToday != CropWaterSource.None;
         bool fertilized = tile.fertilizedForCurrentCycle;
 
         // Semua tile memakai satu shared material. State visual ditulis melalui
         // MaterialPropertyBlock sehingga tidak membuat material instance per tile.
-        if (normalSoilMaterial != null && soilRenderer.sharedMaterial != normalSoilMaterial)
-            soilRenderer.sharedMaterial = normalSoilMaterial;
+        Material soilMaterial = blendedTileMaterial != null ? blendedTileMaterial : normalSoilMaterial;
+        if (soilMaterial != null && soilRenderer.sharedMaterial != soilMaterial)
+            soilRenderer.sharedMaterial = soilMaterial;
 
         soilVisualProperties ??= new MaterialPropertyBlock();
         soilRenderer.GetPropertyBlock(soilVisualProperties);
@@ -1487,6 +1517,33 @@ public sealed class FieldArea : MonoBehaviour
 
         areaCollider.center = Vector3.zero;
         areaCollider.size = new Vector3(columns * cellSize, 0.2f, rows * cellSize);
+    }
+
+    void InitializeBlendedGround()
+    {
+        if (!blendGroundSurface || fieldSurface == null) return;
+        originalSurfaceRenderer = fieldSurface.GetComponent<Renderer>();
+        if (originalSurfaceRenderer == null) return;
+        blendedFieldMaterial = FieldGroundSurface.CreateMaterial(originalSurfaceRenderer.sharedMaterial, true, transform.position, soilVisualProfile);
+        blendedTileMaterial = FieldGroundSurface.CreateMaterial(normalSoilMaterial, false, transform.position, soilVisualProfile);
+        if (blendedFieldMaterial == null || blendedTileMaterial == null) return;
+        var ground = new GameObject("FieldDirt_Blend", typeof(MeshFilter), typeof(MeshRenderer));
+        ground.transform.SetParent(transform, false);
+        blendedFieldMesh = FieldGroundSurface.CreateMesh(ground.transform, WorldSize, !protectedFromWeather, .02f, 4);
+        ground.GetComponent<MeshFilter>().sharedMesh = blendedFieldMesh;
+        var renderer = ground.GetComponent<MeshRenderer>(); renderer.sharedMaterial = blendedFieldMaterial;
+        FieldGroundSurface.ApplyEdges(renderer, WorldSize, fieldEdgeFeather, cellSize * .5f);
+        originalSurfaceVisible = originalSurfaceRenderer.enabled;
+        originalSurfaceRenderer.enabled = false;
+    }
+
+    void OnDestroy()
+    {
+        if (originalSurfaceRenderer != null && blendedFieldMesh != null) originalSurfaceRenderer.enabled = originalSurfaceVisible;
+        if (blendedFieldMaterial != null) Destroy(blendedFieldMaterial);
+        if (blendedTileMaterial != null) Destroy(blendedTileMaterial);
+        if (blendedFieldMesh != null) Destroy(blendedFieldMesh);
+        foreach (var mesh in blendedTileMeshes) if (mesh != null) Destroy(mesh);
     }
 
     void SyncSurfaceToGrid()

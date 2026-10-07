@@ -1,0 +1,86 @@
+[
+  {
+    "name": "Grass_Rosette_A",
+    "lod0Triangles": 240,
+    "lod1Triangles": 72,
+    "dimensionsMetres": [
+      0.7978733777999878,
+      0.7441802024841309,
+      0.29361090064048767
+    ],
+    "pivot": "bottom centre",
+    "materials": 1
+  },
+  {
+    "name": "Grass_Rosette_B",
+    "lod0Triangles": 320,
+    "lod1Triangles": 96,
+    "dimensionsMetres": [
+      0.594020664691925,
+      0.5635585188865662,
+      0.2257486879825592
+    ],
+    "pivot": "bottom centre",
+    "materials": 1
+  },
+  {
+    "name": "Grass_Rosette_C",
+    "lod0Triangles": 180,
+    "lod1Triangles": 60,
+    "dimensionsMetres": [
+      0.5137267112731934,
+      0.53009432554245,
+      0.3450048267841339
+    ],
+    "pivot": "bottom centre",
+    "materials": 1
+  },
+  {
+    "name": "Bush_Round_A",
+    "lod0Triangles": 1596,
+    "lod1Triangles": 532,
+    "dimensionsMetres": [
+      1.4284522533416748,
+      1.3967093229293823,
+      0.6978150010108948
+    ],
+    "pivot": "bottom centre",
+    "materials": 1
+  },
+  {
+    "name": "Bush_Round_B",
+    "lod0Triangles": 1276,
+    "lod1Triangles": 436,
+    "dimensionsMetres": [
+      1.426932454109192,
+      1.3048852682113647,
+      0.704524576663971
+    ],
+    "pivot": "bottom centre",
+    "materials": 1
+  },
+  {
+    "name": "Flowers_White",
+    "lod0Triangles": 880,
+    "lod1Triangles": 492,
+    "dimensionsMetres": [
+      0.5,
+      0.4755282700061798,
+      0.46822983026504517
+    ],
+    "pivot": "bottom centre",
+    "materials": 1
+  },
+  {
+    "name": "Flowers_Yellow",
+    "lod0Triangles": 1220,
+    "lod1Triangles": 696,
+    "dimensionsMetres": [
+      0.5,
+      0.4755282700061798,
+      0.519199788570404
+    ],
+    "pivot": "bottom centre",
+    "materials": 1
+  }
+]

@@ -88,7 +88,7 @@ public sealed class FeedMakerUI : MonoBehaviour
         Rect("Dim World",transform,0,0,1,1).gameObject.AddComponent<Image>().color=new(0,0,0,.18f);
         var safe=Rect("Safe Area",transform,0,0,1,1);safe.gameObject.AddComponent<SafeAreaFitter>();
         var panel=Rect("Feed Maker Panel",safe,.482f,.095f,.985f,.985f);
-        if(theme?.panel!=null){var image=panel.gameObject.AddComponent<Image>();image.sprite=theme.panel;image.type=Image.Type.Sliced;} else Surface(panel,new(.12f,.20f,.26f,.96f));
+        if(theme?.panel!=null){var image=panel.gameObject.AddComponent<Image>();image.sprite=theme.panel;image.type=Image.Type.Sliced;} else Surface(panel,GameplayHUDStyle.Modal);
         Art("Leaf Image Slot",panel,theme?.leafIcon,.025f,.94f,.08f,.982f);
         Text(panel,"MESIN PEMBUAT PAKAN",33,.09f,.935f,.64f,.99f).fontStyle=FontStyles.Bold;
         status=Text(panel,"",18,.66f,.935f,.975f,.99f);
@@ -99,13 +99,13 @@ public sealed class FeedMakerUI : MonoBehaviour
             Art("Bag Image Slot",button.transform,theme?.Bag(i),.025f,.09f,.27f,.91f);Text(button.transform,names[i],24,.29f,.05f,.97f,.95f);
             markers[i]=Rect("Selected Underline",button.transform,.08f,.025f,.92f,.045f).gameObject;var mark=markers[i].AddComponent<Image>();mark.color=new(.70f,.84f,.91f);mark.raycastTarget=false;
         }
-        var card=Rect("Recipe",panel,.025f,.479f,.975f,.815f);Surface(card,new(.17f,.26f,.31f,.7f));
+        var card=Rect("Recipe",panel,.025f,.479f,.975f,.815f);Surface(card,GameplayHUDStyle.Card);
         bag=Art("Large Bag Illustration Slot",card,null,.025f,.10f,.32f,.94f);
         title=Text(card,"",31,.345f,.83f,.98f,.97f);description=Text(card,"",19,.345f,.70f,.98f,.83f);
-        var material=Rect("Ingredients",card,.345f,.13f,.715f,.67f);Surface(material,new(.20f,.29f,.34f,.7f));
+        var material=Rect("Ingredients",card,.345f,.13f,.715f,.67f);Surface(material,GameplayHUDStyle.Card);
         Text(material,"BAHAN",20,.045f,.82f,.94f,.97f);ingredients=Text(material,"",20,.24f,.06f,.94f,.82f); for(int i=0;i<3;i++)materialIcons[i]=Art("Ingredient Image Slot "+i,material,null,.035f,.57f-i*.21f,.20f,.78f-i*.21f);
         Text(card,"→",40,.725f,.29f,.79f,.58f);
-        var output=Rect("Recipe Output",card,.80f,.13f,.97f,.67f);Surface(output,new(.20f,.29f,.34f,.7f));
+        var output=Rect("Recipe Output",card,.80f,.13f,.97f,.67f);Surface(output,GameplayHUDStyle.Card);
         product=Art("Product Image Slot",output,null,.10f,.39f,.90f,.94f);result=Text(output,"",19,.035f,.04f,.965f,.40f);result.alignment=TextAlignmentOptions.Midline;
         recipeLabel=Text(panel,"",19,.11f,.443f,.57f,.478f);
         Button(panel,"‹",.025f,.440f,.09f,.479f,()=>ChangeRecipe(-1));Button(panel,"›",.58f,.440f,.64f,.479f,()=>ChangeRecipe(1));
@@ -114,12 +114,12 @@ public sealed class FeedMakerUI : MonoBehaviour
         Button(panel,"+",.21f,.328f,.27f,.394f,()=>ChangeQuantity(1));total=Text(panel,"",19,.30f,.324f,.65f,.426f);
         start=Button(panel,"Mulai Produksi",.66f,.334f,.96f,.414f,()=>Produce());
         Art("Production Icon Slot",start.transform,theme?.productionIcon,.02f,.15f,.17f,.85f);
-        var queue=Rect("Production Queue",panel,.025f,.075f,.665f,.307f);Surface(queue,new(.15f,.24f,.29f,.7f));
+        var queue=Rect("Production Queue",panel,.025f,.075f,.665f,.307f);Surface(queue,GameplayHUDStyle.Card);
         queueLabel=Text(queue,"",20,.025f,.83f,.975f,.99f);
         var scrollRect=Rect("Scroll",queue,.02f,.035f,.98f,.82f);scrollRect.gameObject.AddComponent<Image>().color=new(0,0,0,.01f);scrollRect.gameObject.AddComponent<RectMask2D>();
         var scroll=scrollRect.gameObject.AddComponent<ScrollRect>();scroll.horizontal=false;scroll.viewport=scrollRect;
         queueContent=Rect("Rows",scrollRect,0,0,1,1);queueContent.pivot=new(.5f,1);queueContent.anchorMin=new(0,1);queueContent.anchorMax=new(1,1);scroll.content=queueContent;
-        var ready=Rect("Ready Output",panel,.685f,.075f,.975f,.307f);Surface(ready,new(.15f,.24f,.29f,.7f));
+        var ready=Rect("Ready Output",panel,.685f,.075f,.975f,.307f);Surface(ready,GameplayHUDStyle.Card);
         Text(ready,"Hasil Produksi",20,.065f,.80f,.95f,.96f);Art("Collect Image Slot",ready,theme?.collectIcon,.35f,.51f,.65f,.77f);
         outputs=Text(ready,"",20,.065f,.30f,.935f,.56f);take=Button(ready,"Ambil Hasil x1",.055f,.055f,.945f,.29f,()=>Collect());
         feedback=Text(panel,"",17,.035f,.035f,.975f,.072f);
@@ -153,7 +153,7 @@ public sealed class FeedMakerUI : MonoBehaviour
         int rows=Math.Max(3,Machine.Jobs.Count);queueContent.sizeDelta=new(0,rows*52);
         for(int i=0;i<rows;i++)
         {
-            var row=Rect("Queue Slot "+(i+1),queueContent,0,1,1,1);row.offsetMin=new(0,-(i+1)*52+4);row.offsetMax=new(0,-i*52-4);Surface(row,new(.20f,.29f,.34f,.65f));
+            var row=Rect("Queue Slot "+(i+1),queueContent,0,1,1,1);row.offsetMin=new(0,-(i+1)*52+4);row.offsetMax=new(0,-i*52-4);Surface(row,GameplayHUDStyle.Card);
             if(i>=Machine.Jobs.Count){Text(row,$"{i+1}     Slot Kosong",18,.025f,.1f,.96f,.9f);continue;}
             var job=Machine.Jobs[i];Art("Queue Bag Slot",row,theme?.Bag(job.producesFishFeed?2:1),.08f,.12f,.18f,.88f);
             Text(row,$"{i+1}",20,.025f,.1f,.07f,.9f);Text(row,$"{(job.producesFishFeed?"Pakan Ikan":"Pakan Hewan")} x{job.output}",19,.20f,.46f,.97f,.96f);
@@ -175,7 +175,7 @@ public sealed class FeedMakerUI : MonoBehaviour
     {
         var rect=Rect(label,parent,x1,y1,x2,y2);var image=GameplayHUDStyle.Surface(rect,Color.white,12);image.raycastTarget=true;
         var button=rect.gameObject.AddComponent<Button>();button.targetGraphic=image;var colors=button.colors;
-        colors.normalColor=new(.23f,.31f,.36f,.9f);colors.selectedColor=colors.normalColor;colors.highlightedColor=new(.29f,.53f,.36f,.95f);colors.pressedColor=new(.21f,.39f,.27f);colors.disabledColor=new(.20f,.26f,.30f,.60f);colors.fadeDuration=0;button.colors=colors;button.navigation=new Navigation{mode=Navigation.Mode.None};
+        colors.normalColor=new(.23f,.31f,.36f,.9f);colors.selectedColor=colors.normalColor;colors.highlightedColor=new(.29f,.53f,.36f,.95f);colors.pressedColor=new(.21f,.39f,.27f);colors.disabledColor=new(.20f,.26f,.30f,.60f);colors.fadeDuration=0;button.colors=colors;GameplayHUDStyle.ButtonStates(button);button.navigation=new Navigation{mode=Navigation.Mode.None};
         rect.gameObject.AddComponent<MainMenuButtonAudio>();button.onClick.AddListener(action);
         if(!string.IsNullOrEmpty(label)){var text=Text(rect,label,23,.025f,.05f,.975f,.95f);text.alignment=TextAlignmentOptions.Midline;}return button;
     }

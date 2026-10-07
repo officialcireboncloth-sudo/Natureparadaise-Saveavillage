@@ -496,7 +496,7 @@ public class HUDManager : MonoBehaviour
         canvas.sortingOrder = 200;
         CanvasScaler scaler = canvasObject.GetComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920f, 1080f);
+        scaler.referenceResolution = new Vector2(1920f, 1080f) / .85f;
         scaler.matchWidthOrHeight = 0.5f;
         RectTransform safe = GameplayHUDStyle.Rect("Safe Area", canvasObject.transform, Vector2.zero, Vector2.one);
         safe.gameObject.AddComponent<SafeAreaFitter>();

@@ -64,8 +64,8 @@ public sealed class WeatherForecastTVUI : MonoBehaviour
         var safe=Rect("Safe Area",transform,0,0,1,1);safe.gameObject.AddComponent<SafeAreaFitter>();
         var panel=Rect("Television Panel",safe,.51f,.035f,.985f,.965f);
         if(theme?.panel!=null){var art=panel.gameObject.AddComponent<Image>();art.sprite=theme.panel;art.type=Image.Type.Sliced;art.color=new(1,1,1,.94f);}
-        else Surface(panel,new(.13f,.23f,.30f,.95f));
-        Text(panel,"TELEVISI",43,.035f,.913f,.58f,.97f).fontStyle=FontStyles.Bold;
+        else Surface(panel,GameplayHUDStyle.Modal);
+        Text(panel,Owner != null && Owner.IsRadio ? "RADIO" : "TELEVISI",43,.035f,.913f,.58f,.97f).fontStyle=FontStyles.Bold;
         broadcast=Text(panel,"",21,.66f,.92f,.9f,.965f);
         Art("Leaf Image Slot",panel,theme?.leafIcon,.92f,.92f,.965f,.975f);
         var line=Rect("Header Divider",panel,.035f,.901f,.965f,.903f).gameObject.AddComponent<Image>();line.color=new(.65f,.79f,.85f,.5f);line.raycastTarget=false;
@@ -75,7 +75,7 @@ public sealed class WeatherForecastTVUI : MonoBehaviour
         tabMarkers[1]=Rect("Selection Indicator",villageTab.transform,.08f,.025f,.92f,.055f).gameObject;
         foreach(var marker in tabMarkers){var image=marker.AddComponent<Image>();image.color=new(.66f,.84f,.93f);image.raycastTarget=false;}
         forecastPage=Rect("Forecast Program",panel,.027f,.133f,.975f,.791f).gameObject;
-        var weather=Rect("Weather Card",forecastPage.transform,0,.385f,1,1);Surface(weather,new(.17f,.27f,.33f,.68f));
+        var weather=Rect("Weather Card",forecastPage.transform,0,.385f,1,1);Surface(weather,GameplayHUDStyle.Card);
         Text(weather,"RAMALAN CUACA",29,.025f,.87f,.975f,.98f).fontStyle=FontStyles.Bold;
         date=Text(weather,"",21,.025f,.79f,.96f,.885f);
         currentIcon=Art("Current Weather Image Slot",weather,null,.07f,.56f,.22f,.78f);
@@ -91,12 +91,12 @@ public sealed class WeatherForecastTVUI : MonoBehaviour
         Art("Advice Leaf Image Slot",weather,theme?.leafIcon,.025f,.13f,.075f,.21f);
         advice=Text(weather,"",19,.09f,.12f,.975f,.235f);
         presenter=Text(weather,"",18,.025f,.015f,.975f,.12f);
-        var news=Rect("Village News Summary",forecastPage.transform,0,0,1,.362f);Surface(news,new(.17f,.27f,.33f,.68f));
+        var news=Rect("Village News Summary",forecastPage.transform,0,0,1,.362f);Surface(news,GameplayHUDStyle.Card);
         Text(news,"BERITA DESA",28,.025f,.80f,.97f,.98f).fontStyle=FontStyles.Bold;
         Art("News Image Slot",news,theme?.villageNewsIcon,.045f,.39f,.145f,.72f);
         newsHeadline=Text(news,"",25,.18f,.53f,.96f,.80f);
         newsBody=Text(news,"",20,.18f,.08f,.96f,.53f);
-        newsPage=Rect("Village News Program",panel,.027f,.133f,.975f,.791f).gameObject;Surface((RectTransform)newsPage.transform,new(.17f,.27f,.33f,.68f));
+        newsPage=Rect("Village News Program",panel,.027f,.133f,.975f,.791f).gameObject;Surface((RectTransform)newsPage.transform,GameplayHUDStyle.Card);
         Text(newsPage.transform,"BERITA DESA",32,.025f,.86f,.97f,.97f).fontStyle=FontStyles.Bold;
         Art("News Program Image Slot",newsPage.transform,theme?.villageNewsIcon,.045f,.62f,.20f,.83f);
         expandedHeadline=Text(newsPage.transform,"",30,.24f,.67f,.96f,.85f);
@@ -109,7 +109,7 @@ public sealed class WeatherForecastTVUI : MonoBehaviour
     }
     TMP_Text ForecastCard(Transform parent,string title,float x1,float y1,float x2,float y2,out Image icon)
     {
-        var card=Rect(title,parent,x1,y1,x2,y2);Surface(card,new(.22f,.32f,.37f,.7f));
+        var card=Rect(title,parent,x1,y1,x2,y2);Surface(card,GameplayHUDStyle.Card);
         Text(card,title,22,.05f,.70f,.95f,.94f).alignment=TextAlignmentOptions.Midline;
         icon=Art(title+" Weather Image Slot",card,null,.25f,.28f,.75f,.70f);
         var label=Text(card,"",23,.035f,.025f,.965f,.27f);label.alignment=TextAlignmentOptions.Midline;return label;
@@ -144,7 +144,7 @@ public sealed class WeatherForecastTVUI : MonoBehaviour
         var rect=Rect(label,parent,x1,y1,x2,y2);var image=GameplayHUDStyle.Surface(rect,Color.white,12);image.raycastTarget=true;
         var button=rect.gameObject.AddComponent<Button>();button.targetGraphic=image;var colors=button.colors;
         colors.normalColor=new(.23f,.32f,.38f,.85f);colors.selectedColor=colors.normalColor;colors.highlightedColor=new(.29f,.53f,.36f,.95f);
-        colors.pressedColor=new(.21f,.39f,.27f);colors.fadeDuration=0;button.colors=colors;button.navigation=new Navigation{mode=Navigation.Mode.None};
+        colors.pressedColor=new(.21f,.39f,.27f);colors.fadeDuration=0;button.colors=colors;GameplayHUDStyle.ButtonStates(button);button.navigation=new Navigation{mode=Navigation.Mode.None};
         rect.gameObject.AddComponent<MainMenuButtonAudio>();button.onClick.AddListener(action);
         var text=Text(rect,label,25,sprite!=null?.26f:.03f,.08f,.97f,.92f);text.alignment=TextAlignmentOptions.Midline;
         Art("Tab Image Slot",rect,sprite,.07f,.15f,.23f,.85f);return button;

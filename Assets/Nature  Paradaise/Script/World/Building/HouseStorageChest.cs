@@ -9,8 +9,8 @@ public static class HouseStorageService
     public static event System.Action Changed;
     public static bool IsRestoringSave;
     public static IReadOnlyList<ItemStack> Entries=>stacks;
-    public static int Level=>ProgressionRequirementSettings.EffectiveHouseLevel(PlayerHouseController.Instance!=null?PlayerHouseController.Instance.CurrentLevel:1);
-    public static int Capacity=>Mathf.Max(stacks.Count,Level>=4?48:Level>=3?40:Level>=2?32:24);
+    public static int Level=>HouseFeatureService.EffectiveLevel;
+    public static int Capacity=>Mathf.Max(stacks.Count,Level>=5?64:Level>=4?48:Level>=3?40:Level>=2?32:24);
     public static bool Accepts(ItemSO item)=>item!=null && item.storageDestination!=HomeStorageDestination.Never && (Level==1 || !item.CanStoreInRefrigerator);
     static bool Compatible(ItemStack a,ItemStack b)=>a.item==b.item && a.qualityStars==b.qualityStars && a.fishSizeCm==b.fishSizeCm && a.fishWeightKg==b.fishWeightKg;
     static ItemStack Copy(ItemStack s,int count)=>new ItemStack{item=s.item,count=count,qualityStars=s.qualityStars,fishSizeCm=s.fishSizeCm,fishWeightKg=s.fishWeightKg};

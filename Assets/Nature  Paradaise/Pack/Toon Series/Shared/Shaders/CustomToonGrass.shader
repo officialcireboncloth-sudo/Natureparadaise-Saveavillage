@@ -6,6 +6,7 @@ Shader "Toon/CustomToonGrass"
 	{
 		_TextureSample( "Texture Sample", 2D ) = "white" {}
 		_TextureRamp( "Texture Ramp", 2D ) = "white" {}
+		[Toggle(NP_TERRAIN_GRASS)] _TerrainGrass("Native Terrain Grass", Float) = 0
 		_Color1( "Color 1", Color ) = ( 0, 0, 0, 1 )
 		_Color2( "Color 2", Color ) = ( 1, 1, 1, 0 )
 		_Color1Level( "Color 1 Level", Range( 0, 1 ) ) = 0.35
@@ -202,6 +203,7 @@ Shader "Toon/CustomToonGrass"
 			
 
 			HLSLPROGRAM
+            #pragma shader_feature_local _ NP_TERRAIN_GRASS
 
 			#define ASE_GEOMETRY
 			#define _SPECULAR_SETUP 1
@@ -300,7 +302,7 @@ Shader "Toon/CustomToonGrass"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DBuffer.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			#if defined(LOD_FADE_CROSSFADE)
+			#if defined(LOD_FADE_CROSSFADE) && !defined(NP_TERRAIN_GRASS)
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
@@ -414,6 +416,7 @@ Shader "Toon/CustomToonGrass"
 			sampler2D _WindNoiseTexture;
 			sampler2D _TextureSample;
 			sampler2D _TextureRamp;
+			float _NPNoonGrassPeak;
 
 
 			half4 CalculateShadowMask1_g3( half2 LightmapUV )
@@ -681,7 +684,7 @@ Shader "Toon/CustomToonGrass"
 					const bool isTransparent = false;
 				#endif
 
-				#if defined(LOD_FADE_CROSSFADE)
+				#if defined(LOD_FADE_CROSSFADE) && !defined(NP_TERRAIN_GRASS)
 					LODFadeCrossFade( input.positionCS );
 				#endif
 
@@ -748,6 +751,10 @@ Shader "Toon/CustomToonGrass"
 				
 
 				float3 BaseColor = ( ( float4( temp_output_55_0 , 0.0 ) * lerpResult113 ) + lerpResult113 + ( ( lerpResult113 * staticSwitch45 ) * ( tex2D( _TextureRamp, temp_cast_3 ) * ( ( temp_output_40_0 * max( max( break62.r, break62.g ), break62.b ) ) + max( max( break65.x, break65.y ), break65.z ) ) ) ) ).rgb;
+				#ifdef NP_TERRAIN_GRASS
+				// The pack adds artistic lighting before PBR. Limit its extra noon amplification.
+				BaseColor *= lerp(1.0, 0.65, saturate(_NPNoonGrassPeak));
+				#endif
 				float3 Normal = float3(0, 0, 1);
 				float3 Specular = 0.5;
 				float Metallic = 0;
@@ -1028,6 +1035,7 @@ Shader "Toon/CustomToonGrass"
 			ColorMask 0
 
 			HLSLPROGRAM
+            #pragma shader_feature_local _ NP_TERRAIN_GRASS
 
 			#define ASE_GEOMETRY
 			#define _SPECULAR_SETUP 1
@@ -1070,7 +1078,7 @@ Shader "Toon/CustomToonGrass"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			#if defined(LOD_FADE_CROSSFADE)
+			#if defined(LOD_FADE_CROSSFADE) && !defined(NP_TERRAIN_GRASS)
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
@@ -1336,7 +1344,7 @@ Shader "Toon/CustomToonGrass"
 					#endif
 				#endif
 
-				#if defined(LOD_FADE_CROSSFADE)
+				#if defined(LOD_FADE_CROSSFADE) && !defined(NP_TERRAIN_GRASS)
 					LODFadeCrossFade( input.positionCS );
 				#endif
 
@@ -1361,6 +1369,7 @@ Shader "Toon/CustomToonGrass"
 			AlphaToMask Off
 
 			HLSLPROGRAM
+            #pragma shader_feature_local _ NP_TERRAIN_GRASS
 
 			#define ASE_GEOMETRY
 			#define _SPECULAR_SETUP 1
@@ -1401,7 +1410,7 @@ Shader "Toon/CustomToonGrass"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			#if defined(LOD_FADE_CROSSFADE)
+			#if defined(LOD_FADE_CROSSFADE) && !defined(NP_TERRAIN_GRASS)
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
@@ -1648,7 +1657,7 @@ Shader "Toon/CustomToonGrass"
 					AlphaDiscard( Alpha, AlphaClipThreshold );
 				#endif
 
-				#if defined(LOD_FADE_CROSSFADE)
+				#if defined(LOD_FADE_CROSSFADE) && !defined(NP_TERRAIN_GRASS)
 					LODFadeCrossFade( input.positionCS );
 				#endif
 
@@ -1671,6 +1680,7 @@ Shader "Toon/CustomToonGrass"
 			Cull Off
 
 			HLSLPROGRAM
+            #pragma shader_feature_local _ NP_TERRAIN_GRASS
 			#define ASE_GEOMETRY
 			#define _SPECULAR_SETUP 1
 			#define _ALPHATEST_ON
@@ -1802,6 +1812,7 @@ Shader "Toon/CustomToonGrass"
 			sampler2D _WindNoiseTexture;
 			sampler2D _TextureSample;
 			sampler2D _TextureRamp;
+			float _NPNoonGrassPeak;
 
 
 			half4 CalculateShadowMask1_g3( half2 LightmapUV )
@@ -2089,6 +2100,10 @@ Shader "Toon/CustomToonGrass"
 				
 
 				float3 BaseColor = ( ( float4( temp_output_55_0 , 0.0 ) * lerpResult113 ) + lerpResult113 + ( ( lerpResult113 * staticSwitch45 ) * ( tex2D( _TextureRamp, temp_cast_3 ) * ( ( temp_output_40_0 * max( max( break62.r, break62.g ), break62.b ) ) + max( max( break65.x, break65.y ), break65.z ) ) ) ) ).rgb;
+				#ifdef NP_TERRAIN_GRASS
+				// The pack adds artistic lighting before PBR. Limit its extra noon amplification.
+				BaseColor *= lerp(1.0, 0.65, saturate(_NPNoonGrassPeak));
+				#endif
 				float3 Emission = 0;
 				float Alpha = tex2DNode50.a;
 				#if defined( _ALPHATEST_ON )
@@ -2126,6 +2141,7 @@ Shader "Toon/CustomToonGrass"
 			ColorMask RGBA
 
 			HLSLPROGRAM
+            #pragma shader_feature_local _ NP_TERRAIN_GRASS
 
 			#define ASE_GEOMETRY
 			#define _SPECULAR_SETUP 1
@@ -2251,6 +2267,7 @@ Shader "Toon/CustomToonGrass"
 			sampler2D _WindNoiseTexture;
 			sampler2D _TextureSample;
 			sampler2D _TextureRamp;
+			float _NPNoonGrassPeak;
 
 
 			half4 CalculateShadowMask1_g3( half2 LightmapUV )
@@ -2532,6 +2549,10 @@ Shader "Toon/CustomToonGrass"
 				
 
 				float3 BaseColor = ( ( float4( temp_output_55_0 , 0.0 ) * lerpResult113 ) + lerpResult113 + ( ( lerpResult113 * staticSwitch45 ) * ( tex2D( _TextureRamp, temp_cast_3 ) * ( ( temp_output_40_0 * max( max( break62.r, break62.g ), break62.b ) ) + max( max( break65.x, break65.y ), break65.z ) ) ) ) ).rgb;
+				#ifdef NP_TERRAIN_GRASS
+				// The pack adds artistic lighting before PBR. Limit its extra noon amplification.
+				BaseColor *= lerp(1.0, 0.65, saturate(_NPNoonGrassPeak));
+				#endif
 				float Alpha = tex2DNode50.a;
 				#if defined( _ALPHATEST_ON )
 					float AlphaClipThreshold = 0.5;
@@ -2561,6 +2582,7 @@ Shader "Toon/CustomToonGrass"
 			ZWrite On
 
 			HLSLPROGRAM
+            #pragma shader_feature_local _ NP_TERRAIN_GRASS
 
 			#define ASE_GEOMETRY
 			#define _SPECULAR_SETUP 1
@@ -2603,7 +2625,7 @@ Shader "Toon/CustomToonGrass"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			#if defined(LOD_FADE_CROSSFADE)
+			#if defined(LOD_FADE_CROSSFADE) && !defined(NP_TERRAIN_GRASS)
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
@@ -2885,7 +2907,7 @@ Shader "Toon/CustomToonGrass"
 					AlphaDiscard( Alpha, AlphaClipThreshold );
 				#endif
 
-				#if defined(LOD_FADE_CROSSFADE)
+				#if defined(LOD_FADE_CROSSFADE) && !defined(NP_TERRAIN_GRASS)
 					LODFadeCrossFade( input.positionCS );
 				#endif
 
@@ -2940,6 +2962,7 @@ Shader "Toon/CustomToonGrass"
 			
 
 			HLSLPROGRAM
+            #pragma shader_feature_local _ NP_TERRAIN_GRASS
 
 			#define ASE_GEOMETRY
 			#define _SPECULAR_SETUP 1
@@ -3026,7 +3049,7 @@ Shader "Toon/CustomToonGrass"
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/GBufferOutputFormat.hlsl"
 			#endif
 
-			#if defined(LOD_FADE_CROSSFADE)
+			#if defined(LOD_FADE_CROSSFADE) && !defined(NP_TERRAIN_GRASS)
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
@@ -3135,6 +3158,7 @@ Shader "Toon/CustomToonGrass"
 			sampler2D _WindNoiseTexture;
 			sampler2D _TextureSample;
 			sampler2D _TextureRamp;
+			float _NPNoonGrassPeak;
 
 
 			#if ( UNITY_VERSION >= 60010000 )
@@ -3399,7 +3423,7 @@ Shader "Toon/CustomToonGrass"
 				UNITY_SETUP_INSTANCE_ID(input);
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-				#if defined(LOD_FADE_CROSSFADE)
+				#if defined(LOD_FADE_CROSSFADE) && !defined(NP_TERRAIN_GRASS)
 					LODFadeCrossFade( input.positionCS );
 				#endif
 
@@ -3466,6 +3490,10 @@ Shader "Toon/CustomToonGrass"
 				
 
 				float3 BaseColor = ( ( float4( temp_output_55_0 , 0.0 ) * lerpResult113 ) + lerpResult113 + ( ( lerpResult113 * staticSwitch45 ) * ( tex2D( _TextureRamp, temp_cast_3 ) * ( ( temp_output_40_0 * max( max( break62.r, break62.g ), break62.b ) ) + max( max( break65.x, break65.y ), break65.z ) ) ) ) ).rgb;
+				#ifdef NP_TERRAIN_GRASS
+				// The pack adds artistic lighting before PBR. Limit its extra noon amplification.
+				BaseColor *= lerp(1.0, 0.65, saturate(_NPNoonGrassPeak));
+				#endif
 				float3 Normal = float3(0, 0, 1);
 				float3 Specular = 0.5;
 				float Metallic = 0;
@@ -3625,6 +3653,7 @@ Shader "Toon/CustomToonGrass"
 			AlphaToMask Off
 
 			HLSLPROGRAM
+            #pragma shader_feature_local _ NP_TERRAIN_GRASS
 
 			#define ASE_GEOMETRY
 			#define _SPECULAR_SETUP 1
@@ -3928,6 +3957,7 @@ Shader "Toon/CustomToonGrass"
 			AlphaToMask Off
 
 			HLSLPROGRAM
+            #pragma shader_feature_local _ NP_TERRAIN_GRASS
 
 			#define ASE_GEOMETRY
 			#define _SPECULAR_SETUP 1
@@ -4230,6 +4260,7 @@ Shader "Toon/CustomToonGrass"
 			ColorMask RG
 
 			HLSLPROGRAM
+            #pragma shader_feature_local _ NP_TERRAIN_GRASS
 
 			#define ASE_GEOMETRY
 			#define _SPECULAR_SETUP 1
@@ -4271,7 +4302,7 @@ Shader "Toon/CustomToonGrass"
 		    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 		    #include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			#if defined(LOD_FADE_CROSSFADE)
+			#if defined(LOD_FADE_CROSSFADE) && !defined(NP_TERRAIN_GRASS)
 				#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
 			#endif
 
@@ -4493,7 +4524,7 @@ Shader "Toon/CustomToonGrass"
 					input.previousPositionCSNoJitter = mul( _PrevViewProjMatrix, float4( previousPositionWS, 1.0 ) );
 				#endif
 
-				#if defined(LOD_FADE_CROSSFADE)
+				#if defined(LOD_FADE_CROSSFADE) && !defined(NP_TERRAIN_GRASS)
 					LODFadeCrossFade( input.positionCS );
 				#endif
 

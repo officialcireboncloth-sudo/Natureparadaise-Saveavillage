@@ -16,9 +16,11 @@ MonoBehaviour:
   displayName: Player House
   icon: {fileID: 0}
   category: 0
+  animalHousing: 0
   footprintWidth: 6
   footprintDepth: 5
   defaultPlacementYaw: 0
+  placementArea: 0
   canRelocate: 0
   canDemolish: 0
   levels:
@@ -31,8 +33,10 @@ MonoBehaviour:
     capacity: 8
     unlockIds:
     - house.bed
-    - house.tv
+    - house.save-book
+    - house.radio
     - house.basic-storage
+    - house.dining-area
   - level: 2
     requiredVillageLevel: 0
     goldCost: 250
@@ -45,9 +49,8 @@ MonoBehaviour:
     completedPrefab: {fileID: 0}
     capacity: 16
     unlockIds:
-    - house.kitchen
+    - house.tv
     - house.refrigerator
-    - house.dining-area
   - level: 3
     requiredVillageLevel: 2
     goldCost: 750
@@ -60,7 +63,9 @@ MonoBehaviour:
     completedPrefab: {fileID: 0}
     capacity: 24
     unlockIds:
-    - house.extra-bedroom
+    - house.kitchen
+    - house.aquarium
+    - house.tool-cabinet
     - house.large-living-room
     - house.furniture-tier-3
   - level: 4
@@ -76,5 +81,23 @@ MonoBehaviour:
     capacity: 32
     unlockIds:
     - house.master-bedroom
-    - house.trophy-room
+    - house.jumbo-bed
+    - house.child-room
+    - house.marriage-ready
     - house.furniture-tier-4
+  - level: 5
+    requiredVillageLevel: 4
+    goldCost: 4000
+    constructionDays: 10
+    materialCosts:
+    - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+      amount: 110
+    - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+      amount: 80
+    completedPrefab: {fileID: 0}
+    capacity: 64
+    unlockIds:
+    - house.tv-max
+    - house.refrigerator-max
+    - house.aquarium-jumbo
+    - house.furniture-tier-5

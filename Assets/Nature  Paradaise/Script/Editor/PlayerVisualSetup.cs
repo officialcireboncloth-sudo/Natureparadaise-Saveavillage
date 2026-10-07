@@ -894,11 +894,12 @@ public static class PlayerVisualSetup
         Texture2D baseMap=AssetDatabase.LoadAssetAtPath<Texture2D>(PreferredBaseTexturePath);
         if(material.HasProperty("_BaseMap")) material.SetTexture("_BaseMap",baseMap);
         if(material.HasProperty("_MainTex")) material.SetTexture("_MainTex",baseMap);
+        if(material.HasProperty("_TextureSample")) material.SetTexture("_TextureSample",baseMap);
         if(material.HasProperty("_MetallicGlossMap")) material.SetTexture("_MetallicGlossMap",null);
         if(material.HasProperty("_BumpMap")) material.SetTexture("_BumpMap",null);
         material.DisableKeyword("_METALLICSPECGLOSSMAP");
         material.DisableKeyword("_NORMALMAP");
-        material.SetFloat("_Smoothness",0.28f);
+        if(material.HasProperty("_Smoothness")) material.SetFloat("_Smoothness",0.28f);
         EditorUtility.SetDirty(material);
         return material;
     }

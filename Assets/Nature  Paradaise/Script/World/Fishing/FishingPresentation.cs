@@ -29,8 +29,7 @@ public sealed class FishingPresentation : MonoBehaviour
     }
     Material MakeMaterial(Color color, bool temporary = false)
     {
-        Shader shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
-        Material material = new(shader); material.color = color; (temporary ? catchMaterials : materials).Add(material); return material;
+        Material material = ToonWorldStyle.CreateMaterial(color); (temporary ? catchMaterials : materials).Add(material); return material;
     }
     GameObject Part(Transform parent, string name, PrimitiveType type, Vector3 position, Vector3 scale, Color color)
     {

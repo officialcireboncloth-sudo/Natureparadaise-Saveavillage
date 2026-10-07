@@ -137,9 +137,9 @@ public sealed class BedRestMenu : MonoBehaviour
         {
             var art = panel.gameObject.AddComponent<Image>(); art.sprite = theme.panel; art.type = Image.Type.Sliced;
         }
-        else GameplayHUDStyle.Surface(panel, new Color(.10f, .16f, .22f, .94f), 14).raycastTarget = true;
+        else GameplayHUDStyle.Surface(panel, GameplayHUDStyle.Modal, 14).raycastTarget = true;
         Label("Title", panel, "Menu Istirahat", 31, 28, 28, 358, 46, true);
-        Label("Subtitle", panel, "Apa yang ingin kamu lakukan?", 19, 28, 80, 358, 30, true).color = new Color(.7f, .81f, .93f);
+        Label("Subtitle", panel, "Apa yang ingin kamu lakukan?", 19, 28, 80, 358, 30, true).color = GameplayHUDStyle.Muted;
         string[] labels = { "Tidur Tanpa Save", "Tidur & Save Game", "Load Game", "Batal" };
         Sprite[] icons = { theme != null ? theme.sleepIcon : null, theme != null ? theme.sleepAndSaveIcon : null,
             theme != null ? theme.loadIcon : null, theme != null ? theme.backIcon : null };
@@ -156,7 +156,7 @@ public sealed class BedRestMenu : MonoBehaviour
             colors.selectedColor = colors.normalColor;
             colors.pressedColor = new Color(.24f, .44f, .29f, .95f);
             colors.disabledColor = new Color(.17f, .20f, .23f, .4f);
-            button.colors = colors;
+            button.colors = colors;GameplayHUDStyle.ButtonStates(button);
             button.navigation = new Navigation { mode = Navigation.Mode.None };
             row.gameObject.AddComponent<MainMenuButtonAudio>();
             button.onClick.AddListener(() => Choose(choice));
@@ -167,7 +167,7 @@ public sealed class BedRestMenu : MonoBehaviour
             Label("Label", row, labels[i], 21, 84, 0, 244, 62).alpha = button.interactable ? 1f : .42f;
             markers[i] = Label("Keyboard Selection", row, "", 26, 6, 0, 18, 62);
         }
-        Label("Last Save", panel, saveInfo, 18, 28, 415, 358, 30, true).color = new Color(.7f, .81f, .93f);
+        Label("Last Save", panel, saveInfo, 18, 28, 415, 358, 30, true).color = GameplayHUDStyle.Muted;
         Label("Key Hints", panel, "↑ ↓  Pilih     Enter  Konfirmasi     Esc  Kembali", 16, 20, 469, 374, 30, true);
         RefreshSelection();
     }
@@ -203,7 +203,7 @@ public sealed class BedRestMenu : MonoBehaviour
         var text = rect.gameObject.AddComponent<TextMeshProUGUI>();
         text.font = TMP_Settings.defaultFontAsset; text.text = value; text.fontSize = size; text.raycastTarget = false;
         text.alignment = center ? TextAlignmentOptions.Midline : TextAlignmentOptions.MidlineLeft;
-        text.enableAutoSizing = true; text.fontSizeMin = 12; text.fontSizeMax = size;
+        text.enableAutoSizing = true; text.fontSizeMin = Mathf.Min(size, Mathf.Max(14, size * .85f)); text.fontSizeMax = size;
         return text;
     }
 }

@@ -1,0 +1,263 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ad37b10159961342abde1ff49f70035, type: 3}
+  m_Name: Blacksmith Upgrades
+  m_EditorClassIdentifier: 
+  background: {fileID: 0}
+  merchantPortrait: {fileID: 0}
+  tools:
+  - item: {fileID: 11400000, guid: 2d77872bbde74ec8a1e9700fe63daaf1, type: 2}
+    displayName: Penyiram
+    maximumLevel: 4
+    illustration: {fileID: 0}
+    upgrades:
+    - level: 2
+      requiredVillageLevel: 0
+      goldCost: 1000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 5
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 3
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+    - level: 3
+      requiredVillageLevel: 0
+      goldCost: 2000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 10
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 6
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+    - level: 4
+      requiredVillageLevel: 0
+      goldCost: 3000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 15
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 9
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+  - item: {fileID: 11400000, guid: d16ee0bb56da49f4ba7538074eb6b61e, type: 2}
+    displayName: Cangkul
+    maximumLevel: 4
+    illustration: {fileID: 0}
+    upgrades:
+    - level: 2
+      requiredVillageLevel: 0
+      goldCost: 1000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 5
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 3
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+    - level: 3
+      requiredVillageLevel: 0
+      goldCost: 2000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 10
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 6
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+    - level: 4
+      requiredVillageLevel: 0
+      goldCost: 3000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 15
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 9
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+  - item: {fileID: 11400000, guid: f0979562422245399069598416784c76, type: 2}
+    displayName: Kapak
+    maximumLevel: 4
+    illustration: {fileID: 0}
+    upgrades:
+    - level: 2
+      requiredVillageLevel: 0
+      goldCost: 1000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 5
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 3
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+    - level: 3
+      requiredVillageLevel: 0
+      goldCost: 2000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 10
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 6
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+    - level: 4
+      requiredVillageLevel: 0
+      goldCost: 3000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 15
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 9
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+  - item: {fileID: 11400000, guid: 0a6dd2ef559c4d6f99b04cec1c2b4ac8, type: 2}
+    displayName: Palu
+    maximumLevel: 4
+    illustration: {fileID: 0}
+    upgrades:
+    - level: 2
+      requiredVillageLevel: 0
+      goldCost: 1000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 5
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 3
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+    - level: 3
+      requiredVillageLevel: 0
+      goldCost: 2000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 10
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 6
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+    - level: 4
+      requiredVillageLevel: 0
+      goldCost: 3000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 15
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 9
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+  - item: {fileID: 11400000, guid: 68b8dc5c9fc8443fa4d9114e2f32159c, type: 2}
+    displayName: Sabit
+    maximumLevel: 4
+    illustration: {fileID: 0}
+    upgrades:
+    - level: 2
+      requiredVillageLevel: 0
+      goldCost: 1000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 5
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 3
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+    - level: 3
+      requiredVillageLevel: 0
+      goldCost: 2000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 10
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 6
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+    - level: 4
+      requiredVillageLevel: 0
+      goldCost: 3000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 15
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 9
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+  - item: {fileID: 11400000, guid: 5e60c936d2e549a6e430eae67adde936, type: 2}
+    displayName: Pancing
+    maximumLevel: 4
+    illustration: {fileID: 0}
+    upgrades:
+    - level: 2
+      requiredVillageLevel: 0
+      goldCost: 1000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 5
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 3
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+    - level: 3
+      requiredVillageLevel: 0
+      goldCost: 2000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 10
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 6
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []
+    - level: 4
+      requiredVillageLevel: 0
+      goldCost: 3000
+      constructionDays: 0
+      materialCosts:
+      - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
+        amount: 15
+      - item: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+        amount: 9
+      completedPrefab: {fileID: 0}
+      capacity: 0
+      unlockIds: []

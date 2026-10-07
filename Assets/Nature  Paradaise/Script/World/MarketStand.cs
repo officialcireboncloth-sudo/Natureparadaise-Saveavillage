@@ -75,13 +75,17 @@ public sealed class MarketStand : MonoBehaviour
     [SerializeField] int lastProcessedAbsoluteHour = -1;
     [SerializeField, Min(0)] int lifetimeRevenue;
 
-    readonly Rect windowRectDefault = new(0f, 0f, 980f, 650f);
-    Rect windowRect;
-    Vector2 inventoryScroll;
-    Vector2 standScroll;
     bool panelOpen;
+    MarketStandUI marketUI; bool previousCursorVisible; CursorLockMode previousCursorLock;
     string feedback = string.Empty;
 
+    public static bool IsAnyOpen => Active.Any(s=>s!=null&&s.panelOpen);
+    public Inventory PlayerInventory => playerInventory;
+    public int ListingCapacity => listingCapacity;
+    public string Feedback => feedback;
+    public string OpeningHoursLabel => $"{(TimeManager.Instance!=null&&TimeManager.Instance.hour>=marketOpenHour&&TimeManager.Instance.hour<marketCloseHour?"Pasar buka":"Pasar tutup")}  •  {marketOpenHour:00}:00–{marketCloseHour:00}:00";
+    public bool CanDepositFromSlot(int slotIndex)
+    {var stack=playerInventory!=null?playerInventory.GetSlot(slotIndex):null;return stack?.item!=null&&stack.count>0&&stack.item.CanSellAtMarket&&(listings.Count<listingCapacity||FindCompatible(stack.item,stack.qualityStars,stack.fishSizeCm)!=null);}
     public string StandId => standId;
     public IReadOnlyList<MarketStandListing> Listings => listings;
     public int LifetimeRevenue => lifetimeRevenue;
@@ -97,8 +101,8 @@ public sealed class MarketStand : MonoBehaviour
     {
         get
         {
-            Vector2 pointer = new(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
-            return Active.Any(stand => stand != null && stand.panelOpen && stand.windowRect.Contains(pointer));
+
+            return IsAnyOpen;
         }
     }
 
@@ -106,8 +110,8 @@ public sealed class MarketStand : MonoBehaviour
     {
         ResolveInventory();
         NormalizeListings();
-        windowRect = windowRectDefault;
-        CenterWindow();
+
+
         if (lastProcessedAbsoluteHour < 0)
             lastProcessedAbsoluteHour = CurrentAbsoluteHour;
     }
@@ -136,7 +140,7 @@ public sealed class MarketStand : MonoBehaviour
 
         if (panelOpen)
         {
-            if (GameplayInput.GetKeyDown(KeyCode.Escape) || GameplayInput.GetKeyDown(interactKey))
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey))
                 ClosePanel();
             return;
         }
@@ -149,103 +153,6 @@ public sealed class MarketStand : MonoBehaviour
             $"{interactKey}: Market Stand | Stok {TotalItemCount} item", distance, promptHeight);
         if (PlayerInteractionTarget.Press(playerInventory.transform, transform, interactKey))
             OpenPanel();
-    }
-
-    void OnGUI()
-    {
-        if (!panelOpen)
-            return;
-
-        float width = Mathf.Min(windowRectDefault.width, Screen.width - 24f);
-        float height = Mathf.Min(windowRectDefault.height, Screen.height - 24f);
-        windowRect.width = Mathf.Max(620f, width);
-        windowRect.height = Mathf.Max(420f, height);
-        windowRect = GUI.Window(GetInstanceID(), windowRect, DrawWindow, "MARKET STAND — STAND STORAGE");
-    }
-
-    void DrawWindow(int id)
-    {
-        GUILayout.Label($"Gold: {(ScoreManager.Instance != null ? ScoreManager.Instance.points : 0)} G   |   " +
-                        $"Village Lv.{CurrentVillageLevel}   |   Peluang pembeli/jam: {CurrentBuyerChance:P0}   |   " +
-                        $"Total pendapatan stand: {lifetimeRevenue} G");
-        GUILayout.Label("Barang yang dititipkan tetap For Sale sampai laku atau diambil kembali.");
-        GUILayout.Space(6f);
-
-        GUILayout.BeginHorizontal();
-        DrawInventoryColumn();
-        GUILayout.Space(12f);
-        DrawStandColumn();
-        GUILayout.EndHorizontal();
-
-        GUILayout.FlexibleSpace();
-        if (!string.IsNullOrWhiteSpace(feedback))
-            GUILayout.Label(feedback);
-        if (GUILayout.Button("Tutup [E / Esc]", GUILayout.Height(32f)))
-            ClosePanel();
-        GUI.DragWindow(new Rect(0f, 0f, windowRect.width, 28f));
-    }
-
-    void DrawInventoryColumn()
-    {
-        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width((windowRect.width - 42f) * 0.5f));
-        GUILayout.Label("INVENTORY — pilih barang untuk dijual");
-        inventoryScroll = GUILayout.BeginScrollView(inventoryScroll);
-
-        bool found = false;
-        if (playerInventory != null)
-        {
-            for (int index = 0; index < playerInventory.slots.Count; index++)
-            {
-                ItemStack stack = playerInventory.GetSlot(index);
-                if (stack == null || stack.item == null || stack.count <= 0 || !stack.item.CanSellAtMarket)
-                    continue;
-
-                found = true;
-                GUILayout.BeginHorizontal(GUI.skin.box);
-                GUILayout.Label($"{stack.DisplayName} x{stack.count}\n{stack.item.GetMarketSellPrice(stack.qualityStars, stack.fishSizeCm)} G/item",
-                    GUILayout.MinWidth(220f));
-                if (GUILayout.Button("+1", GUILayout.Width(52f), GUILayout.Height(38f)))
-                    TryDepositFromSlot(index, 1);
-                if (GUILayout.Button("Semua", GUILayout.Width(70f), GUILayout.Height(38f)))
-                    TryDepositFromSlot(index, stack.count);
-                GUILayout.EndHorizontal();
-            }
-        }
-
-        if (!found)
-            GUILayout.Label("Tidak ada barang sellable. Tool, Quest Item, Key Item, dan item berharga 0 tidak diterima.");
-        GUILayout.EndScrollView();
-        GUILayout.EndVertical();
-    }
-
-    void DrawStandColumn()
-    {
-        GUILayout.BeginVertical(GUI.skin.box, GUILayout.Width((windowRect.width - 42f) * 0.5f));
-        GUILayout.Label($"FOR SALE — {listings.Count}/{listingCapacity} jenis, {TotalItemCount} item");
-        standScroll = GUILayout.BeginScrollView(standScroll);
-
-        if (listings.Count == 0)
-            GUILayout.Label("Stand masih kosong.");
-
-        for (int index = listings.Count - 1; index >= 0; index--)
-        {
-            MarketStandListing listing = listings[index];
-            if (listing == null || listing.item == null || listing.count <= 0)
-                continue;
-
-            GUILayout.BeginHorizontal(GUI.skin.box);
-            int hoursRemaining = Mathf.Max(0, 7 * 24 - (CurrentAbsoluteHour - listing.listedAbsoluteHour));
-            GUILayout.Label($"{listing.DisplayName} x{listing.count}\n{listing.UnitPrice} G/item | maks. {Mathf.CeilToInt(hoursRemaining / 24f)} hari",
-                GUILayout.MinWidth(220f));
-            if (GUILayout.Button("Ambil 1", GUILayout.Width(68f), GUILayout.Height(38f)))
-                TryWithdraw(index, 1);
-            if (GUILayout.Button("Semua", GUILayout.Width(70f), GUILayout.Height(38f)))
-                TryWithdraw(index, listing.count);
-            GUILayout.EndHorizontal();
-        }
-
-        GUILayout.EndScrollView();
-        GUILayout.EndVertical();
     }
 
     public bool TryDepositFromSlot(int slotIndex, int amount)
@@ -379,35 +286,38 @@ public sealed class MarketStand : MonoBehaviour
         Debug.Log($"[MARKET] {soldName} x{sold} sold for {revenue} G. Remaining stock: {TotalItemCount}.");
     }
 
-    void OpenPanel()
+    public void OpenPanel()
     {
+        if (ShopFront.IsAnyOpen) return;
         if (panelOpen)
             return;
-        panelOpen = true;
+        foreach(var other in Active.ToArray())if(other!=null&&other!=this)other.ClosePanel();
+        ResolveInventory();
         feedback = string.Empty;
-        CenterWindow();
+        panelOpen = true;
+        previousCursorVisible=Cursor.visible;previousCursorLock=Cursor.lockState;Cursor.visible=true;Cursor.lockState=CursorLockMode.None;
+        marketUI=GetComponent<MarketStandUI>()??gameObject.AddComponent<MarketStandUI>();marketUI.Show(this);
+        GameplayInput.ConsumeCurrentFrame();
+        feedback = string.Empty;
+
         WorldInteractionPrompt.AcquireSuppression(this);
         TimeManager.Instance?.AcquirePause(this);
         playerInventory?.GetComponent<PlayerController>()?.AcquireMovementLock(this);
     }
 
-    void ClosePanel()
+    public void ClosePanel()
     {
         if (!panelOpen)
             return;
         panelOpen = false;
+        marketUI?.Hide();Cursor.visible=previousCursorVisible;Cursor.lockState=previousCursorLock;
+        GameplayInput.ConsumeCurrentFrame();
         WorldInteractionPrompt.ReleaseSuppression(this);
         TimeManager.Instance?.ReleasePause(this);
         playerInventory?.GetComponent<PlayerController>()?.ReleaseMovementLock(this);
     }
 
-    void CenterWindow()
-    {
-        windowRect.x = Mathf.Max(12f, (Screen.width - windowRect.width) * 0.5f);
-        windowRect.y = Mathf.Max(12f, (Screen.height - windowRect.height) * 0.5f);
-    }
-
-    void ResolveInventory()
+void ResolveInventory()
     {
         if (playerInventory == null)
             playerInventory = FindFirstObjectByType<Inventory>();

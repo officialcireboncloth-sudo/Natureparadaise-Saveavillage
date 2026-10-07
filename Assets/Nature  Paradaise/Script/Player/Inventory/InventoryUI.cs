@@ -123,7 +123,7 @@ public sealed class InventoryUI : MonoBehaviour
         var shade = panel.AddComponent<Image>(); shade.color = new Color(0,0,0,.48f);
         Artwork(panel.transform, "BackgroundImageSlot", theme != null ? theme.background : null, Vector2.zero, Vector2.one);
         var card = GameplayHUDStyle.Rect("InventoryPanel", panel.transform, new Vector2(.22f,.10f), new Vector2(.78f,.91f));
-        Surface(card, panelSprite != null ? panelSprite : theme != null ? theme.panel : null, new Color(.20f,.29f,.31f,.92f));
+        Surface(card, panelSprite != null ? panelSprite : theme != null ? theme.panel : null, GameplayHUDStyle.Modal);
         Label(card,"Title","INVENTORY",34,new Vector2(.065f,.91f),new Vector2(.55f,.975f)).fontStyle = FontStyles.Bold;
         capacityText = Label(card,"Capacity","",18,new Vector2(.065f,.865f),new Vector2(.55f,.915f));
         Artwork(card,"CoinImageSlot",theme != null ? theme.coinIcon : null,new Vector2(.81f,.927f),new Vector2(.85f,.97f));
@@ -192,7 +192,7 @@ public sealed class InventoryUI : MonoBehaviour
     void BuildInventoryToolbar(Transform parent)
     {
         var toolbar=GameplayHUDStyle.Rect("InventoryToolbar",parent,new Vector2(.30f,.012f),new Vector2(.70f,.094f));
-        Surface(toolbar,theme?.panel,new Color(.16f,.25f,.29f,.98f));
+        Surface(toolbar,theme?.panel,GameplayHUDStyle.Card);
         Label(toolbar,"ToolbarHint","TOOLBAR · Seret item ke nomor slot",15,new Vector2(.015f,.79f),new Vector2(.985f,.99f));
         int count=inventory.HotbarSlotCount;
         for(int i=0;i<count;i++)
@@ -317,7 +317,7 @@ public sealed class InventoryUI : MonoBehaviour
         int index=selectedIndex; var snapshot=s; int amount=s.count; EndSlotDrag();
         var blocker=GameplayHUDStyle.Rect("DiscardConfirmation",panel.transform,Vector2.zero,Vector2.one); dialog=blocker.gameObject;
         var dim=blocker.gameObject.AddComponent<Image>();dim.color=new Color(0,0,0,.65f);
-        var box=GameplayHUDStyle.Rect("Dialog",blocker,new Vector2(.34f,.36f),new Vector2(.66f,.64f));Surface(box,null,new Color(.2f,.29f,.31f,.99f));
+        var box=GameplayHUDStyle.Rect("Dialog",blocker,new Vector2(.34f,.36f),new Vector2(.66f,.64f));Surface(box,null,GameplayHUDStyle.Modal);
         Label(box,"Message",$"Buang {s.item.itemName} x{amount}?\nItem akan dihapus dari tas.",23,new Vector2(.07f,.37f),new Vector2(.93f,.90f)).textWrappingMode=TextWrappingModes.Normal;
         ButtonAt(box,"Cancel","Batal",new Vector2(.07f,.10f),new Vector2(.46f,.30f)).onClick.AddListener(CancelDiscard);
         ButtonAt(box,"Confirm","Buang",new Vector2(.54f,.10f),new Vector2(.93f,.30f)).onClick.AddListener(()=>
@@ -363,7 +363,7 @@ public sealed class InventoryUI : MonoBehaviour
         var graphic=Surface(r,sprite!=null?sprite:buttonSprite!=null?buttonSprite:theme?.button,Color.white);
         var b=r.gameObject.AddComponent<Button>();b.targetGraphic=graphic;var c=b.colors;
         c.normalColor=new Color(.30f,.38f,.40f,.65f);c.highlightedColor=new Color(.36f,.62f,.38f,.85f);
-        c.pressedColor=new Color(.27f,.48f,.29f,.95f);c.selectedColor=c.normalColor;b.colors=c;
+        c.pressedColor=new Color(.27f,.48f,.29f,.95f);c.selectedColor=c.normalColor;b.colors=c;GameplayHUDStyle.ButtonStates(b);
         r.gameObject.AddComponent<MainMenuButtonAudio>();
         if(!string.IsNullOrEmpty(text))Label(r,"Label",text,16,new Vector2(.04f,.03f),new Vector2(.96f,.97f)).alignment=TextAlignmentOptions.Center;
         return b;

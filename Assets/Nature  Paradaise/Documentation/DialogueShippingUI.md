@@ -1,6 +1,8 @@
 # Dialogue and Shipping Bin UI
 
-DialogueService conversations share the bottom dialogue presenter, including authored narrative testing scenes. Fill Portrait and Role Description on each DialogueSpeakerSO. Missing portraits remain empty. Optional panel/relationship artwork: Nature Paradise > UI > Dialogue > Select Image Slots; select NPC assets through Select NPC Portrait Slots.
+DialogueService conversations share the bottom dialogue presenter, including authored narrative testing scenes. Fill Portrait and Role Description on each DialogueSpeakerSO. When a portrait is missing, its frame is hidden and the dialogue text reclaims that space. Optional panel/relationship artwork: Nature Paradise > UI > Dialogue > Select Image Slots; select NPC assets through Select NPC Portrait Slots.
+
+The dialogue panel shares GameplayHUDStyle.Modal, Card, Accent, TextColor and Muted with the current UI. Header, body and footer use consistent padding and quiet dividers. The continue button sits in the footer, leaving the body full-width when there are no answers. Long dialogue text scrolls rather than shrinking or truncating; answers use their own scroll area and sage selection. Custom panel and portrait artwork remains optional.
 
 W/S or up/down chooses an answer; Enter confirms. Enter/E/Space continues a line without choices. Esc ends conversation. Choice conditions, commands, speaker overrides, quest events, and flags use the existing DialogueService. The service retains its configured clock pause and player movement locks. No relationship values are invented.
 

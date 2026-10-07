@@ -75,7 +75,7 @@ public sealed class AnimalCarePanel : MonoBehaviour
     public void Medicine()=>Feedback=Controller()?.TryGiveBestMedicine()==true?"Obat diberikan; kondisi hewan diperbarui.":"Obat tidak tersedia atau hewan belum memerlukan obat.";
     public void Breed()
     {
-        var shop=FindFirstObjectByType<ShopManager>();
+        var shop=ShopManager.AnimalService;
         Feedback=Animal!=null && shop!=null && shop.TryStartBreeding(Animal,Inventory)?"Proses dimulai; slot kandang direservasi.":
             "Perlu induk dewasa, sehat, sudah makan, dan slot kosong. Inkubasi juga memerlukan telur.";
         Revision++;

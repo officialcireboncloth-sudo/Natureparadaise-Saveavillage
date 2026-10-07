@@ -1114,7 +1114,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         }
 
         // Hewan hasil pembelian tidak ada di scene awal, sehingga dibuat kembali saat load.
-        ShopManager shop = FindFirstObjectByType<ShopManager>();
+        ShopManager shop = ShopManager.AnimalService;
         for (int i = 0; i < data.Count; i++)
             if (data[i] != null && data[i].runtimePurchased && !restoredIds.Contains(data[i].animalId))
                 shop?.RestoreAnimal(data[i]);

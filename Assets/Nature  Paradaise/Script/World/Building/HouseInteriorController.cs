@@ -10,37 +10,55 @@ public sealed class HouseInteriorController : MonoBehaviour
     [Tooltip("Use the entrance and furniture authored in the scene without rebuilding or repositioning them.")]
     [SerializeField] bool useAuthoredSceneLayout;
     [Header("Authored Level Preview")]
-    [SerializeField, Range(1,4)] int previewLevel = 1;
+    [SerializeField, Range(1,5)] int previewLevel = 1;
+    [Tooltip("Di Unity Editor, gunakan Preview Level saat Play untuk mengetes layout beserta fasilitasnya.")]
+    [SerializeField] bool usePreviewLevelInEditorPlay = true;
+    static HouseInteriorController activeController;
+    bool runtimeUseActualLevel;
+    public static int GameplayPreviewLevel => activeController != null && activeController.IsPlayerInside && activeController.IsPreviewingGameplay
+        ? activeController.ActiveLayoutLevel : 0;
+    public bool IsPreviewingGameplay => runtimeDebugLevel > 0 || EditorPreviewEnabled;
+    bool EditorPreviewEnabled
+    {
+        get
+        {
+#if UNITY_EDITOR
+            return Application.isPlaying && usePreviewLevelInEditorPlay && !runtimeUseActualLevel;
+#else
+            return false;
+#endif
+        }
+    }
     [SerializeField] List<Transform> levelEntryPoints = new();
     [SerializeField] List<Transform> levelExitPoints = new();
     public int PreviewLevel => previewLevel;
     int runtimeDebugLevel;
     public int RuntimeDebugLevel => runtimeDebugLevel;
     public int ActiveLayoutLevel { get; private set; }
-    public int AvailableLayoutCount => Mathf.Min(4,levelLayouts.Count);
+    public int AvailableLayoutCount => Mathf.Min(5,levelLayouts.Count);
     public bool IsPlayerInside
     {
         get
         {
             if(!isActiveAndEnabled)return false;
             var transition=SceneTransitionManager.Instance;
-            return transition!=null&&transition.IsInsideInterior
-                ? transition.CurrentInteriorSceneName==gameObject.scene.name
-                : UnityEngine.SceneManagement.SceneManager.GetActiveScene()==gameObject.scene;
+            return transition!=null && transition.IsInsideInterior && !transition.IsTransitioning
+                && transition.CurrentInteriorSceneName==gameObject.scene.name;
         }
     }
 
 
     public bool UsesAuthoredSceneLayout => useAuthoredSceneLayout;
 
-    void OnEnable(){HouseFeatureService.FeaturesChanged += RefreshLayout;if(Application.isPlaying)RefreshLayout();}
-    void OnDisable(){HouseFeatureService.FeaturesChanged -= RefreshLayout;runtimeDebugLevel=0;}
+    void OnEnable(){activeController=this;HouseFeatureService.FeaturesChanged += RefreshLayout;if(Application.isPlaying)RefreshLayout();}
+    void OnDisable(){HouseFeatureService.FeaturesChanged -= RefreshLayout;runtimeDebugLevel=0;runtimeUseActualLevel=false;if(activeController==this)activeController=null;}
     void Start(){RefreshLayout();if(GetComponent<HouseInteriorDebugUI>()==null)gameObject.AddComponent<HouseInteriorDebugUI>();}
 
     public void PreviewLayout(int level)
     {
-        previewLevel = Mathf.Clamp(level, 1, 4);
+        previewLevel = Mathf.Clamp(level, 1, 5);
         if (!Application.isPlaying) ApplyLayout(previewLevel);
+        else SetDebugLayout(previewLevel);
     }
 
 
@@ -52,17 +70,17 @@ public sealed class HouseInteriorController : MonoBehaviour
             ? PlayerHouseController.Instance.CurrentLevel
             : 1;
         int level = ProgressionRequirementSettings.EffectiveHouseLevel(actualLevel);
-        ApplyLayout(Application.isPlaying ? (runtimeDebugLevel>0?runtimeDebugLevel:level) : previewLevel);
+        ApplyLayout(Application.isPlaying ? (runtimeDebugLevel>0?runtimeDebugLevel:EditorPreviewEnabled?previewLevel:level) : previewLevel);
     }
 
-    /// <summary>Session-only visual preview; does not change house progression or save data.</summary>
+    /// <summary>Session preview applies furniture features too, while preserving saved house progression.</summary>
     public bool SetDebugLayout(int level)
     {
         if(!Application.isPlaying||!IsPlayerInside||level<0||level>AvailableLayoutCount)return false;
         var transition=SceneTransitionManager.Instance;
         var player=FindFirstObjectByType<PlayerController>();
         if((transition!=null&&transition.IsTransitioning)||WorldInteractionPrompt.IsSuppressed||GameplayPauseMenu.BlocksGameplayInput||(player!=null&&player.IsMovementLocked))return false;
-        runtimeDebugLevel=level;RefreshLayout();
+        runtimeDebugLevel=level;runtimeUseActualLevel=level==0;RefreshLayout();HouseFeatureService.NotifyHouseLevelChanged();
         // Return to the authored entrance when shrinking/swapping layouts, avoiding furniture/walls.
         var entry=transform.Find("HouseInteriorEntrySpawn");
         if(player!=null&&entry!=null)
@@ -77,7 +95,7 @@ public sealed class HouseInteriorController : MonoBehaviour
         }
         GameplayInput.ConsumeCurrentFrame();return true;
     }
-    public void ClearDebugLayout(){runtimeDebugLevel=0;RefreshLayout();}
+    public void ClearDebugLayout(){runtimeDebugLevel=0;runtimeUseActualLevel=true;RefreshLayout();HouseFeatureService.NotifyHouseLevelChanged();}
     void ApplyLayout(int level)
     {
         level = Mathf.Clamp(level, 1, Mathf.Max(1, levelLayouts.Count));
@@ -104,7 +122,7 @@ public sealed class HouseInteriorController : MonoBehaviour
 
     void AlignEntranceForLevel(int level)
     {
-        float depth = Mathf.Clamp(level, 1, 4) switch
+        float depth = Mathf.Clamp(level, 1, 5) switch
         {
             1 => 10f,
             2 => 14f,

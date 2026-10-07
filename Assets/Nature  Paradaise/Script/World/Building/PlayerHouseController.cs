@@ -15,7 +15,7 @@ public sealed class PlayerHouseSaveData
 }
 
 /// <summary>
-/// Mengelola House Lv.1-Lv.4, biaya upgrade, durasi konstruksi, exterior visual,
+/// Mengelola House Lv.1-Lv.5, biaya upgrade, durasi konstruksi, exterior visual,
 /// dan feature unlock. Interior lama tetap tersedia selama upgrade berlangsung.
 /// </summary>
 [DisallowMultipleComponent]
@@ -152,7 +152,7 @@ public sealed class PlayerHouseController : MonoBehaviour
         for (int index = 0; index < exteriorLevelVisuals.Count; index++)
             if (exteriorLevelVisuals[index] != null)
                 exteriorLevelVisuals[index].SetActive(
-                    completedPrefab == null && !IsUnderConstruction && index == currentLevel - 1
+                    completedPrefab == null && !IsUnderConstruction && index == Mathf.Min(currentLevel - 1, exteriorLevelVisuals.Count - 1)
                 );
         if (constructionVisual != null)
             constructionVisual.SetActive(IsUnderConstruction);
@@ -168,7 +168,7 @@ public sealed class PlayerHouseController : MonoBehaviour
                 Debug.LogWarning($"[HOUSE] Prefab exterior tidak valid; memakai visual scene fallback. {exception.Message}");
                 for (int index = 0; index < exteriorLevelVisuals.Count; index++)
                     if (exteriorLevelVisuals[index] != null)
-                        exteriorLevelVisuals[index].SetActive(index == currentLevel - 1);
+                        exteriorLevelVisuals[index].SetActive(index == Mathf.Min(currentLevel - 1, exteriorLevelVisuals.Count - 1));
                 return;
             }
             runtimeExteriorVisual.name = $"PlayerHouse_Lv{currentLevel}_Runtime";
@@ -202,7 +202,7 @@ public sealed class PlayerHouseController : MonoBehaviour
         state = state,
         completionDay = completionDay,
         refrigeratorLevel = refrigeratorLevel,
-        unlockedRooms = HouseFeatureService.GetUnlockedFeatureIds()
+        unlockedRooms = HouseFeatureService.GetUnlockedFeatureIds(currentLevel)
     };
 
     public void Restore(PlayerHouseSaveData data)

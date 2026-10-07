@@ -192,8 +192,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     static void SetColor(Renderer renderer,Color color)
     {
         if(renderer==null) return;
-        Shader shader=Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
-        if(shader!=null) renderer.material=new Material(shader){color=color};
+        renderer.material=ToonWorldStyle.CreateMaterial(color);
     }
 
     void RefreshFeedVisual(AnimalHome home)

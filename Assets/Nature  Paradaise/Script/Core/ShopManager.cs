@@ -7,6 +7,21 @@ using UnityEngine;
 /// </summary>
 public class ShopManager : MonoBehaviour
 {
+    public static ShopManager AnimalService
+    {
+        get
+        {
+            ShopManager legacy = null;
+            foreach (var shop in FindObjectsByType<ShopManager>(FindObjectsSortMode.None))
+            {
+                if (shop.catalog != null && shop.catalog.kind == ShopKind.Animal) return shop;
+                if (shop.catalog == null) legacy = shop;
+            }
+            return legacy;
+        }
+    }
+    [Header("Separated Store Catalog (empty keeps legacy farm service)")]
+    public ShopCatalogSO catalog;
     [Header("Player")]
     public Inventory playerInv;
 
@@ -51,6 +66,7 @@ public class ShopManager : MonoBehaviour
 
     void EnsureDefaultAnimalOffers()
     {
+        if(this.catalog!=null){this.catalog.Populate(this);return;}
         baitItems ??= new List<ItemSO>();
         if (baitItems.Count == 0)
         {
@@ -198,6 +214,7 @@ public class ShopManager : MonoBehaviour
 
     public bool TryBuyAnimal(AnimalShopOffer offer)
     {
+        if(catalog!=null&&!catalog.Contains(offer))return false;
         if (offer == null || offer.price < 0 || ScoreManager.Instance == null)
             return false;
         AnimalHusbandrySystem.Scan();
@@ -435,6 +452,7 @@ public class ShopManager : MonoBehaviour
 
     bool Buy(ItemSO item, int amount)
     {
+        if(catalog!=null&&!catalog.Contains(item))return false;
         if (item == null || amount <= 0)
             return false;
         if (item.requiredVillageLevel > 1 && (VillageProgressionService.Instance == null ||
@@ -458,14 +476,19 @@ public class ShopManager : MonoBehaviour
             return false;
         }
 
-        int totalPrice = item.buyPrice * amount;
+        if(catalog!=null&&amount>catalog.MaximumAmount(item))return false;
+        int quality=catalog!=null?catalog.Quality(item):0;
+        int unitPrice=catalog!=null?catalog.BuyPrice(item):item.buyPrice;
+        long totalCost=(long)unitPrice*amount;
+        if(totalCost<0||totalCost>int.MaxValue)return false;
+        int totalPrice = (int)totalCost;
 
         // Cek Gold
         if (!ScoreManager.Instance.TrySpendPoints(totalPrice))
             return false;
 
         // Jika inventory penuh, transaksi dibatalkan dan Gold dikembalikan.
-        if (!playerInv.Add(item, amount))
+        if (!playerInv.Add(item, amount, quality))
         {
             ScoreManager.Instance.AddPoints(totalPrice);
             Debug.Log("[SHOP] Inventory penuh. Pembelian dibatalkan.");

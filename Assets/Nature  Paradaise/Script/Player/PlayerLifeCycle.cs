@@ -345,7 +345,8 @@ public sealed class PlayerLifeCycle : MonoBehaviour
             foreach(var hit in Physics.RaycastAll(candidate+Vector3.up*4,Vector3.down,12,~0,QueryTriggerInteraction.Ignore))
             {
                 if(hit.normal.y<.8f || hit.collider.GetComponentInParent<PlayerController>()!=null)continue;
-                if(houseRoot!=null && (!hit.collider.transform.IsChildOf(houseRoot) || hit.collider.name!="ContinuousFloorCollider"))continue;
+                if(houseRoot!=null && (!hit.collider.transform.IsChildOf(houseRoot) ||
+                    (hit.collider.name!="ContinuousFloorCollider" && hit.collider.name!="ContinuousFloorCollider_Editable")))continue;
                 candidate.y=hit.point.y+height*.5f-center.y+controller.skinWidth+.04f;
                 Vector3 capsuleCenter=candidate+center;
                 bool blocked=false;

@@ -240,7 +240,7 @@ public static class FishPondSetup
         Material material = AssetDatabase.LoadAssetAtPath<Material>(path);
         if (material != null) return material;
         Shader shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
-        material = new Material(shader) { color = color };
+        material = ToonWorldStyle.CreateMaterial(color);
         AssetDatabase.CreateAsset(material, path);
         return material;
     }

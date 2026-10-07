@@ -809,6 +809,7 @@ public class FarmingTool : MonoBehaviour
 
     void OnDisable()
     {
+        StopAllCoroutines();
         HideIndicators();
         movement?.ReleaseMovementLock(this);
         playerStatus?.ReleaseActivity(this);

@@ -29,7 +29,7 @@ public sealed class GameplayPauseMenu : MonoBehaviour
     GameplayUISettings draft;
     readonly List<Button> tabs = new();
     string[] pageNames = { "Ringkasan", "Hewan", "Kebunku", "Misi", "Pengaturan" };
-    Color Glass => draft != null && draft.highContrast ? new Color(.055f,.09f,.13f,.98f) : GameplayHUDStyle.Panel;
+    Color Glass => draft != null && draft.highContrast ? new Color(.055f,.09f,.13f,.98f) : GameplayHUDStyle.Modal;
 
     void Start()
     {
@@ -45,7 +45,7 @@ public sealed class GameplayPauseMenu : MonoBehaviour
         var shade=root.gameObject.AddComponent<Image>(); shade.color=new Color(0,0,0,.38f); shade.raycastTarget=true;
         if(theme != null && theme.background != null) { var back=Artwork(root,"Background Image Slot",theme.background,Vector2.zero,Vector2.one); back.preserveAspect=false; back.transform.SetAsFirstSibling(); }
         window=GameplayHUDStyle.Rect("Pause Menu",root,new(.13f,.05f),new(.87f,.90f));
-        var surface=GameplayHUDStyle.Surface(window,GameplayHUDStyle.Panel,26); surface.raycastTarget=true;
+        var surface=GameplayHUDStyle.Surface(window,GameplayHUDStyle.Modal,12); surface.raycastTarget=true;
         if(theme != null && theme.panel != null) { surface.enabled=false; var art=Artwork(window,"Panel Image Slot",theme.panel,Vector2.zero,Vector2.one); art.preserveAspect=false; art.transform.SetAsFirstSibling(); }
         Sprite[] tabArt={theme?.summaryIcon,theme?.animalsIcon,theme?.farmIcon,theme?.questsIcon,theme?.settingsIcon};
         for(int i=0;i<5;i++) {
@@ -136,7 +136,7 @@ public sealed class GameplayPauseMenu : MonoBehaviour
         colors.pressedColor=new Color(.27f,.50f,.30f,alpha);
         colors.selectedColor=colors.normalColor;
         colors.disabledColor=new Color(.30f,.34f,.35f,alpha*.5f);
-        button.colors=colors;
+        button.colors=colors;GameplayHUDStyle.ButtonStates(button);
         rect.gameObject.AddComponent<MainMenuButtonAudio>();
         var caption=Text(rect,label,new(.05f,.05f),new(.95f,.95f)); caption.alignment=TextAlignmentOptions.Center;
         button.onClick.AddListener(action); return button;
