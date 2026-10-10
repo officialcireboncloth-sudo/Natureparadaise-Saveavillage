@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a8c91fb68084c2d8a45e86d34c4bb1f, type: 3}
+  m_Name: Vegetable Soup
+  recipeId: recipe.vegetable_soup
+  displayName: Sup Sayur
+  description: Sup hangat dari sayuran kebun.
+  ingredients:
+  - item: {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
+    amount: 2
+  - item: {fileID: 11400000, guid: a3ff5e12700285547907d72e6ca5b7a7, type: 2}
+    amount: 1
+  resultItem: {fileID: 11400000, guid: f4a05329143b4110b7c84a4d31b9b3ba, type: 2}
+  resultAmount: 1
+  outputQualityMode: 0
+  fixedOutputQuality: 0
+  requiredKitchenLevel: 1
+  requiredEquipment: 5
+  baseCookingMinutes: 10
+  learnedByDefault: 1

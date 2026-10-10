@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "scope": "Blender source and FBX audit; Unity integration is audited separately in UnityImportAudit.txt",
+  "sourceBlend": {
+    "approvedPartPlacements": 81,
+    "boxDimensions": "PASS",
+    "outwardWallAndRoofNormals": "PASS",
+    "levelInstances": 5,
+    "uniformScales": "PASS",
+    "sharedLevelMesh": "PASS",
+    "originalAtlasUnchanged": "PASS",
+    "packedBlenderPreviewImage": true
+  },
+  "fbxRoundtrip": [
+    {
+      "lod": 0,
+      "triangles": 3938,
+      "dimensionsBlenderXYZ": [
+        8.899999618530273,
+        10.900000095367432,
+        6.800001959012604
+      ],
+      "groundCentreOrigin": "PASS",
+      "materialNames": "PASS",
+      "UVLayer": "PASS",
+      "noDegenerateFaces": "PASS",
+      "previewObjectsExcluded": "PASS",
+      "sha256": "a5848dbb0d70355aa79574c2ae20784fd1fe7fc5b02cc5d29eae95c5b21b3e3a"
+    },
+    {
+      "lod": 1,
+      "triangles": 1788,
+      "dimensionsBlenderXYZ": [
+        8.899999618530273,
+        10.900000095367432,
+        6.800001959012604
+      ],
+      "groundCentreOrigin": "PASS",
+      "materialNames": "PASS",
+      "UVLayer": "PASS",
+      "noDegenerateFaces": "PASS",
+      "previewObjectsExcluded": "PASS",
+      "sha256": "07abc4a2050febe22b7d22efd54e178bddef6bad926fa5529c9fad65a777dbe5"
+    },
+    {
+      "lod": 2,
+      "triangles": 368,
+      "dimensionsBlenderXYZ": [
+        8.899999618530273,
+        10.900000095367432,
+        6.800001959012604
+      ],
+      "groundCentreOrigin": "PASS",
+      "materialNames": "PASS",
+      "UVLayer": "PASS",
+      "noDegenerateFaces": "PASS",
+      "previewObjectsExcluded": "PASS",
+      "sha256": "8420f9f8c2151079a230c17afd17190542cfafe8e81507e017ac77de97a1b831"
+    }
+  ]
+}

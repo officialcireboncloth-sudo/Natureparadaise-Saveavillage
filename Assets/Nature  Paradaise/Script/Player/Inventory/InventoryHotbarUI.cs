@@ -86,7 +86,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     void Update()
     {
         if (fishingSystem == null) fishingSystem = GetComponent<FishingSystem>();
-        bool hidden = GameplayPauseMenu.IsOpen || (GetComponent<InventoryUI>()?.IsOpen ?? false) || (fishingSystem != null && fishingSystem.isActiveAndEnabled && fishingSystem.State != FishingState.Idle);
+        bool hidden = DataDrivenModal.Active != null || GameplayPauseMenu.IsOpen || (GetComponent<InventoryUI>()?.IsOpen ?? false) || (fishingSystem != null && fishingSystem.isActiveAndEnabled && fishingSystem.State != FishingState.Idle);
         if (pauseVisibility != null) { pauseVisibility.alpha = hidden ? 0f : 1f; pauseVisibility.interactable = !hidden; pauseVisibility.blocksRaycasts = !hidden; }
         if (WorldInteractionPrompt.IsSuppressed) return;
         if (GameplayInput.GetKeyDown(KeyCode.Alpha1)) SelectSlot(0);

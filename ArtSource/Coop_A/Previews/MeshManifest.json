@@ -1,0 +1,225 @@
+{
+  "approvedRevision": "coop-exterior-A-2026-10-11",
+  "blenderVersion": "4.5.14 LTS",
+  "status": "APPLIED_TO_UNITY_VALIDATED",
+  "masterBodyWidthDepthMetres": [
+    6,
+    7
+  ],
+  "masterVisualWidthDepthHeightMetres": [
+    7.35,
+    8.7,
+    5.74
+  ],
+  "lodMeshes": [
+    {
+      "name": "Coop_A_Master_LOD0",
+      "triangles": 3316,
+      "vertices": 3116,
+      "boundsBlenderXYZ": [
+        [
+          -3.3999998569488525,
+          -4.800000190734863,
+          0.0
+        ],
+        [
+          3.950000047683716,
+          3.9000000953674316,
+          5.739999771118164
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "identityTransforms": true,
+      "groundCentreOrigin": [
+        0,
+        0,
+        0
+      ],
+      "export": "Exports/Coop_A_High.fbx",
+      "sha256": "822ecc0dca8d2afddc811f1c9a52631a4cea1604471829268955c6bc89e83965"
+    },
+    {
+      "name": "Coop_A_Master_LOD1",
+      "triangles": 1278,
+      "vertices": 1575,
+      "boundsBlenderXYZ": [
+        [
+          -3.4000000953674316,
+          -4.800000190734863,
+          0.0
+        ],
+        [
+          3.950000047683716,
+          3.9000000953674316,
+          5.739999771118164
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "identityTransforms": true,
+      "groundCentreOrigin": [
+        0,
+        0,
+        0
+      ],
+      "export": "Exports/Coop_A_Medium.fbx",
+      "sha256": "528264dfd4aa160087476da4ed11bfd652cfb308307a18444daecb171670ce15"
+    },
+    {
+      "name": "Coop_A_Master_LOD2",
+      "triangles": 286,
+      "vertices": 344,
+      "boundsBlenderXYZ": [
+        [
+          -3.4000000953674316,
+          -4.800000190734863,
+          0.0
+        ],
+        [
+          3.950000047683716,
+          3.9000000953674316,
+          5.739999771118164
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "identityTransforms": true,
+      "groundCentreOrigin": [
+        0,
+        0,
+        0
+      ],
+      "export": "Exports/Coop_A_Low.fbx",
+      "sha256": "489775033e041507821c9a292256d52130d17fa145282b7025ec33fe42753823"
+    }
+  ],
+  "levels": [
+    {
+      "level": 1,
+      "uniformScale": 0.75,
+      "bodyWidthDepth": [
+        4.5,
+        5.25
+      ],
+      "visualWidthDepthHeight": [
+        5.5125,
+        6.525,
+        4.305
+      ],
+      "doorWidthHeight": [
+        1.125,
+        2.2125000000000004
+      ],
+      "entranceMarkerXYZ": [
+        -0.9375,
+        0,
+        -3.4875000000000003
+      ]
+    },
+    {
+      "level": 2,
+      "uniformScale": 0.875,
+      "bodyWidthDepth": [
+        5.25,
+        6.125
+      ],
+      "visualWidthDepthHeight": [
+        6.43125,
+        7.6125,
+        5.0225
+      ],
+      "doorWidthHeight": [
+        1.3125,
+        2.5812500000000003
+      ],
+      "entranceMarkerXYZ": [
+        -1.09375,
+        0,
+        -4.0687500000000005
+      ]
+    },
+    {
+      "level": 3,
+      "uniformScale": 1,
+      "bodyWidthDepth": [
+        6,
+        7
+      ],
+      "visualWidthDepthHeight": [
+        7.35,
+        8.7,
+        5.74
+      ],
+      "doorWidthHeight": [
+        1.5,
+        2.95
+      ],
+      "entranceMarkerXYZ": [
+        -1.25,
+        0,
+        -4.65
+      ]
+    },
+    {
+      "level": 4,
+      "uniformScale": 1.125,
+      "bodyWidthDepth": [
+        6.75,
+        7.875
+      ],
+      "visualWidthDepthHeight": [
+        8.26875,
+        9.7875,
+        6.4575
+      ],
+      "doorWidthHeight": [
+        1.6875,
+        3.31875
+      ],
+      "entranceMarkerXYZ": [
+        -1.40625,
+        0,
+        -5.23125
+      ]
+    },
+    {
+      "level": 5,
+      "uniformScale": 1.25,
+      "bodyWidthDepth": [
+        7.5,
+        8.75
+      ],
+      "visualWidthDepthHeight": [
+        9.1875,
+        10.875,
+        7.175
+      ],
+      "doorWidthHeight": [
+        1.875,
+        3.6875
+      ],
+      "entranceMarkerXYZ": [
+        -1.5625,
+        0,
+        -5.8125
+      ]
+    }
+  ],
+  "levelMeshesShared": true,
+  "materials": {
+    "opaque": "TFP_Atlas_1A.mat",
+    "emission": "TFP_Atlas_Lights_1A.mat",
+    "atlasGUID": "522fcb2b5717c7640b460ee9ff73a78a",
+    "newRuntimeTextures": 0,
+    "blenderPreviewImagePacked": true
+  },
+  "editableSourceObjects": 142,
+  "unityAssetsModified": true
+}

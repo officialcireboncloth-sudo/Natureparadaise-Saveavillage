@@ -5,7 +5,7 @@ public static class GameplayInput
 {
     static int consumedFrame = -1;
     public static bool ConsumedThisFrame => consumedFrame == Time.frameCount;
-    static bool Blocked => ConsumedThisFrame || AquariumUI.Active != null || MarketStand.IsAnyOpen || UpgradeShopFront.Active != null || ShopFront.IsAnyOpen || GameplayPauseMenu.BlocksGameplayInput || BedRestMenu.IsOpen || StorageChestUI.IsOpen || WeatherForecastTVUI.Instance != null || FeedMakerUI.Instance != null || FishPondUI.Instance != null || AnimalBellUI.Instance != null || (DialogueService.Instance != null && DialogueService.Instance.IsOpen);
+    static bool Blocked => KitchenUI.Instance != null || ConsumedThisFrame || LumberConstructionMenu.Active != null || DataDrivenModal.Active != null || AquariumUI.Active != null || MarketStand.IsAnyOpen || UpgradeShopFront.Active != null || ShopFront.IsAnyOpen || GameplayPauseMenu.BlocksGameplayInput || BedRestMenu.IsOpen || StorageChestUI.IsOpen || WeatherForecastTVUI.Instance != null || FeedMakerUI.Instance != null || FishPondUI.Instance != null || AnimalBellUI.Instance != null || (DialogueService.Instance != null && DialogueService.Instance.IsOpen);
     public static void ConsumeCurrentFrame() => consumedFrame = Time.frameCount;
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void Reset() => consumedFrame = -1;

@@ -70,7 +70,7 @@ public sealed class FieldArea : MonoBehaviour
 
     [Header("Debug")]
     [Tooltip("Tampilkan persentase 0-100 di atas tanaman cabbage untuk memeriksa growth harian.")]
-    [SerializeField] bool showCabbageGrowthDebug = true;
+    [SerializeField] bool showCabbageGrowthDebug;
 
     FieldTileData[] tiles;
     GameObject[] hoeViews;
@@ -192,6 +192,8 @@ public sealed class FieldArea : MonoBehaviour
 
     void ResolveReferences()
     {
+        if (soilVisualProfile == null)
+            soilVisualProfile = Resources.Load<FieldSoilVisualProfile>("Profiles/Field Soil Visuals");
         if (areaCollider == null)
             areaCollider = GetComponent<BoxCollider>();
 
@@ -811,8 +813,12 @@ public sealed class FieldArea : MonoBehaviour
                 continue;
 
             byte previous = tile.moisture;
+            float previousSurface = tile.surfaceWetness;
             tile.moisture = AddClamped(tile.moisture, -evaporation);
-            if (previous == tile.moisture)
+            float dryingRange = soilVisualProfile != null
+                ? Mathf.Max(1, soilVisualProfile.fullyWetMoisture - soilVisualProfile.dryMoisture) : 35;
+            tile.surfaceWetness = Mathf.Max(0, tile.surfaceWetness - evaporation / dryingRange);
+            if (previous == tile.moisture && Mathf.Approximately(previousSurface, tile.surfaceWetness))
                 continue;
 
             tile.dirty = true;
@@ -1071,7 +1077,16 @@ public sealed class FieldArea : MonoBehaviour
             case FieldEffectType.Moisture:
                 tile.moisture = AddClamped(tile.moisture, effect.amount);
                 if (effect.amount > 0)
+                {
+                    tile.surfaceWetness = 1;
                     tile.waterSourcesToday |= CropWaterSource.External;
+                }
+                else if (effect.amount < 0)
+                {
+                    float range = soilVisualProfile != null
+                        ? Mathf.Max(1, soilVisualProfile.fullyWetMoisture - soilVisualProfile.dryMoisture) : 35;
+                    tile.surfaceWetness = Mathf.Clamp01(tile.surfaceWetness + effect.amount / range);
+                }
                 break;
             case FieldEffectType.Fertility:
                 tile.fertility = AddClamped(tile.fertility, effect.amount);
@@ -1095,6 +1110,7 @@ public sealed class FieldArea : MonoBehaviour
     {
         FieldTileData tile = tiles[index];
         tile.moisture = AddClamped(tile.moisture, Mathf.Max(0, moistureAmount));
+        if (moistureAmount > 0) tile.surfaceWetness = 1;
         tile.waterSourcesToday |= source;
         tile.dirty = true;
         tiles[index] = tile;
@@ -1160,10 +1176,13 @@ public sealed class FieldArea : MonoBehaviour
             var filter = view.GetComponent<MeshFilter>();
             // Pooled geometry is resampled at the new cell, so slopes never reuse old heights.
             if (filter.sharedMesh != null) { blendedTileMeshes.Remove(filter.sharedMesh); Destroy(filter.sharedMesh); }
-            filter.sharedMesh = FieldGroundSurface.CreateMesh(view.transform, Vector2.one * cellSize * .93f, !protectedFromWeather, .035f, 4);
+            float tileWidth = cellSize * (1 - 2 * (soilVisualProfile != null ? soilVisualProfile.tileInset : .035f));
+            filter.sharedMesh = FieldGroundSurface.CreateMesh(view.transform, Vector2.one * tileWidth, !protectedFromWeather, .035f, 4);
             blendedTileMeshes.Add(filter.sharedMesh);
             var renderer = view.GetComponent<MeshRenderer>(); renderer.sharedMaterial = blendedTileMaterial;
-            FieldGroundSurface.ApplyEdges(renderer, Vector2.one * cellSize * .93f, tileEdgeFeather, cellSize * .11f,
+            float feather = soilVisualProfile != null ? soilVisualProfile.tileFeather * cellSize : tileEdgeFeather;
+            float corner = cellSize * (soilVisualProfile != null ? soilVisualProfile.tileCornerRadius : .11f);
+            FieldGroundSurface.ApplyEdges(renderer, Vector2.one * tileWidth, feather, corner,
                 new Vector2((x + .5f) * cellSize - WorldSize.x * .5f, (z + .5f) * cellSize - WorldSize.y * .5f));
         }
         view.SetActive(true);
@@ -1246,7 +1265,6 @@ public sealed class FieldArea : MonoBehaviour
             return;
 
         FieldTileData tile = tiles[index];
-        bool watered = tile.waterSourcesToday != CropWaterSource.None;
         bool fertilized = tile.fertilizedForCurrentCycle;
 
         // Semua tile memakai satu shared material. State visual ditulis melalui
@@ -1257,9 +1275,10 @@ public sealed class FieldArea : MonoBehaviour
 
         soilVisualProperties ??= new MaterialPropertyBlock();
         soilRenderer.GetPropertyBlock(soilVisualProperties);
-        float wetness = watered
-            ? Mathf.Lerp(0.55f, 1f, Mathf.InverseLerp(wateredVisualThreshold, 100f, tile.moisture))
-            : 0f;
+        // Fresh water darkens even bone-dry ground. Surface water then evaporates
+        // without changing root-moisture/crop-care rules. It survives midnight,
+        // interior transitions and save/load independently of the daily care flag.
+        float wetness = Mathf.SmoothStep(0, 1, Mathf.Clamp01(tile.surfaceWetness));
         soilVisualProperties.SetFloat(WetnessProperty, wetness);
         soilVisualProperties.SetFloat(FertilizedProperty, fertilized ? 1f : 0f);
 
@@ -1288,6 +1307,7 @@ public sealed class FieldArea : MonoBehaviour
                            tile.soilDurability != defaults.soilDurability ||
                            tile.soilRestDays != defaults.soilRestDays ||
                            tile.fertility != defaults.fertility ||
+                           tile.surfaceWetness > 0 ||
                            tile.moisture != defaults.moisture;
             if (!changed)
                 continue;
@@ -1301,6 +1321,8 @@ public sealed class FieldArea : MonoBehaviour
                 soilQuality = tile.soilQuality,
                 fertility = tile.fertility,
                 moisture = tile.moisture,
+                hasSurfaceWetness = true,
+                surfaceWetness = tile.surfaceWetness,
                 cropId = tile.crop != null ? tile.crop.cropId : null,
                 growthDays = tile.growthDays,
                 growthStage = tile.growthStage,
@@ -1349,6 +1371,10 @@ public sealed class FieldArea : MonoBehaviour
             tile.soilQuality = saved.soilQuality;
             tile.fertility = saved.fertility;
             tile.moisture = saved.moisture;
+            tile.surfaceWetness = saved.hasSurfaceWetness ? Mathf.Clamp01(saved.surfaceWetness)
+                : Mathf.InverseLerp(soilVisualProfile != null ? soilVisualProfile.dryMoisture : 35,
+                    soilVisualProfile != null ? Mathf.Max(soilVisualProfile.dryMoisture + 1, soilVisualProfile.fullyWetMoisture) : 70,
+                    saved.moisture);
             tile.crop = ResolveCrop(saved.cropId);
             tile.growthDays = saved.growthDays;
             tile.qualityCare = saved.qualityCare?.Copy() ?? new CropQualityCare();
@@ -1532,7 +1558,8 @@ public sealed class FieldArea : MonoBehaviour
         blendedFieldMesh = FieldGroundSurface.CreateMesh(ground.transform, WorldSize, !protectedFromWeather, .02f, 4);
         ground.GetComponent<MeshFilter>().sharedMesh = blendedFieldMesh;
         var renderer = ground.GetComponent<MeshRenderer>(); renderer.sharedMaterial = blendedFieldMaterial;
-        FieldGroundSurface.ApplyEdges(renderer, WorldSize, fieldEdgeFeather, cellSize * .5f);
+        FieldGroundSurface.ApplyEdges(renderer, WorldSize,
+            soilVisualProfile != null ? soilVisualProfile.fieldFeather : fieldEdgeFeather, cellSize * .5f);
         originalSurfaceVisible = originalSurfaceRenderer.enabled;
         originalSurfaceRenderer.enabled = false;
     }

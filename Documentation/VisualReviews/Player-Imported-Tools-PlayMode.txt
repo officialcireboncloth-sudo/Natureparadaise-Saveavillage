@@ -1,0 +1,37 @@
+PASS scene player exists
+PASS catalog attaches automatically on real player
+PASS selected model Hoe
+PASS grip follows animated hand Hoe
+PASS world scale independent of rig Hoe
+PASS selected model Sickle
+PASS grip follows animated hand Sickle
+PASS world scale independent of rig Sickle
+PASS selected model Hammer
+PASS grip follows animated hand Hammer
+PASS world scale independent of rig Hammer
+PASS selected model WateringCan
+PASS grip follows animated hand WateringCan
+PASS world scale independent of rig WateringCan
+PASS selected model Axe
+PASS grip follows animated hand Axe
+PASS world scale independent of rig Axe
+PASS selected model Shears
+PASS grip follows animated hand Shears
+PASS world scale independent of rig Shears
+PASS single visual owner for None
+PASS single visual owner for FishingRod
+PASS imported fishing rod replaces primitive
+PASS line originates from imported rod tip
+PASS fishing bend uses private mesh instance
+PASS fishing tip follows bend
+PASS imported fishing mesh bends
+PASS fishing bend preserves shared asset
+PASS carrying hides tool
+PASS tool returns after carry
+PASS riding hides tool
+PASS cow growth exists for milking fixture
+PASS animal brushing replaces selected tool
+PASS milking visual overrides hotbar
+PASS care completion restores selected tool
+PASS disable hides tool
+PASS reenable restores tool

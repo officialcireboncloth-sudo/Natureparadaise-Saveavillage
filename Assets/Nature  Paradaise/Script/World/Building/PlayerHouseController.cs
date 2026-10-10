@@ -10,6 +10,7 @@ public sealed class PlayerHouseSaveData
     public int pendingLevel;
     public BuildingConstructionState state = BuildingConstructionState.Completed;
     public int completionDay;
+    public ConstructionJobData constructionJob;
     public int refrigeratorLevel;
     public List<string> unlockedRooms = new();
 }
@@ -41,6 +42,8 @@ public sealed class PlayerHouseController : MonoBehaviour
 
     Inventory playerInventory;
     GameObject runtimeExteriorVisual;
+    ConstructionProject constructionProject;
+    public ConstructionProject Construction => constructionProject;
 
     public BuildingDefinitionSO Definition => houseDefinition;
     public int CurrentLevel => currentLevel;
@@ -96,7 +99,7 @@ public sealed class PlayerHouseController : MonoBehaviour
     {
         if (IsUnderConstruction)
         {
-            reason = $"Upgrade berjalan sampai hari ke-{completionDay}";
+            reason = constructionProject != null ? $"{constructionProject.Status} · {constructionProject.Progress:P0}" : "Upgrade rumah sedang berjalan";
             return false;
         }
         BuildingLevelDefinition target = NextLevel;
@@ -112,11 +115,13 @@ public sealed class PlayerHouseController : MonoBehaviour
         pendingLevel = target.level;
         completionDay = CurrentDay + Mathf.Max(0, target.constructionDays);
         state = BuildingConstructionState.UnderConstruction;
+        if (target.constructionDays > 0)
+            StartWorker(target);
         ApplyExteriorVisual();
         if (target.constructionDays <= 0)
             CompleteUpgrade();
         else
-            SaveLoadFeedback.Instance?.ShowMessage($"House Lv.{pendingLevel} selesai hari ke-{completionDay}");
+            SaveLoadFeedback.Instance?.ShowMessage($"Builder berangkat untuk renovasi rumah Lv.{pendingLevel}");
         SaveManager.Instance?.SaveGame();
         reason = null;
         return true;
@@ -124,12 +129,24 @@ public sealed class PlayerHouseController : MonoBehaviour
 
     void HandleDayChanged()
     {
-        if (IsUnderConstruction && CurrentDay >= completionDay)
+        constructionProject?.RefreshClock();
+        if (IsUnderConstruction && constructionProject == null && CurrentDay >= completionDay)
             CompleteUpgrade();
+    }
+
+    void StartWorker(BuildingLevelDefinition target, ConstructionJobData saved = null)
+    {
+        GameObject finalVisual = target.completedPrefab;
+        if (finalVisual == null && target.level - 1 < exteriorLevelVisuals.Count)
+            finalVisual = exteriorLevelVisuals[target.level - 1];
+        constructionProject = ConstructionProject.Begin(gameObject, transform, houseDefinition, target,
+            finalVisual, true, CompleteUpgrade, saved);
     }
 
     void CompleteUpgrade()
     {
+        if (!IsUnderConstruction) return;
+        constructionProject?.FinishVisuals();
         currentLevel = Mathf.Max(currentLevel, pendingLevel);
         pendingLevel = 0;
         completionDay = 0;
@@ -145,17 +162,15 @@ public sealed class PlayerHouseController : MonoBehaviour
     void ApplyExteriorVisual()
     {
         DestroyRuntimeExteriorVisual();
-        GameObject completedPrefab = !IsUnderConstruction
-            ? houseDefinition?.GetLevel(currentLevel)?.completedPrefab
-            : null;
+        GameObject completedPrefab = houseDefinition?.GetLevel(currentLevel)?.completedPrefab;
 
         for (int index = 0; index < exteriorLevelVisuals.Count; index++)
             if (exteriorLevelVisuals[index] != null)
                 exteriorLevelVisuals[index].SetActive(
-                    completedPrefab == null && !IsUnderConstruction && index == Mathf.Min(currentLevel - 1, exteriorLevelVisuals.Count - 1)
+                    completedPrefab == null && index == Mathf.Min(currentLevel - 1, exteriorLevelVisuals.Count - 1)
                 );
         if (constructionVisual != null)
-            constructionVisual.SetActive(IsUnderConstruction);
+            constructionVisual.SetActive(IsUnderConstruction && constructionProject == null);
 
         if (completedPrefab != null)
         {
@@ -201,6 +216,7 @@ public sealed class PlayerHouseController : MonoBehaviour
         pendingLevel = pendingLevel,
         state = state,
         completionDay = completionDay,
+        constructionJob = constructionProject?.Capture(),
         refrigeratorLevel = refrigeratorLevel,
         unlockedRooms = HouseFeatureService.GetUnlockedFeatureIds(currentLevel)
     };
@@ -213,16 +229,25 @@ public sealed class PlayerHouseController : MonoBehaviour
         pendingLevel = Mathf.Max(0, data.pendingLevel);
         state = data.state;
         completionDay = Mathf.Max(0, data.completionDay);
+        constructionProject?.Cancel();
+        constructionProject = null;
         // Save lama belum mempunyai refrigeratorLevel. Turunkan level minimum dari
         // House progression agar House Lv.2+ tidak kembali mengunci Refrigerator.
         int progressionLevel = currentLevel >= 2 ? currentLevel - 1 : 0;
         refrigeratorLevel = Mathf.Clamp(Mathf.Max(data.refrigeratorLevel, progressionLevel), 0, 4);
-        if (IsUnderConstruction && CurrentDay >= completionDay)
+        if (data.constructionJob != null && houseDefinition?.GetLevel(pendingLevel > 0 ? pendingLevel : currentLevel) != null)
+            StartWorker(houseDefinition.GetLevel(pendingLevel > 0 ? pendingLevel : currentLevel), data.constructionJob);
+        else if (IsUnderConstruction && houseDefinition?.GetLevel(pendingLevel) != null && CurrentDay < completionDay)
+            StartWorker(houseDefinition.GetLevel(pendingLevel), LegacyJob());
+        if (IsUnderConstruction && constructionProject == null && CurrentDay >= completionDay)
             CompleteUpgrade();
         else
             ApplyExteriorVisual();
         HouseFeatureService.NotifyHouseLevelChanged();
     }
+
+    ConstructionJobData LegacyJob() => ConstructionProject.MigrateLegacy(
+        houseDefinition.GetLevel(pendingLevel), completionDay, transform.position);
 
     /// <summary>Dipakai setup editor untuk menghubungkan asset dan visual tanpa reflection.</summary>
     public void Configure(BuildingDefinitionSO definition, List<GameObject> exteriors, GameObject construction)

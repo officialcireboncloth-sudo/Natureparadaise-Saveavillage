@@ -78,8 +78,8 @@ public sealed class WorldGatherable : MonoBehaviour
     public string Id => gatherableId;
     public GatherableKind Kind => kind;
     public bool IsAvailable => !depleted;
-    public bool CanPull => !depleted && canPullByHand;
-    public bool CanSickle => !depleted && canCutWithSickle;
+    public bool CanPull => kind != GatherableKind.Rock && !depleted && canPullByHand;
+    public bool CanSickle => kind != GatherableKind.Rock && !depleted && canCutWithSickle;
     public bool CanHammer => !depleted && canBreakWithHammer;
     public int Durability => currentDurability;
     public int MinimumHammerLevel => minimumHammerLevel;
@@ -99,6 +99,7 @@ public sealed class WorldGatherable : MonoBehaviour
 
     public void ConfigureRuntimeGrass(string id, ItemSO grassItem)
     {
+        var balance=Resources.Load<WildGrassBalance>("Wild Grass Balance");
         gatherableId = id;
         kind = GatherableKind.Grass;
         canPullByHand = false;
@@ -111,7 +112,14 @@ public sealed class WorldGatherable : MonoBehaviour
         drops.Clear();
         grassItem ??= LoadGrassItem();
         if (grassItem != null)
-            drops.Add(new GatherableDrop { item = grassItem, minimumAmount = 1, maximumAmount = 1, chance = 1f });
+            drops.Add(new GatherableDrop { item = grassItem, minimumAmount = balance!=null?Mathf.Max(1,balance.minimumAmount):1,
+                maximumAmount = balance!=null?Mathf.Max(balance.minimumAmount,balance.maximumAmount):1, chance = balance!=null?Mathf.Clamp01(balance.chance):1f });
+        if(balance!=null)
+        {
+            maximumDurability=currentDurability=Mathf.Max(1,balance.durability);
+            minimumRespawnDays=Mathf.Max(1,balance.minimumRespawnDays);
+            maximumRespawnDays=Mathf.Max(minimumRespawnDays,balance.maximumRespawnDays);
+        }
     }
 
     void Awake()
@@ -210,8 +218,30 @@ public sealed class WorldGatherable : MonoBehaviour
         currentDurability = Mathf.Max(0, currentDurability - Mathf.Max(1, hammerDamagePerHit));
         PlayFeedback(hammerSound, rockParticles);
         ApplyCrackVisual();
-        if (currentDurability <= 0) Deplete(player, false);
+        if (kind == GatherableKind.Rock) GrantMiningHit(player);
+        if (currentDurability <= 0) Deplete(player, false, kind != GatherableKind.Rock);
         return true;
+    }
+
+    // One configured primary reward per successful impact. Ore replaces stone for ore nodes.
+    void GrantMiningHit(PlayerGatheringTool player)
+    {
+        ItemSO reward = null;
+        foreach (GatherableDrop drop in drops)
+            if (drop != null && drop.item != null && drop.chance > 0f) { reward = drop.item; break; }
+        reward ??= Resources.Load<ItemSO>("Items/Materials/Stone");
+        if (reward == null) return;
+        Inventory inventory = player != null ? player.GetComponent<Inventory>() : null;
+        if (inventory != null && inventory.Add(reward, 1))
+        {
+            PlayerPickupNotification.ShowItem(inventory, reward, 1);
+            QuestEventHub.Publish(QuestObjectiveType.Collect, reward.name, 1, reward);
+        }
+        else
+        {
+            SpawnLoosePickup(reward, 1, transform.position + Vector3.up * .35f);
+            SaveLoadFeedback.Instance?.ShowMessage("Tas penuh: hasil tambang dijatuhkan di batu");
+        }
     }
 
     void Deplete(PlayerGatheringTool player, bool offerFirstDropToHands, bool spawnDrops = true)

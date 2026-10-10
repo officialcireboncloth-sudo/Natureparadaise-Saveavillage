@@ -1,0 +1,7 @@
+Info: Saved as "Coop_A_Master.blend"
+Info: Saved as "Coop_A_Master.blend"
+COOP_BUILD_COMPLETE [{"name": "Coop_A_Master_LOD0", "triangles": 3316, "vertices": 3116, "boundsBlenderXYZ": [[-3.3999998569488525, -4.800000190734863, 0.0], [3.950000047683716, 3.9000000953674316, 5.739999771118164]], "materials": ["TFP_Atlas_1A", "TFP_Atlas_Lights_1A"], "identityTransforms": true, "groundCentreOrigin": [0, 0, 0]}, {"name": "Coop_A_Master_LOD1", "triangles": 1278, "vertices": 1575, "boundsBlenderXYZ": [[-3.4000000953674316, -4.800000190734863, 0.0], [3.950000047683716, 3.9000000953674316, 5.739999771118164]], "materials": ["TFP_Atlas_1A", "TFP_Atlas_Lights_1A"], "identityTransforms": true, "groundCentreOrigin": [0, 0, 0]}, {"name": "Coop_A_Master_LOD2", "triangles": 286, "vertices": 344, "boundsBlenderXYZ": [[-3.4000000953674316, -4.800000190734863, 0.0], [3.950000047683716, 3.9000000953674316, 5.739999771118164]], "materials": ["TFP_Atlas_1A", "TFP_Atlas_Lights_1A"], "identityTransforms": true, "groundCentreOrigin": [0, 0, 0]}]
+Blender 4.5.14 LTS (hash 62c1db4208e8 built 2026-10-10 01:33:55)
+
+Blender quit
+Error: Not freed memory blocks: 315, total unfreed memory 0.023346 MB

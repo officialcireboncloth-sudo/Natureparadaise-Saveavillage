@@ -1,0 +1,10097 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 280cdea07c22b004994acb19e85a9727, type: 3}
+  m_Name: Game Schedules
+  m_EditorClassIdentifier: 
+  dates:
+  - absoluteDay: 1
+    year: 1
+    season: 0
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 2
+    year: 1
+    season: 0
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 3
+    year: 1
+    season: 0
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 4
+    year: 1
+    season: 0
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 5
+    year: 1
+    season: 0
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 6
+    year: 1
+    season: 0
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 7
+    year: 1
+    season: 0
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 8
+    year: 1
+    season: 0
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 9
+    year: 1
+    season: 0
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 10
+    year: 1
+    season: 0
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 11
+    year: 1
+    season: 0
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 12
+    year: 1
+    season: 0
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 13
+    year: 1
+    season: 0
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 14
+    year: 1
+    season: 0
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 15
+    year: 1
+    season: 0
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 16
+    year: 1
+    season: 0
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 17
+    year: 1
+    season: 0
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 18
+    year: 1
+    season: 0
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 19
+    year: 1
+    season: 0
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 20
+    year: 1
+    season: 0
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 21
+    year: 1
+    season: 0
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 22
+    year: 1
+    season: 0
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 23
+    year: 1
+    season: 0
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 24
+    year: 1
+    season: 0
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 25
+    year: 1
+    season: 0
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 26
+    year: 1
+    season: 0
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 27
+    year: 1
+    season: 0
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 28
+    year: 1
+    season: 0
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 29
+    year: 1
+    season: 1
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 30
+    year: 1
+    season: 1
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 31
+    year: 1
+    season: 1
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 32
+    year: 1
+    season: 1
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 33
+    year: 1
+    season: 1
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 34
+    year: 1
+    season: 1
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 35
+    year: 1
+    season: 1
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 36
+    year: 1
+    season: 1
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 37
+    year: 1
+    season: 1
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 38
+    year: 1
+    season: 1
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 39
+    year: 1
+    season: 1
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 40
+    year: 1
+    season: 1
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 41
+    year: 1
+    season: 1
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 42
+    year: 1
+    season: 1
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 43
+    year: 1
+    season: 1
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 44
+    year: 1
+    season: 1
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 45
+    year: 1
+    season: 1
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 46
+    year: 1
+    season: 1
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 47
+    year: 1
+    season: 1
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 48
+    year: 1
+    season: 1
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 49
+    year: 1
+    season: 1
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 50
+    year: 1
+    season: 1
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 51
+    year: 1
+    season: 1
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 52
+    year: 1
+    season: 1
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 53
+    year: 1
+    season: 1
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 54
+    year: 1
+    season: 1
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 55
+    year: 1
+    season: 1
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 56
+    year: 1
+    season: 1
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 57
+    year: 1
+    season: 2
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 58
+    year: 1
+    season: 2
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 59
+    year: 1
+    season: 2
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 60
+    year: 1
+    season: 2
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 61
+    year: 1
+    season: 2
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 62
+    year: 1
+    season: 2
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 63
+    year: 1
+    season: 2
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 64
+    year: 1
+    season: 2
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 65
+    year: 1
+    season: 2
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 66
+    year: 1
+    season: 2
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 67
+    year: 1
+    season: 2
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 68
+    year: 1
+    season: 2
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 69
+    year: 1
+    season: 2
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 70
+    year: 1
+    season: 2
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 71
+    year: 1
+    season: 2
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 72
+    year: 1
+    season: 2
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 73
+    year: 1
+    season: 2
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 74
+    year: 1
+    season: 2
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 75
+    year: 1
+    season: 2
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 76
+    year: 1
+    season: 2
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 77
+    year: 1
+    season: 2
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 78
+    year: 1
+    season: 2
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 79
+    year: 1
+    season: 2
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 80
+    year: 1
+    season: 2
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 81
+    year: 1
+    season: 2
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 82
+    year: 1
+    season: 2
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 83
+    year: 1
+    season: 2
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 84
+    year: 1
+    season: 2
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 85
+    year: 1
+    season: 3
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 86
+    year: 1
+    season: 3
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 87
+    year: 1
+    season: 3
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 88
+    year: 1
+    season: 3
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 89
+    year: 1
+    season: 3
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 90
+    year: 1
+    season: 3
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 91
+    year: 1
+    season: 3
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 92
+    year: 1
+    season: 3
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 93
+    year: 1
+    season: 3
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 94
+    year: 1
+    season: 3
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 95
+    year: 1
+    season: 3
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 96
+    year: 1
+    season: 3
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 97
+    year: 1
+    season: 3
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 98
+    year: 1
+    season: 3
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 99
+    year: 1
+    season: 3
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 100
+    year: 1
+    season: 3
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 101
+    year: 1
+    season: 3
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 102
+    year: 1
+    season: 3
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 103
+    year: 1
+    season: 3
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 104
+    year: 1
+    season: 3
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 105
+    year: 1
+    season: 3
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 106
+    year: 1
+    season: 3
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 107
+    year: 1
+    season: 3
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 108
+    year: 1
+    season: 3
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 109
+    year: 1
+    season: 3
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 110
+    year: 1
+    season: 3
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 111
+    year: 1
+    season: 3
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 112
+    year: 1
+    season: 3
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 113
+    year: 2
+    season: 0
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 114
+    year: 2
+    season: 0
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 115
+    year: 2
+    season: 0
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 116
+    year: 2
+    season: 0
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 117
+    year: 2
+    season: 0
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 118
+    year: 2
+    season: 0
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 119
+    year: 2
+    season: 0
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 120
+    year: 2
+    season: 0
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 121
+    year: 2
+    season: 0
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 122
+    year: 2
+    season: 0
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 123
+    year: 2
+    season: 0
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 124
+    year: 2
+    season: 0
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 125
+    year: 2
+    season: 0
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 126
+    year: 2
+    season: 0
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 127
+    year: 2
+    season: 0
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 128
+    year: 2
+    season: 0
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 129
+    year: 2
+    season: 0
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 130
+    year: 2
+    season: 0
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 131
+    year: 2
+    season: 0
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 132
+    year: 2
+    season: 0
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 133
+    year: 2
+    season: 0
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 134
+    year: 2
+    season: 0
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 135
+    year: 2
+    season: 0
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 136
+    year: 2
+    season: 0
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 137
+    year: 2
+    season: 0
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 138
+    year: 2
+    season: 0
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 139
+    year: 2
+    season: 0
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 140
+    year: 2
+    season: 0
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 141
+    year: 2
+    season: 1
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 142
+    year: 2
+    season: 1
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 143
+    year: 2
+    season: 1
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 144
+    year: 2
+    season: 1
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 145
+    year: 2
+    season: 1
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 146
+    year: 2
+    season: 1
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 147
+    year: 2
+    season: 1
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 148
+    year: 2
+    season: 1
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 149
+    year: 2
+    season: 1
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 150
+    year: 2
+    season: 1
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 151
+    year: 2
+    season: 1
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 152
+    year: 2
+    season: 1
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 153
+    year: 2
+    season: 1
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 154
+    year: 2
+    season: 1
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 155
+    year: 2
+    season: 1
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 156
+    year: 2
+    season: 1
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 157
+    year: 2
+    season: 1
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 158
+    year: 2
+    season: 1
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 159
+    year: 2
+    season: 1
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 160
+    year: 2
+    season: 1
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 161
+    year: 2
+    season: 1
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 162
+    year: 2
+    season: 1
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 163
+    year: 2
+    season: 1
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 164
+    year: 2
+    season: 1
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 165
+    year: 2
+    season: 1
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 166
+    year: 2
+    season: 1
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 167
+    year: 2
+    season: 1
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 168
+    year: 2
+    season: 1
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 169
+    year: 2
+    season: 2
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 170
+    year: 2
+    season: 2
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 171
+    year: 2
+    season: 2
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 172
+    year: 2
+    season: 2
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 173
+    year: 2
+    season: 2
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 174
+    year: 2
+    season: 2
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 175
+    year: 2
+    season: 2
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 176
+    year: 2
+    season: 2
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 177
+    year: 2
+    season: 2
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 178
+    year: 2
+    season: 2
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 179
+    year: 2
+    season: 2
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 180
+    year: 2
+    season: 2
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 181
+    year: 2
+    season: 2
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 182
+    year: 2
+    season: 2
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 183
+    year: 2
+    season: 2
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 184
+    year: 2
+    season: 2
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 185
+    year: 2
+    season: 2
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 186
+    year: 2
+    season: 2
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 187
+    year: 2
+    season: 2
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 188
+    year: 2
+    season: 2
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 189
+    year: 2
+    season: 2
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 190
+    year: 2
+    season: 2
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 191
+    year: 2
+    season: 2
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 192
+    year: 2
+    season: 2
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 193
+    year: 2
+    season: 2
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 194
+    year: 2
+    season: 2
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 195
+    year: 2
+    season: 2
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 196
+    year: 2
+    season: 2
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 197
+    year: 2
+    season: 3
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 198
+    year: 2
+    season: 3
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 199
+    year: 2
+    season: 3
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 200
+    year: 2
+    season: 3
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 201
+    year: 2
+    season: 3
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 202
+    year: 2
+    season: 3
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 203
+    year: 2
+    season: 3
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 204
+    year: 2
+    season: 3
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 205
+    year: 2
+    season: 3
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 206
+    year: 2
+    season: 3
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 207
+    year: 2
+    season: 3
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 208
+    year: 2
+    season: 3
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 209
+    year: 2
+    season: 3
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 210
+    year: 2
+    season: 3
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 211
+    year: 2
+    season: 3
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 212
+    year: 2
+    season: 3
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 213
+    year: 2
+    season: 3
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 214
+    year: 2
+    season: 3
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 215
+    year: 2
+    season: 3
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 216
+    year: 2
+    season: 3
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 217
+    year: 2
+    season: 3
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 218
+    year: 2
+    season: 3
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 219
+    year: 2
+    season: 3
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 220
+    year: 2
+    season: 3
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 221
+    year: 2
+    season: 3
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 222
+    year: 2
+    season: 3
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 223
+    year: 2
+    season: 3
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 224
+    year: 2
+    season: 3
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 225
+    year: 3
+    season: 0
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 226
+    year: 3
+    season: 0
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 227
+    year: 3
+    season: 0
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 228
+    year: 3
+    season: 0
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 229
+    year: 3
+    season: 0
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 230
+    year: 3
+    season: 0
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 231
+    year: 3
+    season: 0
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 232
+    year: 3
+    season: 0
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 233
+    year: 3
+    season: 0
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 234
+    year: 3
+    season: 0
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 235
+    year: 3
+    season: 0
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 236
+    year: 3
+    season: 0
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 237
+    year: 3
+    season: 0
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 238
+    year: 3
+    season: 0
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 239
+    year: 3
+    season: 0
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 240
+    year: 3
+    season: 0
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 241
+    year: 3
+    season: 0
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 242
+    year: 3
+    season: 0
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 243
+    year: 3
+    season: 0
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 244
+    year: 3
+    season: 0
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 245
+    year: 3
+    season: 0
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 246
+    year: 3
+    season: 0
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 247
+    year: 3
+    season: 0
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 248
+    year: 3
+    season: 0
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 249
+    year: 3
+    season: 0
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 250
+    year: 3
+    season: 0
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 251
+    year: 3
+    season: 0
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 252
+    year: 3
+    season: 0
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 253
+    year: 3
+    season: 1
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 254
+    year: 3
+    season: 1
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 255
+    year: 3
+    season: 1
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 256
+    year: 3
+    season: 1
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 257
+    year: 3
+    season: 1
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 258
+    year: 3
+    season: 1
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 259
+    year: 3
+    season: 1
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 260
+    year: 3
+    season: 1
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 261
+    year: 3
+    season: 1
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 262
+    year: 3
+    season: 1
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 263
+    year: 3
+    season: 1
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 264
+    year: 3
+    season: 1
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 265
+    year: 3
+    season: 1
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 266
+    year: 3
+    season: 1
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 267
+    year: 3
+    season: 1
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 268
+    year: 3
+    season: 1
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 269
+    year: 3
+    season: 1
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 270
+    year: 3
+    season: 1
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 271
+    year: 3
+    season: 1
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 272
+    year: 3
+    season: 1
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 273
+    year: 3
+    season: 1
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 274
+    year: 3
+    season: 1
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 275
+    year: 3
+    season: 1
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 276
+    year: 3
+    season: 1
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 277
+    year: 3
+    season: 1
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 278
+    year: 3
+    season: 1
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 279
+    year: 3
+    season: 1
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 280
+    year: 3
+    season: 1
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 281
+    year: 3
+    season: 2
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 282
+    year: 3
+    season: 2
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 283
+    year: 3
+    season: 2
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 284
+    year: 3
+    season: 2
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 285
+    year: 3
+    season: 2
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 286
+    year: 3
+    season: 2
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 287
+    year: 3
+    season: 2
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 288
+    year: 3
+    season: 2
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 289
+    year: 3
+    season: 2
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 290
+    year: 3
+    season: 2
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 291
+    year: 3
+    season: 2
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 292
+    year: 3
+    season: 2
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 293
+    year: 3
+    season: 2
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 294
+    year: 3
+    season: 2
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 295
+    year: 3
+    season: 2
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 296
+    year: 3
+    season: 2
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 297
+    year: 3
+    season: 2
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 298
+    year: 3
+    season: 2
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 299
+    year: 3
+    season: 2
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 300
+    year: 3
+    season: 2
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 301
+    year: 3
+    season: 2
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 302
+    year: 3
+    season: 2
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 303
+    year: 3
+    season: 2
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 304
+    year: 3
+    season: 2
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 305
+    year: 3
+    season: 2
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 306
+    year: 3
+    season: 2
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 307
+    year: 3
+    season: 2
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 308
+    year: 3
+    season: 2
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 309
+    year: 3
+    season: 3
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 310
+    year: 3
+    season: 3
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 311
+    year: 3
+    season: 3
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 312
+    year: 3
+    season: 3
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 313
+    year: 3
+    season: 3
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 314
+    year: 3
+    season: 3
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 315
+    year: 3
+    season: 3
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 316
+    year: 3
+    season: 3
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 317
+    year: 3
+    season: 3
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 318
+    year: 3
+    season: 3
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 319
+    year: 3
+    season: 3
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 320
+    year: 3
+    season: 3
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 321
+    year: 3
+    season: 3
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 322
+    year: 3
+    season: 3
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 323
+    year: 3
+    season: 3
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 324
+    year: 3
+    season: 3
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 325
+    year: 3
+    season: 3
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 326
+    year: 3
+    season: 3
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 327
+    year: 3
+    season: 3
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 328
+    year: 3
+    season: 3
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 329
+    year: 3
+    season: 3
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 330
+    year: 3
+    season: 3
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 331
+    year: 3
+    season: 3
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 332
+    year: 3
+    season: 3
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 333
+    year: 3
+    season: 3
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 334
+    year: 3
+    season: 3
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 335
+    year: 3
+    season: 3
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 336
+    year: 3
+    season: 3
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 337
+    year: 4
+    season: 0
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 338
+    year: 4
+    season: 0
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 339
+    year: 4
+    season: 0
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 340
+    year: 4
+    season: 0
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 341
+    year: 4
+    season: 0
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 342
+    year: 4
+    season: 0
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 343
+    year: 4
+    season: 0
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 344
+    year: 4
+    season: 0
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 345
+    year: 4
+    season: 0
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 346
+    year: 4
+    season: 0
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 347
+    year: 4
+    season: 0
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 348
+    year: 4
+    season: 0
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 349
+    year: 4
+    season: 0
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 350
+    year: 4
+    season: 0
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 351
+    year: 4
+    season: 0
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 352
+    year: 4
+    season: 0
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 353
+    year: 4
+    season: 0
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 354
+    year: 4
+    season: 0
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 355
+    year: 4
+    season: 0
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 356
+    year: 4
+    season: 0
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 357
+    year: 4
+    season: 0
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 358
+    year: 4
+    season: 0
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 359
+    year: 4
+    season: 0
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 360
+    year: 4
+    season: 0
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 361
+    year: 4
+    season: 0
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 362
+    year: 4
+    season: 0
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 363
+    year: 4
+    season: 0
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 364
+    year: 4
+    season: 0
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 365
+    year: 4
+    season: 1
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 366
+    year: 4
+    season: 1
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 367
+    year: 4
+    season: 1
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 368
+    year: 4
+    season: 1
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 369
+    year: 4
+    season: 1
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 370
+    year: 4
+    season: 1
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 371
+    year: 4
+    season: 1
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 372
+    year: 4
+    season: 1
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 373
+    year: 4
+    season: 1
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 374
+    year: 4
+    season: 1
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 375
+    year: 4
+    season: 1
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 376
+    year: 4
+    season: 1
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 377
+    year: 4
+    season: 1
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 378
+    year: 4
+    season: 1
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 379
+    year: 4
+    season: 1
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 380
+    year: 4
+    season: 1
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 381
+    year: 4
+    season: 1
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 382
+    year: 4
+    season: 1
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 383
+    year: 4
+    season: 1
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 384
+    year: 4
+    season: 1
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 385
+    year: 4
+    season: 1
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 386
+    year: 4
+    season: 1
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 387
+    year: 4
+    season: 1
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 388
+    year: 4
+    season: 1
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 389
+    year: 4
+    season: 1
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 390
+    year: 4
+    season: 1
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 391
+    year: 4
+    season: 1
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 392
+    year: 4
+    season: 1
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 393
+    year: 4
+    season: 2
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 394
+    year: 4
+    season: 2
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 395
+    year: 4
+    season: 2
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 396
+    year: 4
+    season: 2
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 397
+    year: 4
+    season: 2
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 398
+    year: 4
+    season: 2
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 399
+    year: 4
+    season: 2
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 400
+    year: 4
+    season: 2
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 401
+    year: 4
+    season: 2
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 402
+    year: 4
+    season: 2
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 403
+    year: 4
+    season: 2
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 404
+    year: 4
+    season: 2
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 405
+    year: 4
+    season: 2
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 406
+    year: 4
+    season: 2
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 407
+    year: 4
+    season: 2
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 408
+    year: 4
+    season: 2
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 409
+    year: 4
+    season: 2
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 410
+    year: 4
+    season: 2
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 411
+    year: 4
+    season: 2
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 412
+    year: 4
+    season: 2
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 413
+    year: 4
+    season: 2
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 414
+    year: 4
+    season: 2
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 415
+    year: 4
+    season: 2
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 416
+    year: 4
+    season: 2
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 417
+    year: 4
+    season: 2
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 418
+    year: 4
+    season: 2
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 419
+    year: 4
+    season: 2
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 420
+    year: 4
+    season: 2
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 421
+    year: 4
+    season: 3
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 422
+    year: 4
+    season: 3
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 423
+    year: 4
+    season: 3
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 424
+    year: 4
+    season: 3
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 425
+    year: 4
+    season: 3
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 426
+    year: 4
+    season: 3
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 427
+    year: 4
+    season: 3
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 428
+    year: 4
+    season: 3
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 429
+    year: 4
+    season: 3
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 430
+    year: 4
+    season: 3
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 431
+    year: 4
+    season: 3
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 432
+    year: 4
+    season: 3
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 433
+    year: 4
+    season: 3
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 434
+    year: 4
+    season: 3
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 435
+    year: 4
+    season: 3
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 436
+    year: 4
+    season: 3
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 437
+    year: 4
+    season: 3
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 438
+    year: 4
+    season: 3
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 439
+    year: 4
+    season: 3
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 440
+    year: 4
+    season: 3
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 441
+    year: 4
+    season: 3
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 442
+    year: 4
+    season: 3
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 443
+    year: 4
+    season: 3
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 444
+    year: 4
+    season: 3
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 445
+    year: 4
+    season: 3
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 446
+    year: 4
+    season: 3
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 447
+    year: 4
+    season: 3
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 448
+    year: 4
+    season: 3
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 449
+    year: 5
+    season: 0
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 450
+    year: 5
+    season: 0
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 451
+    year: 5
+    season: 0
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 452
+    year: 5
+    season: 0
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 453
+    year: 5
+    season: 0
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 454
+    year: 5
+    season: 0
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 455
+    year: 5
+    season: 0
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 456
+    year: 5
+    season: 0
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 457
+    year: 5
+    season: 0
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 458
+    year: 5
+    season: 0
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 459
+    year: 5
+    season: 0
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 460
+    year: 5
+    season: 0
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 461
+    year: 5
+    season: 0
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 462
+    year: 5
+    season: 0
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 463
+    year: 5
+    season: 0
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 464
+    year: 5
+    season: 0
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 465
+    year: 5
+    season: 0
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 466
+    year: 5
+    season: 0
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 467
+    year: 5
+    season: 0
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 468
+    year: 5
+    season: 0
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 469
+    year: 5
+    season: 0
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 470
+    year: 5
+    season: 0
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 471
+    year: 5
+    season: 0
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 472
+    year: 5
+    season: 0
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 473
+    year: 5
+    season: 0
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 474
+    year: 5
+    season: 0
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 475
+    year: 5
+    season: 0
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 476
+    year: 5
+    season: 0
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 477
+    year: 5
+    season: 1
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 478
+    year: 5
+    season: 1
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 479
+    year: 5
+    season: 1
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 480
+    year: 5
+    season: 1
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 481
+    year: 5
+    season: 1
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 482
+    year: 5
+    season: 1
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 483
+    year: 5
+    season: 1
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 484
+    year: 5
+    season: 1
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 485
+    year: 5
+    season: 1
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 486
+    year: 5
+    season: 1
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 487
+    year: 5
+    season: 1
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 488
+    year: 5
+    season: 1
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 489
+    year: 5
+    season: 1
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 490
+    year: 5
+    season: 1
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 491
+    year: 5
+    season: 1
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 492
+    year: 5
+    season: 1
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 493
+    year: 5
+    season: 1
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 494
+    year: 5
+    season: 1
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 495
+    year: 5
+    season: 1
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 496
+    year: 5
+    season: 1
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 497
+    year: 5
+    season: 1
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 498
+    year: 5
+    season: 1
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 499
+    year: 5
+    season: 1
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 500
+    year: 5
+    season: 1
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 501
+    year: 5
+    season: 1
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 502
+    year: 5
+    season: 1
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 503
+    year: 5
+    season: 1
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 504
+    year: 5
+    season: 1
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 505
+    year: 5
+    season: 2
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 506
+    year: 5
+    season: 2
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 507
+    year: 5
+    season: 2
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 508
+    year: 5
+    season: 2
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 509
+    year: 5
+    season: 2
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 510
+    year: 5
+    season: 2
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 511
+    year: 5
+    season: 2
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 512
+    year: 5
+    season: 2
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 513
+    year: 5
+    season: 2
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 514
+    year: 5
+    season: 2
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 515
+    year: 5
+    season: 2
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 516
+    year: 5
+    season: 2
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 517
+    year: 5
+    season: 2
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 518
+    year: 5
+    season: 2
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 519
+    year: 5
+    season: 2
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 520
+    year: 5
+    season: 2
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 521
+    year: 5
+    season: 2
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 522
+    year: 5
+    season: 2
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 523
+    year: 5
+    season: 2
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 524
+    year: 5
+    season: 2
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 525
+    year: 5
+    season: 2
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 526
+    year: 5
+    season: 2
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 527
+    year: 5
+    season: 2
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 528
+    year: 5
+    season: 2
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 529
+    year: 5
+    season: 2
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 530
+    year: 5
+    season: 2
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 531
+    year: 5
+    season: 2
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 532
+    year: 5
+    season: 2
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 533
+    year: 5
+    season: 3
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 534
+    year: 5
+    season: 3
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 535
+    year: 5
+    season: 3
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 536
+    year: 5
+    season: 3
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 537
+    year: 5
+    season: 3
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 538
+    year: 5
+    season: 3
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 539
+    year: 5
+    season: 3
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 540
+    year: 5
+    season: 3
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 541
+    year: 5
+    season: 3
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 542
+    year: 5
+    season: 3
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 543
+    year: 5
+    season: 3
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 544
+    year: 5
+    season: 3
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 545
+    year: 5
+    season: 3
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 546
+    year: 5
+    season: 3
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 547
+    year: 5
+    season: 3
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 548
+    year: 5
+    season: 3
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 549
+    year: 5
+    season: 3
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 550
+    year: 5
+    season: 3
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 551
+    year: 5
+    season: 3
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 552
+    year: 5
+    season: 3
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 553
+    year: 5
+    season: 3
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 554
+    year: 5
+    season: 3
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 555
+    year: 5
+    season: 3
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 556
+    year: 5
+    season: 3
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 557
+    year: 5
+    season: 3
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 558
+    year: 5
+    season: 3
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 559
+    year: 5
+    season: 3
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 560
+    year: 5
+    season: 3
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 561
+    year: 6
+    season: 0
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 562
+    year: 6
+    season: 0
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 563
+    year: 6
+    season: 0
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 564
+    year: 6
+    season: 0
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 565
+    year: 6
+    season: 0
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 566
+    year: 6
+    season: 0
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 567
+    year: 6
+    season: 0
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 568
+    year: 6
+    season: 0
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 569
+    year: 6
+    season: 0
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 570
+    year: 6
+    season: 0
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 571
+    year: 6
+    season: 0
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 572
+    year: 6
+    season: 0
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 573
+    year: 6
+    season: 0
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 574
+    year: 6
+    season: 0
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 575
+    year: 6
+    season: 0
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 576
+    year: 6
+    season: 0
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 577
+    year: 6
+    season: 0
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 578
+    year: 6
+    season: 0
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 579
+    year: 6
+    season: 0
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 580
+    year: 6
+    season: 0
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 581
+    year: 6
+    season: 0
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 582
+    year: 6
+    season: 0
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 583
+    year: 6
+    season: 0
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 584
+    year: 6
+    season: 0
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 585
+    year: 6
+    season: 0
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 586
+    year: 6
+    season: 0
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 587
+    year: 6
+    season: 0
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 588
+    year: 6
+    season: 0
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 589
+    year: 6
+    season: 1
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 590
+    year: 6
+    season: 1
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 591
+    year: 6
+    season: 1
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 592
+    year: 6
+    season: 1
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 593
+    year: 6
+    season: 1
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 594
+    year: 6
+    season: 1
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 595
+    year: 6
+    season: 1
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 596
+    year: 6
+    season: 1
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 597
+    year: 6
+    season: 1
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 598
+    year: 6
+    season: 1
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 599
+    year: 6
+    season: 1
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 600
+    year: 6
+    season: 1
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 601
+    year: 6
+    season: 1
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 602
+    year: 6
+    season: 1
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 603
+    year: 6
+    season: 1
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 604
+    year: 6
+    season: 1
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 605
+    year: 6
+    season: 1
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 606
+    year: 6
+    season: 1
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 607
+    year: 6
+    season: 1
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 608
+    year: 6
+    season: 1
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 609
+    year: 6
+    season: 1
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 610
+    year: 6
+    season: 1
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 611
+    year: 6
+    season: 1
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 612
+    year: 6
+    season: 1
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 613
+    year: 6
+    season: 1
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 614
+    year: 6
+    season: 1
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 615
+    year: 6
+    season: 1
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 616
+    year: 6
+    season: 1
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 617
+    year: 6
+    season: 2
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 618
+    year: 6
+    season: 2
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 619
+    year: 6
+    season: 2
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 620
+    year: 6
+    season: 2
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 621
+    year: 6
+    season: 2
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 622
+    year: 6
+    season: 2
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 623
+    year: 6
+    season: 2
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 624
+    year: 6
+    season: 2
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 625
+    year: 6
+    season: 2
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 626
+    year: 6
+    season: 2
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 627
+    year: 6
+    season: 2
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 628
+    year: 6
+    season: 2
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 629
+    year: 6
+    season: 2
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 630
+    year: 6
+    season: 2
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 631
+    year: 6
+    season: 2
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 632
+    year: 6
+    season: 2
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 633
+    year: 6
+    season: 2
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 634
+    year: 6
+    season: 2
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 635
+    year: 6
+    season: 2
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 636
+    year: 6
+    season: 2
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 637
+    year: 6
+    season: 2
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 638
+    year: 6
+    season: 2
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 639
+    year: 6
+    season: 2
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 640
+    year: 6
+    season: 2
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 641
+    year: 6
+    season: 2
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 642
+    year: 6
+    season: 2
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 643
+    year: 6
+    season: 2
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 644
+    year: 6
+    season: 2
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 645
+    year: 6
+    season: 3
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 646
+    year: 6
+    season: 3
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 647
+    year: 6
+    season: 3
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 648
+    year: 6
+    season: 3
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 649
+    year: 6
+    season: 3
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 650
+    year: 6
+    season: 3
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 651
+    year: 6
+    season: 3
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 652
+    year: 6
+    season: 3
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 653
+    year: 6
+    season: 3
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 654
+    year: 6
+    season: 3
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 655
+    year: 6
+    season: 3
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 656
+    year: 6
+    season: 3
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 657
+    year: 6
+    season: 3
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 658
+    year: 6
+    season: 3
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 659
+    year: 6
+    season: 3
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 660
+    year: 6
+    season: 3
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 661
+    year: 6
+    season: 3
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 662
+    year: 6
+    season: 3
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 663
+    year: 6
+    season: 3
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 664
+    year: 6
+    season: 3
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 665
+    year: 6
+    season: 3
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 666
+    year: 6
+    season: 3
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 667
+    year: 6
+    season: 3
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 668
+    year: 6
+    season: 3
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 669
+    year: 6
+    season: 3
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 670
+    year: 6
+    season: 3
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 671
+    year: 6
+    season: 3
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 672
+    year: 6
+    season: 3
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 673
+    year: 7
+    season: 0
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 674
+    year: 7
+    season: 0
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 675
+    year: 7
+    season: 0
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 676
+    year: 7
+    season: 0
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 677
+    year: 7
+    season: 0
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 678
+    year: 7
+    season: 0
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 679
+    year: 7
+    season: 0
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 680
+    year: 7
+    season: 0
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 681
+    year: 7
+    season: 0
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 682
+    year: 7
+    season: 0
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 683
+    year: 7
+    season: 0
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 684
+    year: 7
+    season: 0
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 685
+    year: 7
+    season: 0
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 686
+    year: 7
+    season: 0
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 687
+    year: 7
+    season: 0
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 688
+    year: 7
+    season: 0
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 689
+    year: 7
+    season: 0
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 690
+    year: 7
+    season: 0
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 691
+    year: 7
+    season: 0
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 692
+    year: 7
+    season: 0
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 693
+    year: 7
+    season: 0
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 694
+    year: 7
+    season: 0
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 695
+    year: 7
+    season: 0
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 696
+    year: 7
+    season: 0
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 697
+    year: 7
+    season: 0
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 698
+    year: 7
+    season: 0
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 699
+    year: 7
+    season: 0
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 700
+    year: 7
+    season: 0
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 701
+    year: 7
+    season: 1
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 702
+    year: 7
+    season: 1
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 703
+    year: 7
+    season: 1
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 704
+    year: 7
+    season: 1
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 705
+    year: 7
+    season: 1
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 706
+    year: 7
+    season: 1
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 707
+    year: 7
+    season: 1
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 708
+    year: 7
+    season: 1
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 709
+    year: 7
+    season: 1
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 710
+    year: 7
+    season: 1
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 711
+    year: 7
+    season: 1
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 712
+    year: 7
+    season: 1
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 713
+    year: 7
+    season: 1
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 714
+    year: 7
+    season: 1
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 715
+    year: 7
+    season: 1
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 716
+    year: 7
+    season: 1
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 717
+    year: 7
+    season: 1
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 718
+    year: 7
+    season: 1
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 719
+    year: 7
+    season: 1
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 720
+    year: 7
+    season: 1
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 721
+    year: 7
+    season: 1
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 722
+    year: 7
+    season: 1
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 723
+    year: 7
+    season: 1
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 724
+    year: 7
+    season: 1
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 725
+    year: 7
+    season: 1
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 726
+    year: 7
+    season: 1
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 727
+    year: 7
+    season: 1
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 728
+    year: 7
+    season: 1
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 729
+    year: 7
+    season: 2
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 730
+    year: 7
+    season: 2
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 731
+    year: 7
+    season: 2
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 732
+    year: 7
+    season: 2
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 733
+    year: 7
+    season: 2
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 734
+    year: 7
+    season: 2
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 735
+    year: 7
+    season: 2
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 736
+    year: 7
+    season: 2
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 737
+    year: 7
+    season: 2
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 738
+    year: 7
+    season: 2
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 739
+    year: 7
+    season: 2
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 740
+    year: 7
+    season: 2
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 741
+    year: 7
+    season: 2
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 742
+    year: 7
+    season: 2
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 743
+    year: 7
+    season: 2
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 744
+    year: 7
+    season: 2
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 745
+    year: 7
+    season: 2
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 746
+    year: 7
+    season: 2
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 747
+    year: 7
+    season: 2
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 748
+    year: 7
+    season: 2
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 749
+    year: 7
+    season: 2
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 750
+    year: 7
+    season: 2
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 751
+    year: 7
+    season: 2
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 752
+    year: 7
+    season: 2
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 753
+    year: 7
+    season: 2
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 754
+    year: 7
+    season: 2
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 755
+    year: 7
+    season: 2
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 756
+    year: 7
+    season: 2
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 757
+    year: 7
+    season: 3
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 758
+    year: 7
+    season: 3
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 759
+    year: 7
+    season: 3
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 760
+    year: 7
+    season: 3
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 761
+    year: 7
+    season: 3
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 762
+    year: 7
+    season: 3
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 763
+    year: 7
+    season: 3
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 764
+    year: 7
+    season: 3
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 765
+    year: 7
+    season: 3
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 766
+    year: 7
+    season: 3
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 767
+    year: 7
+    season: 3
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 768
+    year: 7
+    season: 3
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 769
+    year: 7
+    season: 3
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 770
+    year: 7
+    season: 3
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 771
+    year: 7
+    season: 3
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 772
+    year: 7
+    season: 3
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 773
+    year: 7
+    season: 3
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 774
+    year: 7
+    season: 3
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 775
+    year: 7
+    season: 3
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 776
+    year: 7
+    season: 3
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 777
+    year: 7
+    season: 3
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 778
+    year: 7
+    season: 3
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 779
+    year: 7
+    season: 3
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 780
+    year: 7
+    season: 3
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 781
+    year: 7
+    season: 3
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 782
+    year: 7
+    season: 3
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 783
+    year: 7
+    season: 3
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 784
+    year: 7
+    season: 3
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 785
+    year: 8
+    season: 0
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 786
+    year: 8
+    season: 0
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 787
+    year: 8
+    season: 0
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 788
+    year: 8
+    season: 0
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 789
+    year: 8
+    season: 0
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 790
+    year: 8
+    season: 0
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 791
+    year: 8
+    season: 0
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 792
+    year: 8
+    season: 0
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 793
+    year: 8
+    season: 0
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 794
+    year: 8
+    season: 0
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 795
+    year: 8
+    season: 0
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 796
+    year: 8
+    season: 0
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 797
+    year: 8
+    season: 0
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 798
+    year: 8
+    season: 0
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 799
+    year: 8
+    season: 0
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 800
+    year: 8
+    season: 0
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 801
+    year: 8
+    season: 0
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 802
+    year: 8
+    season: 0
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 803
+    year: 8
+    season: 0
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 804
+    year: 8
+    season: 0
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 805
+    year: 8
+    season: 0
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 806
+    year: 8
+    season: 0
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 807
+    year: 8
+    season: 0
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 808
+    year: 8
+    season: 0
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 809
+    year: 8
+    season: 0
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 810
+    year: 8
+    season: 0
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 811
+    year: 8
+    season: 0
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 812
+    year: 8
+    season: 0
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 813
+    year: 8
+    season: 1
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 814
+    year: 8
+    season: 1
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 815
+    year: 8
+    season: 1
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 816
+    year: 8
+    season: 1
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 817
+    year: 8
+    season: 1
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 818
+    year: 8
+    season: 1
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 819
+    year: 8
+    season: 1
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 820
+    year: 8
+    season: 1
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 821
+    year: 8
+    season: 1
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 822
+    year: 8
+    season: 1
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 823
+    year: 8
+    season: 1
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 824
+    year: 8
+    season: 1
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 825
+    year: 8
+    season: 1
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 826
+    year: 8
+    season: 1
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 827
+    year: 8
+    season: 1
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 828
+    year: 8
+    season: 1
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 829
+    year: 8
+    season: 1
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 830
+    year: 8
+    season: 1
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 831
+    year: 8
+    season: 1
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 832
+    year: 8
+    season: 1
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 833
+    year: 8
+    season: 1
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 834
+    year: 8
+    season: 1
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 835
+    year: 8
+    season: 1
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 836
+    year: 8
+    season: 1
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 837
+    year: 8
+    season: 1
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 838
+    year: 8
+    season: 1
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 839
+    year: 8
+    season: 1
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 840
+    year: 8
+    season: 1
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 841
+    year: 8
+    season: 2
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 842
+    year: 8
+    season: 2
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 843
+    year: 8
+    season: 2
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 844
+    year: 8
+    season: 2
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 845
+    year: 8
+    season: 2
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 846
+    year: 8
+    season: 2
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 847
+    year: 8
+    season: 2
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 848
+    year: 8
+    season: 2
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 849
+    year: 8
+    season: 2
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 850
+    year: 8
+    season: 2
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 851
+    year: 8
+    season: 2
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 852
+    year: 8
+    season: 2
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 853
+    year: 8
+    season: 2
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 854
+    year: 8
+    season: 2
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 855
+    year: 8
+    season: 2
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 856
+    year: 8
+    season: 2
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 857
+    year: 8
+    season: 2
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 858
+    year: 8
+    season: 2
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 859
+    year: 8
+    season: 2
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 860
+    year: 8
+    season: 2
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 861
+    year: 8
+    season: 2
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 862
+    year: 8
+    season: 2
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 863
+    year: 8
+    season: 2
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 864
+    year: 8
+    season: 2
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 865
+    year: 8
+    season: 2
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 866
+    year: 8
+    season: 2
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 867
+    year: 8
+    season: 2
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 868
+    year: 8
+    season: 2
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 869
+    year: 8
+    season: 3
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 870
+    year: 8
+    season: 3
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 871
+    year: 8
+    season: 3
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 872
+    year: 8
+    season: 3
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 873
+    year: 8
+    season: 3
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 874
+    year: 8
+    season: 3
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 875
+    year: 8
+    season: 3
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 876
+    year: 8
+    season: 3
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 877
+    year: 8
+    season: 3
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 878
+    year: 8
+    season: 3
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 879
+    year: 8
+    season: 3
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 880
+    year: 8
+    season: 3
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 881
+    year: 8
+    season: 3
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 882
+    year: 8
+    season: 3
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 883
+    year: 8
+    season: 3
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 884
+    year: 8
+    season: 3
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 885
+    year: 8
+    season: 3
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 886
+    year: 8
+    season: 3
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 887
+    year: 8
+    season: 3
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 888
+    year: 8
+    season: 3
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 889
+    year: 8
+    season: 3
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 890
+    year: 8
+    season: 3
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 891
+    year: 8
+    season: 3
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 892
+    year: 8
+    season: 3
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 893
+    year: 8
+    season: 3
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 894
+    year: 8
+    season: 3
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 895
+    year: 8
+    season: 3
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 896
+    year: 8
+    season: 3
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 897
+    year: 9
+    season: 0
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 898
+    year: 9
+    season: 0
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 899
+    year: 9
+    season: 0
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 900
+    year: 9
+    season: 0
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 901
+    year: 9
+    season: 0
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 902
+    year: 9
+    season: 0
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 903
+    year: 9
+    season: 0
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 904
+    year: 9
+    season: 0
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 905
+    year: 9
+    season: 0
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 906
+    year: 9
+    season: 0
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 907
+    year: 9
+    season: 0
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 908
+    year: 9
+    season: 0
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 909
+    year: 9
+    season: 0
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 910
+    year: 9
+    season: 0
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 911
+    year: 9
+    season: 0
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 912
+    year: 9
+    season: 0
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 913
+    year: 9
+    season: 0
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 914
+    year: 9
+    season: 0
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 915
+    year: 9
+    season: 0
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 916
+    year: 9
+    season: 0
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 917
+    year: 9
+    season: 0
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 918
+    year: 9
+    season: 0
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 919
+    year: 9
+    season: 0
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 920
+    year: 9
+    season: 0
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 921
+    year: 9
+    season: 0
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 922
+    year: 9
+    season: 0
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 923
+    year: 9
+    season: 0
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 924
+    year: 9
+    season: 0
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 925
+    year: 9
+    season: 1
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 926
+    year: 9
+    season: 1
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 927
+    year: 9
+    season: 1
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 928
+    year: 9
+    season: 1
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 929
+    year: 9
+    season: 1
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 930
+    year: 9
+    season: 1
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 931
+    year: 9
+    season: 1
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 932
+    year: 9
+    season: 1
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 933
+    year: 9
+    season: 1
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 934
+    year: 9
+    season: 1
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 935
+    year: 9
+    season: 1
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 936
+    year: 9
+    season: 1
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 937
+    year: 9
+    season: 1
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 938
+    year: 9
+    season: 1
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 939
+    year: 9
+    season: 1
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 940
+    year: 9
+    season: 1
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 941
+    year: 9
+    season: 1
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 942
+    year: 9
+    season: 1
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 943
+    year: 9
+    season: 1
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 944
+    year: 9
+    season: 1
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 945
+    year: 9
+    season: 1
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 946
+    year: 9
+    season: 1
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 947
+    year: 9
+    season: 1
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 948
+    year: 9
+    season: 1
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 949
+    year: 9
+    season: 1
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 950
+    year: 9
+    season: 1
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 951
+    year: 9
+    season: 1
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 952
+    year: 9
+    season: 1
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 953
+    year: 9
+    season: 2
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 954
+    year: 9
+    season: 2
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 955
+    year: 9
+    season: 2
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 956
+    year: 9
+    season: 2
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 957
+    year: 9
+    season: 2
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 958
+    year: 9
+    season: 2
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 959
+    year: 9
+    season: 2
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 960
+    year: 9
+    season: 2
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 961
+    year: 9
+    season: 2
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 962
+    year: 9
+    season: 2
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 963
+    year: 9
+    season: 2
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 964
+    year: 9
+    season: 2
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 965
+    year: 9
+    season: 2
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 966
+    year: 9
+    season: 2
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 967
+    year: 9
+    season: 2
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 968
+    year: 9
+    season: 2
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 969
+    year: 9
+    season: 2
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 970
+    year: 9
+    season: 2
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 971
+    year: 9
+    season: 2
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 972
+    year: 9
+    season: 2
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 973
+    year: 9
+    season: 2
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 974
+    year: 9
+    season: 2
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 975
+    year: 9
+    season: 2
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 976
+    year: 9
+    season: 2
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 977
+    year: 9
+    season: 2
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 978
+    year: 9
+    season: 2
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 979
+    year: 9
+    season: 2
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 980
+    year: 9
+    season: 2
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 981
+    year: 9
+    season: 3
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 982
+    year: 9
+    season: 3
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 983
+    year: 9
+    season: 3
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 984
+    year: 9
+    season: 3
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 985
+    year: 9
+    season: 3
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 986
+    year: 9
+    season: 3
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 987
+    year: 9
+    season: 3
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 988
+    year: 9
+    season: 3
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 989
+    year: 9
+    season: 3
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 990
+    year: 9
+    season: 3
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 991
+    year: 9
+    season: 3
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 992
+    year: 9
+    season: 3
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 993
+    year: 9
+    season: 3
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 994
+    year: 9
+    season: 3
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 995
+    year: 9
+    season: 3
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 996
+    year: 9
+    season: 3
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 997
+    year: 9
+    season: 3
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 998
+    year: 9
+    season: 3
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 999
+    year: 9
+    season: 3
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 1000
+    year: 9
+    season: 3
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 1001
+    year: 9
+    season: 3
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 1002
+    year: 9
+    season: 3
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 1003
+    year: 9
+    season: 3
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 1004
+    year: 9
+    season: 3
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 1005
+    year: 9
+    season: 3
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 1006
+    year: 9
+    season: 3
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 1007
+    year: 9
+    season: 3
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 1008
+    year: 9
+    season: 3
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 1009
+    year: 10
+    season: 0
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 1010
+    year: 10
+    season: 0
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 1011
+    year: 10
+    season: 0
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 1012
+    year: 10
+    season: 0
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 1013
+    year: 10
+    season: 0
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 1014
+    year: 10
+    season: 0
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 1015
+    year: 10
+    season: 0
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 1016
+    year: 10
+    season: 0
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 1017
+    year: 10
+    season: 0
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 1018
+    year: 10
+    season: 0
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 1019
+    year: 10
+    season: 0
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 1020
+    year: 10
+    season: 0
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 1021
+    year: 10
+    season: 0
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 1022
+    year: 10
+    season: 0
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 1023
+    year: 10
+    season: 0
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 1024
+    year: 10
+    season: 0
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 1025
+    year: 10
+    season: 0
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 1026
+    year: 10
+    season: 0
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 1027
+    year: 10
+    season: 0
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 1028
+    year: 10
+    season: 0
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 1029
+    year: 10
+    season: 0
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 1030
+    year: 10
+    season: 0
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 1031
+    year: 10
+    season: 0
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 1032
+    year: 10
+    season: 0
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 1033
+    year: 10
+    season: 0
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 1034
+    year: 10
+    season: 0
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 1035
+    year: 10
+    season: 0
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 1036
+    year: 10
+    season: 0
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 1037
+    year: 10
+    season: 1
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 1038
+    year: 10
+    season: 1
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 1039
+    year: 10
+    season: 1
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 1040
+    year: 10
+    season: 1
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 1041
+    year: 10
+    season: 1
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 1042
+    year: 10
+    season: 1
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 1043
+    year: 10
+    season: 1
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 1044
+    year: 10
+    season: 1
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 1045
+    year: 10
+    season: 1
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 1046
+    year: 10
+    season: 1
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 1047
+    year: 10
+    season: 1
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 1048
+    year: 10
+    season: 1
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 1049
+    year: 10
+    season: 1
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 1050
+    year: 10
+    season: 1
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 1051
+    year: 10
+    season: 1
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 1052
+    year: 10
+    season: 1
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 1053
+    year: 10
+    season: 1
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 1054
+    year: 10
+    season: 1
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 1055
+    year: 10
+    season: 1
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 1056
+    year: 10
+    season: 1
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 1057
+    year: 10
+    season: 1
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 1058
+    year: 10
+    season: 1
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 1059
+    year: 10
+    season: 1
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 1060
+    year: 10
+    season: 1
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 1061
+    year: 10
+    season: 1
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 1062
+    year: 10
+    season: 1
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 1063
+    year: 10
+    season: 1
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 1064
+    year: 10
+    season: 1
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 1065
+    year: 10
+    season: 2
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 1066
+    year: 10
+    season: 2
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 1067
+    year: 10
+    season: 2
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 1068
+    year: 10
+    season: 2
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 1069
+    year: 10
+    season: 2
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 1070
+    year: 10
+    season: 2
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 1071
+    year: 10
+    season: 2
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 1072
+    year: 10
+    season: 2
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 1073
+    year: 10
+    season: 2
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 1074
+    year: 10
+    season: 2
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 1075
+    year: 10
+    season: 2
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 1076
+    year: 10
+    season: 2
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 1077
+    year: 10
+    season: 2
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 1078
+    year: 10
+    season: 2
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 1079
+    year: 10
+    season: 2
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 1080
+    year: 10
+    season: 2
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 1081
+    year: 10
+    season: 2
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 1082
+    year: 10
+    season: 2
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 1083
+    year: 10
+    season: 2
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 1084
+    year: 10
+    season: 2
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 1085
+    year: 10
+    season: 2
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 1086
+    year: 10
+    season: 2
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 1087
+    year: 10
+    season: 2
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 1088
+    year: 10
+    season: 2
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 1089
+    year: 10
+    season: 2
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 1090
+    year: 10
+    season: 2
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 1091
+    year: 10
+    season: 2
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 1092
+    year: 10
+    season: 2
+    day: 28
+    weekday: 6
+    note: 
+  - absoluteDay: 1093
+    year: 10
+    season: 3
+    day: 1
+    weekday: 0
+    note: 
+  - absoluteDay: 1094
+    year: 10
+    season: 3
+    day: 2
+    weekday: 1
+    note: 
+  - absoluteDay: 1095
+    year: 10
+    season: 3
+    day: 3
+    weekday: 2
+    note: 
+  - absoluteDay: 1096
+    year: 10
+    season: 3
+    day: 4
+    weekday: 3
+    note: 
+  - absoluteDay: 1097
+    year: 10
+    season: 3
+    day: 5
+    weekday: 4
+    note: 
+  - absoluteDay: 1098
+    year: 10
+    season: 3
+    day: 6
+    weekday: 5
+    note: 
+  - absoluteDay: 1099
+    year: 10
+    season: 3
+    day: 7
+    weekday: 6
+    note: 
+  - absoluteDay: 1100
+    year: 10
+    season: 3
+    day: 8
+    weekday: 0
+    note: 
+  - absoluteDay: 1101
+    year: 10
+    season: 3
+    day: 9
+    weekday: 1
+    note: 
+  - absoluteDay: 1102
+    year: 10
+    season: 3
+    day: 10
+    weekday: 2
+    note: 
+  - absoluteDay: 1103
+    year: 10
+    season: 3
+    day: 11
+    weekday: 3
+    note: 
+  - absoluteDay: 1104
+    year: 10
+    season: 3
+    day: 12
+    weekday: 4
+    note: 
+  - absoluteDay: 1105
+    year: 10
+    season: 3
+    day: 13
+    weekday: 5
+    note: 
+  - absoluteDay: 1106
+    year: 10
+    season: 3
+    day: 14
+    weekday: 6
+    note: 
+  - absoluteDay: 1107
+    year: 10
+    season: 3
+    day: 15
+    weekday: 0
+    note: 
+  - absoluteDay: 1108
+    year: 10
+    season: 3
+    day: 16
+    weekday: 1
+    note: 
+  - absoluteDay: 1109
+    year: 10
+    season: 3
+    day: 17
+    weekday: 2
+    note: 
+  - absoluteDay: 1110
+    year: 10
+    season: 3
+    day: 18
+    weekday: 3
+    note: 
+  - absoluteDay: 1111
+    year: 10
+    season: 3
+    day: 19
+    weekday: 4
+    note: 
+  - absoluteDay: 1112
+    year: 10
+    season: 3
+    day: 20
+    weekday: 5
+    note: 
+  - absoluteDay: 1113
+    year: 10
+    season: 3
+    day: 21
+    weekday: 6
+    note: 
+  - absoluteDay: 1114
+    year: 10
+    season: 3
+    day: 22
+    weekday: 0
+    note: 
+  - absoluteDay: 1115
+    year: 10
+    season: 3
+    day: 23
+    weekday: 1
+    note: 
+  - absoluteDay: 1116
+    year: 10
+    season: 3
+    day: 24
+    weekday: 2
+    note: 
+  - absoluteDay: 1117
+    year: 10
+    season: 3
+    day: 25
+    weekday: 3
+    note: 
+  - absoluteDay: 1118
+    year: 10
+    season: 3
+    day: 26
+    weekday: 4
+    note: 
+  - absoluteDay: 1119
+    year: 10
+    season: 3
+    day: 27
+    weekday: 5
+    note: 
+  - absoluteDay: 1120
+    year: 10
+    season: 3
+    day: 28
+    weekday: 6
+    note: 
+  weather:
+  - absoluteDay: 1
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 2
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 3
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 4
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 5
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 6
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 7
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 8
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 9
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 10
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 11
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 12
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 13
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 14
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 15
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 16
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 17
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 18
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 19
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 20
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 21
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 22
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 23
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 24
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 25
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 26
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 27
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 28
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 29
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 30
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 31
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 32
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 33
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 34
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 35
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 36
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 37
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 38
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 39
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 40
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 41
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 42
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 43
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 44
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 45
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 46
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 47
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 48
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 49
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 50
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 51
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 52
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 53
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 54
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 55
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 56
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 57
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 58
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 59
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 60
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 61
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 62
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 63
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 64
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 65
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 66
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 67
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 68
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 69
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 70
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 71
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 72
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 73
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 74
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 75
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 76
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 77
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 78
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 79
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 80
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 81
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 82
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 83
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 84
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 85
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 86
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 87
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 88
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 89
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 90
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 91
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 92
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 93
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 94
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 95
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 96
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 97
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 98
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 99
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 100
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 101
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 102
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 103
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 104
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 105
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 106
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 107
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 108
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 109
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 110
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 111
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 112
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 113
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 114
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 115
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 116
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 117
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 118
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 119
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 120
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 121
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 122
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 123
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 124
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 125
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 126
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 127
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 128
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 129
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 130
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 131
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 132
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 133
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 134
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 135
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 136
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 137
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 138
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 139
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 140
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 141
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 142
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 143
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 144
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 145
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 146
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 147
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 148
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 149
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 150
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 151
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 152
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 153
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 154
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 155
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 156
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 157
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 158
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 159
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 160
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 161
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 162
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 163
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 164
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 165
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 166
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 167
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 168
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 169
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 170
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 171
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 172
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 173
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 174
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 175
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 176
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 177
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 178
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 179
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 180
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 181
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 182
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 183
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 184
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 185
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 186
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 187
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 188
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 189
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 190
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 191
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 192
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 193
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 194
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 195
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 196
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 197
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 198
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 199
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 200
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 201
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 202
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 203
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 204
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 205
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 206
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 207
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 208
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 209
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 210
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 211
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 212
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 213
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 214
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 215
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 216
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 217
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 218
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 219
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 220
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 221
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 222
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 223
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 224
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 225
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 226
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 227
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 228
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 229
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 230
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 231
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 232
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 233
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 234
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 235
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 236
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 237
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 238
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 239
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 240
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 241
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 242
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 243
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 244
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 245
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 246
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 247
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 248
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 249
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 250
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 251
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 252
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 253
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 254
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 255
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 256
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 257
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 258
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 259
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 260
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 261
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 262
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 263
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 264
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 265
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 266
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 267
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 268
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 269
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 270
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 271
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 272
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 273
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 274
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 275
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 276
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 277
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 278
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 279
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 280
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 281
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 282
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 283
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 284
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 285
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 286
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 287
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 288
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 289
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 290
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 291
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 292
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 293
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 294
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 295
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 296
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 297
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 298
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 299
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 300
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 301
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 302
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 303
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 304
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 305
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 306
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 307
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 308
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 309
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 310
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 311
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 312
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 313
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 314
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 315
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 316
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 317
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 318
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 319
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 320
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 321
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 322
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 323
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 324
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 325
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 326
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 327
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 328
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 329
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 330
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 331
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 332
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 333
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 334
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 335
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 336
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 337
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 338
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 339
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 340
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 341
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 342
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 343
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 344
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 345
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 346
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 347
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 348
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 349
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 350
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 351
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 352
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 353
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 354
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 355
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 356
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 357
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 358
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 359
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 360
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 361
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 362
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 363
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 364
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 365
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 366
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 367
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 368
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 369
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 370
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 371
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 372
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 373
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 374
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 375
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 376
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 377
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 378
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 379
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 380
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 381
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 382
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 383
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 384
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 385
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 386
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 387
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 388
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 389
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 390
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 391
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 392
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 393
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 394
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 395
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 396
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 397
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 398
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 399
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 400
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 401
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 402
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 403
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 404
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 405
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 406
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 407
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 408
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 409
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 410
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 411
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 412
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 413
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 414
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 415
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 416
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 417
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 418
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 419
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 420
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 421
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 422
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 423
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 424
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 425
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 426
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 427
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 428
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 429
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 430
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 431
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 432
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 433
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 434
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 435
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 436
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 437
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 438
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 439
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 440
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 441
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 442
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 443
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 444
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 445
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 446
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 447
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 448
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 449
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 450
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 451
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 452
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 453
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 454
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 455
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 456
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 457
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 458
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 459
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 460
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 461
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 462
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 463
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 464
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 465
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 466
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 467
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 468
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 469
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 470
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 471
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 472
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 473
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 474
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 475
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 476
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 477
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 478
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 479
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 480
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 481
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 482
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 483
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 484
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 485
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 486
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 487
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 488
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 489
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 490
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 491
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 492
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 493
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 494
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 495
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 496
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 497
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 498
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 499
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 500
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 501
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 502
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 503
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 504
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 505
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 506
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 507
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 508
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 509
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 510
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 511
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 512
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 513
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 514
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 515
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 516
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 517
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 518
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 519
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 520
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 521
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 522
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 523
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 524
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 525
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 526
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 527
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 528
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 529
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 530
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 531
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 532
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 533
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 534
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 535
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 536
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 537
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 538
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 539
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 540
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 541
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 542
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 543
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 544
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 545
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 546
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 547
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 548
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 549
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 550
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 551
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 552
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 553
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 554
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 555
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 556
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 557
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 558
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 559
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 560
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 561
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 562
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 563
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 564
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 565
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 566
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 567
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 568
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 569
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 570
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 571
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 572
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 573
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 574
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 575
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 576
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 577
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 578
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 579
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 580
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 581
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 582
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 583
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 584
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 585
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 586
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 587
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 588
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 589
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 590
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 591
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 592
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 593
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 594
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 595
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 596
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 597
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 598
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 599
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 600
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 601
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 602
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 603
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 604
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 605
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 606
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 607
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 608
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 609
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 610
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 611
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 612
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 613
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 614
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 615
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 616
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 617
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 618
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 619
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 620
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 621
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 622
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 623
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 624
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 625
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 626
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 627
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 628
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 629
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 630
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 631
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 632
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 633
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 634
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 635
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 636
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 637
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 638
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 639
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 640
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 641
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 642
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 643
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 644
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 645
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 646
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 647
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 648
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 649
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 650
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 651
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 652
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 653
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 654
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 655
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 656
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 657
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 658
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 659
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 660
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 661
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 662
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 663
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 664
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 665
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 666
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 667
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 668
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 669
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 670
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 671
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 672
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 673
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 674
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 675
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 676
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 677
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 678
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 679
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 680
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 681
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 682
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 683
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 684
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 685
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 686
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 687
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 688
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 689
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 690
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 691
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 692
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 693
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 694
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 695
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 696
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 697
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 698
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 699
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 700
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 701
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 702
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 703
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 704
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 705
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 706
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 707
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 708
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 709
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 710
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 711
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 712
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 713
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 714
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 715
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 716
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 717
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 718
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 719
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 720
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 721
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 722
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 723
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 724
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 725
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 726
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 727
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 728
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 729
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 730
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 731
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 732
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 733
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 734
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 735
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 736
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 737
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 738
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 739
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 740
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 741
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 742
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 743
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 744
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 745
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 746
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 747
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 748
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 749
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 750
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 751
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 752
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 753
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 754
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 755
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 756
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 757
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 758
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 759
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 760
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 761
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 762
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 763
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 764
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 765
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 766
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 767
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 768
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 769
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 770
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 771
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 772
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 773
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 774
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 775
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 776
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 777
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 778
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 779
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 780
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 781
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 782
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 783
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 784
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 785
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 786
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 787
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 788
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 789
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 790
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 791
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 792
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 793
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 794
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 795
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 796
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 797
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 798
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 799
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 800
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 801
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 802
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 803
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 804
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 805
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 806
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 807
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 808
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 809
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 810
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 811
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 812
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 813
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 814
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 815
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 816
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 817
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 818
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 819
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 820
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 821
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 822
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 823
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 824
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 825
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 826
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 827
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 828
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 829
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 830
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 831
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 832
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 833
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 834
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 835
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 836
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 837
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 838
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 839
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 840
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 841
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 842
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 843
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 844
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 845
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 846
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 847
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 848
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 849
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 850
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 851
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 852
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 853
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 854
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 855
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 856
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 857
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 858
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 859
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 860
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 861
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 862
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 863
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 864
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 865
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 866
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 867
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 868
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 869
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 870
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 871
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 872
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 873
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 874
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 875
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 876
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 877
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 878
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 879
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 880
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 881
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 882
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 883
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 884
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 885
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 886
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 887
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 888
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 889
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 890
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 891
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 892
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 893
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 894
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 895
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 896
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 897
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 898
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 899
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 900
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 901
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 902
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 903
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 904
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 905
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 906
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 907
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 908
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 909
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 910
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 911
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 912
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 913
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 914
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 915
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 916
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 917
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 918
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 919
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 920
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 921
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 922
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 923
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 924
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 925
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 926
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 927
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 928
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 929
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 930
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 931
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 932
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 933
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 934
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 935
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 936
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 937
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 938
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 939
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 940
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 941
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 942
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 943
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 944
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 945
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 946
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 947
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 948
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 949
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 950
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 951
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 952
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 953
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 954
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 955
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 956
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 957
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 958
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 959
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 960
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 961
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 962
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 963
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 964
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 965
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 966
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 967
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 968
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 969
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 970
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 971
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 972
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 973
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 974
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 975
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 976
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 977
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 978
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 979
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 980
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 981
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 982
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 983
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 984
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 985
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 986
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 987
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 988
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 989
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 990
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 991
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 992
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 993
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 994
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 995
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 996
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 997
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 998
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 999
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1000
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1001
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1002
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1003
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1004
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1005
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1006
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1007
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1008
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1009
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1010
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1011
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1012
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1013
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1014
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1015
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1016
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1017
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1018
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1019
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1020
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1021
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1022
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1023
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1024
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1025
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1026
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1027
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1028
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1029
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1030
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1031
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1032
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1033
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1034
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1035
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1036
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1037
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1038
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1039
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1040
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1041
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1042
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1043
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1044
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1045
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1046
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1047
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1048
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1049
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1050
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1051
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1052
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1053
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1054
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1055
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1056
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1057
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1058
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1059
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1060
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1061
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1062
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1063
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1064
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1065
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1066
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1067
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1068
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1069
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1070
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1071
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1072
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1073
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1074
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1075
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1076
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1077
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1078
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1079
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1080
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1081
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1082
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1083
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1084
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1085
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1086
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1087
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1088
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1089
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1090
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1091
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1092
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1093
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1094
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1095
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1096
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1097
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1098
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1099
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1100
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1101
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1102
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1103
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1104
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1105
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1106
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1107
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1108
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1109
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1110
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1111
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1112
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1113
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1114
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1115
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1116
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1117
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1118
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1119
+    useOverride: 0
+    weather: 0
+  - absoluteDay: 1120
+    useOverride: 0
+    weather: 0
+  events: []

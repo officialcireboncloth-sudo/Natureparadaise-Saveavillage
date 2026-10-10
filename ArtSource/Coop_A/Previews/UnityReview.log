@@ -1,0 +1,1790 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.0/staging' branch; Version is '6000.0.81f1 (6238fec1e98f) revision 6437118'; Using compiler version '193933523'; Build Type 'Release'
+[Licensing::IpcConnector] Channel LicenseClient-huxel doesn't exist
+OS: 'Windows 11  (10.0.26300) CoreSingleLanguage' Language: 'en' Physical Memory: 22405 MB
+BatchMode: 0, IsHumanControllingUs: 1, StartBugReporterOnCrash: 1, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-10-10T18:41:19Z
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Unity.exe
+-projectPath
+C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+-executeMethod
+CoopApprovedExteriorSetup.OpenPreview
+-logFile
+C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage/ArtSource/Coop_A/Previews/UnityReview.log
+Successfully changed project path to: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+[Licensing::Module] Successfully launched the LicensingClient (PId: 2808)
+Player connection [16792]  Target information:
+
+Player connection [16792]  * "[IP] 192.168.1.6 [Port] 55504 [Flags] 2 [Guid] 1635235013 [EditorId] 1635235013 [Version] 1048832 [Id] WindowsEditor(7,FrostY) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [16792] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [16792] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-huxel" at "2026-10-10T18:41:22.0645644Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 2808, path: "C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Package Manager] Connected to IPC stream "Upm-13276" after 2.8 seconds.
+Library Redirect Path: Library/
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.17.4+4293ba1
+  Session Id:              3178322d72104449a175a43a3b2ef043
+  Correlation Id:          dd308fa25fcf4e1f5bb7a893ebd525b1
+  External correlation Id: 4321347254764927868
+  Machine Id:              Qs9pZQQ1TkGzJCxrOHhsBdfscsM=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-huxel" (connect: 2.07s, validation: 0.81s, handshake: 0.69s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-huxel-notifications" at "2026-10-10T18:41:23.5664554Z"
+[Licensing::Module] Connected to LicensingClient (PId: 2808, launch time: 0.05, total connection time: 3.57s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 18967150433178-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.05
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 3.99s
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Artifact Garbage Collection - Removed 10 unused hashed content filesRefreshing native plugins compatible for Editor in 3.78 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 6000.0.81f1 (6238fec1e98f)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage/Assets
+kGfxThreadingModeSplitJobs is not supported on Direct3D 11. Reverting to kGfxThreadingModeThreaded instead.
+GfxDevice: creating device client; kGfxThreadingModeThreaded
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1050 (ID=0x1c91)
+    Vendor:   NVIDIA
+    VRAM:     2981 MB
+    Driver:   32.0.15.8183
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56276
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
+Registered in 0.111917 seconds.
+- Loaded All Assemblies, in  1.802 seconds
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Package Manager log level set to [2]
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.664 seconds
+Domain Reload Profiling: 3457ms
+	BeginReloadAssembly (576ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (170ms)
+	RebuildNativeTypeToScriptingClass (48ms)
+	initialDomainReloadingComplete (321ms)
+	LoadAllAssembliesAndSetupDomain (677ms)
+		LoadAssemblies (569ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (648ms)
+			TypeCache.Refresh (644ms)
+				TypeCache.ScanAssembly (603ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (1666ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (1553ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (512ms)
+			SetLoadedEditorAssemblies (17ms)
+			BeforeProcessingInitializeOnLoad (250ms)
+			ProcessInitializeOnLoadAttributes (460ms)
+			ProcessInitializeOnLoadMethodAttributes (313ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 65 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.assistant@2.17.0-pre.1 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ai.assistant@284c75a8d208)
+    com.unity.ai.inference@2.6.1 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ai.inference@9a123aee5df7)
+    com.unity.collab-proxy@2.12.4 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.collab-proxy@0b1559bcd34e)
+    com.unity.ide.rider@3.0.39 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ide.rider@4504839d03f7)
+    com.unity.ide.visualstudio@2.0.27 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ide.visualstudio@dc1ddd4f09b6)
+    com.unity.inputsystem@1.19.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.inputsystem@21a28c3a6c83)
+    com.unity.timeline@1.8.12 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.timeline@8cd8509afae5)
+    com.unity.visualscripting@1.9.11 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.visualscripting@8bed5ad90189)
+    com.unity.mobile.android-logcat@1.4.7 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.mobile.android-logcat@a8a404f035b3)
+    com.unity.adaptiveperformance@5.1.6 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.adaptiveperformance@de279be9c429)
+    com.unity.mobile.notifications@2.4.3 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.mobile.notifications@53b584f4d5cd)
+    com.unity.burst@1.8.30 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.burst@2f3d916873ea)
+    com.unity.dt.app-ui@1.3.6 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.dt.app-ui@3bbd9e4c5c92)
+    com.unity.collections@2.6.8 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.collections@84e8eb3fc12e)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.mathematics@1.3.2 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.mathematics@8017b507cc74)
+    com.unity.nuget.mono-cecil@1.11.6 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.searcher@4.9.3 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.searcher@1e17ce91558d)
+    com.unity.profiling.core@1.0.3 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.profiling.core@8a49f7027d06)
+    com.unity.test-framework.performance@3.5.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.test-framework.performance@8b56083ec0f0)
+  Built-in packages:
+    com.unity.feature.mobile@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.feature.mobile@00f8a2b6a6fb)
+    com.unity.multiplayer.center@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.multiplayer.center@f3fb577b3546)
+    com.unity.render-pipelines.universal@17.0.4 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.render-pipelines.universal@960febc0b6cb)
+    com.unity.ugui@2.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ugui@4601c9db1b9b)
+    com.unity.modules.accessibility@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.accessibility)
+    com.unity.modules.ai@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vehicles@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.render-pipelines.core@17.0.4 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.render-pipelines.core@8e828b9223c8)
+    com.unity.shadergraph@17.0.4 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.shadergraph@14250cfec0ec)
+    com.unity.render-pipelines.universal-config@17.0.3 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.render-pipelines.universal-config@dd206bf35d04)
+    com.unity.test-framework@1.6.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.test-framework@082c24152fd4)
+    com.unity.ext.nunit@2.0.5 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ext.nunit@031a54704bff)
+    com.unity.2d.sprite@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.2d.sprite@0eb6ea2c7181)
+    com.unity.rendering.light-transport@1.0.1 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.rendering.light-transport@9bd588f963c0)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.26 seconds
+Refreshing native plugins compatible for Editor in 10.42 ms, found 5 plugins.
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\Tools\netcorerun\netcorerun.exe "C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+ExitCode: 4 Duration: 27s
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+[BUSY       6s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[BUSY      16s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[BUSY      26s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[1162/1529 26s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra requires additional run (27.73 seconds), 1 items updated, 1161 evaluated
+ExitCode: 0 Duration: 6s887ms
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library\Bee\1900b0aE.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+ExitCode: 0 Duration: 4s633ms
+Finished compiling graph: 1533 nodes, 30567 flattened edges (24503 ToBuild, 256 ToUse), maximum node priority 1736
+[1162/1529  1s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra build success (4.32 seconds), 1 items updated, 1529 evaluated
+AssetDatabase: script compilation time: 63.478789s
+Begin MonoManager ReloadAssembly
+[Licensing::Client] Successfully resolved entitlement details
+- Loaded All Assemblies, in  6.104 seconds
+Refreshing native plugins compatible for Editor in 24.16 ms, found 5 plugins.
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 22.10 ms, found 5 plugins.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in 13.661 seconds
+Domain Reload Profiling: 19731ms
+	BeginReloadAssembly (1007ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (32ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (240ms)
+	RebuildCommonClasses (155ms)
+	RebuildNativeTypeToScriptingClass (82ms)
+	initialDomainReloadingComplete (341ms)
+	LoadAllAssembliesAndSetupDomain (4485ms)
+		LoadAssemblies (2685ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (2255ms)
+			TypeCache.Refresh (1649ms)
+				TypeCache.ScanAssembly (1575ms)
+			BuildScriptInfoCaches (516ms)
+			ResolveRequiredComponents (76ms)
+	FinalizeReload (13662ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (12706ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (197ms)
+			SetLoadedEditorAssemblies (15ms)
+			BeforeProcessingInitializeOnLoad (1265ms)
+			ProcessInitializeOnLoadAttributes (10411ms)
+			ProcessInitializeOnLoadMethodAttributes (801ms)
+			AfterProcessingInitializeOnLoad (16ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (21ms)
+Asset Pipeline Refresh (id=cc36393d47c59f3479048e2b418f9f2e): Total: 87.296 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=16825 ms
+		Asset DB Callback time: managed=203 ms, native=275 ms
+		Scripting: domain reloads=1, domain reload time=6112 ms, compile time=63482 ms, other=396 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.002ms
+	InvokePackagesCallback: 280.495ms
+	ApplyChangesToAssetFolders: 1.410ms
+	Scan: 766.968ms
+	OnSourceAssetsModified: 0.011ms
+	CategorizeAssetsWithTransientArtifact: 512.678ms
+	ProcessAssetsWithTransientArtifactChanges: 576.568ms
+	CategorizeAssets: 347.889ms
+	ImportOutOfDateAssets: 13743.438ms (-49747.472ms without children)
+		CompileScripts: 63482.462ms
+		ReloadNativeAssets: 0.088ms
+		UnloadImportedAssets: 1.144ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 5.007ms
+		InitializingProgressBar: 0.002ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.002ms
+		OnDemandSchedulerStart: 2.204ms
+	PostProcessAllAssets: 203.714ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.006ms
+	UnloadStreamsBegin: 7.414ms
+	PersistCurrentRevisions: 0.974ms
+	UnloadStreamsEnd: 0.002ms
+	GenerateScriptTypeHashes: 12.108ms
+	Untracked: 70854.666ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 10.594ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-HMMobile
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+Unloading 140 Unused Serialized files (Serialized files now loaded: 0)
+The tree P_OakTree3_Interactive couldn't be instanced because the prefab contains no valid mesh renderer.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.EditorApplication:Internal_RestoreLastOpenedScenes ()
+
+[C:\build\output\unity\unity\Modules\Terrain\Public\TreeDatabase.cpp line 355]
+
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Loaded scene 'Assets/Nature  Paradaise/Map/Scenes/World/Map.unity'
+	Deserialize:            822.973 ms
+	Integration:            3374.544 ms
+	Integration of assets:  310.336 ms
+	Thread Wait Time:       -0.219 ms
+	Total Operation Time:   4507.634 ms
+Unloading 10472 unused Assets / (23.9 MB). Loaded Objects now: 22044.
+Memory consumption went from 441.7 MB to 417.8 MB.
+Total: 59.781600 ms (FindLiveObjects: 5.286900 ms CreateObjectMapping: 4.228600 ms MarkObjects: 33.583200 ms  DeleteObjects: 16.678500 ms)
+
+Loaded scene 'Assets/Nature  Paradaise/Map/Scenes/Interiors/HouseInterior.unity'
+	Deserialize:            328.506 ms
+	Integration:            2340.543 ms
+	Integration of assets:  0.109 ms
+	Thread Wait Time:       -0.077 ms
+	Total Operation Time:   2669.081 ms
+[LAYOUT] About to load UserSettings\Layouts\default-6000.dwlt, keepMainWindow=False
+[LAYOUT] About to save layout C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\UserSettings\Layouts\default-6000.dwlt
+[LAYOUT] About to save layout C:/Users/huxel/AppData/Roaming/Unity/Editor-5.x/Preferences\Layouts\current\default-6000.dwlt
+[MODES] ModeService[default].InitializeCurrentMode
+[MODES] ModeService[default].RaiseModeChanged(default, default)
+Loaded scene 'Library/Unused/b27b2e9e652077e4a8cc677d4050645f'
+	Deserialize:            0.723 ms
+	Integration:            0.518 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.017 ms
+	Total Operation Time:   1.261 ms
+Unloading 389 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 4 unused Assets / (43.6 KB). Loaded Objects now: 37720.
+Memory consumption went from 0.52 GB to 0.52 GB.
+Total: 53.409000 ms (FindLiveObjects: 6.361300 ms CreateObjectMapping: 2.961400 ms MarkObjects: 43.920900 ms  DeleteObjects: 0.162800 ms)
+
+<RI> Initializing input.
+Using Windows.Gaming.Input
+<RI> Input initialized.
+[Project] Loading completed in 116.324 seconds
+	Project init time: 				98.897 seconds
+		Template init time: 		0.000 seconds
+		Package Manager init time: 		2.823 seconds
+		Asset Database init time: 		2.039 seconds
+		Global illumination init time: 	0.005 seconds
+		Assemblies load time: 			3.531 seconds
+		Unity extensions init time: 	0.139 seconds
+		Asset Database refresh time: 	87.301 seconds
+	Scene opening time: 			17.261 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1791657796187,"processId":13276,"projectLoad":116.32358070000001,"projectInit":98.8974064,"templateInit":0.0,"packageManagerInit":2.8232453,"assetDatabaseInit":2.0392989,"globalIlluminationInit":0.005189,"assembliesLoad":3.5310436,"unityExtensionsInit":0.1393421,"assetDatabaseRefresh":87.3006427,"sceneOpening":17.2614543}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1791657796188,"processId":13276,"editorVersion":"6000.0.81f1 (6238fec1e98f)","branch":"6000.0/staging","buildType":"Release","platform":"Windows"}
+[Licensing::Client] Successfully resolved entitlement details
+Asset Pipeline Refresh (id=df69410e8e8ca5b4285941e627382eca): Total: 0.224 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Refreshing native plugins compatible for Editor in 10.81 ms, found 5 plugins.
+Created GICache directory at C:/Users/huxel/AppData/LocalLow/Unity/Caches/GiCache. Took: 0.067s, timestamps: [118.125 - 118.192]
+Android Extension - Scanning For ADB Devices 2505 ms
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated access token: "O6gNg1nd"... (expires: 2027-10-10T18:43:25Z)
+[Licensing::Client] Successfully resolved entitlement details
+Android Extension - Scanning For ADB Devices 562 ms
+UPID Received '4dda7f67-4088-40f7-b9b8-eafe729b46df'.
+Attempted to call .Dispose on an already disposed CancellationTokenSource
+Android Extension - Scanning For ADB Devices 396 ms
+Android Extension - Scanning For ADB Devices 476 ms
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+Error reason is 'NoSubscription' and no additional error information was provided (https://generators.ai.unity.com).
+Error reason is 'NoSubscription' and no additional error information was provided (https://generators.ai.unity.com).
+Error reason is 'NoSubscription' and no additional error information was provided (https://generators.ai.unity.com).
+Error reason is 'NoSubscription' and no additional error information was provided (https://generators.ai.unity.com).
+Error reason is 'NoSubscription' and no additional error information was provided (https://generators.ai.unity.com).
+[Map Migration] Map sudah berisi hierarchy gameplay. Migrasi dilewati.
+Loaded scene 'Library/Unused/817555d83aa2e8c438bc712fbdb9ff00'
+	Deserialize:            1.205 ms
+	Integration:            0.433 ms
+	Integration of assets:  0.003 ms
+	Thread Wait Time:       0.020 ms
+	Total Operation Time:   1.661 ms
+Asset Pipeline Refresh (id=d8ce47b3fa8851743844db51edec1579): Total: 0.043 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/328ca8b9de59eb04c81f170b0359ee33'
+	Deserialize:            1.678 ms
+	Integration:            0.755 ms
+	Integration of assets:  0.005 ms
+	Thread Wait Time:       0.022 ms
+	Total Operation Time:   2.460 ms
+Asset Pipeline Refresh (id=d7c3807efcfcff5428e3adaf1277a5d7): Total: 0.027 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/a6bc07cb1a31e124194f64ced2413c07'
+	Deserialize:            1.216 ms
+	Integration:            0.692 ms
+	Integration of assets:  0.003 ms
+	Thread Wait Time:       0.021 ms
+	Total Operation Time:   1.931 ms
+Asset Pipeline Refresh (id=8740d1d6a62edf546ab4edf93bf16b3d): Total: 0.035 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/893d696a48cdc6d44b05c3af43e478ae'
+	Deserialize:            1.301 ms
+	Integration:            1.005 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.025 ms
+	Total Operation Time:   2.336 ms
+Asset Pipeline Refresh (id=53b04b1559d47894888fab903afe71c2): Total: 0.038 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/Resources/Buildings/Field Building Catalog.asset using Guid(d8758313744b03e42a523c918974d951) (NativeFormatImporter) -> (artifact id: '26a43a11d72ca261c5a70e818d6a48d0') in 0.0204659 seconds
+Start importing Assets/Nature  Paradaise/Resources/Buildings/Fish Pond Building.asset using Guid(bea5bc77d7383b047b5d4d5d26a06348) (NativeFormatImporter) -> (artifact id: '940d5980094391212a8f8a1e146c7a3d') in 0.0053507 seconds
+Refreshing native plugins compatible for Editor in 16.32 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 1.66 ms.
+Asset Pipeline Refresh (id=64ab69ff1868b9c4b891db79d2d40fd7): Total: 0.786 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=2 (actual=2, local cache=0, cache server=0)
+		Asset DB Process Time: managed=5 ms, native=89 ms
+		Asset DB Callback time: managed=578 ms, native=113 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 6
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.001ms
+	ApplyChangesToAssetFolders: 0.187ms
+	Scan: 21.642ms
+	OnSourceAssetsModified: 0.001ms
+	CategorizeAssetsWithTransientArtifact: 0.056ms
+	ProcessAssetsWithTransientArtifactChanges: 0.265ms
+	CategorizeAssets: 13.183ms
+	ImportOutOfDateAssets: 41.936ms (1.513ms without children)
+		ImportManagerImport: 33.037ms (4.349ms without children)
+			ImportInProcess: 28.568ms
+			UpdateCategorizedAssets: 0.121ms
+		ReloadNativeAssets: 0.329ms
+		UnloadImportedAssets: 0.464ms
+		ReloadImportedAssets: 0.001ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 5.043ms
+		InitializingProgressBar: 0.012ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.002ms
+		OnDemandSchedulerStart: 1.536ms
+	PostProcessAllAssets: 607.991ms
+	Hotreload: 83.307ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.117ms
+	UnloadStreamsBegin: 0.004ms
+	PersistCurrentRevisions: 2.809ms
+	UnloadStreamsEnd: 0.003ms
+	Untracked: 13.203ms
+
+Asset Pipeline Refresh (id=77f6c2c0e71146e49af87026cc632542): Total: 0.047 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[FISH POND] Prefab Lv.1-4, growth storage, dan Field Build Menu Player siap.
+[AQUARIUM] Dummy Medium siap pada seluruh level HouseInterior.
+Asset Pipeline Refresh (id=33b2bf7f804670340b2adc33b37a07e5): Total: 0.013 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+TrimDiskCacheJob: Current cache size 6mb
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+Asset Pipeline Refresh (id=b60d764b07f065f468084839383c233e): Total: 0.010 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+Starting new worker id: 0 with log in C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage/Logs/AssetImportWorker0.log
+Starting new worker id: 1 with log in C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage/Logs/AssetImportWorker1.log
+Worker ready: AssetImportWorker0 0
+Worker ready: AssetImportWorker1 1
+Opening scene 'Assets/Nature  Paradaise/Map/Scenes/World/Map.unity'
+Unloading 27 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Nature  Paradaise/Map/Scenes/World/Map.unity'
+	Deserialize:            39.320 ms
+	Integration:            613.807 ms
+	Integration of assets:  0.011 ms
+	Thread Wait Time:       0.026 ms
+	Total Operation Time:   653.165 ms
+Unloading 1615 unused Assets / (34.0 MB). Loaded Objects now: 23880.
+Memory consumption went from 0.63 GB to 0.59 GB.
+Total: 60.163300 ms (FindLiveObjects: 3.822800 ms CreateObjectMapping: 3.234400 ms MarkObjects: 46.554700 ms  DeleteObjects: 6.549000 ms)
+
+Unloading 7 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (16.5 KB). Loaded Objects now: 23849.
+Memory consumption went from 0.58 GB to 0.58 GB.
+Total: 62.348700 ms (FindLiveObjects: 3.731500 ms CreateObjectMapping: 3.484900 ms MarkObjects: 55.047800 ms  DeleteObjects: 0.082000 ms)
+
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Attempted to call .Dispose on an already disposed CancellationTokenSource
+[Licensing::Client] Successfully resolved entitlement details
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  3.305 seconds
+Refreshing native plugins compatible for Editor in 17.58 ms, found 5 plugins.
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  6.715 seconds
+Domain Reload Profiling: 10005ms
+	BeginReloadAssembly (1893ms)
+		ExecutionOrderSort (1ms)
+		DisableScriptedObjects (188ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (1ms)
+		CreateAndSetChildDomain (1144ms)
+	RebuildCommonClasses (76ms)
+	RebuildNativeTypeToScriptingClass (30ms)
+	initialDomainReloadingComplete (144ms)
+	LoadAllAssembliesAndSetupDomain (1147ms)
+		LoadAssemblies (419ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (934ms)
+			TypeCache.Refresh (20ms)
+				TypeCache.ScanAssembly (0ms)
+			BuildScriptInfoCaches (864ms)
+			ResolveRequiredComponents (40ms)
+	FinalizeReload (6716ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (3827ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (105ms)
+			SetLoadedEditorAssemblies (9ms)
+			BeforeProcessingInitializeOnLoad (539ms)
+			ProcessInitializeOnLoadAttributes (2107ms)
+			ProcessInitializeOnLoadMethodAttributes (1047ms)
+			AfterProcessingInitializeOnLoad (19ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (2ms)
+		AwakeInstancesAfterBackupRestoration (1364ms)
+Asset Pipeline Refresh (id=47eea1641602451438d7de8ce2fd1ec9): Total: 10.675 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=7223 ms
+		Asset DB Callback time: managed=55 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=3392 ms, compile time=2 ms, other=0 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.002ms
+	InvokePackagesCallback: 4.512ms
+	ApplyChangesToAssetFolders: 0.702ms
+	Scan: 0.003ms
+	OnSourceAssetsModified: 0.004ms
+	CategorizeAssetsWithTransientArtifact: 0.014ms
+	ProcessAssetsWithTransientArtifactChanges: 17.334ms
+	CategorizeAssets: 265.069ms
+	ImportOutOfDateAssets: 6787.456ms (6766.458ms without children)
+		CompileScripts: 2.041ms
+		CollectScriptTypesHashes: 5.327ms
+		ReloadNativeAssets: 3.083ms
+		UnloadImportedAssets: 4.444ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 4.759ms
+		InitializingProgressBar: 0.001ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.001ms
+		OnDemandSchedulerStart: 1.343ms
+	PostProcessAllAssets: 55.784ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.268ms
+	UnloadStreamsBegin: 3.074ms
+	PersistCurrentRevisions: 1.308ms
+	UnloadStreamsEnd: 0.003ms
+	GenerateScriptTypeHashes: 13.296ms
+	Untracked: 3538.763ms
+
+[Adaptive Performance] No Provider was configured for use. Make sure you added at least one Provider in the Adaptive Performance Settings.
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.TerrainCollider:set_terrainData (UnityEngine.TerrainData)
+TerrainRuntimeDataHost:EnsureInitialized () (at Assets/Nature  Paradaise/Script/World/Gathering/TerrainRuntimeDataHost.cs:36)
+TerrainRuntimeDataHost:Awake () (at Assets/Nature  Paradaise/Script/World/Gathering/TerrainRuntimeDataHost.cs:22)
+
+[Assets/Nature  Paradaise/Script/World/Gathering/TerrainRuntimeDataHost.cs line 36]
+
+The tree P_OakTree3_Interactive couldn't be instanced because the prefab contains no valid mesh renderer.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Object:Internal_CloneSingle (UnityEngine.Object)
+UnityEngine.Object:Instantiate<UnityEngine.TerrainData> (UnityEngine.TerrainData)
+TerrainLayerVegetation:EnsureWritableData () (at Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs:92)
+TerrainLayerVegetation:OnEnable () (at Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs:31)
+
+[Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs line 92]
+
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.TerrainCollider:set_terrainData (UnityEngine.TerrainData)
+TerrainLayerVegetation:EnsureWritableData () (at Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs:96)
+TerrainLayerVegetation:OnEnable () (at Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs:31)
+
+[Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs line 96]
+
+[TerrainTreeManager] 17 records; radius 15m, cap 50, budget 5/frame.
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.TerrainCollider:set_terrainData (UnityEngine.TerrainData)
+TerrainLayerVegetation:EnsureWritableData () (at Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs:96)
+TerrainLayerVegetation:OnEnable () (at Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs:31)
+
+[Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs line 96]
+
+[TIME] Day/night cycle aktif dan matahari mengikuti jam 24 jam.
+[PLAYER HUD] Status tersedia; visual dikelola Unified HUD.
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            239.625 ms
+	Integration:            4004.872 ms
+	Integration of assets:  3.374 ms
+	Thread Wait Time:       -0.379 ms
+	Total Operation Time:   4247.492 ms
+[FEEDBACK] SaveLoadFeedback siap.
+[HUD] Unified HUD aktif pada Screen Space Overlay Canvas.
+[SEASON] Visual Spring diterapkan sekali. Terrain aktif: 4.
+Loaded scene 'Assets/Nature  Paradaise/Map/Scenes/UI/GameplayUI.unity'
+	Deserialize:            50.352 ms
+	Integration:            309.117 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       415.229 ms
+	Total Operation Time:   774.702 ms
+[WEATHER] Day 1: Drizzle / Gerimis | Tomorrow: Drizzle / Gerimis
+[SEASON] Visual Spring diterapkan sekali. Terrain aktif: 4.
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (4.2m) | grass=6, nearestFromAnimal=12.1m, nearestFromSearchOrigin=12.1m, radius=20.0m
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Successfully resolved entitlement details
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (4.2m) | grass=6, nearestFromAnimal=12.1m, nearestFromSearchOrigin=12.1m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (411.22, 18.48, 645.34) (5.1m) | grass=6, nearestFromAnimal=13.0m, nearestFromSearchOrigin=13.0m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (3.5m) | grass=6, nearestFromAnimal=11.4m, nearestFromSearchOrigin=11.4m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (411.22, 18.48, 645.34) (4.4m) | grass=6, nearestFromAnimal=13.5m, nearestFromSearchOrigin=13.5m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (1.9m) | grass=6, nearestFromAnimal=9.9m, nearestFromSearchOrigin=9.9m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (411.22, 18.48, 645.34) (2.4m) | grass=6, nearestFromAnimal=14.8m, nearestFromSearchOrigin=14.8m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (1.3m) | grass=6, nearestFromAnimal=8.8m, nearestFromSearchOrigin=8.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (411.22, 18.48, 645.34) (0.8m) | grass=6, nearestFromAnimal=15.9m, nearestFromSearchOrigin=15.9m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (411.22, 18.48, 645.34) (0.2m) | grass=6, nearestFromAnimal=16.4m, nearestFromSearchOrigin=16.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (411.22, 18.48, 645.34) (0.2m) | grass=6, nearestFromAnimal=16.4m, nearestFromSearchOrigin=16.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (411.22, 18.48, 645.34) (0.2m) | grass=6, nearestFromAnimal=16.4m, nearestFromSearchOrigin=16.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (411.22, 18.48, 645.34) (0.2m) | grass=6, nearestFromAnimal=16.4m, nearestFromSearchOrigin=16.4m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: Debug Clues ON
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (411.22, 18.48, 645.34) (0.2m) | grass=6, nearestFromAnimal=16.4m, nearestFromSearchOrigin=16.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (411.22, 18.48, 645.34) (0.2m) | grass=6, nearestFromAnimal=16.4m, nearestFromSearchOrigin=16.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: Tidak ada makanan siap makan
+[PLAYER] Tidak ada makanan, atau status masih penuh.
+[FEEDBACK] SHOW IN HOTBAR: Barn Lv.1 selesai
+[FEEDBACK] SHOW IN HOTBAR: [DEBUG] Barn Lv.1 gratis dan langsung selesai
+[FEEDBACK] SHOW IN HOTBAR: GAME SAVED!
+[SAVE] =========================
+[SAVE] GAME SAVED
+[SAVE] =========================
+Gold: 10000
+Seed: 0
+Cabbage: 0
+Milk: 0
+Day: 1
+Time: 08:00
+Player Position: X=412.0547, Y=18.30581, Z=637.2358
+Path: C:/Users/huxel/AppData/LocalLow/DefaultCompany/HMMobile\savegame.json
+[SAVE] =========================
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+Asset Pipeline Refresh (id=9ed72fe18da7e03418f04d6deac556ca): Total: 0.014 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: GAME SAVED!
+[SAVE] =========================
+[SAVE] GAME SAVED
+[SAVE] =========================
+Gold: 10000
+Seed: 0
+Cabbage: 0
+Milk: 0
+Day: 1
+Time: 08:10
+Player Position: X=409.7392, Y=18.30581, Z=639.0031
+Path: C:/Users/huxel/AppData/LocalLow/DefaultCompany/HMMobile\savegame.json
+[SAVE] =========================
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: GAME SAVED!
+[SAVE] =========================
+[SAVE] GAME SAVED
+[SAVE] =========================
+Gold: 10000
+Seed: 0
+Cabbage: 0
+Milk: 0
+Day: 1
+Time: 08:10
+Player Position: X=409.7392, Y=18.30581, Z=639.0031
+Path: C:/Users/huxel/AppData/LocalLow/DefaultCompany/HMMobile\savegame.json
+[SAVE] =========================
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: Debug Clues OFF
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: Debug Clues ON
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: Debug Clues OFF
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: Debug Clues ON
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.59, 18.48, 652.04) (0.3m) | grass=6, nearestFromAnimal=7.8m, nearestFromSearchOrigin=7.8m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: Tidak ada makanan siap makan
+[PLAYER] Tidak ada makanan, atau status masih penuh.
+[FEEDBACK] SHOW IN HOTBAR: Coop Lv.1 selesai
+[FEEDBACK] SHOW IN HOTBAR: [DEBUG] Coop Lv.1 gratis dan langsung selesai
+[FEEDBACK] SHOW IN HOTBAR: GAME SAVED!
+[SAVE] =========================
+[SAVE] GAME SAVED
+[SAVE] =========================
+Gold: 10000
+Seed: 0
+Cabbage: 0
+Milk: 0
+Day: 1
+Time: 08:40
+Player Position: X=391.5562, Y=18.30581, Z=656.0579
+Path: C:/Users/huxel/AppData/LocalLow/DefaultCompany/HMMobile\savegame.json
+[SAVE] =========================
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: Debug Clues OFF
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+Asset Pipeline Refresh (id=7c8103658dc4e144cbd4d65a6aa12a67): Total: 0.011 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+Asset Pipeline Refresh (id=9da3a1ae318295044ba33c3f311419a9): Total: 0.009 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=26.6m, nearestFromSearchOrigin=26.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=30.4m, nearestFromSearchOrigin=30.4m, radius=20.0m
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            60.497 ms
+	Integration:            521.039 ms
+	Integration of assets:  0.062 ms
+	Thread Wait Time:       -0.049 ms
+	Total Operation Time:   581.549 ms
+Unloading 254 unused Assets / (71.3 KB). Loaded Objects now: 23951.
+Memory consumption went from 0.68 GB to 0.68 GB.
+Total: 55.808500 ms (FindLiveObjects: 2.410600 ms CreateObjectMapping: 2.244800 ms MarkObjects: 50.153800 ms  DeleteObjects: 0.997400 ms)
+
+[Licensing::Client] Successfully resolved entitlement details
+Asset Pipeline Refresh (id=078bdbec84b32444bbcf6dc6e58e7639): Total: 0.204 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+Asset Pipeline Refresh (id=f487e6fcf5bc3514ea1dec84d9929456): Total: 0.015 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+AssetDatabase: script compilation time: 0.001918s
+[Licensing::Client] Successfully resolved entitlement details
+Refreshing native plugins compatible for Editor in 16.69 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.17 ms.
+Asset Pipeline Refresh (id=db10b98758175c24394828fff81ea98c): Total: 1.583 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=303 ms
+		Asset DB Callback time: managed=1215 ms, native=62 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=2 ms, other=0 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=1, changed=5, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.001ms
+	ApplyChangesToAssetFolders: 0.208ms
+	Scan: 79.555ms
+	OnSourceAssetsModified: 1.276ms
+	CategorizeAssetsWithTransientArtifact: 0.141ms
+	ProcessAssetsWithTransientArtifactChanges: 0.359ms
+	CategorizeAssets: 39.430ms
+	ImportOutOfDateAssets: 9.396ms (-0.535ms without children)
+		CompileScripts: 2.035ms
+		ReloadNativeAssets: 0.470ms
+		UnloadImportedAssets: 0.338ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 2.580ms
+		InitializingProgressBar: 0.001ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.002ms
+		OnDemandSchedulerStart: 4.505ms
+	PostProcessAllAssets: 1230.283ms
+	Hotreload: 46.064ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.280ms
+	UnloadStreamsBegin: 0.042ms
+	PersistCurrentRevisions: 1.326ms
+	UnloadStreamsEnd: 0.002ms
+	Untracked: 173.834ms
+
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\Tools\netcorerun\netcorerun.exe "C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+ExitCode: 4 Duration: 1s34ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+*** Tundra requires additional run (0.69 seconds), 0 items updated, 6 evaluated
+ExitCode: 0 Duration: 3s554ms
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library\Bee\1900b0aE.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+ExitCode: 0 Duration: 8s922ms
+Finished compiling graph: 1533 nodes, 30567 flattened edges (24503 ToBuild, 256 ToUse), maximum node priority 1736
+[ 761/1529  0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.rsp
+[1161/1529  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[1525/1529  4s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+[1526/1529  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 131 defines and 356 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1527/1529  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[1528/1529  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (8.87 seconds), 6 items updated, 1529 evaluated
+Reloading assemblies after finishing script compilation.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  3.231 seconds
+Refreshing native plugins compatible for Editor in 14.02 ms, found 5 plugins.
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  5.822 seconds
+Domain Reload Profiling: 9045ms
+	BeginReloadAssembly (1881ms)
+		ExecutionOrderSort (2ms)
+		DisableScriptedObjects (135ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (2ms)
+		CreateAndSetChildDomain (961ms)
+	RebuildCommonClasses (84ms)
+	RebuildNativeTypeToScriptingClass (28ms)
+	initialDomainReloadingComplete (150ms)
+	LoadAllAssembliesAndSetupDomain (1079ms)
+		LoadAssemblies (653ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (739ms)
+			TypeCache.Refresh (23ms)
+				TypeCache.ScanAssembly (2ms)
+			BuildScriptInfoCaches (682ms)
+			ResolveRequiredComponents (24ms)
+	FinalizeReload (5823ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (3347ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (78ms)
+			SetLoadedEditorAssemblies (8ms)
+			BeforeProcessingInitializeOnLoad (819ms)
+			ProcessInitializeOnLoadAttributes (1624ms)
+			ProcessInitializeOnLoadMethodAttributes (800ms)
+			AfterProcessingInitializeOnLoad (17ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (1ms)
+		AwakeInstancesAfterBackupRestoration (1043ms)
+Refreshing native plugins compatible for Editor in 18.92 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.41 ms.
+Asset Pipeline Refresh (id=278600c60cf59f64bab2b9f02a424fcf): Total: 10.429 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=6280 ms
+		Asset DB Callback time: managed=790 ms, native=37 ms
+		Scripting: domain reloads=1, domain reload time=3318 ms, compile time=2 ms, other=0 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.002ms
+	InvokePackagesCallback: 5.966ms
+	ApplyChangesToAssetFolders: 0.923ms
+	Scan: 0.003ms
+	OnSourceAssetsModified: 0.005ms
+	CategorizeAssetsWithTransientArtifact: 0.011ms
+	ProcessAssetsWithTransientArtifactChanges: 13.707ms
+	CategorizeAssets: 311.075ms
+	ImportOutOfDateAssets: 5866.905ms (5848.817ms without children)
+		CompileScripts: 2.134ms
+		CollectScriptTypesHashes: 2.007ms
+		ReloadNativeAssets: 3.399ms
+		UnloadImportedAssets: 0.216ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 7.703ms
+		InitializingProgressBar: 0.001ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.002ms
+		OnDemandSchedulerStart: 2.627ms
+	PostProcessAllAssets: 796.079ms
+	Hotreload: 30.701ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.707ms
+	UnloadStreamsBegin: 0.222ms
+	PersistCurrentRevisions: 1.129ms
+	UnloadStreamsEnd: 0.002ms
+	GenerateScriptTypeHashes: 13.034ms
+	Untracked: 3400.449ms
+
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Successfully resolved entitlement details
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Barn_A/Barn_A_High.fbx using Guid(a4e1b1f6a5850d6479b51a6b3c35394b) (FBXImporter) -> (artifact id: 'c2b5acd350d1a0c03992a477ce79a354') in 0.1351084 seconds
+Refreshing native plugins compatible for Editor in 14.82 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.41 ms.
+Asset Pipeline Refresh (id=c621b69827a18af4d949d6484cb29391): Total: 0.259 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Barn_A/Barn_A_High.fbx using Guid(a4e1b1f6a5850d6479b51a6b3c35394b) (FBXImporter) -> (artifact id: 'fc2649dd4c335018a2b4293f25405c3b') in 0.0544895 seconds
+Refreshing native plugins compatible for Editor in 16.75 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.20 ms.
+Asset Pipeline Refresh (id=948b4422ee3d8d641bca3d175be08603): Total: 0.427 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=277 ms
+		Asset DB Callback time: managed=115 ms, native=33 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 6
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.002ms
+	ApplyChangesToAssetFolders: 0.381ms
+	Scan: 53.216ms
+	OnSourceAssetsModified: 110.364ms
+	CategorizeAssetsWithTransientArtifact: 0.076ms
+	ProcessAssetsWithTransientArtifactChanges: 0.381ms
+	CategorizeAssets: 81.715ms
+	ImportOutOfDateAssets: 86.677ms (-9.394ms without children)
+		ImportManagerImport: 73.515ms (15.798ms without children)
+			ImportInProcess: 57.651ms
+			UpdateCategorizedAssets: 0.066ms
+		ReloadNativeAssets: 0.595ms
+		UnloadImportedAssets: 0.669ms
+		ReloadImportedAssets: 12.799ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 6.190ms
+		InitializingProgressBar: 0.084ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.004ms
+		OnDemandSchedulerStart: 2.214ms
+	PostProcessAllAssets: 11.450ms
+	Hotreload: 27.552ms
+	GatherAllCurrentPrimaryArtifactRevisions: 2.190ms
+	UnloadStreamsBegin: 0.118ms
+	PersistCurrentRevisions: 2.490ms
+	UnloadStreamsEnd: 0.002ms
+	Untracked: 50.274ms
+
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Barn_A/Barn_A_Medium.fbx using Guid(4ecb8429e74d7b240a6923a65984635f) (FBXImporter) -> (artifact id: '3a47deb8501e440146b67d2f3e98cfe9') in 0.0739454 seconds
+Refreshing native plugins compatible for Editor in 19.13 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.28 ms.
+Asset Pipeline Refresh (id=fd225df4cf88fed4a9064d5fa66a3eac): Total: 0.186 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Barn_A/Barn_A_Medium.fbx using Guid(4ecb8429e74d7b240a6923a65984635f) (FBXImporter) -> (artifact id: 'bfb8e93f96750514feb8147b25ce11f5') in 0.0470363 seconds
+Refreshing native plugins compatible for Editor in 15.85 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.22 ms.
+Asset Pipeline Refresh (id=57a750e711ddf324fa805be12ca75f58): Total: 0.257 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Barn_A/Barn_A_Low.fbx using Guid(3ac0d9ff8e244b24f97d3f381d416a45) (FBXImporter) -> (artifact id: '9ab56cde3e8495477faacd8643334edd') in 0.065411 seconds
+Refreshing native plugins compatible for Editor in 18.50 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.26 ms.
+Asset Pipeline Refresh (id=04574c2533d52bf4db72c15022d65d93): Total: 0.166 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Barn_A/Barn_A_Low.fbx using Guid(3ac0d9ff8e244b24f97d3f381d416a45) (FBXImporter) -> (artifact id: '6c141c98db603ac023fb46f83eee9a22') in 0.0390852 seconds
+Refreshing native plugins compatible for Editor in 18.90 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.29 ms.
+Asset Pipeline Refresh (id=fa30dcb34c738f74eb4c8501e0fdd3ac): Total: 0.247 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/7c029405adab651419c28dfb04a6ac3f'
+	Deserialize:            1.087 ms
+	Integration:            0.273 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.030 ms
+	Total Operation Time:   1.393 ms
+Start importing Assets/Nature  Paradaise/Prefabs/Barn/Exterior/BarnExterior_Lv1.prefab using Guid(75a0d5da13e027b4e8e6b886b82ebd82) (PrefabImporter) -> (artifact id: 'f7b183da61bfa212daec74510b03588a') in 0.0238755 seconds
+Refreshing native plugins compatible for Editor in 17.19 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.18 ms.
+Asset Pipeline Refresh (id=e4c05b6d17cc4c64ea94fa3b77a9d1c7): Total: 0.197 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/b34b1c9533433f74981b86fa656d5c6e'
+	Deserialize:            1.076 ms
+	Integration:            0.303 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.024 ms
+	Total Operation Time:   1.406 ms
+Start importing Assets/Nature  Paradaise/Prefabs/Barn/Exterior/BarnExterior_Lv2.prefab using Guid(2e3f8774448ef91478acab3fb285598d) (PrefabImporter) -> (artifact id: '1a7f34217b774ce19dddf65d26b003b7') in 0.0218645 seconds
+Refreshing native plugins compatible for Editor in 15.36 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.17 ms.
+Asset Pipeline Refresh (id=1e5791c718878104590381291ce71165): Total: 0.185 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/cdd57a97cbea2044c907311b9cbd5ec9'
+	Deserialize:            0.937 ms
+	Integration:            0.321 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.031 ms
+	Total Operation Time:   1.293 ms
+Start importing Assets/Nature  Paradaise/Prefabs/Barn/Exterior/BarnExterior_Lv3.prefab using Guid(e4f7e476a3fe8974a92cf0cea5fe77e9) (PrefabImporter) -> (artifact id: '078f6557e702c97501d7117512582ab7') in 0.0201222 seconds
+Refreshing native plugins compatible for Editor in 18.53 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.27 ms.
+Asset Pipeline Refresh (id=cdf58caca29e8da42b0e2aaa30544eee): Total: 0.214 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/fc19c86eba80c59498580abd0f0adc6f'
+	Deserialize:            0.824 ms
+	Integration:            0.323 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.023 ms
+	Total Operation Time:   1.175 ms
+Start importing Assets/Nature  Paradaise/Prefabs/Barn/Exterior/BarnExterior_Lv4.prefab using Guid(396d6af7894a37f49b11fd4cc0a47894) (PrefabImporter) -> (artifact id: '961d96b16013f50572a2a118e10cca85') in 0.0112937 seconds
+Refreshing native plugins compatible for Editor in 18.48 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.20 ms.
+Asset Pipeline Refresh (id=c66013e108ed997469ba8ea7e2872d2d): Total: 0.206 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/f187b6202c1763048b45b43dfc051e4e'
+	Deserialize:            1.137 ms
+	Integration:            0.330 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.024 ms
+	Total Operation Time:   1.496 ms
+Start importing Assets/Nature  Paradaise/Prefabs/Barn/Exterior/BarnExterior_Lv5.prefab using Guid(f9dc963bfc022a244abb2a20946740b8) (PrefabImporter) -> (artifact id: '4bc32cbb999643e32f08bc7e96b08731') in 0.0212467 seconds
+Refreshing native plugins compatible for Editor in 16.46 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.19 ms.
+Asset Pipeline Refresh (id=37a6383811b0e7749ae4b9d42a9f1805): Total: 0.208 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Asset Pipeline Refresh (id=8862274645ce6964b862149eab08e8fc): Total: 0.036 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/Resources/Buildings/Barn Building.asset using Guid(c36e97a4fb5942b6a164d1f405b92331) (NativeFormatImporter) -> (artifact id: '73bf11910e1a3f279df913f58b6662ad') in 0.0066238 seconds
+Start importing Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset using Guid(2e498d1c8094910479dc3e1b768306a4) (NativeFormatImporter) -> (artifact id: '6fed3b75b6dd5dd6ec588be50bf9fe03') in 0.0079382 seconds
+Refreshing native plugins compatible for Editor in 16.94 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.24 ms.
+Asset Pipeline Refresh (id=9d15b316851609248a342eeb36bee626): Total: 0.192 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Barn_A/Barn_A_High.fbx using Guid(a4e1b1f6a5850d6479b51a6b3c35394b) (FBXImporter) -> (artifact id: 'c2b5acd350d1a0c03992a477ce79a354') in 0.0605468 seconds
+Refreshing native plugins compatible for Editor in 21.30 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.35 ms.
+Asset Pipeline Refresh (id=a2625297a46f998499cf5912ca320cf3): Total: 0.294 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Barn_A/Barn_A_Medium.fbx using Guid(4ecb8429e74d7b240a6923a65984635f) (FBXImporter) -> (artifact id: '3a47deb8501e440146b67d2f3e98cfe9') in 0.0424449 seconds
+Refreshing native plugins compatible for Editor in 14.03 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.21 ms.
+Asset Pipeline Refresh (id=7f6b15334d3bdf74fbc604aa9a09922c): Total: 0.249 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Barn_A/Barn_A_Low.fbx using Guid(3ac0d9ff8e244b24f97d3f381d416a45) (FBXImporter) -> (artifact id: '9ab56cde3e8495477faacd8643334edd') in 0.03926 seconds
+Refreshing native plugins compatible for Editor in 17.39 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.26 ms.
+Asset Pipeline Refresh (id=2ccb087df78de4b439116d9277448466): Total: 0.260 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[Barn A] APPLY PASS: single mesh per LOD, five scale-only prefabs, existing gameplay linked.
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Coop_A/Coop_A_High.fbx using Guid(dd2066e16a2ac3547a84c2caa3136cd5) (FBXImporter) -> (artifact id: '59ed716d4ba2b31c53ead693ce3223e1') in 0.064597 seconds
+Refreshing native plugins compatible for Editor in 18.34 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.16 ms.
+Asset Pipeline Refresh (id=91ae18fb6826b2c48b05ba34daf7fedf): Total: 1.372 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=135 ms
+		Asset DB Callback time: managed=5 ms, native=1230 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 6
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.001ms
+	ApplyChangesToAssetFolders: 0.289ms
+	Scan: 22.694ms
+	OnSourceAssetsModified: 0.002ms
+	CategorizeAssetsWithTransientArtifact: 0.015ms
+	ProcessAssetsWithTransientArtifactChanges: 0.142ms
+	CategorizeAssets: 12.410ms
+	ImportOutOfDateAssets: 85.067ms (0.412ms without children)
+		ImportManagerImport: 72.964ms (4.749ms without children)
+			ImportInProcess: 68.144ms
+			UpdateCategorizedAssets: 0.071ms
+		ReloadNativeAssets: 0.484ms
+		UnloadImportedAssets: 1.177ms
+		ReloadImportedAssets: 1.931ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 5.944ms
+		InitializingProgressBar: 0.014ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.002ms
+		OnDemandSchedulerStart: 2.139ms
+	PostProcessAllAssets: 11.538ms
+	Hotreload: 1224.776ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.471ms
+	UnloadStreamsBegin: 0.005ms
+	PersistCurrentRevisions: 1.238ms
+	UnloadStreamsEnd: 0.003ms
+	Untracked: 12.306ms
+
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Coop_A/Coop_A_High.fbx using Guid(dd2066e16a2ac3547a84c2caa3136cd5) (FBXImporter) -> (artifact id: '4aa46edab545580f7a30908f0641fcd3') in 0.0475317 seconds
+Refreshing native plugins compatible for Editor in 13.95 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.18 ms.
+Asset Pipeline Refresh (id=24d51a0da4952034ebbc2ce25ddb5c47): Total: 0.276 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Coop_A/Coop_A_Medium.fbx using Guid(10a6dfb2ab23dce40b9b21dd029badd6) (FBXImporter) -> (artifact id: 'e4ce8c6d846b17034e69ca4f41d0b70f') in 0.0579718 seconds
+Refreshing native plugins compatible for Editor in 14.78 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.26 ms.
+Asset Pipeline Refresh (id=4d6594498bd6aba43a3d84698d5fd1bc): Total: 0.160 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Coop_A/Coop_A_Medium.fbx using Guid(10a6dfb2ab23dce40b9b21dd029badd6) (FBXImporter) -> (artifact id: 'dd5cecc0ccaea98c303fa10cf4bb9ac0') in 0.0417784 seconds
+Refreshing native plugins compatible for Editor in 15.44 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.21 ms.
+Asset Pipeline Refresh (id=5e391d5e06645904ab4db9aa9104598c): Total: 0.237 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Coop_A/Coop_A_Low.fbx using Guid(8f87917e6c0ba1d448a8f3b4f8fae971) (FBXImporter) -> (artifact id: 'ee8ca0018920bff7c075afd563d50593') in 0.0552486 seconds
+Refreshing native plugins compatible for Editor in 16.33 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.24 ms.
+Asset Pipeline Refresh (id=246437f7a888ba241b5d8cf9abb41dda): Total: 0.162 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Coop_A/Coop_A_Low.fbx using Guid(8f87917e6c0ba1d448a8f3b4f8fae971) (FBXImporter) -> (artifact id: 'a09fab8e0f1194e89e6683e274c53fab') in 0.0460435 seconds
+Refreshing native plugins compatible for Editor in 21.87 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.37 ms.
+Asset Pipeline Refresh (id=cb72613c36b4a4e4882ebf715ff448a0): Total: 0.318 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=236 ms
+		Asset DB Callback time: managed=4 ms, native=76 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 6
+	InvokeCustomDependenciesCallbacks: 0.002ms
+	InvokePackagesCallback: 0.002ms
+	ApplyChangesToAssetFolders: 0.467ms
+	Scan: 50.545ms
+	OnSourceAssetsModified: 0.072ms
+	CategorizeAssetsWithTransientArtifact: 0.034ms
+	ProcessAssetsWithTransientArtifactChanges: 0.671ms
+	CategorizeAssets: 84.573ms
+	ImportOutOfDateAssets: 73.163ms (-7.207ms without children)
+		ImportManagerImport: 61.147ms (12.215ms without children)
+			ImportInProcess: 48.870ms
+			UpdateCategorizedAssets: 0.061ms
+		ReloadNativeAssets: 1.506ms
+		UnloadImportedAssets: 0.659ms
+		ReloadImportedAssets: 9.614ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 5.477ms
+		InitializingProgressBar: 0.070ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.004ms
+		OnDemandSchedulerStart: 1.894ms
+	PostProcessAllAssets: 9.936ms
+	Hotreload: 71.485ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.473ms
+	UnloadStreamsBegin: 0.109ms
+	PersistCurrentRevisions: 1.826ms
+	UnloadStreamsEnd: 0.003ms
+	Untracked: 24.008ms
+
+Loaded scene 'Library/Unused/592198f358122284b8fefc7712ea5344'
+	Deserialize:            1.085 ms
+	Integration:            0.282 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.027 ms
+	Total Operation Time:   1.398 ms
+Start importing Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv1.prefab using Guid(a1e5117876ad97a47a5909f370246dcd) (PrefabImporter) -> (artifact id: '317cbc48338b103a77080a82d9f40b26') in 0.0114295 seconds
+Refreshing native plugins compatible for Editor in 18.62 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.29 ms.
+Asset Pipeline Refresh (id=09e5f8c228f97cc4e87acf3e14fc394e): Total: 0.193 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/2d370905549830647a53bfb86cf62c5b'
+	Deserialize:            1.087 ms
+	Integration:            0.620 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.026 ms
+	Total Operation Time:   1.737 ms
+Start importing Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv2.prefab using Guid(f9078dd595caeff4680c8c73d4bd4923) (PrefabImporter) -> (artifact id: '45ab6023ccf2b1e72c29c74424c43d13') in 0.0126755 seconds
+Refreshing native plugins compatible for Editor in 20.35 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.24 ms.
+Asset Pipeline Refresh (id=465b1ea6a2f5f164c9f03bfe1a8894dc): Total: 0.196 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/e589586caf1305e449a66e666831a241'
+	Deserialize:            1.120 ms
+	Integration:            0.719 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.024 ms
+	Total Operation Time:   1.868 ms
+Start importing Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv3.prefab using Guid(e734816c473e04f4db52a42e086ec6ed) (PrefabImporter) -> (artifact id: 'e58247a9eaa54eaa83f75e334153a1ac') in 0.0101227 seconds
+Refreshing native plugins compatible for Editor in 17.91 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.26 ms.
+Asset Pipeline Refresh (id=44302065dee0b4c47a27c1c47d61f79e): Total: 0.230 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/a2293cc063c7c4b48850cdc69530f07f'
+	Deserialize:            1.137 ms
+	Integration:            0.880 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.028 ms
+	Total Operation Time:   2.048 ms
+Start importing Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv4.prefab using Guid(b85a3896d13c03046a816fdd6aaccacf) (PrefabImporter) -> (artifact id: '2b3653c68d9905198dc887db82978e72') in 0.0102119 seconds
+Refreshing native plugins compatible for Editor in 18.40 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.27 ms.
+Asset Pipeline Refresh (id=ba40fc30d21c84341b4c7c1271121cad): Total: 0.195 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/7115ee11a34ee7a46ab7645d94d10c3c'
+	Deserialize:            1.106 ms
+	Integration:            0.793 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.033 ms
+	Total Operation Time:   1.936 ms
+Start importing Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv5.prefab using Guid(8801dd4b6dc5ed143866a6a80b4e0a4f) (PrefabImporter) -> (artifact id: '85e287de454c79848261cb6603036d04') in 0.0117839 seconds
+Refreshing native plugins compatible for Editor in 15.50 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.22 ms.
+Asset Pipeline Refresh (id=bcf5e6754bb108449a7f53ff1a17f0b9): Total: 0.182 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/Resources/Buildings/Coop Building.asset using Guid(d47fa8b50c6a43d7b275e2a516ca3442) (NativeFormatImporter) -> (artifact id: 'da8d7627ad555531d262fd7d0bcbe38a') in 0.0052716 seconds
+Refreshing native plugins compatible for Editor in 16.21 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.21 ms.
+Asset Pipeline Refresh (id=d47aa013d9cb2e742a2be821f2239b94): Total: 0.111 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Coop_A/Coop_A_High.fbx using Guid(dd2066e16a2ac3547a84c2caa3136cd5) (FBXImporter) -> (artifact id: '59ed716d4ba2b31c53ead693ce3223e1') in 0.0540311 seconds
+Refreshing native plugins compatible for Editor in 16.90 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.25 ms.
+Asset Pipeline Refresh (id=f079bb4408c3c474ea00b3e2b070fdd2): Total: 0.271 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Coop_A/Coop_A_Medium.fbx using Guid(10a6dfb2ab23dce40b9b21dd029badd6) (FBXImporter) -> (artifact id: 'e4ce8c6d846b17034e69ca4f41d0b70f') in 0.0465378 seconds
+Refreshing native plugins compatible for Editor in 20.46 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.23 ms.
+Asset Pipeline Refresh (id=856009ef31fa4c44a91fe835f7642450): Total: 0.243 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/Coop_A/Coop_A_Low.fbx using Guid(8f87917e6c0ba1d448a8f3b4f8fae971) (FBXImporter) -> (artifact id: 'ee8ca0018920bff7c075afd563d50593') in 0.0373753 seconds
+Refreshing native plugins compatible for Editor in 17.04 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.34 ms.
+Asset Pipeline Refresh (id=a4383c9f6b1113c4db22998e2ada289c): Total: 0.256 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[Coop A] APPLY PASS: single mesh per LOD, five scale-only prefabs, existing gameplay linked.
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated access token: "O6gNg1nd"... (expires: 2027-10-10T18:57:29Z)
+UPID Received '4dda7f67-4088-40f7-b9b8-eafe729b46df'.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Worker1] Start importing Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv3.prefab using Guid(e734816c473e04f4db52a42e086ec6ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker1] (PreviewImporter)
+[Worker1]  -> (artifact id: 'd05111cdd27ff860bf3cedebf61c08ae') in 1.226807 seconds
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+AssetDatabase: script compilation time: 0.001556s
+[Licensing::Client] Successfully resolved entitlement details
+Refreshing native plugins compatible for Editor in 19.63 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.18 ms.
+Asset Pipeline Refresh (id=9ccfad7ee41b6d3439eebf7e0dc041e7): Total: 0.879 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=283 ms
+		Asset DB Callback time: managed=557 ms, native=35 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=2 ms, other=0 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=0, changed=1, moved=0, deleted=1
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.001ms
+	ApplyChangesToAssetFolders: 0.312ms
+	Scan: 31.974ms
+	OnSourceAssetsModified: 0.116ms
+	CategorizeAssetsWithTransientArtifact: 0.045ms
+	ProcessAssetsWithTransientArtifactChanges: 0.230ms
+	UnregisterDeletedAssets: 0.004ms
+	CategorizeAssets: 44.902ms
+	ImportOutOfDateAssets: 10.703ms (0.843ms without children)
+		CompileScripts: 1.644ms
+		ReloadNativeAssets: 0.506ms
+		UnloadImportedAssets: 0.600ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 5.619ms
+		InitializingProgressBar: 0.002ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.002ms
+		OnDemandSchedulerStart: 1.489ms
+	PostProcessAllAssets: 547.912ms
+	Hotreload: 45.312ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.335ms
+	UnloadStreamsBegin: 2.680ms
+	PersistCurrentRevisions: 1.019ms
+	UnloadStreamsEnd: 0.002ms
+	Untracked: 192.258ms
+
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\Tools\netcorerun\netcorerun.exe "C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\Tools\BuildPipeline\ScriptCompilationBuildProgram.exe" "Library/Bee/1900b0aE.dag.json" "Library/Bee/1900b0aE-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+ExitCode: 4 Duration: 0s967ms
+Rebuilding DAG because FileSignature timestamp changed: Library/Bee/1900b0aE-inputdata.json
+*** Tundra requires additional run (0.70 seconds), 0 items updated, 0 evaluated
+ExitCode: 0 Duration: 4s450ms
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --dagfilejson="Library\Bee\1900b0aE.dag.json" --profile="Library/Bee/backend2.traceevents" ScriptAssemblies
+WorkingDir: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+ExitCode: 0 Duration: 13s
+Finished compiling graph: 1533 nodes, 30567 flattened edges (24503 ToBuild, 256 ToUse), maximum node priority 1736
+[ 781/1529  0s] WriteText Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.rsp
+[1161/1529  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[BUSY       6s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+[1525/1529  9s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+[1526/1529  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 131 defines and 356 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1527/1529  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[1528/1529  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (13.23 seconds), 6 items updated, 1529 evaluated
+Reloading assemblies after finishing script compilation.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+Total cache size 267253657
+Total cache size after purge 267253657, took 00:00:00.9538983
+- Loaded All Assemblies, in  3.745 seconds
+Refreshing native plugins compatible for Editor in 14.11 ms, found 5 plugins.
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  6.210 seconds
+Domain Reload Profiling: 9944ms
+	BeginReloadAssembly (2147ms)
+		ExecutionOrderSort (2ms)
+		DisableScriptedObjects (290ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (1ms)
+		CreateAndSetChildDomain (1029ms)
+	RebuildCommonClasses (98ms)
+	RebuildNativeTypeToScriptingClass (33ms)
+	initialDomainReloadingComplete (163ms)
+	LoadAllAssembliesAndSetupDomain (1293ms)
+		LoadAssemblies (804ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (870ms)
+			TypeCache.Refresh (27ms)
+				TypeCache.ScanAssembly (4ms)
+			BuildScriptInfoCaches (807ms)
+			ResolveRequiredComponents (23ms)
+	FinalizeReload (6210ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (3785ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (67ms)
+			SetLoadedEditorAssemblies (7ms)
+			BeforeProcessingInitializeOnLoad (811ms)
+			ProcessInitializeOnLoadAttributes (1699ms)
+			ProcessInitializeOnLoadMethodAttributes (1175ms)
+			AfterProcessingInitializeOnLoad (25ms)
+			EditorAssembliesLoaded (2ms)
+		ExecutionOrderSort2 (3ms)
+		AwakeInstancesAfterBackupRestoration (1144ms)
+Asset Pipeline Refresh (id=6867cfd04bea6db46b9f76fe19af7ce0): Total: 10.565 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=6647 ms
+		Asset DB Callback time: managed=61 ms, native=2 ms
+		Scripting: domain reloads=1, domain reload time=3851 ms, compile time=3 ms, other=0 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.003ms
+	InvokePackagesCallback: 5.645ms
+	ApplyChangesToAssetFolders: 0.792ms
+	Scan: 0.003ms
+	OnSourceAssetsModified: 0.004ms
+	CategorizeAssetsWithTransientArtifact: 0.010ms
+	ProcessAssetsWithTransientArtifactChanges: 14.543ms
+	CategorizeAssets: 298.447ms
+	ImportOutOfDateAssets: 6247.097ms (6233.123ms without children)
+		CompileScripts: 2.523ms
+		CollectScriptTypesHashes: 1.557ms
+		ReloadNativeAssets: 2.781ms
+		UnloadImportedAssets: 0.052ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 5.374ms
+		InitializingProgressBar: 0.001ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.001ms
+		OnDemandSchedulerStart: 1.684ms
+	PostProcessAllAssets: 61.392ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.968ms
+	UnloadStreamsBegin: 0.137ms
+	PersistCurrentRevisions: 1.132ms
+	UnloadStreamsEnd: 0.002ms
+	GenerateScriptTypeHashes: 11.205ms
+	Untracked: 3933.785ms
+
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated access token: "O6gNg1nd"... (expires: 2027-10-10T19:02:13Z)
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated access token: "O6gNg1nd"... (expires: 2027-10-10T19:02:14Z)
+UPID Received '4dda7f67-4088-40f7-b9b8-eafe729b46df'.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+Asset Pipeline Refresh (id=b0f85e24280763b4ab4daff3a0879abc): Total: 0.014 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Successfully updated the access token
+[Licensing::Module] Successfully updated access token: "O0F7lzud"... (expires: 2027-10-10T19:02:33Z)
+UPID Received '4dda7f67-4088-40f7-b9b8-eafe729b46df'.
+UPID Received '4dda7f67-4088-40f7-b9b8-eafe729b46df'.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+Asset Pipeline Refresh (id=0f90cc3b27b22bf4fa027f7c91093ab2): Total: 0.009 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+[Licensing::Client] Successfully resolved entitlement details
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  2.554 seconds
+Refreshing native plugins compatible for Editor in 11.79 ms, found 5 plugins.
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  4.979 seconds
+Domain Reload Profiling: 7525ms
+	BeginReloadAssembly (1588ms)
+		ExecutionOrderSort (2ms)
+		DisableScriptedObjects (226ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (1ms)
+		CreateAndSetChildDomain (926ms)
+	RebuildCommonClasses (56ms)
+	RebuildNativeTypeToScriptingClass (20ms)
+	initialDomainReloadingComplete (102ms)
+	LoadAllAssembliesAndSetupDomain (780ms)
+		LoadAssemblies (311ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (630ms)
+			TypeCache.Refresh (13ms)
+				TypeCache.ScanAssembly (0ms)
+			BuildScriptInfoCaches (584ms)
+			ResolveRequiredComponents (22ms)
+	FinalizeReload (4979ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (2766ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (72ms)
+			SetLoadedEditorAssemblies (7ms)
+			BeforeProcessingInitializeOnLoad (401ms)
+			ProcessInitializeOnLoadAttributes (1500ms)
+			ProcessInitializeOnLoadMethodAttributes (763ms)
+			AfterProcessingInitializeOnLoad (21ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (2ms)
+		AwakeInstancesAfterBackupRestoration (1229ms)
+Asset Pipeline Refresh (id=ed8c10f7f9794994cabfc802f5ab5a89): Total: 8.170 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=5362 ms
+		Asset DB Callback time: managed=186 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=2617 ms, compile time=3 ms, other=0 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.002ms
+	InvokePackagesCallback: 4.355ms
+	ApplyChangesToAssetFolders: 0.653ms
+	Scan: 0.002ms
+	OnSourceAssetsModified: 0.003ms
+	CategorizeAssetsWithTransientArtifact: 0.010ms
+	ProcessAssetsWithTransientArtifactChanges: 13.178ms
+	CategorizeAssets: 258.570ms
+	ImportOutOfDateAssets: 5010.914ms (4999.327ms without children)
+		CompileScripts: 2.521ms
+		CollectScriptTypesHashes: 1.666ms
+		ReloadNativeAssets: 2.411ms
+		UnloadImportedAssets: 0.043ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 3.363ms
+		InitializingProgressBar: 0.001ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.001ms
+		OnDemandSchedulerStart: 1.581ms
+	PostProcessAllAssets: 186.772ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.660ms
+	UnloadStreamsBegin: 0.036ms
+	PersistCurrentRevisions: 1.622ms
+	UnloadStreamsEnd: 0.003ms
+	GenerateScriptTypeHashes: 9.781ms
+	Untracked: 2693.464ms
+
+[Adaptive Performance] No Provider was configured for use. Make sure you added at least one Provider in the Adaptive Performance Settings.
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.TerrainCollider:set_terrainData (UnityEngine.TerrainData)
+TerrainRuntimeDataHost:EnsureInitialized () (at Assets/Nature  Paradaise/Script/World/Gathering/TerrainRuntimeDataHost.cs:36)
+TerrainRuntimeDataHost:Awake () (at Assets/Nature  Paradaise/Script/World/Gathering/TerrainRuntimeDataHost.cs:22)
+
+[Assets/Nature  Paradaise/Script/World/Gathering/TerrainRuntimeDataHost.cs line 36]
+
+The tree P_OakTree3_Interactive couldn't be instanced because the prefab contains no valid mesh renderer.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.Object:Internal_CloneSingle (UnityEngine.Object)
+UnityEngine.Object:Instantiate<UnityEngine.TerrainData> (UnityEngine.TerrainData)
+TerrainLayerVegetation:EnsureWritableData () (at Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs:92)
+TerrainLayerVegetation:OnEnable () (at Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs:31)
+
+[Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs line 92]
+
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.TerrainCollider:set_terrainData (UnityEngine.TerrainData)
+TerrainLayerVegetation:EnsureWritableData () (at Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs:96)
+TerrainLayerVegetation:OnEnable () (at Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs:31)
+
+[Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs line 96]
+
+[TerrainTreeManager] 17 records; radius 15m, cap 50, budget 5/frame.
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.TerrainCollider:set_terrainData (UnityEngine.TerrainData)
+TerrainLayerVegetation:EnsureWritableData () (at Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs:96)
+TerrainLayerVegetation:OnEnable () (at Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs:31)
+
+[Assets/Nature  Paradaise/Script/World/TerrainLayerVegetation.cs line 96]
+
+[TIME] Day/night cycle aktif dan matahari mengikuti jam 24 jam.
+[PLAYER HUD] Status tersedia; visual dikelola Unified HUD.
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            98.086 ms
+	Integration:            1691.832 ms
+	Integration of assets:  0.157 ms
+	Thread Wait Time:       -0.127 ms
+	Total Operation Time:   1789.948 ms
+[FEEDBACK] SaveLoadFeedback siap.
+[HUD] Unified HUD aktif pada Screen Space Overlay Canvas.
+[SEASON] Visual Spring diterapkan sekali. Terrain aktif: 4.
+Loaded scene 'Assets/Nature  Paradaise/Map/Scenes/UI/GameplayUI.unity'
+	Deserialize:            18.712 ms
+	Integration:            284.905 ms
+	Integration of assets:  0.005 ms
+	Thread Wait Time:       162.105 ms
+	Total Operation Time:   465.727 ms
+[WEATHER] Day 1: Drizzle / Gerimis | Tomorrow: Drizzle / Gerimis
+[SEASON] Visual Spring diterapkan sekali. Terrain aktif: 4.
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (409.66, 18.48, 642.25) (8.0m) | grass=6, nearestFromAnimal=12.1m, nearestFromSearchOrigin=12.1m, radius=20.0m
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Successfully resolved entitlement details
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (409.66, 18.48, 642.25) (8.0m) | grass=6, nearestFromAnimal=12.1m, nearestFromSearchOrigin=12.1m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (412.19, 18.48, 646.02) (4.5m) | grass=6, nearestFromAnimal=13.0m, nearestFromSearchOrigin=13.0m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (409.66, 18.48, 642.25) (7.1m) | grass=6, nearestFromAnimal=13.2m, nearestFromSearchOrigin=13.2m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (412.19, 18.48, 646.02) (3.3m) | grass=6, nearestFromAnimal=13.8m, nearestFromSearchOrigin=13.8m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (409.66, 18.48, 642.25) (6.2m) | grass=6, nearestFromAnimal=14.6m, nearestFromSearchOrigin=14.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (412.19, 18.48, 646.02) (1.7m) | grass=6, nearestFromAnimal=14.9m, nearestFromSearchOrigin=14.9m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (409.66, 18.48, 642.25) (5.6m) | grass=6, nearestFromAnimal=16.0m, nearestFromSearchOrigin=16.0m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (412.19, 18.48, 646.02) (0.5m) | grass=6, nearestFromAnimal=15.6m, nearestFromSearchOrigin=15.6m, radius=20.0m
+[Worker1] Start importing Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv3.prefab using Guid(e734816c473e04f4db52a42e086ec6ed) Importer(815301076,1909f56bfc062723c751e8b465ee728b) 
+[Worker1] (PreviewImporter)
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (409.66, 18.48, 642.25) (5.3m) | grass=6, nearestFromAnimal=17.3m, nearestFromSearchOrigin=17.3m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (412.19, 18.48, 646.02) (0.2m) | grass=6, nearestFromAnimal=15.4m, nearestFromSearchOrigin=15.4m, radius=20.0m
+[Worker1]  -> (artifact id: '6e253f22db35730c7c2e8bd706c7e431') in 0.9643844 seconds
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (409.66, 18.48, 642.25) (3.7m) | grass=6, nearestFromAnimal=18.1m, nearestFromSearchOrigin=18.1m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (412.19, 18.48, 646.02) (0.2m) | grass=6, nearestFromAnimal=15.4m, nearestFromSearchOrigin=15.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (409.66, 18.48, 642.25) (2.2m) | grass=6, nearestFromAnimal=18.8m, nearestFromSearchOrigin=18.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (412.19, 18.48, 646.02) (0.2m) | grass=6, nearestFromAnimal=15.4m, nearestFromSearchOrigin=15.4m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: Debug Clues ON
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (412.19, 18.48, 646.02) (0.2m) | grass=6, nearestFromAnimal=15.4m, nearestFromSearchOrigin=15.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (409.66, 18.48, 642.25) (2.0m) | grass=6, nearestFromAnimal=19.0m, nearestFromSearchOrigin=19.0m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Berkeliaran (belum punya Barn) | Fed=False | Housed=False | Returning=False | CanWildGrass=True | Goal=ROAM_NO_HOME -> (412.19, 18.48, 646.02) (0.2m) | grass=6, nearestFromAnimal=15.4m, nearestFromSearchOrigin=15.4m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (409.66, 18.48, 642.25) (0.5m) | grass=6, nearestFromAnimal=19.8m, nearestFromSearchOrigin=19.8m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: Tidak ada makanan siap makan
+[PLAYER] Tidak ada makanan, atau status masih penuh.
+[FEEDBACK] SHOW IN HOTBAR: Barn Lv.1 selesai
+[FEEDBACK] SHOW IN HOTBAR: [DEBUG] Barn Lv.1 gratis dan langsung selesai
+[FEEDBACK] SHOW IN HOTBAR: GAME SAVED!
+[SAVE] =========================
+[SAVE] GAME SAVED
+[SAVE] =========================
+Gold: 10000
+Seed: 0
+Cabbage: 0
+Milk: 0
+Day: 1
+Time: 08:00
+Player Position: X=411.3407, Y=18.30581, Z=637.663
+Path: C:/Users/huxel/AppData/LocalLow/DefaultCompany/HMMobile\savegame.json
+[SAVE] =========================
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=22.1m, nearestFromSearchOrigin=22.1m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=22.1m, nearestFromSearchOrigin=22.1m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.79, 18.48, 649.03) (9.8m) | grass=6, nearestFromAnimal=20.0m, nearestFromSearchOrigin=20.0m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=22.1m, nearestFromSearchOrigin=22.1m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.79, 18.48, 649.03) (8.8m) | grass=6, nearestFromAnimal=18.8m, nearestFromSearchOrigin=18.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=22.1m, nearestFromSearchOrigin=22.1m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.79, 18.48, 649.03) (8.0m) | grass=6, nearestFromAnimal=17.7m, nearestFromSearchOrigin=17.7m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=22.1m, nearestFromSearchOrigin=22.1m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.79, 18.48, 649.03) (7.3m) | grass=6, nearestFromAnimal=16.6m, nearestFromSearchOrigin=16.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=22.1m, nearestFromSearchOrigin=22.1m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.79, 18.48, 649.03) (7.0m) | grass=6, nearestFromAnimal=15.6m, nearestFromSearchOrigin=15.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=22.1m, nearestFromSearchOrigin=22.1m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: Debug Clues OFF
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=22.1m, nearestFromSearchOrigin=22.1m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.79, 18.48, 649.03) (6.4m) | grass=6, nearestFromAnimal=14.7m, nearestFromSearchOrigin=14.7m, radius=20.0m
+[FEEDBACK] SHOW IN HOTBAR: Tidak ada makanan siap makan
+[PLAYER] Tidak ada makanan, atau status masih penuh.
+[FEEDBACK] SHOW IN HOTBAR: Coop Lv.1 selesai
+[FEEDBACK] SHOW IN HOTBAR: [DEBUG] Coop Lv.1 gratis dan langsung selesai
+[FEEDBACK] SHOW IN HOTBAR: GAME SAVED!
+[SAVE] =========================
+[SAVE] GAME SAVED
+[SAVE] =========================
+Gold: 10000
+Seed: 0
+Cabbage: 0
+Milk: 0
+Day: 1
+Time: 08:10
+Player Position: X=396.6192, Y=18.30581, Z=653.6456
+Path: C:/Users/huxel/AppData/LocalLow/DefaultCompany/HMMobile\savegame.json
+[SAVE] =========================
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=22.1m, nearestFromSearchOrigin=22.1m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Berkeliaran (belum punya Coop) | Fed=False | Housed=False | Returning=False | CanWildGrass=False | Goal=ROAM_NO_HOME -> (416.79, 18.48, 649.03) (4.9m) | grass=6, nearestFromAnimal=13.6m, nearestFromSearchOrigin=13.6m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=22.1m, nearestFromSearchOrigin=22.1m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=21.8m, nearestFromSearchOrigin=21.8m, radius=20.0m
+[AnimalAI] Cow/Cow | Type=Cow | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=True | Goal=HOUSED | grass=6, nearestFromAnimal=22.1m, nearestFromSearchOrigin=22.1m, radius=20.0m
+[AnimalAI] Chicken/Chicken | Type=Chicken | Activity=Di kandang | Fed=False | Housed=True | Returning=False | CanWildGrass=False | Goal=HOUSED | grass=6, nearestFromAnimal=21.8m, nearestFromSearchOrigin=21.8m, radius=20.0m
+Unloading 80 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            79.206 ms
+	Integration:            566.038 ms
+	Integration of assets:  0.162 ms
+	Thread Wait Time:       -0.144 ms
+	Total Operation Time:   645.261 ms
+Unloading 905 unused Assets / (3.3 MB). Loaded Objects now: 24064.
+Memory consumption went from 0.71 GB to 0.71 GB.
+Total: 58.857600 ms (FindLiveObjects: 2.803800 ms CreateObjectMapping: 2.644700 ms MarkObjects: 51.757100 ms  DeleteObjects: 1.650000 ms)
+
+[Licensing::Client] Successfully resolved entitlement details

@@ -1,127 +1,80 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-/// <summary>
-/// Notifikasi item ringan di atas player. Object teks dipakai ulang agar pickup beruntun
-/// tidak membuat alokasi dan Destroy berulang pada mobile.
-/// </summary>
+/// <summary>Reusable top-center screen notifications. Item sprites share their ItemSO reference.</summary>
 [DisallowMultipleComponent]
 public sealed class PlayerPickupNotification : MonoBehaviour
 {
-    sealed class Entry
-    {
-        public GameObject root;
-        public TextMesh text;
-        public float age;
-        public float lane;
-        public bool active;
-    }
-
-    const float Duration = 1.75f;
-    const int PoolSize = 5;
+    sealed class Entry { public RectTransform root; public TMP_Text text; public Image icon; public CanvasGroup group; public float age; }
+    static PlayerPickupNotification instance;
     readonly List<Entry> entries = new();
-    Camera targetCamera;
-    float playerTop = 2.4f;
-
+    const float Duration = 2.5f;
     public static void Show(Transform player, string message)
     {
-        if(player==null || string.IsNullOrWhiteSpace(message)) return;
-        PlayerPickupNotification notifications=player.GetComponent<PlayerPickupNotification>();
-        if(notifications==null) notifications=player.gameObject.AddComponent<PlayerPickupNotification>();
-        notifications.ShowInternal(message);
+        if (player != null && !string.IsNullOrWhiteSpace(message)) Ensure().Display(message, null);
     }
-
     public static void ShowItem(Inventory inventory, ItemSO item, int amount)
     {
-        if(inventory==null || item==null || amount<=0) return;
-        Show(inventory.transform,$"+{amount} {item.itemName}");
+        if (inventory == null || item == null || amount <= 0) return;
+        Ensure().Display($"{item.itemName} ditemukan  +{amount}", item.icon);
     }
-
-    void Awake() => RefreshPlayerTop();
-
-    void ShowInternal(string message)
+    static PlayerPickupNotification Ensure()
     {
-        RefreshPlayerTop();
-        Entry entry=null;
-        foreach(Entry candidate in entries)
-            if(!candidate.active) {entry=candidate;break;}
-        if(entry==null && entries.Count<PoolSize)
+        if (instance != null) return instance;
+        instance = FindFirstObjectByType<PlayerPickupNotification>();
+        if (instance == null) instance = new GameObject("ItemDiscoveryToast", typeof(RectTransform)).AddComponent<PlayerPickupNotification>();
+        return instance;
+    }
+    void Awake()
+    {
+        if (instance != null && instance != this) { Destroy(this); return; }
+        instance = this;
+        var root = new GameObject("ItemDiscoveryCanvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler));
+        // Independent root: player scale and movement cannot alter notification layout.
+        DontDestroyOnLoad(root);
+        var canvas = root.GetComponent<Canvas>(); canvas.renderMode = RenderMode.ScreenSpaceOverlay; canvas.sortingOrder = 310;
+        var scaler = root.GetComponent<CanvasScaler>(); scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        scaler.referenceResolution = new Vector2(1920,1080); scaler.matchWidthOrHeight = .5f;
+        canvasRoot = root;
+    }
+    GameObject canvasRoot;
+    void Display(string message, Sprite sprite)
+    {
+        Entry entry = entries.Find(x => !x.root.gameObject.activeSelf);
+        if (entry == null && entries.Count < 4)
         {
-            entry=CreateEntry(entries.Count);
+            var rect = GameplayHUDStyle.Rect("Discovery", canvasRoot.transform, new Vector2(.5f,1), new Vector2(.5f,1));
+            rect.pivot = new Vector2(.5f,1); rect.sizeDelta = new Vector2(560,56);
+            var bg = GameplayHUDStyle.Surface(rect,new Color(.07f,.12f,.16f,.8f));
+            var theme = Resources.Load<MiningHUDTheme>("UI/MiningHUDTheme");
+            if (theme != null) MiningHUD.ApplyArtwork(rect, theme.notificationPanel, bg);
+            var iconRect = GameplayHUDStyle.Rect("SharedItemIcon",rect,new Vector2(.025f,.12f),new Vector2(.12f,.88f));
+            var icon = iconRect.gameObject.AddComponent<Image>(); icon.preserveAspect = true; icon.raycastTarget = false;
+            entry = new Entry { root=rect, icon=icon, group=rect.gameObject.AddComponent<CanvasGroup>(),
+                text=GameplayHUDStyle.Text("Message",rect,"",22,new Vector2(.14f,.08f),new Vector2(.98f,.92f)) };
             entries.Add(entry);
         }
-        if(entry==null)
-        {
-            entry=entries[0];
-            foreach(Entry candidate in entries) if(candidate.age>entry.age) entry=candidate;
-        }
-
-        int activeCount=0;
-        foreach(Entry candidate in entries) if(candidate.active && candidate!=entry) activeCount++;
-        entry.age=0f;
-        entry.lane=activeCount*0.28f;
-        entry.active=true;
-        entry.root.SetActive(true);
-        entry.text.text=message;
-        entry.text.color=new Color(1f,0.92f,0.32f,1f);
-        Position(entry);
+        if (entry == null) { entry=entries[0]; foreach(var candidate in entries) if(candidate.age>entry.age) entry=candidate; }
+        entry.age=0; entry.text.text=message; entry.icon.sprite=sprite; entry.icon.enabled=sprite!=null;
+        entry.group.alpha=1; entry.root.gameObject.SetActive(true); Layout();
     }
-
-    Entry CreateEntry(int index)
+    void Layout()
     {
-        GameObject owner=new($"PickupNotification_{index+1:00}");
-        owner.transform.SetParent(transform,false);
-        TextMesh text=owner.AddComponent<TextMesh>();
-        text.anchor=TextAnchor.LowerCenter;
-        text.alignment=TextAlignment.Center;
-        text.fontSize=58;
-        text.characterSize=0.075f;
-        text.fontStyle=FontStyle.Bold;
-        text.color=new Color(1f,0.92f,0.32f,1f);
-        MeshRenderer renderer=owner.GetComponent<MeshRenderer>();
-        if(renderer!=null) renderer.sortingOrder=200;
-        owner.SetActive(false);
-        return new Entry {root=owner,text=text};
+        int lane=0;
+        foreach(var entry in entries) if(entry.root.gameObject.activeSelf) entry.root.anchoredPosition=new Vector2(0,-110-62*lane++);
     }
-
     void Update()
     {
-        float delta=Time.unscaledDeltaTime;
-        foreach(Entry entry in entries)
+        foreach(var entry in entries)
         {
-            if(!entry.active) continue;
-            entry.age+=delta;
-            if(entry.age>=Duration)
-            {
-                entry.active=false;
-                entry.root.SetActive(false);
-                continue;
-            }
-            float normalized=entry.age/Duration;
-            float alpha=normalized<0.55f ? 1f : 1f-(normalized-0.55f)/0.45f;
-            entry.text.color=new Color(1f,0.92f,0.32f,Mathf.Clamp01(alpha));
-            Position(entry);
+            if(!entry.root.gameObject.activeSelf) continue;
+            entry.age+=Time.unscaledDeltaTime;
+            entry.group.alpha=Mathf.Clamp01((Duration-entry.age)/.6f);
+            if(entry.age>=Duration) entry.root.gameObject.SetActive(false);
         }
+        Layout();
     }
-
-    void Position(Entry entry)
-    {
-        if(targetCamera==null) targetCamera=Camera.main;
-        float rise=Mathf.SmoothStep(0f,0.85f,entry.age/Duration);
-        entry.root.transform.position=transform.position+Vector3.up*(playerTop+entry.lane+rise);
-        if(targetCamera!=null)
-            entry.root.transform.rotation=Quaternion.LookRotation(
-                entry.root.transform.position-targetCamera.transform.position,targetCamera.transform.up);
-    }
-
-    void RefreshPlayerTop()
-    {
-        float highest=transform.position.y+2.4f;
-        foreach(Renderer renderer in GetComponentsInChildren<Renderer>())
-        {
-            if(renderer==null || renderer.GetComponent<TextMesh>()!=null) continue;
-            highest=Mathf.Max(highest,renderer.bounds.max.y);
-        }
-        playerTop=Mathf.Clamp(highest-transform.position.y+0.25f,1.8f,4.8f);
-    }
+    void OnDestroy() { if(canvasRoot!=null) Destroy(canvasRoot); if(instance==this) instance=null; }
 }

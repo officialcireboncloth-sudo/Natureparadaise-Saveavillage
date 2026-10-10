@@ -1,0 +1,4265 @@
+{
+  "3": [
+    {
+      "path": "LivingBedroom_Editable/TVStand_Editable",
+      "transform": {
+        "go": 26730762,
+        "parent": 412465520,
+        "position": {
+          "x": 2.6,
+          "y": 0.0,
+          "z": 5.9
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.8672818,
+          "y": 1.0611722,
+          "z": 1.82806
+        }
+      },
+      "center": {
+        "x": 2.6,
+        "y": 0.425,
+        "z": 5.9
+      },
+      "size": {
+        "x": 2.5,
+        "y": 0.85,
+        "z": 0.95
+      }
+    },
+    {
+      "path": "Structure_Editable/BedroomWingStep_Editable",
+      "transform": {
+        "go": 71394718,
+        "parent": 233023153,
+        "position": {
+          "x": 6.2,
+          "y": 1.7,
+          "z": 13.7
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 6.2,
+        "y": 1.7,
+        "z": 13.7
+      },
+      "size": {
+        "x": 0.2,
+        "y": 3.4,
+        "z": 1.4
+      }
+    },
+    {
+      "path": "Bedroom_Editable/BedroomSideWall_Editable",
+      "transform": {
+        "go": 337992702,
+        "parent": 2095387528,
+        "position": {
+          "x": 6.2,
+          "y": 1.7,
+          "z": 11.1
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 6.2,
+        "y": 1.7,
+        "z": 11.1
+      },
+      "size": {
+        "x": 0.2,
+        "y": 3.4,
+        "z": 6.6
+      }
+    },
+    {
+      "path": "Lounge_Editable/Armchair_Editable",
+      "transform": {
+        "go": 339019979,
+        "parent": 609012171,
+        "position": {
+          "x": 1.7,
+          "y": 0.0,
+          "z": 2.6
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.5400163,
+          "y": 1.6319643,
+          "z": 1.6405466
+        }
+      },
+      "center": {
+        "x": 1.7,
+        "y": 0.675,
+        "z": 3.7
+      },
+      "size": {
+        "x": 1.35,
+        "y": 1.35,
+        "z": 1.35
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/TV_MeshSlot",
+      "transform": {
+        "go": 350339663,
+        "parent": 412465520,
+        "position": {
+          "x": 2.6,
+          "y": 0.85,
+          "z": 5.9
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 2.6,
+        "y": 1.9378,
+        "z": 5.9
+      },
+      "size": {
+        "x": 1.8,
+        "y": 2.1757,
+        "z": 0.6984
+      }
+    },
+    {
+      "path": "Kitchen_Editable/KitchenSink_Editable",
+      "transform": {
+        "go": 457315750,
+        "parent": 346374132,
+        "position": {
+          "x": 13.8,
+          "y": 0.0,
+          "z": 11.85
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999981,
+          "y": 0.97154826,
+          "z": 1.4053973
+        }
+      },
+      "center": {
+        "x": 13.8,
+        "y": 0.65,
+        "z": 11.85
+      },
+      "size": {
+        "x": 2.0,
+        "y": 1.3,
+        "z": 1.3
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/StorageChest_Editable",
+      "transform": {
+        "go": 523628578,
+        "parent": 412465520,
+        "position": {
+          "x": 16.7,
+          "y": 0.0,
+          "z": 2.1
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 2.1808445,
+          "y": 0.71890706,
+          "z": 0.6317328
+        }
+      },
+      "center": {
+        "x": 16.7,
+        "y": 0.55,
+        "z": 2.1
+      },
+      "size": {
+        "x": 1.7,
+        "y": 1.1,
+        "z": 1.1
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/SaveNightstand_Editable",
+      "transform": {
+        "go": 572645194,
+        "parent": 412465520,
+        "position": {
+          "x": 4.0,
+          "y": 0.0,
+          "z": 13.299999
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.5696993,
+          "y": 1.310943,
+          "z": 1.7318468
+        }
+      },
+      "center": {
+        "x": 4.0,
+        "y": 0.525,
+        "z": 13.3
+      },
+      "size": {
+        "x": 1.05,
+        "y": 1.05,
+        "z": 0.9
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/Aquarium_Editable",
+      "transform": {
+        "go": 593030679,
+        "parent": 412465520,
+        "position": {
+          "x": 5.6,
+          "y": 1.65,
+          "z": 6.2
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 2.1,
+          "y": 1.3,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 5.6,
+        "y": 1.65,
+        "z": 6.2
+      },
+      "size": {
+        "x": 2.1,
+        "y": 1.3,
+        "z": 1.0
+      }
+    },
+    {
+      "path": "Bedroom_Editable/BedroomFrontLeft_Editable",
+      "transform": {
+        "go": 661202894,
+        "parent": 2095387528,
+        "position": {
+          "x": 0.45,
+          "y": 0.65,
+          "z": 7.8
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 0.45,
+        "y": 0.65,
+        "z": 7.8
+      },
+      "size": {
+        "x": 0.9,
+        "y": 1.3,
+        "z": 0.2
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/Bed_MeshSlot",
+      "transform": {
+        "go": 878902054,
+        "parent": 412465520,
+        "position": {
+          "x": 2.2,
+          "y": 0.0,
+          "z": 12.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.6300281,
+          "y": 0.9865099,
+          "z": 1.4555649
+        }
+      },
+      "center": {
+        "x": 2.2,
+        "y": 0.575,
+        "z": 12.0
+      },
+      "size": {
+        "x": 1.9,
+        "y": 1.15,
+        "z": 3.5
+      }
+    },
+    {
+      "path": "Bedroom_Editable/BedroomFrontRight_Editable",
+      "transform": {
+        "go": 912266222,
+        "parent": 2095387528,
+        "position": {
+          "x": 4.85,
+          "y": 0.65,
+          "z": 7.8
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 4.85,
+        "y": 0.65,
+        "z": 7.8
+      },
+      "size": {
+        "x": 2.7,
+        "y": 1.3,
+        "z": 0.2
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningChair_1_Editable",
+      "transform": {
+        "go": 924400205,
+        "parent": 815031238,
+        "position": {
+          "x": 9.719999,
+          "y": 0.0,
+          "z": 4.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999939,
+          "y": 2.691204,
+          "z": 2.1250002
+        }
+      },
+      "center": {
+        "x": 9.72,
+        "y": 0.775,
+        "z": 4.0
+      },
+      "size": {
+        "x": 0.8,
+        "y": 1.55,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/ToolCabinet_Editable",
+      "transform": {
+        "go": 1051722740,
+        "parent": 412465520,
+        "position": {
+          "x": 5.0,
+          "y": 0.0,
+          "z": 13.299999
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 0.97513676,
+          "y": 1.1976043,
+          "z": 1.5664054
+        }
+      },
+      "center": {
+        "x": 5.0,
+        "y": 1.3,
+        "z": 13.3
+      },
+      "size": {
+        "x": 1.5,
+        "y": 2.6,
+        "z": 0.9
+      }
+    },
+    {
+      "path": "Lounge_Editable/Sofa_Editable",
+      "transform": {
+        "go": 1104659187,
+        "parent": 609012171,
+        "position": {
+          "x": 4.6,
+          "y": 0.0,
+          "z": 3.2
+        },
+        "rotation": {
+          "x": -0.0,
+          "y": 1.0,
+          "z": -0.0,
+          "w": 0.0
+        },
+        "scale": {
+          "x": 1.4058809,
+          "y": 1.3658808,
+          "z": 1.3244858
+        }
+      },
+      "center": {
+        "x": 4.6,
+        "y": 0.75,
+        "z": 4.3
+      },
+      "size": {
+        "x": 3.7,
+        "y": 1.5,
+        "z": 1.25
+      }
+    },
+    {
+      "path": "Structure_Editable/BedroomRearWall_Editable",
+      "transform": {
+        "go": 1146589926,
+        "parent": 233023153,
+        "position": {
+          "x": 3.1,
+          "y": 1.7,
+          "z": 14.4
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 3.1,
+        "y": 1.7,
+        "z": 14.4
+      },
+      "size": {
+        "x": 6.2,
+        "y": 3.4,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningTable_Editable",
+      "transform": {
+        "go": 1159895749,
+        "parent": 815031238,
+        "position": {
+          "x": 11.5199995,
+          "y": 0.0,
+          "z": 4.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.5922585,
+          "y": 2.4315135,
+          "z": 2.671978
+        }
+      },
+      "center": {
+        "x": 11.52,
+        "y": 0.575,
+        "z": 4.0
+      },
+      "size": {
+        "x": 2.3,
+        "y": 1.15,
+        "z": 1.8
+      }
+    },
+    {
+      "path": "Structure_Editable/Wall_Editable",
+      "transform": {
+        "go": 1180177662,
+        "parent": 233023153,
+        "position": {
+          "x": 0.0,
+          "y": 1.7,
+          "z": 6.5
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 0.0,
+        "y": 1.7,
+        "z": 6.5
+      },
+      "size": {
+        "x": 0.22,
+        "y": 3.4,
+        "z": 13.0
+      }
+    },
+    {
+      "path": "EntranceThreshold_Editable",
+      "transform": {
+        "go": 1310956721,
+        "parent": 1872941366,
+        "position": {
+          "x": 9.0,
+          "y": -0.16,
+          "z": -0.55
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 9.0,
+        "y": -0.16,
+        "z": -0.55
+      },
+      "size": {
+        "x": 2.6,
+        "y": 0.3,
+        "z": 1.4
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/Refrigerator_MeshSlot",
+      "transform": {
+        "go": 1379498627,
+        "parent": 412465520,
+        "position": {
+          "x": 16.7,
+          "y": 0.0,
+          "z": 11.9
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 16.7,
+        "y": 1.5015,
+        "z": 11.9
+      },
+      "size": {
+        "x": 1.35,
+        "y": 3.003,
+        "z": 1.5659
+      }
+    },
+    {
+      "path": "Structure_Editable/Wall_Editable",
+      "transform": {
+        "go": 1452771424,
+        "parent": 233023153,
+        "position": {
+          "x": 18.0,
+          "y": 1.7,
+          "z": 6.5
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 18.0,
+        "y": 1.7,
+        "z": 6.5
+      },
+      "size": {
+        "x": 0.22,
+        "y": 3.4,
+        "z": 13.0
+      }
+    },
+    {
+      "path": "Kitchen_Editable/KitchenIsland_Editable",
+      "transform": {
+        "go": 1488104221,
+        "parent": 346374132,
+        "position": {
+          "x": 12.9,
+          "y": 0.0,
+          "z": 8.8
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.2727277,
+          "y": 1.0823858,
+          "z": 1.0399996
+        }
+      },
+      "center": {
+        "x": 12.9,
+        "y": 0.65,
+        "z": 8.8
+      },
+      "size": {
+        "x": 3.5,
+        "y": 1.3,
+        "z": 1.3
+      }
+    },
+    {
+      "path": "Structure_Editable/BedroomOuterExtension_Editable",
+      "transform": {
+        "go": 1489339801,
+        "parent": 233023153,
+        "position": {
+          "x": 0.0,
+          "y": 1.7,
+          "z": 13.7
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 0.0,
+        "y": 1.7,
+        "z": 13.7
+      },
+      "size": {
+        "x": 0.22,
+        "y": 3.4,
+        "z": 1.4
+      }
+    },
+    {
+      "path": "Kitchen_Editable/Kitchen_MeshSlot",
+      "transform": {
+        "go": 1501728157,
+        "parent": 346374132,
+        "position": {
+          "x": 11.6,
+          "y": 0.0,
+          "z": 11.85
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999974,
+          "y": 1.1670572,
+          "z": 1.3128397
+        }
+      },
+      "center": {
+        "x": 11.6,
+        "y": 0.65,
+        "z": 11.85
+      },
+      "size": {
+        "x": 2.0,
+        "y": 1.3,
+        "z": 1.3
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningChair_4_Editable",
+      "transform": {
+        "go": 1547030404,
+        "parent": 815031238,
+        "position": {
+          "x": 11.5199995,
+          "y": 0.0,
+          "z": 5.6
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999995,
+          "y": 2.691204,
+          "z": 2.1249928
+        }
+      },
+      "center": {
+        "x": 11.52,
+        "y": 0.775,
+        "z": 5.6
+      },
+      "size": {
+        "x": 0.8,
+        "y": 1.55,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "Structure_Editable/LivingRearWall_Editable",
+      "transform": {
+        "go": 1547362445,
+        "parent": 233023153,
+        "position": {
+          "x": 12.1,
+          "y": 1.7,
+          "z": 13.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 12.1,
+        "y": 1.7,
+        "z": 13.0
+      },
+      "size": {
+        "x": 11.8,
+        "y": 3.4,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningChair_2_Editable",
+      "transform": {
+        "go": 1672770711,
+        "parent": 815031238,
+        "position": {
+          "x": 13.32,
+          "y": 0.0,
+          "z": 4.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999938,
+          "y": 2.691204,
+          "z": 2.125
+        }
+      },
+      "center": {
+        "x": 13.32,
+        "y": 0.775,
+        "z": 4.0
+      },
+      "size": {
+        "x": 0.8,
+        "y": 1.55,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "Kitchen_Editable/KitchenCounter_Editable",
+      "transform": {
+        "go": 1694335888,
+        "parent": 346374132,
+        "position": {
+          "x": 15.5,
+          "y": 0.0,
+          "z": 11.85
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.1999987,
+          "y": 1.2997824,
+          "z": 1.4054011
+        }
+      },
+      "center": {
+        "x": 15.5,
+        "y": 0.65,
+        "z": 11.85
+      },
+      "size": {
+        "x": 1.2,
+        "y": 1.3,
+        "z": 1.3
+      }
+    },
+    {
+      "path": "Lounge_Editable/CoffeeTable_Editable",
+      "transform": {
+        "go": 1696801834,
+        "parent": 609012171,
+        "position": {
+          "x": 4.6,
+          "y": 0.0,
+          "z": 1.35
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.3845725,
+          "y": 1.3743336,
+          "z": 1.4844322
+        }
+      },
+      "center": {
+        "x": 4.6,
+        "y": 0.325,
+        "z": 2.45
+      },
+      "size": {
+        "x": 2.0,
+        "y": 0.65,
+        "z": 1.0
+      }
+    },
+    {
+      "path": "Structure_Editable/ContinuousFloorCollider_Editable",
+      "transform": {
+        "go": 1752544829,
+        "parent": 233023153,
+        "position": {
+          "x": 9.0,
+          "y": -0.18,
+          "z": 6.5
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 9.0,
+        "y": -0.18,
+        "z": 6.5
+      },
+      "size": {
+        "x": 18.0,
+        "y": 0.3,
+        "z": 13.0
+      }
+    },
+    {
+      "path": "Structure_Editable/Wall_Editable",
+      "transform": {
+        "go": 1815330345,
+        "parent": 233023153,
+        "position": {
+          "x": 3.85,
+          "y": 0.22,
+          "z": 0.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 3.85,
+        "y": 0.22,
+        "z": 0.0
+      },
+      "size": {
+        "x": 7.7,
+        "y": 0.44,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningChair_3_Editable",
+      "transform": {
+        "go": 1834156566,
+        "parent": 815031238,
+        "position": {
+          "x": 11.5199995,
+          "y": 0.0,
+          "z": 2.4
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999995,
+          "y": 2.691204,
+          "z": 2.1249928
+        }
+      },
+      "center": {
+        "x": 11.52,
+        "y": 0.775,
+        "z": 2.4
+      },
+      "size": {
+        "x": 0.8,
+        "y": 1.55,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/SaveBook_Editable",
+      "transform": {
+        "go": 1965723970,
+        "parent": 412465520,
+        "position": {
+          "x": 4.0,
+          "y": 1.05,
+          "z": 13.299999
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9305143,
+          "y": 0.54047775,
+          "z": 0.5359597
+        }
+      },
+      "center": {
+        "x": 4.0,
+        "y": 1.14,
+        "z": 13.3
+      },
+      "size": {
+        "x": 0.65,
+        "y": 0.18,
+        "z": 0.5
+      }
+    },
+    {
+      "path": "Kitchen_Editable/KitchenReturnCounter_Editable",
+      "transform": {
+        "go": 2026252946,
+        "parent": 346374132,
+        "position": {
+          "x": 10.8,
+          "y": 0.0,
+          "z": 10.35
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 10.8,
+        "y": 0.6758,
+        "z": 10.35
+      },
+      "size": {
+        "x": 1.25,
+        "y": 1.3516,
+        "z": 1.3513
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/AquariumStand_Editable",
+      "transform": {
+        "go": 2110344781,
+        "parent": 412465520,
+        "position": {
+          "x": 5.6,
+          "y": 0.0,
+          "z": 6.2
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.5685166,
+          "y": 1.1860161,
+          "z": 2.1167011
+        }
+      },
+      "center": {
+        "x": 5.6,
+        "y": 0.475,
+        "z": 6.2
+      },
+      "size": {
+        "x": 2.1,
+        "y": 0.95,
+        "z": 1.1
+      }
+    },
+    {
+      "path": "Structure_Editable/Wall_Editable",
+      "transform": {
+        "go": 2115971027,
+        "parent": 233023153,
+        "position": {
+          "x": 14.15,
+          "y": 0.22,
+          "z": 0.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 14.15,
+        "y": 0.22,
+        "z": 0.0
+      },
+      "size": {
+        "x": 7.7,
+        "y": 0.44,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "Structure_Editable/ContinuousFloorCollider_Editable",
+      "transform": {
+        "go": 2125789776,
+        "parent": 233023153,
+        "position": {
+          "x": 3.1,
+          "y": -0.18,
+          "z": 13.7
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 3.1,
+        "y": -0.18,
+        "z": 13.7
+      },
+      "size": {
+        "x": 6.2,
+        "y": 0.3,
+        "z": 1.4
+      }
+    }
+  ],
+  "4": [
+    {
+      "path": "Lounge_Editable/Sofa_Editable",
+      "transform": {
+        "go": 161101421,
+        "parent": 1421854610,
+        "position": {
+          "x": 4.6,
+          "y": 0.0,
+          "z": 3.2
+        },
+        "rotation": {
+          "x": -0.0,
+          "y": 1.0,
+          "z": -0.0,
+          "w": 0.0
+        },
+        "scale": {
+          "x": 1.4058809,
+          "y": 1.3658808,
+          "z": 1.3244858
+        }
+      },
+      "center": {
+        "x": 4.6,
+        "y": 0.75,
+        "z": 4.3
+      },
+      "size": {
+        "x": 3.7,
+        "y": 1.5,
+        "z": 1.25
+      }
+    },
+    {
+      "path": "Structure_Editable/ChildRearWall_Editable",
+      "transform": {
+        "go": 196210590,
+        "parent": 408003163,
+        "position": {
+          "x": 9.1,
+          "y": 1.7,
+          "z": 18.2
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 9.1,
+        "y": 1.7,
+        "z": 18.2
+      },
+      "size": {
+        "x": 5.8,
+        "y": 3.4,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/AquariumStand_Editable",
+      "transform": {
+        "go": 260444287,
+        "parent": 2031039992,
+        "position": {
+          "x": 5.6,
+          "y": 0.0,
+          "z": 9.2
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.5685166,
+          "y": 1.1860161,
+          "z": 2.1167011
+        }
+      },
+      "center": {
+        "x": 5.6,
+        "y": 0.475,
+        "z": 9.2
+      },
+      "size": {
+        "x": 2.1,
+        "y": 0.95,
+        "z": 1.1
+      }
+    },
+    {
+      "path": "Kitchen_Editable/KitchenIsland_Editable",
+      "transform": {
+        "go": 274548606,
+        "parent": 1174021615,
+        "position": {
+          "x": 16.9,
+          "y": 0.0,
+          "z": 11.8
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.6000006,
+          "y": 1.0823858,
+          "z": 1.0399996
+        }
+      },
+      "center": {
+        "x": 16.9,
+        "y": 0.65,
+        "z": 11.8
+      },
+      "size": {
+        "x": 4.4,
+        "y": 1.3,
+        "z": 1.3
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningChair_2_Editable",
+      "transform": {
+        "go": 298166147,
+        "parent": 1697344308,
+        "position": {
+          "x": 15.88,
+          "y": 0.0,
+          "z": 4.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999938,
+          "y": 2.691204,
+          "z": 2.125
+        }
+      },
+      "center": {
+        "x": 15.88,
+        "y": 0.775,
+        "z": 4.0
+      },
+      "size": {
+        "x": 0.8,
+        "y": 1.55,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "ChildRoom_Preparation_Editable/ChildChair_Editable",
+      "transform": {
+        "go": 327896407,
+        "parent": 568541073,
+        "position": {
+          "x": 10.5,
+          "y": 0.0,
+          "z": 15.1
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.6249995,
+          "y": 2.0835128,
+          "z": 1.749994
+        }
+      },
+      "center": {
+        "x": 10.5,
+        "y": 0.6,
+        "z": 15.1
+      },
+      "size": {
+        "x": 0.65,
+        "y": 1.2,
+        "z": 0.7
+      }
+    },
+    {
+      "path": "Structure_Editable/ContinuousFloorCollider_Editable",
+      "transform": {
+        "go": 331182595,
+        "parent": 408003163,
+        "position": {
+          "x": 3.1,
+          "y": -0.18,
+          "z": 16.7
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 3.1,
+        "y": -0.18,
+        "z": 16.7
+      },
+      "size": {
+        "x": 6.2,
+        "y": 0.3,
+        "z": 1.4
+      }
+    },
+    {
+      "path": "Kitchen_Editable/KitchenSink_Editable",
+      "transform": {
+        "go": 357510588,
+        "parent": 1174021615,
+        "position": {
+          "x": 17.800001,
+          "y": 0.0,
+          "z": 14.85
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999981,
+          "y": 0.97154826,
+          "z": 1.4053973
+        }
+      },
+      "center": {
+        "x": 17.8,
+        "y": 0.65,
+        "z": 14.85
+      },
+      "size": {
+        "x": 2.0,
+        "y": 1.3,
+        "z": 1.3
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/TVStand_Editable",
+      "transform": {
+        "go": 413770977,
+        "parent": 2031039992,
+        "position": {
+          "x": 2.6,
+          "y": 0.0,
+          "z": 5.9
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.8672818,
+          "y": 1.0611722,
+          "z": 1.82806
+        }
+      },
+      "center": {
+        "x": 2.6,
+        "y": 0.425,
+        "z": 5.9
+      },
+      "size": {
+        "x": 2.5,
+        "y": 0.85,
+        "z": 0.95
+      }
+    },
+    {
+      "path": "Kitchen_Editable/KitchenReturnCounter_Editable",
+      "transform": {
+        "go": 496301978,
+        "parent": 1174021615,
+        "position": {
+          "x": 14.8,
+          "y": 0.0,
+          "z": 13.35
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 14.8,
+        "y": 0.6758,
+        "z": 13.35
+      },
+      "size": {
+        "x": 1.25,
+        "y": 1.3516,
+        "z": 1.3513
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/SaveBook_Editable",
+      "transform": {
+        "go": 538490641,
+        "parent": 2031039992,
+        "position": {
+          "x": 4.4,
+          "y": 1.05,
+          "z": 16.3
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9305143,
+          "y": 0.54047775,
+          "z": 0.5359597
+        }
+      },
+      "center": {
+        "x": 4.4,
+        "y": 1.14,
+        "z": 16.3
+      },
+      "size": {
+        "x": 0.65,
+        "y": 0.18,
+        "z": 0.5
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/Bed_MeshSlot",
+      "transform": {
+        "go": 561767147,
+        "parent": 2031039992,
+        "position": {
+          "x": 2.2,
+          "y": 0.0,
+          "z": 15.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.3005139,
+          "y": 0.8348817,
+          "z": 1.4556327
+        }
+      },
+      "center": {
+        "x": 2.2,
+        "y": 0.575,
+        "z": 15.0
+      },
+      "size": {
+        "x": 2.8,
+        "y": 1.15,
+        "z": 3.5
+      }
+    },
+    {
+      "path": "Structure_Editable/BedroomRearWall_Editable",
+      "transform": {
+        "go": 621545742,
+        "parent": 408003163,
+        "position": {
+          "x": 3.1,
+          "y": 1.7,
+          "z": 17.4
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 3.1,
+        "y": 1.7,
+        "z": 17.4
+      },
+      "size": {
+        "x": 6.2,
+        "y": 3.4,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningChair_1_Editable",
+      "transform": {
+        "go": 675787771,
+        "parent": 1697344308,
+        "position": {
+          "x": 12.28,
+          "y": 0.0,
+          "z": 4.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999939,
+          "y": 2.691204,
+          "z": 2.1250002
+        }
+      },
+      "center": {
+        "x": 12.28,
+        "y": 0.775,
+        "z": 4.0
+      },
+      "size": {
+        "x": 0.8,
+        "y": 1.55,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningTable_Editable",
+      "transform": {
+        "go": 755082331,
+        "parent": 1697344308,
+        "position": {
+          "x": 14.08,
+          "y": 0.0,
+          "z": 4.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.5922585,
+          "y": 2.4315135,
+          "z": 2.671978
+        }
+      },
+      "center": {
+        "x": 14.08,
+        "y": 0.575,
+        "z": 4.0
+      },
+      "size": {
+        "x": 2.3,
+        "y": 1.15,
+        "z": 1.8
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/ToolCabinet_Editable",
+      "transform": {
+        "go": 795259007,
+        "parent": 2031039992,
+        "position": {
+          "x": 5.0,
+          "y": 0.0,
+          "z": 16.3
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 0.97513676,
+          "y": 1.1976043,
+          "z": 1.5664054
+        }
+      },
+      "center": {
+        "x": 5.0,
+        "y": 1.3,
+        "z": 16.3
+      },
+      "size": {
+        "x": 1.5,
+        "y": 2.6,
+        "z": 0.9
+      }
+    },
+    {
+      "path": "Lounge_Editable/Armchair_Editable",
+      "transform": {
+        "go": 834506869,
+        "parent": 1421854610,
+        "position": {
+          "x": 1.7,
+          "y": 0.0,
+          "z": 2.6
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.5400163,
+          "y": 1.6319643,
+          "z": 1.6405466
+        }
+      },
+      "center": {
+        "x": 1.7,
+        "y": 0.675,
+        "z": 3.7
+      },
+      "size": {
+        "x": 1.35,
+        "y": 1.35,
+        "z": 1.35
+      }
+    },
+    {
+      "path": "Bedroom_Editable/BedroomFrontRight_Editable",
+      "transform": {
+        "go": 884470575,
+        "parent": 1066456446,
+        "position": {
+          "x": 4.85,
+          "y": 0.65,
+          "z": 10.8
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 4.85,
+        "y": 0.65,
+        "z": 10.8
+      },
+      "size": {
+        "x": 2.7,
+        "y": 1.3,
+        "z": 0.2
+      }
+    },
+    {
+      "path": "EntranceThreshold_Editable",
+      "transform": {
+        "go": 941057777,
+        "parent": 888730237,
+        "position": {
+          "x": 11.0,
+          "y": -0.16,
+          "z": -0.55
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 11.0,
+        "y": -0.16,
+        "z": -0.55
+      },
+      "size": {
+        "x": 2.6,
+        "y": 0.3,
+        "z": 1.4
+      }
+    },
+    {
+      "path": "Structure_Editable/BedroomOuterExtension_Editable",
+      "transform": {
+        "go": 965167568,
+        "parent": 408003163,
+        "position": {
+          "x": 0.0,
+          "y": 1.7,
+          "z": 16.7
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 0.0,
+        "y": 1.7,
+        "z": 16.7
+      },
+      "size": {
+        "x": 0.22,
+        "y": 3.4,
+        "z": 1.4
+      }
+    },
+    {
+      "path": "Kitchen_Editable/Kitchen_MeshSlot",
+      "transform": {
+        "go": 1063707595,
+        "parent": 1174021615,
+        "position": {
+          "x": 15.6,
+          "y": 0.0,
+          "z": 14.85
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999974,
+          "y": 1.1670572,
+          "z": 1.3128397
+        }
+      },
+      "center": {
+        "x": 15.6,
+        "y": 0.65,
+        "z": 14.85
+      },
+      "size": {
+        "x": 2.0,
+        "y": 1.3,
+        "z": 1.3
+      }
+    },
+    {
+      "path": "Structure_Editable/RearWingStep_Editable",
+      "transform": {
+        "go": 1108666335,
+        "parent": 408003163,
+        "position": {
+          "x": 6.2,
+          "y": 1.7,
+          "z": 17.8
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 6.2,
+        "y": 1.7,
+        "z": 17.8
+      },
+      "size": {
+        "x": 0.2,
+        "y": 3.4,
+        "z": 0.8
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/Aquarium_Editable",
+      "transform": {
+        "go": 1129875090,
+        "parent": 2031039992,
+        "position": {
+          "x": 5.6,
+          "y": 1.65,
+          "z": 9.2
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 2.1,
+          "y": 1.3,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 5.6,
+        "y": 1.65,
+        "z": 9.2
+      },
+      "size": {
+        "x": 2.1,
+        "y": 1.3,
+        "z": 1.0
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningChair_3_Editable",
+      "transform": {
+        "go": 1159833696,
+        "parent": 1697344308,
+        "position": {
+          "x": 14.08,
+          "y": 0.0,
+          "z": 2.4
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999995,
+          "y": 2.691204,
+          "z": 2.1249928
+        }
+      },
+      "center": {
+        "x": 14.08,
+        "y": 0.775,
+        "z": 2.4
+      },
+      "size": {
+        "x": 0.8,
+        "y": 1.55,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/SaveNightstand_Editable",
+      "transform": {
+        "go": 1213337564,
+        "parent": 2031039992,
+        "position": {
+          "x": 4.4,
+          "y": 0.0,
+          "z": 16.3
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.5696993,
+          "y": 1.310943,
+          "z": 1.7318468
+        }
+      },
+      "center": {
+        "x": 4.4,
+        "y": 0.525,
+        "z": 16.3
+      },
+      "size": {
+        "x": 1.05,
+        "y": 1.05,
+        "z": 0.9
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/TV_MeshSlot",
+      "transform": {
+        "go": 1223796630,
+        "parent": 2031039992,
+        "position": {
+          "x": 2.6,
+          "y": 0.85,
+          "z": 5.9
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 2.6,
+        "y": 1.9378,
+        "z": 5.9
+      },
+      "size": {
+        "x": 1.8,
+        "y": 2.1757,
+        "z": 0.6984
+      }
+    },
+    {
+      "path": "Structure_Editable/Wall_Editable",
+      "transform": {
+        "go": 1228392809,
+        "parent": 408003163,
+        "position": {
+          "x": 0.0,
+          "y": 1.7,
+          "z": 8.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 0.0,
+        "y": 1.7,
+        "z": 8.0
+      },
+      "size": {
+        "x": 0.22,
+        "y": 3.4,
+        "z": 16.0
+      }
+    },
+    {
+      "path": "Kitchen_Editable/KitchenCounter_Editable",
+      "transform": {
+        "go": 1304314680,
+        "parent": 1174021615,
+        "position": {
+          "x": 19.5,
+          "y": 0.0,
+          "z": 14.85
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.1999987,
+          "y": 1.2997824,
+          "z": 1.4054011
+        }
+      },
+      "center": {
+        "x": 19.5,
+        "y": 0.65,
+        "z": 14.85
+      },
+      "size": {
+        "x": 1.2,
+        "y": 1.3,
+        "z": 1.3
+      }
+    },
+    {
+      "path": "Structure_Editable/Wall_Editable",
+      "transform": {
+        "go": 1335321853,
+        "parent": 408003163,
+        "position": {
+          "x": 17.15,
+          "y": 0.22,
+          "z": 0.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 17.15,
+        "y": 0.22,
+        "z": 0.0
+      },
+      "size": {
+        "x": 9.7,
+        "y": 0.44,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "Structure_Editable/Wall_Editable",
+      "transform": {
+        "go": 1396980273,
+        "parent": 408003163,
+        "position": {
+          "x": 4.85,
+          "y": 0.22,
+          "z": 0.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 4.85,
+        "y": 0.22,
+        "z": 0.0
+      },
+      "size": {
+        "x": 9.7,
+        "y": 0.44,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "Bedroom_Editable/BedroomSideWall_Editable",
+      "transform": {
+        "go": 1405371991,
+        "parent": 1066456446,
+        "position": {
+          "x": 6.2,
+          "y": 1.7,
+          "z": 14.1
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 6.2,
+        "y": 1.7,
+        "z": 14.1
+      },
+      "size": {
+        "x": 0.2,
+        "y": 3.4,
+        "z": 6.6
+      }
+    },
+    {
+      "path": "ChildRoom_Preparation_Editable/ChildFrontLeft_Editable",
+      "transform": {
+        "go": 1460719459,
+        "parent": 568541073,
+        "position": {
+          "x": 7.2,
+          "y": 0.65,
+          "z": 10.6
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 7.2,
+        "y": 0.65,
+        "z": 10.6
+      },
+      "size": {
+        "x": 2.0,
+        "y": 1.3,
+        "z": 0.2
+      }
+    },
+    {
+      "path": "ChildRoom_Preparation_Editable/ChildDesk_Editable",
+      "transform": {
+        "go": 1496710591,
+        "parent": 568541073,
+        "position": {
+          "x": 10.5,
+          "y": 0.0,
+          "z": 16.6
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 0.9692008,
+          "y": 2.2200775,
+          "z": 1.2617674
+        }
+      },
+      "center": {
+        "x": 10.5,
+        "y": 0.525,
+        "z": 16.6
+      },
+      "size": {
+        "x": 1.4,
+        "y": 1.05,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "Structure_Editable/KitchenWingStep_Editable",
+      "transform": {
+        "go": 1596686768,
+        "parent": 408003163,
+        "position": {
+          "x": 12.0,
+          "y": 1.7,
+          "z": 17.1
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 12.0,
+        "y": 1.7,
+        "z": 17.1
+      },
+      "size": {
+        "x": 0.2,
+        "y": 3.4,
+        "z": 2.2
+      }
+    },
+    {
+      "path": "Lounge_Editable/CoffeeTable_Editable",
+      "transform": {
+        "go": 1623493716,
+        "parent": 1421854610,
+        "position": {
+          "x": 4.6,
+          "y": 0.0,
+          "z": 1.35
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.3845725,
+          "y": 1.3743336,
+          "z": 1.4844322
+        }
+      },
+      "center": {
+        "x": 4.6,
+        "y": 0.325,
+        "z": 2.45
+      },
+      "size": {
+        "x": 2.0,
+        "y": 0.65,
+        "z": 1.0
+      }
+    },
+    {
+      "path": "ChildRoom_Preparation_Editable/ChildRoomSideWall_Editable",
+      "transform": {
+        "go": 1627467570,
+        "parent": 568541073,
+        "position": {
+          "x": 12.0,
+          "y": 1.7,
+          "z": 14.4
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 12.0,
+        "y": 1.7,
+        "z": 14.4
+      },
+      "size": {
+        "x": 0.2,
+        "y": 3.4,
+        "z": 7.6
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningChair_4_Editable",
+      "transform": {
+        "go": 1636604409,
+        "parent": 1697344308,
+        "position": {
+          "x": 14.08,
+          "y": 0.0,
+          "z": 5.6
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999995,
+          "y": 2.691204,
+          "z": 2.1249928
+        }
+      },
+      "center": {
+        "x": 14.08,
+        "y": 0.775,
+        "z": 5.6
+      },
+      "size": {
+        "x": 0.8,
+        "y": 1.55,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "Structure_Editable/Wall_Editable",
+      "transform": {
+        "go": 1710805142,
+        "parent": 408003163,
+        "position": {
+          "x": 22.0,
+          "y": 1.7,
+          "z": 8.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 22.0,
+        "y": 1.7,
+        "z": 8.0
+      },
+      "size": {
+        "x": 0.22,
+        "y": 3.4,
+        "z": 16.0
+      }
+    },
+    {
+      "path": "Bedroom_Editable/BedroomFrontLeft_Editable",
+      "transform": {
+        "go": 1714763293,
+        "parent": 1066456446,
+        "position": {
+          "x": 0.45,
+          "y": 0.65,
+          "z": 10.8
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 0.45,
+        "y": 0.65,
+        "z": 10.8
+      },
+      "size": {
+        "x": 0.9,
+        "y": 1.3,
+        "z": 0.2
+      }
+    },
+    {
+      "path": "ChildRoom_Preparation_Editable/ChildFrontRight_Editable",
+      "transform": {
+        "go": 1716847636,
+        "parent": 568541073,
+        "position": {
+          "x": 11.5,
+          "y": 0.65,
+          "z": 10.6
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 11.5,
+        "y": 0.65,
+        "z": 10.6
+      },
+      "size": {
+        "x": 1.0,
+        "y": 1.3,
+        "z": 0.2
+      }
+    },
+    {
+      "path": "ChildRoom_Preparation_Editable/ChildBed_Preparation_Editable",
+      "transform": {
+        "go": 1798178999,
+        "parent": 568541073,
+        "position": {
+          "x": 8.8,
+          "y": 0.0,
+          "z": 15.200001
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.243969,
+          "y": 0.7720512,
+          "z": 1.2060394
+        }
+      },
+      "center": {
+        "x": 8.8,
+        "y": 0.45,
+        "z": 15.2
+      },
+      "size": {
+        "x": 1.45,
+        "y": 0.9,
+        "z": 2.9
+      }
+    },
+    {
+      "path": "Structure_Editable/LivingRearWall_Editable",
+      "transform": {
+        "go": 1864824207,
+        "parent": 408003163,
+        "position": {
+          "x": 17.0,
+          "y": 1.7,
+          "z": 16.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 17.0,
+        "y": 1.7,
+        "z": 16.0
+      },
+      "size": {
+        "x": 10.0,
+        "y": 3.4,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/Refrigerator_MeshSlot",
+      "transform": {
+        "go": 1889957747,
+        "parent": 2031039992,
+        "position": {
+          "x": 20.7,
+          "y": 0.0,
+          "z": 14.9
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 20.7,
+        "y": 1.5015,
+        "z": 14.9
+      },
+      "size": {
+        "x": 1.35,
+        "y": 3.003,
+        "z": 1.5659
+      }
+    },
+    {
+      "path": "Structure_Editable/ContinuousFloorCollider_Editable",
+      "transform": {
+        "go": 1982580818,
+        "parent": 408003163,
+        "position": {
+          "x": 11.0,
+          "y": -0.18,
+          "z": 8.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 11.0,
+        "y": -0.18,
+        "z": 8.0
+      },
+      "size": {
+        "x": 22.0,
+        "y": 0.3,
+        "z": 16.0
+      }
+    },
+    {
+      "path": "Structure_Editable/ContinuousFloorCollider_Editable",
+      "transform": {
+        "go": 2044540296,
+        "parent": 408003163,
+        "position": {
+          "x": 9.1,
+          "y": -0.18,
+          "z": 17.1
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 9.1,
+        "y": -0.18,
+        "z": 17.1
+      },
+      "size": {
+        "x": 5.8,
+        "y": 0.3,
+        "z": 2.2
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/StorageChest_Editable",
+      "transform": {
+        "go": 2088992317,
+        "parent": 2031039992,
+        "position": {
+          "x": 20.7,
+          "y": 0.0,
+          "z": 2.1
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 2.1808445,
+          "y": 0.71890706,
+          "z": 0.6317328
+        }
+      },
+      "center": {
+        "x": 20.7,
+        "y": 0.55,
+        "z": 2.1
+      },
+      "size": {
+        "x": 1.7,
+        "y": 1.1,
+        "z": 1.1
+      }
+    }
+  ],
+  "5": [
+    {
+      "path": "LivingBedroom_Editable/Aquarium_Jumbo_Editable",
+      "transform": {
+        "go": 66411577,
+        "parent": 1108138190,
+        "position": {
+          "x": 6.6,
+          "y": 1.65,
+          "z": 11.2
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 3.6,
+          "y": 1.3,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 6.6,
+        "y": 1.65,
+        "z": 11.2
+      },
+      "size": {
+        "x": 3.6,
+        "y": 1.3,
+        "z": 1.0
+      }
+    },
+    {
+      "path": "Bedroom_Editable/BedroomSideWall_Editable",
+      "transform": {
+        "go": 99482077,
+        "parent": 997305030,
+        "position": {
+          "x": 6.2,
+          "y": 1.7,
+          "z": 16.1
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 6.2,
+        "y": 1.7,
+        "z": 16.1
+      },
+      "size": {
+        "x": 0.2,
+        "y": 3.4,
+        "z": 6.6
+      }
+    },
+    {
+      "path": "ChildRoom_Preparation_Editable/ChildChair_Editable",
+      "transform": {
+        "go": 115293512,
+        "parent": 1531451053,
+        "position": {
+          "x": 10.5,
+          "y": 0.0,
+          "z": 17.1
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.6249995,
+          "y": 2.0835128,
+          "z": 1.749994
+        }
+      },
+      "center": {
+        "x": 10.5,
+        "y": 0.6,
+        "z": 17.1
+      },
+      "size": {
+        "x": 0.65,
+        "y": 1.2,
+        "z": 0.7
+      }
+    },
+    {
+      "path": "EntranceThreshold_Editable",
+      "transform": {
+        "go": 123177094,
+        "parent": 346308486,
+        "position": {
+          "x": 12.5,
+          "y": -0.16,
+          "z": -0.55
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 12.5,
+        "y": -0.16,
+        "z": -0.55
+      },
+      "size": {
+        "x": 2.6,
+        "y": 0.3,
+        "z": 1.4
+      }
+    },
+    {
+      "path": "Structure_Editable/RearWingStep_Editable",
+      "transform": {
+        "go": 153666177,
+        "parent": 1089973078,
+        "position": {
+          "x": 6.2,
+          "y": 1.7,
+          "z": 19.8
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 6.2,
+        "y": 1.7,
+        "z": 19.8
+      },
+      "size": {
+        "x": 0.2,
+        "y": 3.4,
+        "z": 0.8
+      }
+    },
+    {
+      "path": "Structure_Editable/Wall_Editable",
+      "transform": {
+        "go": 159048480,
+        "parent": 1089973078,
+        "position": {
+          "x": 0.0,
+          "y": 1.7,
+          "z": 9.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 0.0,
+        "y": 1.7,
+        "z": 9.0
+      },
+      "size": {
+        "x": 0.22,
+        "y": 3.4,
+        "z": 18.0
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningChair_4_Editable",
+      "transform": {
+        "go": 181195791,
+        "parent": 2081235944,
+        "position": {
+          "x": 16.0,
+          "y": 0.0,
+          "z": 5.6
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999995,
+          "y": 2.691204,
+          "z": 2.1249928
+        }
+      },
+      "center": {
+        "x": 16.0,
+        "y": 0.775,
+        "z": 5.6
+      },
+      "size": {
+        "x": 0.8,
+        "y": 1.55,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "Kitchen_Editable/KitchenSink_Editable",
+      "transform": {
+        "go": 194745112,
+        "parent": 597406473,
+        "position": {
+          "x": 20.800001,
+          "y": 0.0,
+          "z": 16.85
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999981,
+          "y": 0.97154826,
+          "z": 1.4053973
+        }
+      },
+      "center": {
+        "x": 20.8,
+        "y": 0.65,
+        "z": 16.85
+      },
+      "size": {
+        "x": 2.0,
+        "y": 1.3,
+        "z": 1.3
+      }
+    },
+    {
+      "path": "ChildRoom_Preparation_Editable/ChildFrontRight_Editable",
+      "transform": {
+        "go": 241357280,
+        "parent": 1531451053,
+        "position": {
+          "x": 11.5,
+          "y": 0.65,
+          "z": 12.6
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 11.5,
+        "y": 0.65,
+        "z": 12.6
+      },
+      "size": {
+        "x": 1.0,
+        "y": 1.3,
+        "z": 0.2
+      }
+    },
+    {
+      "path": "Structure_Editable/ContinuousFloorCollider_Editable",
+      "transform": {
+        "go": 331798406,
+        "parent": 1089973078,
+        "position": {
+          "x": 9.1,
+          "y": -0.18,
+          "z": 19.1
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 9.1,
+        "y": -0.18,
+        "z": 19.1
+      },
+      "size": {
+        "x": 5.8,
+        "y": 0.3,
+        "z": 2.2
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/TV_Max_Editable",
+      "transform": {
+        "go": 347307839,
+        "parent": 1108138190,
+        "position": {
+          "x": 2.6,
+          "y": 0.8499999,
+          "z": 5.9
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 2.6,
+        "y": 2.4213,
+        "z": 5.9
+      },
+      "size": {
+        "x": 2.6,
+        "y": 3.1426,
+        "z": 1.0089
+      }
+    },
+    {
+      "path": "ChildRoom_Preparation_Editable/ChildFrontLeft_Editable",
+      "transform": {
+        "go": 447046662,
+        "parent": 1531451053,
+        "position": {
+          "x": 7.2,
+          "y": 0.65,
+          "z": 12.6
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 7.2,
+        "y": 0.65,
+        "z": 12.6
+      },
+      "size": {
+        "x": 2.0,
+        "y": 1.3,
+        "z": 0.2
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningTable_Editable",
+      "transform": {
+        "go": 470259638,
+        "parent": 2081235944,
+        "position": {
+          "x": 16.0,
+          "y": 0.0,
+          "z": 4.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.5922585,
+          "y": 2.4315135,
+          "z": 2.671978
+        }
+      },
+      "center": {
+        "x": 16.0,
+        "y": 0.575,
+        "z": 4.0
+      },
+      "size": {
+        "x": 2.3,
+        "y": 1.15,
+        "z": 1.8
+      }
+    },
+    {
+      "path": "Lounge_Editable/CoffeeTable_Editable",
+      "transform": {
+        "go": 473618304,
+        "parent": 1860259702,
+        "position": {
+          "x": 4.6,
+          "y": 0.0,
+          "z": 1.35
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.3845725,
+          "y": 1.3743336,
+          "z": 1.4844322
+        }
+      },
+      "center": {
+        "x": 4.6,
+        "y": 0.325,
+        "z": 2.45
+      },
+      "size": {
+        "x": 2.0,
+        "y": 0.65,
+        "z": 1.0
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/Refrigerator_Max_Editable",
+      "transform": {
+        "go": 500974959,
+        "parent": 1108138190,
+        "position": {
+          "x": 23.7,
+          "y": 0.0,
+          "z": 16.9
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 23.7,
+        "y": 1.8351,
+        "z": 16.9
+      },
+      "size": {
+        "x": 1.65,
+        "y": 3.6703,
+        "z": 1.9139
+      }
+    },
+    {
+      "path": "Structure_Editable/BedroomRearWall_Editable",
+      "transform": {
+        "go": 501630295,
+        "parent": 1089973078,
+        "position": {
+          "x": 3.1,
+          "y": 1.7,
+          "z": 19.4
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 3.1,
+        "y": 1.7,
+        "z": 19.4
+      },
+      "size": {
+        "x": 6.2,
+        "y": 3.4,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "Lounge_Editable/Armchair_Editable",
+      "transform": {
+        "go": 558507486,
+        "parent": 1860259702,
+        "position": {
+          "x": 1.7,
+          "y": 0.0,
+          "z": 2.6
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.5400163,
+          "y": 1.6319643,
+          "z": 1.6405466
+        }
+      },
+      "center": {
+        "x": 1.7,
+        "y": 0.675,
+        "z": 3.7
+      },
+      "size": {
+        "x": 1.35,
+        "y": 1.35,
+        "z": 1.35
+      }
+    },
+    {
+      "path": "Kitchen_Editable/KitchenIsland_Editable",
+      "transform": {
+        "go": 606934014,
+        "parent": 597406473,
+        "position": {
+          "x": 19.9,
+          "y": 0.0,
+          "z": 13.8
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.6000006,
+          "y": 1.0823858,
+          "z": 1.0399996
+        }
+      },
+      "center": {
+        "x": 19.9,
+        "y": 0.65,
+        "z": 13.8
+      },
+      "size": {
+        "x": 4.4,
+        "y": 1.3,
+        "z": 1.3
+      }
+    },
+    {
+      "path": "Structure_Editable/ContinuousFloorCollider_Editable",
+      "transform": {
+        "go": 667254744,
+        "parent": 1089973078,
+        "position": {
+          "x": 12.5,
+          "y": -0.18,
+          "z": 9.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 12.5,
+        "y": -0.18,
+        "z": 9.0
+      },
+      "size": {
+        "x": 25.0,
+        "y": 0.3,
+        "z": 18.0
+      }
+    },
+    {
+      "path": "Structure_Editable/ChildRearWall_Editable",
+      "transform": {
+        "go": 719975934,
+        "parent": 1089973078,
+        "position": {
+          "x": 9.1,
+          "y": 1.7,
+          "z": 20.2
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 9.1,
+        "y": 1.7,
+        "z": 20.2
+      },
+      "size": {
+        "x": 5.8,
+        "y": 3.4,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "ChildRoom_Preparation_Editable/ChildRoomSideWall_Editable",
+      "transform": {
+        "go": 732532008,
+        "parent": 1531451053,
+        "position": {
+          "x": 12.0,
+          "y": 1.7,
+          "z": 16.4
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 12.0,
+        "y": 1.7,
+        "z": 16.4
+      },
+      "size": {
+        "x": 0.2,
+        "y": 3.4,
+        "z": 7.6
+      }
+    },
+    {
+      "path": "Kitchen_Editable/KitchenReturnCounter_Editable",
+      "transform": {
+        "go": 830187800,
+        "parent": 597406473,
+        "position": {
+          "x": 17.8,
+          "y": 0.0,
+          "z": 15.35
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 17.8,
+        "y": 0.6758,
+        "z": 15.35
+      },
+      "size": {
+        "x": 1.25,
+        "y": 1.3516,
+        "z": 1.3513
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/SaveBook_Editable",
+      "transform": {
+        "go": 882620563,
+        "parent": 1108138190,
+        "position": {
+          "x": 4.4,
+          "y": 1.05,
+          "z": 18.3
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9305143,
+          "y": 0.54047775,
+          "z": 0.5359597
+        }
+      },
+      "center": {
+        "x": 4.4,
+        "y": 1.14,
+        "z": 18.3
+      },
+      "size": {
+        "x": 0.65,
+        "y": 0.18,
+        "z": 0.5
+      }
+    },
+    {
+      "path": "ChildRoom_Preparation_Editable/ChildDesk_Editable",
+      "transform": {
+        "go": 924702167,
+        "parent": 1531451053,
+        "position": {
+          "x": 10.5,
+          "y": 0.0,
+          "z": 18.6
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 0.9692008,
+          "y": 2.2200775,
+          "z": 1.2617674
+        }
+      },
+      "center": {
+        "x": 10.5,
+        "y": 0.525,
+        "z": 18.6
+      },
+      "size": {
+        "x": 1.4,
+        "y": 1.05,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/TVStand_Editable",
+      "transform": {
+        "go": 947777985,
+        "parent": 1108138190,
+        "position": {
+          "x": 2.6,
+          "y": 0.0,
+          "z": 5.9
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 2.3901207,
+          "y": 1.0611722,
+          "z": 1.82806
+        }
+      },
+      "center": {
+        "x": 2.6,
+        "y": 0.425,
+        "z": 5.9
+      },
+      "size": {
+        "x": 3.2,
+        "y": 0.85,
+        "z": 0.95
+      }
+    },
+    {
+      "path": "Lounge_Editable/Sofa_Editable",
+      "transform": {
+        "go": 984394285,
+        "parent": 1860259702,
+        "position": {
+          "x": 4.6,
+          "y": 0.0,
+          "z": 3.2
+        },
+        "rotation": {
+          "x": -0.0,
+          "y": 1.0,
+          "z": -0.0,
+          "w": 0.0
+        },
+        "scale": {
+          "x": 1.4058809,
+          "y": 1.3658808,
+          "z": 1.3244858
+        }
+      },
+      "center": {
+        "x": 4.6,
+        "y": 0.75,
+        "z": 4.3
+      },
+      "size": {
+        "x": 3.7,
+        "y": 1.5,
+        "z": 1.25
+      }
+    },
+    {
+      "path": "ChildRoom_Preparation_Editable/ChildBed_Preparation_Editable",
+      "transform": {
+        "go": 1034263884,
+        "parent": 1531451053,
+        "position": {
+          "x": 8.8,
+          "y": 0.0,
+          "z": 17.2
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.243969,
+          "y": 0.7720512,
+          "z": 1.2060394
+        }
+      },
+      "center": {
+        "x": 8.8,
+        "y": 0.45,
+        "z": 17.2
+      },
+      "size": {
+        "x": 1.45,
+        "y": 0.9,
+        "z": 2.9
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/AquariumStand_Editable",
+      "transform": {
+        "go": 1095836315,
+        "parent": 1108138190,
+        "position": {
+          "x": 6.6,
+          "y": 0.0,
+          "z": 11.2
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 2.6888857,
+          "y": 1.1860161,
+          "z": 2.1167011
+        }
+      },
+      "center": {
+        "x": 6.6,
+        "y": 0.475,
+        "z": 11.2
+      },
+      "size": {
+        "x": 3.6,
+        "y": 0.95,
+        "z": 1.1
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/Bed_MeshSlot",
+      "transform": {
+        "go": 1131184197,
+        "parent": 1108138190,
+        "position": {
+          "x": 2.2,
+          "y": 0.0,
+          "z": 17.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.3005139,
+          "y": 0.8348817,
+          "z": 1.4556327
+        }
+      },
+      "center": {
+        "x": 2.2,
+        "y": 0.575,
+        "z": 17.0
+      },
+      "size": {
+        "x": 2.8,
+        "y": 1.15,
+        "z": 3.5
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningChair_2_Editable",
+      "transform": {
+        "go": 1175905408,
+        "parent": 2081235944,
+        "position": {
+          "x": 17.8,
+          "y": 0.0,
+          "z": 4.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999938,
+          "y": 2.691204,
+          "z": 2.125
+        }
+      },
+      "center": {
+        "x": 17.8,
+        "y": 0.775,
+        "z": 4.0
+      },
+      "size": {
+        "x": 0.8,
+        "y": 1.55,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "Structure_Editable/Wall_Editable",
+      "transform": {
+        "go": 1275208095,
+        "parent": 1089973078,
+        "position": {
+          "x": 5.6,
+          "y": 0.22,
+          "z": 0.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 5.6,
+        "y": 0.22,
+        "z": 0.0
+      },
+      "size": {
+        "x": 11.2,
+        "y": 0.44,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "Structure_Editable/BedroomOuterExtension_Editable",
+      "transform": {
+        "go": 1305171231,
+        "parent": 1089973078,
+        "position": {
+          "x": 0.0,
+          "y": 1.7,
+          "z": 18.7
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 0.0,
+        "y": 1.7,
+        "z": 18.7
+      },
+      "size": {
+        "x": 0.22,
+        "y": 3.4,
+        "z": 1.4
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningChair_3_Editable",
+      "transform": {
+        "go": 1359363468,
+        "parent": 2081235944,
+        "position": {
+          "x": 16.0,
+          "y": 0.0,
+          "z": 2.4
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999995,
+          "y": 2.691204,
+          "z": 2.1249928
+        }
+      },
+      "center": {
+        "x": 16.0,
+        "y": 0.775,
+        "z": 2.4
+      },
+      "size": {
+        "x": 0.8,
+        "y": 1.55,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "Structure_Editable/Wall_Editable",
+      "transform": {
+        "go": 1379068203,
+        "parent": 1089973078,
+        "position": {
+          "x": 25.0,
+          "y": 1.7,
+          "z": 9.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 25.0,
+        "y": 1.7,
+        "z": 9.0
+      },
+      "size": {
+        "x": 0.22,
+        "y": 3.4,
+        "z": 18.0
+      }
+    },
+    {
+      "path": "Kitchen_Editable/KitchenCounter_Editable",
+      "transform": {
+        "go": 1413064304,
+        "parent": 597406473,
+        "position": {
+          "x": 22.5,
+          "y": 0.0,
+          "z": 16.85
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.1999987,
+          "y": 1.2997824,
+          "z": 1.4054011
+        }
+      },
+      "center": {
+        "x": 22.5,
+        "y": 0.65,
+        "z": 16.85
+      },
+      "size": {
+        "x": 1.2,
+        "y": 1.3,
+        "z": 1.3
+      }
+    },
+    {
+      "path": "Bedroom_Editable/BedroomFrontRight_Editable",
+      "transform": {
+        "go": 1459535401,
+        "parent": 997305030,
+        "position": {
+          "x": 4.85,
+          "y": 0.65,
+          "z": 12.8
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 4.85,
+        "y": 0.65,
+        "z": 12.8
+      },
+      "size": {
+        "x": 2.7,
+        "y": 1.3,
+        "z": 0.2
+      }
+    },
+    {
+      "path": "Structure_Editable/KitchenWingStep_Editable",
+      "transform": {
+        "go": 1472615181,
+        "parent": 1089973078,
+        "position": {
+          "x": 12.0,
+          "y": 1.7,
+          "z": 19.1
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 12.0,
+        "y": 1.7,
+        "z": 19.1
+      },
+      "size": {
+        "x": 0.2,
+        "y": 3.4,
+        "z": 2.2
+      }
+    },
+    {
+      "path": "Bedroom_Editable/BedroomFrontLeft_Editable",
+      "transform": {
+        "go": 1560733001,
+        "parent": 997305030,
+        "position": {
+          "x": 0.45,
+          "y": 0.65,
+          "z": 12.8
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 0.45,
+        "y": 0.65,
+        "z": 12.8
+      },
+      "size": {
+        "x": 0.9,
+        "y": 1.3,
+        "z": 0.2
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/SaveNightstand_Editable",
+      "transform": {
+        "go": 1575715140,
+        "parent": 1108138190,
+        "position": {
+          "x": 4.4,
+          "y": 0.0,
+          "z": 18.3
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.5696993,
+          "y": 1.310943,
+          "z": 1.7318468
+        }
+      },
+      "center": {
+        "x": 4.4,
+        "y": 0.525,
+        "z": 18.3
+      },
+      "size": {
+        "x": 1.05,
+        "y": 1.05,
+        "z": 0.9
+      }
+    },
+    {
+      "path": "Structure_Editable/LivingRearWall_Editable",
+      "transform": {
+        "go": 1645062868,
+        "parent": 1089973078,
+        "position": {
+          "x": 18.5,
+          "y": 1.7,
+          "z": 18.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 18.5,
+        "y": 1.7,
+        "z": 18.0
+      },
+      "size": {
+        "x": 13.0,
+        "y": 3.4,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "Structure_Editable/Wall_Editable",
+      "transform": {
+        "go": 1655115802,
+        "parent": 1089973078,
+        "position": {
+          "x": 19.4,
+          "y": 0.22,
+          "z": 0.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 19.4,
+        "y": 0.22,
+        "z": 0.0
+      },
+      "size": {
+        "x": 11.2,
+        "y": 0.44,
+        "z": 0.22
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/StorageChest_Editable",
+      "transform": {
+        "go": 1691050010,
+        "parent": 1108138190,
+        "position": {
+          "x": 23.7,
+          "y": 0.0,
+          "z": 2.1
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 2.1808445,
+          "y": 0.71890706,
+          "z": 0.6317328
+        }
+      },
+      "center": {
+        "x": 23.7,
+        "y": 0.55,
+        "z": 2.1
+      },
+      "size": {
+        "x": 1.7,
+        "y": 1.1,
+        "z": 1.1
+      }
+    },
+    {
+      "path": "LivingBedroom_Editable/ToolCabinet_Editable",
+      "transform": {
+        "go": 1789934491,
+        "parent": 1108138190,
+        "position": {
+          "x": 5.0,
+          "y": 0.0,
+          "z": 18.3
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 0.97513676,
+          "y": 1.1976043,
+          "z": 1.5664054
+        }
+      },
+      "center": {
+        "x": 5.0,
+        "y": 1.3,
+        "z": 18.3
+      },
+      "size": {
+        "x": 1.5,
+        "y": 2.6,
+        "z": 0.9
+      }
+    },
+    {
+      "path": "Kitchen_Editable/Kitchen_MeshSlot",
+      "transform": {
+        "go": 1868951545,
+        "parent": 597406473,
+        "position": {
+          "x": 18.6,
+          "y": 0.0,
+          "z": 16.85
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999974,
+          "y": 1.1670572,
+          "z": 1.3128397
+        }
+      },
+      "center": {
+        "x": 18.6,
+        "y": 0.65,
+        "z": 16.85
+      },
+      "size": {
+        "x": 2.0,
+        "y": 1.3,
+        "z": 1.3
+      }
+    },
+    {
+      "path": "Dining_Editable/DiningChair_1_Editable",
+      "transform": {
+        "go": 1887914245,
+        "parent": 2081235944,
+        "position": {
+          "x": 14.2,
+          "y": 0.0,
+          "z": 4.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.9999939,
+          "y": 2.691204,
+          "z": 2.1250002
+        }
+      },
+      "center": {
+        "x": 14.2,
+        "y": 0.775,
+        "z": 4.0
+      },
+      "size": {
+        "x": 0.8,
+        "y": 1.55,
+        "z": 0.85
+      }
+    },
+    {
+      "path": "Structure_Editable/ContinuousFloorCollider_Editable",
+      "transform": {
+        "go": 1932009383,
+        "parent": 1089973078,
+        "position": {
+          "x": 3.1,
+          "y": -0.18,
+          "z": 18.7
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
+      },
+      "center": {
+        "x": 3.1,
+        "y": -0.18,
+        "z": 18.7
+      },
+      "size": {
+        "x": 6.2,
+        "y": 0.3,
+        "z": 1.4
+      }
+    }
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "approvedRevision": "barn-exterior-A-2026-10-10",
+  "blenderVersion": "4.5.14 LTS",
+  "status": "MODEL_BUILT_COMBINED_UNITY_EXTERIOR_APPLIED",
+  "masterBodyWidthDepthMetres": [
+    8,
+    10
+  ],
+  "masterVisualWidthDepthHeightMetres": [
+    8.9,
+    10.9,
+    6.8
+  ],
+  "lodMeshes": [
+    {
+      "name": "Barn_A_Master_LOD0",
+      "triangles": 3938,
+      "vertices": 3952,
+      "boundsBlenderXYZ": [
+        [
+          -4.449999809265137,
+          -5.449999809265137,
+          0.0
+        ],
+        [
+          4.449999809265137,
+          5.449999809265137,
+          6.800000190734863
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "identityTransforms": true,
+      "groundCentreOrigin": [
+        0,
+        0,
+        0
+      ],
+      "export": "Exports/Barn_A_Master_LOD0.fbx"
+    },
+    {
+      "name": "Barn_A_Master_LOD1",
+      "triangles": 1788,
+      "vertices": 2007,
+      "boundsBlenderXYZ": [
+        [
+          -4.449999809265137,
+          -5.449999809265137,
+          0.0
+        ],
+        [
+          4.449999809265137,
+          5.449999809265137,
+          6.800000190734863
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "identityTransforms": true,
+      "groundCentreOrigin": [
+        0,
+        0,
+        0
+      ],
+      "export": "Exports/Barn_A_Master_LOD1.fbx"
+    },
+    {
+      "name": "Barn_A_Master_LOD2",
+      "triangles": 368,
+      "vertices": 356,
+      "boundsBlenderXYZ": [
+        [
+          -4.449999809265137,
+          -5.449999809265137,
+          0.0
+        ],
+        [
+          4.449999809265137,
+          5.449999809265137,
+          6.800000190734863
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "identityTransforms": true,
+      "groundCentreOrigin": [
+        0,
+        0,
+        0
+      ],
+      "export": "Exports/Barn_A_Master_LOD2.fbx"
+    }
+  ],
+  "levels": [
+    {
+      "level": 1,
+      "uniformScale": 0.75,
+      "bodySizeXYZ": [
+        6.0,
+        3.15,
+        7.5
+      ],
+      "visualEnvelopeXYZ": [
+        6.675,
+        5.1,
+        8.175
+      ],
+      "mainDoorClearWidthHeight": [
+        2.55,
+        2.4
+      ],
+      "entranceMarkerXYZ": [
+        0,
+        0,
+        -4.425
+      ]
+    },
+    {
+      "level": 2,
+      "uniformScale": 0.875,
+      "bodySizeXYZ": [
+        7.0,
+        3.675,
+        8.75
+      ],
+      "visualEnvelopeXYZ": [
+        7.7875,
+        5.95,
+        9.5375
+      ],
+      "mainDoorClearWidthHeight": [
+        2.975,
+        2.8
+      ],
+      "entranceMarkerXYZ": [
+        0,
+        0,
+        -5.1625
+      ]
+    },
+    {
+      "level": 3,
+      "uniformScale": 1,
+      "bodySizeXYZ": [
+        8,
+        4.2,
+        10
+      ],
+      "visualEnvelopeXYZ": [
+        8.9,
+        6.8,
+        10.9
+      ],
+      "mainDoorClearWidthHeight": [
+        3.4,
+        3.2
+      ],
+      "entranceMarkerXYZ": [
+        0,
+        0,
+        -5.9
+      ]
+    },
+    {
+      "level": 4,
+      "uniformScale": 1.125,
+      "bodySizeXYZ": [
+        9.0,
+        4.725,
+        11.25
+      ],
+      "visualEnvelopeXYZ": [
+        10.0125,
+        7.65,
+        12.2625
+      ],
+      "mainDoorClearWidthHeight": [
+        3.825,
+        3.6
+      ],
+      "entranceMarkerXYZ": [
+        0,
+        0,
+        -6.6375
+      ]
+    },
+    {
+      "level": 5,
+      "uniformScale": 1.25,
+      "bodySizeXYZ": [
+        10.0,
+        5.25,
+        12.5
+      ],
+      "visualEnvelopeXYZ": [
+        11.125,
+        8.5,
+        13.625
+      ],
+      "mainDoorClearWidthHeight": [
+        4.25,
+        4.0
+      ],
+      "entranceMarkerXYZ": [
+        0,
+        0,
+        -7.375
+      ]
+    }
+  ],
+  "levelMeshesShared": true,
+  "materials": {
+    "opaque": "TFP_Atlas_1A.mat",
+    "emission": "TFP_Atlas_Lights_1A.mat",
+    "atlasGUID": "522fcb2b5717c7640b460ee9ff73a78a",
+    "newRuntimeTextures": 0,
+    "blenderPreviewImagePacked": true
+  },
+  "editableSourceObjects": 96,
+  "unityMapModified": false,
+  "notes": [
+    "Blender material is a matte preview; game rendering reuses existing CustomToon material.",
+    "Source objects retained; FBX meshes joined and triangulated. No preview floor, light or text in FBX.",
+    "Roof shingles are subdivided surfaces, not hundreds of solid tile cubes.",
+    "Side door and shutters remain exterior decoration; main door marker is separate."
+  ],
+  "unityGameplayLevels": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "unityExteriorPrefabLevels": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "combinedBlend": "Blender/Barn_A_Combined.blend"
+}

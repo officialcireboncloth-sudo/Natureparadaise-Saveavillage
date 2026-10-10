@@ -159,6 +159,7 @@ public sealed class PlayerController : MonoBehaviour
     public bool IsGrounded => characterController != null && characterController.enabled && characterController.isGrounded;
     public bool IsMovementLocked => manualLock || movementLocks.Count > 0;
     public bool IsCarrying => isCarrying;
+    public bool IsRiding => isRidingAnimation;
     public Animator CharacterAnimator => animator;
     public Vector3 FacingDirection { get; private set; } = Vector3.forward;
     public event Action<MovementMode> MovementModeChanged;
@@ -169,6 +170,7 @@ public sealed class PlayerController : MonoBehaviour
         if (status == null) status = GetComponent<PlayerStatusSystem>();
         if (movementCamera == null) movementCamera = Camera.main;
         ResolveRigAnimator();
+        if (GetComponent<PlayerHeldTools>() == null) gameObject.AddComponent<PlayerHeldTools>();
 
         FacingDirection = transform.forward.sqrMagnitude > 0.01f ? transform.forward.normalized : Vector3.forward;
         CacheAnimatorParameters();

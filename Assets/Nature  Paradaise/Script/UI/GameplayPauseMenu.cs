@@ -29,6 +29,8 @@ public sealed class GameplayPauseMenu : MonoBehaviour
     GameplayUISettings draft;
     readonly List<Button> tabs = new();
     string[] pageNames = { "Ringkasan", "Hewan", "Kebunku", "Misi", "Pengaturan" };
+    RectTransform menuLauncher;
+    public void SetModalContextVisible(bool visible){if(menuLauncher!=null)menuLauncher.gameObject.SetActive(!visible);}
     Color Glass => draft != null && draft.highContrast ? new Color(.055f,.09f,.13f,.98f) : GameplayHUDStyle.Modal;
 
     void Start()
@@ -36,6 +38,7 @@ public sealed class GameplayPauseMenu : MonoBehaviour
         if (theme == null) theme = Resources.Load<PauseMenuTheme>("UI/PauseMenuTheme");
         if (theme != null) { editorDebugKey = theme.editorPauseKey; allowEscapeInEditor = theme.allowEscapeInEditor; }
         var menu = GameplayHUDStyle.Rect("Menu Button", transform.parent, Vector2.one, Vector2.one);
+        menuLauncher=menu;menu.gameObject.SetActive(DataDrivenModal.Active==null);
         menu.pivot=Vector2.one; menu.sizeDelta=new Vector2(100,52); menu.anchoredPosition=new Vector2(-20,-20);
         MakeButton(menu, MenuKeyLabel()+"  Menu", Toggle);
         var root=GameplayHUDStyle.Rect("Pause Overlay",transform.parent,Vector2.zero,Vector2.one);

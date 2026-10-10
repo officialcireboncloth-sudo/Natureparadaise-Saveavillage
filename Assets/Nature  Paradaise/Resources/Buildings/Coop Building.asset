@@ -11,18 +11,21 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba71d09c4d3e4f0ba9c1f2e3d4a5b601, type: 3}
   m_Name: Coop Building
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   buildingId: building.coop
   displayName: Coop
   icon: {fileID: 0}
   category: 1
-  footprintWidth: 3
-  footprintDepth: 3
+  animalHousing: 0
+  footprintWidth: 10
+  footprintDepth: 13
+  defaultPlacementYaw: 0
   placementArea: 0
   canRelocate: 1
   canDemolish: 1
   levels:
   - level: 1
+    requiredVillageLevel: 0
     goldCost: 25
     constructionDays: 2
     materialCosts:
@@ -30,11 +33,13 @@ MonoBehaviour:
       amount: 3
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 1
-    completedPrefab: {fileID: 0}
+    completedPrefab: {fileID: 1612501117155518663, guid: a1e5117876ad97a47a5909f370246dcd, type: 3}
+    constructionStagePrefabs: []
     capacity: 6
     unlockIds:
     - animal.coop.basic
   - level: 2
+    requiredVillageLevel: 0
     goldCost: 45
     constructionDays: 3
     materialCosts:
@@ -42,11 +47,13 @@ MonoBehaviour:
       amount: 5
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 3
-    completedPrefab: {fileID: 0}
+    completedPrefab: {fileID: 6331577067540989283, guid: f9078dd595caeff4680c8c73d4bd4923, type: 3}
+    constructionStagePrefabs: []
     capacity: 12
     unlockIds:
     - animal.coop.expanded
   - level: 3
+    requiredVillageLevel: 0
     goldCost: 75
     constructionDays: 4
     materialCosts:
@@ -54,11 +61,13 @@ MonoBehaviour:
       amount: 20
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 11
-    completedPrefab: {fileID: 0}
+    completedPrefab: {fileID: 7060839569629169647, guid: e734816c473e04f4db52a42e086ec6ed, type: 3}
+    constructionStagePrefabs: []
     capacity: 20
     unlockIds:
     - animal.coop.level3
   - level: 4
+    requiredVillageLevel: 0
     goldCost: 110
     constructionDays: 5
     materialCosts:
@@ -66,7 +75,8 @@ MonoBehaviour:
       amount: 25
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 14
-    completedPrefab: {fileID: 0}
+    completedPrefab: {fileID: 5854201210856408719, guid: b85a3896d13c03046a816fdd6aaccacf, type: 3}
+    constructionStagePrefabs: []
     capacity: 30
     unlockIds:
     - animal.coop.level4

@@ -1,0 +1,609 @@
+{
+  "processor": "GIMP 3.0.8 / NOHALO",
+  "resolution": [
+    256,
+    256
+  ],
+  "tools": [
+    {
+      "name": "FishingRod",
+      "modelBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_25479981-6580-4005-ac02-8df05faa1ef6(Pancingan).fbx",
+      "modelAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_FishingRod.fbx",
+      "folderBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_25479981-6580-4005-ac02-8df05faa1ef6.fbm",
+      "folderAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_FishingRod.fbm"
+    },
+    {
+      "name": "Hammer",
+      "modelBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_376509ef-580b-495e-b990-44409a3c0804(Palu).fbx",
+      "modelAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hammer.fbx",
+      "folderBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_376509ef-580b-495e-b990-44409a3c0804.fbm",
+      "folderAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hammer.fbm"
+    },
+    {
+      "name": "Pickaxe",
+      "modelBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_657ff6f0-60e4-47b0-88d3-3f545de2900f(PickAxe).fbx",
+      "modelAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Pickaxe.fbx",
+      "folderBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_657ff6f0-60e4-47b0-88d3-3f545de2900f.fbm",
+      "folderAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Pickaxe.fbm"
+    },
+    {
+      "name": "Shears",
+      "modelBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_727a563a-82d5-4ece-a15d-4d6fa4b8546a ( Gunting).fbx",
+      "modelAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Shears.fbx",
+      "folderBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_727a563a-82d5-4ece-a15d-4d6fa4b8546a.fbm",
+      "folderAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Shears.fbm"
+    },
+    {
+      "name": "Milker",
+      "modelBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_a033f0a5-1955-42ff-9250-9e8a8b169e7a(Alat Perah sapi).fbx",
+      "modelAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Milker.fbx",
+      "folderBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_a033f0a5-1955-42ff-9250-9e8a8b169e7a.fbm",
+      "folderAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Milker.fbm"
+    },
+    {
+      "name": "Hoe",
+      "modelBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_a5d09808-f4df-407c-b303-ae4b51be2f3b(Pacul).fbx",
+      "modelAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hoe.fbx",
+      "folderBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_a5d09808-f4df-407c-b303-ae4b51be2f3b.fbm",
+      "folderAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hoe.fbm"
+    },
+    {
+      "name": "Brush",
+      "modelBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_b61a32d9-b69e-406d-a143-63c06bfa56fc ( Brush).fbx",
+      "modelAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Brush.fbx",
+      "folderBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_b61a32d9-b69e-406d-a143-63c06bfa56fc.fbm",
+      "folderAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Brush.fbm"
+    },
+    {
+      "name": "WateringCan",
+      "modelBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_dbe8eb66-c571-4da6-87f3-107d41ede891(alat siram tanaman).fbx",
+      "modelAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_WateringCan.fbx",
+      "folderBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_dbe8eb66-c571-4da6-87f3-107d41ede891.fbm",
+      "folderAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_WateringCan.fbm"
+    },
+    {
+      "name": "Sickle",
+      "modelBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_e172e440-73b4-4cf0-8646-a3a9b30ae1f4(Sickle).fbx",
+      "modelAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Sickle.fbx",
+      "folderBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_e172e440-73b4-4cf0-8646-a3a9b30ae1f4.fbm",
+      "folderAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Sickle.fbm"
+    },
+    {
+      "name": "Axe",
+      "modelBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_f10af669-bddb-4af7-a466-bc386297f5fa(Kampak).fbx",
+      "modelAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Axe.fbx",
+      "folderBefore": "Assets/Nature  Paradaise/mesh/Prop/Tools/tripo_convert_f10af669-bddb-4af7-a466-bc386297f5fa.fbm",
+      "folderAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Axe.fbm"
+    }
+  ],
+  "textures": [
+    {
+      "tool": "FishingRod",
+      "filename": "tripo_image_25479981-6580-4005-ac02-8df05faa1ef6_0_0.jpg",
+      "sizeBefore": [
+        2048,
+        2048
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 793730,
+      "bytesAfter": 64322,
+      "backup": "ArtSource/Tools/Originals/FishingRod/Textures/tripo_image_25479981-6580-4005-ac02-8df05faa1ef6_0_0.jpg",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_FishingRod.fbm/tripo_image_25479981-6580-4005-ac02-8df05faa1ef6_0_0.jpg"
+    },
+    {
+      "tool": "Hammer",
+      "filename": "hammer_3d_model_basecolor.JPEG",
+      "sizeBefore": [
+        2048,
+        2048
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1742847,
+      "bytesAfter": 54152,
+      "backup": "ArtSource/Tools/Originals/Hammer/Textures/hammer_3d_model_basecolor.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hammer.fbm/hammer_3d_model_basecolor.JPEG"
+    },
+    {
+      "tool": "Hammer",
+      "filename": "hammer_3d_model_metallic.JPEG",
+      "sizeBefore": [
+        2048,
+        2048
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 633744,
+      "bytesAfter": 44793,
+      "backup": "ArtSource/Tools/Originals/Hammer/Textures/hammer_3d_model_metallic.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hammer.fbm/hammer_3d_model_metallic.JPEG"
+    },
+    {
+      "tool": "Hammer",
+      "filename": "hammer_3d_model_normal.JPEG",
+      "sizeBefore": [
+        2048,
+        2048
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 210326,
+      "bytesAfter": 52158,
+      "backup": "ArtSource/Tools/Originals/Hammer/Textures/hammer_3d_model_normal.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hammer.fbm/hammer_3d_model_normal.JPEG"
+    },
+    {
+      "tool": "Hammer",
+      "filename": "hammer_3d_model_rm.PNG",
+      "sizeBefore": [
+        2048,
+        2048
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 2612041,
+      "bytesAfter": 75007,
+      "backup": "ArtSource/Tools/Originals/Hammer/Textures/hammer_3d_model_rm.PNG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hammer.fbm/hammer_3d_model_rm.PNG"
+    },
+    {
+      "tool": "Hammer",
+      "filename": "hammer_3d_model_roughness.JPEG",
+      "sizeBefore": [
+        2048,
+        2048
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 239060,
+      "bytesAfter": 28692,
+      "backup": "ArtSource/Tools/Originals/Hammer/Textures/hammer_3d_model_roughness.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hammer.fbm/hammer_3d_model_roughness.JPEG"
+    },
+    {
+      "tool": "Pickaxe",
+      "filename": "hammer_3d_model_basecolor.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 620318,
+      "bytesAfter": 44856,
+      "backup": "ArtSource/Tools/Originals/Pickaxe/Textures/hammer_3d_model_basecolor.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Pickaxe.fbm/hammer_3d_model_basecolor.JPEG"
+    },
+    {
+      "tool": "Shears",
+      "filename": "double_dagger_3d_model_basecolor.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1612979,
+      "bytesAfter": 46514,
+      "backup": "ArtSource/Tools/Originals/Shears/Textures/double_dagger_3d_model_basecolor.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Shears.fbm/double_dagger_3d_model_basecolor.JPEG"
+    },
+    {
+      "tool": "Shears",
+      "filename": "double_dagger_3d_model_metallic.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1279780,
+      "bytesAfter": 29658,
+      "backup": "ArtSource/Tools/Originals/Shears/Textures/double_dagger_3d_model_metallic.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Shears.fbm/double_dagger_3d_model_metallic.JPEG"
+    },
+    {
+      "tool": "Shears",
+      "filename": "double_dagger_3d_model_normal.PNG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 2561876,
+      "bytesAfter": 36110,
+      "backup": "ArtSource/Tools/Originals/Shears/Textures/double_dagger_3d_model_normal.PNG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Shears.fbm/double_dagger_3d_model_normal.PNG"
+    },
+    {
+      "tool": "Shears",
+      "filename": "double_dagger_3d_model_rm.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1187031,
+      "bytesAfter": 41875,
+      "backup": "ArtSource/Tools/Originals/Shears/Textures/double_dagger_3d_model_rm.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Shears.fbm/double_dagger_3d_model_rm.JPEG"
+    },
+    {
+      "tool": "Shears",
+      "filename": "double_dagger_3d_model_roughness.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1132650,
+      "bytesAfter": 24437,
+      "backup": "ArtSource/Tools/Originals/Shears/Textures/double_dagger_3d_model_roughness.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Shears.fbm/double_dagger_3d_model_roughness.JPEG"
+    },
+    {
+      "tool": "Milker",
+      "filename": "kettle_3d_model_basecolor.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1664472,
+      "bytesAfter": 56851,
+      "backup": "ArtSource/Tools/Originals/Milker/Textures/kettle_3d_model_basecolor.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Milker.fbm/kettle_3d_model_basecolor.JPEG"
+    },
+    {
+      "tool": "Milker",
+      "filename": "kettle_3d_model_metallic.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1528035,
+      "bytesAfter": 43591,
+      "backup": "ArtSource/Tools/Originals/Milker/Textures/kettle_3d_model_metallic.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Milker.fbm/kettle_3d_model_metallic.JPEG"
+    },
+    {
+      "tool": "Milker",
+      "filename": "kettle_3d_model_normal.PNG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1878447,
+      "bytesAfter": 24813,
+      "backup": "ArtSource/Tools/Originals/Milker/Textures/kettle_3d_model_normal.PNG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Milker.fbm/kettle_3d_model_normal.PNG"
+    },
+    {
+      "tool": "Milker",
+      "filename": "kettle_3d_model_rm.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1366774,
+      "bytesAfter": 60770,
+      "backup": "ArtSource/Tools/Originals/Milker/Textures/kettle_3d_model_rm.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Milker.fbm/kettle_3d_model_rm.JPEG"
+    },
+    {
+      "tool": "Milker",
+      "filename": "kettle_3d_model_roughness.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1241529,
+      "bytesAfter": 30441,
+      "backup": "ArtSource/Tools/Originals/Milker/Textures/kettle_3d_model_roughness.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Milker.fbm/kettle_3d_model_roughness.JPEG"
+    },
+    {
+      "tool": "Hoe",
+      "filename": "wooden_axe_3d_model_basecolor.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 3119528,
+      "bytesAfter": 63598,
+      "backup": "ArtSource/Tools/Originals/Hoe/Textures/wooden_axe_3d_model_basecolor.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hoe.fbm/wooden_axe_3d_model_basecolor.JPEG"
+    },
+    {
+      "tool": "Hoe",
+      "filename": "wooden_axe_3d_model_metallic.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1401269,
+      "bytesAfter": 35496,
+      "backup": "ArtSource/Tools/Originals/Hoe/Textures/wooden_axe_3d_model_metallic.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hoe.fbm/wooden_axe_3d_model_metallic.JPEG"
+    },
+    {
+      "tool": "Hoe",
+      "filename": "wooden_axe_3d_model_normal.PNG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 3976350,
+      "bytesAfter": 51522,
+      "backup": "ArtSource/Tools/Originals/Hoe/Textures/wooden_axe_3d_model_normal.PNG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hoe.fbm/wooden_axe_3d_model_normal.PNG"
+    },
+    {
+      "tool": "Hoe",
+      "filename": "wooden_axe_3d_model_rm.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1315676,
+      "bytesAfter": 51612,
+      "backup": "ArtSource/Tools/Originals/Hoe/Textures/wooden_axe_3d_model_rm.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hoe.fbm/wooden_axe_3d_model_rm.JPEG"
+    },
+    {
+      "tool": "Hoe",
+      "filename": "wooden_axe_3d_model_roughness.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1258952,
+      "bytesAfter": 30511,
+      "backup": "ArtSource/Tools/Originals/Hoe/Textures/wooden_axe_3d_model_roughness.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hoe.fbm/wooden_axe_3d_model_roughness.JPEG"
+    },
+    {
+      "tool": "Brush",
+      "filename": "wooden_hand_brush_3d_model_basecolor.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 2441475,
+      "bytesAfter": 60485,
+      "backup": "ArtSource/Tools/Originals/Brush/Textures/wooden_hand_brush_3d_model_basecolor.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Brush.fbm/wooden_hand_brush_3d_model_basecolor.JPEG"
+    },
+    {
+      "tool": "Brush",
+      "filename": "wooden_hand_brush_3d_model_metallic.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1273014,
+      "bytesAfter": 19638,
+      "backup": "ArtSource/Tools/Originals/Brush/Textures/wooden_hand_brush_3d_model_metallic.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Brush.fbm/wooden_hand_brush_3d_model_metallic.JPEG"
+    },
+    {
+      "tool": "Brush",
+      "filename": "wooden_hand_brush_3d_model_normal.PNG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 3240026,
+      "bytesAfter": 31691,
+      "backup": "ArtSource/Tools/Originals/Brush/Textures/wooden_hand_brush_3d_model_normal.PNG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Brush.fbm/wooden_hand_brush_3d_model_normal.PNG"
+    },
+    {
+      "tool": "Brush",
+      "filename": "wooden_hand_brush_3d_model_rm.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1253972,
+      "bytesAfter": 39916,
+      "backup": "ArtSource/Tools/Originals/Brush/Textures/wooden_hand_brush_3d_model_rm.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Brush.fbm/wooden_hand_brush_3d_model_rm.JPEG"
+    },
+    {
+      "tool": "Brush",
+      "filename": "wooden_hand_brush_3d_model_roughness.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 1207678,
+      "bytesAfter": 26451,
+      "backup": "ArtSource/Tools/Originals/Brush/Textures/wooden_hand_brush_3d_model_roughness.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Brush.fbm/wooden_hand_brush_3d_model_roughness.JPEG"
+    },
+    {
+      "tool": "WateringCan",
+      "filename": "watering_can_3d_model_basecolor.JPEG",
+      "sizeBefore": [
+        2048,
+        2048
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 573703,
+      "bytesAfter": 39241,
+      "backup": "ArtSource/Tools/Originals/WateringCan/Textures/watering_can_3d_model_basecolor.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_WateringCan.fbm/watering_can_3d_model_basecolor.JPEG"
+    },
+    {
+      "tool": "Sickle",
+      "filename": "sickle_3d_model_basecolor.JPEG",
+      "sizeBefore": [
+        4096,
+        4096
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 799147,
+      "bytesAfter": 60769,
+      "backup": "ArtSource/Tools/Originals/Sickle/Textures/sickle_3d_model_basecolor.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Sickle.fbm/sickle_3d_model_basecolor.JPEG"
+    },
+    {
+      "tool": "Axe",
+      "filename": "axe_3d_model_metallic.JPEG",
+      "sizeBefore": [
+        2048,
+        2048
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 142399,
+      "bytesAfter": 28055,
+      "backup": "ArtSource/Tools/Originals/Axe/Textures/axe_3d_model_metallic.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Axe.fbm/axe_3d_model_metallic.JPEG"
+    },
+    {
+      "tool": "Axe",
+      "filename": "axe_3d_model_roughness.JPEG",
+      "sizeBefore": [
+        2048,
+        2048
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 130002,
+      "bytesAfter": 24469,
+      "backup": "ArtSource/Tools/Originals/Axe/Textures/axe_3d_model_roughness.JPEG",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Axe.fbm/axe_3d_model_roughness.JPEG"
+    },
+    {
+      "tool": "Axe",
+      "filename": "Color.jpg",
+      "sizeBefore": [
+        2048,
+        2048
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 180973,
+      "bytesAfter": 43223,
+      "backup": "ArtSource/Tools/Originals/Axe/Textures/Color.jpg",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Axe.fbm/Color.jpg"
+    },
+    {
+      "tool": "Axe",
+      "filename": "Normal.jpg",
+      "sizeBefore": [
+        2048,
+        2048
+      ],
+      "sizeAfter": [
+        256,
+        256
+      ],
+      "bytesBefore": 147701,
+      "bytesAfter": 32228,
+      "backup": "ArtSource/Tools/Originals/Axe/Textures/Normal.jpg",
+      "pathAfter": "Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Axe.fbm/Normal.jpg"
+    }
+  ]
+}

@@ -13,6 +13,15 @@ MonoBehaviour:
   m_Name: Field Soil Visuals
   m_EditorClassIdentifier:
   fieldTexture: {fileID: 2800000, guid: 49874bdd70afcce47ac5ee6e0db14973, type: 3}
+  useCozyPalette: 0
+  textureContrast: 0.16
+  soilVariation: 0.055
+  fieldFeather: 0.4
+  tileInset: 0.055
+  tileFeather: 0.065
+  tileCornerRadius: 0.18
+  dryMoisture: 35
+  fullyWetMoisture: 70
   fieldTint: {r: 1.3, g: 1.1, b: 0.85, a: 1}
   fieldTextureSize: 8
   fieldTextureStrength: 1
@@ -25,4 +34,4 @@ MonoBehaviour:
   wetMultiplier: {r: 0.78, g: 0.74, b: 0.7, a: 1}
   drySmoothness: 0.03
   wetSmoothness: 0.35
-  wetEdgeBlend: 0.28
+  wetEdgeBlend: 0.13

@@ -1,0 +1,9118 @@
+{
+  "revision": "coop-exterior-A-2026-10-11",
+  "status": "PROPOSAL_ONLY_AWAITING_USER_REVIEW",
+  "units": "metres; design decisions, not dimensions measured from reference",
+  "scope": "Exterior Lv1-5 same shape/material/details; uniform scale only, as Barn precedent",
+  "coordinates": {
+    "unity": "X right; Y up; Z rear; front -Z; origin ground centre",
+    "blender": "X right; Y rear; Z up; front -Y; apply transforms before export"
+  },
+  "master": {
+    "baseLevel": 3,
+    "bodyWidth": 6,
+    "bodyDepth": 7,
+    "foundationTopY": 0.45,
+    "eaveY": 3.8,
+    "ridgeY": 5.6,
+    "maximumY": 5.74,
+    "roofOverhang": 0.4,
+    "roofEaveOuterY": 3.56,
+    "roofSlopeDegrees": 30.96375653207352,
+    "roofSlopeLength": 3.9650472884948043,
+    "roofSurfaceArea": 61.854737700518946,
+    "visualBoundsMinXYZ": [
+      -3.4,
+      0,
+      -4.8
+    ],
+    "visualBoundsMaxXYZ": [
+      3.95,
+      5.74,
+      3.9
+    ],
+    "rampSlopeDegrees": 22.809711103877454,
+    "rampLength": 1.160775602776006,
+    "nestLidSlopeDegrees": 17.281498371816646,
+    "roofThickness": 0.06,
+    "wallShellThicknessInward": 0.16
+  },
+  "levels": [
+    {
+      "level": 1,
+      "uniformScale": 0.75,
+      "bodyWidthDepth": [
+        4.5,
+        5.25
+      ],
+      "visualWidthDepthHeight": [
+        5.5125,
+        6.525,
+        4.305
+      ],
+      "doorWidthHeight": [
+        1.125,
+        2.2125000000000004
+      ],
+      "entranceMarkerXYZ": [
+        -0.9375,
+        0,
+        -3.4875000000000003
+      ]
+    },
+    {
+      "level": 2,
+      "uniformScale": 0.875,
+      "bodyWidthDepth": [
+        5.25,
+        6.125
+      ],
+      "visualWidthDepthHeight": [
+        6.43125,
+        7.6125,
+        5.0225
+      ],
+      "doorWidthHeight": [
+        1.3125,
+        2.5812500000000003
+      ],
+      "entranceMarkerXYZ": [
+        -1.09375,
+        0,
+        -4.0687500000000005
+      ]
+    },
+    {
+      "level": 3,
+      "uniformScale": 1,
+      "bodyWidthDepth": [
+        6,
+        7
+      ],
+      "visualWidthDepthHeight": [
+        7.35,
+        8.7,
+        5.74
+      ],
+      "doorWidthHeight": [
+        1.5,
+        2.95
+      ],
+      "entranceMarkerXYZ": [
+        -1.25,
+        0,
+        -4.65
+      ]
+    },
+    {
+      "level": 4,
+      "uniformScale": 1.125,
+      "bodyWidthDepth": [
+        6.75,
+        7.875
+      ],
+      "visualWidthDepthHeight": [
+        8.26875,
+        9.7875,
+        6.4575
+      ],
+      "doorWidthHeight": [
+        1.6875,
+        3.31875
+      ],
+      "entranceMarkerXYZ": [
+        -1.40625,
+        0,
+        -5.23125
+      ]
+    },
+    {
+      "level": 5,
+      "uniformScale": 1.25,
+      "bodyWidthDepth": [
+        7.5,
+        8.75
+      ],
+      "visualWidthDepthHeight": [
+        9.1875,
+        10.875,
+        7.175
+      ],
+      "doorWidthHeight": [
+        1.875,
+        3.6875
+      ],
+      "entranceMarkerXYZ": [
+        -1.5625,
+        0,
+        -5.8125
+      ]
+    }
+  ],
+  "materials": {
+    "atlasPath": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Textures/TFP_Atlas_1A.psd",
+    "atlasGuid": "522fcb2b5717c7640b460ee9ff73a78a",
+    "atlasSize": [
+      2048,
+      2048
+    ],
+    "sha256": "7fe0569f122bda89faca68565ea94bdb8be1431298424424f2776f23e987e231",
+    "swatches": {
+      "wall": {
+        "label": "Papan krem",
+        "pixelRectTopLeft": [
+          544,
+          1984,
+          32,
+          64
+        ],
+        "samplePixel": [
+          560,
+          2016
+        ],
+        "rgb": [
+          225,
+          220,
+          184
+        ],
+        "hex": "#e1dcb8",
+        "uvSafeRectBottomLeft": [
+          0.267578125,
+          0.001953125,
+          0.279296875,
+          0.029296875
+        ]
+      },
+      "wall_side": {
+        "label": "Sisi papan",
+        "pixelRectTopLeft": [
+          544,
+          1920,
+          32,
+          64
+        ],
+        "samplePixel": [
+          560,
+          1952
+        ],
+        "rgb": [
+          216,
+          199,
+          180
+        ],
+        "hex": "#d8c7b4",
+        "uvSafeRectBottomLeft": [
+          0.267578125,
+          0.033203125,
+          0.279296875,
+          0.060546875
+        ]
+      },
+      "trim": {
+        "label": "Trim biru abu",
+        "pixelRectTopLeft": [
+          928,
+          1088,
+          32,
+          64
+        ],
+        "samplePixel": [
+          944,
+          1120
+        ],
+        "rgb": [
+          143,
+          147,
+          143
+        ],
+        "hex": "#8f938f",
+        "uvSafeRectBottomLeft": [
+          0.455078125,
+          0.439453125,
+          0.466796875,
+          0.466796875
+        ]
+      },
+      "trim_dark": {
+        "label": "Sisi trim",
+        "pixelRectTopLeft": [
+          960,
+          1984,
+          32,
+          64
+        ],
+        "samplePixel": [
+          976,
+          2016
+        ],
+        "rgb": [
+          77,
+          109,
+          116
+        ],
+        "hex": "#4d6d74",
+        "uvSafeRectBottomLeft": [
+          0.470703125,
+          0.001953125,
+          0.482421875,
+          0.029296875
+        ]
+      },
+      "roof": {
+        "label": "Shingle coklat charcoal",
+        "pixelRectTopLeft": [
+          832,
+          1536,
+          32,
+          64
+        ],
+        "samplePixel": [
+          848,
+          1568
+        ],
+        "rgb": [
+          82,
+          71,
+          65
+        ],
+        "hex": "#524741",
+        "uvSafeRectBottomLeft": [
+          0.408203125,
+          0.220703125,
+          0.419921875,
+          0.248046875
+        ]
+      },
+      "roof_dark": {
+        "label": "Celah atap",
+        "pixelRectTopLeft": [
+          896,
+          1728,
+          32,
+          64
+        ],
+        "samplePixel": [
+          912,
+          1760
+        ],
+        "rgb": [
+          49,
+          49,
+          49
+        ],
+        "hex": "#313131",
+        "uvSafeRectBottomLeft": [
+          0.439453125,
+          0.126953125,
+          0.451171875,
+          0.154296875
+        ]
+      },
+      "stone": {
+        "label": "Batu fondasi",
+        "pixelRectTopLeft": [
+          640,
+          1024,
+          32,
+          64
+        ],
+        "samplePixel": [
+          656,
+          1056
+        ],
+        "rgb": [
+          176,
+          160,
+          148
+        ],
+        "hex": "#b0a094",
+        "uvSafeRectBottomLeft": [
+          0.314453125,
+          0.470703125,
+          0.326171875,
+          0.498046875
+        ]
+      },
+      "stone_light": {
+        "label": "Variasi batu",
+        "pixelRectTopLeft": [
+          512,
+          1664,
+          32,
+          64
+        ],
+        "samplePixel": [
+          528,
+          1696
+        ],
+        "rgb": [
+          183,
+          175,
+          159
+        ],
+        "hex": "#b7af9f",
+        "uvSafeRectBottomLeft": [
+          0.251953125,
+          0.158203125,
+          0.263671875,
+          0.185546875
+        ]
+      },
+      "metal": {
+        "label": "Engsel / rongga gelap",
+        "pixelRectTopLeft": [
+          896,
+          1728,
+          32,
+          64
+        ],
+        "samplePixel": [
+          912,
+          1760
+        ],
+        "rgb": [
+          49,
+          49,
+          49
+        ],
+        "hex": "#313131",
+        "uvSafeRectBottomLeft": [
+          0.439453125,
+          0.126953125,
+          0.451171875,
+          0.154296875
+        ]
+      },
+      "wire": {
+        "label": "Kawat sederhana",
+        "pixelRectTopLeft": [
+          288,
+          1216,
+          32,
+          64
+        ],
+        "samplePixel": [
+          304,
+          1248
+        ],
+        "rgb": [
+          143,
+          132,
+          103
+        ],
+        "hex": "#8f8467",
+        "uvSafeRectBottomLeft": [
+          0.142578125,
+          0.376953125,
+          0.154296875,
+          0.404296875
+        ]
+      },
+      "glow": {
+        "label": "Core lampu hangat",
+        "pixelRectTopLeft": [
+          576,
+          1984,
+          32,
+          64
+        ],
+        "samplePixel": [
+          592,
+          2016
+        ],
+        "rgb": [
+          255,
+          217,
+          86
+        ],
+        "hex": "#ffd956",
+        "uvSafeRectBottomLeft": [
+          0.283203125,
+          0.001953125,
+          0.294921875,
+          0.029296875
+        ]
+      }
+    },
+    "newRuntimeTextures": 0,
+    "opaqueMaterial": "TFP_Atlas_1A.mat",
+    "emissionMaterial": "TFP_Atlas_Lights_1A.mat",
+    "maximumMaterialSlots": 2,
+    "uvInsetPixels": 4
+  },
+  "parts": [
+    {
+      "name": "Foundation",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        0.225,
+        0
+      ],
+      "sizeXYZ": [
+        6,
+        0.45,
+        7
+      ],
+      "material": "stone",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front0_0",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.0,
+          0.008,
+          -3.509
+        ],
+        [
+          -2.23,
+          0.008,
+          -3.509
+        ],
+        [
+          -2.23,
+          0.217,
+          -3.509
+        ],
+        [
+          -3.0,
+          0.217,
+          -3.509
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front0_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.2,
+          0.008,
+          -3.509
+        ],
+        [
+          -1.4300000000000002,
+          0.008,
+          -3.509
+        ],
+        [
+          -1.4300000000000002,
+          0.217,
+          -3.509
+        ],
+        [
+          -2.2,
+          0.217,
+          -3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front0_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.4,
+          0.008,
+          -3.509
+        ],
+        [
+          -0.6299999999999999,
+          0.008,
+          -3.509
+        ],
+        [
+          -0.6299999999999999,
+          0.217,
+          -3.509
+        ],
+        [
+          -1.4,
+          0.217,
+          -3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front0_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.5999999999999996,
+          0.008,
+          -3.509
+        ],
+        [
+          0.17000000000000037,
+          0.008,
+          -3.509
+        ],
+        [
+          0.17000000000000037,
+          0.217,
+          -3.509
+        ],
+        [
+          -0.5999999999999996,
+          0.217,
+          -3.509
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front0_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.20000000000000018,
+          0.008,
+          -3.509
+        ],
+        [
+          0.9700000000000002,
+          0.008,
+          -3.509
+        ],
+        [
+          0.9700000000000002,
+          0.217,
+          -3.509
+        ],
+        [
+          0.20000000000000018,
+          0.217,
+          -3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front0_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.0,
+          0.008,
+          -3.509
+        ],
+        [
+          1.77,
+          0.008,
+          -3.509
+        ],
+        [
+          1.77,
+          0.217,
+          -3.509
+        ],
+        [
+          1.0,
+          0.217,
+          -3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front0_6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.8000000000000007,
+          0.008,
+          -3.509
+        ],
+        [
+          2.5700000000000007,
+          0.008,
+          -3.509
+        ],
+        [
+          2.5700000000000007,
+          0.217,
+          -3.509
+        ],
+        [
+          1.8000000000000007,
+          0.217,
+          -3.509
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front0_7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.6000000000000005,
+          0.008,
+          -3.509
+        ],
+        [
+          3,
+          0.008,
+          -3.509
+        ],
+        [
+          3,
+          0.217,
+          -3.509
+        ],
+        [
+          2.6000000000000005,
+          0.217,
+          -3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front1_0",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.6,
+          0.233,
+          -3.509
+        ],
+        [
+          -1.83,
+          0.233,
+          -3.509
+        ],
+        [
+          -1.83,
+          0.442,
+          -3.509
+        ],
+        [
+          -2.6,
+          0.442,
+          -3.509
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front1_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.8000000000000003,
+          0.233,
+          -3.509
+        ],
+        [
+          -1.0300000000000002,
+          0.233,
+          -3.509
+        ],
+        [
+          -1.0300000000000002,
+          0.442,
+          -3.509
+        ],
+        [
+          -1.8000000000000003,
+          0.442,
+          -3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.9999999999999999,
+          0.233,
+          -3.509
+        ],
+        [
+          -0.22999999999999987,
+          0.233,
+          -3.509
+        ],
+        [
+          -0.22999999999999987,
+          0.442,
+          -3.509
+        ],
+        [
+          -0.9999999999999999,
+          0.442,
+          -3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.19999999999999962,
+          0.233,
+          -3.509
+        ],
+        [
+          0.5700000000000004,
+          0.233,
+          -3.509
+        ],
+        [
+          0.5700000000000004,
+          0.442,
+          -3.509
+        ],
+        [
+          -0.19999999999999962,
+          0.442,
+          -3.509
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front1_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.6000000000000002,
+          0.233,
+          -3.509
+        ],
+        [
+          1.37,
+          0.233,
+          -3.509
+        ],
+        [
+          1.37,
+          0.442,
+          -3.509
+        ],
+        [
+          0.6000000000000002,
+          0.442,
+          -3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front1_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.4,
+          0.233,
+          -3.509
+        ],
+        [
+          2.17,
+          0.233,
+          -3.509
+        ],
+        [
+          2.17,
+          0.442,
+          -3.509
+        ],
+        [
+          1.4,
+          0.442,
+          -3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_front1_6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.2000000000000006,
+          0.233,
+          -3.509
+        ],
+        [
+          2.9700000000000006,
+          0.233,
+          -3.509
+        ],
+        [
+          2.9700000000000006,
+          0.442,
+          -3.509
+        ],
+        [
+          2.2000000000000006,
+          0.442,
+          -3.509
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear0_0",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.0,
+          0.008,
+          3.509
+        ],
+        [
+          -2.23,
+          0.008,
+          3.509
+        ],
+        [
+          -2.23,
+          0.217,
+          3.509
+        ],
+        [
+          -3.0,
+          0.217,
+          3.509
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear0_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.2,
+          0.008,
+          3.509
+        ],
+        [
+          -1.4300000000000002,
+          0.008,
+          3.509
+        ],
+        [
+          -1.4300000000000002,
+          0.217,
+          3.509
+        ],
+        [
+          -2.2,
+          0.217,
+          3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear0_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.4,
+          0.008,
+          3.509
+        ],
+        [
+          -0.6299999999999999,
+          0.008,
+          3.509
+        ],
+        [
+          -0.6299999999999999,
+          0.217,
+          3.509
+        ],
+        [
+          -1.4,
+          0.217,
+          3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear0_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.5999999999999996,
+          0.008,
+          3.509
+        ],
+        [
+          0.17000000000000037,
+          0.008,
+          3.509
+        ],
+        [
+          0.17000000000000037,
+          0.217,
+          3.509
+        ],
+        [
+          -0.5999999999999996,
+          0.217,
+          3.509
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear0_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.20000000000000018,
+          0.008,
+          3.509
+        ],
+        [
+          0.9700000000000002,
+          0.008,
+          3.509
+        ],
+        [
+          0.9700000000000002,
+          0.217,
+          3.509
+        ],
+        [
+          0.20000000000000018,
+          0.217,
+          3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear0_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.0,
+          0.008,
+          3.509
+        ],
+        [
+          1.77,
+          0.008,
+          3.509
+        ],
+        [
+          1.77,
+          0.217,
+          3.509
+        ],
+        [
+          1.0,
+          0.217,
+          3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear0_6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.8000000000000007,
+          0.008,
+          3.509
+        ],
+        [
+          2.5700000000000007,
+          0.008,
+          3.509
+        ],
+        [
+          2.5700000000000007,
+          0.217,
+          3.509
+        ],
+        [
+          1.8000000000000007,
+          0.217,
+          3.509
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear0_7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.6000000000000005,
+          0.008,
+          3.509
+        ],
+        [
+          3,
+          0.008,
+          3.509
+        ],
+        [
+          3,
+          0.217,
+          3.509
+        ],
+        [
+          2.6000000000000005,
+          0.217,
+          3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear1_0",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.6,
+          0.233,
+          3.509
+        ],
+        [
+          -1.83,
+          0.233,
+          3.509
+        ],
+        [
+          -1.83,
+          0.442,
+          3.509
+        ],
+        [
+          -2.6,
+          0.442,
+          3.509
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear1_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.8000000000000003,
+          0.233,
+          3.509
+        ],
+        [
+          -1.0300000000000002,
+          0.233,
+          3.509
+        ],
+        [
+          -1.0300000000000002,
+          0.442,
+          3.509
+        ],
+        [
+          -1.8000000000000003,
+          0.442,
+          3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.9999999999999999,
+          0.233,
+          3.509
+        ],
+        [
+          -0.22999999999999987,
+          0.233,
+          3.509
+        ],
+        [
+          -0.22999999999999987,
+          0.442,
+          3.509
+        ],
+        [
+          -0.9999999999999999,
+          0.442,
+          3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.19999999999999962,
+          0.233,
+          3.509
+        ],
+        [
+          0.5700000000000004,
+          0.233,
+          3.509
+        ],
+        [
+          0.5700000000000004,
+          0.442,
+          3.509
+        ],
+        [
+          -0.19999999999999962,
+          0.442,
+          3.509
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear1_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.6000000000000002,
+          0.233,
+          3.509
+        ],
+        [
+          1.37,
+          0.233,
+          3.509
+        ],
+        [
+          1.37,
+          0.442,
+          3.509
+        ],
+        [
+          0.6000000000000002,
+          0.442,
+          3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear1_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.4,
+          0.233,
+          3.509
+        ],
+        [
+          2.17,
+          0.233,
+          3.509
+        ],
+        [
+          2.17,
+          0.442,
+          3.509
+        ],
+        [
+          1.4,
+          0.442,
+          3.509
+        ]
+      ],
+      "material": "stone",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_rear1_6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.2000000000000006,
+          0.233,
+          3.509
+        ],
+        [
+          2.9700000000000006,
+          0.233,
+          3.509
+        ],
+        [
+          2.9700000000000006,
+          0.442,
+          3.509
+        ],
+        [
+          2.2000000000000006,
+          0.442,
+          3.509
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left0_0",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.008,
+          -3.5
+        ],
+        [
+          -3.009,
+          0.008,
+          -2.73
+        ],
+        [
+          -3.009,
+          0.217,
+          -2.73
+        ],
+        [
+          -3.009,
+          0.217,
+          -3.5
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left0_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.008,
+          -2.7
+        ],
+        [
+          -3.009,
+          0.008,
+          -1.9300000000000002
+        ],
+        [
+          -3.009,
+          0.217,
+          -1.9300000000000002
+        ],
+        [
+          -3.009,
+          0.217,
+          -2.7
+        ]
+      ],
+      "material": "stone",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left0_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.008,
+          -1.9
+        ],
+        [
+          -3.009,
+          0.008,
+          -1.13
+        ],
+        [
+          -3.009,
+          0.217,
+          -1.13
+        ],
+        [
+          -3.009,
+          0.217,
+          -1.9
+        ]
+      ],
+      "material": "stone",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left0_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.008,
+          -1.0999999999999996
+        ],
+        [
+          -3.009,
+          0.008,
+          -0.3299999999999996
+        ],
+        [
+          -3.009,
+          0.217,
+          -0.3299999999999996
+        ],
+        [
+          -3.009,
+          0.217,
+          -1.0999999999999996
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left0_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.008,
+          -0.2999999999999998
+        ],
+        [
+          -3.009,
+          0.008,
+          0.4700000000000002
+        ],
+        [
+          -3.009,
+          0.217,
+          0.4700000000000002
+        ],
+        [
+          -3.009,
+          0.217,
+          -0.2999999999999998
+        ]
+      ],
+      "material": "stone",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left0_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.008,
+          0.5
+        ],
+        [
+          -3.009,
+          0.008,
+          1.27
+        ],
+        [
+          -3.009,
+          0.217,
+          1.27
+        ],
+        [
+          -3.009,
+          0.217,
+          0.5
+        ]
+      ],
+      "material": "stone",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left0_6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.008,
+          1.3000000000000007
+        ],
+        [
+          -3.009,
+          0.008,
+          2.0700000000000007
+        ],
+        [
+          -3.009,
+          0.217,
+          2.0700000000000007
+        ],
+        [
+          -3.009,
+          0.217,
+          1.3000000000000007
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left0_7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.008,
+          2.1000000000000005
+        ],
+        [
+          -3.009,
+          0.008,
+          2.8700000000000006
+        ],
+        [
+          -3.009,
+          0.217,
+          2.8700000000000006
+        ],
+        [
+          -3.009,
+          0.217,
+          2.1000000000000005
+        ]
+      ],
+      "material": "stone",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left0_8",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.008,
+          2.9000000000000004
+        ],
+        [
+          -3.009,
+          0.008,
+          3.5
+        ],
+        [
+          -3.009,
+          0.217,
+          3.5
+        ],
+        [
+          -3.009,
+          0.217,
+          2.9000000000000004
+        ]
+      ],
+      "material": "stone",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left1_0",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.233,
+          -3.1
+        ],
+        [
+          -3.009,
+          0.233,
+          -2.33
+        ],
+        [
+          -3.009,
+          0.442,
+          -2.33
+        ],
+        [
+          -3.009,
+          0.442,
+          -3.1
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left1_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.233,
+          -2.3000000000000003
+        ],
+        [
+          -3.009,
+          0.233,
+          -1.5300000000000002
+        ],
+        [
+          -3.009,
+          0.442,
+          -1.5300000000000002
+        ],
+        [
+          -3.009,
+          0.442,
+          -2.3000000000000003
+        ]
+      ],
+      "material": "stone",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.233,
+          -1.5
+        ],
+        [
+          -3.009,
+          0.233,
+          -0.73
+        ],
+        [
+          -3.009,
+          0.442,
+          -0.73
+        ],
+        [
+          -3.009,
+          0.442,
+          -1.5
+        ]
+      ],
+      "material": "stone",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.233,
+          -0.6999999999999996
+        ],
+        [
+          -3.009,
+          0.233,
+          0.0700000000000004
+        ],
+        [
+          -3.009,
+          0.442,
+          0.0700000000000004
+        ],
+        [
+          -3.009,
+          0.442,
+          -0.6999999999999996
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left1_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.233,
+          0.1000000000000002
+        ],
+        [
+          -3.009,
+          0.233,
+          0.8700000000000002
+        ],
+        [
+          -3.009,
+          0.442,
+          0.8700000000000002
+        ],
+        [
+          -3.009,
+          0.442,
+          0.1000000000000002
+        ]
+      ],
+      "material": "stone",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left1_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.233,
+          0.9
+        ],
+        [
+          -3.009,
+          0.233,
+          1.67
+        ],
+        [
+          -3.009,
+          0.442,
+          1.67
+        ],
+        [
+          -3.009,
+          0.442,
+          0.9
+        ]
+      ],
+      "material": "stone",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left1_6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.233,
+          1.7000000000000006
+        ],
+        [
+          -3.009,
+          0.233,
+          2.4700000000000006
+        ],
+        [
+          -3.009,
+          0.442,
+          2.4700000000000006
+        ],
+        [
+          -3.009,
+          0.442,
+          1.7000000000000006
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left1_7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.233,
+          2.5000000000000004
+        ],
+        [
+          -3.009,
+          0.233,
+          3.2700000000000005
+        ],
+        [
+          -3.009,
+          0.442,
+          3.2700000000000005
+        ],
+        [
+          -3.009,
+          0.442,
+          2.5000000000000004
+        ]
+      ],
+      "material": "stone",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_left1_8",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.009,
+          0.233,
+          3.3000000000000003
+        ],
+        [
+          -3.009,
+          0.233,
+          3.5
+        ],
+        [
+          -3.009,
+          0.442,
+          3.5
+        ],
+        [
+          -3.009,
+          0.442,
+          3.3000000000000003
+        ]
+      ],
+      "material": "stone",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right0_0",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.008,
+          -3.5
+        ],
+        [
+          3.009,
+          0.008,
+          -2.73
+        ],
+        [
+          3.009,
+          0.217,
+          -2.73
+        ],
+        [
+          3.009,
+          0.217,
+          -3.5
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right0_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.008,
+          -2.7
+        ],
+        [
+          3.009,
+          0.008,
+          -1.9300000000000002
+        ],
+        [
+          3.009,
+          0.217,
+          -1.9300000000000002
+        ],
+        [
+          3.009,
+          0.217,
+          -2.7
+        ]
+      ],
+      "material": "stone",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right0_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.008,
+          -1.9
+        ],
+        [
+          3.009,
+          0.008,
+          -1.13
+        ],
+        [
+          3.009,
+          0.217,
+          -1.13
+        ],
+        [
+          3.009,
+          0.217,
+          -1.9
+        ]
+      ],
+      "material": "stone",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right0_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.008,
+          -1.0999999999999996
+        ],
+        [
+          3.009,
+          0.008,
+          -0.3299999999999996
+        ],
+        [
+          3.009,
+          0.217,
+          -0.3299999999999996
+        ],
+        [
+          3.009,
+          0.217,
+          -1.0999999999999996
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right0_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.008,
+          -0.2999999999999998
+        ],
+        [
+          3.009,
+          0.008,
+          0.4700000000000002
+        ],
+        [
+          3.009,
+          0.217,
+          0.4700000000000002
+        ],
+        [
+          3.009,
+          0.217,
+          -0.2999999999999998
+        ]
+      ],
+      "material": "stone",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right0_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.008,
+          0.5
+        ],
+        [
+          3.009,
+          0.008,
+          1.27
+        ],
+        [
+          3.009,
+          0.217,
+          1.27
+        ],
+        [
+          3.009,
+          0.217,
+          0.5
+        ]
+      ],
+      "material": "stone",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right0_6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.008,
+          1.3000000000000007
+        ],
+        [
+          3.009,
+          0.008,
+          2.0700000000000007
+        ],
+        [
+          3.009,
+          0.217,
+          2.0700000000000007
+        ],
+        [
+          3.009,
+          0.217,
+          1.3000000000000007
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right0_7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.008,
+          2.1000000000000005
+        ],
+        [
+          3.009,
+          0.008,
+          2.8700000000000006
+        ],
+        [
+          3.009,
+          0.217,
+          2.8700000000000006
+        ],
+        [
+          3.009,
+          0.217,
+          2.1000000000000005
+        ]
+      ],
+      "material": "stone",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right0_8",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.008,
+          2.9000000000000004
+        ],
+        [
+          3.009,
+          0.008,
+          3.5
+        ],
+        [
+          3.009,
+          0.217,
+          3.5
+        ],
+        [
+          3.009,
+          0.217,
+          2.9000000000000004
+        ]
+      ],
+      "material": "stone",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right1_0",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.233,
+          -3.1
+        ],
+        [
+          3.009,
+          0.233,
+          -2.33
+        ],
+        [
+          3.009,
+          0.442,
+          -2.33
+        ],
+        [
+          3.009,
+          0.442,
+          -3.1
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right1_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.233,
+          -2.3000000000000003
+        ],
+        [
+          3.009,
+          0.233,
+          -1.5300000000000002
+        ],
+        [
+          3.009,
+          0.442,
+          -1.5300000000000002
+        ],
+        [
+          3.009,
+          0.442,
+          -2.3000000000000003
+        ]
+      ],
+      "material": "stone",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.233,
+          -1.5
+        ],
+        [
+          3.009,
+          0.233,
+          -0.73
+        ],
+        [
+          3.009,
+          0.442,
+          -0.73
+        ],
+        [
+          3.009,
+          0.442,
+          -1.5
+        ]
+      ],
+      "material": "stone",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.233,
+          -0.6999999999999996
+        ],
+        [
+          3.009,
+          0.233,
+          0.0700000000000004
+        ],
+        [
+          3.009,
+          0.442,
+          0.0700000000000004
+        ],
+        [
+          3.009,
+          0.442,
+          -0.6999999999999996
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right1_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.233,
+          0.1000000000000002
+        ],
+        [
+          3.009,
+          0.233,
+          0.8700000000000002
+        ],
+        [
+          3.009,
+          0.442,
+          0.8700000000000002
+        ],
+        [
+          3.009,
+          0.442,
+          0.1000000000000002
+        ]
+      ],
+      "material": "stone",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right1_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.233,
+          0.9
+        ],
+        [
+          3.009,
+          0.233,
+          1.67
+        ],
+        [
+          3.009,
+          0.442,
+          1.67
+        ],
+        [
+          3.009,
+          0.442,
+          0.9
+        ]
+      ],
+      "material": "stone",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right1_6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.233,
+          1.7000000000000006
+        ],
+        [
+          3.009,
+          0.233,
+          2.4700000000000006
+        ],
+        [
+          3.009,
+          0.442,
+          2.4700000000000006
+        ],
+        [
+          3.009,
+          0.442,
+          1.7000000000000006
+        ]
+      ],
+      "material": "stone_light",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right1_7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.233,
+          2.5000000000000004
+        ],
+        [
+          3.009,
+          0.233,
+          3.2700000000000005
+        ],
+        [
+          3.009,
+          0.442,
+          3.2700000000000005
+        ],
+        [
+          3.009,
+          0.442,
+          2.5000000000000004
+        ]
+      ],
+      "material": "stone",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "StoneBlock_right1_8",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.009,
+          0.233,
+          3.3000000000000003
+        ],
+        [
+          3.009,
+          0.233,
+          3.5
+        ],
+        [
+          3.009,
+          0.442,
+          3.5
+        ],
+        [
+          3.009,
+          0.442,
+          3.3000000000000003
+        ]
+      ],
+      "material": "stone",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "WallBody",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        2.125,
+        0
+      ],
+      "sizeXYZ": [
+        6,
+        3.35,
+        7
+      ],
+      "material": "wall",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "Gable_front",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3,
+          3.8,
+          -3.5
+        ],
+        [
+          3,
+          3.8,
+          -3.5
+        ],
+        [
+          0,
+          5.6,
+          -3.5
+        ]
+      ],
+      "material": "wall",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "GableRail_front",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        3.72,
+        -3.54
+      ],
+      "sizeXYZ": [
+        6,
+        0.16,
+        0.12
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "KingPost_front",
+      "type": "beam",
+      "fromXYZ": [
+        0,
+        3.8,
+        -3.5
+      ],
+      "toXYZ": [
+        0,
+        5.5,
+        -3.5
+      ],
+      "width": 0.16,
+      "depth": 0.12,
+      "material": "trim",
+      "facade": "front"
+    },
+    {
+      "name": "Fascia_front-1",
+      "type": "beam",
+      "fromXYZ": [
+        -3.358840339565798,
+        3.4914005659429965,
+        -3.82
+      ],
+      "toXYZ": [
+        0.04115966043420212,
+        5.531400565942996,
+        -3.82
+      ],
+      "width": 0.16,
+      "depth": 0.16,
+      "material": "trim",
+      "facade": "front"
+    },
+    {
+      "name": "Fascia_front1",
+      "type": "beam",
+      "fromXYZ": [
+        3.358840339565798,
+        3.4914005659429965,
+        -3.82
+      ],
+      "toXYZ": [
+        -0.04115966043420212,
+        5.531400565942996,
+        -3.82
+      ],
+      "width": 0.16,
+      "depth": 0.16,
+      "material": "trim",
+      "facade": "front"
+    },
+    {
+      "name": "Gable_rear",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3,
+          3.8,
+          3.5
+        ],
+        [
+          3,
+          3.8,
+          3.5
+        ],
+        [
+          0,
+          5.6,
+          3.5
+        ]
+      ],
+      "material": "wall",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "GableRail_rear",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        3.72,
+        3.54
+      ],
+      "sizeXYZ": [
+        6,
+        0.16,
+        0.12
+      ],
+      "material": "trim",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "KingPost_rear",
+      "type": "beam",
+      "fromXYZ": [
+        0,
+        3.8,
+        3.5
+      ],
+      "toXYZ": [
+        0,
+        5.5,
+        3.5
+      ],
+      "width": 0.16,
+      "depth": 0.12,
+      "material": "trim",
+      "facade": "rear"
+    },
+    {
+      "name": "Fascia_rear-1",
+      "type": "beam",
+      "fromXYZ": [
+        -3.358840339565798,
+        3.4914005659429965,
+        3.82
+      ],
+      "toXYZ": [
+        0.04115966043420212,
+        5.531400565942996,
+        3.82
+      ],
+      "width": 0.16,
+      "depth": 0.16,
+      "material": "trim",
+      "facade": "rear"
+    },
+    {
+      "name": "Fascia_rear1",
+      "type": "beam",
+      "fromXYZ": [
+        3.358840339565798,
+        3.4914005659429965,
+        3.82
+      ],
+      "toXYZ": [
+        -0.04115966043420212,
+        5.531400565942996,
+        3.82
+      ],
+      "width": 0.16,
+      "depth": 0.16,
+      "material": "trim",
+      "facade": "rear"
+    },
+    {
+      "name": "Roof_-1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.6,
+          -3.9
+        ],
+        [
+          -3.4,
+          3.56,
+          -3.9
+        ],
+        [
+          -3.4,
+          3.56,
+          3.9
+        ],
+        [
+          0,
+          5.6,
+          3.9
+        ]
+      ],
+      "material": "roof",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "Eave_-1",
+      "type": "box",
+      "centerXYZ": [
+        -3.29,
+        3.49,
+        0
+      ],
+      "sizeXYZ": [
+        0.18,
+        0.14,
+        7.8
+      ],
+      "material": "trim",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "Brace_-1_0",
+      "type": "beam",
+      "fromXYZ": [
+        -3.04,
+        3.1,
+        -2.85
+      ],
+      "toXYZ": [
+        -3.31,
+        3.46,
+        -2.85
+      ],
+      "width": 0.12,
+      "depth": 0.12,
+      "material": "trim",
+      "facade": "all"
+    },
+    {
+      "name": "Brace_-1_1",
+      "type": "beam",
+      "fromXYZ": [
+        -3.04,
+        3.1,
+        -0.95
+      ],
+      "toXYZ": [
+        -3.31,
+        3.46,
+        -0.95
+      ],
+      "width": 0.12,
+      "depth": 0.12,
+      "material": "trim",
+      "facade": "all"
+    },
+    {
+      "name": "Brace_-1_2",
+      "type": "beam",
+      "fromXYZ": [
+        -3.04,
+        3.1,
+        0.95
+      ],
+      "toXYZ": [
+        -3.31,
+        3.46,
+        0.95
+      ],
+      "width": 0.12,
+      "depth": 0.12,
+      "material": "trim",
+      "facade": "all"
+    },
+    {
+      "name": "Brace_-1_3",
+      "type": "beam",
+      "fromXYZ": [
+        -3.04,
+        3.1,
+        2.85
+      ],
+      "toXYZ": [
+        -3.31,
+        3.46,
+        2.85
+      ],
+      "width": 0.12,
+      "depth": 0.12,
+      "material": "trim",
+      "facade": "all"
+    },
+    {
+      "name": "Roof_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.6,
+          -3.9
+        ],
+        [
+          3.4,
+          3.56,
+          -3.9
+        ],
+        [
+          3.4,
+          3.56,
+          3.9
+        ],
+        [
+          0,
+          5.6,
+          3.9
+        ]
+      ],
+      "material": "roof",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "Eave_1",
+      "type": "box",
+      "centerXYZ": [
+        3.29,
+        3.49,
+        0
+      ],
+      "sizeXYZ": [
+        0.18,
+        0.14,
+        7.8
+      ],
+      "material": "trim",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "Brace_1_0",
+      "type": "beam",
+      "fromXYZ": [
+        3.04,
+        3.1,
+        -2.85
+      ],
+      "toXYZ": [
+        3.31,
+        3.46,
+        -2.85
+      ],
+      "width": 0.12,
+      "depth": 0.12,
+      "material": "trim",
+      "facade": "all"
+    },
+    {
+      "name": "Brace_1_1",
+      "type": "beam",
+      "fromXYZ": [
+        3.04,
+        3.1,
+        -0.95
+      ],
+      "toXYZ": [
+        3.31,
+        3.46,
+        -0.95
+      ],
+      "width": 0.12,
+      "depth": 0.12,
+      "material": "trim",
+      "facade": "all"
+    },
+    {
+      "name": "Brace_1_2",
+      "type": "beam",
+      "fromXYZ": [
+        3.04,
+        3.1,
+        0.95
+      ],
+      "toXYZ": [
+        3.31,
+        3.46,
+        0.95
+      ],
+      "width": 0.12,
+      "depth": 0.12,
+      "material": "trim",
+      "facade": "all"
+    },
+    {
+      "name": "Brace_1_3",
+      "type": "beam",
+      "fromXYZ": [
+        3.04,
+        3.1,
+        2.85
+      ],
+      "toXYZ": [
+        3.31,
+        3.46,
+        2.85
+      ],
+      "width": 0.12,
+      "depth": 0.12,
+      "material": "trim",
+      "facade": "all"
+    },
+    {
+      "name": "RidgeCap",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        5.67,
+        0
+      ],
+      "sizeXYZ": [
+        0.2,
+        0.14,
+        7.8
+      ],
+      "material": "roof",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "Post_-2.89_-3.39",
+      "type": "box",
+      "centerXYZ": [
+        -2.89,
+        2.125,
+        -3.39
+      ],
+      "sizeXYZ": [
+        0.22,
+        3.35,
+        0.22
+      ],
+      "material": "trim",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "Post_-2.89_3.39",
+      "type": "box",
+      "centerXYZ": [
+        -2.89,
+        2.125,
+        3.39
+      ],
+      "sizeXYZ": [
+        0.22,
+        3.35,
+        0.22
+      ],
+      "material": "trim",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "Post_2.89_-3.39",
+      "type": "box",
+      "centerXYZ": [
+        2.89,
+        2.125,
+        -3.39
+      ],
+      "sizeXYZ": [
+        0.22,
+        3.35,
+        0.22
+      ],
+      "material": "trim",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "Post_2.89_3.39",
+      "type": "box",
+      "centerXYZ": [
+        2.89,
+        2.125,
+        3.39
+      ],
+      "sizeXYZ": [
+        0.22,
+        3.35,
+        0.22
+      ],
+      "material": "trim",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.754,
+          0.45,
+          -3.507
+        ],
+        [
+          -2.746,
+          0.45,
+          -3.507
+        ],
+        [
+          -2.746,
+          3.9499999999999997,
+          -3.507
+        ],
+        [
+          -2.754,
+          3.9499999999999997,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.504,
+          0.45,
+          -3.507
+        ],
+        [
+          -2.496,
+          0.45,
+          -3.507
+        ],
+        [
+          -2.496,
+          4.1,
+          -3.507
+        ],
+        [
+          -2.504,
+          4.1,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.254,
+          0.45,
+          -3.507
+        ],
+        [
+          -2.246,
+          0.45,
+          -3.507
+        ],
+        [
+          -2.246,
+          4.25,
+          -3.507
+        ],
+        [
+          -2.254,
+          4.25,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.004,
+          0.45,
+          -3.507
+        ],
+        [
+          -1.996,
+          0.45,
+          -3.507
+        ],
+        [
+          -1.996,
+          4.4,
+          -3.507
+        ],
+        [
+          -2.004,
+          4.4,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.754,
+          0.45,
+          -3.507
+        ],
+        [
+          -1.746,
+          0.45,
+          -3.507
+        ],
+        [
+          -1.746,
+          4.55,
+          -3.507
+        ],
+        [
+          -1.754,
+          4.55,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.504,
+          0.45,
+          -3.507
+        ],
+        [
+          -1.496,
+          0.45,
+          -3.507
+        ],
+        [
+          -1.496,
+          4.7,
+          -3.507
+        ],
+        [
+          -1.504,
+          4.7,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.254,
+          0.45,
+          -3.507
+        ],
+        [
+          -1.246,
+          0.45,
+          -3.507
+        ],
+        [
+          -1.246,
+          4.85,
+          -3.507
+        ],
+        [
+          -1.254,
+          4.85,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front8",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.004,
+          0.45,
+          -3.507
+        ],
+        [
+          -0.996,
+          0.45,
+          -3.507
+        ],
+        [
+          -0.996,
+          5.0,
+          -3.507
+        ],
+        [
+          -1.004,
+          5.0,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front9",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.754,
+          0.45,
+          -3.507
+        ],
+        [
+          -0.746,
+          0.45,
+          -3.507
+        ],
+        [
+          -0.746,
+          5.15,
+          -3.507
+        ],
+        [
+          -0.754,
+          5.15,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front10",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.504,
+          0.45,
+          -3.507
+        ],
+        [
+          -0.496,
+          0.45,
+          -3.507
+        ],
+        [
+          -0.496,
+          5.3,
+          -3.507
+        ],
+        [
+          -0.504,
+          5.3,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front11",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.254,
+          0.45,
+          -3.507
+        ],
+        [
+          -0.246,
+          0.45,
+          -3.507
+        ],
+        [
+          -0.246,
+          5.449999999999999,
+          -3.507
+        ],
+        [
+          -0.254,
+          5.449999999999999,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front12",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.004,
+          0.45,
+          -3.507
+        ],
+        [
+          0.004,
+          0.45,
+          -3.507
+        ],
+        [
+          0.004,
+          5.6,
+          -3.507
+        ],
+        [
+          -0.004,
+          5.6,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front13",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.246,
+          0.45,
+          -3.507
+        ],
+        [
+          0.254,
+          0.45,
+          -3.507
+        ],
+        [
+          0.254,
+          5.449999999999999,
+          -3.507
+        ],
+        [
+          0.246,
+          5.449999999999999,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front14",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.496,
+          0.45,
+          -3.507
+        ],
+        [
+          0.504,
+          0.45,
+          -3.507
+        ],
+        [
+          0.504,
+          5.3,
+          -3.507
+        ],
+        [
+          0.496,
+          5.3,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front15",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.746,
+          0.45,
+          -3.507
+        ],
+        [
+          0.754,
+          0.45,
+          -3.507
+        ],
+        [
+          0.754,
+          5.15,
+          -3.507
+        ],
+        [
+          0.746,
+          5.15,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front16",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.996,
+          0.45,
+          -3.507
+        ],
+        [
+          1.004,
+          0.45,
+          -3.507
+        ],
+        [
+          1.004,
+          5.0,
+          -3.507
+        ],
+        [
+          0.996,
+          5.0,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front17",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.246,
+          0.45,
+          -3.507
+        ],
+        [
+          1.254,
+          0.45,
+          -3.507
+        ],
+        [
+          1.254,
+          4.85,
+          -3.507
+        ],
+        [
+          1.246,
+          4.85,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front18",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.496,
+          0.45,
+          -3.507
+        ],
+        [
+          1.504,
+          0.45,
+          -3.507
+        ],
+        [
+          1.504,
+          4.7,
+          -3.507
+        ],
+        [
+          1.496,
+          4.7,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front19",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.746,
+          0.45,
+          -3.507
+        ],
+        [
+          1.754,
+          0.45,
+          -3.507
+        ],
+        [
+          1.754,
+          4.55,
+          -3.507
+        ],
+        [
+          1.746,
+          4.55,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front20",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.996,
+          0.45,
+          -3.507
+        ],
+        [
+          2.004,
+          0.45,
+          -3.507
+        ],
+        [
+          2.004,
+          4.4,
+          -3.507
+        ],
+        [
+          1.996,
+          4.4,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front21",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.246,
+          0.45,
+          -3.507
+        ],
+        [
+          2.254,
+          0.45,
+          -3.507
+        ],
+        [
+          2.254,
+          4.25,
+          -3.507
+        ],
+        [
+          2.246,
+          4.25,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front22",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.496,
+          0.45,
+          -3.507
+        ],
+        [
+          2.504,
+          0.45,
+          -3.507
+        ],
+        [
+          2.504,
+          4.1,
+          -3.507
+        ],
+        [
+          2.496,
+          4.1,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_front23",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.746,
+          0.45,
+          -3.507
+        ],
+        [
+          2.754,
+          0.45,
+          -3.507
+        ],
+        [
+          2.754,
+          3.9499999999999997,
+          -3.507
+        ],
+        [
+          2.746,
+          3.9499999999999997,
+          -3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.754,
+          0.45,
+          3.507
+        ],
+        [
+          -2.746,
+          0.45,
+          3.507
+        ],
+        [
+          -2.746,
+          3.9499999999999997,
+          3.507
+        ],
+        [
+          -2.754,
+          3.9499999999999997,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.504,
+          0.45,
+          3.507
+        ],
+        [
+          -2.496,
+          0.45,
+          3.507
+        ],
+        [
+          -2.496,
+          4.1,
+          3.507
+        ],
+        [
+          -2.504,
+          4.1,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.254,
+          0.45,
+          3.507
+        ],
+        [
+          -2.246,
+          0.45,
+          3.507
+        ],
+        [
+          -2.246,
+          4.25,
+          3.507
+        ],
+        [
+          -2.254,
+          4.25,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.004,
+          0.45,
+          3.507
+        ],
+        [
+          -1.996,
+          0.45,
+          3.507
+        ],
+        [
+          -1.996,
+          4.4,
+          3.507
+        ],
+        [
+          -2.004,
+          4.4,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.754,
+          0.45,
+          3.507
+        ],
+        [
+          -1.746,
+          0.45,
+          3.507
+        ],
+        [
+          -1.746,
+          4.55,
+          3.507
+        ],
+        [
+          -1.754,
+          4.55,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.504,
+          0.45,
+          3.507
+        ],
+        [
+          -1.496,
+          0.45,
+          3.507
+        ],
+        [
+          -1.496,
+          4.7,
+          3.507
+        ],
+        [
+          -1.504,
+          4.7,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.254,
+          0.45,
+          3.507
+        ],
+        [
+          -1.246,
+          0.45,
+          3.507
+        ],
+        [
+          -1.246,
+          4.85,
+          3.507
+        ],
+        [
+          -1.254,
+          4.85,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear8",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.004,
+          0.45,
+          3.507
+        ],
+        [
+          -0.996,
+          0.45,
+          3.507
+        ],
+        [
+          -0.996,
+          5.0,
+          3.507
+        ],
+        [
+          -1.004,
+          5.0,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear9",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.754,
+          0.45,
+          3.507
+        ],
+        [
+          -0.746,
+          0.45,
+          3.507
+        ],
+        [
+          -0.746,
+          5.15,
+          3.507
+        ],
+        [
+          -0.754,
+          5.15,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear10",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.504,
+          0.45,
+          3.507
+        ],
+        [
+          -0.496,
+          0.45,
+          3.507
+        ],
+        [
+          -0.496,
+          5.3,
+          3.507
+        ],
+        [
+          -0.504,
+          5.3,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear11",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.254,
+          0.45,
+          3.507
+        ],
+        [
+          -0.246,
+          0.45,
+          3.507
+        ],
+        [
+          -0.246,
+          5.449999999999999,
+          3.507
+        ],
+        [
+          -0.254,
+          5.449999999999999,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear12",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.004,
+          0.45,
+          3.507
+        ],
+        [
+          0.004,
+          0.45,
+          3.507
+        ],
+        [
+          0.004,
+          5.6,
+          3.507
+        ],
+        [
+          -0.004,
+          5.6,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear13",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.246,
+          0.45,
+          3.507
+        ],
+        [
+          0.254,
+          0.45,
+          3.507
+        ],
+        [
+          0.254,
+          5.449999999999999,
+          3.507
+        ],
+        [
+          0.246,
+          5.449999999999999,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear14",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.496,
+          0.45,
+          3.507
+        ],
+        [
+          0.504,
+          0.45,
+          3.507
+        ],
+        [
+          0.504,
+          5.3,
+          3.507
+        ],
+        [
+          0.496,
+          5.3,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear15",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.746,
+          0.45,
+          3.507
+        ],
+        [
+          0.754,
+          0.45,
+          3.507
+        ],
+        [
+          0.754,
+          5.15,
+          3.507
+        ],
+        [
+          0.746,
+          5.15,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear16",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.996,
+          0.45,
+          3.507
+        ],
+        [
+          1.004,
+          0.45,
+          3.507
+        ],
+        [
+          1.004,
+          5.0,
+          3.507
+        ],
+        [
+          0.996,
+          5.0,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear17",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.246,
+          0.45,
+          3.507
+        ],
+        [
+          1.254,
+          0.45,
+          3.507
+        ],
+        [
+          1.254,
+          4.85,
+          3.507
+        ],
+        [
+          1.246,
+          4.85,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear18",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.496,
+          0.45,
+          3.507
+        ],
+        [
+          1.504,
+          0.45,
+          3.507
+        ],
+        [
+          1.504,
+          4.7,
+          3.507
+        ],
+        [
+          1.496,
+          4.7,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear19",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.746,
+          0.45,
+          3.507
+        ],
+        [
+          1.754,
+          0.45,
+          3.507
+        ],
+        [
+          1.754,
+          4.55,
+          3.507
+        ],
+        [
+          1.746,
+          4.55,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear20",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.996,
+          0.45,
+          3.507
+        ],
+        [
+          2.004,
+          0.45,
+          3.507
+        ],
+        [
+          2.004,
+          4.4,
+          3.507
+        ],
+        [
+          1.996,
+          4.4,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear21",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.246,
+          0.45,
+          3.507
+        ],
+        [
+          2.254,
+          0.45,
+          3.507
+        ],
+        [
+          2.254,
+          4.25,
+          3.507
+        ],
+        [
+          2.246,
+          4.25,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear22",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.496,
+          0.45,
+          3.507
+        ],
+        [
+          2.504,
+          0.45,
+          3.507
+        ],
+        [
+          2.504,
+          4.1,
+          3.507
+        ],
+        [
+          2.496,
+          4.1,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_rear23",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.746,
+          0.45,
+          3.507
+        ],
+        [
+          2.754,
+          0.45,
+          3.507
+        ],
+        [
+          2.754,
+          3.9499999999999997,
+          3.507
+        ],
+        [
+          2.746,
+          3.9499999999999997,
+          3.507
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -3.254
+        ],
+        [
+          -3.007,
+          0.45,
+          -3.246
+        ],
+        [
+          -3.007,
+          3.8,
+          -3.246
+        ],
+        [
+          -3.007,
+          3.8,
+          -3.254
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -3.004
+        ],
+        [
+          -3.007,
+          0.45,
+          -2.996
+        ],
+        [
+          -3.007,
+          3.8,
+          -2.996
+        ],
+        [
+          -3.007,
+          3.8,
+          -3.004
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -2.754
+        ],
+        [
+          -3.007,
+          0.45,
+          -2.746
+        ],
+        [
+          -3.007,
+          3.8,
+          -2.746
+        ],
+        [
+          -3.007,
+          3.8,
+          -2.754
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -2.504
+        ],
+        [
+          -3.007,
+          0.45,
+          -2.496
+        ],
+        [
+          -3.007,
+          3.8,
+          -2.496
+        ],
+        [
+          -3.007,
+          3.8,
+          -2.504
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -2.254
+        ],
+        [
+          -3.007,
+          0.45,
+          -2.246
+        ],
+        [
+          -3.007,
+          3.8,
+          -2.246
+        ],
+        [
+          -3.007,
+          3.8,
+          -2.254
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -2.004
+        ],
+        [
+          -3.007,
+          0.45,
+          -1.996
+        ],
+        [
+          -3.007,
+          3.8,
+          -1.996
+        ],
+        [
+          -3.007,
+          3.8,
+          -2.004
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -1.754
+        ],
+        [
+          -3.007,
+          0.45,
+          -1.746
+        ],
+        [
+          -3.007,
+          3.8,
+          -1.746
+        ],
+        [
+          -3.007,
+          3.8,
+          -1.754
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left8",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -1.504
+        ],
+        [
+          -3.007,
+          0.45,
+          -1.496
+        ],
+        [
+          -3.007,
+          3.8,
+          -1.496
+        ],
+        [
+          -3.007,
+          3.8,
+          -1.504
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left9",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -1.254
+        ],
+        [
+          -3.007,
+          0.45,
+          -1.246
+        ],
+        [
+          -3.007,
+          3.8,
+          -1.246
+        ],
+        [
+          -3.007,
+          3.8,
+          -1.254
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left10",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -1.004
+        ],
+        [
+          -3.007,
+          0.45,
+          -0.996
+        ],
+        [
+          -3.007,
+          3.8,
+          -0.996
+        ],
+        [
+          -3.007,
+          3.8,
+          -1.004
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left11",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -0.754
+        ],
+        [
+          -3.007,
+          0.45,
+          -0.746
+        ],
+        [
+          -3.007,
+          3.8,
+          -0.746
+        ],
+        [
+          -3.007,
+          3.8,
+          -0.754
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left12",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -0.504
+        ],
+        [
+          -3.007,
+          0.45,
+          -0.496
+        ],
+        [
+          -3.007,
+          3.8,
+          -0.496
+        ],
+        [
+          -3.007,
+          3.8,
+          -0.504
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left13",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -0.254
+        ],
+        [
+          -3.007,
+          0.45,
+          -0.246
+        ],
+        [
+          -3.007,
+          3.8,
+          -0.246
+        ],
+        [
+          -3.007,
+          3.8,
+          -0.254
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left14",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          -0.004
+        ],
+        [
+          -3.007,
+          0.45,
+          0.004
+        ],
+        [
+          -3.007,
+          3.8,
+          0.004
+        ],
+        [
+          -3.007,
+          3.8,
+          -0.004
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left15",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          0.246
+        ],
+        [
+          -3.007,
+          0.45,
+          0.254
+        ],
+        [
+          -3.007,
+          3.8,
+          0.254
+        ],
+        [
+          -3.007,
+          3.8,
+          0.246
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left16",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          0.496
+        ],
+        [
+          -3.007,
+          0.45,
+          0.504
+        ],
+        [
+          -3.007,
+          3.8,
+          0.504
+        ],
+        [
+          -3.007,
+          3.8,
+          0.496
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left17",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          0.746
+        ],
+        [
+          -3.007,
+          0.45,
+          0.754
+        ],
+        [
+          -3.007,
+          3.8,
+          0.754
+        ],
+        [
+          -3.007,
+          3.8,
+          0.746
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left18",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          0.996
+        ],
+        [
+          -3.007,
+          0.45,
+          1.004
+        ],
+        [
+          -3.007,
+          3.8,
+          1.004
+        ],
+        [
+          -3.007,
+          3.8,
+          0.996
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left19",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          1.246
+        ],
+        [
+          -3.007,
+          0.45,
+          1.254
+        ],
+        [
+          -3.007,
+          3.8,
+          1.254
+        ],
+        [
+          -3.007,
+          3.8,
+          1.246
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left20",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          1.496
+        ],
+        [
+          -3.007,
+          0.45,
+          1.504
+        ],
+        [
+          -3.007,
+          3.8,
+          1.504
+        ],
+        [
+          -3.007,
+          3.8,
+          1.496
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left21",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          1.746
+        ],
+        [
+          -3.007,
+          0.45,
+          1.754
+        ],
+        [
+          -3.007,
+          3.8,
+          1.754
+        ],
+        [
+          -3.007,
+          3.8,
+          1.746
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left22",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          1.996
+        ],
+        [
+          -3.007,
+          0.45,
+          2.004
+        ],
+        [
+          -3.007,
+          3.8,
+          2.004
+        ],
+        [
+          -3.007,
+          3.8,
+          1.996
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left23",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          2.246
+        ],
+        [
+          -3.007,
+          0.45,
+          2.254
+        ],
+        [
+          -3.007,
+          3.8,
+          2.254
+        ],
+        [
+          -3.007,
+          3.8,
+          2.246
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left24",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          2.496
+        ],
+        [
+          -3.007,
+          0.45,
+          2.504
+        ],
+        [
+          -3.007,
+          3.8,
+          2.504
+        ],
+        [
+          -3.007,
+          3.8,
+          2.496
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left25",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          2.746
+        ],
+        [
+          -3.007,
+          0.45,
+          2.754
+        ],
+        [
+          -3.007,
+          3.8,
+          2.754
+        ],
+        [
+          -3.007,
+          3.8,
+          2.746
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left26",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          2.996
+        ],
+        [
+          -3.007,
+          0.45,
+          3.004
+        ],
+        [
+          -3.007,
+          3.8,
+          3.004
+        ],
+        [
+          -3.007,
+          3.8,
+          2.996
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_left27",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.007,
+          0.45,
+          3.246
+        ],
+        [
+          -3.007,
+          0.45,
+          3.254
+        ],
+        [
+          -3.007,
+          3.8,
+          3.254
+        ],
+        [
+          -3.007,
+          3.8,
+          3.246
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -3.254
+        ],
+        [
+          3.007,
+          0.45,
+          -3.246
+        ],
+        [
+          3.007,
+          3.8,
+          -3.246
+        ],
+        [
+          3.007,
+          3.8,
+          -3.254
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -3.004
+        ],
+        [
+          3.007,
+          0.45,
+          -2.996
+        ],
+        [
+          3.007,
+          3.8,
+          -2.996
+        ],
+        [
+          3.007,
+          3.8,
+          -3.004
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -2.754
+        ],
+        [
+          3.007,
+          0.45,
+          -2.746
+        ],
+        [
+          3.007,
+          3.8,
+          -2.746
+        ],
+        [
+          3.007,
+          3.8,
+          -2.754
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -2.504
+        ],
+        [
+          3.007,
+          0.45,
+          -2.496
+        ],
+        [
+          3.007,
+          3.8,
+          -2.496
+        ],
+        [
+          3.007,
+          3.8,
+          -2.504
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -2.254
+        ],
+        [
+          3.007,
+          0.45,
+          -2.246
+        ],
+        [
+          3.007,
+          3.8,
+          -2.246
+        ],
+        [
+          3.007,
+          3.8,
+          -2.254
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -2.004
+        ],
+        [
+          3.007,
+          0.45,
+          -1.996
+        ],
+        [
+          3.007,
+          3.8,
+          -1.996
+        ],
+        [
+          3.007,
+          3.8,
+          -2.004
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -1.754
+        ],
+        [
+          3.007,
+          0.45,
+          -1.746
+        ],
+        [
+          3.007,
+          3.8,
+          -1.746
+        ],
+        [
+          3.007,
+          3.8,
+          -1.754
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right8",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -1.504
+        ],
+        [
+          3.007,
+          0.45,
+          -1.496
+        ],
+        [
+          3.007,
+          3.8,
+          -1.496
+        ],
+        [
+          3.007,
+          3.8,
+          -1.504
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right9",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -1.254
+        ],
+        [
+          3.007,
+          0.45,
+          -1.246
+        ],
+        [
+          3.007,
+          3.8,
+          -1.246
+        ],
+        [
+          3.007,
+          3.8,
+          -1.254
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right10",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -1.004
+        ],
+        [
+          3.007,
+          0.45,
+          -0.996
+        ],
+        [
+          3.007,
+          3.8,
+          -0.996
+        ],
+        [
+          3.007,
+          3.8,
+          -1.004
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right11",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -0.754
+        ],
+        [
+          3.007,
+          0.45,
+          -0.746
+        ],
+        [
+          3.007,
+          3.8,
+          -0.746
+        ],
+        [
+          3.007,
+          3.8,
+          -0.754
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right12",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -0.504
+        ],
+        [
+          3.007,
+          0.45,
+          -0.496
+        ],
+        [
+          3.007,
+          3.8,
+          -0.496
+        ],
+        [
+          3.007,
+          3.8,
+          -0.504
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right13",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -0.254
+        ],
+        [
+          3.007,
+          0.45,
+          -0.246
+        ],
+        [
+          3.007,
+          3.8,
+          -0.246
+        ],
+        [
+          3.007,
+          3.8,
+          -0.254
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right14",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          -0.004
+        ],
+        [
+          3.007,
+          0.45,
+          0.004
+        ],
+        [
+          3.007,
+          3.8,
+          0.004
+        ],
+        [
+          3.007,
+          3.8,
+          -0.004
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right15",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          0.246
+        ],
+        [
+          3.007,
+          0.45,
+          0.254
+        ],
+        [
+          3.007,
+          3.8,
+          0.254
+        ],
+        [
+          3.007,
+          3.8,
+          0.246
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right16",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          0.496
+        ],
+        [
+          3.007,
+          0.45,
+          0.504
+        ],
+        [
+          3.007,
+          3.8,
+          0.504
+        ],
+        [
+          3.007,
+          3.8,
+          0.496
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right17",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          0.746
+        ],
+        [
+          3.007,
+          0.45,
+          0.754
+        ],
+        [
+          3.007,
+          3.8,
+          0.754
+        ],
+        [
+          3.007,
+          3.8,
+          0.746
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right18",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          0.996
+        ],
+        [
+          3.007,
+          0.45,
+          1.004
+        ],
+        [
+          3.007,
+          3.8,
+          1.004
+        ],
+        [
+          3.007,
+          3.8,
+          0.996
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right19",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          1.246
+        ],
+        [
+          3.007,
+          0.45,
+          1.254
+        ],
+        [
+          3.007,
+          3.8,
+          1.254
+        ],
+        [
+          3.007,
+          3.8,
+          1.246
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right20",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          1.496
+        ],
+        [
+          3.007,
+          0.45,
+          1.504
+        ],
+        [
+          3.007,
+          3.8,
+          1.504
+        ],
+        [
+          3.007,
+          3.8,
+          1.496
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right21",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          1.746
+        ],
+        [
+          3.007,
+          0.45,
+          1.754
+        ],
+        [
+          3.007,
+          3.8,
+          1.754
+        ],
+        [
+          3.007,
+          3.8,
+          1.746
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right22",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          1.996
+        ],
+        [
+          3.007,
+          0.45,
+          2.004
+        ],
+        [
+          3.007,
+          3.8,
+          2.004
+        ],
+        [
+          3.007,
+          3.8,
+          1.996
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right23",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          2.246
+        ],
+        [
+          3.007,
+          0.45,
+          2.254
+        ],
+        [
+          3.007,
+          3.8,
+          2.254
+        ],
+        [
+          3.007,
+          3.8,
+          2.246
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right24",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          2.496
+        ],
+        [
+          3.007,
+          0.45,
+          2.504
+        ],
+        [
+          3.007,
+          3.8,
+          2.504
+        ],
+        [
+          3.007,
+          3.8,
+          2.496
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right25",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          2.746
+        ],
+        [
+          3.007,
+          0.45,
+          2.754
+        ],
+        [
+          3.007,
+          3.8,
+          2.754
+        ],
+        [
+          3.007,
+          3.8,
+          2.746
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right26",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          2.996
+        ],
+        [
+          3.007,
+          0.45,
+          3.004
+        ],
+        [
+          3.007,
+          3.8,
+          3.004
+        ],
+        [
+          3.007,
+          3.8,
+          2.996
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "BoardLine_right27",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.007,
+          0.45,
+          3.246
+        ],
+        [
+          3.007,
+          0.45,
+          3.254
+        ],
+        [
+          3.007,
+          3.8,
+          3.254
+        ],
+        [
+          3.007,
+          3.8,
+          3.246
+        ]
+      ],
+      "material": "wall_side",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_-1_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.425,
+          5.354,
+          -3.9
+        ],
+        [
+          -0.437,
+          5.3468,
+          -3.9
+        ],
+        [
+          -0.437,
+          5.3468,
+          3.9
+        ],
+        [
+          -0.425,
+          5.354,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_-1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -0.85,
+          5.099,
+          -3.9
+        ],
+        [
+          -0.862,
+          5.0918,
+          -3.9
+        ],
+        [
+          -0.862,
+          5.0918,
+          3.9
+        ],
+        [
+          -0.85,
+          5.099,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_-1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.275,
+          4.844,
+          -3.9
+        ],
+        [
+          -1.287,
+          4.8368,
+          -3.9
+        ],
+        [
+          -1.287,
+          4.8368,
+          3.9
+        ],
+        [
+          -1.275,
+          4.844,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_-1_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -1.7,
+          4.589,
+          -3.9
+        ],
+        [
+          -1.712,
+          4.5818,
+          -3.9
+        ],
+        [
+          -1.712,
+          4.5818,
+          3.9
+        ],
+        [
+          -1.7,
+          4.589,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_-1_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.125,
+          4.334,
+          -3.9
+        ],
+        [
+          -2.137,
+          4.3267999999999995,
+          -3.9
+        ],
+        [
+          -2.137,
+          4.3267999999999995,
+          3.9
+        ],
+        [
+          -2.125,
+          4.334,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_-1_6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.55,
+          4.079000000000001,
+          -3.9
+        ],
+        [
+          -2.562,
+          4.0718000000000005,
+          -3.9
+        ],
+        [
+          -2.562,
+          4.0718000000000005,
+          3.9
+        ],
+        [
+          -2.55,
+          4.079000000000001,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_-1_7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -2.975,
+          3.8239999999999994,
+          -3.9
+        ],
+        [
+          -2.987,
+          3.8167999999999993,
+          -3.9
+        ],
+        [
+          -2.987,
+          3.8167999999999993,
+          3.9
+        ],
+        [
+          -2.975,
+          3.8239999999999994,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_-1_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          -3.255
+        ],
+        [
+          -3.4,
+          3.569,
+          -3.255
+        ],
+        [
+          -3.4,
+          3.569,
+          -3.245
+        ],
+        [
+          0,
+          5.609,
+          -3.245
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_-1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          -2.6049999999999995
+        ],
+        [
+          -3.4,
+          3.569,
+          -2.6049999999999995
+        ],
+        [
+          -3.4,
+          3.569,
+          -2.5949999999999998
+        ],
+        [
+          0,
+          5.609,
+          -2.5949999999999998
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_-1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          -1.9549999999999998
+        ],
+        [
+          -3.4,
+          3.569,
+          -1.9549999999999998
+        ],
+        [
+          -3.4,
+          3.569,
+          -1.945
+        ],
+        [
+          0,
+          5.609,
+          -1.945
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_-1_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          -1.3049999999999997
+        ],
+        [
+          -3.4,
+          3.569,
+          -1.3049999999999997
+        ],
+        [
+          -3.4,
+          3.569,
+          -1.295
+        ],
+        [
+          0,
+          5.609,
+          -1.295
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_-1_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          -0.6549999999999999
+        ],
+        [
+          -3.4,
+          3.569,
+          -0.6549999999999999
+        ],
+        [
+          -3.4,
+          3.569,
+          -0.6449999999999999
+        ],
+        [
+          0,
+          5.609,
+          -0.6449999999999999
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_-1_6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          -0.005
+        ],
+        [
+          -3.4,
+          3.569,
+          -0.005
+        ],
+        [
+          -3.4,
+          3.569,
+          0.005
+        ],
+        [
+          0,
+          5.609,
+          0.005
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_-1_7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          0.6449999999999999
+        ],
+        [
+          -3.4,
+          3.569,
+          0.6449999999999999
+        ],
+        [
+          -3.4,
+          3.569,
+          0.6549999999999999
+        ],
+        [
+          0,
+          5.609,
+          0.6549999999999999
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_-1_8",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          1.2950000000000004
+        ],
+        [
+          -3.4,
+          3.569,
+          1.2950000000000004
+        ],
+        [
+          -3.4,
+          3.569,
+          1.3050000000000002
+        ],
+        [
+          0,
+          5.609,
+          1.3050000000000002
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_-1_9",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          1.9450000000000007
+        ],
+        [
+          -3.4,
+          3.569,
+          1.9450000000000007
+        ],
+        [
+          -3.4,
+          3.569,
+          1.9550000000000005
+        ],
+        [
+          0,
+          5.609,
+          1.9550000000000005
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_-1_10",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          2.595
+        ],
+        [
+          -3.4,
+          3.569,
+          2.595
+        ],
+        [
+          -3.4,
+          3.569,
+          2.605
+        ],
+        [
+          0,
+          5.609,
+          2.605
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_-1_11",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          3.2449999999999997
+        ],
+        [
+          -3.4,
+          3.569,
+          3.2449999999999997
+        ],
+        [
+          -3.4,
+          3.569,
+          3.2549999999999994
+        ],
+        [
+          0,
+          5.609,
+          3.2549999999999994
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_1_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.425,
+          5.354,
+          -3.9
+        ],
+        [
+          0.437,
+          5.3468,
+          -3.9
+        ],
+        [
+          0.437,
+          5.3468,
+          3.9
+        ],
+        [
+          0.425,
+          5.354,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.85,
+          5.099,
+          -3.9
+        ],
+        [
+          0.862,
+          5.0918,
+          -3.9
+        ],
+        [
+          0.862,
+          5.0918,
+          3.9
+        ],
+        [
+          0.85,
+          5.099,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.275,
+          4.844,
+          -3.9
+        ],
+        [
+          1.287,
+          4.8368,
+          -3.9
+        ],
+        [
+          1.287,
+          4.8368,
+          3.9
+        ],
+        [
+          1.275,
+          4.844,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_1_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.7,
+          4.589,
+          -3.9
+        ],
+        [
+          1.712,
+          4.5818,
+          -3.9
+        ],
+        [
+          1.712,
+          4.5818,
+          3.9
+        ],
+        [
+          1.7,
+          4.589,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_1_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.125,
+          4.334,
+          -3.9
+        ],
+        [
+          2.137,
+          4.3267999999999995,
+          -3.9
+        ],
+        [
+          2.137,
+          4.3267999999999995,
+          3.9
+        ],
+        [
+          2.125,
+          4.334,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_1_6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.55,
+          4.079000000000001,
+          -3.9
+        ],
+        [
+          2.562,
+          4.0718000000000005,
+          -3.9
+        ],
+        [
+          2.562,
+          4.0718000000000005,
+          3.9
+        ],
+        [
+          2.55,
+          4.079000000000001,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleRow_1_7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.975,
+          3.8239999999999994,
+          -3.9
+        ],
+        [
+          2.987,
+          3.8167999999999993,
+          -3.9
+        ],
+        [
+          2.987,
+          3.8167999999999993,
+          3.9
+        ],
+        [
+          2.975,
+          3.8239999999999994,
+          3.9
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_1_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          -3.255
+        ],
+        [
+          3.4,
+          3.569,
+          -3.255
+        ],
+        [
+          3.4,
+          3.569,
+          -3.245
+        ],
+        [
+          0,
+          5.609,
+          -3.245
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          -2.6049999999999995
+        ],
+        [
+          3.4,
+          3.569,
+          -2.6049999999999995
+        ],
+        [
+          3.4,
+          3.569,
+          -2.5949999999999998
+        ],
+        [
+          0,
+          5.609,
+          -2.5949999999999998
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          -1.9549999999999998
+        ],
+        [
+          3.4,
+          3.569,
+          -1.9549999999999998
+        ],
+        [
+          3.4,
+          3.569,
+          -1.945
+        ],
+        [
+          0,
+          5.609,
+          -1.945
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_1_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          -1.3049999999999997
+        ],
+        [
+          3.4,
+          3.569,
+          -1.3049999999999997
+        ],
+        [
+          3.4,
+          3.569,
+          -1.295
+        ],
+        [
+          0,
+          5.609,
+          -1.295
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_1_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          -0.6549999999999999
+        ],
+        [
+          3.4,
+          3.569,
+          -0.6549999999999999
+        ],
+        [
+          3.4,
+          3.569,
+          -0.6449999999999999
+        ],
+        [
+          0,
+          5.609,
+          -0.6449999999999999
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_1_6",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          -0.005
+        ],
+        [
+          3.4,
+          3.569,
+          -0.005
+        ],
+        [
+          3.4,
+          3.569,
+          0.005
+        ],
+        [
+          0,
+          5.609,
+          0.005
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_1_7",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          0.6449999999999999
+        ],
+        [
+          3.4,
+          3.569,
+          0.6449999999999999
+        ],
+        [
+          3.4,
+          3.569,
+          0.6549999999999999
+        ],
+        [
+          0,
+          5.609,
+          0.6549999999999999
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_1_8",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          1.2950000000000004
+        ],
+        [
+          3.4,
+          3.569,
+          1.2950000000000004
+        ],
+        [
+          3.4,
+          3.569,
+          1.3050000000000002
+        ],
+        [
+          0,
+          5.609,
+          1.3050000000000002
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_1_9",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          1.9450000000000007
+        ],
+        [
+          3.4,
+          3.569,
+          1.9450000000000007
+        ],
+        [
+          3.4,
+          3.569,
+          1.9550000000000005
+        ],
+        [
+          0,
+          5.609,
+          1.9550000000000005
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_1_10",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          2.595
+        ],
+        [
+          3.4,
+          3.569,
+          2.595
+        ],
+        [
+          3.4,
+          3.569,
+          2.605
+        ],
+        [
+          0,
+          5.609,
+          2.605
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "ShingleColumn_1_11",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          5.609,
+          3.2449999999999997
+        ],
+        [
+          3.4,
+          3.569,
+          3.2449999999999997
+        ],
+        [
+          3.4,
+          3.569,
+          3.2549999999999994
+        ],
+        [
+          0,
+          5.609,
+          3.2549999999999994
+        ]
+      ],
+      "material": "roof_dark",
+      "facade": "all",
+      "note": ""
+    },
+    {
+      "name": "MainDoor",
+      "type": "box",
+      "centerXYZ": [
+        -1.25,
+        1.775,
+        -3.56
+      ],
+      "sizeXYZ": [
+        1.5,
+        2.95,
+        0.1
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "DoorJamb_-2.09",
+      "type": "box",
+      "centerXYZ": [
+        -2.09,
+        1.79,
+        -3.65
+      ],
+      "sizeXYZ": [
+        0.18,
+        3.16,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "DoorJamb_-0.41",
+      "type": "box",
+      "centerXYZ": [
+        -0.41,
+        1.79,
+        -3.65
+      ],
+      "sizeXYZ": [
+        0.18,
+        3.16,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "DoorRail_0.3",
+      "type": "box",
+      "centerXYZ": [
+        -1.25,
+        0.3,
+        -3.65
+      ],
+      "sizeXYZ": [
+        1.86,
+        0.18,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "DoorRail_3.34",
+      "type": "box",
+      "centerXYZ": [
+        -1.25,
+        3.34,
+        -3.65
+      ],
+      "sizeXYZ": [
+        1.86,
+        0.18,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "DoorDiagonal",
+      "type": "beam",
+      "fromXYZ": [
+        -1.94,
+        0.52,
+        -3.74
+      ],
+      "toXYZ": [
+        -0.56,
+        3.06,
+        -3.74
+      ],
+      "width": 0.14,
+      "depth": 0.1,
+      "material": "trim",
+      "facade": "front"
+    },
+    {
+      "name": "DoorCentreRail",
+      "type": "box",
+      "centerXYZ": [
+        -1.25,
+        1.45,
+        -3.74
+      ],
+      "sizeXYZ": [
+        1.46,
+        0.14,
+        0.1
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "DoorHinge_0.68",
+      "type": "box",
+      "centerXYZ": [
+        -1.94,
+        0.68,
+        -3.8
+      ],
+      "sizeXYZ": [
+        0.32,
+        0.1,
+        0.05
+      ],
+      "material": "metal",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "DoorHinge_2.85",
+      "type": "box",
+      "centerXYZ": [
+        -1.94,
+        2.85,
+        -3.8
+      ],
+      "sizeXYZ": [
+        0.32,
+        0.1,
+        0.05
+      ],
+      "material": "metal",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "DoorHandle",
+      "type": "box",
+      "centerXYZ": [
+        -0.65,
+        1.65,
+        -3.8
+      ],
+      "sizeXYZ": [
+        0.07,
+        0.3,
+        0.1
+      ],
+      "material": "metal",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StepLower",
+      "type": "box",
+      "centerXYZ": [
+        -1.25,
+        0.075,
+        -3.95
+      ],
+      "sizeXYZ": [
+        1.86,
+        0.15,
+        0.7
+      ],
+      "material": "stone",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "StepUpper",
+      "type": "box",
+      "centerXYZ": [
+        -1.25,
+        0.225,
+        -3.77
+      ],
+      "sizeXYZ": [
+        1.86,
+        0.15,
+        0.34
+      ],
+      "material": "stone",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Inset",
+      "type": "box",
+      "centerXYZ": [
+        1.45,
+        2.5,
+        -3.523
+      ],
+      "sizeXYZ": [
+        1.45,
+        1.2,
+        0.025
+      ],
+      "material": "metal",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Jamb-0.7949999999999999",
+      "type": "box",
+      "centerXYZ": [
+        0.655,
+        2.5,
+        -3.59
+      ],
+      "sizeXYZ": [
+        0.14,
+        1.48,
+        0.12
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Jamb0.7949999999999999",
+      "type": "box",
+      "centerXYZ": [
+        2.245,
+        2.5,
+        -3.59
+      ],
+      "sizeXYZ": [
+        0.14,
+        1.48,
+        0.12
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Rail-0.6699999999999999",
+      "type": "box",
+      "centerXYZ": [
+        1.45,
+        1.83,
+        -3.59
+      ],
+      "sizeXYZ": [
+        1.73,
+        0.14,
+        0.12
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Rail0.6699999999999999",
+      "type": "box",
+      "centerXYZ": [
+        1.45,
+        3.17,
+        -3.59
+      ],
+      "sizeXYZ": [
+        1.73,
+        0.14,
+        0.12
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_HalfShutter",
+      "type": "box",
+      "centerXYZ": [
+        1.0875,
+        2.5,
+        -3.64
+      ],
+      "sizeXYZ": [
+        0.695,
+        1.16,
+        0.08
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Diagonal",
+      "type": "beam",
+      "fromXYZ": [
+        0.7849999999999999,
+        1.96,
+        -3.7
+      ],
+      "toXYZ": [
+        1.38,
+        3.04,
+        -3.7
+      ],
+      "width": 0.08,
+      "depth": 0.06,
+      "material": "trim",
+      "facade": "front"
+    },
+    {
+      "name": "FrontWindow_Hinge-0.384",
+      "type": "box",
+      "centerXYZ": [
+        0.8049999999999999,
+        2.116,
+        -3.705
+      ],
+      "sizeXYZ": [
+        0.22,
+        0.07,
+        0.04
+      ],
+      "material": "metal",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Hinge0.384",
+      "type": "box",
+      "centerXYZ": [
+        0.8049999999999999,
+        2.884,
+        -3.705
+      ],
+      "sizeXYZ": [
+        0.22,
+        0.07,
+        0.04
+      ],
+      "material": "metal",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Wire-1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.471,
+          2.24,
+          -3.57
+        ],
+        [
+          1.4889999999999999,
+          2.24,
+          -3.57
+        ],
+        [
+          1.8090000000000002,
+          1.92,
+          -3.57
+        ],
+        [
+          1.7910000000000004,
+          1.92,
+          -3.57
+        ]
+      ],
+      "material": "wire",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Wire-1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.471,
+          2.61,
+          -3.57
+        ],
+        [
+          1.4889999999999999,
+          2.61,
+          -3.57
+        ],
+        [
+          2.1639999999999997,
+          1.935,
+          -3.57
+        ],
+        [
+          2.146,
+          1.935,
+          -3.57
+        ]
+      ],
+      "material": "wire",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Wire1_0",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.146,
+          2.175,
+          -3.57
+        ],
+        [
+          2.1639999999999997,
+          2.175,
+          -3.57
+        ],
+        [
+          1.9089999999999998,
+          1.92,
+          -3.57
+        ],
+        [
+          1.891,
+          1.92,
+          -3.57
+        ]
+      ],
+      "material": "wire",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Wire1_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          2.146,
+          2.545,
+          -3.57
+        ],
+        [
+          2.1639999999999997,
+          2.545,
+          -3.57
+        ],
+        [
+          1.5389999999999997,
+          1.92,
+          -3.57
+        ],
+        [
+          1.521,
+          1.92,
+          -3.57
+        ]
+      ],
+      "material": "wire",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Wire1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.471,
+          2.24,
+          -3.57
+        ],
+        [
+          1.4889999999999999,
+          2.24,
+          -3.57
+        ],
+        [
+          2.1639999999999997,
+          2.915,
+          -3.57
+        ],
+        [
+          2.146,
+          2.915,
+          -3.57
+        ]
+      ],
+      "material": "wire",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "FrontWindow_Wire1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          1.471,
+          2.61,
+          -3.57
+        ],
+        [
+          1.4889999999999999,
+          2.61,
+          -3.57
+        ],
+        [
+          1.959,
+          3.08,
+          -3.57
+        ],
+        [
+          1.9410000000000003,
+          3.08,
+          -3.57
+        ]
+      ],
+      "material": "wire",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Inset",
+      "type": "box",
+      "centerXYZ": [
+        3.023,
+        2.5,
+        -1.4
+      ],
+      "sizeXYZ": [
+        0.025,
+        1.2,
+        1.3
+      ],
+      "material": "metal",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Jamb-0.72",
+      "type": "box",
+      "centerXYZ": [
+        3.09,
+        2.5,
+        -2.12
+      ],
+      "sizeXYZ": [
+        0.12,
+        1.48,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Jamb0.72",
+      "type": "box",
+      "centerXYZ": [
+        3.09,
+        2.5,
+        -0.6799999999999999
+      ],
+      "sizeXYZ": [
+        0.12,
+        1.48,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Rail-0.6699999999999999",
+      "type": "box",
+      "centerXYZ": [
+        3.09,
+        1.83,
+        -1.4
+      ],
+      "sizeXYZ": [
+        0.12,
+        0.14,
+        1.58
+      ],
+      "material": "trim",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Rail0.6699999999999999",
+      "type": "box",
+      "centerXYZ": [
+        3.09,
+        3.17,
+        -1.4
+      ],
+      "sizeXYZ": [
+        0.12,
+        0.14,
+        1.58
+      ],
+      "material": "trim",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_HalfShutter",
+      "type": "box",
+      "centerXYZ": [
+        3.14,
+        2.5,
+        -1.7249999999999999
+      ],
+      "sizeXYZ": [
+        0.08,
+        1.16,
+        0.62
+      ],
+      "material": "trim",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Diagonal",
+      "type": "beam",
+      "fromXYZ": [
+        3.2,
+        1.96,
+        -1.9899999999999998
+      ],
+      "toXYZ": [
+        3.2,
+        3.04,
+        -1.47
+      ],
+      "width": 0.08,
+      "depth": 0.06,
+      "material": "trim",
+      "facade": "right"
+    },
+    {
+      "name": "RightFrontWindow_Hinge-0.384",
+      "type": "box",
+      "centerXYZ": [
+        3.205,
+        2.116,
+        -1.9699999999999998
+      ],
+      "sizeXYZ": [
+        0.04,
+        0.07,
+        0.22
+      ],
+      "material": "metal",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Hinge0.384",
+      "type": "box",
+      "centerXYZ": [
+        3.205,
+        2.884,
+        -1.9699999999999998
+      ],
+      "sizeXYZ": [
+        0.04,
+        0.07,
+        0.22
+      ],
+      "material": "metal",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Wire-1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.07,
+          2.24,
+          -1.3789999999999998
+        ],
+        [
+          3.07,
+          2.24,
+          -1.361
+        ],
+        [
+          3.07,
+          1.92,
+          -1.0409999999999997
+        ],
+        [
+          3.07,
+          1.92,
+          -1.0589999999999995
+        ]
+      ],
+      "material": "wire",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Wire-1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.07,
+          2.61,
+          -1.3789999999999998
+        ],
+        [
+          3.07,
+          2.61,
+          -1.361
+        ],
+        [
+          3.07,
+          2.01,
+          -0.7609999999999999
+        ],
+        [
+          3.07,
+          2.01,
+          -0.7789999999999999
+        ]
+      ],
+      "material": "wire",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Wire1_0",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.07,
+          2.1,
+          -0.7789999999999999
+        ],
+        [
+          3.07,
+          2.1,
+          -0.7609999999999999
+        ],
+        [
+          3.07,
+          1.92,
+          -0.941
+        ],
+        [
+          3.07,
+          1.92,
+          -0.959
+        ]
+      ],
+      "material": "wire",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Wire1_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.07,
+          2.47,
+          -0.7789999999999999
+        ],
+        [
+          3.07,
+          2.47,
+          -0.7609999999999999
+        ],
+        [
+          3.07,
+          1.92,
+          -1.3110000000000002
+        ],
+        [
+          3.07,
+          1.92,
+          -1.329
+        ]
+      ],
+      "material": "wire",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Wire1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.07,
+          2.24,
+          -1.3789999999999998
+        ],
+        [
+          3.07,
+          2.24,
+          -1.361
+        ],
+        [
+          3.07,
+          2.8400000000000003,
+          -0.7609999999999999
+        ],
+        [
+          3.07,
+          2.8400000000000003,
+          -0.7789999999999999
+        ]
+      ],
+      "material": "wire",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightFrontWindow_Wire1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.07,
+          2.61,
+          -1.3789999999999998
+        ],
+        [
+          3.07,
+          2.61,
+          -1.361
+        ],
+        [
+          3.07,
+          3.08,
+          -0.8909999999999997
+        ],
+        [
+          3.07,
+          3.08,
+          -0.9089999999999997
+        ]
+      ],
+      "material": "wire",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Inset",
+      "type": "box",
+      "centerXYZ": [
+        3.023,
+        2.5,
+        1.55
+      ],
+      "sizeXYZ": [
+        0.025,
+        1.2,
+        1.3
+      ],
+      "material": "metal",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Jamb-0.72",
+      "type": "box",
+      "centerXYZ": [
+        3.09,
+        2.5,
+        0.8300000000000001
+      ],
+      "sizeXYZ": [
+        0.12,
+        1.48,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Jamb0.72",
+      "type": "box",
+      "centerXYZ": [
+        3.09,
+        2.5,
+        2.27
+      ],
+      "sizeXYZ": [
+        0.12,
+        1.48,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Rail-0.6699999999999999",
+      "type": "box",
+      "centerXYZ": [
+        3.09,
+        1.83,
+        1.55
+      ],
+      "sizeXYZ": [
+        0.12,
+        0.14,
+        1.58
+      ],
+      "material": "trim",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Rail0.6699999999999999",
+      "type": "box",
+      "centerXYZ": [
+        3.09,
+        3.17,
+        1.55
+      ],
+      "sizeXYZ": [
+        0.12,
+        0.14,
+        1.58
+      ],
+      "material": "trim",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_HalfShutter",
+      "type": "box",
+      "centerXYZ": [
+        3.14,
+        2.5,
+        1.225
+      ],
+      "sizeXYZ": [
+        0.08,
+        1.16,
+        0.62
+      ],
+      "material": "trim",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Diagonal",
+      "type": "beam",
+      "fromXYZ": [
+        3.2,
+        1.96,
+        0.96
+      ],
+      "toXYZ": [
+        3.2,
+        3.04,
+        1.48
+      ],
+      "width": 0.08,
+      "depth": 0.06,
+      "material": "trim",
+      "facade": "right"
+    },
+    {
+      "name": "RightRearWindow_Hinge-0.384",
+      "type": "box",
+      "centerXYZ": [
+        3.205,
+        2.116,
+        0.98
+      ],
+      "sizeXYZ": [
+        0.04,
+        0.07,
+        0.22
+      ],
+      "material": "metal",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Hinge0.384",
+      "type": "box",
+      "centerXYZ": [
+        3.205,
+        2.884,
+        0.98
+      ],
+      "sizeXYZ": [
+        0.04,
+        0.07,
+        0.22
+      ],
+      "material": "metal",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Wire-1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.07,
+          2.24,
+          1.5710000000000002
+        ],
+        [
+          3.07,
+          2.24,
+          1.589
+        ],
+        [
+          3.07,
+          1.92,
+          1.9090000000000003
+        ],
+        [
+          3.07,
+          1.92,
+          1.8910000000000005
+        ]
+      ],
+      "material": "wire",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Wire-1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.07,
+          2.61,
+          1.5710000000000002
+        ],
+        [
+          3.07,
+          2.61,
+          1.589
+        ],
+        [
+          3.07,
+          2.01,
+          2.189
+        ],
+        [
+          3.07,
+          2.01,
+          2.1710000000000003
+        ]
+      ],
+      "material": "wire",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Wire1_0",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.07,
+          2.1,
+          2.1710000000000003
+        ],
+        [
+          3.07,
+          2.1,
+          2.189
+        ],
+        [
+          3.07,
+          1.92,
+          2.009
+        ],
+        [
+          3.07,
+          1.92,
+          1.991
+        ]
+      ],
+      "material": "wire",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Wire1_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.07,
+          2.47,
+          2.1710000000000003
+        ],
+        [
+          3.07,
+          2.47,
+          2.189
+        ],
+        [
+          3.07,
+          1.92,
+          1.6389999999999998
+        ],
+        [
+          3.07,
+          1.92,
+          1.621
+        ]
+      ],
+      "material": "wire",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Wire1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.07,
+          2.24,
+          1.5710000000000002
+        ],
+        [
+          3.07,
+          2.24,
+          1.589
+        ],
+        [
+          3.07,
+          2.8400000000000003,
+          2.189
+        ],
+        [
+          3.07,
+          2.8400000000000003,
+          2.1710000000000003
+        ]
+      ],
+      "material": "wire",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RightRearWindow_Wire1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.07,
+          2.61,
+          1.5710000000000002
+        ],
+        [
+          3.07,
+          2.61,
+          1.589
+        ],
+        [
+          3.07,
+          3.08,
+          2.059
+        ],
+        [
+          3.07,
+          3.08,
+          2.0410000000000004
+        ]
+      ],
+      "material": "wire",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Inset",
+      "type": "box",
+      "centerXYZ": [
+        -3.023,
+        2.5,
+        0
+      ],
+      "sizeXYZ": [
+        0.025,
+        1.2,
+        1.45
+      ],
+      "material": "metal",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Jamb-0.7949999999999999",
+      "type": "box",
+      "centerXYZ": [
+        -3.09,
+        2.5,
+        -0.7949999999999999
+      ],
+      "sizeXYZ": [
+        0.12,
+        1.48,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Jamb0.7949999999999999",
+      "type": "box",
+      "centerXYZ": [
+        -3.09,
+        2.5,
+        0.7949999999999999
+      ],
+      "sizeXYZ": [
+        0.12,
+        1.48,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Rail-0.6699999999999999",
+      "type": "box",
+      "centerXYZ": [
+        -3.09,
+        1.83,
+        0
+      ],
+      "sizeXYZ": [
+        0.12,
+        0.14,
+        1.73
+      ],
+      "material": "trim",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Rail0.6699999999999999",
+      "type": "box",
+      "centerXYZ": [
+        -3.09,
+        3.17,
+        0
+      ],
+      "sizeXYZ": [
+        0.12,
+        0.14,
+        1.73
+      ],
+      "material": "trim",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_HalfShutter",
+      "type": "box",
+      "centerXYZ": [
+        -3.14,
+        2.5,
+        -0.3625
+      ],
+      "sizeXYZ": [
+        0.08,
+        1.16,
+        0.695
+      ],
+      "material": "trim",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Diagonal",
+      "type": "beam",
+      "fromXYZ": [
+        -3.2,
+        1.96,
+        -0.665
+      ],
+      "toXYZ": [
+        -3.2,
+        3.04,
+        -0.07
+      ],
+      "width": 0.08,
+      "depth": 0.06,
+      "material": "trim",
+      "facade": "left"
+    },
+    {
+      "name": "LeftWindow_Hinge-0.384",
+      "type": "box",
+      "centerXYZ": [
+        -3.205,
+        2.116,
+        -0.645
+      ],
+      "sizeXYZ": [
+        0.04,
+        0.07,
+        0.22
+      ],
+      "material": "metal",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Hinge0.384",
+      "type": "box",
+      "centerXYZ": [
+        -3.205,
+        2.884,
+        -0.645
+      ],
+      "sizeXYZ": [
+        0.04,
+        0.07,
+        0.22
+      ],
+      "material": "metal",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Wire-1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.07,
+          2.24,
+          0.020999999999999998
+        ],
+        [
+          -3.07,
+          2.24,
+          0.039
+        ],
+        [
+          -3.07,
+          1.92,
+          0.3590000000000003
+        ],
+        [
+          -3.07,
+          1.92,
+          0.3410000000000003
+        ]
+      ],
+      "material": "wire",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Wire-1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.07,
+          2.61,
+          0.020999999999999998
+        ],
+        [
+          -3.07,
+          2.61,
+          0.039
+        ],
+        [
+          -3.07,
+          1.935,
+          0.714
+        ],
+        [
+          -3.07,
+          1.935,
+          0.696
+        ]
+      ],
+      "material": "wire",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Wire1_0",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.07,
+          2.175,
+          0.696
+        ],
+        [
+          -3.07,
+          2.175,
+          0.714
+        ],
+        [
+          -3.07,
+          1.92,
+          0.45899999999999996
+        ],
+        [
+          -3.07,
+          1.92,
+          0.44099999999999995
+        ]
+      ],
+      "material": "wire",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Wire1_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.07,
+          2.545,
+          0.696
+        ],
+        [
+          -3.07,
+          2.545,
+          0.714
+        ],
+        [
+          -3.07,
+          1.92,
+          0.08899999999999982
+        ],
+        [
+          -3.07,
+          1.92,
+          0.07099999999999983
+        ]
+      ],
+      "material": "wire",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Wire1_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.07,
+          2.24,
+          0.020999999999999998
+        ],
+        [
+          -3.07,
+          2.24,
+          0.039
+        ],
+        [
+          -3.07,
+          2.915,
+          0.714
+        ],
+        [
+          -3.07,
+          2.915,
+          0.696
+        ]
+      ],
+      "material": "wire",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "LeftWindow_Wire1_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -3.07,
+          2.61,
+          0.020999999999999998
+        ],
+        [
+          -3.07,
+          2.61,
+          0.039
+        ],
+        [
+          -3.07,
+          3.08,
+          0.5090000000000002
+        ],
+        [
+          -3.07,
+          3.08,
+          0.4910000000000002
+        ]
+      ],
+      "material": "wire",
+      "facade": "left",
+      "note": ""
+    },
+    {
+      "name": "ChickenHatch",
+      "type": "box",
+      "centerXYZ": [
+        1.45,
+        0.9,
+        -3.56
+      ],
+      "sizeXYZ": [
+        0.78,
+        0.9,
+        0.1
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "HatchJamb_1.0",
+      "type": "box",
+      "centerXYZ": [
+        1.0,
+        0.9,
+        -3.65
+      ],
+      "sizeXYZ": [
+        0.12,
+        1.1,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "HatchJamb_1.9",
+      "type": "box",
+      "centerXYZ": [
+        1.9,
+        0.9,
+        -3.65
+      ],
+      "sizeXYZ": [
+        0.12,
+        1.1,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "HatchRail_0.39",
+      "type": "box",
+      "centerXYZ": [
+        1.45,
+        0.39,
+        -3.65
+      ],
+      "sizeXYZ": [
+        1.02,
+        0.12,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "HatchRail_1.41",
+      "type": "box",
+      "centerXYZ": [
+        1.45,
+        1.41,
+        -3.65
+      ],
+      "sizeXYZ": [
+        1.02,
+        0.12,
+        0.14
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "HatchHinge_0.63",
+      "type": "box",
+      "centerXYZ": [
+        1.12,
+        0.63,
+        -3.76
+      ],
+      "sizeXYZ": [
+        0.18,
+        0.07,
+        0.04
+      ],
+      "material": "metal",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "HatchHinge_1.15",
+      "type": "box",
+      "centerXYZ": [
+        1.12,
+        1.15,
+        -3.76
+      ],
+      "sizeXYZ": [
+        0.18,
+        0.07,
+        0.04
+      ],
+      "material": "metal",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "ChickenRamp",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.95,
+          0.45,
+          -3.73
+        ],
+        [
+          1.95,
+          0.45,
+          -3.73
+        ],
+        [
+          1.95,
+          0,
+          -4.8
+        ],
+        [
+          0.95,
+          0,
+          -4.8
+        ]
+      ],
+      "material": "trim",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "RampCleat_1",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.98,
+          0.387,
+          -3.933333333333333
+        ],
+        [
+          1.92,
+          0.387,
+          -3.933333333333333
+        ],
+        [
+          1.92,
+          0.405,
+          -3.8833333333333333
+        ],
+        [
+          0.98,
+          0.405,
+          -3.8833333333333333
+        ]
+      ],
+      "material": "trim_dark",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "RampCleat_2",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.98,
+          0.31200000000000006,
+          -4.111666666666667
+        ],
+        [
+          1.92,
+          0.31200000000000006,
+          -4.111666666666667
+        ],
+        [
+          1.92,
+          0.33000000000000007,
+          -4.0616666666666665
+        ],
+        [
+          0.98,
+          0.33000000000000007,
+          -4.0616666666666665
+        ]
+      ],
+      "material": "trim_dark",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "RampCleat_3",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.98,
+          0.23700000000000002,
+          -4.29
+        ],
+        [
+          1.92,
+          0.23700000000000002,
+          -4.29
+        ],
+        [
+          1.92,
+          0.255,
+          -4.239999999999999
+        ],
+        [
+          0.98,
+          0.255,
+          -4.239999999999999
+        ]
+      ],
+      "material": "trim_dark",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "RampCleat_4",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.98,
+          0.16200000000000003,
+          -4.468333333333334
+        ],
+        [
+          1.92,
+          0.16200000000000003,
+          -4.468333333333334
+        ],
+        [
+          1.92,
+          0.18000000000000002,
+          -4.418333333333333
+        ],
+        [
+          0.98,
+          0.18000000000000002,
+          -4.418333333333333
+        ]
+      ],
+      "material": "trim_dark",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "RampCleat_5",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0.98,
+          0.08699999999999998,
+          -4.646666666666667
+        ],
+        [
+          1.92,
+          0.08699999999999998,
+          -4.646666666666667
+        ],
+        [
+          1.92,
+          0.10499999999999998,
+          -4.596666666666667
+        ],
+        [
+          0.98,
+          0.10499999999999998,
+          -4.596666666666667
+        ]
+      ],
+      "material": "trim_dark",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "NestBox",
+      "type": "box",
+      "centerXYZ": [
+        3.48,
+        1.025,
+        -1.4
+      ],
+      "sizeXYZ": [
+        0.84,
+        0.85,
+        1.8
+      ],
+      "material": "trim",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "NestLid",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          3.05,
+          1.63,
+          -2.35
+        ],
+        [
+          3.95,
+          1.35,
+          -2.35
+        ],
+        [
+          3.95,
+          1.35,
+          -0.45
+        ],
+        [
+          3.05,
+          1.63,
+          -0.45
+        ]
+      ],
+      "material": "trim",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "NestSupport_-2.05",
+      "type": "beam",
+      "fromXYZ": [
+        3.06,
+        0.5,
+        -2.05
+      ],
+      "toXYZ": [
+        3.8,
+        0.88,
+        -2.05
+      ],
+      "width": 0.1,
+      "depth": 0.1,
+      "material": "trim_dark",
+      "facade": "right"
+    },
+    {
+      "name": "NestHinge_-2.05",
+      "type": "box",
+      "centerXYZ": [
+        3.08,
+        1.64,
+        -2.05
+      ],
+      "sizeXYZ": [
+        0.14,
+        0.04,
+        0.2
+      ],
+      "material": "metal",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "NestSupport_-0.75",
+      "type": "beam",
+      "fromXYZ": [
+        3.06,
+        0.5,
+        -0.75
+      ],
+      "toXYZ": [
+        3.8,
+        0.88,
+        -0.75
+      ],
+      "width": 0.1,
+      "depth": 0.1,
+      "material": "trim_dark",
+      "facade": "right"
+    },
+    {
+      "name": "NestHinge_-0.75",
+      "type": "box",
+      "centerXYZ": [
+        3.08,
+        1.64,
+        -0.75
+      ],
+      "sizeXYZ": [
+        0.14,
+        0.04,
+        0.2
+      ],
+      "material": "metal",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "NestHandle",
+      "type": "box",
+      "centerXYZ": [
+        3.72,
+        1.44,
+        -1.4
+      ],
+      "sizeXYZ": [
+        0.12,
+        0.05,
+        0.18
+      ],
+      "material": "metal",
+      "facade": "right",
+      "note": ""
+    },
+    {
+      "name": "RearVent",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.35,
+        3.54
+      ],
+      "sizeXYZ": [
+        1.1,
+        0.65,
+        0.07
+      ],
+      "material": "metal",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "VentSlat_4.13",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.13,
+        3.6
+      ],
+      "sizeXYZ": [
+        1.1,
+        0.08,
+        0.08
+      ],
+      "material": "trim",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "VentSlat_4.28",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.28,
+        3.6
+      ],
+      "sizeXYZ": [
+        1.1,
+        0.08,
+        0.08
+      ],
+      "material": "trim",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "VentSlat_4.43",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.43,
+        3.6
+      ],
+      "sizeXYZ": [
+        1.1,
+        0.08,
+        0.08
+      ],
+      "material": "trim",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "VentSlat_4.58",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.58,
+        3.6
+      ],
+      "sizeXYZ": [
+        1.1,
+        0.08,
+        0.08
+      ],
+      "material": "trim",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "VentJamb_-0.62",
+      "type": "box",
+      "centerXYZ": [
+        -0.62,
+        4.35,
+        3.61
+      ],
+      "sizeXYZ": [
+        0.14,
+        0.93,
+        0.1
+      ],
+      "material": "trim",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "VentJamb_0.62",
+      "type": "box",
+      "centerXYZ": [
+        0.62,
+        4.35,
+        3.61
+      ],
+      "sizeXYZ": [
+        0.14,
+        0.93,
+        0.1
+      ],
+      "material": "trim",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "VentRail_3.96",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        3.96,
+        3.61
+      ],
+      "sizeXYZ": [
+        1.38,
+        0.14,
+        0.1
+      ],
+      "material": "trim",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "VentRail_4.74",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.74,
+        3.61
+      ],
+      "sizeXYZ": [
+        1.38,
+        0.14,
+        0.1
+      ],
+      "material": "trim",
+      "facade": "rear",
+      "note": ""
+    },
+    {
+      "name": "LanternBracket",
+      "type": "box",
+      "centerXYZ": [
+        -1.25,
+        3.6,
+        -3.66
+      ],
+      "sizeXYZ": [
+        0.08,
+        0.16,
+        0.23
+      ],
+      "material": "metal",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "LanternFrame",
+      "type": "box",
+      "centerXYZ": [
+        -1.25,
+        3.55,
+        -3.78
+      ],
+      "sizeXYZ": [
+        0.26,
+        0.3,
+        0.2
+      ],
+      "material": "metal",
+      "facade": "front",
+      "note": ""
+    },
+    {
+      "name": "LanternCore",
+      "type": "box",
+      "centerXYZ": [
+        -1.25,
+        3.55,
+        -3.885
+      ],
+      "sizeXYZ": [
+        0.16,
+        0.2,
+        0.012
+      ],
+      "material": "glow",
+      "facade": "front",
+      "note": ""
+    }
+  ],
+  "detailRules": {
+    "wallBoardPitch": 0.25,
+    "wallGrooveDepth": 0.008,
+    "foundationCourses": 2,
+    "foundationBlocksPerCourse": 33,
+    "foundationBevelSegments": 1,
+    "stoneJitterMaximum": 0.02,
+    "roofRowsPerSlope": 8,
+    "roofColumnsAlongDepth": 12,
+    "roofLipHeight": 0.02,
+    "roofMethod": "subdivided planes and low-poly row lips, no solid tile per shingle",
+    "trimBevel": 0.02,
+    "wireMethod": "sparse flat diamond lattice behind half shutter, not dense hex tubes or new alpha texture",
+    "windows": {
+      "front": 1,
+      "right": 2,
+      "left": 1
+    },
+    "rear": "one gable louver, no rear door",
+    "doorLeafCount": 1,
+    "levelDetailChanges": false,
+    "lanternSides": 8,
+    "stoneBevelInward": true
+  },
+  "budget": {
+    "estimatedLOD0Triangles": 3074,
+    "maximumLOD0Triangles": 4200,
+    "targetLOD1Triangles": 1600,
+    "targetLOD2Triangles": 420,
+    "breakdown": [
+      {
+        "component": "Panel dinding dan gable",
+        "triangles": 418
+      },
+      {
+        "component": "Atap 2 x 8 x 12 sel + lip",
+        "triangles": 768
+      },
+      {
+        "component": "Fondasi 66 blok sederhana x 12",
+        "triangles": 792
+      },
+      {
+        "component": "Tiang, trim, frame, brace",
+        "triangles": 520
+      },
+      {
+        "component": "Pintu, shutter, hatch",
+        "triangles": 240
+      },
+      {
+        "component": "Kawat window dan vent",
+        "triangles": 96
+      },
+      {
+        "component": "Kotak sarang, ramp, tangga",
+        "triangles": 160
+      },
+      {
+        "component": "Lampu dan hardware",
+        "triangles": 80
+      }
+    ],
+    "note": "planning allowance, not measured final mesh count; final bevel/hidden-face removal must be audited"
+  },
+  "integration": {
+    "mergedMeshPerLOD": true,
+    "lodCreation": "Build authored simplifications in Blender; Unity LODGroup selects them, does not generate their mesh geometry",
+    "collider": {
+      "centerXYZ": [
+        0,
+        1.9,
+        0
+      ],
+      "sizeXYZ": [
+        6,
+        3.8,
+        7
+      ],
+      "nestBoxAdditionalBox": true,
+      "stepsRampsNonBlocking": true
+    },
+    "humanPortalOnly": true,
+    "chickenHatch": "decorative closed exterior in this scope; animal travel remains separate runtime concern",
+    "reservedLevel5WorldBoundsXZ": [
+      -4.25,
+      5.75,
+      -8.125,
+      4.875
+    ],
+    "reservedWidthDepth": [
+      10,
+      13
+    ],
+    "gridRule": "ceil(world width or depth / actual FieldArea.CellSize)",
+    "currentGameplayLevels": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "existingFootprintCells": [
+      3,
+      3
+    ],
+    "level5Balance": "not specified: no invented price, days, capacity or interior changes",
+    "reservationCenterOffsetWorldXYZ": [
+      0.75,
+      0,
+      -1.625
+    ],
+    "placementRootRule": "root = reservation anchor - yaw-rotated reservation-center offset"
+  },
+  "reference": {
+    "image": "reference-coop.png",
+    "frontRight": "image-derived design language",
+    "leftRear": "explicit proposal: left one central window, rear gable vent; same cream panels and foundation"
+  },
+  "productionFiles": {
+    "source": "ArtSource/Coop_A/Blender/Coop_A_Combined.blend",
+    "editableArchive": "ArtSource/Coop_A/Blender/Coop_A_Master.blend",
+    "export": "Assets/Nature  Paradaise/mesh/Buildings/Coop_A/Coop_A_High.fbx / Medium / Low",
+    "prefabs": "Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv1..5.prefab"
+  }
+}

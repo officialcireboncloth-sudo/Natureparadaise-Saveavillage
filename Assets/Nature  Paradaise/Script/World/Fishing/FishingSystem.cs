@@ -4,7 +4,8 @@ using UnityEngine;
 public enum FishingState : byte { Idle, WaitingForBite, Bite, Minigame, Charging, Casting, Catching, Result }
 
 [DisallowMultipleComponent]
-[DefaultExecutionOrder(1000)]
+// Draw the line after the presentation has positioned/bent the hand-attached rod this frame.
+[DefaultExecutionOrder(1300)]
 /// <summary>Orkestrator cast, bite, hook, minigame, reward, stamina, visual, dan audio fishing.</summary>
 public sealed class FishingSystem : MonoBehaviour
 {
@@ -540,7 +541,8 @@ public sealed class FishingSystem : MonoBehaviour
         if(State==FishingState.Idle) SetBoolIfPresent(fishingActiveParameter, false);
         if (fishingRodVisual != null)
             fishingRodVisual.SetActive(hotbar != null && hotbar.SelectedTool == PlayerToolType.FishingRod &&
-                                       (gathering == null || !gathering.IsCarrying) && State != FishingState.Result);
+                                       (gathering == null || !gathering.IsCarrying) && (animalCarry == null || !animalCarry.HasAnimal) &&
+                                       (movement == null || !movement.IsRiding) && AnimalController.CurrentCareAction == null && State != FishingState.Result);
     }
 
     void TriggerIfPresent(string parameter)

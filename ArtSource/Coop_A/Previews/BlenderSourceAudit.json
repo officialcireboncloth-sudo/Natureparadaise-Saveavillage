@@ -1,0 +1,181 @@
+{
+  "status": "PASS",
+  "scope": "Saved Blender source, one-mesh combined file and FBX reimport. No Unity integration or Play Mode claims.",
+  "sourceBlend": {
+    "approvedPartPlacements": 127,
+    "boxDimensions": "PASS",
+    "surfaceEndpoints": "PASS",
+    "outwardWallAndRoofNormals": "PASS",
+    "levelInstances": 5,
+    "uniformScaleAndEntrance": "PASS",
+    "sharedLevelMesh": "PASS",
+    "originalAtlasUnchanged": "PASS",
+    "packedBlenderPreviewImage": true
+  },
+  "sourceCombinedFingerprints": "PASS",
+  "fbxMatchesFinalVertexPositions": "PASS",
+  "visibleBuildingMeshCount": 1,
+  "combinedMeshes": [
+    {
+      "lod": 0,
+      "triangles": 3316,
+      "boundsBlenderXYZ": [
+        [
+          -3.3999998569488525,
+          -4.800000190734863,
+          0.0
+        ],
+        [
+          3.950000047683716,
+          3.9000000953674316,
+          5.739999771118164
+        ]
+      ],
+      "dimensionsBlenderXYZ": [
+        7.349999904632568,
+        8.700000286102295,
+        5.739999771118164
+      ],
+      "materials": "PASS",
+      "uvSwatches": "PASS",
+      "noDegenerateFaces": "PASS",
+      "groundCentreOrigin": "PASS"
+    },
+    {
+      "lod": 1,
+      "triangles": 1278,
+      "boundsBlenderXYZ": [
+        [
+          -3.4000000953674316,
+          -4.800000190734863,
+          0.0
+        ],
+        [
+          3.950000047683716,
+          3.9000000953674316,
+          5.739999771118164
+        ]
+      ],
+      "dimensionsBlenderXYZ": [
+        7.3500001430511475,
+        8.700000286102295,
+        5.739999771118164
+      ],
+      "materials": "PASS",
+      "uvSwatches": "PASS",
+      "noDegenerateFaces": "PASS",
+      "groundCentreOrigin": "PASS"
+    },
+    {
+      "lod": 2,
+      "triangles": 286,
+      "boundsBlenderXYZ": [
+        [
+          -3.4000000953674316,
+          -4.800000190734863,
+          0.0
+        ],
+        [
+          3.950000047683716,
+          3.9000000953674316,
+          5.739999771118164
+        ]
+      ],
+      "dimensionsBlenderXYZ": [
+        7.3500001430511475,
+        8.700000286102295,
+        5.739999771118164
+      ],
+      "materials": "PASS",
+      "uvSwatches": "PASS",
+      "noDegenerateFaces": "PASS",
+      "groundCentreOrigin": "PASS"
+    }
+  ],
+  "fbxRoundtrip": [
+    {
+      "lod": 0,
+      "triangles": 3316,
+      "boundsBlenderXYZ": [
+        [
+          -3.3999998569488525,
+          -4.800000190734863,
+          -5.669639904226642e-07
+        ],
+        [
+          3.950000047683716,
+          3.900001049041748,
+          5.740000247955322
+        ]
+      ],
+      "dimensionsBlenderXYZ": [
+        7.349999904632568,
+        8.700001239776611,
+        5.740000814919313
+      ],
+      "materials": "PASS",
+      "uvSwatches": "PASS",
+      "noDegenerateFaces": "PASS",
+      "groundCentreOrigin": "PASS",
+      "filename": "Coop_A_High.fbx",
+      "sha256": "822ecc0dca8d2afddc811f1c9a52631a4cea1604471829268955c6bc89e83965",
+      "previewObjectsExcluded": "PASS"
+    },
+    {
+      "lod": 1,
+      "triangles": 1278,
+      "boundsBlenderXYZ": [
+        [
+          -3.4000000953674316,
+          -4.800000190734863,
+          -5.669639904226642e-07
+        ],
+        [
+          3.950000047683716,
+          3.900001049041748,
+          5.740000247955322
+        ]
+      ],
+      "dimensionsBlenderXYZ": [
+        7.3500001430511475,
+        8.700001239776611,
+        5.740000814919313
+      ],
+      "materials": "PASS",
+      "uvSwatches": "PASS",
+      "noDegenerateFaces": "PASS",
+      "groundCentreOrigin": "PASS",
+      "filename": "Coop_A_Medium.fbx",
+      "sha256": "528264dfd4aa160087476da4ed11bfd652cfb308307a18444daecb171670ce15",
+      "previewObjectsExcluded": "PASS"
+    },
+    {
+      "lod": 2,
+      "triangles": 286,
+      "boundsBlenderXYZ": [
+        [
+          -3.4000000953674316,
+          -4.800000190734863,
+          -5.702223688786034e-07
+        ],
+        [
+          3.950000047683716,
+          3.900001049041748,
+          5.740000247955322
+        ]
+      ],
+      "dimensionsBlenderXYZ": [
+        7.3500001430511475,
+        8.700001239776611,
+        5.740000818177691
+      ],
+      "materials": "PASS",
+      "uvSwatches": "PASS",
+      "noDegenerateFaces": "PASS",
+      "groundCentreOrigin": "PASS",
+      "filename": "Coop_A_Low.fbx",
+      "sha256": "489775033e041507821c9a292256d52130d17fa145282b7025ec33fe42753823",
+      "previewObjectsExcluded": "PASS"
+    }
+  ]
+}

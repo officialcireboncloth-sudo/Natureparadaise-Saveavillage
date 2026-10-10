@@ -375,7 +375,7 @@ public static class BalanceCsvDatabase
     static string NewAssetPath(string requested,string fallbackRoot,string name){string path=(requested??string.Empty).Replace('\\','/');if(!path.StartsWith("Assets/Nature  Paradaise/Resources/",StringComparison.OrdinalIgnoreCase)||!path.EndsWith(".asset",StringComparison.OrdinalIgnoreCase))path=fallbackRoot+"/"+name+".asset";EnsureFolder(Path.GetDirectoryName(path).Replace('\\','/'));return AssetDatabase.GenerateUniqueAssetPath(path);}
     static void EnsureFolder(string path){string[] parts=path.Split('/');string current=parts[0];for(int i=1;i<parts.Length;i++){string next=current+"/"+parts[i];if(!AssetDatabase.IsValidFolder(next))AssetDatabase.CreateFolder(current,parts[i]);current=next;}}
 
-    static class Csv
+    internal static class Csv
     {
         public static void Write(string path,string[] headers,IEnumerable<string[]> rows)
         {

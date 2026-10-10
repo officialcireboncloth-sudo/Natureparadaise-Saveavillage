@@ -25,6 +25,9 @@ Shader "Nature Paradise/Soil State"
         _TextureAmount("Ground Texture Amount", Range(0, 1)) = 0
         _GroundUVTransform("Field Texture Scale / Offset", Vector) = (0.125, 0.125, 0, 0)
         _Furrows("Tilled Soil Detail", Range(0, 0.3)) = 0
+        _CozyPalette("Palette Controls Soil Colour", Float) = 0
+        _TextureContrast("Texture Detail Contrast", Range(0, 0.5)) = 0.16
+        _SoilVariation("Soft Soil Colour Variation", Range(0, 0.15)) = 0.055
         [PerRendererData] _SurfaceSize("Surface Size", Vector) = (1, 1, 0, 0)
         [PerRendererData] _GroundUVOffset("Cell Centre in Field (metres)", Vector) = (0, 0, 0, 0)
         [PerRendererData] _EdgeWidth("Edge Feather (metres)", Float) = 0.06
@@ -77,6 +80,7 @@ Shader "Nature Paradise/Soil State"
                 half _WetTextureAmount;
                 float4 _WetGroundUVRotation;
                 half _Furrows;
+                half _CozyPalette, _TextureContrast, _SoilVariation;
                 half4 _FieldBaseColor;
                 float _FieldUVScale;
                 half _FieldTextureAmount, _TileBlend;
@@ -118,6 +122,25 @@ Shader "Nature Paradise/Soil State"
                 p = frac(p * float2(123.34, 345.45));
                 p += dot(p, p + 34.345);
                 return frac(p.x * p.y);
+            }
+
+            float SoilNoise(float2 p)
+            {
+                float2 cell = floor(p), t = frac(p);
+                t = t * t * (3 - 2 * t);
+                return lerp(lerp(Hash21(cell), Hash21(cell + float2(1,0)), t.x),
+                    lerp(Hash21(cell + float2(0,1)), Hash21(cell + 1), t.x), t.y);
+            }
+
+            half3 SoilDetail(half3 textureColour, float2 metres, half amount)
+            {
+                if (_CozyPalette < .5h) return lerp(half3(1,1,1), textureColour, amount);
+                // Retain the pack's small soil marks without inheriting its dark
+                // baked lighting or large diagonal grooves. Shared coordinates
+                // keep the underlying field identical at every tile boundary.
+                half detail = (dot(textureColour, half3(.2126,.7152,.0722)) - .5h) * _TextureContrast;
+                half variation = (SoilNoise(metres * 1.7) - .5h) * _SoilVariation * 2;
+                return half3(1,1,1) * (1 + detail * amount + variation);
             }
 
             half FertilizerGrains(float2 uv)
@@ -163,8 +186,8 @@ Shader "Nature Paradise/Soil State"
                 float2 q = abs((input.uv - 0.5) * size) - size * 0.5 + radius;
                 float distance = length(max(q, 0)) + min(max(q.x, q.y), 0) - radius;
                 // Continuous world noise breaks a straight rectangular outline without flicker.
-                float noise = sin(input.positionWS.x * 3.3 + sin(input.positionWS.z * 2.1)) * sin(input.positionWS.z * 2.7);
-                half coverage = 1 - smoothstep(-edge, 0, distance + noise * edge * 0.18);
+                float noise = (SoilNoise(input.positionWS.xz * 4.1) - .5) * 2;
+                half coverage = 1 - smoothstep(-edge, 0, distance + noise * edge * 0.48);
                 clip(coverage - 0.003);
 
                 // Keep a dry hoed transition beneath the watered centre. This blends
@@ -176,13 +199,14 @@ Shader "Nature Paradise/Soil State"
                 half3 soilColor = _BaseColor.rgb * lerp(half3(1, 1, 1), _WetColorMultiplier.rgb, wetness);
                 // Local metres keep texture size independent of field dimensions and
                 // follow field rotation. Cell offsets keep neighbouring stamps continuous.
-                float2 groundUV = ((input.uv - 0.5) * size + UNITY_ACCESS_INSTANCED_PROP(SoilPerInstance, _GroundUVOffset).xy) * _GroundUVTransform.xy + _GroundUVTransform.zw;
+                float2 metres = (input.uv - 0.5) * size + UNITY_ACCESS_INSTANCED_PROP(SoilPerInstance, _GroundUVOffset).xy;
+                float2 groundUV = metres * _GroundUVTransform.xy + _GroundUVTransform.zw;
                 half3 ground = SAMPLE_TEXTURE2D(_GroundMap, sampler_GroundMap, groundUV).rgb;
                 float2 wetUV = float2(dot(_WetGroundUVRotation.xy, groundUV), dot(_WetGroundUVRotation.zw, groundUV));
                 half3 wetGround = SAMPLE_TEXTURE2D(_WetGroundMap, sampler_WetGroundMap, wetUV).rgb;
                 ground = lerp(ground, wetGround, wetness * _WetTextureAmount);
-                soilColor *= lerp(half3(1, 1, 1), ground, _TextureAmount);
-                half furrow = sin(input.uv.y * 48 + sin(input.uv.x * 12) * .45) * .5 + .5;
+                soilColor *= SoilDetail(ground, metres, _TextureAmount);
+                half furrow = sin(metres.y * 28 + sin(metres.x * 7) * .25) * .5 + .5;
                 soilColor *= 1 - _Furrows * furrow;
                 soilColor = lerp(soilColor, _FertilizerColor.rgb, grains * _FertilizerColor.a);
 
@@ -192,7 +216,7 @@ Shader "Nature Paradise/Soil State"
                 {
                     float2 fieldUV = ((input.uv - .5) * size + UNITY_ACCESS_INSTANCED_PROP(SoilPerInstance, _GroundUVOffset).xy) * _FieldUVScale;
                     half3 fieldGround = SAMPLE_TEXTURE2D(_FieldGroundMap, sampler_FieldGroundMap, fieldUV).rgb;
-                    half3 fieldColor = _FieldBaseColor.rgb * lerp(half3(1,1,1), fieldGround, _FieldTextureAmount);
+                    half3 fieldColor = _FieldBaseColor.rgb * SoilDetail(fieldGround, metres, _FieldTextureAmount);
                     soilColor = lerp(fieldColor, soilColor, coverage);
                 }
 
@@ -219,7 +243,7 @@ Shader "Nature Paradise/Soil State"
                 color.rgb = MixFog(color.rgb, inputData.fogCoord);
                 // Texture mixing handles the broad transition; alpha only hides the last
                 // centimetres of geometry where it meets the identical field underneath.
-                color.a = _TileBlend > .5h ? 1 - smoothstep(-min(edge,.04), 0, distance + noise * edge * .18) : coverage;
+                color.a = _TileBlend > .5h ? 1 - smoothstep(-min(edge,.04), 0, distance + noise * edge * .48) : coverage;
                 return color;
             }
             ENDHLSL

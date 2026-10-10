@@ -84,6 +84,8 @@ public struct FieldTileData
     public byte soilQuality;
     public byte fertility;
     public byte moisture;
+    // Surface water is visual; root moisture continues to drive crop care.
+    public float surfaceWetness;
     public CropDataSO crop;
     public float growthDays;
     public byte growthStage;
@@ -198,6 +200,8 @@ public class FieldTileSaveData
     public byte soilQuality;
     public byte fertility;
     public byte moisture;
+    public bool hasSurfaceWetness;
+    public float surfaceWetness;
     public string cropId;
     public float growthDays;
     public byte growthStage;

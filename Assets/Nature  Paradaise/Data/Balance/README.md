@@ -1,5 +1,13 @@
 # Balance Data CSV
 
+Mulai dari [PANDUAN.md](PANDUAN.md): cara kerja untuk designer, arti HP/quantity/drop,
+deskripsi tugas per kategori dan batas masing-masing importer.
+Panel Unity: **Nature Paradise > Data CSV > Balance CSV Panel**.
+Folder `Settings` menambah export/preview/import angka hewan, shop, feed maker,
+pohon/resource, quest dan biaya upgrade dari asset/prefab yang benar-benar tersedia.
+Folder `Schedules` berisi kalender/cuaca tahun 1–10, acara festival/ulang tahun,
+kategori dan menu café dinamis. Menu café sengaja kosong sampai diisi produk aktual.
+
 Folder ini adalah sumber data balancing yang dapat dibuka melalui Excel, LibreOffice,
 Google Sheets, atau text editor. `Items.csv` menyimpan data item seperti harga beli/jual,
 stack, kategori, tool, medicine, fertilizer, makanan, dan hubungan bibit. `Crops.csv`

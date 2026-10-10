@@ -14,6 +14,7 @@ public static class KitchenRecipeCsvDatabase
     const string RecipeRoot = "Assets/Nature  Paradaise/Resources/Cooking/Recipes";
     static readonly string[] Columns = { "recipe_id", "asset_path", "display_name", "description", "ingredients",
         "result_item_id", "result_amount", "required_kitchen_level", "required_equipment", "base_cooking_minutes", "learned_by_default" };
+    static readonly string[] ExportColumns=Columns.Concat(new[]{"output_quality_mode","fixed_output_quality"}).ToArray();
 
     [MenuItem("Nature Paradise/Data CSV/Recipes/Export")]
     public static void Export()
@@ -24,7 +25,8 @@ public static class KitchenRecipeCsvDatabase
             string.Join("|", recipe.ingredients.Where(value => value?.item != null).Select(value => $"{value.item.Id}:{value.amount}")),
             recipe.resultItem != null ? recipe.resultItem.Id : string.Empty, recipe.resultAmount.ToString(),
             recipe.requiredKitchenLevel.ToString(), recipe.requiredEquipment.ToString().Replace(", ", "|"),
-            recipe.baseCookingMinutes.ToString(), recipe.learnedByDefault ? "TRUE" : "FALSE"
+            recipe.baseCookingMinutes.ToString(), recipe.learnedByDefault ? "TRUE" : "FALSE",
+            recipe.outputQualityMode.ToString(),recipe.fixedOutputQuality.ToString()
         });
         WriteCsv(rows); AssetDatabase.Refresh();
         Debug.Log($"[RECIPE CSV] Export selesai: {CsvPath}");
@@ -48,44 +50,59 @@ public static class KitchenRecipeCsvDatabase
         Dictionary<string, ItemSO> items = LoadAssets<ItemSO>().GroupBy(value => value.Id, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
         List<string> errors = new(); int valid = 0;
+        List<Action> pending=new(); HashSet<string> ids=new(StringComparer.OrdinalIgnoreCase),paths=new(StringComparer.OrdinalIgnoreCase);
         for (int rowIndex = 1; rowIndex < table.Count; rowIndex++)
         {
             string[] row = table[rowIndex]; if (row.All(string.IsNullOrWhiteSpace)) continue;
             string id = Cell(row, header, "recipe_id"); string path = Cell(row, header, "asset_path");
             if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(path)) { errors.Add($"Baris {rowIndex + 1}: recipe_id/asset_path kosong."); continue; }
+            if(!ids.Add(id)||!paths.Add(path)){errors.Add($"{id}: ID/path duplikat.");continue;}
+            if(!path.StartsWith(RecipeRoot+"/",StringComparison.Ordinal)||!path.EndsWith(".asset",StringComparison.OrdinalIgnoreCase)||path.Contains("..")){errors.Add($"{id}: asset_path harus di folder Cooking/Recipes.");continue;}
+            if(AssetDatabase.LoadMainAssetAtPath(path)!=null&&AssetDatabase.LoadAssetAtPath<KitchenRecipeSO>(path)==null){errors.Add($"{id}: path dipakai tipe asset lain.");continue;}
             if (!items.TryGetValue(Cell(row, header, "result_item_id"), out ItemSO result)) { errors.Add($"{id}: result item tidak ditemukan."); continue; }
             List<KitchenIngredientRequirement> ingredients = new(); bool ingredientError = false;
             foreach (string token in Cell(row, header, "ingredients").Split('|', StringSplitOptions.RemoveEmptyEntries))
             {
                 string[] pair = token.Split(':');
-                if (pair.Length != 2 || !items.TryGetValue(pair[0].Trim(), out ItemSO item) || !int.TryParse(pair[1], out int amount) || amount <= 0)
+                if (pair.Length != 2 || !items.TryGetValue(pair[0].Trim(), out ItemSO item) || !int.TryParse(pair[1], out int amount) || amount <= 0 || amount>9999)
                 { errors.Add($"{id}: ingredient tidak valid '{token}'."); ingredientError = true; break; }
                 ingredients.Add(new KitchenIngredientRequirement { item = item, amount = amount });
             }
+            if(ingredients.Count==0&&!ingredientError)errors.Add($"{id}: ingredients kosong.");
             if (ingredientError || ingredients.Count == 0) continue;
             string equipmentText = Cell(row, header, "required_equipment").Replace('|', ',');
-            if (!Enum.TryParse(equipmentText, true, out KitchenEquipment equipment)) { errors.Add($"{id}: equipment tidak valid."); continue; }
-            int resultAmount = Positive(Cell(row, header, "result_amount"), 1);
-            int kitchenLevel = Mathf.Clamp(Positive(Cell(row, header, "required_kitchen_level"), 1), 1, 4);
-            int minutes = Mathf.Max(0, Positive(Cell(row, header, "base_cooking_minutes"), 10));
-            if (apply)
+            if (!Enum.TryParse(equipmentText, true, out KitchenEquipment equipment)||(equipment & ~KitchenEquipment.All)!=0) { errors.Add($"{id}: equipment tidak valid."); continue; }
+            if(!int.TryParse(Cell(row,header,"result_amount"),out int resultAmount)||resultAmount<1||resultAmount>999||
+               !int.TryParse(Cell(row,header,"required_kitchen_level"),out int kitchenLevel)||kitchenLevel<1||kitchenLevel>4||
+               !int.TryParse(Cell(row,header,"base_cooking_minutes"),out int minutes)||minutes<0||minutes>1440||
+               !bool.TryParse(Cell(row,header,"learned_by_default"),out bool learned))
+            {errors.Add($"{id}: jumlah hasil 1–999, level 1–4, menit 0–1440 dan learned TRUE/FALSE wajib valid.");continue;}
+            KitchenOutputQuality qualityMode=KitchenOutputQuality.IngredientAverage;int fixedQuality=0;
+            bool hasQuality=header.ContainsKey("output_quality_mode"),hasFixed=header.ContainsKey("fixed_output_quality");
+            if(hasQuality&&(!Enum.TryParse(Cell(row,header,"output_quality_mode"),true,out qualityMode)||!Enum.IsDefined(typeof(KitchenOutputQuality),qualityMode)))
+            {errors.Add($"{id}: output_quality_mode harus IngredientAverage/Fixed.");continue;}
+            if(hasFixed&&(!int.TryParse(Cell(row,header,"fixed_output_quality"),out fixedQuality)||fixedQuality<0||fixedQuality>5))
+            {errors.Add($"{id}: fixed_output_quality harus 0–5.");continue;}
+            if(qualityMode==KitchenOutputQuality.Fixed&&!hasFixed){errors.Add($"{id}: Fixed memerlukan fixed_output_quality.");continue;}
+            string displayName=Cell(row,header,"display_name"),description=Cell(row,header,"description");
+            if (apply)pending.Add(()=>
             {
                 KitchenRecipeSO recipe = AssetDatabase.LoadAssetAtPath<KitchenRecipeSO>(path);
                 if (recipe == null) { recipe = ScriptableObject.CreateInstance<KitchenRecipeSO>(); Directory.CreateDirectory(Path.GetDirectoryName(path)); AssetDatabase.CreateAsset(recipe, path); }
-                recipe.recipeId = id; recipe.displayName = Cell(row, header, "display_name"); recipe.description = Cell(row, header, "description");
+                recipe.recipeId = id; recipe.displayName = displayName; recipe.description = description;
                 recipe.ingredients = ingredients; recipe.resultItem = result; recipe.resultAmount = resultAmount;
                 recipe.requiredKitchenLevel = kitchenLevel; recipe.requiredEquipment = equipment; recipe.baseCookingMinutes = minutes;
-                recipe.learnedByDefault = bool.TryParse(Cell(row, header, "learned_by_default"), out bool learned) && learned;
+                recipe.learnedByDefault = learned;
+                if(hasQuality)recipe.outputQualityMode=qualityMode;if(hasFixed)recipe.fixedOutputQuality=fixedQuality;
                 EditorUtility.SetDirty(recipe);
-            }
+            });
             valid++;
         }
         if (errors.Count > 0) { foreach (string error in errors) Debug.LogError($"[RECIPE CSV] {error}"); return; }
-        if (apply) { AssetDatabase.SaveAssets(); AssetDatabase.Refresh(); }
+        if (apply) { foreach(var action in pending)action();AssetDatabase.SaveAssets(); AssetDatabase.Refresh(); }
         Debug.Log($"[RECIPE CSV] {(apply ? "Import" : "Validasi")} berhasil: {valid} recipe.");
     }
 
-    static int Positive(string value, int fallback) => int.TryParse(value, out int parsed) && parsed > 0 ? parsed : fallback;
     static string Cell(string[] row, Dictionary<string, int> header, string name) => header[name] < row.Length ? row[header[name]].Trim() : string.Empty;
     static List<T> LoadAssets<T>() where T : UnityEngine.Object => AssetDatabase.FindAssets($"t:{typeof(T).Name}")
         .Select(AssetDatabase.GUIDToAssetPath).Select(AssetDatabase.LoadAssetAtPath<T>).Where(value => value != null).ToList();
@@ -94,7 +111,7 @@ public static class KitchenRecipeCsvDatabase
     {
         Directory.CreateDirectory(Path.GetDirectoryName(CsvPath));
         using StreamWriter writer = new(CsvPath, false, new UTF8Encoding(false));
-        writer.WriteLine(string.Join(",", Columns.Select(Escape)));
+        writer.WriteLine(string.Join(",", ExportColumns.Select(Escape)));
         foreach (string[] row in rows) writer.WriteLine(string.Join(",", row.Select(Escape)));
     }
     static string Escape(string value)

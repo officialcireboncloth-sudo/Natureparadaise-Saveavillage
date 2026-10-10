@@ -1,0 +1,15 @@
+BARN A UNITY IMPORT: PASS
+One MeshRenderer and one mesh per LOD; two existing atlas material slots.
+LOD meshes authored in Blender; Unity switches by screen height and culls below 1.2%.
+Model axis correction yaw: 180
+Lv1: scale 0.75, prefab PASS, linked to existing gameplay level
+Lv2: scale 0.875, prefab PASS, linked to existing gameplay level
+Lv3: scale 1, prefab PASS, linked to existing gameplay level
+Lv4: scale 1.125, prefab PASS, linked to existing gameplay level
+Lv5: scale 1.25, prefab PASS, exterior prefab ready; gameplay level not defined
+Automatic far-distance LOD culling: PASS (native Unity render contains only background).
+PropertySite restore + rotated entrance checks: PASS
+Lv1: saved state restores new prefab; 0/90/180/270-degree animal/portal entry matches placement +Z PASS.
+Lv2: saved state restores new prefab; 0/90/180/270-degree animal/portal entry matches placement +Z PASS.
+Lv3: saved state restores new prefab; 0/90/180/270-degree animal/portal entry matches placement +Z PASS.
+Lv4: saved state restores new prefab; 0/90/180/270-degree animal/portal entry matches placement +Z PASS.

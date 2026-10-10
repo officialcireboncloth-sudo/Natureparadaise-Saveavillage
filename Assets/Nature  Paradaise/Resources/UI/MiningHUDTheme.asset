@@ -1,0 +1,12 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d73a707bd6408fb9cdb81a1f137276, type: 3}
+  m_Name: MiningHUDTheme
+  mineIcon: {fileID: 0}
+  coinIcon: {fileID: 0}
+  notificationPanel: {fileID: 0}
+  staminaBackground: {fileID: 0}
+  staminaFill: {fileID: 0}

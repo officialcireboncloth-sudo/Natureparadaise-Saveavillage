@@ -16,13 +16,16 @@ MonoBehaviour:
   displayName: Shed
   icon: {fileID: 0}
   category: 4
+  animalHousing: 0
   footprintWidth: 3
   footprintDepth: 3
+  defaultPlacementYaw: 0
   placementArea: 0
   canRelocate: 1
   canDemolish: 1
   levels:
   - level: 1
+    requiredVillageLevel: 0
     goldCost: 20
     constructionDays: 2
     materialCosts:
@@ -30,11 +33,13 @@ MonoBehaviour:
       amount: 2
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 1
-    completedPrefab: {fileID: 0}
+    completedPrefab: {fileID: 1568699811177427218, guid: 82c9669e0bb0ce94183abe062a73c717, type: 3}
+    constructionStagePrefabs: []
     capacity: 8
     unlockIds:
     - storage.basic
   - level: 2
+    requiredVillageLevel: 0
     goldCost: 35
     constructionDays: 3
     materialCosts:
@@ -42,7 +47,8 @@ MonoBehaviour:
       amount: 4
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 2
-    completedPrefab: {fileID: 0}
+    completedPrefab: {fileID: 4926180442718602618, guid: d73ff4e15420bec48bf59bb565bcab7b, type: 3}
+    constructionStagePrefabs: []
     capacity: 16
     unlockIds:
     - storage.expanded

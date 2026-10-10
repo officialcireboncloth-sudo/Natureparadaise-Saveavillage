@@ -15,7 +15,7 @@ public sealed class PlayerToolHotbarUI : MonoBehaviour
     {
         if(fishingVisibility==null)return;
         var fishing=GetComponent<FishingSystem>();
-        bool hidden=GameplayPauseMenu.IsOpen||(fishing!=null&&fishing.isActiveAndEnabled&&fishing.State!=FishingState.Idle);
+        bool hidden=DataDrivenModal.Active!=null||GameplayPauseMenu.IsOpen||(fishing!=null&&fishing.isActiveAndEnabled&&fishing.State!=FishingState.Idle);
         fishingVisibility.alpha=hidden?0:1;fishingVisibility.interactable=!hidden;fishingVisibility.blocksRaycasts=!hidden;
     }
     void OnDestroy(){if(canvasObject!=null)Destroy(canvasObject);}

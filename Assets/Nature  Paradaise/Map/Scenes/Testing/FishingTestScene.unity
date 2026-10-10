@@ -892,8 +892,8 @@ MonoBehaviour:
   hammerVisual: {fileID: 0}
   axeVisual: {fileID: 0}
   pullImpactDelay: 1.05
-  sickleImpactDelay: 0.68
-  hammerImpactDelay: 0.55
+  sickleImpactDelay: 0.85
+  hammerImpactDelay: 0.68
   axeImpactDelay: 0.55
 --- !u!114 &581703903
 MonoBehaviour:

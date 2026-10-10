@@ -1,0 +1,2 @@
+PASS: 1120-date roundtrip; 1120 Auto weather rows; valid Rain override query and actual import/restore; invalid weather rejected; invalid ItemSO rejected; originals restored; cafe menu empty.
+PASS Play Mode: actual ItemSO takeaway quantity/quality/gold; insufficient balance rejected without inventory changes; dine-in recovers status; prefab category/day/season callbacks; locks released; temporary state restored. Native visual review: selected day 23 updates details; café has 6 empty slots, visible disabled controls, and HUD is hidden.

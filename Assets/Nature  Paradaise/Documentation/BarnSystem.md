@@ -1,5 +1,14 @@
 # Barn System
 
+Exterior barn sekarang memakai model low poly Barn A yang disetujui: satu mesh
+per LOD, material atlas Toon Farm Pack, collider badan dan marker pintu depan.
+Prefab exterior Lv1–5 berbeda uniform scale saja. Building Definition yang
+sudah ada menghubungkan Lv1–4; prefab Lv5 siap dipakai setelah data biaya dan
+kapasitas gameplay Lv5 ditentukan. LOD0/1/2 dibuat di Blender dan dipilih oleh
+LODGroup Unity otomatis berdasarkan tinggi bangunan di layar, termasuk culling.
+File gabungan ada di `ArtSource/Barn_A/Blender/Barn_A_Combined.blend`.
+Untuk apply ulang pakai `Nature Paradise > Barn > Apply Approved Barn A Exterior`.
+
 Barn System menyediakan kapasitas kandang per bangunan, reservasi slot kelahiran, Universal Animal Feed, Feed Maker, Feed Silo, dan scene interior kandang tersendiri.
 
 ## Kapasitas

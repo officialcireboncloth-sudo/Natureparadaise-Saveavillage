@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2cdff870a70c634c944d538f66d359c, type: 3}
+  m_Name: Construction Worker Settings
+  m_EditorClassIdentifier: 
+  workerPrefab: {fileID: 0}
+  hammerPrefab: {fileID: 0}
+  workerScale: 1
+  walkingSpeed: 2.4
+  workStarts: 8
+  workEnds: 17
+  wood: {fileID: 2100000, guid: 018e97ae47a92a24489fbd8fd2843a00, type: 2}
+  stone: {fileID: 2100000, guid: 73d33018ac8927e4c9fd36ccccfccd58, type: 2}
+  roof: {fileID: 2100000, guid: 8e0baec09c679ce47bd5011985caa915, type: 2}
+  workerClothes: {fileID: 2100000, guid: eb0826ba83418c042a28758f7577630c, type: 2}
+  workerSkin: {fileID: 2100000, guid: 7f6ce4cbb1ed3724195845ead57419d6, type: 2}
+  workerHat: {fileID: 2100000, guid: 8fa69d70923313f4c92b6b4fa91bf6bd, type: 2}
+  progressTextShader: {fileID: 4800000, guid: dd89cf5b9246416f84610a006f916af7, type: 3}
+  displayDistance: 42
+  barHeight: 1.2
+  barPixelWidth: 260

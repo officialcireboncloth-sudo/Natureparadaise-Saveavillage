@@ -12,6 +12,7 @@ public sealed class BuildingSiteSaveData
     public int currentLevel;
     public int pendingLevel;
     public int completionDay;
+    public ConstructionJobData constructionJob;
     public bool unlocked;
 }
 
@@ -65,13 +66,17 @@ public sealed class BuildingSite : MonoBehaviour
     int currentLevel;
     int pendingLevel;
     int completionDay;
+    ConstructionProject constructionProject;
+    public ConstructionProject Construction => constructionProject;
     bool previewActive;
     int previewLevel;
     bool previewLocationValid;
     GameObject previewObject;
     Material previewMaterial;
+    GameObject runtimeCompletedVisual;
 
     public string SiteId => siteId;
+    public static IReadOnlyList<BuildingSite> ActiveSites => Registry;
     public BuildingDefinitionSO Definition => definition;
     public BuildingConstructionState State => state;
     public int CurrentLevel => currentLevel;
@@ -159,7 +164,8 @@ public sealed class BuildingSite : MonoBehaviour
         else if (state == BuildingConstructionState.UnderConstruction)
         {
             int remaining = Mathf.Max(0, completionDay - CurrentDay);
-            WorldInteractionPrompt.Request(this, buildingAnchor, $"Construction: {remaining} hari lagi", distance, promptHeight);
+            WorldInteractionPrompt.Request(this, buildingAnchor, constructionProject != null ?
+                $"{constructionProject.Status} · {constructionProject.Progress:P0}" : $"Construction: {remaining} hari lagi", distance, promptHeight);
         }
         else if (state == BuildingConstructionState.Completed && definition.HasUpgradeAfter(currentLevel))
         {
@@ -227,12 +233,14 @@ public sealed class BuildingSite : MonoBehaviour
         completionDay = CurrentDay + Mathf.Max(0, target.constructionDays);
         state = BuildingConstructionState.UnderConstruction;
         CancelPreview();
+        if (target.constructionDays > 0)
+            StartWorker(target);
         ApplyVisualState();
 
         if (target.constructionDays <= 0)
             CompleteConstruction();
         else
-            SaveLoadFeedback.Instance?.ShowMessage($"{definition.displayName} selesai hari ke-{completionDay}");
+            SaveLoadFeedback.Instance?.ShowMessage($"Builder berangkat untuk {definition.displayName}");
 
         SaveManager.Instance?.SaveGame();
         return true;
@@ -248,12 +256,24 @@ public sealed class BuildingSite : MonoBehaviour
 
     void HandleDayChanged()
     {
-        if (state == BuildingConstructionState.UnderConstruction && CurrentDay >= completionDay)
+        constructionProject?.RefreshClock();
+        if (state == BuildingConstructionState.UnderConstruction && constructionProject == null && CurrentDay >= completionDay)
             CompleteConstruction();
+    }
+
+    void StartWorker(BuildingLevelDefinition target, ConstructionJobData saved = null)
+    {
+        GameObject finalVisual = target.completedPrefab;
+        if (finalVisual == null && target.level - 1 < completedLevelVisuals.Count)
+            finalVisual = completedLevelVisuals[target.level - 1];
+        constructionProject = ConstructionProject.Begin(gameObject, buildingAnchor, definition, target,
+            finalVisual, currentLevel > 0, CompleteConstruction, saved);
     }
 
     void CompleteConstruction()
     {
+        if (state != BuildingConstructionState.UnderConstruction) return;
+        constructionProject?.FinishVisuals();
         currentLevel = Mathf.Max(1, pendingLevel);
         pendingLevel = 0;
         completionDay = 0;
@@ -348,17 +368,20 @@ public sealed class BuildingSite : MonoBehaviour
 
     void ApplyVisualState()
     {
+        if (runtimeCompletedVisual != null) { runtimeCompletedVisual.SetActive(false); Destroy(runtimeCompletedVisual); runtimeCompletedVisual = null; }
+        var prefab = state == BuildingConstructionState.Completed ? definition?.GetLevel(currentLevel)?.completedPrefab : null;
         if (availableMarker != null)
             availableMarker.SetActive(state == BuildingConstructionState.Available);
         if (constructionVisual != null)
-            constructionVisual.SetActive(state == BuildingConstructionState.UnderConstruction);
+            constructionVisual.SetActive(state == BuildingConstructionState.UnderConstruction && constructionProject == null);
 
         for (int index = 0; index < completedLevelVisuals.Count; index++)
         {
             GameObject visual = completedLevelVisuals[index];
             if (visual != null)
-                visual.SetActive(state == BuildingConstructionState.Completed && index == currentLevel - 1);
+                visual.SetActive(prefab == null && state == BuildingConstructionState.Completed && index == currentLevel - 1);
         }
+        if (prefab != null) runtimeCompletedVisual = Instantiate(prefab, buildingAnchor.position, buildingAnchor.rotation, buildingAnchor);
     }
 
     void CreatePreviewVisual(int targetLevel, bool valid)
@@ -445,6 +468,7 @@ public sealed class BuildingSite : MonoBehaviour
                 currentLevel = site.currentLevel,
                 pendingLevel = site.pendingLevel,
                 completionDay = site.completionDay,
+                constructionJob = site.constructionProject?.Capture(),
                 unlocked = site.unlocked
             });
         }
@@ -478,9 +502,16 @@ public sealed class BuildingSite : MonoBehaviour
         currentLevel = Mathf.Max(0, data.currentLevel);
         pendingLevel = Mathf.Max(0, data.pendingLevel);
         completionDay = Mathf.Max(0, data.completionDay);
+        constructionProject?.Cancel();
+        constructionProject = null;
 
         // Jika load dilakukan setelah tanggal selesai, bangunan langsung diselesaikan.
-        if (state == BuildingConstructionState.UnderConstruction && CurrentDay >= completionDay)
+        var target = definition?.GetLevel(pendingLevel > 0 ? pendingLevel : currentLevel);
+        if (data.constructionJob != null && target != null)
+            StartWorker(target, data.constructionJob);
+        else if (state == BuildingConstructionState.UnderConstruction && target != null && CurrentDay < completionDay)
+            StartWorker(target, ConstructionProject.MigrateLegacy(target, completionDay, buildingAnchor.position));
+        if (state == BuildingConstructionState.UnderConstruction && constructionProject == null && CurrentDay >= completionDay)
             CompleteConstruction();
         else
             ApplyVisualState();

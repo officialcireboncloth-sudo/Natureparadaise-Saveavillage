@@ -12,6 +12,7 @@ public class AnimalController : MonoBehaviour
     static readonly System.Collections.Generic.List<AnimalController> Active = new();
     public static AnimalController CurrentCareAction { get; private set; }
     public AnimalGrowthSystem Growth => growth;
+    public PlayerController CarePlayer => playerInv != null ? playerInv.GetComponent<PlayerController>() : null;
     public bool IsCareBusy => brushBusy || productCollectBusy;
     public bool IsBrushing => brushBusy;
     public float CareProgress => brushBusy ? brushProgress : productProgress;
@@ -71,6 +72,11 @@ public class AnimalController : MonoBehaviour
 
     [Tooltip("Hunger yang dikonsumsi untuk menghasilkan 1 Milk.")]
     public float milkHungerCost = 25f;
+
+    [Min(1), Tooltip("Jumlah produk yang masuk inventory sekali mengambil susu/produk non-wool.")]
+    public int productAmount = 1;
+    [Min(1), Tooltip("Jumlah Wool yang masuk inventory sekali mencukur domba.")]
+    public int shearingAmount = 5;
 
     [Header("Interaction")]
     public float interactionRadius = 2f;
@@ -508,7 +514,7 @@ public class AnimalController : MonoBehaviour
         if(IsProductReady && milkItem!=null)
         {
             int quality=growth != null?growth.ProductQualityLevel:1;
-            int amount=shearing?5:1;
+            int amount=Mathf.Max(1,shearing? shearingAmount : productAmount);
             if(playerInv != null && playerInv.Add(milkItem,amount,quality))
             {
                 milkReady=false;

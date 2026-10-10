@@ -1,0 +1,7 @@
+asset_guid,object_id,asset_name,asset_path,setting,label,value,type,minimum,maximum,description
+69093cc887fec0346aeb323e5ddd85b7,11400000,Wild Grass Balance,Assets/Nature  Paradaise/Resources/Wild Grass Balance.asset,chance,Chance,1,Float,0,1,"Peluang drop Grass; 1 = selalu, 0.25 = 25%."
+69093cc887fec0346aeb323e5ddd85b7,11400000,Wild Grass Balance,Assets/Nature  Paradaise/Resources/Wild Grass Balance.asset,durability,Durability,1,Integer,1,,Ketahanan gulma yang dibuat otomatis di field.
+69093cc887fec0346aeb323e5ddd85b7,11400000,Wild Grass Balance,Assets/Nature  Paradaise/Resources/Wild Grass Balance.asset,maximumAmount,Maximum Amount,1,Integer,1,,Jumlah maksimum Grass sekali disabit.
+69093cc887fec0346aeb323e5ddd85b7,11400000,Wild Grass Balance,Assets/Nature  Paradaise/Resources/Wild Grass Balance.asset,maximumRespawnDays,Maximum Respawn Days,4,Integer,1,,Maksimum hari game sampai gulma muncul kembali.
+69093cc887fec0346aeb323e5ddd85b7,11400000,Wild Grass Balance,Assets/Nature  Paradaise/Resources/Wild Grass Balance.asset,minimumAmount,Minimum Amount,1,Integer,1,,Jumlah minimum Grass sekali disabit.
+69093cc887fec0346aeb323e5ddd85b7,11400000,Wild Grass Balance,Assets/Nature  Paradaise/Resources/Wild Grass Balance.asset,minimumRespawnDays,Minimum Respawn Days,2,Integer,1,,Minimum hari game sampai gulma muncul kembali.

@@ -50,11 +50,13 @@ public sealed class BuildingLevelDefinition
     [Min(0)] public int requiredVillageLevel;
     [Tooltip("Gold yang dibayar ketika level ini mulai dibangun.")]
     [Min(0)] public int goldCost;
-    [Tooltip("Jumlah pergantian hari sebelum konstruksi selesai.")]
+    [Tooltip("Jumlah hari kerja builder. Satu hari kerja mengikuti jam kerja di Construction Worker Settings; progres dimulai ketika builder tiba.")]
     [Min(0)] public int constructionDays = 1;
     public List<BuildingMaterialCost> materialCosts = new();
     [Tooltip("Prefab final opsional. Jika kosong, BuildingSite memakai visual scene yang dapat diedit.")]
     public GameObject completedPrefab;
+    [Tooltip("Optional visual-only prefabs: index 0 foundation, 1 frame, 2 walls/roof, 3 finishing. Empty slots use generated scaffolding and the final building visual.")]
+    public List<GameObject> constructionStagePrefabs = new();
     [Tooltip("Kapasitas generik, misalnya jumlah hewan atau slot storage.")]
     [Min(0)] public int capacity;
     [Tooltip("ID fitur yang dibuka ketika level selesai, misalnya kitchen atau storage.")]

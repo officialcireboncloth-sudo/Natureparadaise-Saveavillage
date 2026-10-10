@@ -361,6 +361,7 @@ public class FarmingTool : MonoBehaviour
         SpendStamina(staminaCost);
         Vector3 effectPosition = currentField.GridToWorld(currentX, currentZ);
         movement?.FaceTowardsInteraction(effectPosition);
+        GetComponent<PlayerHeldTools>()?.BeginWorkAction(PlayerToolType.Hoe,effectPosition,actionLockDuration);
         PlayHoeAnimation();
         StartCoroutine(HoeActionRoutine(pendingTargets,effectPosition,activeTier));
     }

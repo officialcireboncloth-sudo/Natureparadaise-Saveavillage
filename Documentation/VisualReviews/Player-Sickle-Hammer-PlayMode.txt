@@ -1,0 +1,18 @@
+PASS actual Map player found
+PASS live gameplay and held-tool components ready
+PASS correct live Hammer model shown
+PASS Hammer waits for downswing before damage
+PASS Hammer head swings down and forward at impact
+PASS Hammer strikes on end face rather than broad side
+PASS UseHammer handler hits resource once
+PASS native Animator reached checked Hammer impact pose
+PASS Hammer grip across 59 live frames
+PASS correct live Sickle model shown
+PASS Sickle waits for front sweep before cutting
+PASS UseSickle handler cuts weed fixture
+PASS Sickle grip and blade orientation across 87 live frames
+PASS switching tools clears work pose
+PASS fishing selection shows only its rod
+PASS selected rod follows its own palm offset
+PASS hidden fishing rod does not move Hammer grip
+PASS empty hotbar hides visual

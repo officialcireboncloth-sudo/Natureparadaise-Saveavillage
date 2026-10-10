@@ -69,6 +69,12 @@ public sealed class SceneTransitionManager : MonoBehaviour
     {
         if (transitioning || IsInsideInterior || string.IsNullOrWhiteSpace(sceneName))
             return false;
+        Scene existing = SceneManager.GetSceneByName(sceneName);
+        if ((!existing.IsValid() || !existing.isLoaded) && !Application.CanStreamedLevelBeLoaded(sceneName))
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Scene interior belum terdaftar di Build Settings");
+            return false;
+        }
         StartCoroutine(EnterRoutine(sceneName, targetSpawnId));
         return true;
     }
@@ -154,6 +160,18 @@ public sealed class SceneTransitionManager : MonoBehaviour
         if (interior.IsValid())
             SceneManager.SetActiveScene(interior);
         yield return null; // Memberi PlayerSpawnPoint satu frame untuk mendaftarkan ID.
+        if (!PlayerSpawnPoint.TryGet(targetSpawnId, out PlayerSpawnPoint entry) || entry.gameObject.scene != interior)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Spawn interior tidak ditemukan: " + targetSpawnId);
+            Scene world = FindLoadedWorldScene(interior);
+            if (world.IsValid()) SceneManager.SetActiveScene(world);
+            AsyncOperation failedUnload = SceneManager.UnloadSceneAsync(interior);
+            if (failedUnload != null) while (!failedUnload.isDone) yield return null;
+            loadedInteriorScene = null;
+            yield return Fade(0f);
+            ReleaseTransitionLocks();
+            yield break;
+        }
         SeparateHouseFromWorld(interior);
         MovePlayerToSpawn(targetSpawnId, returnPosition, returnRotation);
         yield return Fade(0f);
@@ -201,7 +219,12 @@ public sealed class SceneTransitionManager : MonoBehaviour
             house = root.GetComponentInChildren<HouseInteriorController>(true);
             if (house != null) break;
         }
-        if (house == null) return;
+        if (house == null)
+        {
+            bool cave = false;
+            foreach (GameObject root in roots) if (root.GetComponentInChildren<CaveInteriorController>(true) != null) { cave = true; break; }
+            if (!cave) return;
+        }
 
         if (!TryGetSceneBounds(interior, out Bounds interiorBounds)) return;
         Scene world = player != null ? player.gameObject.scene : FindLoadedWorldScene(interior);

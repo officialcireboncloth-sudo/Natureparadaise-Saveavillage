@@ -1,0 +1,2214 @@
+{
+  "revision": "barn-exterior-A-2026-10-10",
+  "status": "PROPOSED_NOT_MODELLED_NOT_APPLIED",
+  "scope": "Exterior only; same mesh, topology, materials, details and UVs for all five levels. Uniform scale only.",
+  "units": "1 Unity unit = 1 m proposal; values are design choices, not measurements inferred from reference.",
+  "coordinates": {
+    "unity": "X right, Y up, Z rear. Front faces -Z. Origin ground center (0,0,0).",
+    "blender": "X right, Y rear, Z up. Front -Y; ground-center origin. Export unit scale 1; apply mesh transforms before FBX."
+  },
+  "master": {
+    "baseLevel": 3,
+    "bodyWidth": 8,
+    "bodyDepth": 10,
+    "eaveY": 4.2,
+    "gableRidgeY": 6.6,
+    "maximumY": 6.8,
+    "foundationTopY": 0.5,
+    "roofOverhangX": 0.45,
+    "roofOverhangZ": 0.45,
+    "roofThickness": 0.12,
+    "roofSlopeDegrees": 30.9638,
+    "roofEaveOuterY": 3.93,
+    "visualBoundsMinXYZ": [
+      -4.45,
+      0,
+      -5.45
+    ],
+    "visualBoundsMaxXYZ": [
+      4.45,
+      6.8,
+      5.45
+    ]
+  },
+  "levels": [
+    {
+      "level": 1,
+      "uniformScale": 0.75,
+      "bodySizeXYZ": [
+        6.0,
+        3.15,
+        7.5
+      ],
+      "visualEnvelopeXYZ": [
+        6.675,
+        5.1,
+        8.175
+      ],
+      "mainDoorClearWidthHeight": [
+        2.55,
+        2.4
+      ],
+      "entranceMarkerXYZ": [
+        0,
+        0,
+        -4.425
+      ]
+    },
+    {
+      "level": 2,
+      "uniformScale": 0.875,
+      "bodySizeXYZ": [
+        7.0,
+        3.675,
+        8.75
+      ],
+      "visualEnvelopeXYZ": [
+        7.7875,
+        5.95,
+        9.5375
+      ],
+      "mainDoorClearWidthHeight": [
+        2.975,
+        2.8
+      ],
+      "entranceMarkerXYZ": [
+        0,
+        0,
+        -5.1625
+      ]
+    },
+    {
+      "level": 3,
+      "uniformScale": 1,
+      "bodySizeXYZ": [
+        8,
+        4.2,
+        10
+      ],
+      "visualEnvelopeXYZ": [
+        8.9,
+        6.8,
+        10.9
+      ],
+      "mainDoorClearWidthHeight": [
+        3.4,
+        3.2
+      ],
+      "entranceMarkerXYZ": [
+        0,
+        0,
+        -5.9
+      ]
+    },
+    {
+      "level": 4,
+      "uniformScale": 1.125,
+      "bodySizeXYZ": [
+        9.0,
+        4.725,
+        11.25
+      ],
+      "visualEnvelopeXYZ": [
+        10.0125,
+        7.65,
+        12.2625
+      ],
+      "mainDoorClearWidthHeight": [
+        3.825,
+        3.6
+      ],
+      "entranceMarkerXYZ": [
+        0,
+        0,
+        -6.6375
+      ]
+    },
+    {
+      "level": 5,
+      "uniformScale": 1.25,
+      "bodySizeXYZ": [
+        10.0,
+        5.25,
+        12.5
+      ],
+      "visualEnvelopeXYZ": [
+        11.125,
+        8.5,
+        13.625
+      ],
+      "mainDoorClearWidthHeight": [
+        4.25,
+        4.0
+      ],
+      "entranceMarkerXYZ": [
+        0,
+        0,
+        -7.375
+      ]
+    }
+  ],
+  "materials": {
+    "opaque": "Reuse TFP_Atlas_1A.mat; one atlas, per-face UV palette islands.",
+    "emission": "Reuse TFP_Atlas_Lights_1A.mat for lantern core only; same atlas texture.",
+    "newRuntimeTextures": 0,
+    "newNormalAOMaps": 0,
+    "vertexColorRequired": false,
+    "atlasPath": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Textures/TFP_Atlas_1A.psd",
+    "atlasGuid": "522fcb2b5717c7640b460ee9ff73a78a",
+    "atlasSize": [
+      2048,
+      2048
+    ],
+    "sourceBytes": 82509779,
+    "sha256": "7fe0569f122bda89faca68565ea94bdb8be1431298424424f2776f23e987e231",
+    "uvConvention": "Rects refer to PSD composite. Pixel origin top-left; UV origin bottom-left. Inset 4 px. No material-wide tint/repeat.",
+    "swatches": {
+      "red": {
+        "label": "Cat papan merah",
+        "pixelRectTopLeft": [
+          736,
+          1344,
+          32,
+          64
+        ],
+        "samplePixel": [
+          752,
+          1376
+        ],
+        "rgb": [
+          197,
+          66,
+          40
+        ],
+        "hex": "#c54228",
+        "uvSafeRectBottomLeft": [
+          0.361328125,
+          0.314453125,
+          0.373046875,
+          0.341796875
+        ]
+      },
+      "wood": {
+        "label": "Kayu krem / trim",
+        "pixelRectTopLeft": [
+          544,
+          1984,
+          32,
+          64
+        ],
+        "samplePixel": [
+          560,
+          2016
+        ],
+        "rgb": [
+          225,
+          220,
+          184
+        ],
+        "hex": "#e1dcb8",
+        "uvSafeRectBottomLeft": [
+          0.267578125,
+          0.001953125,
+          0.279296875,
+          0.029296875
+        ]
+      },
+      "roof": {
+        "label": "Atap charcoal hangat",
+        "pixelRectTopLeft": [
+          832,
+          1536,
+          32,
+          64
+        ],
+        "samplePixel": [
+          848,
+          1568
+        ],
+        "rgb": [
+          82,
+          71,
+          65
+        ],
+        "hex": "#524741",
+        "uvSafeRectBottomLeft": [
+          0.408203125,
+          0.220703125,
+          0.419921875,
+          0.248046875
+        ]
+      },
+      "stone": {
+        "label": "Batu fondasi",
+        "pixelRectTopLeft": [
+          640,
+          1024,
+          32,
+          64
+        ],
+        "samplePixel": [
+          656,
+          1056
+        ],
+        "rgb": [
+          176,
+          160,
+          148
+        ],
+        "hex": "#b0a094",
+        "uvSafeRectBottomLeft": [
+          0.314453125,
+          0.470703125,
+          0.326171875,
+          0.498046875
+        ]
+      },
+      "metal": {
+        "label": "Besi gelap",
+        "pixelRectTopLeft": [
+          896,
+          1728,
+          32,
+          64
+        ],
+        "samplePixel": [
+          912,
+          1760
+        ],
+        "rgb": [
+          49,
+          49,
+          49
+        ],
+        "hex": "#313131",
+        "uvSafeRectBottomLeft": [
+          0.439453125,
+          0.126953125,
+          0.451171875,
+          0.154296875
+        ]
+      },
+      "glow": {
+        "label": "Lampu hangat",
+        "pixelRectTopLeft": [
+          576,
+          1984,
+          32,
+          64
+        ],
+        "samplePixel": [
+          592,
+          2016
+        ],
+        "rgb": [
+          255,
+          217,
+          86
+        ],
+        "hex": "#ffd956",
+        "uvSafeRectBottomLeft": [
+          0.283203125,
+          0.001953125,
+          0.294921875,
+          0.029296875
+        ]
+      },
+      "red_dark": {
+        "label": "Celah papan merah",
+        "pixelRectTopLeft": [
+          64,
+          1408,
+          32,
+          64
+        ],
+        "samplePixel": [
+          80,
+          1440
+        ],
+        "rgb": [
+          133,
+          45,
+          26
+        ],
+        "hex": "#852d1a",
+        "uvSafeRectBottomLeft": [
+          0.033203125,
+          0.283203125,
+          0.044921875,
+          0.310546875
+        ]
+      },
+      "wood_dark": {
+        "label": "Sisi kayu",
+        "pixelRectTopLeft": [
+          960,
+          1920,
+          32,
+          64
+        ],
+        "samplePixel": [
+          976,
+          1952
+        ],
+        "rgb": [
+          161,
+          126,
+          69
+        ],
+        "hex": "#a17e45",
+        "uvSafeRectBottomLeft": [
+          0.470703125,
+          0.033203125,
+          0.482421875,
+          0.060546875
+        ]
+      },
+      "roof_dark": {
+        "label": "Celah atap",
+        "pixelRectTopLeft": [
+          896,
+          1728,
+          32,
+          64
+        ],
+        "samplePixel": [
+          912,
+          1760
+        ],
+        "rgb": [
+          49,
+          49,
+          49
+        ],
+        "hex": "#313131",
+        "uvSafeRectBottomLeft": [
+          0.439453125,
+          0.126953125,
+          0.451171875,
+          0.154296875
+        ]
+      },
+      "stone_light": {
+        "label": "Variasi batu",
+        "pixelRectTopLeft": [
+          512,
+          1664,
+          32,
+          64
+        ],
+        "samplePixel": [
+          528,
+          1696
+        ],
+        "rgb": [
+          183,
+          175,
+          159
+        ],
+        "hex": "#b7af9f",
+        "uvSafeRectBottomLeft": [
+          0.251953125,
+          0.158203125,
+          0.263671875,
+          0.185546875
+        ]
+      }
+    }
+  },
+  "parts": [
+    {
+      "name": "Foundation",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        0.25,
+        0
+      ],
+      "sizeXYZ": [
+        8,
+        0.5,
+        10
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "stone",
+      "note": ""
+    },
+    {
+      "name": "WallBody",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        2.35,
+        0
+      ],
+      "sizeXYZ": [
+        8,
+        3.7,
+        10
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "red",
+      "note": ""
+    },
+    {
+      "name": "GableFront",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -4,
+          4.2,
+          -5
+        ],
+        [
+          4,
+          4.2,
+          -5
+        ],
+        [
+          0,
+          6.6,
+          -5
+        ]
+      ],
+      "material": "red"
+    },
+    {
+      "name": "GableRear",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          4,
+          4.2,
+          5
+        ],
+        [
+          -4,
+          4.2,
+          5
+        ],
+        [
+          0,
+          6.6,
+          5
+        ]
+      ],
+      "material": "red"
+    },
+    {
+      "name": "RoofRight",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          0,
+          6.6,
+          -5.45
+        ],
+        [
+          4.45,
+          3.93,
+          -5.45
+        ],
+        [
+          4.45,
+          3.93,
+          5.45
+        ],
+        [
+          0,
+          6.6,
+          5.45
+        ]
+      ],
+      "material": "roof"
+    },
+    {
+      "name": "RoofLeft",
+      "type": "surface",
+      "verticesXYZ": [
+        [
+          -4.45,
+          3.93,
+          -5.45
+        ],
+        [
+          0,
+          6.6,
+          -5.45
+        ],
+        [
+          0,
+          6.6,
+          5.45
+        ],
+        [
+          -4.45,
+          3.93,
+          5.45
+        ]
+      ],
+      "material": "roof"
+    },
+    {
+      "name": "RidgeCap",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        6.7,
+        0
+      ],
+      "sizeXYZ": [
+        0.28,
+        0.2,
+        10.9
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "roof",
+      "note": ""
+    },
+    {
+      "name": "CornerPost_-3.87_-4.87",
+      "type": "box",
+      "centerXYZ": [
+        -3.87,
+        2.35,
+        -4.87
+      ],
+      "sizeXYZ": [
+        0.26,
+        3.7,
+        0.26
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "CornerPost_-3.87_4.87",
+      "type": "box",
+      "centerXYZ": [
+        -3.87,
+        2.35,
+        4.87
+      ],
+      "sizeXYZ": [
+        0.26,
+        3.7,
+        0.26
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "CornerPost_3.87_-4.87",
+      "type": "box",
+      "centerXYZ": [
+        3.87,
+        2.35,
+        -4.87
+      ],
+      "sizeXYZ": [
+        0.26,
+        3.7,
+        0.26
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "CornerPost_3.87_4.87",
+      "type": "box",
+      "centerXYZ": [
+        3.87,
+        2.35,
+        4.87
+      ],
+      "sizeXYZ": [
+        0.26,
+        3.7,
+        0.26
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "HorizontalGableTrim_-5.07",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.14,
+        -5.07
+      ],
+      "sizeXYZ": [
+        8.05,
+        0.22,
+        0.16
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "GableFascia_-5.07_-1",
+      "type": "beam",
+      "fromXYZ": [
+        -4.393405466902972,
+        3.83567577817162,
+        -5.07
+      ],
+      "toXYZ": [
+        0.05659453309702792,
+        6.50567577817162,
+        -5.07
+      ],
+      "width": 0.22,
+      "depth": 0.2,
+      "material": "wood"
+    },
+    {
+      "name": "GableFascia_-5.07_1",
+      "type": "beam",
+      "fromXYZ": [
+        4.393405466902972,
+        3.83567577817162,
+        -5.07
+      ],
+      "toXYZ": [
+        -0.05659453309702792,
+        6.50567577817162,
+        -5.07
+      ],
+      "width": 0.22,
+      "depth": 0.2,
+      "material": "wood"
+    },
+    {
+      "name": "GableKingPost_-5.07",
+      "type": "beam",
+      "fromXYZ": [
+        0,
+        4.2,
+        -5.07
+      ],
+      "toXYZ": [
+        0,
+        6.48,
+        -5.07
+      ],
+      "width": 0.2,
+      "depth": 0.18,
+      "material": "wood"
+    },
+    {
+      "name": "HorizontalGableTrim_5.07",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.14,
+        5.07
+      ],
+      "sizeXYZ": [
+        8.05,
+        0.22,
+        0.16
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "GableFascia_5.07_-1",
+      "type": "beam",
+      "fromXYZ": [
+        -4.393405466902972,
+        3.83567577817162,
+        5.07
+      ],
+      "toXYZ": [
+        0.05659453309702792,
+        6.50567577817162,
+        5.07
+      ],
+      "width": 0.22,
+      "depth": 0.2,
+      "material": "wood"
+    },
+    {
+      "name": "GableFascia_5.07_1",
+      "type": "beam",
+      "fromXYZ": [
+        4.393405466902972,
+        3.83567577817162,
+        5.07
+      ],
+      "toXYZ": [
+        -0.05659453309702792,
+        6.50567577817162,
+        5.07
+      ],
+      "width": 0.22,
+      "depth": 0.2,
+      "material": "wood"
+    },
+    {
+      "name": "GableKingPost_5.07",
+      "type": "beam",
+      "fromXYZ": [
+        0,
+        4.2,
+        5.07
+      ],
+      "toXYZ": [
+        0,
+        6.48,
+        5.07
+      ],
+      "width": 0.2,
+      "depth": 0.18,
+      "material": "wood"
+    },
+    {
+      "name": "EaveFascia_-4.05",
+      "type": "box",
+      "centerXYZ": [
+        -4.05,
+        4.12,
+        0
+      ],
+      "sizeXYZ": [
+        0.18,
+        0.22,
+        10.3
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "EaveBrace_-4.05_0",
+      "type": "beam",
+      "fromXYZ": [
+        -4.05,
+        3.45,
+        -4
+      ],
+      "toXYZ": [
+        -4.33,
+        3.91,
+        -4
+      ],
+      "width": 0.15,
+      "depth": 0.15,
+      "material": "wood"
+    },
+    {
+      "name": "EaveBrace_-4.05_1",
+      "type": "beam",
+      "fromXYZ": [
+        -4.05,
+        3.45,
+        -2
+      ],
+      "toXYZ": [
+        -4.33,
+        3.91,
+        -2
+      ],
+      "width": 0.15,
+      "depth": 0.15,
+      "material": "wood"
+    },
+    {
+      "name": "EaveBrace_-4.05_2",
+      "type": "beam",
+      "fromXYZ": [
+        -4.05,
+        3.45,
+        0
+      ],
+      "toXYZ": [
+        -4.33,
+        3.91,
+        0
+      ],
+      "width": 0.15,
+      "depth": 0.15,
+      "material": "wood"
+    },
+    {
+      "name": "EaveBrace_-4.05_3",
+      "type": "beam",
+      "fromXYZ": [
+        -4.05,
+        3.45,
+        2
+      ],
+      "toXYZ": [
+        -4.33,
+        3.91,
+        2
+      ],
+      "width": 0.15,
+      "depth": 0.15,
+      "material": "wood"
+    },
+    {
+      "name": "EaveBrace_-4.05_4",
+      "type": "beam",
+      "fromXYZ": [
+        -4.05,
+        3.45,
+        4
+      ],
+      "toXYZ": [
+        -4.33,
+        3.91,
+        4
+      ],
+      "width": 0.15,
+      "depth": 0.15,
+      "material": "wood"
+    },
+    {
+      "name": "EaveFascia_4.05",
+      "type": "box",
+      "centerXYZ": [
+        4.05,
+        4.12,
+        0
+      ],
+      "sizeXYZ": [
+        0.18,
+        0.22,
+        10.3
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "EaveBrace_4.05_0",
+      "type": "beam",
+      "fromXYZ": [
+        4.05,
+        3.45,
+        -4
+      ],
+      "toXYZ": [
+        4.33,
+        3.91,
+        -4
+      ],
+      "width": 0.15,
+      "depth": 0.15,
+      "material": "wood"
+    },
+    {
+      "name": "EaveBrace_4.05_1",
+      "type": "beam",
+      "fromXYZ": [
+        4.05,
+        3.45,
+        -2
+      ],
+      "toXYZ": [
+        4.33,
+        3.91,
+        -2
+      ],
+      "width": 0.15,
+      "depth": 0.15,
+      "material": "wood"
+    },
+    {
+      "name": "EaveBrace_4.05_2",
+      "type": "beam",
+      "fromXYZ": [
+        4.05,
+        3.45,
+        0
+      ],
+      "toXYZ": [
+        4.33,
+        3.91,
+        0
+      ],
+      "width": 0.15,
+      "depth": 0.15,
+      "material": "wood"
+    },
+    {
+      "name": "EaveBrace_4.05_3",
+      "type": "beam",
+      "fromXYZ": [
+        4.05,
+        3.45,
+        2
+      ],
+      "toXYZ": [
+        4.33,
+        3.91,
+        2
+      ],
+      "width": 0.15,
+      "depth": 0.15,
+      "material": "wood"
+    },
+    {
+      "name": "EaveBrace_4.05_4",
+      "type": "beam",
+      "fromXYZ": [
+        4.05,
+        3.45,
+        4
+      ],
+      "toXYZ": [
+        4.33,
+        3.91,
+        4
+      ],
+      "width": 0.15,
+      "depth": 0.15,
+      "material": "wood"
+    },
+    {
+      "name": "MainDoorLeft",
+      "type": "box",
+      "centerXYZ": [
+        -0.855,
+        1.78,
+        -5.05
+      ],
+      "sizeXYZ": [
+        1.69,
+        3.2,
+        0.1
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "red",
+      "note": ""
+    },
+    {
+      "name": "MainDoorRight",
+      "type": "box",
+      "centerXYZ": [
+        0.855,
+        1.78,
+        -5.05
+      ],
+      "sizeXYZ": [
+        1.69,
+        3.2,
+        0.1
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "red",
+      "note": ""
+    },
+    {
+      "name": "MainDoorJamb_-1.81",
+      "type": "box",
+      "centerXYZ": [
+        -1.81,
+        1.81,
+        -5.13
+      ],
+      "sizeXYZ": [
+        0.22,
+        3.46,
+        0.18
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "MainDoorJamb_1.81",
+      "type": "box",
+      "centerXYZ": [
+        1.81,
+        1.81,
+        -5.13
+      ],
+      "sizeXYZ": [
+        0.22,
+        3.46,
+        0.18
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "MainDoorLintel_0.17",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        0.17,
+        -5.13
+      ],
+      "sizeXYZ": [
+        3.84,
+        0.22,
+        0.18
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "MainDoorLintel_3.49",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        3.49,
+        -5.13
+      ],
+      "sizeXYZ": [
+        3.84,
+        0.22,
+        0.18
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "DoorX_-1_A",
+      "type": "beam",
+      "fromXYZ": [
+        -1.62,
+        0.32,
+        -5.13
+      ],
+      "toXYZ": [
+        -0.07,
+        3.22,
+        -5.13
+      ],
+      "width": 0.14,
+      "depth": 0.12,
+      "material": "wood"
+    },
+    {
+      "name": "DoorX_-1_B",
+      "type": "beam",
+      "fromXYZ": [
+        -0.07,
+        0.32,
+        -5.13
+      ],
+      "toXYZ": [
+        -1.62,
+        3.22,
+        -5.13
+      ],
+      "width": 0.14,
+      "depth": 0.12,
+      "material": "wood"
+    },
+    {
+      "name": "MainHinge_-1_0.55",
+      "type": "box",
+      "centerXYZ": [
+        -1.58,
+        0.55,
+        -5.235
+      ],
+      "sizeXYZ": [
+        0.38,
+        0.11,
+        0.06
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal",
+      "note": ""
+    },
+    {
+      "name": "MainHinge_-1_3.02",
+      "type": "box",
+      "centerXYZ": [
+        -1.58,
+        3.02,
+        -5.235
+      ],
+      "sizeXYZ": [
+        0.38,
+        0.11,
+        0.06
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal",
+      "note": ""
+    },
+    {
+      "name": "MainHandle_-1",
+      "type": "box",
+      "centerXYZ": [
+        -0.13,
+        1.62,
+        -5.23
+      ],
+      "sizeXYZ": [
+        0.075,
+        0.32,
+        0.1
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal",
+      "note": ""
+    },
+    {
+      "name": "DoorX_1_A",
+      "type": "beam",
+      "fromXYZ": [
+        0.07,
+        0.32,
+        -5.13
+      ],
+      "toXYZ": [
+        1.62,
+        3.22,
+        -5.13
+      ],
+      "width": 0.14,
+      "depth": 0.12,
+      "material": "wood"
+    },
+    {
+      "name": "DoorX_1_B",
+      "type": "beam",
+      "fromXYZ": [
+        1.62,
+        0.32,
+        -5.13
+      ],
+      "toXYZ": [
+        0.07,
+        3.22,
+        -5.13
+      ],
+      "width": 0.14,
+      "depth": 0.12,
+      "material": "wood"
+    },
+    {
+      "name": "MainHinge_1_0.55",
+      "type": "box",
+      "centerXYZ": [
+        1.58,
+        0.55,
+        -5.235
+      ],
+      "sizeXYZ": [
+        0.38,
+        0.11,
+        0.06
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal",
+      "note": ""
+    },
+    {
+      "name": "MainHinge_1_3.02",
+      "type": "box",
+      "centerXYZ": [
+        1.58,
+        3.02,
+        -5.235
+      ],
+      "sizeXYZ": [
+        0.38,
+        0.11,
+        0.06
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal",
+      "note": ""
+    },
+    {
+      "name": "MainHandle_1",
+      "type": "box",
+      "centerXYZ": [
+        0.13,
+        1.62,
+        -5.23
+      ],
+      "sizeXYZ": [
+        0.075,
+        0.32,
+        0.1
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal",
+      "note": ""
+    },
+    {
+      "name": "MainThreshold",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        0.09,
+        -5.2
+      ],
+      "sizeXYZ": [
+        3.84,
+        0.18,
+        0.4
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "stone",
+      "note": ""
+    },
+    {
+      "name": "LoftShutter",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        5.05,
+        -5.055
+      ],
+      "sizeXYZ": [
+        1.8,
+        1.4,
+        0.1
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood_dark",
+      "note": ""
+    },
+    {
+      "name": "LoftFrame_-1.0",
+      "type": "box",
+      "centerXYZ": [
+        -1.0,
+        5.05,
+        -5.13
+      ],
+      "sizeXYZ": [
+        0.16,
+        1.66,
+        0.12
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "LoftFrame_0",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        5.05,
+        -5.13
+      ],
+      "sizeXYZ": [
+        0.16,
+        1.66,
+        0.12
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "LoftFrame_1.0",
+      "type": "box",
+      "centerXYZ": [
+        1.0,
+        5.05,
+        -5.13
+      ],
+      "sizeXYZ": [
+        0.16,
+        1.66,
+        0.12
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "LoftRail_4.28",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.28,
+        -5.13
+      ],
+      "sizeXYZ": [
+        2.16,
+        0.16,
+        0.12
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "LoftRail_5.82",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        5.82,
+        -5.13
+      ],
+      "sizeXYZ": [
+        2.16,
+        0.16,
+        0.12
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "LoftDiagonal_-1",
+      "type": "beam",
+      "fromXYZ": [
+        -0.87,
+        4.43,
+        -5.18
+      ],
+      "toXYZ": [
+        -0.13,
+        5.67,
+        -5.18
+      ],
+      "width": 0.1,
+      "depth": 0.08,
+      "material": "wood"
+    },
+    {
+      "name": "LoftDiagonal_1",
+      "type": "beam",
+      "fromXYZ": [
+        0.87,
+        4.43,
+        -5.18
+      ],
+      "toXYZ": [
+        0.13,
+        5.67,
+        -5.18
+      ],
+      "width": 0.1,
+      "depth": 0.08,
+      "material": "wood"
+    },
+    {
+      "name": "SideDoor",
+      "type": "box",
+      "centerXYZ": [
+        4.06,
+        1.405,
+        1.8
+      ],
+      "sizeXYZ": [
+        0.1,
+        2.45,
+        1.3
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood_dark",
+      "note": ""
+    },
+    {
+      "name": "SideJamb_1.06",
+      "type": "box",
+      "centerXYZ": [
+        4.14,
+        1.44,
+        1.06
+      ],
+      "sizeXYZ": [
+        0.16,
+        2.72,
+        0.18
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "SideJamb_2.54",
+      "type": "box",
+      "centerXYZ": [
+        4.14,
+        1.44,
+        2.54
+      ],
+      "sizeXYZ": [
+        0.16,
+        2.72,
+        0.18
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "SideLintel_0.17",
+      "type": "box",
+      "centerXYZ": [
+        4.14,
+        0.17,
+        1.8
+      ],
+      "sizeXYZ": [
+        0.16,
+        0.18,
+        1.66
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "SideLintel_2.7",
+      "type": "box",
+      "centerXYZ": [
+        4.14,
+        2.7,
+        1.8
+      ],
+      "sizeXYZ": [
+        0.16,
+        0.18,
+        1.66
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "SideDoorDiagonal",
+      "type": "beam",
+      "fromXYZ": [
+        4.2,
+        0.38,
+        1.25
+      ],
+      "toXYZ": [
+        4.2,
+        2.48,
+        2.35
+      ],
+      "width": 0.12,
+      "depth": 0.1,
+      "material": "wood"
+    },
+    {
+      "name": "SideThreshold",
+      "type": "box",
+      "centerXYZ": [
+        4.2,
+        0.09,
+        1.8
+      ],
+      "sizeXYZ": [
+        0.4,
+        0.18,
+        1.66
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "stone",
+      "note": ""
+    },
+    {
+      "name": "SideHinge_0.6",
+      "type": "box",
+      "centerXYZ": [
+        4.235,
+        0.6,
+        1.26
+      ],
+      "sizeXYZ": [
+        0.065,
+        0.11,
+        0.28
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal",
+      "note": ""
+    },
+    {
+      "name": "SideHinge_2.28",
+      "type": "box",
+      "centerXYZ": [
+        4.235,
+        2.28,
+        1.26
+      ],
+      "sizeXYZ": [
+        0.065,
+        0.11,
+        0.28
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal",
+      "note": ""
+    },
+    {
+      "name": "LeftShutter_-2.5",
+      "type": "box",
+      "centerXYZ": [
+        -4.06,
+        2.55,
+        -2.5
+      ],
+      "sizeXYZ": [
+        0.1,
+        1.2,
+        1.2
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood_dark",
+      "note": ""
+    },
+    {
+      "name": "LeftWindowJamb_-2.5_-0.69",
+      "type": "box",
+      "centerXYZ": [
+        -4.14,
+        2.55,
+        -3.19
+      ],
+      "sizeXYZ": [
+        0.14,
+        1.5,
+        0.18
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "LeftWindowJamb_-2.5_0.69",
+      "type": "box",
+      "centerXYZ": [
+        -4.14,
+        2.55,
+        -1.81
+      ],
+      "sizeXYZ": [
+        0.14,
+        1.5,
+        0.18
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "LeftWindowRail_-2.5_1.89",
+      "type": "box",
+      "centerXYZ": [
+        -4.14,
+        1.89,
+        -2.5
+      ],
+      "sizeXYZ": [
+        0.14,
+        0.15,
+        1.55
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "LeftWindowRail_-2.5_3.21",
+      "type": "box",
+      "centerXYZ": [
+        -4.14,
+        3.21,
+        -2.5
+      ],
+      "sizeXYZ": [
+        0.14,
+        0.15,
+        1.55
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "LeftShutter_2.5",
+      "type": "box",
+      "centerXYZ": [
+        -4.06,
+        2.55,
+        2.5
+      ],
+      "sizeXYZ": [
+        0.1,
+        1.2,
+        1.2
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood_dark",
+      "note": ""
+    },
+    {
+      "name": "LeftWindowJamb_2.5_-0.69",
+      "type": "box",
+      "centerXYZ": [
+        -4.14,
+        2.55,
+        1.81
+      ],
+      "sizeXYZ": [
+        0.14,
+        1.5,
+        0.18
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "LeftWindowJamb_2.5_0.69",
+      "type": "box",
+      "centerXYZ": [
+        -4.14,
+        2.55,
+        3.19
+      ],
+      "sizeXYZ": [
+        0.14,
+        1.5,
+        0.18
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "LeftWindowRail_2.5_1.89",
+      "type": "box",
+      "centerXYZ": [
+        -4.14,
+        1.89,
+        2.5
+      ],
+      "sizeXYZ": [
+        0.14,
+        0.15,
+        1.55
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "LeftWindowRail_2.5_3.21",
+      "type": "box",
+      "centerXYZ": [
+        -4.14,
+        3.21,
+        2.5
+      ],
+      "sizeXYZ": [
+        0.14,
+        0.15,
+        1.55
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "RearLoftVent",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.95,
+        5.08
+      ],
+      "sizeXYZ": [
+        1.2,
+        1.0,
+        0.12
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal",
+      "note": ""
+    },
+    {
+      "name": "RearVentJamb_-0.7",
+      "type": "box",
+      "centerXYZ": [
+        -0.7,
+        4.95,
+        5.14
+      ],
+      "sizeXYZ": [
+        0.16,
+        1.3,
+        0.13
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "RearVentJamb_0.7",
+      "type": "box",
+      "centerXYZ": [
+        0.7,
+        4.95,
+        5.14
+      ],
+      "sizeXYZ": [
+        0.16,
+        1.3,
+        0.13
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "RearVentRail_4.38",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.38,
+        5.14
+      ],
+      "sizeXYZ": [
+        1.56,
+        0.16,
+        0.13
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "RearVentRail_5.52",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        5.52,
+        5.14
+      ],
+      "sizeXYZ": [
+        1.56,
+        0.16,
+        0.13
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood",
+      "note": ""
+    },
+    {
+      "name": "RearVentLouver_4.64",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.64,
+        5.19
+      ],
+      "sizeXYZ": [
+        1.16,
+        0.1,
+        0.1
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood_dark",
+      "note": ""
+    },
+    {
+      "name": "RearVentLouver_4.86",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        4.86,
+        5.19
+      ],
+      "sizeXYZ": [
+        1.16,
+        0.1,
+        0.1
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood_dark",
+      "note": ""
+    },
+    {
+      "name": "RearVentLouver_5.08",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        5.08,
+        5.19
+      ],
+      "sizeXYZ": [
+        1.16,
+        0.1,
+        0.1
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood_dark",
+      "note": ""
+    },
+    {
+      "name": "RearVentLouver_5.3",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        5.3,
+        5.19
+      ],
+      "sizeXYZ": [
+        1.16,
+        0.1,
+        0.1
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "wood_dark",
+      "note": ""
+    },
+    {
+      "name": "LanternBracket",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        3.77,
+        -5.22
+      ],
+      "sizeXYZ": [
+        0.14,
+        0.18,
+        0.3
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal",
+      "note": ""
+    },
+    {
+      "name": "LanternFrame",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        3.67,
+        -5.3
+      ],
+      "sizeXYZ": [
+        0.34,
+        0.48,
+        0.22
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "metal",
+      "note": ""
+    },
+    {
+      "name": "LanternGlow",
+      "type": "box",
+      "centerXYZ": [
+        0,
+        3.67,
+        -5.435
+      ],
+      "sizeXYZ": [
+        0.23,
+        0.3,
+        0.012
+      ],
+      "rotationXYZDegrees": [
+        0,
+        0,
+        0
+      ],
+      "material": "glow",
+      "note": "Core sits inside roof envelope; frontmost z=-5.441."
+    }
+  ],
+  "budget": {
+    "estimatedLOD0Triangles": 3200,
+    "maximumLOD0Triangles": 4500,
+    "targetLOD1Triangles": 1800,
+    "targetLOD2Triangles": 450,
+    "opaqueMaterials": 1,
+    "optionalEmissionMaterials": 1,
+    "note": "Budgets, not measured mesh counts: no final 3D mesh has been made."
+  },
+  "integration": {
+    "masterMesh": "Barn_A_Master_LOD0.fbx",
+    "prefabs": "Five wrappers reference one shared master mesh and material set.",
+    "level5ReservedWorldRectangle": [
+      12,
+      16
+    ],
+    "placementGridRule": "ceil(reservedWorldSize / FieldArea.CellSize), not assumed 4x4.",
+    "colliders": "Simple shell box, main-door approach trigger; no detailed stone/tile MeshCollider.",
+    "portal": "Main front door only; side door and loft shutters decorative in this scope.",
+    "existingLimitation": "Barn Building.asset and BarnInteriorSceneController currently define Lv1-4. Add actual Lv5 data at implementation; capacity/cost are outside this exterior sketch."
+  },
+  "detailRules": {
+    "wallBoardPitch": 0.25,
+    "wallGrooveDepth": 0.008,
+    "trimBevel": 0.025,
+    "doorBraceBevel": 0.015,
+    "stoneCourses": 2,
+    "stoneBlockWidthRange": [
+      0.55,
+      0.9
+    ],
+    "stoneJitterMax": 0.03,
+    "roofRowsPerSlope": 10,
+    "roofColumnsAlongDepth": 16,
+    "roofSeamWidth": 0.018,
+    "roofRowLipHeight": 0.025,
+    "roofMethod": "Low-poly subdivided plane; palette variation and raised row edges, not individual solid roof tiles.",
+    "bracesPerSide": 5,
+    "frontDoorLeaves": 2,
+    "sideDoorCount": 1,
+    "leftShutters": 2,
+    "rearLoftVents": 1,
+    "smallDetails": "Large readable hinges/handles; omit nail mesh and microscopic wear. Do not add new props by level."
+  }
+}

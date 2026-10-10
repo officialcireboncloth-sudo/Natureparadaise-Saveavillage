@@ -120,6 +120,7 @@ public class SaveManager : MonoBehaviour
 
         // PROPERTY SITES: jenis bangunan, level, state konstruksi, dan completion day.
         public List<PropertySiteSaveData> buildings;
+        public List<BuildingSiteSaveData> fixedBuildingSites;
 
         // PLAYER HOUSE dan progression desa disimpan terpisah karena rumah tidak dapat
         // direlokasi/didemolish seperti Property Site farm.
@@ -393,6 +394,7 @@ public class SaveManager : MonoBehaviour
         data.fields =
             FieldArea.CaptureAll();
 
+        data.fixedBuildingSites = BuildingSite.CaptureAll();
         data.buildings =
             PropertySite.CaptureAll();
 
@@ -730,6 +732,7 @@ public class SaveManager : MonoBehaviour
         PropertySite.RestoreAll(
             data.buildings
         );
+        BuildingSite.RestoreAll(data.fixedBuildingSites);
         FishPondService.Restore(data.fishPonds);
 
         VillageProgressionService.Instance?.Restore(

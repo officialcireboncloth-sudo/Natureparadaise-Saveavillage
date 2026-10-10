@@ -83,10 +83,17 @@ public class HUDManager : MonoBehaviour
     RectTransform runtimeCanvasRoot;
     RectTransform timePanelRoot;
     bool animalContextVisible;
+    bool modalContextVisible;
+    public void SetModalContextVisible(bool visible){modalContextVisible=visible;ApplyContextVisibility();}
     public void SetAnimalContextVisible(bool visible)
     {
         if(animalContextVisible==visible) return;
         animalContextVisible=visible;
+        ApplyContextVisibility();
+    }
+    void ApplyContextVisibility()
+    {
+        bool visible=animalContextVisible||modalContextVisible||MiningContextActive();
         foreach(var root in new[] {runtimeHudRoot,timePanelRoot})
         {
             if(root==null) continue;
@@ -166,8 +173,11 @@ public class HUDManager : MonoBehaviour
     // UPDATE
     // =====================================================
 
+    static bool MiningContextActive() => CaveInteriorController.IsMiningContext;
+
     void Update()
     {
+        ApplyContextVisibility();
         if (GameplayInput.GetKeyDown(debugCluesToggleKey))
             SetDebugCluesEnabled(!DebugCluesEnabled, true);
 

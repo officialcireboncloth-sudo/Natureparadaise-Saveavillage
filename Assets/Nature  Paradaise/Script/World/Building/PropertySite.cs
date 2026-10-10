@@ -12,6 +12,7 @@ public sealed class PropertySiteSaveData
     public int currentLevel;
     public int pendingLevel;
     public int completionDay;
+    public ConstructionJobData constructionJob;
     public bool unlocked;
     public bool hasPlacementPose;
     public Vector3 placementPosition;
@@ -98,6 +99,8 @@ public sealed class PropertySite : MonoBehaviour
     int currentLevel;
     int pendingLevel;
     int completionDay;
+    ConstructionProject constructionProject;
+    public ConstructionProject Construction => constructionProject;
 
     bool previewActive;
     bool previewIsRelocation;
@@ -404,7 +407,8 @@ public sealed class PropertySite : MonoBehaviour
         WorldInteractionPrompt.Request(
             this,
             buildingAnchor,
-            $"{activeDefinition?.displayName ?? "Construction"}: {remaining} hari lagi{debugFinish}",
+            constructionProject != null ? $"{constructionProject.Status} · {constructionProject.Progress:P0}{debugFinish}" :
+                $"{activeDefinition?.displayName ?? "Construction"}: {remaining} hari lagi{debugFinish}",
             distance,
             promptHeight
         );
@@ -690,6 +694,8 @@ public sealed class PropertySite : MonoBehaviour
         if (previewUsesFreePlacement)
             buildingAnchor.SetPositionAndRotation(previewPlacementPosition, previewPlacementRotation);
         CancelPreview();
+        if (!useDebug && targetLevel.constructionDays > 0)
+            StartWorker(targetLevel);
         ApplyVisualState();
 
         if (useDebug || targetLevel.constructionDays <= 0)
@@ -699,7 +705,7 @@ public sealed class PropertySite : MonoBehaviour
                 SaveLoadFeedback.Instance?.ShowMessage($"[DEBUG] {activeDefinition.displayName} Lv.{currentLevel} gratis dan langsung selesai");
         }
         else
-            SaveLoadFeedback.Instance?.ShowMessage($"{activeDefinition.displayName} selesai hari ke-{completionDay}");
+            SaveLoadFeedback.Instance?.ShowMessage($"Builder berangkat untuk {activeDefinition.displayName}");
 
         SaveManager.Instance?.SaveGame();
         return true;
@@ -1003,12 +1009,21 @@ public sealed class PropertySite : MonoBehaviour
 
     void HandleDayChanged()
     {
-        if (state == BuildingConstructionState.UnderConstruction && CurrentDay >= completionDay)
+        constructionProject?.RefreshClock();
+        if (state == BuildingConstructionState.UnderConstruction && constructionProject == null && CurrentDay >= completionDay)
             CompleteConstruction();
+    }
+
+    void StartWorker(BuildingLevelDefinition target, ConstructionJobData saved = null)
+    {
+        constructionProject = ConstructionProject.Begin(gameObject, BuildingAnchor, activeDefinition, target,
+            GetCompletedPrefab(target.level), currentLevel > 0, CompleteConstruction, saved);
     }
 
     void CompleteConstruction()
     {
+        if (state != BuildingConstructionState.UnderConstruction) return;
+        constructionProject?.FinishVisuals();
         currentLevel = Mathf.Max(1, pendingLevel);
         pendingLevel = 0;
         completionDay = 0;
@@ -1268,7 +1283,7 @@ public sealed class PropertySite : MonoBehaviour
         if (availableMarker != null)
             availableMarker.SetActive(IsEmpty && showAvailableMarker);
         if (constructionVisual != null)
-            constructionVisual.SetActive(state == BuildingConstructionState.UnderConstruction);
+            constructionVisual.SetActive(state == BuildingConstructionState.UnderConstruction && constructionProject == null);
 
         for (int index = 0; index < completedLevelVisuals.Count; index++)
         {
@@ -1478,6 +1493,7 @@ public sealed class PropertySite : MonoBehaviour
                 currentLevel = site.currentLevel,
                 pendingLevel = site.pendingLevel,
                 completionDay = site.completionDay,
+                constructionJob = site.constructionProject?.Capture(),
                 unlocked = site.unlocked,
                 hasPlacementPose = true,
                 placementPosition = site.buildingAnchor.position,
@@ -1528,6 +1544,8 @@ public sealed class PropertySite : MonoBehaviour
         currentLevel = activeDefinition != null ? Mathf.Max(0, data.currentLevel) : 0;
         pendingLevel = activeDefinition != null ? Mathf.Max(0, data.pendingLevel) : 0;
         completionDay = activeDefinition != null ? Mathf.Max(0, data.completionDay) : 0;
+        constructionProject?.Cancel();
+        constructionProject = null;
         if (data.hasPlacementPose && activeDefinition != null)
             buildingAnchor.SetPositionAndRotation(data.placementPosition, data.placementRotation);
         if (activeDefinition?.placementArea == BuildingPlacementArea.Anywhere &&
@@ -1535,7 +1553,12 @@ public sealed class PropertySite : MonoBehaviour
             fieldArea = restoredField;
 
         // Save yang dibuka setelah construction day langsung diselesaikan.
-        if (state == BuildingConstructionState.UnderConstruction && CurrentDay >= completionDay)
+        var target = activeDefinition?.GetLevel(pendingLevel > 0 ? pendingLevel : currentLevel);
+        if (data.constructionJob != null && target != null)
+            StartWorker(target, data.constructionJob);
+        else if (state == BuildingConstructionState.UnderConstruction && target != null && CurrentDay < completionDay)
+            StartWorker(target, ConstructionProject.MigrateLegacy(target, completionDay, BuildingAnchor.position));
+        if (state == BuildingConstructionState.UnderConstruction && constructionProject == null && CurrentDay >= completionDay)
             CompleteConstruction();
         else
             ApplyVisualState();
@@ -1546,6 +1569,13 @@ public sealed class PropertySite : MonoBehaviour
         BuildingDefinitionSO local = catalog != null ? catalog.FindById(buildingId) : null;
         if (local != null)
             return local;
+        foreach (var front in FindObjectsByType<UpgradeShopFront>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            var definition = front.constructionCatalog != null ? front.constructionCatalog.FindById(buildingId) : null;
+            if (definition != null) return definition;
+        }
+        foreach (var definition in Resources.LoadAll<BuildingDefinitionSO>("Buildings"))
+            if (definition.buildingId == buildingId) return definition;
 
         // Fallback lintas-site membantu migrasi save bila catalog dipindah ke shared asset lain.
         for (int index = 0; index < Registry.Count; index++)

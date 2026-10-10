@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "revision": "coop-exterior-A-2026-10-11",
+  "parts": 335,
+  "actualMinXYZ": [
+    -3.4,
+    0.0,
+    -4.8
+  ],
+  "actualMaxXYZ": [
+    3.95,
+    5.74,
+    3.9
+  ],
+  "allFullPrimitiveBounds": "PASS",
+  "levelDimensions": "PASS",
+  "minimumDoorHeight": 2.2125,
+  "roofSlopeDegrees": 30.96375653207352,
+  "roofSurfaceArea": 61.854737700518946,
+  "rampLength": 1.160775602776006,
+  "atlasSampleUVAndHash": "PASS",
+  "triangleBudgetArithmetic": "PASS",
+  "trianglesMeasured": false,
+  "existingGameplayLevels": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "blenderProductionModelCreated": false,
+  "unityAssetsChanged": false
+}

@@ -1,0 +1,10 @@
+PASS real Map player exists
+PASS axe carried with both hands
+PASS interactive tree prefab available for fixture
+PASS tree controller available for real UseAxe handler
+PASS chop passes actual tree target to visual
+PASS both axe grips remain attached through runtime swing
+PASS hoe stays in both palms through downward ground swing
+PASS switching releases work grip for other tools
+PASS carrying hides two-hand axe
+PASS empty hotbar removes model

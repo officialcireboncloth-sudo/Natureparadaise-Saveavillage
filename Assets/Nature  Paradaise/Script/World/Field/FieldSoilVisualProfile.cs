@@ -3,6 +3,26 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Nature Paradise/Field/Soil Visual Profile")]
 public sealed class FieldSoilVisualProfile : ScriptableObject
 {
+    [Header("Cozy soil palette")]
+    [Tooltip("Use the chosen colours as the palette; textures supply subtle detail instead of overriding the soil colour.")]
+    public bool useCozyPalette;
+    [Range(0, .5f)] public float textureContrast = .16f;
+    [Range(0, .15f)] public float soilVariation = .055f;
+    [Tooltip("Width of the field-to-terrain transition in metres.")]
+    [Range(.05f, 2)] public float fieldFeather = .4f;
+    [Header("Tile shape (fraction of cell size)")]
+    [Range(.02f, .16f)] public float tileInset = .055f;
+    [Range(.02f, .2f)] public float tileFeather = .065f;
+    [Range(.05f, .3f)] public float tileCornerRadius = .18f;
+    [Header("Surface drying — independent of crop-care flags")]
+    [Tooltip("Dry moisture for old-save migration. The difference to Fully Wet Moisture also sets how long surface water evaporates: 35 to 70 with evaporation 2 gives 17.5 game hours. Crop moisture rules remain unchanged.")]
+    [Range(0, 99)] public float dryMoisture = 35;
+    [Tooltip("Wet moisture for old saves and drying duration. Every new watering starts with the darkest surface, including watering bone-dry soil.")]
+    [Range(1, 100)] public float fullyWetMoisture = 70;
+
+    public float VisualWetness(float moisture) => Mathf.SmoothStep(0, 1,
+        Mathf.InverseLerp(dryMoisture, Mathf.Max(dryMoisture + 1, fullyWetMoisture), moisture));
+
     [Header("Field — empty farmable ground")]
     public Texture2D fieldTexture;
     [ColorUsage(false, true)] public Color fieldTint = new Color(1.3f, 1.1f, .85f);
@@ -22,10 +42,13 @@ public sealed class FieldSoilVisualProfile : ScriptableObject
     [Range(0, 1)] public float drySmoothness = .03f;
     [Range(0, 1)] public float wetSmoothness = .35f;
     [Tooltip("Wet texture, tint and gloss fade into dry hoed soil near each tile edge, in metres.")]
-    [Range(.01f, .6f)] public float wetEdgeBlend = .28f;
+    [Range(.01f, .6f)] public float wetEdgeBlend = .13f;
 
     public void Apply(Material material, bool field)
     {
+        material.SetFloat("_CozyPalette", useCozyPalette ? 1 : 0);
+        material.SetFloat("_TextureContrast", textureContrast);
+        material.SetFloat("_SoilVariation", soilVariation);
         var texture = field ? fieldTexture : hoedTexture;
         material.SetTexture("_GroundMap", texture);
         material.SetFloat("_TextureAmount", texture != null ? (field ? fieldTextureStrength : 1) : 0);

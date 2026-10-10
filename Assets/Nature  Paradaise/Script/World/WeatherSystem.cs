@@ -419,6 +419,8 @@ public sealed class WeatherSystem : MonoBehaviour
 
     WeatherType GenerateWeather(int day)
     {
+        var schedule=GameScheduleData.Load();
+        if(!SeasonVisualController.IsDebugOverrideActive && schedule!=null && schedule.TryWeather(day,out var scheduled))return scheduled;
         int hash = unchecked(worldWeatherSeed * 73856093 ^ day * 19349663 ^ (day + 17) * 83492791);
         System.Random random = new(hash);
         int roll = random.Next(0, 100);

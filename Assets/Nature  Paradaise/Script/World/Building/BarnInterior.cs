@@ -146,6 +146,9 @@ public sealed class BarnInterior : MonoBehaviour
         if(authored!=null)
         {
             runtimeExteriorDoor=authored.Entrance;
+            // The combined model has no individual Door renderer. Both the
+            // animal route and the portal use its explicit entrance marker.
+            home.door=runtimeExteriorDoor;
             // Collision prefab adalah sumber tunggal agar collider portal tidak menumpuk.
             if(exteriorBarrier!=null) exteriorBarrier.enabled=false;
             return;

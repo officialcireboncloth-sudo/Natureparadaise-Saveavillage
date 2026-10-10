@@ -47,8 +47,10 @@ public sealed class PlayerGatheringTool : MonoBehaviour
 
     [Header("Animation Impact Timing")]
     [SerializeField, Min(0f)] float pullImpactDelay = 1.05f;
-    [SerializeField, Min(0f)] float sickleImpactDelay = 0.68f;
-    [SerializeField, Min(0f)] float hammerImpactDelay = 0.55f;
+    [SerializeField, Min(0f), Tooltip("Saat bilah animasi Sickle menyapu di depan player (detik).")]
+    float sickleImpactDelay = 0.85f;
+    [SerializeField, Min(0f), Tooltip("Saat kepala palu mencapai bagian bawah ayunan Hammering Rock (detik).")]
+    float hammerImpactDelay = 0.68f;
     [SerializeField, Min(0f)] float axeImpactDelay = 0.55f;
 
     PlayerController movement;
@@ -90,7 +92,10 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
         cameraFollow = Camera.main != null ? Camera.main.GetComponent<TopDownCameraFollow>() : null;
-        EnsureDebugToolVisuals();
+        // PlayerHeldTools presents the imported models; keep legacy scene visuals hidden.
+        if (sickleVisual != null) sickleVisual.SetActive(false);
+        if (hammerVisual != null) hammerVisual.SetActive(false);
+        if (axeVisual != null) axeVisual.SetActive(false);
         hotbar.SelectionChanged += UpdateToolVisuals;
         UpdateToolVisuals(hotbar.SelectedTool);
     }
@@ -127,6 +132,9 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             PullTarget();
         else if (hotbar.IsUsePressed(PlayerToolType.Sickle))
             UseSickle();
+        else if (hotbar.SelectedTool == PlayerToolType.Hammer && target != null && target.CanHammer &&
+            GameplayInput.GetKeyDown(pullOrStoreKey) && PlayerInteractionTarget.Press(pullOrStoreKey))
+            UseHammer();
         else if (hotbar.IsUsePressed(PlayerToolType.Hammer))
             UseHammer();
         else if (hotbar.IsUsePressed(PlayerToolType.Axe))
@@ -215,7 +223,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if (target == null) return;
         string prompt = null;
         if (hotbar.SelectedTool == PlayerToolType.Hammer && target.CanHammer)
-            prompt = HammerLevel < target.MinimumHammerLevel ? "Level Hammer belum cukup" : $"F: Hantam  HP {target.Durability}";
+            prompt = HammerLevel < target.MinimumHammerLevel ? "Level Hammer belum cukup" : $"{pullOrStoreKey}: Pecahkan Batu\n<size=17>Stamina digunakan</size>";
         else if (hotbar.SelectedTool == PlayerToolType.Sickle && target.CanSickle)
             prompt = "F: Sabit";
         else if (target.CanPull)
@@ -226,7 +234,12 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             prompt = "Butuh Hammer";
 
         if (prompt != null)
-            WorldInteractionPrompt.Request(this, target.transform, prompt, Vector3.Distance(transform.position, target.transform.position), target.PromptHeight);
+        {
+            float distance = Vector3.Distance(transform.position, target.transform.position);
+            if (hotbar.SelectedTool == PlayerToolType.Hammer && target.CanHammer)
+                WorldInteractionPrompt.RequestClean(this, target.transform, prompt, distance, target.PromptHeight);
+            else WorldInteractionPrompt.Request(this, target.transform, prompt, distance, target.PromptHeight);
+        }
     }
 
     void PullTarget()
@@ -252,6 +265,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         facing.Normalize();
         float radius = 0.85f + SickleLevel * 0.35f;
         Vector3 center = transform.position + facing * 1.35f;
+        GetComponent<PlayerHeldTools>()?.BeginWorkAction(PlayerToolType.Sickle,center,1.35f);
         StartCoroutine(SickleImpactRoutine(center,radius));
     }
 
@@ -294,6 +308,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         }
         if (!SpendStamina(hammerCost)) return;
         FaceGatherable(target);
+        GetComponent<PlayerHeldTools>()?.BeginWorkAction(PlayerToolType.Hammer,target.GetInteractionPoint(transform.position+Vector3.up),.95f);
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(hammerTrigger);
         WorldGatherable pending=target;
@@ -314,6 +329,9 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         }
         if (!SpendStamina(axeCost)) return;
         movement?.FaceTowardsInteraction(treeTarget.transform.position);
+        var trunk=treeTarget.GetComponent<Collider>();
+        Vector3 hitPoint=trunk!=null?trunk.ClosestPoint(transform.position+Vector3.up*1.8f):treeTarget.transform.position+Vector3.up*1.8f;
+        GetComponent<PlayerHeldTools>()?.BeginWorkAction(PlayerToolType.Axe,hitPoint,.95f);
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(axeTrigger);
         WorldTree pending=treeTarget;
@@ -466,48 +484,11 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         UpdateToolVisuals(hotbar.SelectedTool);
     }
 
-    void EnsureDebugToolVisuals()
-    {
-        if (sickleVisual == null)
-        {
-            sickleVisual = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            sickleVisual.name = "SickleVisual_Debug";
-            sickleVisual.transform.SetParent(transform, false);
-            sickleVisual.transform.localPosition = new Vector3(0.38f, 0.85f, 0.45f);
-            sickleVisual.transform.localRotation = Quaternion.Euler(0f, 0f, 35f);
-            sickleVisual.transform.localScale = new Vector3(0.08f, 0.65f, 0.1f);
-            Collider collider = sickleVisual.GetComponent<Collider>();
-            if (collider != null) collider.enabled = false;
-        }
-        if (hammerVisual == null)
-        {
-            hammerVisual = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            hammerVisual.name = "HammerVisual_Debug";
-            hammerVisual.transform.SetParent(transform, false);
-            hammerVisual.transform.localPosition = new Vector3(0.38f, 0.9f, 0.42f);
-            hammerVisual.transform.localRotation = Quaternion.Euler(0f, 0f, 20f);
-            hammerVisual.transform.localScale = new Vector3(0.22f, 0.65f, 0.16f);
-            Collider collider = hammerVisual.GetComponent<Collider>();
-            if (collider != null) collider.enabled = false;
-        }
-        if (axeVisual == null)
-        {
-            axeVisual = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            axeVisual.name = "AxeVisual_Debug";
-            axeVisual.transform.SetParent(transform, false);
-            axeVisual.transform.localPosition = new Vector3(0.38f, 0.9f, 0.42f);
-            axeVisual.transform.localRotation = Quaternion.Euler(0f, 0f, 28f);
-            axeVisual.transform.localScale = new Vector3(0.16f, 0.7f, 0.12f);
-            Collider collider = axeVisual.GetComponent<Collider>();
-            if (collider != null) collider.enabled = false;
-        }
-    }
-
     void UpdateToolVisuals(PlayerToolType selected)
     {
-        if (sickleVisual != null) sickleVisual.SetActive(selected == PlayerToolType.Sickle && !IsCarrying);
-        if (hammerVisual != null) hammerVisual.SetActive(selected == PlayerToolType.Hammer && !IsCarrying);
-        if (axeVisual != null) axeVisual.SetActive(selected == PlayerToolType.Axe && !IsCarrying);
+        if (sickleVisual != null) sickleVisual.SetActive(false);
+        if (hammerVisual != null) hammerVisual.SetActive(false);
+        if (axeVisual != null) axeVisual.SetActive(false);
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]

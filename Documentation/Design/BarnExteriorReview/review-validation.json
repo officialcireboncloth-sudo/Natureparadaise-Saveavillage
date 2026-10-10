@@ -1,0 +1,12 @@
+{
+  "proposal": "barn-exterior-A-2026-10-10",
+  "status": "PROPOSED_NOT_MODELLED_NOT_APPLIED",
+  "draftParts": 87,
+  "geometryEnvelopeCheck": "PASS: boxes, surfaces and full beam thickness inside declared bounds",
+  "levelScaleCheck": "PASS: five envelopes derived from one master by uniform XYZ scale",
+  "atlasSha256Check": "PASS: original atlas matches audit snapshot",
+  "uvCheck": "PASS: selected safe UV rectangles in range",
+  "productionMeshCreated": false,
+  "unityApplied": false,
+  "triangleCountsMeasured": false
+}

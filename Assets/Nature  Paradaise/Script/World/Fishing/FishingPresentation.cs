@@ -2,21 +2,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>Bone-following rod, bend, splash and temporary catch presentation.</summary>
+[DefaultExecutionOrder(1200)]
 public sealed class FishingPresentation : MonoBehaviour
 {
     FishingSystem owner;
+    PlayerHeldTools heldTools;
+    PlayerToolVisualCatalog.Entry rodEntry;
     Animator animator;
     Transform rightHand, leftHand, rod, catchVisual;
+    Transform importedRodTip;
+    Mesh importedRodMesh;
+    MeshFilter importedRodFilter;
+    Vector3[] rodRestVertices, rodVertices, rodRestNormals, rodNormals;
+    Vector3 rodRestTip;
+    float previousBend=-1f;
     LineRenderer rodCurve;
     LineRenderer castMarker;
     Material bobberMaterial;
     readonly List<Material> materials = new();
     readonly List<Material> catchMaterials = new();
-    public Vector3 RodTip => rodCurve != null ? rod.TransformPoint(rodCurve.GetPosition(rodCurve.positionCount - 1)) : transform.position + Vector3.up * 2f;
+    public Vector3 RodTip => importedRodTip != null ? importedRodTip.position : rodCurve != null ? rod.TransformPoint(rodCurve.GetPosition(rodCurve.positionCount - 1)) : transform.position + Vector3.up * 2f;
 
     public void Bind(FishingSystem system, Animator rig)
     {
         owner = system; animator = rig;
+        heldTools=GetComponent<PlayerHeldTools>();
         rightHand = Bone(HumanBodyBones.RightHand, "mixamorig:RightHand");
         leftHand = Bone(HumanBodyBones.LeftHand, "mixamorig:LeftHand");
     }
@@ -40,6 +50,20 @@ public sealed class FishingPresentation : MonoBehaviour
     }
     public GameObject CreateRod()
     {
+        var entry=Resources.Load<PlayerToolVisualCatalog>(PlayerToolVisualCatalog.ResourcePath)?.Find(PlayerToolType.FishingRod);
+        if(entry!=null)
+        {
+            rodEntry=entry;
+            rod=Instantiate(entry.prefab,transform,false).transform;rod.name="HeldTool_FishingRod";
+            importedRodTip=rod.Find("RodTip");
+            importedRodFilter=rod.GetComponentInChildren<MeshFilter>();
+            if(importedRodFilter!=null && importedRodTip!=null)
+            {
+                importedRodMesh=Instantiate(importedRodFilter.sharedMesh);importedRodFilter.sharedMesh=importedRodMesh;importedRodMesh.MarkDynamic();
+                rodRestVertices=importedRodMesh.vertices;rodVertices=new Vector3[rodRestVertices.Length];rodRestNormals=importedRodMesh.normals;rodNormals=new Vector3[rodRestNormals.Length];rodRestTip=importedRodTip.localPosition;
+            }
+            LateUpdate();return rod.gameObject;
+        }
         rod = new GameObject("Fishing Rod").transform;
         rod.SetParent(transform,false);
         Part(rod,"Handle",PrimitiveType.Cylinder,new Vector3(0f,0f,0.18f),new Vector3(0.055f,0.2f,0.055f),new Color(0.3f,0.16f,0.06f)).transform.localRotation=Quaternion.Euler(90f,0f,0f);
@@ -54,24 +78,46 @@ public sealed class FishingPresentation : MonoBehaviour
     {
         if(owner == null) return;
         UpdateCastMarker();
-        if(rod != null)
+        // A hidden rod must not reposition the shared palm socket of the equipped work tool.
+        if(rod != null && rod.gameObject.activeInHierarchy)
         {
             Vector3 facing = owner.RodFacing;
             facing.y = 0f;
             if(facing.sqrMagnitude < 0.01f) facing = transform.forward;
             Quaternion carryRotation = Quaternion.LookRotation(facing.normalized, Vector3.up) * Quaternion.Euler(-owner.CarryRodElevation, 0f, 0f);
-            rod.rotation = owner.State == FishingState.Idle || rightHand == null
-                ? carryRotation : rightHand.rotation * owner.RodGripRotation;
-            Vector3 gripPosition = rightHand != null ? rightHand.position : transform.position + Vector3.up * 1.5f;
-            rod.position = gripPosition - rod.forward * 0.18f;
+            if(rodEntry!=null && heldTools!=null && heldTools.GripPoint!=null)
+            {
+                heldTools.SnapToGrip(rod,rodEntry);
+                if(owner.State!=FishingState.Idle)rod.localRotation=owner.RodGripRotation;
+            }
+            else
+            {
+                rod.rotation=rightHand!=null?rightHand.rotation*owner.RodGripRotation:carryRotation;
+                Vector3 gripPosition=rightHand!=null?rightHand.position:transform.position+Vector3.up*1.5f;
+                rod.position=importedRodTip!=null?gripPosition:gripPosition-rod.forward*.18f;
+                Vector3 parentScale=transform.lossyScale;
+                rod.localScale=new Vector3(1f/Mathf.Max(.0001f,Mathf.Abs(parentScale.x)),1f/Mathf.Max(.0001f,Mathf.Abs(parentScale.y)),1f/Mathf.Max(.0001f,Mathf.Abs(parentScale.z)));
+            }
             float bend=owner.State==FishingState.Charging?owner.CastPower*0.45f:owner.State==FishingState.Casting?(0.2f+owner.CastPower*0.6f):owner.IsReeling?0.32f:0.05f;
-            for(int i=0;i<16;i++) { float t=i/15f; rodCurve.SetPosition(i,new Vector3(0f,-bend*t*t,2.1f*t)); }
+            if(rodCurve!=null)for(int i=0;i<16;i++) { float t=i/15f; rodCurve.SetPosition(i,new Vector3(0f,-bend*t*t,2.1f*t)); }
+            if(importedRodMesh!=null && rod.gameObject.activeInHierarchy && Mathf.Abs(previousBend-bend)>.002f) BendImportedRod(bend);
         }
         if(catchVisual != null)
         {
             catchVisual.position = rightHand != null && leftHand != null ? (rightHand.position+leftHand.position)*0.5f : transform.position+Vector3.up*1.7f+transform.forward*0.6f;
             catchVisual.rotation=transform.rotation;
         }
+    }
+    void BendImportedRod(float bend)
+    {
+        previousBend=bend;float length=Mathf.Max(.1f,rodRestTip.z);
+        for(int i=0;i<rodVertices.Length;i++)
+        {
+            float t=Mathf.Clamp01(rodRestVertices[i].z/length);rodVertices[i]=rodRestVertices[i]+Vector3.down*(bend*t*t);
+            if(i<rodNormals.Length){Vector3 n=rodRestNormals[i];n.z+=2f*bend*t/length*n.y;rodNormals[i]=n.normalized;}
+        }
+        importedRodMesh.vertices=rodVertices;if(rodNormals.Length==rodVertices.Length)importedRodMesh.normals=rodNormals;importedRodMesh.RecalculateBounds();
+        importedRodTip.localPosition=rodRestTip+Vector3.down*bend;
     }
     public void ShowCatch(ItemSO item)
     {
@@ -155,5 +201,5 @@ public sealed class FishingPresentation : MonoBehaviour
         else { Material splashMaterial=new(Shader.Find("Sprites/Default")); materials.Add(splashMaterial); renderer.sharedMaterial=splashMaterial; }
         particles.Play(); Destroy(splash,1.2f);
     }
-    void OnDestroy() { HideCatch(); if(rod!=null) Destroy(rod.gameObject); foreach(var material in materials) if(material!=null) Destroy(material); }
+    void OnDestroy() { HideCatch(); if(rod!=null) Destroy(rod.gameObject); if(importedRodMesh!=null) Destroy(importedRodMesh); foreach(var material in materials) if(material!=null) Destroy(material); }
 }

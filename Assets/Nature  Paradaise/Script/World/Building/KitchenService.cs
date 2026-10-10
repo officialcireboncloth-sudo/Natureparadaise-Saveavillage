@@ -68,7 +68,7 @@ public static class KitchenService
         if (Level < recipe.requiredKitchenLevel) { reason = $"Perlu Kitchen Lv.{recipe.requiredKitchenLevel}."; return false; }
         if ((AvailableEquipment & recipe.requiredEquipment) != recipe.requiredEquipment)
         { reason = $"Perlu {FormatEquipment(recipe.requiredEquipment)}."; return false; }
-        if (batches <= 0) { reason = "Jumlah masak tidak valid."; return false; }
+        if (batches <= 0 || recipe.resultAmount <= 0 || (long)recipe.resultAmount * batches > int.MaxValue) { reason = "Jumlah masak tidak valid."; return false; }
         if (GetMaxBatch(inventory, recipe) < batches) { reason = "Bahan tidak cukup di Inventory + Refrigerator."; return false; }
         int quality = CalculateOutputQuality(inventory, recipe, batches);
         if (!CanFitOutputAfterConsumption(inventory, recipe, batches, quality))
@@ -121,8 +121,10 @@ public static class KitchenService
     public static void Clear() { Learned.Clear(); Collection.Clear(); EnsureDefaults(); Changed?.Invoke(); }
     static void EnsureDefaults() { foreach (KitchenRecipeSO recipe in Recipes) if (recipe.learnedByDefault) Learned.Add(recipe.Id); }
 
-    static int CalculateOutputQuality(Inventory inventory, KitchenRecipeSO recipe, int batches)
+    public static int CalculateOutputQuality(Inventory inventory, KitchenRecipeSO recipe, int batches)
     {
+        if(inventory==null||recipe==null)return 0;
+        if(recipe.outputQualityMode==KitchenOutputQuality.Fixed)return Mathf.Clamp(recipe.fixedOutputQuality,0,5);
         float points = 0f; int units = 0;
         foreach (IGrouping<ItemSO, KitchenIngredientRequirement> group in recipe.ingredients
                      .Where(value => value?.item != null && value.amount > 0).GroupBy(value => value.item))

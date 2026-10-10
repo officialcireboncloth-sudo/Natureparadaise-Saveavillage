@@ -329,10 +329,10 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     {
         ItemStack stack = GetSelectedStack();
         bool hasWorldAction = HasHeldWorldAction(stack);
-        bool isHeldShears = IsHeldShears(stack);
-        ItemSO item = !animalCarrySuppressed && (hasWorldAction || isHeldShears) ? stack.item : null;
-        // Shears mengikuti tangan dari clip Shear Sheep. Jangan aktifkan layer Hold Item
-        // karena layer itu akan menimpa gerak lengan pencukuran.
+        bool isHeldPitchfork = IsHeldPitchfork(stack);
+        ItemSO item = !animalCarrySuppressed && (hasWorldAction || isHeldPitchfork) ? stack.item : null;
+        // Pitchfork keeps its item visual; imported Shears are owned by PlayerHeldTools.
+        // Tool use must not enable Hold Item and overwrite the action's arm animation.
         movement?.SetHoldingItemAnimation(hasWorldAction && item != null && !actionBusy);
         if (shownItem == item) return;
         shownItem = item;
@@ -345,6 +345,17 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         if (item.treeDefinition != null) heldVisual.transform.localScale *= 0.15f;
         heldVisual.transform.localPosition = Vector3.zero;
         heldVisual.transform.localRotation = Quaternion.identity;
+        if(isHeldPitchfork)
+        {
+            // The Generic player has no Humanoid hand anchor; use the same bone socket as imported tools.
+            Transform grip=GetComponent<PlayerHeldTools>()?.GripPoint;
+            if(grip!=null)
+            {
+                heldVisual.transform.SetParent(grip,false);
+                heldVisual.transform.localPosition=new Vector3(.02f,.08f,.12f);
+                heldVisual.transform.localRotation=Quaternion.Euler(0f,90f,90f);
+            }
+        }
         if (item.canPlaceInWorld)
             EnsurePreview(item);
     }
@@ -488,9 +499,9 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         stack.item.category != ItemCategory.Tool &&
         (stack.item.equippedTool == PlayerToolType.None || stack.item.IsSeed);
 
-    static bool IsHeldShears(ItemStack stack) =>
+    static bool IsHeldPitchfork(ItemStack stack) =>
         stack?.item != null && stack.count > 0 &&
-        (stack.item.equippedTool == PlayerToolType.Shears || stack.item.equippedTool == PlayerToolType.Pitchfork) && stack.item.worldPrefab != null;
+        stack.item.equippedTool == PlayerToolType.Pitchfork && stack.item.worldPrefab != null;
 
     static bool CanDrop(ItemStack stack) =>
         HasHeldWorldAction(stack) && stack.item.canDropToWorld;

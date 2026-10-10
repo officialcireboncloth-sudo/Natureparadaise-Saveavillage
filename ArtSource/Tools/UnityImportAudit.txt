@@ -1,0 +1,51 @@
+Unity native tools import audit
+2026-10-09 02:06:24
+AssetDatabase.MoveAsset preserves FBX, folder and texture GUIDs.
+Source-resolution backups: ArtSource/Tools/Originals
+
+PASS 256x256 / GUID preserved / sRGB color: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_FishingRod.fbm/tripo_image_25479981-6580-4005-ac02-8df05faa1ef6_0_0.jpg
+PASS 256x256 / GUID preserved / sRGB color: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hammer.fbm/hammer_3d_model_basecolor.JPEG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hammer.fbm/hammer_3d_model_metallic.JPEG
+PASS 256x256 / GUID preserved / NormalMap: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hammer.fbm/hammer_3d_model_normal.JPEG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hammer.fbm/hammer_3d_model_rm.PNG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hammer.fbm/hammer_3d_model_roughness.JPEG
+PASS 256x256 / GUID preserved / sRGB color: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Pickaxe.fbm/hammer_3d_model_basecolor.JPEG
+PASS 256x256 / GUID preserved / sRGB color: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Shears.fbm/double_dagger_3d_model_basecolor.JPEG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Shears.fbm/double_dagger_3d_model_metallic.JPEG
+PASS 256x256 / GUID preserved / NormalMap: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Shears.fbm/double_dagger_3d_model_normal.PNG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Shears.fbm/double_dagger_3d_model_rm.JPEG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Shears.fbm/double_dagger_3d_model_roughness.JPEG
+PASS 256x256 / GUID preserved / sRGB color: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Milker.fbm/kettle_3d_model_basecolor.JPEG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Milker.fbm/kettle_3d_model_metallic.JPEG
+PASS 256x256 / GUID preserved / NormalMap: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Milker.fbm/kettle_3d_model_normal.PNG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Milker.fbm/kettle_3d_model_rm.JPEG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Milker.fbm/kettle_3d_model_roughness.JPEG
+PASS 256x256 / GUID preserved / sRGB color: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hoe.fbm/wooden_axe_3d_model_basecolor.JPEG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hoe.fbm/wooden_axe_3d_model_metallic.JPEG
+PASS 256x256 / GUID preserved / NormalMap: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hoe.fbm/wooden_axe_3d_model_normal.PNG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hoe.fbm/wooden_axe_3d_model_rm.JPEG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Hoe.fbm/wooden_axe_3d_model_roughness.JPEG
+PASS 256x256 / GUID preserved / sRGB color: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Brush.fbm/wooden_hand_brush_3d_model_basecolor.JPEG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Brush.fbm/wooden_hand_brush_3d_model_metallic.JPEG
+PASS 256x256 / GUID preserved / NormalMap: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Brush.fbm/wooden_hand_brush_3d_model_normal.PNG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Brush.fbm/wooden_hand_brush_3d_model_rm.JPEG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Brush.fbm/wooden_hand_brush_3d_model_roughness.JPEG
+PASS 256x256 / GUID preserved / sRGB color: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_WateringCan.fbm/watering_can_3d_model_basecolor.JPEG
+PASS 256x256 / GUID preserved / sRGB color: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Sickle.fbm/sickle_3d_model_basecolor.JPEG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Axe.fbm/axe_3d_model_metallic.JPEG
+PASS 256x256 / GUID preserved / linear data: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Axe.fbm/axe_3d_model_roughness.JPEG
+PASS 256x256 / GUID preserved / sRGB color: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Axe.fbm/Color.jpg
+PASS 256x256 / GUID preserved / NormalMap: Assets/Nature  Paradaise/mesh/Prop/Tools/Tool_Axe.fbm/Normal.jpg
+PASS model/material import: Tool_FishingRod.fbx / vertices=10194 / external material repair=True
+PASS model/material import: Tool_Hammer.fbx / vertices=2465 / external material repair=True
+PASS model/material import: Tool_Pickaxe.fbx / vertices=968294 / external material repair=True
+PASS model/material import: Tool_Shears.fbx / vertices=3215 / external material repair=True
+PASS model/material import: Tool_Milker.fbx / vertices=3480 / external material repair=True
+PASS model/material import: Tool_Hoe.fbx / vertices=3644 / external material repair=True
+PASS model/material import: Tool_Brush.fbx / vertices=3563 / external material repair=True
+PASS model/material import: Tool_WateringCan.fbx / vertices=1084242 / external material repair=True
+PASS model/material import: Tool_Sickle.fbx / vertices=94179 / external material repair=True
+PASS model/material import: Tool_Axe.fbx / vertices=51114 / external material repair=True
+PASS filesystem verification: all 33 exported image files are exactly 256x256.
+PASS filesystem verification: all 33 texture GUIDs match their original backups.
+PASS filesystem verification: all 10 FBX binary hashes and GUIDs match their original backups.

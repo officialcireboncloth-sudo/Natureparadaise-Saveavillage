@@ -1,0 +1,43 @@
+Native Unity construction validation
+Unity 6000.0.81f1 / URP 17.0.4 / DX11
+Validated in editor Play Mode with isolated free-cost definition clones.
+Real Map house route plus isolated PropertySite and fixed BuildingSite fixtures.
+Player SaveManager disabled during fixtures; no player save file written.
+House screenshots show renovation scaffolding around the retained existing exterior.
+Construction-New screenshots show new-build stages on the isolated gray test ground.
+Optional authored worker/animation and stage prefabs were not tested.
+Standalone player build was not run.
+
+[CONSTRUCTION REVIEW] PASS house transaction starts builder: 
+[CONSTRUCTION REVIEW] PASS builder dispatch phase
+[CONSTRUCTION REVIEW] PASS builder actually walks from Lumber
+[CONSTRUCTION REVIEW] PASS load keeps travelling builder position
+[CONSTRUCTION REVIEW] PASS builder reaches actual player house without teleport
+[CONSTRUCTION REVIEW] PASS working builder visibly swings hammer
+[CONSTRUCTION REVIEW] PASS arrival does not unlock building early
+[CONSTRUCTION REVIEW] PASS stage 0 remains unavailable
+[CONSTRUCTION REVIEW] PASS stage 1 remains unavailable
+[CONSTRUCTION REVIEW] PASS stage 2 remains unavailable
+[CONSTRUCTION REVIEW] PASS stage 3 remains unavailable
+[CONSTRUCTION REVIEW] PASS offscreen work continues while progress bar is culled
+[CONSTRUCTION REVIEW] PASS pause stops builder work
+[CONSTRUCTION REVIEW] PASS elapsed work completes exactly one upgrade
+[CONSTRUCTION REVIEW] PASS completed worker returns to Lumber
+[CONSTRUCTION REVIEW] PASS builder reaches Lumber and leaves the site
+[CONSTRUCTION REVIEW] PASS completion never advances an extra level
+[CONSTRUCTION REVIEW] PASS existing Lumber prefab receives proper service tabs
+[CONSTRUCTION REVIEW] PASS Lumber data-driven building menu opens
+[CONSTRUCTION REVIEW] PASS Lumber menu owns modal input and clock pause
+[CONSTRUCTION REVIEW] PASS Lumber close releases modal and clock pause
+[CONSTRUCTION REVIEW] PASS ground A* detours around a solid wall
+[CONSTRUCTION REVIEW] PASS thin/solid obstacles cannot be walked through
+[CONSTRUCTION REVIEW] PASS unreachable site yields blocked route
+[CONSTRUCTION REVIEW] PASS PropertySite actual build preview and transaction
+[CONSTRUCTION REVIEW] PASS duplicate confirmation cannot charge/start twice
+[CONSTRUCTION REVIEW] PASS new structure worker reaches site
+[CONSTRUCTION REVIEW] PASS new structure becomes usable only at completion
+[CONSTRUCTION REVIEW] PASS Lumber structure upgrade uses existing site
+[CONSTRUCTION REVIEW] PASS structure upgrade completes next level
+[CONSTRUCTION REVIEW] PASS legacy fixed site dispatches builder too
+[CONSTRUCTION REVIEW] PASS fixed site arrival
+[CONSTRUCTION REVIEW] RUNTIME PASS (no player save file written)

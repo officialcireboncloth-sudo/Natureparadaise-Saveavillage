@@ -12,6 +12,8 @@ public sealed class HouseScenePortal : MonoBehaviour
     [SerializeField, Min(0.5f)] float interactionRadius = 1.8f;
     [SerializeField, Min(0f)] float promptHeight = 1.4f;
 
+    [SerializeField] string locationLabel = "Rumah";
+
     Transform player;
 
     void Update()
@@ -29,11 +31,11 @@ public sealed class HouseScenePortal : MonoBehaviour
         float distance = Vector3.Distance(transform.position, player.position);
         if (!CanInteract(player))
             return;
-        string action = exitsInterior ? "Keluar Rumah" : "Masuk Rumah";
+        string action = (exitsInterior ? "Keluar " : "Masuk ") + locationLabel;
         WorldInteractionPrompt.Request(this, transform, $"{interactKey}: {action}", distance, promptHeight);
         if (!GameplayInput.GetKeyDown(interactKey) || !PlayerInteractionTarget.Press(interactKey))
             return;
-        if (exitsInterior && WeatherSystem.Instance != null &&
+        if (exitsInterior && locationLabel == "Rumah" && WeatherSystem.Instance != null &&
             WeatherSystem.BlocksLeavingHome(WeatherSystem.Instance.CurrentWeather))
         {
             SaveLoadFeedback.Instance?.ShowMessage("Angin topan terlalu berbahaya. Kamu harus tetap di rumah.");
@@ -62,8 +64,9 @@ public sealed class HouseScenePortal : MonoBehaviour
     }
 
     /// <summary>Konfigurasi portal dari setup editor agar field tetap private di runtime.</summary>
-    public void Configure(bool isExit, string sceneName, string targetId, string exteriorId)
+    public void Configure(bool isExit, string sceneName, string targetId, string exteriorId, string label = "Rumah")
     {
+        locationLabel = label;
         exitsInterior = isExit;
         interiorSceneName = sceneName;
         targetSpawnId = targetId;
