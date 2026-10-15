@@ -106,8 +106,9 @@ public sealed class PlayerHeldTools : MonoBehaviour
         if(rig==null || !rig.isActiveAndEnabled || rig.runtimeAnimatorController==null)return false;
         string state=entry.tool switch
         {
-            PlayerToolType.Hoe=>"Hoeing",PlayerToolType.Axe=>"Axe",
-            PlayerToolType.Hammer=>"Hammering Rock",PlayerToolType.Sickle=>"Sickle",_=>null
+            PlayerToolType.Hoe=>"Hoeing",PlayerToolType.Axe=>"Chopping Tree",
+            PlayerToolType.Hammer=>"Hammering Rock",PlayerToolType.Sickle=>"Sickle",
+            PlayerToolType.WateringCan=>"Watering Plant",_=>null
         };
         if(state==null)return false;
         return rig.GetCurrentAnimatorStateInfo(0).IsName(state) ||
@@ -116,6 +117,20 @@ public sealed class PlayerHeldTools : MonoBehaviour
     void PoseTool(Transform tool,PlayerToolVisualCatalog.Entry entry,bool usingTool,Vector3 target)
     {
         SnapToGrip(tool,entry,!usingTool);
+        if(entry.tool==PlayerToolType.WateringCan)
+        {
+            if(usingTool)
+            {
+                // This prefab's cerat points along +X, body upright along +Y.
+                // Retain the animated pouring tilt while keeping the spout in the forward vertical plane.
+                Vector3 spout=tool.rotation*Vector3.right;
+                Vector3 forwardSpout=transform.forward*new Vector2(spout.x,spout.z).magnitude+Vector3.up*spout.y;
+                if(forwardSpout.sqrMagnitude>.001f)
+                    tool.rotation=Quaternion.LookRotation(forwardSpout,Vector3.up)*
+                        Quaternion.Inverse(Quaternion.LookRotation(Vector3.right,Vector3.up));
+            }
+            return;
+        }
         if(!entry.workGrip || !usingTool)
         {
             // Walking/running leaves the animated primary hand untouched. An idle support hand may reach the shaft.
@@ -147,6 +162,13 @@ public sealed class PlayerHeldTools : MonoBehaviour
             // The sickle's local +X is the blade-plane normal. Keep its edge in the low sweeping plane.
             Vector3 bladeNormal=Vector3.ProjectOnPlane(Vector3.up,shaft);
             if(bladeNormal.sqrMagnitude>.001f)rotation=Quaternion.LookRotation(shaft,Vector3.Cross(shaft,bladeNormal));
+        }
+        else if(entry.actionPlaneNormal.sqrMagnitude>.001f)
+        {
+            // A signed plane derived from the updated clip avoids the roll reversal when
+            // the shaft passes through the target direction. The authored hand still drives the stroke.
+            Vector3 face=Vector3.Cross(transform.TransformDirection(entry.actionPlaneNormal),shaft);
+            if(face.sqrMagnitude>.001f)rotation=Quaternion.LookRotation(shaft,face);
         }
         else if(cuttingDirection.sqrMagnitude>.001f)rotation=Quaternion.LookRotation(shaft,cuttingDirection);
         // Solve only arms after animation, preserving the clip's body, feet and swing.

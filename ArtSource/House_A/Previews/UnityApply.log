@@ -1,0 +1,1183 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.0/staging' branch; Version is '6000.0.81f1 (6238fec1e98f) revision 6437118'; Using compiler version '193933523'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26300) CoreSingleLanguage' Language: 'en' Physical Memory: 22405 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+[Licensing::IpcConnector] Channel LicenseClient-huxel doesn't exist
+System  architecture: x64
+Process architecture: x64
+Date: 2026-10-12T12:38:02Z
+
+COMMAND LINE ARGUMENTS:
+[Licensing::Module] Successfully launched the LicensingClient (PId: 19496)
+C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Unity.exe
+-batchmode
+-projectPath
+C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+-executeMethod
+HouseApprovedExteriorSetup.Apply
+-quit
+-logFile
+C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage/ArtSource/House_A/Previews/UnityApply.log
+Successfully changed project path to: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [16928]  Target information:
+
+Player connection [16928]  * "[IP] 192.168.1.4 [Port] 55504 [Flags] 2 [Guid] 2131344918 [EditorId] 2131344918 [Version] 1048832 [Id] WindowsEditor(7,FrostY) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [16928] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [16928] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-huxel" at "2026-10-12T12:38:03.7252289Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 19496, path: "C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Package Manager] Connected to IPC stream "Upm-26696" after 1.5 seconds.
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.17.4+4293ba1
+  Session Id:              8a517dbb88da4d0c90a4baabe2e7b69b
+  Correlation Id:          e5e12c0139f632b03a8c2c522f04df63
+  External correlation Id: 8942126148913776132
+  Machine Id:              Qs9pZQQ1TkGzJCxrOHhsBdfscsM=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-huxel" (connect: 1.33s, validation: 0.77s, handshake: 0.27s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-huxel-notifications" at "2026-10-12T12:38:04.7670388Z"
+[Licensing::Module] Connected to LicensingClient (PId: 19496, launch time: 0.03, total connection time: 2.37s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 18967150433178-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.06
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 2.63s
+Refreshing native plugins compatible for Editor in 3.66 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.01 ms.
+Initialize engine version: 6000.0.81f1 (6238fec1e98f)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1050 (ID=0x1c91)
+    Vendor:   NVIDIA
+    VRAM:     2981 MB
+    Driver:   32.0.15.8183
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56696
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
+Registered in 0.031012 seconds.
+- Loaded All Assemblies, in  1.178 seconds
+Native extension for iOS target not found
+Native extension for Android target not found
+Android Extension - Scanning For ADB Devices 2516 ms
+Native extension for WindowsStandalone target not found
+Package Manager log level set to [2]
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  3.488 seconds
+Domain Reload Profiling: 4659ms
+	BeginReloadAssembly (493ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (98ms)
+	RebuildNativeTypeToScriptingClass (29ms)
+	initialDomainReloadingComplete (152ms)
+	LoadAllAssembliesAndSetupDomain (398ms)
+		LoadAssemblies (481ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (388ms)
+			TypeCache.Refresh (385ms)
+				TypeCache.ScanAssembly (362ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (3489ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (3401ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (2725ms)
+			SetLoadedEditorAssemblies (8ms)
+			BeforeProcessingInitializeOnLoad (144ms)
+			ProcessInitializeOnLoadAttributes (306ms)
+			ProcessInitializeOnLoadMethodAttributes (216ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 65 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.assistant@2.17.0-pre.1 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ai.assistant@284c75a8d208)
+    com.unity.ai.inference@2.6.1 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ai.inference@9a123aee5df7)
+    com.unity.collab-proxy@2.12.4 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.collab-proxy@0b1559bcd34e)
+    com.unity.ide.rider@3.0.39 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ide.rider@4504839d03f7)
+    com.unity.ide.visualstudio@2.0.27 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ide.visualstudio@dc1ddd4f09b6)
+    com.unity.inputsystem@1.19.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.inputsystem@21a28c3a6c83)
+    com.unity.timeline@1.8.12 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.timeline@8cd8509afae5)
+    com.unity.visualscripting@1.9.11 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.visualscripting@8bed5ad90189)
+    com.unity.mobile.android-logcat@1.4.7 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.mobile.android-logcat@a8a404f035b3)
+    com.unity.adaptiveperformance@5.1.6 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.adaptiveperformance@de279be9c429)
+    com.unity.mobile.notifications@2.4.3 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.mobile.notifications@53b584f4d5cd)
+    com.unity.burst@1.8.30 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.burst@2f3d916873ea)
+    com.unity.dt.app-ui@1.3.6 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.dt.app-ui@3bbd9e4c5c92)
+    com.unity.collections@2.6.8 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.collections@84e8eb3fc12e)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.mathematics@1.3.2 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.mathematics@8017b507cc74)
+    com.unity.nuget.mono-cecil@1.11.6 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.searcher@4.9.3 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.searcher@1e17ce91558d)
+    com.unity.profiling.core@1.0.3 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.profiling.core@8a49f7027d06)
+    com.unity.test-framework.performance@3.5.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.test-framework.performance@8b56083ec0f0)
+  Built-in packages:
+    com.unity.feature.mobile@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.feature.mobile@00f8a2b6a6fb)
+    com.unity.multiplayer.center@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.multiplayer.center@f3fb577b3546)
+    com.unity.render-pipelines.universal@17.0.4 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.render-pipelines.universal@960febc0b6cb)
+    com.unity.ugui@2.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ugui@4601c9db1b9b)
+    com.unity.modules.accessibility@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.accessibility)
+    com.unity.modules.ai@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vehicles@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.render-pipelines.core@17.0.4 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.render-pipelines.core@8e828b9223c8)
+    com.unity.shadergraph@17.0.4 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.shadergraph@14250cfec0ec)
+    com.unity.render-pipelines.universal-config@17.0.3 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.render-pipelines.universal-config@dd206bf35d04)
+    com.unity.test-framework@1.6.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.test-framework@082c24152fd4)
+    com.unity.ext.nunit@2.0.5 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ext.nunit@031a54704bff)
+    com.unity.2d.sprite@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.2d.sprite@0eb6ea2c7181)
+    com.unity.rendering.light-transport@1.0.1 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.rendering.light-transport@9bd588f963c0)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.22 seconds
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+Refreshing native plugins compatible for Editor in 12.55 ms, found 5 plugins.
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 11s
+[1160/1529  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[BUSY       6s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+[1521/1529  6s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+Assets\Nature  Paradaise\Script\Entity\NPC\CarpenterNPC.cs(15,39): warning CS0414: The field 'CarpenterNPC.interactionRadius' is assigned but its value is never used
+
+Assets\Nature  Paradaise\Script\World\FertilizerProcessor.cs(43,37): warning CS0414: The field 'FertilizerProcessor.interactionDistance' is assigned but its value is never used
+
+Assets\Nature  Paradaise\Script\Core\WorldInteractablePromptSource.cs(11,40): warning CS0414: The field 'WorldInteractablePromptSource.interactionRadius' is assigned but its value is never used
+
+Assets\Nature  Paradaise\Script\World\Building\BuildingSite.cs(60,39): warning CS0414: The field 'BuildingSite.interactionRadius' is assigned but its value is never used
+
+Assets\Nature  Paradaise\Script\World\WeatherForecastTV.cs(16,39): warning CS0414: The field 'WeatherForecastTV.interactionRadius' is assigned but its value is never used
+[1522/1529  2s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+[1523/1529  1s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll, with 133 defines and 332 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1524/1529  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[1525/1529  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[1526/1529  0s] ILPostProcess Library/Bee/artifacts/1900b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp-Editor.dll, with 131 defines and 356 references
+
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[1527/1529  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[1528/1529  0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+*** Tundra build success (11.77 seconds), 9 items updated, 1529 evaluated
+Assets\Nature  Paradaise\Script\Entity\NPC\CarpenterNPC.cs(15,39): warning CS0414: The field 'CarpenterNPC.interactionRadius' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\World\FertilizerProcessor.cs(43,37): warning CS0414: The field 'FertilizerProcessor.interactionDistance' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Core\WorldInteractablePromptSource.cs(11,40): warning CS0414: The field 'WorldInteractablePromptSource.interactionRadius' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\World\Building\BuildingSite.cs(60,39): warning CS0414: The field 'BuildingSite.interactionRadius' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\World\WeatherForecastTV.cs(16,39): warning CS0414: The field 'WeatherForecastTV.interactionRadius' is assigned but its value is never used
+AssetDatabase: script compilation time: 13.322798s
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  4.841 seconds
+Refreshing native plugins compatible for Editor in 13.88 ms, found 5 plugins.
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 18.70 ms, found 5 plugins.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in 10.586 seconds
+Domain Reload Profiling: 15408ms
+	BeginReloadAssembly (714ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (25ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (174ms)
+	RebuildCommonClasses (90ms)
+	RebuildNativeTypeToScriptingClass (29ms)
+	initialDomainReloadingComplete (147ms)
+	LoadAllAssembliesAndSetupDomain (3840ms)
+		LoadAssemblies (3162ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (1090ms)
+			TypeCache.Refresh (845ms)
+				TypeCache.ScanAssembly (804ms)
+			BuildScriptInfoCaches (206ms)
+			ResolveRequiredComponents (27ms)
+	FinalizeReload (10588ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (10012ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (85ms)
+			SetLoadedEditorAssemblies (10ms)
+			BeforeProcessingInitializeOnLoad (563ms)
+			ProcessInitializeOnLoadAttributes (8494ms)
+			ProcessInitializeOnLoadMethodAttributes (840ms)
+			AfterProcessingInitializeOnLoad (19ms)
+			EditorAssembliesLoaded (1ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (23ms)
+Can't calculate tangents, because mesh 'cs_arm_fk' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_arm_fk.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_calf_fk' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_calf_fk.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_circle' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_circle.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_circle_025' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_circle_025.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_foot' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_foot.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_foot_01' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_foot_01.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_foot_roll' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_foot_roll.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_forearm_fk' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_forearm_fk.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_hand' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_hand.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_head' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_head.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_hips' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_hips.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_master' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_master.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_neck' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_neck.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_shoulder_left' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_shoulder_left.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_shoulder_right' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_shoulder_right.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_sphere_012' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_sphere_012.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_square_2' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_square_2.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_thigh_fk' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_thigh_fk.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_toe' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_toe.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Hand_FK_Left' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Hand_FK_Right' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Hand_IK_Left' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Hand_IK_Right' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Head' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Hips' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Hips_Free' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Neck' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Spine' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Spine1' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Spine2' doesn't contain normals.
+A polygon of Mesh 'SM_RockDesert_Shelf05' in Assets/SoStylized/Environment/Rocks/Desert/Meshes/SM_RockDesert_Shelf05.fbx is self-intersecting and has been discarded.
+Rig Error:  Avatar Rig Configuration mis-match. Bone length in configuration does not match position in animation file:
+	'R_Thigh' : position error = 1.281578 mm
+	'Spine01' : position error = 14.554651 mm
+	'Spine02' : position error = 22.964518 mm
+	'NeckTwist01' : position error = 8.326488 mm
+	'R_Clavicle' : position error = 18.915741 mm
+	'R_Upperarm' : position error = 33.224823 mm
+	'R_Forearm' : position error = 7.016443 mm
+File 'Running' has animation import warnings. See Import Messages in Animation Import Settings for more details.
+File 'Walking' has animation import warnings. See Import Messages in Animation Import Settings for more details.
+Can't calculate tangents, because mesh 'cs_arm_fk' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_arm_fk.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_calf_fk' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_calf_fk.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_circle' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_circle.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_circle_025' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_circle_025.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_foot' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_foot.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_foot_01' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_foot_01.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_foot_roll' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_foot_roll.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_forearm_fk' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_forearm_fk.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_hand' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_hand.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_head' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_head.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_hips' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_hips.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_master' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_master.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_neck' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_neck.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_shoulder_left' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_shoulder_left.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_shoulder_right' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_shoulder_right.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_sphere_012' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_sphere_012.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_square_2' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_square_2.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_thigh_fk' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_thigh_fk.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_toe' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_toe.001' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Hand_FK_Left' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Hand_FK_Right' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Hand_IK_Left' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Hand_IK_Right' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Head' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Hips' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Hips_Free' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Neck' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Spine' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Spine1' doesn't contain normals.
+Can't calculate tangents, because mesh 'cs_user_Ctrl_Spine2' doesn't contain normals.
+File 'Breathing Idle' has animation import warnings. See Import Messages in Animation Import Settings for more details.
+A polygon of Mesh 'SM_RockDesert_Layered02' in Assets/SoStylized/Environment/Rocks/Desert/Meshes/SM_RockDesert_Layered02.fbx is self-intersecting and has been discarded.
+A polygon of Mesh 'SM_RockDesert_Layered02' in Assets/SoStylized/Environment/Rocks/Desert/Meshes/SM_RockDesert_Layered02.fbx is self-intersecting and has been discarded.
+A polygon of Mesh 'SM_RockDesert_Layered02' in Assets/SoStylized/Environment/Rocks/Desert/Meshes/SM_RockDesert_Layered02.fbx is self-intersecting and has been discarded.
+A polygon of Mesh 'SM_RockDesert_Layered02' in Assets/SoStylized/Environment/Rocks/Desert/Meshes/SM_RockDesert_Layered02.fbx is self-intersecting and has been discarded.
+A polygon of Mesh 'SM_RockDesert_CliffHalf01' in Assets/SoStylized/Environment/Rocks/Desert/Meshes/SM_RockDesert_CliffHalf01.fbx is self-intersecting and has been discarded.
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv1_LOD1.fbx using Guid(3077f331b4db42740ae3e58f5c15a01a) (FBXImporter)File 'House_A_Lv1_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+ -> (artifact id: '08e074a19492f9fb5c041c58cb38d1e1') in 0.1419789 seconds
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv2_LOD2.fbx using Guid(3342b1751035d1447bc84bcac81b11b3) (FBXImporter)File 'House_A_Lv2_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+ -> (artifact id: '37f534eea6799ed3499255569ad85f8b') in 0.0497827 seconds
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv5_LOD1.fbx using Guid(69ef0fe63089c354ea3185b42a9fed46) (FBXImporter)File 'House_A_Lv5_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+ -> (artifact id: 'd6ff1ca979c06811038f40f3e96013bc') in 0.0539624 seconds
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv3_4_LOD0.fbx using Guid(e9492d8a3913ed64cb815e31b039df89) (FBXImporter) -> (artifact id: '7830c301178559a55fc7458cecc92831') in 0.0610473 seconds
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv2_LOD1.fbx using Guid(aa4698dd916ccaf428c1b87dacb3c2cf) (FBXImporter)File 'House_A_Lv2_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+ -> (artifact id: '288560662b7958460aaa72df1de476e5') in 0.0531084 seconds
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv3_4_LOD2.fbx using Guid(2beef5fcb6cb38c4bae12857270c0991) (FBXImporter)File 'House_A_Lv3_4_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+ -> (artifact id: '538eb64712f8f89608eeac3494c55fd2') in 0.0480084 seconds
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv1_LOD2.fbx using Guid(6bc5fc5700e903d4392851dc98d59273) (FBXImporter)File 'House_A_Lv1_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+ -> (artifact id: '26d9fb0e40727f46b1736876171d7288') in 0.0428197 seconds
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv5_LOD2.fbx using Guid(9bcafac0fe8a6ce46a5d562d75178f05) (FBXImporter)File 'House_A_Lv5_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+ -> (artifact id: 'c8c043c0d814e2dbe516298ed220ad7c') in 0.0501877 seconds
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv2_LOD0.fbx using Guid(4c30eed8292b4b345800cee8d8b31584) (FBXImporter) -> (artifact id: '3fe847392b77b46213f659cfc6b707b3') in 0.0780023 seconds
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv5_LOD0.fbx using Guid(1d31347f953ee7043a804e2821b3db2c) (FBXImporter) -> (artifact id: '7077289e7a07fca79ba4e319045d6427') in 0.0802897 seconds
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv3_4_LOD1.fbx using Guid(8d7aa5ff0e2d5ae4da2f2cdf607db100) (FBXImporter)File 'House_A_Lv3_4_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+ -> (artifact id: '4b1bc6e71d517100ed1f6cc28b8e22aa') in 0.0651299 seconds
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv1_LOD0.fbx using Guid(ce1a37cdd5bc1134a9ccc5c93a03d9b8) (FBXImporter) -> (artifact id: 'ab40478dd85a9f916a3876aec0f89589') in 0.0478343 seconds
+Refreshing native plugins compatible for Editor in 14.52 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 1.43 ms.
+Asset Pipeline Refresh (id=aa20684a9399fc843b662cf5a0d0d081): Total: 36.313 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=4042 (actual=0, local cache=4042, cache server=0)
+		Asset DB Process Time: managed=40 ms, native=14548 ms
+		Asset DB Callback time: managed=3026 ms, native=277 ms
+		Scripting: domain reloads=1, domain reload time=4844 ms, compile time=13326 ms, other=248 ms
+		Project Asset Count: scripts=2484, non-scripts=11764
+		Asset File Changes: new=0, changed=2, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.002ms
+	InvokePackagesCallback: 238.200ms
+	ApplyChangesToAssetFolders: 1.507ms
+	Scan: 819.686ms
+	OnSourceAssetsModified: 2.456ms
+	CategorizeAssetsWithTransientArtifact: 307.712ms
+	ProcessAssetsWithTransientArtifactChanges: 430.247ms
+	CategorizeAssets: 346.263ms
+	ImportOutOfDateAssets: 11583.446ms (-2589.525ms without children)
+		ImportManagerImport: 822.413ms (3.424ms without children)
+			ImportInProcess: 818.989ms
+		CompileScripts: 13326.484ms
+		ReloadNativeAssets: 0.128ms
+		UnloadImportedAssets: 3.217ms
+		ReloadImportedAssets: 1.393ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 16.764ms
+		InitializingProgressBar: 0.015ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.003ms
+		OnDemandSchedulerStart: 2.555ms
+	PostProcessAllAssets: 3044.547ms
+	Hotreload: 24.277ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.006ms
+	UnloadStreamsBegin: 11.085ms
+	PersistCurrentRevisions: 18.362ms
+	UnloadStreamsEnd: 0.002ms
+	GenerateScriptTypeHashes: 9.820ms
+	Untracked: 19485.188ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 16.108ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-HMMobile
+Unloading 71 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 10741 unused Assets / (22.1 MB). Loaded Objects now: 11248.
+Memory consumption went from 301.7 MB to 279.6 MB.
+Total: 50.208100 ms (FindLiveObjects: 1.825900 ms CreateObjectMapping: 2.910300 ms MarkObjects: 30.795600 ms  DeleteObjects: 14.673600 ms)
+
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv1_LOD0.fbx using Guid(ce1a37cdd5bc1134a9ccc5c93a03d9b8) (FBXImporter) -> (artifact id: 'ab40478dd85a9f916a3876aec0f89589') in 0.0755002 seconds
+Refreshing native plugins compatible for Editor in 17.60 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.22 ms.
+Asset Pipeline Refresh (id=b092d57fadb5f9946b399f0e19ba31df): Total: 0.493 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=430 ms
+		Asset DB Callback time: managed=11 ms, native=50 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2484, non-scripts=11764
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 6
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.002ms
+	ApplyChangesToAssetFolders: 0.404ms
+	Scan: 53.758ms
+	OnSourceAssetsModified: 0.002ms
+	CategorizeAssetsWithTransientArtifact: 0.063ms
+	ProcessAssetsWithTransientArtifactChanges: 0.266ms
+	CategorizeAssets: 214.521ms
+	ImportOutOfDateAssets: 87.881ms (1.464ms without children)
+		ImportManagerImport: 80.394ms (2.866ms without children)
+			ImportInProcess: 77.390ms
+			UpdateCategorizedAssets: 0.139ms
+		ReloadNativeAssets: 0.062ms
+		UnloadImportedAssets: 0.360ms
+		ReloadImportedAssets: 0.001ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 3.834ms
+		InitializingProgressBar: 0.012ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.002ms
+		OnDemandSchedulerStart: 1.753ms
+	PostProcessAllAssets: 42.407ms
+	Hotreload: 18.980ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.521ms
+	UnloadStreamsBegin: 2.313ms
+	PersistCurrentRevisions: 0.955ms
+	UnloadStreamsEnd: 0.002ms
+	Untracked: 69.543ms
+
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv1_LOD0.fbx using Guid(ce1a37cdd5bc1134a9ccc5c93a03d9b8) (FBXImporter) -> (artifact id: 'd0509892611483d67786a1be87180ace') in 0.0451001 seconds
+Refreshing native plugins compatible for Editor in 13.47 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.19 ms.
+Asset Pipeline Refresh (id=209d75662f08ab645a9d6810f8413527): Total: 0.234 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv1_LOD1.fbx using Guid(3077f331b4db42740ae3e58f5c15a01a) (FBXImporter)File 'House_A_Lv1_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:58)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 58]
+
+ -> (artifact id: '08e074a19492f9fb5c041c58cb38d1e1') in 0.0508631 seconds
+Refreshing native plugins compatible for Editor in 12.73 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.20 ms.
+Asset Pipeline Refresh (id=02e79435b50aa4b4081032efae2f6f96): Total: 0.123 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv1_LOD1.fbx using Guid(3077f331b4db42740ae3e58f5c15a01a) (FBXImporter)File 'House_A_Lv1_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:66)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 66]
+
+ -> (artifact id: '26974c603ca1257cb276d7a1b1270e19') in 0.0423339 seconds
+Refreshing native plugins compatible for Editor in 15.50 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.22 ms.
+Asset Pipeline Refresh (id=46c4b5497c0bddc4287e6308ec48f1ce): Total: 0.204 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv1_LOD2.fbx using Guid(6bc5fc5700e903d4392851dc98d59273) (FBXImporter)File 'House_A_Lv1_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:58)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 58]
+
+ -> (artifact id: '26d9fb0e40727f46b1736876171d7288') in 0.0490818 seconds
+Refreshing native plugins compatible for Editor in 16.30 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.27 ms.
+Asset Pipeline Refresh (id=c1188e5351c5ae54090775641f9731d1): Total: 0.158 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv1_LOD2.fbx using Guid(6bc5fc5700e903d4392851dc98d59273) (FBXImporter)File 'House_A_Lv1_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:66)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 66]
+
+ -> (artifact id: '1a832ceeecb57aa3ac13acf284b7da31') in 0.0384286 seconds
+Refreshing native plugins compatible for Editor in 12.94 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.18 ms.
+Asset Pipeline Refresh (id=3d68882a0d238b347bbbdad39419330b): Total: 0.243 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv2_LOD0.fbx using Guid(4c30eed8292b4b345800cee8d8b31584) (FBXImporter) -> (artifact id: '3fe847392b77b46213f659cfc6b707b3') in 0.0633878 seconds
+Refreshing native plugins compatible for Editor in 16.03 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.19 ms.
+Asset Pipeline Refresh (id=94039445a6469614ebda027bfa0809ce): Total: 0.155 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv2_LOD0.fbx using Guid(4c30eed8292b4b345800cee8d8b31584) (FBXImporter) -> (artifact id: '0ccd394dfd6e9762ebedb245abe4d24d') in 0.0603627 seconds
+Refreshing native plugins compatible for Editor in 12.72 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.19 ms.
+Asset Pipeline Refresh (id=457d8d3cebc578241b4e5ed4779c6728): Total: 0.249 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv2_LOD1.fbx using Guid(aa4698dd916ccaf428c1b87dacb3c2cf) (FBXImporter)File 'House_A_Lv2_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:58)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 58]
+
+ -> (artifact id: '288560662b7958460aaa72df1de476e5') in 0.058853 seconds
+Refreshing native plugins compatible for Editor in 20.37 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.20 ms.
+Asset Pipeline Refresh (id=352bbce08c269b64b8312ba75e0e8987): Total: 0.156 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv2_LOD1.fbx using Guid(aa4698dd916ccaf428c1b87dacb3c2cf) (FBXImporter)File 'House_A_Lv2_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:66)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 66]
+
+ -> (artifact id: '89139f6c4fba8850c65e008fc2fc0adf') in 0.0415197 seconds
+Refreshing native plugins compatible for Editor in 15.52 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.26 ms.
+Asset Pipeline Refresh (id=544c286c3c814a542a08c14b2fec4acb): Total: 0.200 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv2_LOD2.fbx using Guid(3342b1751035d1447bc84bcac81b11b3) (FBXImporter)File 'House_A_Lv2_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:58)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 58]
+
+ -> (artifact id: '37f534eea6799ed3499255569ad85f8b') in 0.0499416 seconds
+Refreshing native plugins compatible for Editor in 13.30 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.34 ms.
+Asset Pipeline Refresh (id=296451c871aafa44680e39f396b041a8): Total: 0.135 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv2_LOD2.fbx using Guid(3342b1751035d1447bc84bcac81b11b3) (FBXImporter)File 'House_A_Lv2_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:66)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 66]
+
+ -> (artifact id: '97d6f482bfa68eac7bcc8327be7522a3') in 0.0432715 seconds
+Refreshing native plugins compatible for Editor in 16.73 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.23 ms.
+Asset Pipeline Refresh (id=beb1a22ce1bd6e34d89220bdb791dbaf): Total: 0.219 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv3_4_LOD0.fbx using Guid(e9492d8a3913ed64cb815e31b039df89) (FBXImporter) -> (artifact id: '7830c301178559a55fc7458cecc92831') in 0.0723851 seconds
+Refreshing native plugins compatible for Editor in 16.69 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.56 ms.
+Asset Pipeline Refresh (id=0cb5b35cb40b49f4893693df0b424618): Total: 0.165 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv3_4_LOD0.fbx using Guid(e9492d8a3913ed64cb815e31b039df89) (FBXImporter) -> (artifact id: '172dd6db5ca153a5e9295dd27401e43a') in 0.0571452 seconds
+Refreshing native plugins compatible for Editor in 24.76 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.28 ms.
+Asset Pipeline Refresh (id=9e039e4089d3fdb469697f74f1cd8f80): Total: 0.264 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv3_4_LOD1.fbx using Guid(8d7aa5ff0e2d5ae4da2f2cdf607db100) (FBXImporter)File 'House_A_Lv3_4_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:58)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 58]
+
+ -> (artifact id: '4b1bc6e71d517100ed1f6cc28b8e22aa') in 0.0920164 seconds
+Refreshing native plugins compatible for Editor in 15.06 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.44 ms.
+Asset Pipeline Refresh (id=6b949a0bfd462844590345880e0faa20): Total: 0.211 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv3_4_LOD1.fbx using Guid(8d7aa5ff0e2d5ae4da2f2cdf607db100) (FBXImporter)File 'House_A_Lv3_4_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:66)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 66]
+
+ -> (artifact id: '32988ce317ca59d5705a0c12f42feb63') in 0.0610247 seconds
+Refreshing native plugins compatible for Editor in 14.93 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.18 ms.
+Asset Pipeline Refresh (id=f6563ff6898bb764aa1d29bab207bd7c): Total: 0.271 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv3_4_LOD2.fbx using Guid(2beef5fcb6cb38c4bae12857270c0991) (FBXImporter)File 'House_A_Lv3_4_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:58)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 58]
+
+ -> (artifact id: '538eb64712f8f89608eeac3494c55fd2') in 0.0500324 seconds
+Refreshing native plugins compatible for Editor in 14.23 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.24 ms.
+Asset Pipeline Refresh (id=275bb8e4c39f46c4684e9129381f5d48): Total: 0.138 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv3_4_LOD2.fbx using Guid(2beef5fcb6cb38c4bae12857270c0991) (FBXImporter)File 'House_A_Lv3_4_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:66)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 66]
+
+ -> (artifact id: '70c8243bffbf32850106024f56fc61e6') in 0.0501442 seconds
+Refreshing native plugins compatible for Editor in 18.80 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.26 ms.
+Asset Pipeline Refresh (id=998ab4e33dc59914fb9a2ec54353ab22): Total: 0.247 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv5_LOD0.fbx using Guid(1d31347f953ee7043a804e2821b3db2c) (FBXImporter) -> (artifact id: '7077289e7a07fca79ba4e319045d6427') in 0.0869548 seconds
+Refreshing native plugins compatible for Editor in 23.85 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.21 ms.
+Asset Pipeline Refresh (id=758f7d7c957575c458d03a05b3d62bd3): Total: 0.186 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv5_LOD0.fbx using Guid(1d31347f953ee7043a804e2821b3db2c) (FBXImporter) -> (artifact id: 'a0a062b822d10b2218d79adda5db3597') in 0.0558468 seconds
+Refreshing native plugins compatible for Editor in 17.12 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.51 ms.
+Asset Pipeline Refresh (id=f0ce0f44d3368864482be7132989741e): Total: 0.262 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv5_LOD1.fbx using Guid(69ef0fe63089c354ea3185b42a9fed46) (FBXImporter)File 'House_A_Lv5_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:58)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 58]
+
+ -> (artifact id: 'd6ff1ca979c06811038f40f3e96013bc') in 0.0608871 seconds
+Refreshing native plugins compatible for Editor in 17.69 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.37 ms.
+Asset Pipeline Refresh (id=ebd843816d0960b45b3ee2d73190937f): Total: 0.150 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv5_LOD1.fbx using Guid(69ef0fe63089c354ea3185b42a9fed46) (FBXImporter)File 'House_A_Lv5_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:66)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 66]
+
+ -> (artifact id: '321f063bd6027db0c3caa03afe2a35fd') in 0.0493619 seconds
+Refreshing native plugins compatible for Editor in 16.85 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.19 ms.
+Asset Pipeline Refresh (id=e9fd379ed64ff564e9604656346aeffe): Total: 0.260 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv5_LOD2.fbx using Guid(9bcafac0fe8a6ce46a5d562d75178f05) (FBXImporter)File 'House_A_Lv5_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:58)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 58]
+
+ -> (artifact id: 'c8c043c0d814e2dbe516298ed220ad7c') in 0.0545733 seconds
+Refreshing native plugins compatible for Editor in 18.14 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.18 ms.
+Asset Pipeline Refresh (id=3c94d98a4e50b2846bdfd066b095a5f4): Total: 0.142 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv5_LOD2.fbx using Guid(9bcafac0fe8a6ce46a5d562d75178f05) (FBXImporter)File 'House_A_Lv5_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:66)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 66]
+
+ -> (artifact id: '4dc757e005cbba7a7dad459ba573daf2') in 0.0668927 seconds
+Refreshing native plugins compatible for Editor in 16.21 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.24 ms.
+Asset Pipeline Refresh (id=d5e667c47c43e994ea5613a70e430ace): Total: 0.346 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=319 ms
+		Asset DB Callback time: managed=3 ms, native=22 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2484, non-scripts=11764
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 6
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.001ms
+	ApplyChangesToAssetFolders: 0.492ms
+	Scan: 73.176ms
+	OnSourceAssetsModified: 0.073ms
+	CategorizeAssetsWithTransientArtifact: 0.038ms
+	ProcessAssetsWithTransientArtifactChanges: 0.472ms
+	CategorizeAssets: 117.816ms
+	ImportOutOfDateAssets: 104.264ms (0.667ms without children)
+		ImportManagerImport: 84.140ms (13.643ms without children)
+			ImportInProcess: 70.456ms
+			UpdateCategorizedAssets: 0.041ms
+		ReloadNativeAssets: 0.069ms
+		UnloadImportedAssets: 0.639ms
+		ReloadImportedAssets: 11.333ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 5.293ms
+		InitializingProgressBar: 0.013ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.004ms
+		OnDemandSchedulerStart: 2.107ms
+	PostProcessAllAssets: 8.861ms
+	Hotreload: 16.899ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.073ms
+	UnloadStreamsBegin: 0.088ms
+	PersistCurrentRevisions: 1.413ms
+	UnloadStreamsEnd: 0.002ms
+	Untracked: 21.030ms
+
+Loaded scene 'Library/Unused/af895b2ddad1bf54ab3d4189aad2d35d'
+	Deserialize:            1.661 ms
+	Integration:            0.804 ms
+	Integration of assets:  0.003 ms
+	Thread Wait Time:       36.642 ms
+	Total Operation Time:   39.110 ms
+Start importing Assets/Nature  Paradaise/Prefabs/PlayerHouse/Exterior/HouseExterior_Lv1.prefab using Guid(468728557271d484e95ab7294dade61e) (PrefabImporter) -> (artifact id: 'd937e7ad81e0d1874a46e686c066aa27') in 0.009818 seconds
+Refreshing native plugins compatible for Editor in 18.15 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.24 ms.
+Asset Pipeline Refresh (id=c80195b3852ef9840beaa244b30db972): Total: 0.149 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/5433d1a24ebea014db71ead9ad6b9089'
+	Deserialize:            0.916 ms
+	Integration:            2.054 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.024 ms
+	Total Operation Time:   2.996 ms
+Start importing Assets/Nature  Paradaise/Prefabs/PlayerHouse/Exterior/HouseExterior_Lv2.prefab using Guid(6011f9660fc750446b72ab0b19ff79c3) (PrefabImporter) -> (artifact id: '1d66c2111f3c8d0bcc91abd2351d1bb5') in 0.0076704 seconds
+Refreshing native plugins compatible for Editor in 11.51 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.16 ms.
+Asset Pipeline Refresh (id=9d30e2828cd56ca429274b352980a5f9): Total: 0.139 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/ac0a7b39215622e4393460f4e5eb15a6'
+	Deserialize:            0.897 ms
+	Integration:            0.506 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.014 ms
+	Total Operation Time:   1.419 ms
+Start importing Assets/Nature  Paradaise/Prefabs/PlayerHouse/Exterior/HouseExterior_Lv3.prefab using Guid(727b71d11a5893e4191ab7298d632cf4) (PrefabImporter) -> (artifact id: 'af8b0856c02162308a980eaf1d83213e') in 0.0110505 seconds
+Refreshing native plugins compatible for Editor in 22.84 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.24 ms.
+Asset Pipeline Refresh (id=ecf56fc8f3f67d14d9f867ed6dee7268): Total: 0.165 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/cc4531d1cf2b631469706a68475d3f7a'
+	Deserialize:            1.441 ms
+	Integration:            0.662 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.116 ms
+	Total Operation Time:   2.222 ms
+Start importing Assets/Nature  Paradaise/Prefabs/PlayerHouse/Exterior/HouseExterior_Lv4.prefab using Guid(b489af8257fa01e43b8f3bb61de0a9ca) (PrefabImporter) -> (artifact id: 'd09659676e49d90c45328a28928d8f97') in 0.0080497 seconds
+Refreshing native plugins compatible for Editor in 15.56 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.33 ms.
+Asset Pipeline Refresh (id=9aeead75362f6b448982645b4b0ca19a): Total: 0.145 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Loaded scene 'Library/Unused/f7e6dfb1569c3a3488316909a497a815'
+	Deserialize:            0.940 ms
+	Integration:            0.445 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.020 ms
+	Total Operation Time:   1.407 ms
+Start importing Assets/Nature  Paradaise/Prefabs/PlayerHouse/Exterior/HouseExterior_Lv5.prefab using Guid(f408a9a119e57104b971bdade5d7bb1e) (PrefabImporter) -> (artifact id: 'd005ea05dcd03b3c5c9c7b4f84774c3c') in 0.010978 seconds
+Refreshing native plugins compatible for Editor in 20.11 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.27 ms.
+Asset Pipeline Refresh (id=857f6b2345199404a87d619691548300): Total: 0.194 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/Resources/Buildings/Player House Building.asset using Guid(74d11c7c8cbb4e52b713d2a9c1f9e201) (NativeFormatImporter) -> (artifact id: '1ff6df7b208bad62c02e3c391a41dfd2') in 0.0071306 seconds
+Refreshing native plugins compatible for Editor in 16.27 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.22 ms.
+Asset Pipeline Refresh (id=41818b6cd2ff1884c8bcd963b70cd1a0): Total: 0.104 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/Nature  Paradaise/Map/Scenes/World/Map.unity'
+Unloading 79 Unused Serialized files (Serialized files now loaded: 0)
+The tree P_OakTree3_Interactive couldn't be instanced because the prefab contains no valid mesh renderer.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+HouseApprovedExteriorSetup:ApplyScene (string,UnityEngine.GameObject[],BuildingDefinitionSO,System.Text.StringBuilder) (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:196)
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:104)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 104]
+
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Loaded scene 'Assets/Nature  Paradaise/Map/Scenes/World/Map.unity'
+	Deserialize:            289.558 ms
+	Integration:            1903.009 ms
+	Integration of assets:  239.525 ms
+	Thread Wait Time:       0.014 ms
+	Total Operation Time:   2432.106 ms
+Unloading 118 unused Assets / (5.4 KB). Loaded Objects now: 22500.
+Memory consumption went from 393.3 MB to 393.3 MB.
+Total: 39.328900 ms (FindLiveObjects: 2.462700 ms CreateObjectMapping: 2.371900 ms MarkObjects: 34.280300 ms  DeleteObjects: 0.212200 ms)
+
+Start importing Assets/Nature  Paradaise/Map/Scenes/World/Map.unity using Guid(6891664b00e7277428121d02d63e0ee4) (DefaultImporter) -> (artifact id: 'e4348fafff804f0301aa96f02e0baf07') in 0.0028897 seconds
+Refreshing native plugins compatible for Editor in 20.53 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.28 ms.
+Asset Pipeline Refresh (id=26044313fd9a00349b17bc6f42263245): Total: 0.152 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/Nature  Paradaise/Map/Scenes/World/Map_GameplayPreview.unity'
+Unloading 13 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Nature  Paradaise/Map/Scenes/World/Map_GameplayPreview.unity'
+	Deserialize:            29.940 ms
+	Integration:            727.367 ms
+	Integration of assets:  0.806 ms
+	Thread Wait Time:       0.023 ms
+	Total Operation Time:   758.136 ms
+Unloading 3348 unused Assets / (10.1 MB). Loaded Objects now: 16240.
+Memory consumption went from 398.1 MB to 388.0 MB.
+Total: 49.039600 ms (FindLiveObjects: 2.214500 ms CreateObjectMapping: 2.582900 ms MarkObjects: 38.705500 ms  DeleteObjects: 5.534600 ms)
+
+Start importing Assets/Nature  Paradaise/Map/Scenes/World/Map_GameplayPreview.unity using Guid(a1db6b1a0490a1947b45814db4bd6cde) (DefaultImporter) -> (artifact id: '4d03d8829f57c8b04a02543aa6188b2b') in 0.0030327 seconds
+Refreshing native plugins compatible for Editor in 15.33 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.27 ms.
+Asset Pipeline Refresh (id=ff21bbd677fd316458507bcacbbc720a): Total: 0.153 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Opening scene 'Assets/Nature  Paradaise/Map/Scenes/Testing/TestingScene.unity'
+Unloading 11 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Nature  Paradaise/Map/Scenes/Testing/TestingScene.unity'
+	Deserialize:            16.014 ms
+	Integration:            750.874 ms
+	Integration of assets:  0.006 ms
+	Thread Wait Time:       0.386 ms
+	Total Operation Time:   767.280 ms
+Unloading 127 unused Assets / (43.5 KB). Loaded Objects now: 15974.
+Memory consumption went from 383.0 MB to 382.9 MB.
+Total: 59.898900 ms (FindLiveObjects: 2.430700 ms CreateObjectMapping: 2.635700 ms MarkObjects: 54.123400 ms  DeleteObjects: 0.706400 ms)
+
+Start importing Assets/Nature  Paradaise/Map/Scenes/Testing/TestingScene.unity using Guid(99c9720ab356a0642a771bea13969a05) (DefaultImporter) -> (artifact id: 'dd7a4d1b40855281fd3c494ea1c99b76') in 0.0053836 seconds
+Refreshing native plugins compatible for Editor in 42.51 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.37 ms.
+Asset Pipeline Refresh (id=21882040324192e4fbe4b9d5bbdc71ca): Total: 0.410 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=264 ms
+		Asset DB Callback time: managed=49 ms, native=94 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2484, non-scripts=11764
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 6
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.001ms
+	ApplyChangesToAssetFolders: 0.365ms
+	Scan: 55.812ms
+	OnSourceAssetsModified: 0.119ms
+	CategorizeAssetsWithTransientArtifact: 0.020ms
+	ProcessAssetsWithTransientArtifactChanges: 0.153ms
+	CategorizeAssets: 98.337ms
+	ImportOutOfDateAssets: 55.747ms (17.769ms without children)
+		ImportManagerImport: 10.499ms (2.329ms without children)
+			ImportInProcess: 8.126ms
+			UpdateCategorizedAssets: 0.044ms
+		ReloadNativeAssets: 0.203ms
+		UnloadImportedAssets: 0.412ms
+		ReloadImportedAssets: 0.000ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 5.796ms
+		InitializingProgressBar: 0.014ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.005ms
+		OnDemandSchedulerStart: 21.049ms
+	PostProcessAllAssets: 98.443ms
+	Hotreload: 46.181ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.473ms
+	UnloadStreamsBegin: 0.281ms
+	PersistCurrentRevisions: 1.448ms
+	UnloadStreamsEnd: 0.003ms
+	Untracked: 51.358ms
+
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv1_LOD0.fbx using Guid(ce1a37cdd5bc1134a9ccc5c93a03d9b8) (FBXImporter) -> (artifact id: 'ab40478dd85a9f916a3876aec0f89589') in 0.0465523 seconds
+Refreshing native plugins compatible for Editor in 13.63 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.23 ms.
+Asset Pipeline Refresh (id=1403e74a727ec8048888298d4e7869d0): Total: 0.218 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv1_LOD1.fbx using Guid(3077f331b4db42740ae3e58f5c15a01a) (FBXImporter)File 'House_A_Lv1_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:115)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 115]
+
+ -> (artifact id: '08e074a19492f9fb5c041c58cb38d1e1') in 0.0498144 seconds
+Refreshing native plugins compatible for Editor in 18.34 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.19 ms.
+Asset Pipeline Refresh (id=bf97bfc74df65444eb793c9498128ec1): Total: 0.241 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv1_LOD2.fbx using Guid(6bc5fc5700e903d4392851dc98d59273) (FBXImporter)File 'House_A_Lv1_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:115)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 115]
+
+ -> (artifact id: '26d9fb0e40727f46b1736876171d7288') in 0.0594316 seconds
+Refreshing native plugins compatible for Editor in 19.98 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.28 ms.
+Asset Pipeline Refresh (id=25235547d7136324a9825498b5f747bd): Total: 0.300 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv2_LOD0.fbx using Guid(4c30eed8292b4b345800cee8d8b31584) (FBXImporter) -> (artifact id: '3fe847392b77b46213f659cfc6b707b3') in 0.0565564 seconds
+Refreshing native plugins compatible for Editor in 15.72 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.24 ms.
+Asset Pipeline Refresh (id=1b8402f6275e8164b9bfec0f1af628f6): Total: 0.316 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=289 ms
+		Asset DB Callback time: managed=2 ms, native=22 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2484, non-scripts=11764
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 6
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.002ms
+	ApplyChangesToAssetFolders: 0.421ms
+	Scan: 60.330ms
+	OnSourceAssetsModified: 0.079ms
+	CategorizeAssetsWithTransientArtifact: 0.033ms
+	ProcessAssetsWithTransientArtifactChanges: 0.252ms
+	CategorizeAssets: 118.719ms
+	ImportOutOfDateAssets: 72.602ms (1.377ms without children)
+		ImportManagerImport: 60.860ms (3.350ms without children)
+			ImportInProcess: 57.474ms
+			UpdateCategorizedAssets: 0.037ms
+		ReloadNativeAssets: 0.247ms
+		UnloadImportedAssets: 0.716ms
+		ReloadImportedAssets: 1.236ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 5.320ms
+		InitializingProgressBar: 0.015ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.003ms
+		OnDemandSchedulerStart: 2.827ms
+	PostProcessAllAssets: 7.514ms
+	Hotreload: 18.205ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.393ms
+	UnloadStreamsBegin: 0.111ms
+	PersistCurrentRevisions: 1.387ms
+	UnloadStreamsEnd: 0.002ms
+	Untracked: 35.162ms
+
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv2_LOD1.fbx using Guid(aa4698dd916ccaf428c1b87dacb3c2cf) (FBXImporter)File 'House_A_Lv2_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:115)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 115]
+
+ -> (artifact id: '288560662b7958460aaa72df1de476e5') in 0.0457513 seconds
+Refreshing native plugins compatible for Editor in 13.62 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.30 ms.
+Asset Pipeline Refresh (id=7d22686b0781ec74ea24cd2f02963f04): Total: 0.220 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv2_LOD2.fbx using Guid(3342b1751035d1447bc84bcac81b11b3) (FBXImporter)File 'House_A_Lv2_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:115)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 115]
+
+ -> (artifact id: '37f534eea6799ed3499255569ad85f8b') in 0.0415948 seconds
+Refreshing native plugins compatible for Editor in 18.93 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.17 ms.
+Asset Pipeline Refresh (id=6ce14368ddf18744caa67292bbf7eccc): Total: 0.217 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv3_4_LOD0.fbx using Guid(e9492d8a3913ed64cb815e31b039df89) (FBXImporter) -> (artifact id: '7830c301178559a55fc7458cecc92831') in 0.0640137 seconds
+Refreshing native plugins compatible for Editor in 17.77 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.26 ms.
+Asset Pipeline Refresh (id=fef04f4868ccee94a842aa46c047d9aa): Total: 0.320 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=292 ms
+		Asset DB Callback time: managed=2 ms, native=24 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2484, non-scripts=11764
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 6
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.001ms
+	ApplyChangesToAssetFolders: 0.346ms
+	Scan: 78.976ms
+	OnSourceAssetsModified: 0.106ms
+	CategorizeAssetsWithTransientArtifact: 0.029ms
+	ProcessAssetsWithTransientArtifactChanges: 0.227ms
+	CategorizeAssets: 84.207ms
+	ImportOutOfDateAssets: 78.211ms (-1.361ms without children)
+		ImportManagerImport: 70.224ms (4.914ms without children)
+			ImportInProcess: 65.266ms
+			UpdateCategorizedAssets: 0.044ms
+		ReloadNativeAssets: 0.242ms
+		UnloadImportedAssets: 0.638ms
+		ReloadImportedAssets: 2.918ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 4.294ms
+		InitializingProgressBar: 0.013ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.002ms
+		OnDemandSchedulerStart: 1.240ms
+	PostProcessAllAssets: 7.690ms
+	Hotreload: 19.662ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.977ms
+	UnloadStreamsBegin: 0.088ms
+	PersistCurrentRevisions: 1.484ms
+	UnloadStreamsEnd: 0.003ms
+	Untracked: 47.984ms
+
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv3_4_LOD1.fbx using Guid(8d7aa5ff0e2d5ae4da2f2cdf607db100) (FBXImporter)File 'House_A_Lv3_4_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:115)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 115]
+
+ -> (artifact id: '4b1bc6e71d517100ed1f6cc28b8e22aa') in 0.0481478 seconds
+Refreshing native plugins compatible for Editor in 22.76 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.29 ms.
+Asset Pipeline Refresh (id=1c3ed75f5fc7d454cb8cfe0d8932cefe): Total: 0.271 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv3_4_LOD2.fbx using Guid(2beef5fcb6cb38c4bae12857270c0991) (FBXImporter)File 'House_A_Lv3_4_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:115)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 115]
+
+ -> (artifact id: '538eb64712f8f89608eeac3494c55fd2') in 0.0395518 seconds
+Refreshing native plugins compatible for Editor in 16.21 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.17 ms.
+Asset Pipeline Refresh (id=75b76a7bddb6a464abb6e349666b526f): Total: 0.292 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv5_LOD0.fbx using Guid(1d31347f953ee7043a804e2821b3db2c) (FBXImporter) -> (artifact id: '7077289e7a07fca79ba4e319045d6427') in 0.0542176 seconds
+Refreshing native plugins compatible for Editor in 19.12 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.28 ms.
+Asset Pipeline Refresh (id=a9de3c0b9aee3b0438ea8246d3205539): Total: 0.231 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv5_LOD1.fbx using Guid(69ef0fe63089c354ea3185b42a9fed46) (FBXImporter)File 'House_A_Lv5_LOD1' has inconsistent LOD naming (_LOD1 found but no _LOD0).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:115)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 115]
+
+ -> (artifact id: 'd6ff1ca979c06811038f40f3e96013bc') in 0.0559633 seconds
+Refreshing native plugins compatible for Editor in 18.44 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.28 ms.
+Asset Pipeline Refresh (id=a792343eeb79b544b8295bd84198ba9c): Total: 0.282 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Start importing Assets/Nature  Paradaise/mesh/Buildings/House_A/House_A_Lv5_LOD2.fbx using Guid(9bcafac0fe8a6ce46a5d562d75178f05) (FBXImporter)File 'House_A_Lv5_LOD2' has inconsistent LOD naming (_LOD2 found but no _LOD1).
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEditor.AssetDatabase:ImportAsset (string,UnityEditor.ImportAssetOptions)
+UnityEditor.AssetDatabase:ImportAsset (string)
+UnityEditor.AssetImporter:SaveAndReimport ()
+HouseApprovedExteriorSetup:Apply () (at Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs:115)
+
+[Assets/Nature  Paradaise/Script/Editor/HouseApprovedExteriorSetup.cs line 115]
+
+ -> (artifact id: 'c8c043c0d814e2dbe516298ed220ad7c') in 0.0434824 seconds
+Refreshing native plugins compatible for Editor in 19.60 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.18 ms.
+Asset Pipeline Refresh (id=c7ba3aaeb260c76438c6a59664164542): Total: 0.280 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[House A] APPLY_PASS: Lv1-5, opaque blue atlas, stair E, camera-facing front.
+Batchmode quit successfully invoked - shutting down!
+Killing ADB server in 0.1407284 seconds.
+[Physics::Module] Cleanup current backned.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-huxel-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-huxel channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

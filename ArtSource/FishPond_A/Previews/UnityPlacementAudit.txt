@@ -1,0 +1,30 @@
+FISH POND PLACEMENT REGRESSION
+PASS Actual map field size: 15x15 cells, 2m
+PASS Isolated test cannot write a player save
+PASS Player build menu starts actual Lv1 preview
+PASS Preview contains no gameplay scripts
+PASS No interactable pond exists during preview
+PASS Preview Awake/OnEnable creates no pond/maker persistent records
+PASS Preview cannot block its own placement
+PASS Wild grass blocks installation with a readable reason
+PASS Lv1 installs on a clear centre of the actual field grid
+PASS Lv1 footprint smaller than old maximum-Lv3 reservation
+PASS Rotated footprint covers full physical width
+PASS Edge location rejected with explicit whole-footprint explanation
+PASS Invalid C confirm cannot create a pond
+PASS Reservation can be rolled back when payment fails
+PASS Rollback preserves cultivated and wet soil
+PASS Bare hoed soil can host a building
+PASS Actual C/Confirm path builds Lv1
+PASS Exactly one usable pond appears after confirmed completion
+PASS Placed pond reserves field cells
+PASS Actual upgrade preview starts
+PASS Upgrade accepts its own reserved cells
+PASS Lv2 requests additional cells
+PASS Upgrade blocked by crop in expansion ring
+PASS Blocked upgrade preserves crop and existing pond
+PASS Clear expansion ring permits Lv2 upgrade
+PASS Lv2 footprint actually expands
+PASS Lv3 upgrade fits and reserves its expanded area
+PASS Only final completed Lv3 pond is interactable
+PLACEMENT PASS

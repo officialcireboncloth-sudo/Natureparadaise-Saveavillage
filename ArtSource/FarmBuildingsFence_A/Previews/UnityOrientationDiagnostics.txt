@@ -1,0 +1,25 @@
+FARM REFERENCE UNITY APPLY
+PASS Original Toon Farm Pack atlas material available
+PASS Existing atlas shader supported by editor renderer: Toon/CustomToon
+PASS Farm_Lumbung_A reuses shared atlas material
+PASS Farm_Lumbung_A native import triangles 6098
+PASS Farm_BarnStore_B reuses shared atlas material
+PASS Farm_BarnStore_B native import triangles 8098
+PASS Fence_Post reuses shared atlas material
+PASS Fence_Post native import triangles 36
+PASS Fence_Rails_1m reuses shared atlas material
+PASS Fence_Rails_1m native import triangles 24
+PASS Fence_Rails_2m reuses shared atlas material
+PASS Fence_Rails_2m native import triangles 24
+PASS Fence_Corner_90 reuses shared atlas material
+PASS Fence_Corner_90 native import triangles 36
+PASS Fence_Junction_T reuses shared atlas material
+PASS Fence_Junction_T native import triangles 36
+PASS Fence_Gate_2m reuses shared atlas material
+PASS Fence_Gate_2m native import triangles 180
+PASS Fence_Gate_3m reuses shared atlas material
+PASS Fence_Gate_3m native import triangles 288
+Orientation yaw 0: bounds (-4.93, 0.00, -3.53) / (4.93, 5.40, 3.43), ridge points 12, score 1.209999
+Orientation yaw 90: bounds (-3.53, 0.00, -4.93) / (3.43, 5.40, 4.93), ridge points 12, score 4.610973
+Orientation yaw 180: bounds (-4.93, 0.00, -3.43) / (4.93, 5.40, 3.53), ridge points 12, score 1.96605E-06
+Orientation yaw 270: bounds (-3.43, 0.00, -4.93) / (3.53, 5.40, 4.93), ridge points 12, score 4.608291

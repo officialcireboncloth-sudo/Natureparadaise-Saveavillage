@@ -1,0 +1,6 @@
+GROUND AUDIT idle root=(0.00, 0.08, 0.00) min=0.1117578 hip=(0.01, 0.95, -0.09) model=(0.02, 0.18, -0.10) Generic=True
+GROUND AUDIT running sole=0.1198968
+GROUND MOUNT PASS Mount started
+GROUND AUDIT mounted root=(1.20, 0.03, 0.62) hip=(1.22, 0.98, 0.50) seat=(1.20, 0.81, 0.62) gap=0.20991 scale=(1.00, 1.00, 1.00) feet=0.3910242
+GROUND AUDIT dismount root=(0.47, 0.08, 0.62) sole=0.1113129 scale=(1.00, 1.00, 1.00)
+GROUND MOUNT CHECK COMPLETED

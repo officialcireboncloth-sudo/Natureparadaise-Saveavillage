@@ -188,8 +188,10 @@ public sealed class AnimalManureSystem : MonoBehaviour
         if(player==null || player.IsMovementLocked || drop==null || !visuals.TryGetValue(id,out var visual) ||
            visual==null || !visual.activeSelf || Vector3.Distance(player.transform.position,visual.transform.position)>(settings!=null?settings.pickupRadius:2.4f))return false;
         ItemSO item=Resources.Load<ItemSO>(drop.poultry?"Items/Materials/Poultry Manure":"Items/Materials/Livestock Manure");
+        if(!StaminaBalance.Can(inventory,"clean_manure")) return false;
         if(item==null || !inventory.Add(item,1))
         {SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh; kotoran tetap di tanah.");return false;}
+        StaminaBalance.Spend(inventory,"clean_manure");
         player.FaceTowardsInteraction(visual.transform.position);player.AcquireMovementLock(this);player.PlayScoopManureAnimation();
         collectingPlayer=player;collecting=true;
         drops.Remove(drop);visuals.Remove(id);Destroy(visual);

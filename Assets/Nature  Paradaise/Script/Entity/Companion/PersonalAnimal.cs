@@ -64,11 +64,11 @@ public sealed class PersonalAnimal : MonoBehaviour
 
     [Header("Horse Mount")]
     [SerializeField, Min(0.1f), Tooltip("Horse companion selalu adult; scale muda/save lama akan dinormalisasi ke ukuran ini saat spawn.")]
-    float adultHorseScale = 1.25f;
+    float adultHorseScale = .6330591f;
     [SerializeField] Transform mountPoint;
     [SerializeField] Vector3 mountLocalPosition = new(0f, 1.25f, 0f);
     [Tooltip("Koreksi posisi pantat terhadap saddle dalam world unit. Tidak ikut dikalikan scale kuda supaya rider tidak tenggelam saat ukuran horse berubah.")]
-    [SerializeField] Vector3 riderSeatOffset = new(0f, -0.1f, 0f);
+    [SerializeField] Vector3 riderSeatOffset = new(0f, 0.05f, 0f);
     [Tooltip("Posisi awal animasi naik relatif terhadap horse, dalam world unit. X negatif = sisi kiri horse.")]
     [SerializeField] Vector3 mountStartOffset = new(-0.65f, 0f, 0f);
     [Tooltip("Posisi akhir animasi turun relatif terhadap horse, dalam world unit.")]
@@ -492,6 +492,18 @@ public sealed class PersonalAnimal : MonoBehaviour
         mountedPlayerHips=riderAnimator!=null&&riderAnimator.isHuman
             ?riderAnimator.GetBoneTransform(HumanBodyBones.Hips)
             :null;
+        if(mountedPlayerHips!=null || riderAnimator==null) return;
+        // Player.fbx uses a Generic Mixamo rig. Resolve its animated pelvis too,
+        // so seating and transitions use the pose rather than capsule dimensions.
+        foreach(Transform bone in riderAnimator.GetComponentsInChildren<Transform>(true))
+        {
+            string boneName=bone.name;
+            int separator=boneName.LastIndexOf(':');
+            if(separator>=0) boneName=boneName.Substring(separator+1);
+            if(!string.Equals(boneName,"Hips",StringComparison.OrdinalIgnoreCase)) continue;
+            mountedPlayerHips=bone;
+            break;
+        }
     }
 
     void BeginRiderTransition(RiderTransition transition,Vector3 endRoot)
@@ -570,7 +582,7 @@ public sealed class PersonalAnimal : MonoBehaviour
         Vector3 seatPosition=mountPoint!=null?mountPoint.position:transform.TransformPoint(mountLocalPosition);
         if(hasAnimatedSeatCalibration&&animatedSeatBone!=null)
             seatPosition=animatedSeatBone.TransformPoint(animatedSeatLocalOffset);
-        else if(saddleRenderer!=null&&saddleRenderer.gameObject.activeInHierarchy&&saddleRenderer.enabled)
+        else if(mountPoint==null&&saddleRenderer!=null&&saddleRenderer.gameObject.activeInHierarchy&&saddleRenderer.enabled)
             seatPosition.y=saddleRenderer.bounds.center.y;
         else if(animatedSeatBone!=null)
             seatPosition.y=animatedSeatBone.position.y;
@@ -605,7 +617,7 @@ public sealed class PersonalAnimal : MonoBehaviour
         }
         // Gunakan pusat pelana sebagai baseline. Offset kecil di Inspector menjadi
         // kalibrasi akhir terhadap pose Riding Idle milik player.
-        else if (saddleRenderer != null && saddleRenderer.gameObject.activeInHierarchy && saddleRenderer.enabled)
+        else if (mountPoint == null && saddleRenderer != null && saddleRenderer.gameObject.activeInHierarchy && saddleRenderer.enabled)
             seatPosition.y = saddleRenderer.bounds.center.y;
         else if (animatedSeatBone != null)
             seatPosition.y = animatedSeatBone.position.y;
@@ -666,7 +678,9 @@ public sealed class PersonalAnimal : MonoBehaviour
             Vector3 calibratedSeatPosition = mountPoint != null
                 ? mountPoint.position
                 : transform.TransformPoint(mountLocalPosition);
-            if (saddleRenderer != null && saddleRenderer.gameObject.activeInHierarchy && saddleRenderer.enabled)
+            // The authored marker represents the sitting surface. Saddle bounds
+            // also include hanging straps/stirrups and place their centre too low.
+            if (mountPoint == null && saddleRenderer != null && saddleRenderer.gameObject.activeInHierarchy && saddleRenderer.enabled)
                 calibratedSeatPosition.y = saddleRenderer.bounds.center.y;
             animatedSeatLocalOffset = animatedSeatBone.InverseTransformPoint(calibratedSeatPosition);
             animatedSeatRestRelativeRotation = Quaternion.Inverse(transform.rotation) * animatedSeatBone.rotation;

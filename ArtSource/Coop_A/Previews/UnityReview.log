@@ -1788,3 +1788,91 @@ Memory consumption went from 0.71 GB to 0.71 GB.
 Total: 58.857600 ms (FindLiveObjects: 2.803800 ms CreateObjectMapping: 2.644700 ms MarkObjects: 51.757100 ms  DeleteObjects: 1.650000 ms)
 
 [Licensing::Client] Successfully resolved entitlement details
+Asset Pipeline Refresh (id=3ea088c1a90a4624690cec93d3cd1eb7): Total: 0.307 seconds - Initiated by RefreshV2(AllowForceSynchronousImport)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=304 ms
+		Asset DB Callback time: managed=0 ms, native=2 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 4.413ms
+	ApplyChangesToAssetFolders: 0.540ms
+	Scan: 0.001ms
+	OnSourceAssetsModified: 0.003ms
+	CategorizeAssetsWithTransientArtifact: 0.012ms
+	ProcessAssetsWithTransientArtifactChanges: 0.292ms
+	CategorizeAssets: 244.451ms
+	ImportOutOfDateAssets: 12.138ms (2.386ms without children)
+		CompileScripts: 0.091ms
+		ReloadNativeAssets: 0.534ms
+		UnloadImportedAssets: 0.007ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 6.681ms
+		InitializingProgressBar: 0.002ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.003ms
+		OnDemandSchedulerStart: 2.435ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.311ms
+	UnloadStreamsBegin: 0.932ms
+	PersistCurrentRevisions: 1.501ms
+	UnloadStreamsEnd: 0.003ms
+	Untracked: 41.684ms
+
+Asset Pipeline Refresh (id=20733b5b094f78048867280638d8bc71): Total: 0.071 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+[LAYOUT] About to save layout C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\UserSettings\Layouts\default-6000.dwlt
+[LAYOUT] About to save layout C:/Users/huxel/AppData/Roaming/Unity/Editor-5.x/Preferences\Layouts\current\default-6000.dwlt
+Clearing [LiberationSans SDF - Fallback] dynamic font asset data.
+Killing ADB server in 0.1887505 seconds.
+Start importing Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset using Guid(2e498d1c8094910479dc3e1b768306a4) (NativeFormatImporter) -> (artifact id: '763246be29ceb6f137e9018e22dfd1a6') in 0.0209691 seconds
+Refreshing native plugins compatible for Editor in 16.07 ms, found 5 plugins.
+Preloading 1 native plugins for Editor in 0.26 ms.
+Asset Pipeline Refresh (id=57c58bb4b338cae44805dc9b70581408): Total: 0.970 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=5 ms, native=156 ms
+		Asset DB Callback time: managed=722 ms, native=85 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=2481, non-scripts=11746
+		Asset File Changes: new=0, changed=1, moved=0, deleted=0
+		Scan Filter Count: 5
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 0.001ms
+	ApplyChangesToAssetFolders: 0.280ms
+	Scan: 27.536ms
+	OnSourceAssetsModified: 1.932ms
+	CategorizeAssetsWithTransientArtifact: 0.036ms
+	ProcessAssetsWithTransientArtifactChanges: 0.164ms
+	CategorizeAssets: 70.749ms
+	ImportOutOfDateAssets: 43.774ms (1.953ms without children)
+		ImportManagerImport: 33.044ms (5.282ms without children)
+			ImportInProcess: 27.692ms
+			UpdateCategorizedAssets: 0.070ms
+		ReloadNativeAssets: 0.483ms
+		UnloadImportedAssets: 0.492ms
+		ReloadImportedAssets: 0.000ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 5.902ms
+		InitializingProgressBar: 0.038ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.003ms
+		OnDemandSchedulerStart: 1.858ms
+	PostProcessAllAssets: 779.137ms
+	Hotreload: 26.797ms
+	GatherAllCurrentPrimaryArtifactRevisions: 1.360ms
+	UnloadStreamsBegin: 0.006ms
+	PersistCurrentRevisions: 1.602ms
+	UnloadStreamsEnd: 0.082ms
+	Untracked: 16.346ms
+
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+[Physics::Module] Cleanup current backned.
+[Physics::Module] Id: 0xf2b8ea05
+[Licensing::IpcConnector] LicenseClient-huxel-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-huxel channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+Checking for leaked weakptr:
+  Found no leaked weakptrs.
+[Package Manager] Server process was shutdown
+##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1791659412172,"processId":13276,"allocatedMemory":30102291,"memoryLabels":[{"Default":28597},{"Permanent":15356},{"NewDelete":80373},{"Thread":4230344},{"Manager":817874},{"VertexData":8},{"Geometry":816},{"VFX":-104},{"Texture":1656},{"Shader":97227},{"Material":24},{"GfxDevice":55784},{"Animation":392},{"Audio":4040},{"FontEngine":256},{"Physics":2081},{"Serialization":48},{"Input":14824},{"JobScheduler":33024},{"TextLib":160},{"Mono":32},{"MonoCode":704},{"ScriptingNativeRuntime":155060},{"BaseObject":1621072},{"Resource":1304},{"Renderer":2928},{"Transform":4646},{"File":59448},{"WebCam":616},{"Culling":32},{"Terrain":59634},{"Wind":24},{"STL":40},{"String":10081},{"DynamicArray":134568},{"HashMap":108574},{"Utility":2659746},{"Curl":-5264},{"PoolAlloc":2584},{"AI":104},{"TypeTree":347857},{"ScriptManager":512},{"RuntimeInitializeOnLoadManager":64},{"SpriteAtlas":112},{"GI":7888},{"Director":8240},{"CloudService":6736},{"WebRequest":7531},{"VR":45969},{"SceneManager":496},{"Video":208},{"LazyScriptCache":32},{"NativeArray":2700},{"Camera":17},{"Secure":265},{"SerializationCache":1576},{"APIUpdating":10320},{"Subsystems":336},{"VirtualTexturing":57888},{"StaticSafetyDebugInfo":278528},{"Analytics":464},{"Hierarchy":272},{"CoreStats":12536},{"Identifiers":6192},{"Gui":269258},{"EditorUtility":186098},{"VersionControl":4},{"Undo":947},{"AssetDatabase":18609568},{"EditorGi":328},{"UnityConnect":24408},{"Upm":2036},{"DrivenProperties":72},{"LocalIPC":211},{"ProfilerEditor":9746},{"CoreBusinessMetrics":2867},{"Licensing":1232},{"AssetReference":32},{"IPCStream":32}]}

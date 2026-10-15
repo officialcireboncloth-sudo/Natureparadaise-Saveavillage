@@ -1,0 +1,108 @@
+{
+  "status": "PASS",
+  "factor": 1.75,
+  "scalePolicy": "+75 percent relative to original, not repeated multiplication",
+  "records": [
+    {
+      "type": "exterior",
+      "level": 1,
+      "modelScale": 1.3125,
+      "sizeMetres": [
+        11.6812506,
+        8.925002,
+        14.30625
+      ],
+      "trianglesAllLODs": 6068
+    },
+    {
+      "type": "exterior",
+      "level": 2,
+      "modelScale": 1.53125,
+      "sizeMetres": [
+        13.6281261,
+        10.4125013,
+        16.6906242
+      ],
+      "trianglesAllLODs": 6068
+    },
+    {
+      "type": "exterior",
+      "level": 3,
+      "modelScale": 1.75,
+      "sizeMetres": [
+        15.5750008,
+        11.9000015,
+        19.075
+      ],
+      "trianglesAllLODs": 6068
+    },
+    {
+      "type": "exterior",
+      "level": 4,
+      "modelScale": 1.96875,
+      "sizeMetres": [
+        17.5218754,
+        13.3875017,
+        21.4593735
+      ],
+      "trianglesAllLODs": 6068
+    },
+    {
+      "type": "exterior",
+      "level": 5,
+      "modelScale": 2.1875,
+      "sizeMetres": [
+        19.4687519,
+        14.875001,
+        23.84375
+      ],
+      "trianglesAllLODs": 6068
+    },
+    {
+      "type": "interior",
+      "level": 1,
+      "scale": 1.75,
+      "clearFloorMetres": [
+        21.0,
+        17.5
+      ],
+      "triangles": 5928
+    },
+    {
+      "type": "interior",
+      "level": 2,
+      "scale": 1.75,
+      "clearFloorMetres": [
+        28.0,
+        21.0
+      ],
+      "triangles": 7602
+    },
+    {
+      "type": "interior",
+      "level": 3,
+      "scale": 1.75,
+      "clearFloorMetres": [
+        35.0,
+        24.5
+      ],
+      "triangles": 9604
+    },
+    {
+      "type": "interior",
+      "level": 4,
+      "scale": 1.75,
+      "clearFloorMetres": [
+        42.0,
+        28.0
+      ],
+      "triangles": 11812
+    }
+  ],
+  "placementGridCells": [
+    21,
+    25
+  ],
+  "capacityChanged": false,
+  "backup": "ArtSource/BarnInterior_A/Scale175/Before_20261014_162117133"
+}

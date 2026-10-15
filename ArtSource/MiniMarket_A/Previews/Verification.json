@@ -1,0 +1,114 @@
+{
+  "status": "PASS",
+  "checksPassed": 26,
+  "triangles": 2910,
+  "meshVertices": 2106,
+  "estimatedVerticesAfterNormalAndUVSplits": 5428,
+  "note": "Geometry audit only. Actual phone frame rate needs profiling in Unity on target hardware.",
+  "checks": [
+    {
+      "check": "Existing atlas unchanged",
+      "pass": true
+    },
+    {
+      "check": "Triangle budget 5000",
+      "pass": true
+    },
+    {
+      "check": "Three runtime meshes, two separate door leaves",
+      "pass": true
+    },
+    {
+      "check": "Actual height 4.85m and ground contact",
+      "pass": true
+    },
+    {
+      "check": "No runtime cameras or lights",
+      "pass": true
+    },
+    {
+      "check": "MiniMarket_A_Body finite geometry",
+      "pass": true
+    },
+    {
+      "check": "MiniMarket_A_Body one opaque shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "MiniMarket_A_Body all triangulated",
+      "pass": true
+    },
+    {
+      "check": "MiniMarket_A_Body UV within audited swatches",
+      "pass": true
+    },
+    {
+      "check": "MiniMarket_A_Body no degenerate triangle",
+      "pass": true
+    },
+    {
+      "check": "MM_DoorLeft.001 finite geometry",
+      "pass": true
+    },
+    {
+      "check": "MM_DoorLeft.001 one opaque shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "MM_DoorLeft.001 all triangulated",
+      "pass": true
+    },
+    {
+      "check": "MM_DoorLeft.001 UV within audited swatches",
+      "pass": true
+    },
+    {
+      "check": "MM_DoorLeft.001 no degenerate triangle",
+      "pass": true
+    },
+    {
+      "check": "MM_DoorRight.001 finite geometry",
+      "pass": true
+    },
+    {
+      "check": "MM_DoorRight.001 one opaque shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "MM_DoorRight.001 all triangulated",
+      "pass": true
+    },
+    {
+      "check": "MM_DoorRight.001 UV within audited swatches",
+      "pass": true
+    },
+    {
+      "check": "MM_DoorRight.001 no degenerate triangle",
+      "pass": true
+    },
+    {
+      "check": "Atlas packed for Blender",
+      "pass": true
+    },
+    {
+      "check": "Left hinge rotates only its door",
+      "pass": true
+    },
+    {
+      "check": "Right hinge rotates only its door",
+      "pass": true
+    },
+    {
+      "check": "FBX roundtrip exact bounds",
+      "pass": true
+    },
+    {
+      "check": "FBX triangle count unchanged",
+      "pass": true
+    },
+    {
+      "check": "FBX preserves both door hinge parents",
+      "pass": true
+    }
+  ]
+}

@@ -33,7 +33,7 @@ public static class CalendarCafeSetup
         {
             var go=new GameObject("06_Cafe_Shop");var cafe=go.AddComponent<CafeUI>();cafe.catalog=AssetDatabase.LoadAssetAtPath<CafeCatalog>(ScheduleCafeCsvDatabase.CafePath);cafe.Build();
             var capsule=GameObject.CreatePrimitive(PrimitiveType.Capsule);capsule.name="Seller_Capsule_Editable";capsule.transform.SetParent(go.transform,false);
-            capsule.transform.localScale=seller!=null?seller.transform.lossyScale:new Vector3(.7f,1,.7f);capsule.transform.localPosition=Vector3.up*capsule.transform.localScale.y;
+            capsule.transform.localScale=new Vector3(.4f,.6f,.4f);capsule.transform.localPosition=Vector3.up*capsule.transform.localScale.y;
             if(seller!=null&&seller.TryGetComponent<Renderer>(out var renderer))capsule.GetComponent<Renderer>().sharedMaterials=renderer.sharedMaterials;
             Label(go.transform,"KAFE & RUMAH MAKAN");PrefabUtility.SaveAsPrefabAsset(go,cafePath);Object.DestroyImmediate(go);
         }
@@ -70,7 +70,7 @@ public static class CalendarCafeSetup
     }
     static void Label(Transform parent,string title)
     {
-        var text=new GameObject("StoreLabel_Editable").AddComponent<TextMeshPro>();text.transform.SetParent(parent,false);text.transform.localPosition=new Vector3(0,2.65f,0);text.text=title;text.fontSize=3;text.alignment=TextAlignmentOptions.Center;text.color=GameplayHUDStyle.TextColor;text.rectTransform.sizeDelta=new Vector2(7,1.1f);text.raycastTarget=false;text.gameObject.AddComponent<ShopWorldLabel>();
+        var text=new GameObject("StoreLabel_Editable").AddComponent<TextMeshPro>();text.transform.SetParent(parent,false);text.transform.localPosition=new Vector3(0,1.5f,0);text.text=title;text.fontSize=3;text.alignment=TextAlignmentOptions.Center;text.color=GameplayHUDStyle.TextColor;text.rectTransform.sizeDelta=new Vector2(7,1.1f);text.raycastTarget=false;text.gameObject.AddComponent<ShopWorldLabel>();
     }
 }
 [CustomEditor(typeof(CafeUI))]public class CafeUIEditor:Editor

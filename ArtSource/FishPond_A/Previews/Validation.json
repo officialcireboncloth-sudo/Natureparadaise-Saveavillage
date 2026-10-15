@@ -1,0 +1,807 @@
+{
+  "status": "PASS",
+  "checkCount": 200,
+  "checks": [
+    {
+      "check": "Atlas unchanged",
+      "passed": true
+    },
+    {
+      "check": "Unity pack water unchanged",
+      "passed": true
+    },
+    {
+      "check": "One packed atlas, no external preview texture required",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High identity transform",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High one material",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High triangulated clean geometry",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High count matches export manifest",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High UV stays within palette safe rectangles",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High approved full bounds",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High basin_floor exists",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High basin_floor normals up",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High basin_innerwall exists",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High basin_innerwall correct facing",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High basin_outerwall exists",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High basin_outerwall correct facing",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High basin_coping exists",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High basin_coping normals up",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High maker approved marker",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High storage approved marker",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High within LOD triangle budget",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium identity transform",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium one material",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium triangulated clean geometry",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium count matches export manifest",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium UV stays within palette safe rectangles",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium within LOD triangle budget",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low identity transform",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low one material",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low triangulated clean geometry",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low count matches export manifest",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low UV stays within palette safe rectangles",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low within LOD triangle budget",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water identity transform",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water one material",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water triangulated clean geometry",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water count matches export manifest",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water flat and upward",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water accurate approved boundary",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water metric UV with nonzero area",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High identity transform",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High one material",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High triangulated clean geometry",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High count matches export manifest",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High UV stays within palette safe rectangles",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High approved full bounds",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High basin_floor exists",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High basin_floor normals up",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High basin_innerwall exists",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High basin_innerwall correct facing",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High basin_outerwall exists",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High basin_outerwall correct facing",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High basin_coping exists",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High basin_coping normals up",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High maker approved marker",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High storage approved marker",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High autoFeeder approved marker",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High feeder clear of central lane",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High within LOD triangle budget",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium identity transform",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium one material",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium triangulated clean geometry",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium count matches export manifest",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium UV stays within palette safe rectangles",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium within LOD triangle budget",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low identity transform",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low one material",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low triangulated clean geometry",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low count matches export manifest",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low UV stays within palette safe rectangles",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low within LOD triangle budget",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water identity transform",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water one material",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water triangulated clean geometry",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water count matches export manifest",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water flat and upward",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water accurate approved boundary",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water metric UV with nonzero area",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High identity transform",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High one material",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High triangulated clean geometry",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High count matches export manifest",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High UV stays within palette safe rectangles",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High approved full bounds",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High basin_floor exists",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High basin_floor normals up",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High basin_innerwall exists",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High basin_innerwall correct facing",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High basin_outerwall exists",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High basin_outerwall correct facing",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High basin_coping exists",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High basin_coping normals up",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High maker approved marker",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High storage approved marker",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High autoFeeder approved marker",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High feeder clear of central lane",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High within LOD triangle budget",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium identity transform",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium one material",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium triangulated clean geometry",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium count matches export manifest",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium UV stays within palette safe rectangles",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium within LOD triangle budget",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low identity transform",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low one material",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low triangulated clean geometry",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low count matches export manifest",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low UV stays within palette safe rectangles",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low within LOD triangle budget",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water identity transform",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water one material",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water triangulated clean geometry",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water count matches export manifest",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water flat and upward",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water accurate approved boundary",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water metric UV with nonzero area",
+      "passed": true
+    },
+    {
+      "check": "Comparison uses actual shared mesh data",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High export SHA",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High exactly one FBX mesh",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High FBX metre bounds/pivot roundtrip",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High FBX triangle count",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High FBX safe UV preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High FBX material preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_High FBX face winding preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium export SHA",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium exactly one FBX mesh",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium FBX metre bounds/pivot roundtrip",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium FBX triangle count",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium FBX safe UV preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium FBX material preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Medium FBX face winding preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low export SHA",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low exactly one FBX mesh",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low FBX metre bounds/pivot roundtrip",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low FBX triangle count",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low FBX safe UV preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low FBX material preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Low FBX face winding preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water export SHA",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water exactly one FBX mesh",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water FBX metre bounds/pivot roundtrip",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water FBX triangle count",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water FBX safe UV preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water FBX material preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv1_Water FBX face winding preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High export SHA",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High exactly one FBX mesh",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High FBX metre bounds/pivot roundtrip",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High FBX triangle count",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High FBX safe UV preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High FBX material preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_High FBX face winding preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium export SHA",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium exactly one FBX mesh",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium FBX metre bounds/pivot roundtrip",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium FBX triangle count",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium FBX safe UV preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium FBX material preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Medium FBX face winding preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low export SHA",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low exactly one FBX mesh",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low FBX metre bounds/pivot roundtrip",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low FBX triangle count",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low FBX safe UV preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low FBX material preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Low FBX face winding preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water export SHA",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water exactly one FBX mesh",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water FBX metre bounds/pivot roundtrip",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water FBX triangle count",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water FBX safe UV preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water FBX material preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv2_Water FBX face winding preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High export SHA",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High exactly one FBX mesh",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High FBX metre bounds/pivot roundtrip",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High FBX triangle count",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High FBX safe UV preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High FBX material preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_High FBX face winding preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium export SHA",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium exactly one FBX mesh",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium FBX metre bounds/pivot roundtrip",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium FBX triangle count",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium FBX safe UV preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium FBX material preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Medium FBX face winding preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low export SHA",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low exactly one FBX mesh",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low FBX metre bounds/pivot roundtrip",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low FBX triangle count",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low FBX safe UV preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low FBX material preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Low FBX face winding preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water export SHA",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water exactly one FBX mesh",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water FBX metre bounds/pivot roundtrip",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water FBX triangle count",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water FBX safe UV preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water FBX material preserved",
+      "passed": true
+    },
+    {
+      "check": "FishPond_A_Lv3_Water FBX face winding preserved",
+      "passed": true
+    }
+  ],
+  "scope": "Saved Blender meshes and all 12 FBX reimports. Unity integration not tested."
+}

@@ -1,0 +1,2 @@
+item_id,display_name,increase_mode,tiers_per_berry,permanent,requires_skill_progress,consume_at_max_tier,current_stamina_refill,notes
+item.stamina_berry,Berry Stamina,NextTier,1,TRUE,FALSE,FALSE,,Naik satu tingkat: 50 -> 75 -> 100 -> 150. Efek refill stamina saat ini belum ditentukan.

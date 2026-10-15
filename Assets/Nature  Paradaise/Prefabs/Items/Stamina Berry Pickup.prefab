@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_Component:
+  - component: {fileID: 4000}
+  - component: {fileID: 135000}
+  - component: {fileID: 114000}
+  m_Layer: 0
+  m_Name: Stamina Berry Pickup
+  m_TagString: Untagged
+  m_IsActive: 1
+--- !u!4 &4000
+Transform:
+  m_ObjectHideFlags: 0
+  m_GameObject: {fileID: 1000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!135 &135000
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_GameObject: {fileID: 1000}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_GameObject: {fileID: 1000}
+  m_Enabled: 1
+  m_Script: {fileID: 11500000, guid: b33374724906427d8adddf84ae970dc0, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  item: {fileID: 11400000, guid: b1a24364d3874b74902ca20ad288ac7b, type: 2}
+  amount: 1

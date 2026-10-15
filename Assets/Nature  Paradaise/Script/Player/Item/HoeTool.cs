@@ -39,10 +39,10 @@ public class FarmingTool : MonoBehaviour
 
     [Header("Player Stamina")]
     public PlayerStatusSystem playerStatus;
-    [Min(0f)] public float hoeCost = 0.1f;
-    [Min(0f)] public float waterCost = 0.05f;
-    [Min(0f)] public float fertilizeCost = 0.05f;
-    [Min(0f)] public float harvestCost = 0.05f;
+    [HideInInspector, Min(0f)] public float hoeCost = 0.1f;
+    [HideInInspector, Min(0f)] public float waterCost = 0.05f;
+    [HideInInspector, Min(0f)] public float fertilizeCost = 0.05f;
+    [HideInInspector, Min(0f)] public float harvestCost = 0.05f;
     [Min(0f)] public float cropBoosterCost = 0.05f;
 
     [Header("Directional Target")]
@@ -54,7 +54,7 @@ public class FarmingTool : MonoBehaviour
 
     [Header("Hoe Upgrade")]
     [SerializeField] HoeUpgradeTier upgradeTier = HoeUpgradeTier.Basic;
-    [SerializeField, Range(0.25f, 1f)] float upgradedStaminaEfficiency = 0.8f;
+    [SerializeField, HideInInspector, Range(0.25f, 1f)] float upgradedStaminaEfficiency = 0.8f;
 
     [Header("Tool Feedback")]
     [SerializeField] Animator animator;
@@ -343,9 +343,8 @@ public class FarmingTool : MonoBehaviour
             return;
         }
 
-        HoeUpgradeTier activeTier = CurrentUpgradeTier;
-        float efficiency = activeTier == HoeUpgradeTier.Basic ? 1f : upgradedStaminaEfficiency;
-        float staminaCost = hoeCost * validCount * efficiency;
+        HoeUpgradeTier activeTier=CurrentUpgradeTier;
+        float staminaCost = StaminaBalance.Current.Cost("hoe") * validCount;
         if (!HasStamina(staminaCost))
         {
             ShowFeedback("Stamina tidak cukup");
@@ -370,7 +369,7 @@ public class FarmingTool : MonoBehaviour
     {
         if (!currentField.TryGetSnapshot(currentX, currentZ, out FieldTileSnapshot snapshot) || snapshot.State != TileState.Planted)
             return false;
-        if (playerInv == null || !HasStamina(harvestCost))
+        if (playerInv == null || !HasStamina(StaminaBalance.Current.Cost("harvest")))
             return true;
 
         FieldArea pendingField = currentField;
@@ -390,7 +389,7 @@ public class FarmingTool : MonoBehaviour
 
         if (field != null && field.TryHarvest(x, z, playerInv, out CropGrade grade))
         {
-            SpendStamina(harvestCost);
+            SpendStamina(StaminaBalance.Current.Cost("harvest"));
             ShowFeedback($"Panen berhasil - {(int)grade + 1} bintang");
         }
         else
@@ -450,7 +449,7 @@ public class FarmingTool : MonoBehaviour
             }
         }
 
-        float cost = watering ? waterCost : fertilizeCost;
+        float cost = watering ? StaminaBalance.Current.Cost("water") : StaminaBalance.Current.Cost("fertilize");
         if (!HasStamina(cost))
         {
             ShowFeedback("Stamina tidak cukup");

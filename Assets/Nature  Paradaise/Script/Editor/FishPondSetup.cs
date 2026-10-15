@@ -34,6 +34,9 @@ public static class FishPondSetup
     [MenuItem("Nature Paradise/Barn/Setup Fish Pond System", false, 140)]
     public static void SetupAll()
     {
+        // Approved art owns the existing prefab GUIDs; do not recreate prototype stations/levels.
+        GameObject approved = AssetDatabase.LoadAssetAtPath<GameObject>($"{PrefabFolder}/FishPond_Lv1.prefab");
+        if (approved != null && approved.GetComponent<FishPondExterior>() != null) return;
         if (EditorApplication.isPlayingOrWillChangePlaymode)
         {
             Debug.LogWarning("[FISH POND] Hentikan Play Mode sebelum setup.");

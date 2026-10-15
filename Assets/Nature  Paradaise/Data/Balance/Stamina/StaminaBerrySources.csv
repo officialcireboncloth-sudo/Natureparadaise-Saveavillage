@@ -1,0 +1,5 @@
+source_id,source_type,item_id,location_id,shop_id,reward_requirement,quantity,buy_price,notes
+village_pickup,VillagePickup,item.stamina_berry,,,,,,Sebar di sudut desa; lokasi dan jumlah belum ditentukan.
+supermarket,ShopPurchase,item.stamina_berry,,supermarket,,,,Harga dan stok belum ditentukan.
+farm_progress_reward,FarmProgressReward,item.stamina_berry,,,,,,Syarat perkembangan kebun dan jumlah reward belum ditentukan.
+village_progress_reward,VillageProgressReward,item.stamina_berry,,,,,,Syarat perkembangan desa dan jumlah reward belum ditentukan.

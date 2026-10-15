@@ -1,0 +1,568 @@
+{
+  "status": "PASS",
+  "checksPassed": 128,
+  "checks": [
+    {
+      "check": "Original Toonpack PSD unchanged",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A export bounds match authored mesh",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A rests on ground",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A approved height",
+      "pass": true
+    },
+    {
+      "check": "Door rotates around hinge while static building stays fixed",
+      "pass": true
+    },
+    {
+      "check": "Main side gable reaches roof ridge",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A export bounds match authored mesh",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A rests on ground",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A approved height",
+      "pass": true
+    },
+    {
+      "check": "Optional vane fits 3.45 m total height",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_SignLetters finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_SignLetters one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_SignLetters safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_SignLetters no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Plaster finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Plaster one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Plaster safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Plaster no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Foundation finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Foundation one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Foundation safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Foundation no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_RoofTiles finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_RoofTiles one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_RoofTiles safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_RoofTiles no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_RoofBase finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_RoofBase one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_RoofBase safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_RoofBase no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Timber finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Timber one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Timber safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Timber no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Frames finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Frames one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Frames safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Frames no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Counter finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Counter one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Counter safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Counter no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_DoorLeaf finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_DoorLeaf one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_DoorLeaf safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_DoorLeaf no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Windows finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Windows one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Windows safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Windows no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Hardware finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Hardware one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Hardware safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Hardware no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Awning finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Awning one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Awning safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Awning no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Sign finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Sign one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Sign safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Sign no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Logo finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Logo one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Logo safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Logo no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Body finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Body one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Body safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_Body no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_DoorLeaf.001 finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_DoorLeaf.001 one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_DoorLeaf.001 safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A_DoorLeaf.001 no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Boards finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Boards one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Boards safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Boards no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Foundation finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Foundation one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Foundation safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Foundation no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_RoofTiles finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_RoofTiles one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_RoofTiles safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_RoofTiles no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_RoofBase finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_RoofBase one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_RoofBase safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_RoofBase no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Timber finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Timber one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Timber safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Timber no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Frames finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Frames one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Frames safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Frames no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Windows finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Windows one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Windows safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Windows no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_NestBoxes finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_NestBoxes one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_NestBoxes safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_NestBoxes no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Ramp finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Ramp one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Ramp safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Ramp no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Body finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Body one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Body safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A_Body no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "Coop_Optional_WeatherVane finite coordinates",
+      "pass": true
+    },
+    {
+      "check": "Coop_Optional_WeatherVane one shared atlas material",
+      "pass": true
+    },
+    {
+      "check": "Coop_Optional_WeatherVane safe atlas UVs",
+      "pass": true
+    },
+    {
+      "check": "Coop_Optional_WeatherVane no degenerate triangles",
+      "pass": true
+    },
+    {
+      "check": "Atlas image packed for editable Blender file",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A FBX roundtrip bounds",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A FBX triangle count preserved",
+      "pass": true
+    },
+    {
+      "check": "ChickenStore_A FBX excludes studio and cameras",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A FBX roundtrip bounds",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A FBX triangle count preserved",
+      "pass": true
+    },
+    {
+      "check": "ChickenCoop_Companion_A FBX excludes studio and cameras",
+      "pass": true
+    },
+    {
+      "check": "OptionalWeatherVane FBX roundtrip bounds",
+      "pass": true
+    },
+    {
+      "check": "OptionalWeatherVane FBX triangle count preserved",
+      "pass": true
+    },
+    {
+      "check": "OptionalWeatherVane FBX excludes studio and cameras",
+      "pass": true
+    }
+  ],
+  "fbxRoundTrips": [
+    {
+      "name": "ChickenStore_A",
+      "bounds": [
+        [
+          -4.480000019073486,
+          -4.212499618530273,
+          -5.034249284108228e-07
+        ],
+        [
+          4.480000019073486,
+          3.430588722229004,
+          5.600000381469727
+        ]
+      ],
+      "triangles": 13772
+    },
+    {
+      "name": "ChickenCoop_Companion_A",
+      "bounds": [
+        [
+          -1.75,
+          -2.0999999046325684,
+          -2.4275180976474076e-07
+        ],
+        [
+          1.75,
+          1.7400004863739014,
+          3.1000001430511475
+        ]
+      ],
+      "triangles": 2962
+    },
+    {
+      "name": "OptionalWeatherVane",
+      "bounds": [
+        [
+          -0.13500000536441803,
+          -0.012499498203396797,
+          3.080000162124634
+        ],
+        [
+          0.1160999983549118,
+          0.012500560842454433,
+          3.4428000450134277
+        ]
+      ],
+      "triangles": 128
+    }
+  ]
+}

@@ -49,7 +49,7 @@ MonoBehaviour:
       amount: 3
     completedPrefab: {fileID: 6331577067540989283, guid: f9078dd595caeff4680c8c73d4bd4923, type: 3}
     constructionStagePrefabs: []
-    capacity: 12
+    capacity: 9
     unlockIds:
     - animal.coop.expanded
   - level: 3
@@ -63,7 +63,7 @@ MonoBehaviour:
       amount: 11
     completedPrefab: {fileID: 7060839569629169647, guid: e734816c473e04f4db52a42e086ec6ed, type: 3}
     constructionStagePrefabs: []
-    capacity: 20
+    capacity: 12
     unlockIds:
     - animal.coop.level3
   - level: 4
@@ -77,6 +77,6 @@ MonoBehaviour:
       amount: 14
     completedPrefab: {fileID: 5854201210856408719, guid: b85a3896d13c03046a816fdd6aaccacf, type: 3}
     constructionStagePrefabs: []
-    capacity: 30
+    capacity: 15
     unlockIds:
     - animal.coop.level4

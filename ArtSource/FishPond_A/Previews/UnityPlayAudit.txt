@@ -1,0 +1,107 @@
+FISH POND A PLAY MODE
+PASS Three level prefabs instantiate
+PASS Existing fish item available
+PASS Unique persistent pond IDs
+PASS Lv1 authored feed maker initialized
+PASS Lv1 no runtime prototype blocks
+PASS Lv1 representative fish count 8
+PASS FishVisual_0_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_0_Tilapia_Placeholder underwater height
+PASS FishVisual_1_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_1_Tilapia_Placeholder underwater height
+PASS FishVisual_2_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_2_Tilapia_Placeholder underwater height
+PASS FishVisual_3_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_3_Tilapia_Placeholder underwater height
+PASS FishVisual_4_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_4_Tilapia_Placeholder underwater height
+PASS FishVisual_5_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_5_Tilapia_Placeholder underwater height
+PASS FishVisual_6_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_6_Tilapia_Placeholder underwater height
+PASS FishVisual_7_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_7_Tilapia_Placeholder underwater height
+PASS Lv1 E target reachable from dock approach
+PASS Lv1 pond UI opens
+PASS Lv1 deposit into persistent pond
+PASS Lv1 withdrawal retains fish data
+PASS Lv1 replacing visual keeps stored fish
+PASS Lv2 authored feed maker initialized
+PASS Lv2 no runtime prototype blocks
+PASS Lv2 representative fish count 12
+PASS FishVisual_0_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_0_Tilapia_Placeholder underwater height
+PASS FishVisual_1_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_1_Tilapia_Placeholder underwater height
+PASS FishVisual_2_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_2_Tilapia_Placeholder underwater height
+PASS FishVisual_3_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_3_Tilapia_Placeholder underwater height
+PASS FishVisual_4_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_4_Tilapia_Placeholder underwater height
+PASS FishVisual_5_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_5_Tilapia_Placeholder underwater height
+PASS FishVisual_6_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_6_Tilapia_Placeholder underwater height
+PASS FishVisual_7_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_7_Tilapia_Placeholder underwater height
+PASS FishVisual_8_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_8_Tilapia_Placeholder underwater height
+PASS FishVisual_9_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_9_Tilapia_Placeholder underwater height
+PASS FishVisual_10_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_10_Tilapia_Placeholder underwater height
+PASS FishVisual_11_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_11_Tilapia_Placeholder underwater height
+PASS Lv2 E target reachable from dock approach
+PASS Lv2 pond UI opens
+PASS Lv2 deposit into persistent pond
+PASS Lv2 withdrawal retains fish data
+PASS Lv2 replacing visual keeps stored fish
+PASS Lv3 authored feed maker initialized
+PASS Lv3 no runtime prototype blocks
+PASS Lv3 representative fish count 18
+PASS FishVisual_0_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_0_Tilapia_Placeholder underwater height
+PASS FishVisual_1_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_1_Tilapia_Placeholder underwater height
+PASS FishVisual_2_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_2_Tilapia_Placeholder underwater height
+PASS FishVisual_3_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_3_Tilapia_Placeholder underwater height
+PASS FishVisual_4_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_4_Tilapia_Placeholder underwater height
+PASS FishVisual_5_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_5_Tilapia_Placeholder underwater height
+PASS FishVisual_6_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_6_Tilapia_Placeholder underwater height
+PASS FishVisual_7_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_7_Tilapia_Placeholder underwater height
+PASS FishVisual_8_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_8_Tilapia_Placeholder underwater height
+PASS FishVisual_9_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_9_Tilapia_Placeholder underwater height
+PASS FishVisual_10_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_10_Tilapia_Placeholder underwater height
+PASS FishVisual_11_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_11_Tilapia_Placeholder underwater height
+PASS FishVisual_12_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_12_Tilapia_Placeholder underwater height
+PASS FishVisual_13_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_13_Tilapia_Placeholder underwater height
+PASS FishVisual_14_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_14_Tilapia_Placeholder underwater height
+PASS FishVisual_15_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_15_Tilapia_Placeholder underwater height
+PASS FishVisual_16_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_16_Tilapia_Placeholder underwater height
+PASS FishVisual_17_Tilapia_Placeholder within pond and outside dock
+PASS FishVisual_17_Tilapia_Placeholder underwater height
+PASS Lv3 E target reachable from dock approach
+PASS Lv3 pond UI opens
+PASS Lv3 deposit into persistent pond
+PASS Lv3 withdrawal retains fish data
+PASS Lv3 replacing visual keeps stored fish
+PASS Over-capacity legacy pond blocks extra deposit without consuming inventory
+PASS Over-capacity legacy pond permits withdrawal
+PLAY PASS

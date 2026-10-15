@@ -42,7 +42,7 @@ public sealed class PlayerEatingSystem : MonoBehaviour
     {
         return item != null && item.CanConsume && inventory != null && status != null &&
                inventory.GetCount(item) > 0 &&
-               status.WouldBenefitFromFood(item.healthRestore, item.staminaRestore, item.hungerRestore);
+               (item.increasesStaminaTier ? status.CanUpgradeStamina : status.WouldBenefitFromFood(item.healthRestore, item.staminaRestore, item.hungerRestore));
     }
 
     /// <summary>Mengonsumsi satu item valid dan menerapkan efeknya ke status player.</summary>
@@ -51,6 +51,14 @@ public sealed class PlayerEatingSystem : MonoBehaviour
         if (!CanEat(item) || !inventory.Remove(item, 1))
             return false;
 
+        if(item.increasesStaminaTier)
+        {
+            if(!status.TryUpgradeStamina()){ inventory.Add(item,1);return false; }
+            status.PulseActivity(PlayerMovementState.Eating,.65f);
+            FoodEaten?.Invoke(item);
+            SaveLoadFeedback.Instance?.ShowMessage($"Kapasitas stamina meningkat menjadi {status.MaxStamina:0}");
+            return true;
+        }
         status.ApplyFood(item.healthRestore, item.staminaRestore, item.hungerRestore);
         status.PulseActivity(PlayerMovementState.Eating, 0.65f);
         FoodEaten?.Invoke(item);

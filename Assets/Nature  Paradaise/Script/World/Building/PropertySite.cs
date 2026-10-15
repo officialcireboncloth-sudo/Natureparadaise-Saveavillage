@@ -112,6 +112,7 @@ public sealed class PropertySite : MonoBehaviour
     int previewCatalogIndex;
     BuildingDefinitionSO previewDefinition;
     bool previewLocationValid;
+    string previewLocationReason = string.Empty;
     bool previewUsesFreePlacement;
     Vector3 previewPlacementPosition;
     Quaternion previewPlacementRotation = Quaternion.identity;
@@ -489,7 +490,8 @@ public sealed class PropertySite : MonoBehaviour
         WorldInteractionPrompt.Request(
             this,
             promptAnchor,
-            $"{previewDefinition?.displayName ?? "Building"} Lv.{previewLevel} [{validity}]\n{requirements}\n" +
+            $"{previewDefinition?.displayName ?? "Building"} Lv.{previewLevel} [{validity}]\n" +
+            (!previewLocationValid && !string.IsNullOrEmpty(previewLocationReason) ? $"{previewLocationReason}\n" : string.Empty) + $"{requirements}\n" +
             $"{placementControls}{navigation}{confirmKey}: Konfirmasi{debugControls}  {cancelKey}: Batal",
             distance,
             promptHeight
@@ -649,7 +651,7 @@ public sealed class PropertySite : MonoBehaviour
     {
         if (!previewActive || !previewLocationValid || previewDefinition == null)
         {
-            SaveLoadFeedback.Instance?.ShowMessage("Lokasi bangunan tidak valid");
+            SaveLoadFeedback.Instance?.ShowMessage(string.IsNullOrEmpty(previewLocationReason) ? "Lokasi bangunan tidak valid" : previewLocationReason);
             return false;
         }
 
@@ -669,9 +671,11 @@ public sealed class PropertySite : MonoBehaviour
         bool needsFieldReservation = !previewUsesFreePlacement ||
                                      previewDefinition.placementArea == BuildingPlacementArea.FieldOnly ||
                                      (previewDefinition.placementArea == BuildingPlacementArea.Anywhere && fieldArea != null);
-        if (isNewBuilding && needsFieldReservation && !TryReserveFootprint(
+        bool expandsPond = !isNewBuilding && previewDefinition.buildingId == "building.fish-pond" && previewLevel > currentLevel;
+        Action rollbackReservation = null;
+        if ((isNewBuilding || expandsPond) && needsFieldReservation && !TryReserveFootprint(
                 previewDefinition,
-                previewUsesFreePlacement ? previewPlacementPosition : buildingAnchor.position))
+                previewUsesFreePlacement ? previewPlacementPosition : buildingAnchor.position, out rollbackReservation))
         {
             previewLocationValid = false;
             ApplyPreviewColor(false);
@@ -681,8 +685,7 @@ public sealed class PropertySite : MonoBehaviour
 
         if (!useDebug && !SpendCost(targetLevel))
         {
-            if (isNewBuilding)
-                ReleaseFootprint();
+            rollbackReservation?.Invoke();
             SaveLoadFeedback.Instance?.ShowMessage("Transaksi konstruksi gagal");
             return false;
         }
@@ -1034,14 +1037,16 @@ public sealed class PropertySite : MonoBehaviour
 
     bool ValidatePreviewLocation(BuildingDefinitionSO definition)
     {
+        previewLocationReason = string.Empty;
         if (previewUsesFreePlacement)
         {
             if (definition.placementArea == BuildingPlacementArea.FieldOnly)
             {
                 if (!TryResolveFieldCoordinates(definition, previewPlacementPosition,
-                        out FieldArea pondField, out int startX, out int startZ) ||
-                    !pondField.CanPlaceBuilding(startX, startZ, definition.footprintWidth, definition.footprintDepth))
-                    return false;
+                        out FieldArea pondField, out int startX, out int startZ))
+                { previewLocationReason = "Pilih lokasi di dalam field"; return false; }
+                FieldFootprint(definition, pondField, out int width, out int depth);
+                if (!pondField.ValidateBuildingFootprint(startX, startZ, width, depth, null, out previewLocationReason)) return false;
                 return !HasPhysicalPlacementBlocker(
                     definition,
                     pondField.CellSize,
@@ -1077,15 +1082,15 @@ public sealed class PropertySite : MonoBehaviour
             );
         }
 
-        if (state == BuildingConstructionState.Completed && definition == activeDefinition)
+        if (state == BuildingConstructionState.Completed && definition == activeDefinition && definition.buildingId != "building.fish-pond")
             return true;
         float cellSize = fieldArea != null ? fieldArea.CellSize : 1f;
         if (reserveFieldFootprint || definition.placementArea == BuildingPlacementArea.FieldOnly)
         {
             if (!TryResolveFieldCoordinates(definition, out FieldArea area, out int startX, out int startZ))
                 return false;
-            if (!area.CanPlaceBuilding(startX, startZ, definition.footprintWidth, definition.footprintDepth))
-                return false;
+            FieldFootprint(definition, area, out int width, out int depth);
+            if (!area.ValidateBuildingFootprint(startX, startZ, width, depth, definition == activeDefinition ? siteId : null, out previewLocationReason)) return false;
             cellSize = area.CellSize;
         }
 
@@ -1132,10 +1137,11 @@ public sealed class PropertySite : MonoBehaviour
     {
         if (definition == null || buildingAnchor == null)
             return true;
+        Vector2 metres = PlacementMetres(definition, cellSize);
         Vector3 halfExtents = new(
-            definition.footprintWidth * cellSize * 0.5f,
+            metres.x * 0.5f,
             placementCheckHeight * 0.5f,
-            definition.footprintDepth * cellSize * 0.5f);
+            metres.y * 0.5f);
         Vector3 center = position + rotation * Vector3.up * halfExtents.y;
         int count = Physics.OverlapBoxNonAlloc(
             center,
@@ -1158,7 +1164,7 @@ public sealed class PropertySite : MonoBehaviour
             if (otherSite != null)
             {
                 if (otherSite != this && !otherSite.IsEmpty)
-                    return true;
+                { previewLocationReason = "Tapak terhalang bangunan lain"; return true; }
                 continue;
             }
             BuildingSite fixedSite = candidate.GetComponentInParent<BuildingSite>();
@@ -1166,10 +1172,10 @@ public sealed class PropertySite : MonoBehaviour
                 return true;
             WorldTree tree = candidate.GetComponentInParent<WorldTree>();
             if (tree != null && tree.IsAvailable)
-                return true;
+            { previewLocationReason = "Tapak terhalang pohon"; return true; }
             WorldGatherable gatherable = candidate.GetComponentInParent<WorldGatherable>();
             if (gatherable != null && gatherable.IsAvailable)
-                return true;
+            { previewLocationReason = "Bersihkan rumput, batu, atau resource di tapak"; return true; }
             if (candidate.GetComponentInParent<PlacedWorldItem>() != null ||
                 candidate.GetComponentInParent<BuildingPlacementBlocker>() != null)
                 return true;
@@ -1178,12 +1184,17 @@ public sealed class PropertySite : MonoBehaviour
     }
 
     bool TryReserveFootprint(BuildingDefinitionSO definition, Vector3 position)
+        => TryReserveFootprint(definition, position, out _);
+
+    bool TryReserveFootprint(BuildingDefinitionSO definition, Vector3 position, out Action rollback)
     {
+        rollback = null;
         bool anywhereOnField = definition.placementArea == BuildingPlacementArea.Anywhere && fieldArea != null;
         if (!reserveFieldFootprint && definition.placementArea != BuildingPlacementArea.FieldOnly && !anywhereOnField)
             return true;
-        return TryResolveFieldCoordinates(definition, position, out FieldArea area, out int x, out int z) &&
-               area.TryPlaceBuilding(x, z, definition.footprintWidth, definition.footprintDepth, siteId);
+        if (!TryResolveFieldCoordinates(definition, position, out FieldArea area, out int x, out int z)) return false;
+        FieldFootprint(definition, area, out int width, out int depth);
+        return area.TryPlaceBuilding(x, z, width, depth, siteId, definition == activeDefinition, out rollback);
     }
 
     void ReleaseFootprint()
@@ -1231,9 +1242,33 @@ public sealed class PropertySite : MonoBehaviour
         }
 
         fieldArea = area;
-        startX = centerX - definition.footprintWidth / 2;
-        startZ = centerZ - definition.footprintDepth / 2;
+        FieldFootprint(definition, area, out int width, out int depth);
+        startX = centerX - width / 2;
+        startZ = centerZ - depth / 2;
         return true;
+    }
+
+    Vector2 PlacementMetres(BuildingDefinitionSO definition, float cellSize)
+    {
+        int level = previewActive && previewDefinition == definition ? previewLevel : pendingLevel > 0 ? pendingLevel : Mathf.Max(1,currentLevel);
+        return definition.buildingId == "building.fish-pond" ? FishPondExterior.PlacementSizeMeters(level) :
+            new Vector2(definition.footprintWidth*cellSize, definition.footprintDepth*cellSize);
+    }
+
+    void FieldFootprint(BuildingDefinitionSO definition, FieldArea area, out int width, out int depth)
+    {
+        width = definition.footprintWidth; depth = definition.footprintDepth;
+        if (definition.buildingId != "building.fish-pond") return;
+        Vector2 metres = PlacementMetres(definition,area.CellSize);
+        Quaternion rotation = previewActive && previewUsesFreePlacement ? previewPlacementRotation : buildingAnchor.rotation;
+        Vector3 right = area.transform.InverseTransformDirection(rotation*Vector3.right);
+        Vector3 forward = area.transform.InverseTransformDirection(rotation*Vector3.forward);
+        width = Mathf.CeilToInt((Mathf.Abs(right.x)*metres.x+Mathf.Abs(forward.x)*metres.y)/area.CellSize-.0001f);
+        depth = Mathf.CeilToInt((Mathf.Abs(right.z)*metres.x+Mathf.Abs(forward.z)*metres.y)/area.CellSize-.0001f);
+        // Placement is snapped to a tile centre. Odd counts keep both halves covered;
+        // an even count would shift the reserved rectangle by half a tile.
+        if (width % 2 == 0) width++;
+        if (depth % 2 == 0) depth++;
     }
 
     bool CanAfford(BuildingLevelDefinition level, out string reason)
@@ -1369,7 +1404,18 @@ public sealed class PropertySite : MonoBehaviour
         {
             try
             {
-                previewObject = Instantiate(source, position, rotation);
+                // Reuse construction's visual-only clone. Inactive staging prevents Awake,
+                // OnEnable, persistent records and interaction UI before scripts are stripped.
+                var staging = new GameObject("PlacementPreview_Staging");
+                staging.SetActive(false);
+                try
+                {
+                    previewObject = ConstructionProjectVisuals.VisualClone(source, staging.transform);
+                    foreach (var body in previewObject.GetComponentsInChildren<Rigidbody>(true)) DestroyImmediate(body);
+                    previewObject.transform.SetPositionAndRotation(position, rotation);
+                    previewObject.transform.SetParent(null, true);
+                }
+                finally { Destroy(staging); }
             }
             catch (InvalidCastException exception)
             {
@@ -1457,6 +1503,7 @@ public sealed class PropertySite : MonoBehaviour
 
     void DestroyRuntimeCompletedVisual()
     {
+        if (runtimeCompletedVisual != null) runtimeCompletedVisual.SetActive(false);
         DestroySafely(runtimeCompletedVisual);
         runtimeCompletedVisual = null;
     }
@@ -1543,6 +1590,12 @@ public sealed class PropertySite : MonoBehaviour
         state = activeDefinition == null ? BuildingConstructionState.Available : data.state;
         currentLevel = activeDefinition != null ? Mathf.Max(0, data.currentLevel) : 0;
         pendingLevel = activeDefinition != null ? Mathf.Max(0, data.pendingLevel) : 0;
+        // Approved pond now has three stages. Preserve the site/fish IDs and all contents.
+        if (activeDefinition != null && activeDefinition.buildingId == "building.fish-pond")
+        {
+            currentLevel = Mathf.Min(currentLevel, 3);
+            pendingLevel = Mathf.Min(pendingLevel, 3);
+        }
         completionDay = activeDefinition != null ? Mathf.Max(0, data.completionDay) : 0;
         constructionProject?.Cancel();
         constructionProject = null;

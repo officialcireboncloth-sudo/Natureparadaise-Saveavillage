@@ -1,0 +1,21 @@
+action_id,activity,quantity,quantity_unit,stamina_delta,notes
+run,Berlari,1,game_hour,-5,Hanya waktu berlari aktif; bukan waktu diam.
+chop_large_tree,Menebang pohon besar,1,tree,-4,Kategori ukuran pohon besar.
+chop_small_tree,Menebang pohon kecil,1,tree,-2,Kategori ukuran pohon kecil.
+break_large_rock,Menghancurkan batu besar,1,rock,-3,Kategori ukuran batu besar.
+break_small_rock,Menghancurkan batu kecil,1,rock,-1,Kategori ukuran batu kecil.
+hoe,Mencangkul,9,action,-2,Berlaku di ladang maupun tambang.
+plant,Menanam,9,action,-2,Total biaya untuk sembilan kegiatan.
+water,Menyiram,9,action,-3,Total biaya untuk sembilan kegiatan.
+fertilize,Memupuk,9,action,-3,Total biaya untuk sembilan kegiatan.
+harvest,Memanen,9,action,-3,Total biaya untuk sembilan kegiatan.
+feed_animal,Memberi makan hewan,5,action,-3,Total biaya untuk lima kegiatan.
+brush_cow,Menggosok sapi,1,action,-1,
+milk_cow,Memerah susu sapi,1,action,-1,
+shear_sheep,Mencukur domba,1,action,-1,
+cast_fishing_line,Menurunkan kail,1,cast,-2,Biaya awal cast; biaya hasil memancing terpisah.
+catch_fish,Mendapat ikan,1,fishing_result,-2,Tambahan setelah cast; tidak bersamaan dengan hasil gagal.
+fail_fishing,Tidak mendapat ikan,1,fishing_result,-1,Tambahan setelah cast; tidak bersamaan dengan hasil berhasil.
+feed_fish,Menabur pakan ikan,1,action,-1,
+sickle_wild_grass,Menebas rumput liar dengan sabit,9,action,-1,Total biaya untuk sembilan kegiatan.
+clean_manure,Membersihkan kotoran kandang,5,action,-1,Total biaya untuk lima kegiatan.

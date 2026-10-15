@@ -16,7 +16,8 @@ public static class BarnApprovedExteriorSetup
     const string Definition = Root + "/Resources/Buildings/Barn Building.asset";
     const string Materials = Root + "/Pack/Toon Series/Toon Farm Pack/Models/Materials";
     const string Output = "ArtSource/Barn_A/Previews";
-    static readonly float[] Scales = { .75f, .875f, 1f, 1.125f, 1.25f };
+    // User requested +75% relative to the original five exterior levels.
+    static readonly float[] Scales = { 1.3125f, 1.53125f, 1.75f, 1.96875f, 2.1875f };
     static readonly int[] Triangles = { 3938, 1788, 368 };
     static readonly string[] ImportNames = { "Barn_A_High.fbx", "Barn_A_Medium.fbx", "Barn_A_Low.fbx" };
     static readonly float[] Thresholds = { .28f, .10f, .012f };

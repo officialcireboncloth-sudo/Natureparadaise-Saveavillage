@@ -39,7 +39,7 @@ public static class BarnApprovedExteriorValidation
                     Require(authoring != null, "Restored combined exterior Lv" + level);
                     Require(home.door == authoring.Entrance, "Animal entry follows active prefab Lv" + level);
                     Vector3 local = root.transform.InverseTransformPoint(home.Entry);
-                    float scale = .625f + .125f * level;
+                    float scale = (.625f + .125f * level) * 1.75f;
                     Require(Vector3.Distance(local, new Vector3(0, 0, 5.9f) * scale) < .001f,
                         "Portal entry rotated to front Lv" + level);
                     Require(Vector3.Dot(home.door.forward, root.transform.forward) > .999f, "Entrance matches placement direction");

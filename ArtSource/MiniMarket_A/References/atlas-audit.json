@@ -1,0 +1,206 @@
+{
+  "status": "EXISTING_ATLAS_SUPPORTS_STYLIZED_EXTERIOR",
+  "date": "2026-10-14",
+  "sourcePSD": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Textures/TFP_Atlas_1A.psd",
+  "sourceGUID": "522fcb2b5717c7640b460ee9ff73a78a",
+  "sourceSha256": "7fe0569f122bda89faca68565ea94bdb8be1431298424424f2776f23e987e231",
+  "dimensions": [
+    2048,
+    2048
+  ],
+  "material": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Models/Materials/TFP_Atlas_1A.mat",
+  "swatches": {
+    "plaster": {
+      "pixel": [
+        560,
+        2016
+      ],
+      "rgb": [
+        225,
+        220,
+        184
+      ],
+      "safeUvBottomLeft": [
+        0.267578125,
+        0.001953125,
+        0.279296875,
+        0.029296875
+      ]
+    },
+    "timber": {
+      "pixel": [
+        240,
+        1056
+      ],
+      "rgb": [
+        163,
+        115,
+        56
+      ],
+      "safeUvBottomLeft": [
+        0.111328125,
+        0.470703125,
+        0.123046875,
+        0.498046875
+      ]
+    },
+    "wood_shadow": {
+      "pixel": [
+        976,
+        1952
+      ],
+      "rgb": [
+        161,
+        126,
+        69
+      ],
+      "safeUvBottomLeft": [
+        0.470703125,
+        0.033203125,
+        0.482421875,
+        0.060546875
+      ]
+    },
+    "foundation": {
+      "pixel": [
+        656,
+        1056
+      ],
+      "rgb": [
+        176,
+        160,
+        148
+      ],
+      "safeUvBottomLeft": [
+        0.314453125,
+        0.470703125,
+        0.326171875,
+        0.498046875
+      ]
+    },
+    "metal": {
+      "pixel": [
+        912,
+        1760
+      ],
+      "rgb": [
+        49,
+        49,
+        49
+      ],
+      "safeUvBottomLeft": [
+        0.439453125,
+        0.126953125,
+        0.451171875,
+        0.154296875
+      ]
+    },
+    "lantern": {
+      "pixel": [
+        592,
+        2016
+      ],
+      "rgb": [
+        255,
+        217,
+        86
+      ],
+      "safeUvBottomLeft": [
+        0.283203125,
+        0.001953125,
+        0.294921875,
+        0.029296875
+      ]
+    },
+    "window": {
+      "pixel": [
+        1008,
+        1248
+      ],
+      "rgb": [
+        223,
+        188,
+        87
+      ],
+      "safeUvBottomLeft": [
+        0.486328125,
+        0.376953125,
+        0.498046875,
+        0.404296875
+      ]
+    },
+    "awning_ivory": {
+      "rgb": [
+        255,
+        246,
+        236
+      ],
+      "safeUvBottomLeft": [
+        0.173828125,
+        0.001953125,
+        0.185546875,
+        0.029296875
+      ],
+      "pixel": [
+        368,
+        2016
+      ]
+    },
+    "olive_coping": {
+      "pixel": [
+        944,
+        2016
+      ],
+      "rgb": [
+        81,
+        116,
+        78
+      ],
+      "safeUvBottomLeft": [
+        0.455078125,
+        0.001953125,
+        0.466796875,
+        0.029296875
+      ]
+    },
+    "olive_awning": {
+      "pixel": [
+        304,
+        1632
+      ],
+      "rgb": [
+        91,
+        118,
+        67
+      ],
+      "safeUvBottomLeft": [
+        0.142578125,
+        0.189453125,
+        0.154296875,
+        0.216796875
+      ]
+    },
+    "leaf_emblem": {
+      "pixel": [
+        48,
+        1184
+      ],
+      "rgb": [
+        123,
+        146,
+        49
+      ],
+      "safeUvBottomLeft": [
+        0.017578125,
+        0.408203125,
+        0.029296875,
+        0.435546875
+      ]
+    }
+  },
+  "limitations": [
+    "Palette sampling supports stylized colors; it does not reproduce reference wood grain or roof panel artwork.",
+    "SUPERMARKET text and leaf emblem require mesh geometry; the atlas does not contain that exact storefront sign.",
+    "Opaque amber glass proposed; transparent furnished interior is outside the exterior scope."
+  ]
+}

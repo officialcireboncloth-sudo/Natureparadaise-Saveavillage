@@ -124,6 +124,7 @@ public sealed class TerrainTreeManager : MonoBehaviour
             return;
         }
         runtimeHost = targetTerrain.GetComponent<TerrainRuntimeDataHost>();
+        if (runtimeHost == null) runtimeHost = targetTerrain.gameObject.AddComponent<TerrainRuntimeDataHost>();
         terrainCollider = targetTerrain.GetComponent<TerrainCollider>();
         if (runtimeHost != null && runtimeHost.EnsureInitialized())
         {

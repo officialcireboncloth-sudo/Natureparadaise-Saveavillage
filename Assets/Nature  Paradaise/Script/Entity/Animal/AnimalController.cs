@@ -345,9 +345,10 @@ public class AnimalController : MonoBehaviour
         }
 
         // Hapus 1 Cabbage dari inventory
-        if (!playerInv.Remove(cabbageItem, 1))
+        if (!StaminaBalance.Can(playerInv,"feed_animal") || !playerInv.Remove(cabbageItem, 1))
             return;
 
+        StaminaBalance.Spend(playerInv,"feed_animal");
         // Tambahkan hunger
         hunger += cabbageHunger;
 
@@ -412,6 +413,11 @@ public class AnimalController : MonoBehaviour
         }
     }
 
+    float ProductStaminaCost => growth!=null && growth.Type==AnimalType.Sheep ? StaminaBalance.Current.Cost("shear_sheep") : growth==null || growth.Type==AnimalType.Cow ? StaminaBalance.Current.Cost("milk_cow") : 0f;
+    float BrushStaminaCost => growth!=null && growth.Type==AnimalType.Cow ? StaminaBalance.Current.Cost("brush_cow") : 0f;
+    bool CanCare(float cost) => playerInv==null || playerInv.GetComponent<PlayerStatusSystem>()==null || playerInv.GetComponent<PlayerStatusSystem>().CanSpendStamina(cost);
+    void SpendCare(float cost) { playerInv?.GetComponent<PlayerStatusSystem>()?.TrySpendStamina(cost); }
+
     public void TakeMilk()
     {
         if (IsCareBusy || CurrentCareAction != null || playerInv == null || GameplayPauseMenu.BlocksGameplayInput) return;
@@ -431,6 +437,7 @@ public class AnimalController : MonoBehaviour
             return;
         }
 
+        if(!CanCare(ProductStaminaCost)) return;
         productCollectBusy=true;
         productProgress=0;
         PlayerController controller=playerInv != null ? playerInv.GetComponent<PlayerController>() : null;
@@ -515,8 +522,9 @@ public class AnimalController : MonoBehaviour
         {
             int quality=growth != null?growth.ProductQualityLevel:1;
             int amount=Mathf.Max(1,shearing? shearingAmount : productAmount);
-            if(playerInv != null && playerInv.Add(milkItem,amount,quality))
+            if(playerInv != null && CanCare(ProductStaminaCost) && playerInv.Add(milkItem,amount,quality))
             {
+                SpendCare(ProductStaminaCost);
                 milkReady=false;
                 growth?.MarkProductCollected();
                 sheepWoolVisual?.Refresh();
@@ -560,7 +568,7 @@ public class AnimalController : MonoBehaviour
             }
             yield return null;
         }
-        growth?.Pet();
+        if(growth!=null && CanCare(BrushStaminaCost)) { SpendCare(BrushStaminaCost);growth.Pet(); }
         FinishCareAction(controller);
     }
 
@@ -606,6 +614,7 @@ public class AnimalController : MonoBehaviour
     public bool TryStartBrush()
     {
         if (IsCareBusy || CurrentCareAction != null || playerInv == null || GameplayPauseMenu.BlocksGameplayInput || growth == null || !growth.HasBeenBorn || growth.PetToday) return false;
+        if(!CanCare(BrushStaminaCost)) return false;
         AnimalRoutine routine=growth.GetComponent<AnimalRoutine>();
         if(routine!=null && !routine.AcquireCareLock(this)) return false;
         brushLockedRoutine=routine;

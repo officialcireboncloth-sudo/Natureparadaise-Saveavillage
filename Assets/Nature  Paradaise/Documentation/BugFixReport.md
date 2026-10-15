@@ -1,5 +1,24 @@
 # Bug Fix Report
 
+## Pohon tetap berdiri setelah rubuh — 12 Oktober 2026
+
+Visual pohon Terrain tetap berdiri tanpa interaksi setelah pohon interaktif rubuh.
+`TerrainLayerVegetation` mengganti TerrainData yang ditampilkan dengan salinan sendiri,
+sedangkan `TerrainTreeManager` menyembunyikan pohon pada salinan milik host. Reproduksi
+Play Mode membuktikan data berbeda dan visual Terrain masih memiliki scale setelah
+pohon berstatus `Depleted`.
+
+Vegetasi kini memakai `TerrainRuntimeDataHost` yang sama dengan pohon dan rumput liar.
+Ketiga konsumen memastikan host tersedia pada Terrain target, termasuk ketika host
+belum dipasang. Vegetasi tidak lagi menghapus atau mengembalikan data saat dinonaktifkan.
+
+Tes Play Mode terisolasi memakai prefab Oak dan jalur `Chop`/jatuh/drop asli: tiga
+urutan inisialisasi lulus, tidak ada visual duplikat, kayu hanya muncul sekali,
+capture/restore tidak menghidupkan pohon atau mengulang reward, disable/re-enable
+vegetasi aman, jadwal regrow bekerja, serta TerrainData sumber tidak berubah.
+Map dan save pemain tidak dipakai dalam tes. Bukti sebelum/sesudah ada di
+`Documentation/VisualReviews/Tree-Fall-2026-10-12-before.txt` dan `...-after.txt`.
+
 ## Market Stand
 
 ### Bug

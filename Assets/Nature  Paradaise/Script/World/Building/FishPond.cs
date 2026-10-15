@@ -42,13 +42,14 @@ public static class FishPondService
     static readonly Dictionary<string, FishPondSaveData> Records = new(StringComparer.Ordinal);
     public static event Action Changed;
 
-    public static int Capacity(int level) => Mathf.Clamp(level, 1, 4) switch
+    static BuildingDefinitionSO capacityDefinition;
+    public static int Capacity(int level)
     {
-        1 => 99,
-        2 => 300,
-        3 => 999,
-        _ => 999
-    };
+        level = Mathf.Clamp(level, 1, 3);
+        if (capacityDefinition == null) capacityDefinition = Resources.Load<BuildingDefinitionSO>("Buildings/Fish Pond Building");
+        BuildingLevelDefinition data = capacityDefinition != null ? capacityDefinition.GetLevel(level) : null;
+        return data != null ? Mathf.Max(1, data.capacity) : level == 1 ? 50 : level == 2 ? 100 : 250;
+    }
 
     // Setiap pond hanya memiliki satu slot Fish Food. Slot harus diisi lagi
     // setelah pakan dipakai pada reset harian.
@@ -68,7 +69,7 @@ public static class FishPondService
             record = new FishPondSaveData { pondId = pondId };
             Records.Add(pondId, record);
         }
-        record.level = Mathf.Clamp(level, 1, 4);
+        record.level = Mathf.Clamp(level, 1, 3);
         record.feedStock = Mathf.Clamp(record.feedStock, 0, FeedCapacity(record.level));
         if (owner != null) { record.position = owner.position; record.eulerAngles = owner.eulerAngles; }
         record.fish ??= new List<FishPondFishData>();
@@ -190,7 +191,7 @@ public static class FishPondService
         FishPondSaveData clone = new()
         {
             pondId = source.pondId,
-            level = source.level,
+            level = Mathf.Clamp(source.level, 1, 3),
             fedForGrowth = source.fedForGrowth,
             feedUnitsUsed = source.feedUnitsUsed,
             feedStock = source.feedStock,
@@ -227,9 +228,9 @@ public static class FishPondService
 public sealed class FishPond : MonoBehaviour
 {
     [SerializeField] string pondId;
-    [SerializeField, Range(1, 4)] int fallbackLevel = 1;
+    [SerializeField, Range(1, 3)] int fallbackLevel = 1;
     [SerializeField] ItemSO fishFeed;
-    [SerializeField, Range(1, 10)] int maximumVisibleFish = 8;
+    [SerializeField, Range(1, 18)] int maximumVisibleFish = 8;
     [SerializeField, Min(0.5f)] float interactionRadius = 3.5f;
     [SerializeField] KeyCode interactKey = KeyCode.E;
     [Header("Editable Feed Stations")]
@@ -244,6 +245,7 @@ public sealed class FishPond : MonoBehaviour
     PlayerController player;
     PropertySite site;
     Transform visualRoot;
+    FishPondExterior exterior;
     bool panelOpen;
     string feedback = string.Empty;
     WorldDebugStatusLabel combinedDebugLabel;
@@ -252,7 +254,7 @@ public sealed class FishPond : MonoBehaviour
     public IReadOnlyList<FishPondFishData> Fish => record?.fish;
     public string Feedback => feedback;
     public bool IsPanelOpen => panelOpen;
-    public int Level => site != null && site.CurrentLevel > 0 ? site.CurrentLevel : fallbackLevel;
+    public int Level => Mathf.Clamp(site != null && site.CurrentLevel > 0 ? site.CurrentLevel : fallbackLevel, 1, 3);
     public int Capacity => FishPondService.Capacity(Level);
     public int FishCount => record?.fish?.Count ?? 0;
     int FeedNeeded => FishCount > 0 ? 1 : 0;
@@ -263,6 +265,7 @@ public sealed class FishPond : MonoBehaviour
     void Awake()
     {
         site = GetComponentInParent<PropertySite>();
+        exterior = GetComponent<FishPondExterior>();
         if (fishFeed == null) fishFeed = Resources.Load<ItemSO>("Items/Fish/Fish Feed");
         if (string.IsNullOrWhiteSpace(pondId)) pondId = site != null
             ? FishPondService.IdForSite(site.SiteId)
@@ -289,7 +292,7 @@ public sealed class FishPond : MonoBehaviour
     public void Configure(string id, int level, ItemSO feed)
     {
         pondId = id;
-        fallbackLevel = Mathf.Clamp(level, 1, 4);
+        fallbackLevel = Mathf.Clamp(level, 1, 3);
         fishFeed = feed;
     }
 
@@ -335,7 +338,8 @@ public sealed class FishPond : MonoBehaviour
         // Kolam berukuran besar membuat player sering lebih dekat ke collider kolam
         // daripada marker trough. Saat Fish Feed sedang dipegang, prioritaskan aksi
         // memberi pakan di seluruh area interaksi kolam dan jangan membuka UI ikan.
-        float pondSurfaceDistance=HorizontalSurfaceDistance(transform,inventory.transform.position);
+        Transform pondTarget = exterior != null && exterior.InteractionPoint != null ? exterior.InteractionPoint : transform;
+        float pondSurfaceDistance=HorizontalSurfaceDistance(pondTarget,inventory.transform.position);
         bool pondInRange=pondSurfaceDistance<=interactionRadius;
         if(holdingFishFeed && pondInRange)
         {
@@ -349,7 +353,7 @@ public sealed class FishPond : MonoBehaviour
                 DepositHeldFishFeed(hotbar,heldStack);
             return;
         }
-        if (feedingPoint != null && troughDistance <= feedInteractionRadius)
+        if (feedingPoint != null && troughDistance <= feedInteractionRadius && (holdingFishFeed || !pondInRange))
         {
             string action=FeedSpace<=0
                 ? "Tempat pakan ikan penuh"
@@ -367,12 +371,12 @@ public sealed class FishPond : MonoBehaviour
             }
             return;
         }
-        if (!PlayerInteractionTarget.ContainsPickup(inventory.transform, transform, interactionRadius)) return;
-        float distance = Vector3.Distance(inventory.transform.position, transform.position);
-        WorldInteractionPrompt.Request(this, transform,
+        if (!PlayerInteractionTarget.ContainsPickup(inventory.transform, pondTarget, interactionRadius)) return;
+        float distance = Vector3.Distance(inventory.transform.position, pondTarget.position);
+        WorldInteractionPrompt.Request(this, pondTarget,
             $"{interactKey}: Fish Pond Lv.{Level} — {FishCount}/{Capacity} | {PondFeedStatus()}",
             distance, 1.2f);
-        if (PlayerInteractionTarget.PressPickup(inventory.transform, transform, interactKey, interactionRadius)) OpenPanel();
+        if (PlayerInteractionTarget.PressPickup(inventory.transform, pondTarget, interactKey, interactionRadius)) OpenPanel();
     }
 
     public void AddFish(int slotIndex)
@@ -479,7 +483,9 @@ public sealed class FishPond : MonoBehaviour
         ItemStack stack = inventory?.GetSlot(slotIndex);
         if (!IsFishFeed(stack) || amount <= 0) { feedback = "Hanya Fish Feed yang dapat dimasukkan."; return; }
         int moved = Mathf.Min(1, stack.count, FeedSpace);
+        if(!StaminaBalance.Can(inventory,"feed_fish")) { feedback="Stamina tidak cukup."; return; }
         if (moved <= 0 || !inventory.RemoveFromSlot(slotIndex, moved)) { feedback = "Tempat pakan penuh."; return; }
+        StaminaBalance.Spend(inventory,"feed_fish");
         record.feedStock += moved;
         feedback = $"Fish Feed x{moved} dimasukkan. Stok {FeedStock}/{FeedCapacity}.";
         Commit();
@@ -560,7 +566,7 @@ public sealed class FishPond : MonoBehaviour
 
     void RebuildVisuals()
     {
-        if (visualRoot != null) Destroy(visualRoot.gameObject);
+        if (visualRoot != null) { visualRoot.gameObject.SetActive(false); Destroy(visualRoot.gameObject); }
         visualFish.Clear(); visualOrigins.Clear();
         visualRoot = new GameObject("FishVisuals_Runtime").transform;
         visualRoot.SetParent(transform, false);
@@ -574,14 +580,35 @@ public sealed class FishPond : MonoBehaviour
                 ? Instantiate(item.worldPrefab)
                 : GameObject.CreatePrimitive(PrimitiveType.Capsule);
             model.name = $"FishVisual_{index}_{fish.itemName}";
+            if (item?.worldPrefab == null) model.name += "_Placeholder";
             model.transform.SetParent(visualRoot, false);
             foreach (Collider collider in model.GetComponentsInChildren<Collider>(true)) collider.enabled = false;
+            foreach (Rigidbody body in model.GetComponentsInChildren<Rigidbody>(true)) { body.isKinematic=true;body.useGravity=false; }
             float scale = FishMeasurement.GetSizeTier(item, fish.sizeCm) switch
             { FishSizeTier.Small => 0.7f, FishSizeTier.Medium => 1f, FishSizeTier.Large => 1.3f, _ => 1.6f };
-            model.transform.localScale = new Vector3(0.32f, 0.12f, 0.12f) * scale;
-            model.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
+            if (exterior != null)
+            {
+                // Normalize real item prefab bounds instead of stretching every species into a capsule.
+                model.transform.localRotation = item?.worldPrefab == null ? Quaternion.Euler(0,0,90) : Quaternion.identity;
+                Bounds b = new(Vector3.zero,Vector3.zero);bool first=true;
+                foreach (Renderer r in model.GetComponentsInChildren<Renderer>())
+                {
+                    for(int x=-1;x<=1;x+=2)for(int y=-1;y<=1;y+=2)for(int z=-1;z<=1;z+=2)
+                    {
+                        Vector3 q=transform.InverseTransformPoint(r.bounds.center+Vector3.Scale(r.bounds.extents,new Vector3(x,y,z)));
+                        if(first){b=new Bounds(q,Vector3.zero);first=false;}else b.Encapsulate(q);
+                    }
+                }
+                float factor=Mathf.Min(Mathf.Clamp(.6f*scale,.45f,.9f)/Mathf.Max(.001f,Mathf.Max(b.size.x,b.size.z)),.18f/Mathf.Max(.001f,b.size.y));
+                model.transform.localScale *= factor;
+            }
+            else
+            {
+                model.transform.localScale = new Vector3(0.32f, 0.12f, 0.12f) * scale;
+                model.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
+            }
             float angle = index / (float)Mathf.Max(1, visible) * Mathf.PI * 2f;
-            Vector3 origin = new(Mathf.Cos(angle) * 0.32f, 0.05f, Mathf.Sin(angle) * 0.32f);
+            Vector3 origin = exterior != null ? exterior.SwimOrigin(index) : new(Mathf.Cos(angle) * 0.32f, 0.05f, Mathf.Sin(angle) * 0.32f);
             model.transform.localPosition = origin;
             visualFish.Add(model.transform); visualOrigins.Add(origin);
             Renderer renderer = model.GetComponentInChildren<Renderer>();
@@ -597,8 +624,10 @@ public sealed class FishPond : MonoBehaviour
             Transform fish = visualFish[index]; if (fish == null) continue;
             float phase = Time.unscaledTime * (0.65f + index * 0.035f) + index;
             Vector3 origin = visualOrigins[index];
-            fish.localPosition = origin + new Vector3(Mathf.Sin(phase) * 0.18f, Mathf.Sin(phase * 1.4f) * 0.03f, Mathf.Cos(phase) * 0.12f);
-            fish.localRotation = Quaternion.Euler(0f, -phase * Mathf.Rad2Deg, 90f);
+            Vector3 position = origin + new Vector3(Mathf.Sin(phase) * 0.18f, Mathf.Sin(phase * 1.4f) * 0.02f, Mathf.Cos(phase) * 0.12f);
+            fish.localPosition = exterior == null || exterior.IsSwimPoint(position) ? position : origin;
+            bool placeholder = fish.name.EndsWith("_Placeholder");
+            fish.localRotation = Quaternion.Euler(0f, -phase * Mathf.Rad2Deg, exterior == null || placeholder ? 90f : 0f);
         }
     }
 

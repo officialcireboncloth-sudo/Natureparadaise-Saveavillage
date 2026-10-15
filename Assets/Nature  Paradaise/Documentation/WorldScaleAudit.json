@@ -1,0 +1,914 @@
+[
+  {
+    "category": "Player",
+    "path": "Assets/Nature  Paradaise/Prefabs/Player/PlayerVisual.prefab",
+    "name": "PlayerVisual",
+    "before": {
+      "x": 1.703931450843811,
+      "y": 3.59999942779541,
+      "z": 1.885269045829773
+    },
+    "after": {
+      "x": 0.7099715506985268,
+      "y": 1.5,
+      "z": 0.7855288939521938
+    },
+    "note": "Original dimensions multiplied uniformly by 1.5 / 3.6; original proportions retained"
+  },
+  {
+    "category": "Held tool",
+    "path": "Assets/Nature  Paradaise/Prefabs/Player/Tools/Held_WateringCan.prefab",
+    "name": "WateringCan",
+    "before": {
+      "x": 0.8500000834465027,
+      "y": 0.7205060720443726,
+      "z": 0.45354291796684265
+    },
+    "after": {
+      "x": 0.35416675772933287,
+      "y": 0.3002109110690611,
+      "z": 0.18897624585648312
+    },
+    "note": "Original dimensions multiplied uniformly by 1.5 / 3.6; original proportions retained"
+  },
+  {
+    "category": "Held tool",
+    "path": "Assets/Nature  Paradaise/Prefabs/Player/Tools/Held_FishingRod.prefab",
+    "name": "FishingRod",
+    "before": {
+      "x": 0.3380509912967682,
+      "y": 0.9420310258865356,
+      "z": 2.572195291519165
+    },
+    "after": {
+      "x": 0.1408546020952228,
+      "y": 0.3925129898409827,
+      "z": 1.0717482084827754
+    },
+    "note": "Original dimensions multiplied uniformly by 1.5 / 3.6; original proportions retained"
+  },
+  {
+    "category": "Held tool",
+    "path": "Assets/Nature  Paradaise/Prefabs/Player/Tools/Held_Shears.prefab",
+    "name": "Shears",
+    "before": {
+      "x": 0.12792818248271942,
+      "y": 0.08849047124385834,
+      "z": 0.31999996304512024
+    },
+    "after": {
+      "x": 0.05330341784014985,
+      "y": 0.03687103554543424,
+      "z": 0.13333333912823025
+    },
+    "note": "Original dimensions multiplied uniformly by 1.5 / 3.6; original proportions retained"
+  },
+  {
+    "category": "Held tool",
+    "path": "Assets/Nature  Paradaise/Prefabs/Player/Tools/Held_Brush.prefab",
+    "name": "Brush",
+    "before": {
+      "x": 0.2199999988079071,
+      "y": 0.12084680795669556,
+      "z": 0.14359599351882935
+    },
+    "after": {
+      "x": 0.09166668073998781,
+      "y": 0.05035284465199226,
+      "z": 0.059831673476167274
+    },
+    "note": "Original dimensions multiplied uniformly by 1.5 / 3.6; original proportions retained"
+  },
+  {
+    "category": "Held tool",
+    "path": "Assets/Nature  Paradaise/Prefabs/Player/Tools/Held_Milker.prefab",
+    "name": "Milker",
+    "before": {
+      "x": 0.44999998807907104,
+      "y": 0.3344583213329315,
+      "z": 0.21702438592910767
+    },
+    "after": {
+      "x": 0.1875000248352726,
+      "y": 0.13935765603902436,
+      "z": 0.09042684184342095
+    },
+    "note": "Original dimensions multiplied uniformly by 1.5 / 3.6; original proportions retained"
+  },
+  {
+    "category": "Held tool",
+    "path": "Assets/Nature  Paradaise/Prefabs/Player/Tools/Held_Pickaxe.prefab",
+    "name": "Pickaxe",
+    "before": {
+      "x": 0.3866422176361084,
+      "y": 0.7718108892440796,
+      "z": 1.0997321605682373
+    },
+    "after": {
+      "x": 0.1611009496213515,
+      "y": 0.32158792163339,
+      "z": 0.4582218064024935
+    },
+    "note": "Original dimensions multiplied uniformly by 1.5 / 3.6; original proportions retained"
+  },
+  {
+    "category": "Held tool",
+    "path": "Assets/Nature  Paradaise/Prefabs/Player/Tools/Held_Axe.prefab",
+    "name": "Axe",
+    "before": {
+      "x": 0.24076208472251892,
+      "y": 0.7472689151763916,
+      "z": 1.8500001430511475
+    },
+    "after": {
+      "x": 0.1003175512460949,
+      "y": 0.31136209747983573,
+      "z": 0.7708335154586657
+    },
+    "note": "Original dimensions multiplied uniformly by 1.5 / 3.6; original proportions retained"
+  },
+  {
+    "category": "Held tool",
+    "path": "Assets/Nature  Paradaise/Prefabs/Player/Tools/Held_Hammer.prefab",
+    "name": "Hammer",
+    "before": {
+      "x": 0.271238774061203,
+      "y": 0.7221039533615112,
+      "z": 1.7999999523162842
+    },
+    "after": {
+      "x": 0.11301617382227164,
+      "y": 0.30087669505702574,
+      "z": 0.7500000993410904
+    },
+    "note": "Original dimensions multiplied uniformly by 1.5 / 3.6; original proportions retained"
+  },
+  {
+    "category": "Held tool",
+    "path": "Assets/Nature  Paradaise/Prefabs/Player/Tools/Held_Sickle.prefab",
+    "name": "Sickle",
+    "before": {
+      "x": 0.1284502148628235,
+      "y": 0.8489562273025513,
+      "z": 1.1902899742126465
+    },
+    "after": {
+      "x": 0.053520931366432725,
+      "y": 0.3537318176002212,
+      "z": 0.49595423475173867
+    },
+    "note": "Original dimensions multiplied uniformly by 1.5 / 3.6; original proportions retained"
+  },
+  {
+    "category": "Held tool",
+    "path": "Assets/Nature  Paradaise/Prefabs/Player/Tools/Held_Hoe.prefab",
+    "name": "Hoe",
+    "before": {
+      "x": 0.4315251410007477,
+      "y": 0.7682926654815674,
+      "z": 1.5
+    },
+    "after": {
+      "x": 0.17980217066243023,
+      "y": 0.32012199483267384,
+      "z": 0.6250000993410904
+    },
+    "note": "Original dimensions multiplied uniformly by 1.5 / 3.6; original proportions retained"
+  },
+  {
+    "category": "Animal",
+    "path": "Assets/Nature  Paradaise/Prefabs/Animals/Chicken.prefab",
+    "name": "Chicken",
+    "before": {
+      "x": 0.7724902033805847,
+      "y": 1.2000000476837158,
+      "z": 1.1501247882843018
+    },
+    "after": {
+      "x": 0.22530964265267056,
+      "y": 0.3500000139077505,
+      "z": 0.335453063249588
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Animal",
+    "path": "Assets/Nature  Paradaise/Prefabs/Animals/Companions/Dog Companion.prefab",
+    "name": "Dog Companion",
+    "before": {
+      "x": 0.7838096022605896,
+      "y": 1.0649936199188232,
+      "z": 1.6037790775299072
+    },
+    "after": {
+      "x": 0.4047867341581436,
+      "y": 0.5500000102867781,
+      "z": 0.8282476933583912
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Animal",
+    "path": "Assets/Nature  Paradaise/Prefabs/Animals/Companions/Horse Companion.prefab",
+    "name": "Horse Companion",
+    "before": {
+      "x": 1.2568188905715942,
+      "y": 3.3567137718200684,
+      "z": 3.888124465942383
+    },
+    "after": {
+      "x": 0.6365130425988984,
+      "y": 1.699999985728338,
+      "z": 1.9691317121233423
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Animal",
+    "path": "Assets/Nature  Paradaise/Prefabs/Animals/Cow.prefab",
+    "name": "Cow",
+    "before": {
+      "x": 3.1552207469940186,
+      "y": 4.900000095367432,
+      "z": 8.091574668884277
+    },
+    "after": {
+      "x": 0.8113424777984618,
+      "y": 1.2600000245230538,
+      "z": 2.080690629141671
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Animal",
+    "path": "Assets/Nature  Paradaise/Prefabs/Animals/Visuals/Chicken Adult.prefab",
+    "name": "Chicken Adult",
+    "before": {
+      "x": 0.38624510169029236,
+      "y": 0.6000000238418579,
+      "z": 0.5750623941421509
+    },
+    "after": {
+      "x": 0.38624510169029236,
+      "y": 0.6000000238418579,
+      "z": 0.5750623941421509
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Animal",
+    "path": "Assets/Nature  Paradaise/Prefabs/Animals/Visuals/Chicken Chick.prefab",
+    "name": "Chicken Chick",
+    "before": {
+      "x": 0.22231388092041016,
+      "y": 0.3999999761581421,
+      "z": 0.35130536556243896
+    },
+    "after": {
+      "x": 0.22231388092041016,
+      "y": 0.3999999761581421,
+      "z": 0.35130536556243896
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Animal",
+    "path": "Assets/Nature  Paradaise/Prefabs/Animals/Visuals/Chicken Egg.prefab",
+    "name": "Chicken Egg",
+    "before": {
+      "x": 1.560227870941162,
+      "y": 0.17999999225139618,
+      "z": 1.4533779621124268
+    },
+    "after": {
+      "x": 1.560227870941162,
+      "y": 0.17999999225139618,
+      "z": 1.4533779621124268
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Animal",
+    "path": "Assets/Nature  Paradaise/Prefabs/Animals/Visuals/Cow Adult.prefab",
+    "name": "Cow Adult",
+    "before": {
+      "x": 0.9014917016029358,
+      "y": 1.3999998569488525,
+      "z": 2.3118784427642822
+    },
+    "after": {
+      "x": 0.9014917016029358,
+      "y": 1.3999998569488525,
+      "z": 2.3118784427642822
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Animal",
+    "path": "Assets/Nature  Paradaise/Prefabs/Animals/Visuals/Cow Calf.prefab",
+    "name": "Cow Calf",
+    "before": {
+      "x": 0.7424540519714355,
+      "y": 1.0499998331069946,
+      "z": 1.4203840494155884
+    },
+    "after": {
+      "x": 0.7424540519714355,
+      "y": 1.0499998331069946,
+      "z": 1.4203840494155884
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/PlayerHouse/Exterior/HouseExterior_Lv1.prefab",
+    "name": "HouseExterior_Lv1",
+    "before": {
+      "x": 10.090001106262207,
+      "y": 9.052677154541016,
+      "z": 11.69000244140625
+    },
+    "after": {
+      "x": 6.054000663757324,
+      "y": 5.431606292724609,
+      "z": 7.01400146484375
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/PlayerHouse/Exterior/HouseExterior_Lv2.prefab",
+    "name": "HouseExterior_Lv2",
+    "before": {
+      "x": 14.090002059936523,
+      "y": 9.352678298950195,
+      "z": 13.29000186920166
+    },
+    "after": {
+      "x": 8.454001235961913,
+      "y": 5.611606979370117,
+      "z": 7.974001121520995
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/PlayerHouse/Exterior/HouseExterior_Lv3.prefab",
+    "name": "HouseExterior_Lv3",
+    "before": {
+      "x": 14.790000915527344,
+      "y": 9.352678298950195,
+      "z": 12.89000129699707
+    },
+    "after": {
+      "x": 8.874000549316406,
+      "y": 5.611606979370117,
+      "z": 7.734000778198242
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/PlayerHouse/Exterior/HouseExterior_Lv4.prefab",
+    "name": "HouseExterior_Lv4",
+    "before": {
+      "x": 14.790000915527344,
+      "y": 9.352678298950195,
+      "z": 12.89000129699707
+    },
+    "after": {
+      "x": 8.874000549316406,
+      "y": 5.611606979370117,
+      "z": 7.734000778198242
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/PlayerHouse/Exterior/HouseExterior_Lv5.prefab",
+    "name": "HouseExterior_Lv5",
+    "before": {
+      "x": 19.035001754760742,
+      "y": 9.352677345275879,
+      "z": 13.490001678466797
+    },
+    "after": {
+      "x": 11.421001052856445,
+      "y": 5.611606407165527,
+      "z": 8.094001007080077
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Barn/Exterior/BarnExterior_Lv1.prefab",
+    "name": "BarnExterior_Lv1",
+    "before": {
+      "x": 11.68125057220459,
+      "y": 8.925002098083496,
+      "z": 14.306249618530273
+    },
+    "after": {
+      "x": 7.008750343322753,
+      "y": 5.3550012588500975,
+      "z": 8.583749771118164
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Barn/Exterior/BarnExterior_Lv2.prefab",
+    "name": "BarnExterior_Lv2",
+    "before": {
+      "x": 13.62812614440918,
+      "y": 10.412501335144043,
+      "z": 16.690624237060547
+    },
+    "after": {
+      "x": 8.176875686645507,
+      "y": 6.247500801086425,
+      "z": 10.014374542236327
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Barn/Exterior/BarnExterior_Lv3.prefab",
+    "name": "BarnExterior_Lv3",
+    "before": {
+      "x": 15.575000762939453,
+      "y": 11.900001525878906,
+      "z": 19.075000762939453
+    },
+    "after": {
+      "x": 9.345000457763671,
+      "y": 7.140000915527343,
+      "z": 11.44500045776367
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Barn/Exterior/BarnExterior_Lv4.prefab",
+    "name": "BarnExterior_Lv4",
+    "before": {
+      "x": 17.521875381469727,
+      "y": 13.38750171661377,
+      "z": 21.459373474121094
+    },
+    "after": {
+      "x": 10.513125228881835,
+      "y": 8.03250102996826,
+      "z": 12.875624084472657
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Barn/Exterior/BarnExterior_Lv5.prefab",
+    "name": "BarnExterior_Lv5",
+    "before": {
+      "x": 19.468751907348633,
+      "y": 14.875000953674316,
+      "z": 23.84375
+    },
+    "after": {
+      "x": 11.68125114440918,
+      "y": 8.92500057220459,
+      "z": 14.30625
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv1.prefab",
+    "name": "CoopExterior_Lv1",
+    "before": {
+      "x": 5.512500762939453,
+      "y": 4.305000305175781,
+      "z": 6.52500057220459
+    },
+    "after": {
+      "x": 4.13437557220459,
+      "y": 3.228750228881836,
+      "z": 4.893750429153442
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv2.prefab",
+    "name": "CoopExterior_Lv2",
+    "before": {
+      "x": 6.431251049041748,
+      "y": 5.022500514984131,
+      "z": 7.6125006675720215
+    },
+    "after": {
+      "x": 4.823438286781311,
+      "y": 3.766875386238098,
+      "z": 5.709375500679016
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv3.prefab",
+    "name": "CoopExterior_Lv3",
+    "before": {
+      "x": 7.350001335144043,
+      "y": 5.740000247955322,
+      "z": 8.700000762939453
+    },
+    "after": {
+      "x": 5.512501001358032,
+      "y": 4.305000185966492,
+      "z": 6.52500057220459
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv4.prefab",
+    "name": "CoopExterior_Lv4",
+    "before": {
+      "x": 8.26875114440918,
+      "y": 6.457499980926514,
+      "z": 9.787501335144043
+    },
+    "after": {
+      "x": 6.201563358306885,
+      "y": 4.843124985694885,
+      "z": 7.340626001358032
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Coop/Exterior/CoopExterior_Lv5.prefab",
+    "name": "CoopExterior_Lv5",
+    "before": {
+      "x": 9.187501907348633,
+      "y": 7.175000190734863,
+      "z": 10.875001907348633
+    },
+    "after": {
+      "x": 6.890626430511475,
+      "y": 5.3812501430511475,
+      "z": 8.156251430511475
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Buildings/Shed/ShedExterior_Lv1.prefab",
+    "name": "ShedExterior_Lv1",
+    "before": {
+      "x": 1.7134798765182495,
+      "y": 2.1166298389434814,
+      "z": 2.799999952316284
+    },
+    "after": {
+      "x": 1.7134798765182495,
+      "y": 2.1166298389434814,
+      "z": 2.799999952316284
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Buildings/Shed/ShedExterior_Lv2.prefab",
+    "name": "ShedExterior_Lv2",
+    "before": {
+      "x": 1.581459641456604,
+      "y": 2.653731346130371,
+      "z": 2.799999952316284
+    },
+    "after": {
+      "x": 1.581459641456604,
+      "y": 2.653731346130371,
+      "z": 2.799999952316284
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/ShopsMobile/Modules/ChickenCoop_Mobile_A.prefab",
+    "name": "ChickenCoop_Mobile_A",
+    "before": {
+      "x": 3.500000476837158,
+      "y": 3.1000001430511475,
+      "z": 3.8400001525878906
+    },
+    "after": {
+      "x": 3.500000476837158,
+      "y": 3.1000001430511475,
+      "z": 3.8400001525878906
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/ShopsMobile/Modules/ChickenCoop_Mobile_WeatherVane_Optional.prefab",
+    "name": "ChickenCoop_Mobile_WeatherVane_Optional",
+    "before": {
+      "x": 0.25110000371932983,
+      "y": 0.36279964447021484,
+      "z": 0.02500011771917343
+    },
+    "after": {
+      "x": 0.25110000371932983,
+      "y": 0.36279964447021484,
+      "z": 0.02500011771917343
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/ShopsMobile/Modules/ChickenStore_Mobile_A.prefab",
+    "name": "ChickenStore_Mobile_A",
+    "before": {
+      "x": 8.960000991821289,
+      "y": 5.600000381469727,
+      "z": 7.6430888175964355
+    },
+    "after": {
+      "x": 7.168000793457032,
+      "y": 4.480000305175781,
+      "z": 6.114471054077149
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/ShopsMobile/Modules/MiniMarket_A.prefab",
+    "name": "MiniMarket_A",
+    "before": {
+      "x": 11.780001640319824,
+      "y": 4.850000381469727,
+      "z": 8.480001449584961
+    },
+    "after": {
+      "x": 9.424001312255859,
+      "y": 3.8800003051757814,
+      "z": 6.7840011596679695
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Shops/Testing/01_Crops_Shop.prefab",
+    "name": "01_Crops_Shop",
+    "before": {
+      "x": 0.699999988079071,
+      "y": 2.0,
+      "z": 0.699999988079071
+    },
+    "after": {
+      "x": 0.5249999910593033,
+      "y": 1.5,
+      "z": 0.5249999910593033
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Shops/Testing/02_Animal_Shop.prefab",
+    "name": "02_Animal_Shop",
+    "before": {
+      "x": 0.699999988079071,
+      "y": 2.0,
+      "z": 0.699999988079071
+    },
+    "after": {
+      "x": 0.5249999910593033,
+      "y": 1.5,
+      "z": 0.5249999910593033
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Shops/Testing/03_Minimarket_Shop.prefab",
+    "name": "03_Minimarket_Shop",
+    "before": {
+      "x": 0.699999988079071,
+      "y": 2.0,
+      "z": 0.699999988079071
+    },
+    "after": {
+      "x": 0.5249999910593033,
+      "y": 1.5,
+      "z": 0.5249999910593033
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Shops/Testing/04_Blacksmith_Shop.prefab",
+    "name": "04_Blacksmith_Shop",
+    "before": {
+      "x": 1.0000001192092896,
+      "y": 2.0,
+      "z": 1.0000001192092896
+    },
+    "after": {
+      "x": 0.7500000894069672,
+      "y": 1.5,
+      "z": 0.7500000894069672
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Shops/Testing/05_Lumber_Store.prefab",
+    "name": "05_Lumber_Store",
+    "before": {
+      "x": 1.0000001192092896,
+      "y": 2.0,
+      "z": 1.0000001192092896
+    },
+    "after": {
+      "x": 0.7500000894069672,
+      "y": 1.5,
+      "z": 0.7500000894069672
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/Shops/Testing/06_Cafe_Shop.prefab",
+    "name": "06_Cafe_Shop",
+    "before": {
+      "x": 0.699999988079071,
+      "y": 2.0,
+      "z": 0.699999988079071
+    },
+    "after": {
+      "x": 0.5249999910593033,
+      "y": 1.5,
+      "z": 0.5249999910593033
+    },
+    "note": "World proportions revised against the 1.5 m player. Physical geometry excludes labels and UI."
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/FishPond/FishPond_Lv1.prefab",
+    "name": "FishPond_Lv1",
+    "before": {
+      "x": 11.742218971252441,
+      "y": 2.7896389961242676,
+      "z": 7.445001125335693
+    },
+    "after": {
+      "x": 11.742218971252441,
+      "y": 2.7896389961242676,
+      "z": 7.445001125335693
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/FishPond/FishPond_Lv2.prefab",
+    "name": "FishPond_Lv2",
+    "before": {
+      "x": 13.743653297424316,
+      "y": 2.989649772644043,
+      "z": 8.944999694824219
+    },
+    "after": {
+      "x": 13.743653297424316,
+      "y": 2.989649772644043,
+      "z": 8.944999694824219
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/FishPond/FishPond_Lv3.prefab",
+    "name": "FishPond_Lv3",
+    "before": {
+      "x": 17.74172019958496,
+      "y": 2.989655017852783,
+      "z": 11.945001602172852
+    },
+    "after": {
+      "x": 17.74172019958496,
+      "y": 2.989655017852783,
+      "z": 11.945001602172852
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/FishPond/FishPond_Lv4.prefab",
+    "name": "FishPond_Lv4",
+    "before": {
+      "x": 7.97499942779541,
+      "y": 1.6700000762939453,
+      "z": 6.299999713897705
+    },
+    "after": {
+      "x": 7.97499942779541,
+      "y": 1.6700000762939453,
+      "z": 6.299999713897705
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/World/MarketStand.prefab",
+    "name": "MarketStand",
+    "before": {
+      "x": 1.0046617984771729,
+      "y": 1.8096517324447632,
+      "z": 1.2666380405426025
+    },
+    "after": {
+      "x": 1.0046617984771729,
+      "y": 1.8096517324447632,
+      "z": 1.2666380405426025
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Structure / object",
+    "path": "Assets/Nature  Paradaise/Prefabs/World/ShippingBin.prefab",
+    "name": "ShippingBin",
+    "before": {
+      "x": 0.7941354513168335,
+      "y": 0.7157729864120483,
+      "z": 0.7637112140655518
+    },
+    "after": {
+      "x": 0.7941354513168335,
+      "y": 0.7157729864120483,
+      "z": 0.7637112140655518
+    },
+    "note": "Prefab at authored scale; X width, Y height, Z depth"
+  },
+  {
+    "category": "Scene player collider",
+    "path": "Assets/Nature  Paradaise/Map/Scenes/Testing/FishingTestScene.unity",
+    "name": "Player",
+    "before": {
+      "x": 0.9,
+      "y": 2.0,
+      "z": 0.9
+    },
+    "after": {
+      "x": 0.48,
+      "y": 1.5,
+      "z": 0.48
+    },
+    "note": "Capsule; player position unchanged"
+  },
+  {
+    "category": "Scene player collider",
+    "path": "Assets/Nature  Paradaise/Map/Scenes/Testing/TestingScene.unity",
+    "name": "Player",
+    "before": {
+      "x": 1.0,
+      "y": 2.0,
+      "z": 1.0
+    },
+    "after": {
+      "x": 0.48,
+      "y": 1.5,
+      "z": 0.48
+    },
+    "note": "Capsule; player position unchanged"
+  },
+  {
+    "category": "Scene player collider",
+    "path": "Assets/Nature  Paradaise/Map/Scenes/World/Map.unity",
+    "name": "Player",
+    "before": {
+      "x": 1.0,
+      "y": 3.1,
+      "z": 1.0
+    },
+    "after": {
+      "x": 0.48,
+      "y": 1.5,
+      "z": 0.48
+    },
+    "note": "Capsule; player position unchanged"
+  },
+  {
+    "category": "Scene player collider",
+    "path": "Assets/Nature  Paradaise/Map/Scenes/World/Map_GameplayPreview.unity",
+    "name": "Player",
+    "before": {
+      "x": 1.0,
+      "y": 2.0,
+      "z": 1.0
+    },
+    "after": {
+      "x": 0.48,
+      "y": 1.5,
+      "z": 0.48
+    },
+    "note": "Capsule; player position unchanged"
+  }
+]

@@ -1,0 +1,13 @@
+after native Play Mode tree streaming/vegetation review
+Scenario 0: tree manager first
+Shared TerrainData after vegetation enable=True; duplicate standing Terrain tree at activation=False
+Tree after fall=Depleted; ghost standing Terrain visual=False
+PASS: one representation, real fall/depletion, wood once, save/restore, vegetation disable/re-enable, scheduled regrow, source data unchanged.
+Scenario 1: vegetation initializes first
+Shared TerrainData after vegetation enable=True; duplicate standing Terrain tree at activation=False
+Tree after fall=Depleted; ghost standing Terrain visual=False
+PASS: one representation, real fall/depletion, wood once, save/restore, vegetation disable/re-enable, scheduled regrow, source data unchanged.
+Scenario 2: host absent in authored terrain; managers create shared host
+Shared TerrainData after vegetation enable=True; duplicate standing Terrain tree at activation=False
+Tree after fall=Depleted; ghost standing Terrain visual=False
+PASS: one representation, real fall/depletion, wood once, save/restore, vegetation disable/re-enable, scheduled regrow, source data unchanged.

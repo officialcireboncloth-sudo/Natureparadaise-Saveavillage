@@ -1,0 +1,74 @@
+MOBILE SHOP MAP APPLY
+PASS Existing atlas material and shader supported
+PASS Original Toonpack PSD hash unchanged
+PASS ChickenStore_Mobile_A shared atlas remapped
+PASS ChickenStore_Mobile_A native triangle count 4249
+ChickenStore_Mobile_A Unity mesh vertices 7578
+PASS ChickenStore_Mobile_A scale/sides/front +Z match original bounds; error 1.657374E-06
+PASS ChickenCoop_Mobile_A shared atlas remapped
+PASS ChickenCoop_Mobile_A native triangle count 1406
+ChickenCoop_Mobile_A Unity mesh vertices 2778
+PASS ChickenCoop_Mobile_A scale/sides/front +Z match original bounds; error 7.835145E-07
+PASS ChickenCoop_Mobile_WeatherVane_Optional shared atlas remapped
+PASS ChickenCoop_Mobile_WeatherVane_Optional native triangle count 128
+ChickenCoop_Mobile_WeatherVane_Optional Unity mesh vertices 204
+PASS ChickenCoop_Mobile_WeatherVane_Optional scale/sides/front +Z match original bounds; error 1.352569E-06
+PASS MiniMarket_A shared atlas remapped
+PASS MiniMarket_A native triangle count 2910
+MiniMarket_A Unity mesh vertices 5238
+PASS MiniMarket_A scale/sides/front +Z match original bounds; error 1.599361E-06
+PASS ChickenStore_Mobile_A keeps separate door hinges 1
+PASS ChickenStore_Mobile_A door pivot leaves static body fixed
+PASS ChickenCoop_Mobile_A keeps separate door hinges 0
+PASS ChickenCoop_Mobile_WeatherVane_Optional keeps separate door hinges 0
+PASS MiniMarket_A keeps separate door hinges 2
+PASS MiniMarket_A door pivot leaves static body fixed
+PASS MiniMarket_A door pivot leaves static body fixed
+PASS Fence_Post existing modular prefab available
+PASS Fence_Corner_90 existing modular prefab available
+PASS Fence_Junction_T existing modular prefab available
+PASS Fence_Rails_1m existing modular prefab available
+PASS Fence_Rails_2m existing modular prefab available
+PASS Fence_Gate_2m existing modular prefab available
+PASS Fence run uses whole metre pitch (-12.00, -12.00) to (12.00, -12.00)
+PASS Fence run uses whole metre pitch (-12.00, -12.00) to (-12.00, 12.00)
+PASS Fence run uses whole metre pitch (12.00, -12.00) to (12.00, 1.00)
+PASS Fence run uses whole metre pitch (12.00, 1.00) to (12.00, 12.00)
+PASS Fence run uses whole metre pitch (-12.00, 12.00) to (-3.00, 12.00)
+PASS Fence run uses whole metre pitch (-1.00, 12.00) to (2.00, 12.00)
+PASS Fence run uses whole metre pitch (2.00, 12.00) to (6.00, 12.00)
+PASS Fence run uses whole metre pitch (8.00, 12.00) to (12.00, 12.00)
+PASS Fence run uses whole metre pitch (2.00, 1.00) to (12.00, 1.00)
+PASS Fence run uses whole metre pitch (2.00, 1.00) to (2.00, 12.00)
+PASS Fence endpoints share one post; no duplicate junction posts
+PASS ChickenStore_Mobile_Group all renderers share original atlas
+PASS ChickenStore_Mobile_Group metre scales; fence modules unstretched
+PASS ChickenStore_Mobile_Group simple box collision only
+PASS ChickenStore_Mobile_Group no runtime lights
+PASS Chicken reference main gate and pen gate present
+PASS ChickenStore_Mobile_Group single parent moves/rotates all parts together
+PASS MiniMarket_Group all renderers share original atlas
+PASS MiniMarket_Group metre scales; fence modules unstretched
+PASS MiniMarket_Group simple box collision only
+PASS MiniMarket_Group no runtime lights
+PASS Minimarket reference has no enclosure fence
+PASS MiniMarket_Group single parent moves/rotates all parts together
+Staging score 0.5091169 at (259.20, 18.50, 577.68)
+PASS ChickenStore_Mobile_Group all renderers share original atlas
+PASS ChickenStore_Mobile_Group metre scales; fence modules unstretched
+PASS ChickenStore_Mobile_Group simple box collision only
+PASS ChickenStore_Mobile_Group no runtime lights
+PASS Chicken reference main gate and pen gate present
+PASS ChickenStore_Mobile_Group single parent moves/rotates all parts together
+Staging score 0.36 at (295.20, 18.50, 577.68)
+PASS MiniMarket_Group all renderers share original atlas
+PASS MiniMarket_Group metre scales; fence modules unstretched
+PASS MiniMarket_Group simple box collision only
+PASS MiniMarket_Group no runtime lights
+PASS Minimarket reference has no enclosure fence
+PASS MiniMarket_Group single parent moves/rotates all parts together
+PASS Exactly one instance of each shop group in Map
+PASS Map saved with both movable prefab roots
+PASS New imported model CPU read/write copies disabled after validation
+
+UNITY_SHOPS_APPLY_PASS

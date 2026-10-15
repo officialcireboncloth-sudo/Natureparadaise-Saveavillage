@@ -1,0 +1,5 @@
+System.InvalidOperationException: Barn interior: BarnInterior_Lv1 metre bounds, rear +Z, entrance at origin (error 15.28005)
+  at BarnApprovedInteriorSetup.Require (System.Boolean condition, System.String message) [0x0002a] in C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Assets\Nature  Paradaise\Script\Editor\BarnApprovedInteriorSetup.cs:48 
+  at BarnApprovedInteriorSetup.Build (System.Int32 i, UnityEngine.SceneManagement.Scene preview, Newtonsoft.Json.Linq.JToken spec, Newtonsoft.Json.Linq.JObject& report) [0x00214] in C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Assets\Nature  Paradaise\Script\Editor\BarnApprovedInteriorSetup.cs:102 
+  at BarnApprovedInteriorSetup.Apply () [0x0012f] in C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Assets\Nature  Paradaise\Script\Editor\BarnApprovedInteriorSetup.cs:226 
+  at BarnApprovedInteriorSetup.Tick () [0x00086] in C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Assets\Nature  Paradaise\Script\Editor\BarnApprovedInteriorSetup.cs:42 

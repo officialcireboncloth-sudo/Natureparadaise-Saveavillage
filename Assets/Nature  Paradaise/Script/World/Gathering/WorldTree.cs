@@ -96,6 +96,9 @@ public sealed class WorldTree : MonoBehaviour
 
     public bool IsAvailable => state != TreeGrowthState.Depleted && !transitioning;
     public bool IsStump => state == TreeGrowthState.Stump;
+    [SerializeField] StaminaResourceSize staminaSize;
+    public float StaminaCostPerHit => StaminaBalance.Current.Cost(staminaSize==StaminaResourceSize.Large || staminaSize==StaminaResourceSize.Auto && (definition==null || definition.name.IndexOf("Small",System.StringComparison.OrdinalIgnoreCase)<0) && standingDurability>3 ? "chop_large_tree" : "chop_small_tree") * Mathf.Min(durability,Mathf.Max(1,damagePerHit)) / (float)(IsStump?StumpDurability:StandingDurability);
+
     public int Durability => durability;
     public int MinimumAxeLevel => minimumAxeLevel;
     public float PromptHeight => promptHeight;
@@ -554,7 +557,8 @@ public sealed class WorldTree : MonoBehaviour
     {
         if (inventory == null || definition == null || definition.fruitItem == null || state != TreeGrowthState.Standing ||
             progress.fruitStage != TreeFruitStage.Ready || (definition.fruitSeasons & CropDataSO.GetSeasonForDay(CurrentDay)) == 0) return false;
-        if (!inventory.Add(definition.fruitItem, Mathf.Max(1, definition.fruitAmount))) return false;
+        if (!StaminaBalance.Can(inventory,"harvest") || !inventory.Add(definition.fruitItem, Mathf.Max(1, definition.fruitAmount))) return false;
+        StaminaBalance.Spend(inventory,"harvest");
         progress.fruitProgress = 0;
         progress.fruitStage = TreeFruitStage.Flowering;
         return true;

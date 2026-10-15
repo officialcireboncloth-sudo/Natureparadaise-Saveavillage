@@ -167,6 +167,9 @@ public class ItemSO : ScriptableObject
 
     public int StackLimit => Mathf.Max(1, maxStack);
     public string Id => string.IsNullOrWhiteSpace(itemId) ? ItemCatalog.LegacyId(name) : itemId.Trim();
+    [Header("Permanent Stamina Berry") ]
+    public bool increasesStaminaTier;
+
     public bool CanConsume =>
         category == ItemCategory.Food &&
         isEdible &&

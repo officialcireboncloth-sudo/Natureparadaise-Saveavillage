@@ -21,9 +21,9 @@ public sealed class PlayerGatheringTool : MonoBehaviour
 
     [Header("Stamina")]
     [SerializeField, Min(0f)] float pullCost = 0.05f;
-    [SerializeField, Min(0f)] float sickleCost = 0.1f;
-    [SerializeField, Min(0f)] float hammerCost = 0.1f;
-    [SerializeField, Min(0f)] float axeCost = 0.1f;
+    [SerializeField, HideInInspector, Min(0f)] float sickleCost = 0.1f;
+    [SerializeField, HideInInspector, Min(0f)] float hammerCost = 0.1f;
+    [SerializeField, HideInInspector, Min(0f)] float axeCost = 0.1f;
 
     [Header("Tool Levels")]
     [SerializeField, Min(1)] int sickleLevel = 1;
@@ -255,7 +255,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
 
     void UseSickle()
     {
-        if (!SpendStamina(sickleCost)) return;
+        if (!SpendStamina(StaminaBalance.Current.Cost("sickle_wild_grass"))) return;
         if (target != null && target.CanSickle)
             FaceGatherable(target);
         status?.PulseActivity(PlayerMovementState.ToolAction);
@@ -306,7 +306,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             SaveLoadFeedback.Instance?.ShowMessage("Level Hammer belum cukup");
             return;
         }
-        if (!SpendStamina(hammerCost)) return;
+        if (!SpendStamina(target.StaminaCostPerHit)) return;
         FaceGatherable(target);
         GetComponent<PlayerHeldTools>()?.BeginWorkAction(PlayerToolType.Hammer,target.GetInteractionPoint(transform.position+Vector3.up),.95f);
         status?.PulseActivity(PlayerMovementState.ToolAction);
@@ -327,7 +327,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             SaveLoadFeedback.Instance?.ShowMessage("Level Axe belum cukup");
             return;
         }
-        if (!SpendStamina(axeCost)) return;
+        if (!SpendStamina(treeTarget.StaminaCostPerHit)) return;
         movement?.FaceTowardsInteraction(treeTarget.transform.position);
         var trunk=treeTarget.GetComponent<Collider>();
         Vector3 hitPoint=trunk!=null?trunk.ClosestPoint(transform.position+Vector3.up*1.8f):treeTarget.transform.position+Vector3.up*1.8f;

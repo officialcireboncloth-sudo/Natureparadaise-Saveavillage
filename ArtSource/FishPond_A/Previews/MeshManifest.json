@@ -1,0 +1,282 @@
+{
+  "status": "APPLIED_TO_UNITY_VALIDATED",
+  "blenderVersion": "4.5.14 LTS",
+  "models": [
+    {
+      "model": "Lv1",
+      "lod": 0,
+      "kind": "opaque",
+      "name": "FishPond_A_Lv1_High",
+      "triangles": 2563,
+      "vertices": 1632,
+      "boundsApprovedXYZ": [
+        [
+          -5.71999979019165,
+          -0.009638320654630661,
+          -3.9000000953674316
+        ],
+        [
+          6.0222182273864746,
+          2.7799999713897705,
+          3.5450000762939453
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "export": "Exports/FishPond_A_Lv1_High.fbx",
+      "sha256": "b4058295e612ee5d31e83ae1b3e3d894e4671303b14998d8f87a77b4202e9fa8"
+    },
+    {
+      "model": "Lv1",
+      "lod": 1,
+      "kind": "opaque",
+      "name": "FishPond_A_Lv1_Medium",
+      "triangles": 1633,
+      "vertices": 1142,
+      "boundsApprovedXYZ": [
+        [
+          -5.71999979019165,
+          -0.009638320654630661,
+          -3.9000000953674316
+        ],
+        [
+          6.0222182273864746,
+          2.7799999713897705,
+          3.5450000762939453
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "export": "Exports/FishPond_A_Lv1_Medium.fbx",
+      "sha256": "1f4efefa082e219d850575f8cfb2af146e32764edf78ed35eb13532904050c5c"
+    },
+    {
+      "model": "Lv1",
+      "lod": 2,
+      "kind": "opaque",
+      "name": "FishPond_A_Lv1_Low",
+      "triangles": 574,
+      "vertices": 375,
+      "boundsApprovedXYZ": [
+        [
+          -5.4749999046325684,
+          0.0,
+          -3.9000000953674316
+        ],
+        [
+          5.5,
+          2.7799999713897705,
+          3.5450000762939453
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "export": "Exports/FishPond_A_Lv1_Low.fbx",
+      "sha256": "3f2dc95ff3a0f5031175c102ece1872439d43f8aee382cb6a98864246205f754"
+    },
+    {
+      "model": "Lv1",
+      "lod": null,
+      "kind": "water",
+      "name": "FishPond_A_Lv1_Water",
+      "triangles": 14,
+      "vertices": 16,
+      "materials": [
+        "TFP_Water_1A"
+      ],
+      "export": "Exports/FishPond_A_Lv1_Water.fbx",
+      "sha256": "2d59f43849670324bd5452f2a894caa06e5240b79c9f29de3ab12f134418ef3a"
+    },
+    {
+      "model": "Lv2",
+      "lod": 0,
+      "kind": "opaque",
+      "name": "FishPond_A_Lv2_High",
+      "triangles": 3193,
+      "vertices": 2027,
+      "boundsApprovedXYZ": [
+        [
+          -6.71999979019165,
+          -0.0096489051356911659,
+          -4.6500000953674316
+        ],
+        [
+          7.0236530303955078,
+          2.9800000190734863,
+          4.2950000762939453
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "export": "Exports/FishPond_A_Lv2_High.fbx",
+      "sha256": "d0f24e94628291a6cbc7a7393972c422e366bf8ce33575e211a9cc6083cf865b"
+    },
+    {
+      "model": "Lv2",
+      "lod": 1,
+      "kind": "opaque",
+      "name": "FishPond_A_Lv2_Medium",
+      "triangles": 2101,
+      "vertices": 1451,
+      "boundsApprovedXYZ": [
+        [
+          -6.71999979019165,
+          -0.0096489051356911659,
+          -4.6500000953674316
+        ],
+        [
+          7.0236530303955078,
+          2.9800000190734863,
+          4.2950000762939453
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "export": "Exports/FishPond_A_Lv2_Medium.fbx",
+      "sha256": "893c0574fb83accbe852ac9e8f9c122cfc79ed42aade06b82d0e3681a3d335bc"
+    },
+    {
+      "model": "Lv2",
+      "lod": 2,
+      "kind": "opaque",
+      "name": "FishPond_A_Lv2_Low",
+      "triangles": 782,
+      "vertices": 500,
+      "boundsApprovedXYZ": [
+        [
+          -6.4749999046325684,
+          0.0,
+          -4.6500000953674316
+        ],
+        [
+          6.5,
+          2.869999885559082,
+          4.2950000762939453
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "export": "Exports/FishPond_A_Lv2_Low.fbx",
+      "sha256": "1e7cb2c16ef3af10caa1591b798aaaaf5592e3462f94f763e72296e7f9d79480"
+    },
+    {
+      "model": "Lv2",
+      "lod": null,
+      "kind": "water",
+      "name": "FishPond_A_Lv2_Water",
+      "triangles": 14,
+      "vertices": 16,
+      "materials": [
+        "TFP_Water_1A"
+      ],
+      "export": "Exports/FishPond_A_Lv2_Water.fbx",
+      "sha256": "b470a2d2d76e181d4e575692d37f35c4ccf8691d577a6bbcaf7f97cbd05f4b09"
+    },
+    {
+      "model": "Lv3",
+      "lod": 0,
+      "kind": "opaque",
+      "name": "FishPond_A_Lv3_High",
+      "triangles": 4084,
+      "vertices": 2610,
+      "boundsApprovedXYZ": [
+        [
+          -8.7200002670288086,
+          -0.0096541391685605049,
+          -6.1500000953674316
+        ],
+        [
+          9.0217161178588867,
+          2.9800000190734863,
+          5.7950000762939453
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "export": "Exports/FishPond_A_Lv3_High.fbx",
+      "sha256": "19dbca65bada6dc2b58f79cc9e4b606be39853636d90675ce24a75eccde3cf55"
+    },
+    {
+      "model": "Lv3",
+      "lod": 1,
+      "kind": "opaque",
+      "name": "FishPond_A_Lv3_Medium",
+      "triangles": 2621,
+      "vertices": 1841,
+      "boundsApprovedXYZ": [
+        [
+          -8.7200002670288086,
+          -0.0096541391685605049,
+          -6.1500000953674316
+        ],
+        [
+          9.0217161178588867,
+          2.9800000190734863,
+          5.7950000762939453
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "export": "Exports/FishPond_A_Lv3_Medium.fbx",
+      "sha256": "e43274560d8ba0eb0bf75ffbbda16f94b37a46b397b14423caff7bbd87d823a5"
+    },
+    {
+      "model": "Lv3",
+      "lod": 2,
+      "kind": "opaque",
+      "name": "FishPond_A_Lv3_Low",
+      "triangles": 864,
+      "vertices": 556,
+      "boundsApprovedXYZ": [
+        [
+          -8.4750003814697266,
+          0.0,
+          -6.1500000953674316
+        ],
+        [
+          8.5,
+          2.869999885559082,
+          5.7950000762939453
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "export": "Exports/FishPond_A_Lv3_Low.fbx",
+      "sha256": "46eb4b6ec4e98131d8299485279da8628823df7564d14cb4458224ed7206ae04"
+    },
+    {
+      "model": "Lv3",
+      "lod": null,
+      "kind": "water",
+      "name": "FishPond_A_Lv3_Water",
+      "triangles": 14,
+      "vertices": 16,
+      "materials": [
+        "TFP_Water_1A"
+      ],
+      "export": "Exports/FishPond_A_Lv3_Water.fbx",
+      "sha256": "5b4fb17ad9c18cb783f1bbcaf6736ff00f19ac5a99ccce2625f6bf5c9477ee76"
+    }
+  ],
+  "approvedSpecificationSha256": "5b63d345e0bf63847d9e4161fe9088596d451d9b0f46f9c0b6f6bc624ec1b938",
+  "newRuntimeTextures": 0,
+  "atlasSha256": "7fe0569f122bda89faca68565ea94bdb8be1431298424424f2776f23e987e231",
+  "runtimeMaterials": [
+    "TFP_Atlas_1A",
+    "TFP_Water_1A"
+  ],
+  "water": "Separate 14 triangle horizontal plane per level, shared by all LODs. Blender preview only; Unity pack shader not applied.",
+  "coordinateSystem": "Blender (x,y,z)=(approved x,z,y); front -Y, correct winding after reflection. Verify Unity FBX import before placement.",
+  "staticFish": false,
+  "bakedWaterFX": false,
+  "unityAssetsModified": true
+}

@@ -1,0 +1,253 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.0/staging' branch; Version is '6000.0.81f1 (6238fec1e98f) revision 6437118'; Using compiler version '193933523'; Build Type 'Release'
+[Licensing::IpcConnector] Channel LicenseClient-huxel doesn't exist
+OS: 'Windows 11  (10.0.26300) CoreSingleLanguage' Language: 'en' Physical Memory: 22405 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+Process architecture: x64
+Date: 2026-10-12T12:41:45Z
+[Licensing::Module] Successfully launched the LicensingClient (PId: 16852)
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Unity.exe
+-batchmode
+-projectPath
+C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+-executeMethod
+HouseExteriorPlayReviewEditor.Run
+-logFile
+C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage/ArtSource/House_A/Previews/UnityPlay.log
+Successfully changed project path to: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [12028]  Target information:
+
+Player connection [12028]  * "[IP] 192.168.1.4 [Port] 55504 [Flags] 2 [Guid] 939868810 [EditorId] 939868810 [Version] 1048832 [Id] WindowsEditor(7,FrostY) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [12028] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [12028] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-huxel" at "2026-10-12T12:41:45.9081089Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 16852, path: "C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Package Manager] Connected to IPC stream "Upm-1800" after 1.2 seconds.
+Library Redirect Path: Library/
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.17.4+4293ba1
+  Session Id:              04a8c27acda34be79bf51a6654fecf93
+  Correlation Id:          b5ba0a1357d8982ef7b91a149ba6afa4
+  External correlation Id: 2741893765697010393
+  Machine Id:              Qs9pZQQ1TkGzJCxrOHhsBdfscsM=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-huxel" (connect: 0.86s, validation: 0.49s, handshake: 0.19s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-huxel-notifications" at "2026-10-12T12:41:46.5956076Z"
+[Licensing::Module] Connected to LicensingClient (PId: 16852, launch time: 0.01, total connection time: 1.54s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: 18967150433178-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.04
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] Licensing Background thread has ended after 1.74s
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Artifact Garbage Collection - Removed 17 unused hashed content filesRefreshing native plugins compatible for Editor in 2.90 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 6000.0.81f1 (6238fec1e98f)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1050 (ID=0x1c91)
+    Vendor:   NVIDIA
+    VRAM:     2981 MB
+    Driver:   32.0.15.8183
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56800
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
+Registered in 0.033049 seconds.
+- Loaded All Assemblies, in  0.939 seconds
+Native extension for iOS target not found
+Native extension for Android target not found
+Android Extension - Scanning For ADB Devices 2486 ms
+Native extension for WindowsStandalone target not found
+Package Manager log level set to [2]
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  3.246 seconds
+Domain Reload Profiling: 4177ms
+	BeginReloadAssembly (387ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (2ms)
+	RebuildCommonClasses (81ms)
+	RebuildNativeTypeToScriptingClass (20ms)
+	initialDomainReloadingComplete (123ms)
+	LoadAllAssembliesAndSetupDomain (318ms)
+		LoadAssemblies (368ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (309ms)
+			TypeCache.Refresh (305ms)
+				TypeCache.ScanAssembly (279ms)
+			BuildScriptInfoCaches (1ms)
+			ResolveRequiredComponents (1ms)
+	FinalizeReload (3247ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (3181ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (2653ms)
+			SetLoadedEditorAssemblies (7ms)
+			BeforeProcessingInitializeOnLoad (92ms)
+			ProcessInitializeOnLoadAttributes (246ms)
+			ProcessInitializeOnLoadMethodAttributes (182ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Successfully resolved entitlement details
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 65 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.assistant@2.17.0-pre.1 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ai.assistant@284c75a8d208)
+    com.unity.ai.inference@2.6.1 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ai.inference@9a123aee5df7)
+    com.unity.collab-proxy@2.12.4 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.collab-proxy@0b1559bcd34e)
+    com.unity.ide.rider@3.0.39 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ide.rider@4504839d03f7)
+    com.unity.ide.visualstudio@2.0.27 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ide.visualstudio@dc1ddd4f09b6)
+    com.unity.inputsystem@1.19.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.inputsystem@21a28c3a6c83)
+    com.unity.timeline@1.8.12 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.timeline@8cd8509afae5)
+    com.unity.visualscripting@1.9.11 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.visualscripting@8bed5ad90189)
+    com.unity.mobile.android-logcat@1.4.7 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.mobile.android-logcat@a8a404f035b3)
+    com.unity.adaptiveperformance@5.1.6 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.adaptiveperformance@de279be9c429)
+    com.unity.mobile.notifications@2.4.3 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.mobile.notifications@53b584f4d5cd)
+    com.unity.burst@1.8.30 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.burst@2f3d916873ea)
+    com.unity.dt.app-ui@1.3.6 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.dt.app-ui@3bbd9e4c5c92)
+    com.unity.collections@2.6.8 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.collections@84e8eb3fc12e)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.mathematics@1.3.2 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.mathematics@8017b507cc74)
+    com.unity.nuget.mono-cecil@1.11.6 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.searcher@4.9.3 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.searcher@1e17ce91558d)
+    com.unity.profiling.core@1.0.3 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.profiling.core@8a49f7027d06)
+    com.unity.test-framework.performance@3.5.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.test-framework.performance@8b56083ec0f0)
+  Built-in packages:
+    com.unity.feature.mobile@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.feature.mobile@00f8a2b6a6fb)
+    com.unity.multiplayer.center@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.multiplayer.center@f3fb577b3546)
+    com.unity.render-pipelines.universal@17.0.4 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.render-pipelines.universal@960febc0b6cb)
+    com.unity.ugui@2.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ugui@4601c9db1b9b)
+    com.unity.modules.accessibility@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.accessibility)
+    com.unity.modules.ai@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.physics2d)
+    com.unity.modules.screencapture@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vehicles@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.video)
+    com.unity.modules.vr@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.vr)
+    com.unity.modules.wind@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.modules.hierarchycore)
+    com.unity.render-pipelines.core@17.0.4 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.render-pipelines.core@8e828b9223c8)
+    com.unity.shadergraph@17.0.4 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.shadergraph@14250cfec0ec)
+    com.unity.render-pipelines.universal-config@17.0.3 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.render-pipelines.universal-config@dd206bf35d04)
+    com.unity.test-framework@1.6.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.test-framework@082c24152fd4)
+    com.unity.ext.nunit@2.0.5 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.ext.nunit@031a54704bff)
+    com.unity.2d.sprite@1.0.0 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.2d.sprite@0eb6ea2c7181)
+    com.unity.rendering.light-transport@1.0.1 (location: C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Library\PackageCache\com.unity.rendering.light-transport@9bd588f963c0)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.11 seconds
+Refreshing native plugins compatible for Editor in 12.01 ms, found 5 plugins.
+Starting: C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/GitHub/Unity 6.000LTS - Nature Paradise/Natureparadaise-Saveavillage
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 1s504ms
+[1162/1529  0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra build success (1.41 seconds), 1 items updated, 1529 evaluated
+AssetDatabase: script compilation time: 4.176897s
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  6.046 seconds
+Refreshing native plugins compatible for Editor in 15.41 ms, found 5 plugins.
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 58.64 ms, found 5 plugins.

@@ -1,0 +1,66 @@
+{
+  "status": "BUILT",
+  "atlasGUID": "522fcb2b5717c7640b460ee9ff73a78a",
+  "atlasSHA256": "7fe0569f122bda89faca68565ea94bdb8be1431298424424f2776f23e987e231",
+  "newRuntimeTextures": 0,
+  "assets": [
+    {
+      "triangles": 4249,
+      "meshVertices": 3387,
+      "estimatedVerticesAfterNormalAndUVSplits": 7843,
+      "bounds": [
+        [
+          -4.480000019073486,
+          -4.212500095367432,
+          0.0
+        ],
+        [
+          4.480000019073486,
+          3.4305882453918457,
+          5.599999904632568
+        ]
+      ],
+      "name": "ChickenStore_Mobile_A",
+      "export": "ChickenStore_Mobile_A.fbx",
+      "editableScene": "01 Chicken Store MOBILE - Editable"
+    },
+    {
+      "triangles": 1406,
+      "meshVertices": 1029,
+      "estimatedVerticesAfterNormalAndUVSplits": 2808,
+      "bounds": [
+        [
+          -1.75,
+          -2.0999999046325684,
+          0.0
+        ],
+        [
+          1.75,
+          1.7400000095367432,
+          3.0999999046325684
+        ]
+      ],
+      "name": "ChickenCoop_Mobile_A",
+      "export": "ChickenCoop_Mobile_A.fbx",
+      "editableScene": "02 Coop MOBILE - Editable"
+    }
+  ],
+  "optionalOrnament": {
+    "triangles": 128,
+    "meshVertices": 68,
+    "estimatedVerticesAfterNormalAndUVSplits": 204,
+    "bounds": [
+      [
+        -0.13500000536441803,
+        -0.012500000186264515,
+        3.080000162124634
+      ],
+      [
+        0.1160999983549118,
+        0.012500000186264515,
+        3.4428000450134277
+      ]
+    ],
+    "export": "ChickenCoop_Mobile_WeatherVane_Optional.fbx"
+  }
+}

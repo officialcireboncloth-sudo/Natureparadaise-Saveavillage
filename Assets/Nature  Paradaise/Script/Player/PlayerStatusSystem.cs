@@ -93,8 +93,8 @@ public sealed class PlayerStatusSystem : MonoBehaviour
     [SerializeField] float currentHealth = 100f;
 
     [Header("Stamina")]
-    [SerializeField, Min(1f)] float maxStamina = 100f;
-    [SerializeField] float currentStamina = 100f;
+    [SerializeField, Min(1f)] float maxStamina = 50f;
+    [SerializeField] float currentStamina = 50f;
 
     [Header("Hunger / Fullness")]
     [Tooltip("100 berarti kenyang, 0 berarti kelaparan.")]
@@ -128,6 +128,28 @@ public sealed class PlayerStatusSystem : MonoBehaviour
     bool faintSignalSent;
     PlayerMovementState currentMovementState;
     float statusEffectNotifyTimer;
+
+    int staminaSkillTier, staminaBerryTier;
+    public int StaminaSkillTier => staminaSkillTier;
+    public int StaminaBerryTier => staminaBerryTier;
+    public int StaminaTier => Mathf.Max(staminaSkillTier,staminaBerryTier);
+    public bool CanUpgradeStamina => !IsFainted && StaminaTier < StaminaBalance.Current.TierCount-1;
+
+    public bool TryUpgradeStamina()
+    {
+        if(!CanUpgradeStamina)return false;
+        staminaBerryTier=StaminaTier+1; ApplyStaminaTier();return true;
+    }
+    public void SetStaminaSkillTier(int tier)
+    {
+        staminaSkillTier=Mathf.Max(staminaSkillTier,Mathf.Clamp(tier,0,StaminaBalance.Current.TierCount-1));ApplyStaminaTier();
+    }
+    public void RestoreStaminaProgression(int skillTier,int berryTier)
+    {
+        staminaSkillTier=Mathf.Clamp(skillTier,0,StaminaBalance.Current.TierCount-1);
+        staminaBerryTier=Mathf.Clamp(berryTier,0,StaminaBalance.Current.TierCount-1);ApplyStaminaTier();
+    }
+    void ApplyStaminaTier() { maxStamina=StaminaBalance.Current.Maximum(StaminaTier);currentStamina=Mathf.Min(currentStamina,maxStamina);NotifyChanged(); }
 
     public float MaxHealth => maxHealth;
     public float Health => currentHealth;
@@ -170,7 +192,8 @@ public sealed class PlayerStatusSystem : MonoBehaviour
     void Awake()
     {
         maxHealth = Mathf.Max(1f, maxHealth);
-        maxStamina = Mathf.Max(1f, maxStamina);
+        maxStamina = StaminaBalance.Current.Maximum(0);
+        currentStamina = maxStamina;
         maxHunger = Mathf.Max(1f, maxHunger);
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
         currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
@@ -249,6 +272,11 @@ public sealed class PlayerStatusSystem : MonoBehaviour
         if (amount <= 0f || WeatherSystem.Instance == null || !WeatherSystem.IsPlayerOutdoors())
             return amount;
         return amount * WeatherSystem.GetOutdoorStaminaMultiplier(WeatherSystem.Instance.CurrentWeather);
+    }
+
+    public void SpendStaminaOutcome(float amount)
+    {
+        currentStamina=Mathf.Max(0,currentStamina-GetWeatherAdjustedStaminaCost(Mathf.Max(0,amount)));NotifyChanged();
     }
 
     public void RestoreStamina(float amount)

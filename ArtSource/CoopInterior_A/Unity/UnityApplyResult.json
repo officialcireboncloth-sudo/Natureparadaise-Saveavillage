@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "levels": [
+    {
+      "level": 1,
+      "capacity": 6,
+      "triangles": 4654,
+      "vertices": 8727,
+      "renderers": 14,
+      "originalRenderers": 48,
+      "prefab": "Assets/Nature  Paradaise/Prefabs/Coop/Interior/CoopInteriorLayout_Lv1.prefab",
+      "axisError": 0.03162169
+    },
+    {
+      "level": 2,
+      "capacity": 9,
+      "triangles": 5270,
+      "vertices": 9947,
+      "renderers": 18,
+      "originalRenderers": 56,
+      "prefab": "Assets/Nature  Paradaise/Prefabs/Coop/Interior/CoopInteriorLayout_Lv2.prefab",
+      "axisError": 0.03162169
+    },
+    {
+      "level": 3,
+      "capacity": 12,
+      "triangles": 8218,
+      "vertices": 15171,
+      "renderers": 24,
+      "originalRenderers": 81,
+      "prefab": "Assets/Nature  Paradaise/Prefabs/Coop/Interior/CoopInteriorLayout_Lv3.prefab",
+      "axisError": 0.03162169
+    },
+    {
+      "level": 4,
+      "capacity": 15,
+      "triangles": 9726,
+      "vertices": 17859,
+      "renderers": 28,
+      "originalRenderers": 95,
+      "prefab": "Assets/Nature  Paradaise/Prefabs/Coop/Interior/CoopInteriorLayout_Lv4.prefab",
+      "axisError": 0.0316198841
+    }
+  ],
+  "capacities": [
+    6,
+    9,
+    12,
+    15
+  ],
+  "backup": "ArtSource/CoopInterior_A/Revisions/20261015_070810350",
+  "scene": "Assets/Nature  Paradaise/Map/Scenes/Interiors/CoopInterior.unity",
+  "mapSaved": false,
+  "playModeTested": false
+}

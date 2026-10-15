@@ -197,7 +197,11 @@ public sealed class PlayerHouseController : MonoBehaviour
             return;
 
         if (Application.isPlaying)
+        {
+            // Retire colliders, stair portal and return marker immediately when changing level.
+            runtimeExteriorVisual.SetActive(false);
             Destroy(runtimeExteriorVisual);
+        }
         else
             DestroyImmediate(runtimeExteriorVisual);
         runtimeExteriorVisual = null;

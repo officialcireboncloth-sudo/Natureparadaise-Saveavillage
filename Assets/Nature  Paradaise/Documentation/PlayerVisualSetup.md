@@ -14,3 +14,9 @@ Jika FBX baru sudah memiliki skeleton Humanoid, Avatar dari FBX otomatis dipasan
 Jika model diganti ketika Play Mode aktif, hentikan Play Mode lalu jalankan menu setup satu kali. Asset postprocessor sengaja tidak mengubah prefab selama Play Mode agar scene runtime tidak rusak.
 
 Animator menggunakan parameter `Speed`, `Grounded`, `Sprint`, `Carry`, `Jump`, dan `UseTool`. Root Motion dimatikan karena posisi player dikendalikan oleh `PlayerController` dan `CharacterController`. FBX Mixamo Without Skin dibuat sebagai Humanoid `Create From This Model`; Unity melakukan retarget clip ke Avatar Player saat Animator memutarnya.
+
+## Ukuran meter — koreksi 15 Oktober 2026
+
+Player visual 3.6 → 1.5 m. Semua alat memakai faktor yang sama (41.67% dari ukuran awal), bukan target ukuran per alat. Proporsi visual awal dipertahankan, termasuk offset genggaman. Collider height 1.5, radius 0.24, center Y 0.75; PlayerDimensions menjaga ukuran runtime dan setup. Restart Play untuk mengambil perubahan.
+
+WorldScaleAudit.md/JSON mempertahankan baseline sebelum revisi. Proporsi bangunan, hewan, terrain dan kamera kemudian disesuaikan pada WorldScaleAudit.md / Documentation/WorldProportions-2026-10-15/README.md. Rebuild alat memakai ukuran desain awal × PlayerDimensions.ReferenceScale.

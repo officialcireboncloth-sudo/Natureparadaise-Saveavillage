@@ -1,5 +1,27 @@
 # Model tools pada player
 
+## Revisi 12 Oktober 2026 — Player.fbx terbaru
+
+Setelan aktif telah dikalibrasi ulang terhadap clip di `Player.fbx` yang diperbarui pengguna. File FBX dan clip animasi sumber tidak diedit oleh revisi tools ini.
+
+| Alat | Ukuran terbesar sebelumnya | Ukuran aktif |
+| --- | ---: | ---: |
+| Hoe | 1,80 m | 1,50 m |
+| Axe | 1,65 m | 1,85 m |
+| Hammer | 1,50 m | 1,80 m |
+| WateringCan | 0,65 m | 0,85 m |
+| Sickle | 1,05 m | 1,05 m |
+
+Ukuran memakai `Entry.scale` pada katalog sehingga mesh dan texture existing tetap dipakai. Nilai tersebut dinormalisasi dari bounds prefab; reapply tidak memperbesar alat berulang kali. Preset rebuild juga mengikuti ukuran terbaru.
+
+Kapak dan palu dikalibrasi dari posisi telapak kedua tangan pada fase kontak clip baru. `actionPlaneNormal` menyimpan normal bidang ayunan dalam ruang player, dihitung dari arah gagang dan gerak telapak sekitar kontak. Normal bertanda tetap ini mengarahkan mata alat/muka pemukul sepanjang ayunan tanpa berputar saat gagang melintasi arah target. Jarak support grip mengikuti posisi kedua telapak; gerak tubuh/kaki tetap dari clip.
+
+Sabit memakai kalibrasi pegangan baru untuk sapuan depan dengan bilah mendatar; ukuran dan animasi sumber tetap. Penyiram memiliki pose membawa tegak dan pose menuang yang terpisah, diaktifkan saat state `Watering Plant`. Cerat prefab berada pada +X; saat menyiram arahnya dijaga di bidang vertikal depan player, dengan kemiringan mengikuti tangan dari clip. Pivot gagang tetap menempel langsung pada telapak.
+
+Menu **Nature Paradise > Player > Apply Revised Tool Fit (Updated Player FBX)** menerapkan ukuran dan kalibrasi ini. Menu tersebut sengaja mengganti fit lima alat di atas. `Calibrate Carried Tool Grips` memakai metode khusus penyiram untuk cerat +X; alat lainnya memakai gagang +Z.
+
+Review native Unity: `VisualReviews/Player-Tools-2026-10-12-after.txt` dan gambar `...-after-<Alat>.png`. Kolom: idle, 0, 0,25, 0,45, 0,55, 0,68, 0,85 detik clip, lalu akhir clip. Durasi Watering Plant di Animator memakai speed 2, sehingga waktu clip berbeda dari waktu aksi gameplay. Pemeriksaan 2.020 sampel aksi di empat arah mencakup pivot telapak, genggaman support, kaki tidak berubah, arah cerat ke depan dan muka kapak/palu di bidang ayunan. Ini pemeriksaan pose native editor, bukan seluruh siklus gameplay di Map. Bagian validasi dan ukuran lama di bawah merupakan catatan revisi sebelumnya.
+
 Model tools impor sudah terhubung ke pilihan hotbar dan tangan kanan player. Komponen `PlayerHeldTools` ditambahkan otomatis oleh `PlayerController`, sehingga scene yang memakai controller tersebut tidak perlu dipasang satu per satu.
 
 ## Model yang dipakai

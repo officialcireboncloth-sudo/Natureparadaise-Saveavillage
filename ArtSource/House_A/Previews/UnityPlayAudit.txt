@@ -1,0 +1,66 @@
+PASS fixture has no SaveManager; no player save altered
+PASS Lv1 swap has exactly one active stair portal immediately
+PASS Lv1 one return marker immediately
+PASS Lv1 actual controller selects correct exterior
+PASS Lv1 doorway faces fixed camera
+PASS Lv1 CharacterController walks stairs onto porch ((0.00, 0.64, 1.66))
+PASS Lv1 entrance available on stairs
+PASS Lv1 rear facade cannot enter
+PASS Lv1 enter authored interior starts
+PASS Lv1 enter finishes
+PASS Lv1 reaches actual interior spawn
+PASS Lv1 return starts
+PASS Lv1 return finishes
+PASS Lv1 returns to current exterior stairs approach
+PASS Lv1 transition releases movement lock
+PASS Lv2 swap has exactly one active stair portal immediately
+PASS Lv2 one return marker immediately
+PASS Lv2 actual controller selects correct exterior
+PASS Lv2 doorway faces fixed camera
+PASS Lv2 CharacterController walks stairs onto porch ((0.00, 0.64, 2.26))
+PASS Lv2 entrance available on stairs
+PASS Lv2 rear facade cannot enter
+PASS Lv3 swap has exactly one active stair portal immediately
+PASS Lv3 one return marker immediately
+PASS Lv3 actual controller selects correct exterior
+PASS Lv3 doorway faces fixed camera
+PASS Lv3 CharacterController walks stairs onto porch ((0.00, 0.64, 1.86))
+PASS Lv3 entrance available on stairs
+PASS Lv3 rear facade cannot enter
+PASS Lv4 swap has exactly one active stair portal immediately
+PASS Lv4 one return marker immediately
+PASS Lv4 actual controller selects correct exterior
+PASS Lv4 doorway faces fixed camera
+PASS Lv3 and Lv4 share the same mesh and scale
+PASS Lv4 CharacterController walks stairs onto porch ((0.00, 0.64, 1.86))
+PASS Lv4 entrance available on stairs
+PASS Lv4 rear facade cannot enter
+PASS Lv5 swap has exactly one active stair portal immediately
+PASS Lv5 one return marker immediately
+PASS Lv5 actual controller selects correct exterior
+PASS Lv5 doorway faces fixed camera
+PASS Lv5 CharacterController walks stairs onto porch ((0.00, 0.64, 2.46))
+PASS Lv5 entrance available on stairs
+PASS Lv5 rear facade cannot enter
+PASS Lv5 enter authored interior starts
+PASS Lv5 enter finishes
+PASS Lv5 reaches actual interior spawn
+PASS Lv5 return starts
+PASS Lv5 return finishes
+PASS Lv5 returns to current exterior stairs approach
+PASS Lv5 transition releases movement lock
+PASS Lv1 swap has exactly one active stair portal immediately
+PASS Lv1 one return marker immediately
+PASS Lv1 actual controller selects correct exterior
+PASS Lv1 doorway faces fixed camera
+PASS Lv1 CharacterController walks stairs onto porch ((0.00, 0.64, 1.66))
+PASS Lv1 entrance available on stairs
+PASS Lv1 rear facade cannot enter
+PASS Lv1 enter authored interior starts
+PASS Lv1 enter finishes
+PASS Lv1 reaches actual interior spawn
+PASS Lv1 return starts
+PASS Lv1 return finishes
+PASS Lv1 returns to current exterior stairs approach
+PASS Lv1 transition releases movement lock
+PLAY_PASS

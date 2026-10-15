@@ -1,0 +1,336 @@
+{
+  "status": "APPLIED_TO_UNITY_VALIDATED",
+  "approvedSpecificationSha256": "96e5a5840526214c8cdb4dbe3d233e7fcb58c18e1abe24ed1c89a77ed28ff24c",
+  "blenderVersion": "4.5.14 LTS",
+  "models": [
+    {
+      "model": "Lv1",
+      "lod": 0,
+      "name": "House_A_Lv1_LOD0",
+      "triangles": 3831,
+      "vertices": 2633,
+      "boundsUnityXYZ": [
+        [
+          -4.994999885559082,
+          -0.01767767034471035,
+          -7.990000247955322
+        ],
+        [
+          5.09499979019165,
+          9.03499984741211,
+          3.700000047683716
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "export": "Exports/House_A_Lv1_LOD0.fbx",
+      "sha256": "931ac29cc53984fc7484465a4b87165d53744e6e95118b42901759720bfd3773"
+    },
+    {
+      "model": "Lv1",
+      "lod": 1,
+      "name": "House_A_Lv1_LOD1",
+      "triangles": 2167,
+      "vertices": 1509,
+      "boundsUnityXYZ": [
+        [
+          -4.994999885559082,
+          0.0,
+          -7.990000247955322
+        ],
+        [
+          5.054999828338623,
+          9.03499984741211,
+          3.700000047683716
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "export": "Exports/House_A_Lv1_LOD1.fbx",
+      "sha256": "a622def422116574d4967064f75ebf359ea325f5828fd34b785118ba77d42942"
+    },
+    {
+      "model": "Lv1",
+      "lod": 2,
+      "name": "House_A_Lv1_LOD2",
+      "triangles": 589,
+      "vertices": 488,
+      "boundsUnityXYZ": [
+        [
+          -4.994999885559082,
+          0.0,
+          -7.990000247955322
+        ],
+        [
+          5.039999961853027,
+          9.03499984741211,
+          3.700000047683716
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "export": "Exports/House_A_Lv1_LOD2.fbx",
+      "sha256": "7437b668459918c8546390af7de69c8f49ad1115d19a1a11c6085fe7b8bec2d1"
+    },
+    {
+      "model": "Lv2",
+      "lod": 0,
+      "name": "House_A_Lv2_LOD0",
+      "triangles": 4661,
+      "vertices": 3250,
+      "boundsUnityXYZ": [
+        [
+          -6.994999885559082,
+          -0.01767767034471035,
+          -8.989999771118164
+        ],
+        [
+          7.09499979019165,
+          9.335000038146973,
+          4.300000190734863
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "export": "Exports/House_A_Lv2_LOD0.fbx",
+      "sha256": "b26af2ac7717b8d9f3518549c3df4d7d880bb440bc1ffa8e8790bd6da645b7aa"
+    },
+    {
+      "model": "Lv2",
+      "lod": 1,
+      "name": "House_A_Lv2_LOD1",
+      "triangles": 2669,
+      "vertices": 1854,
+      "boundsUnityXYZ": [
+        [
+          -6.994999885559082,
+          0.0,
+          -8.989999771118164
+        ],
+        [
+          7.054999828338623,
+          9.335000038146973,
+          4.300000190734863
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "export": "Exports/House_A_Lv2_LOD1.fbx",
+      "sha256": "7d4bc69517252af98f00dd211480c8b88d646a6c2249e49bd7ac986c777b6797"
+    },
+    {
+      "model": "Lv2",
+      "lod": 2,
+      "name": "House_A_Lv2_LOD2",
+      "triangles": 661,
+      "vertices": 552,
+      "boundsUnityXYZ": [
+        [
+          -6.994999885559082,
+          0.0,
+          -8.989999771118164
+        ],
+        [
+          7.039999961853027,
+          9.335000038146973,
+          4.300000190734863
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "export": "Exports/House_A_Lv2_LOD2.fbx",
+      "sha256": "de29677cce7066b7e5ef86bb1c0f7dd2766509161ef8b36d4685ac0c16e21777"
+    },
+    {
+      "model": "Lv3-4",
+      "lod": 0,
+      "name": "House_A_Lv3_4_LOD0",
+      "triangles": 5715,
+      "vertices": 4000,
+      "boundsUnityXYZ": [
+        [
+          -5.294999599456787,
+          -0.01767767034471035,
+          -8.989999771118164
+        ],
+        [
+          9.494999885559082,
+          9.335000038146973,
+          3.9000000953674316
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "export": "Exports/House_A_Lv3_4_LOD0.fbx",
+      "sha256": "7b9aceeae63c5eeec6e6e350ea170383c01d2ab1db2137dc5ceb9a54a3ebfb29"
+    },
+    {
+      "model": "Lv3-4",
+      "lod": 1,
+      "name": "House_A_Lv3_4_LOD1",
+      "triangles": 3191,
+      "vertices": 2257,
+      "boundsUnityXYZ": [
+        [
+          -5.294999599456787,
+          0.0,
+          -8.989999771118164
+        ],
+        [
+          9.454999923706055,
+          9.335000038146973,
+          3.9000000953674316
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "export": "Exports/House_A_Lv3_4_LOD1.fbx",
+      "sha256": "e263ddb364f9229b86cedc6372321273faa9b6abdb12457caebdf665fa114957"
+    },
+    {
+      "model": "Lv3-4",
+      "lod": 2,
+      "name": "House_A_Lv3_4_LOD2",
+      "triangles": 907,
+      "vertices": 748,
+      "boundsUnityXYZ": [
+        [
+          -5.294999599456787,
+          0.0,
+          -8.989999771118164
+        ],
+        [
+          9.440000534057617,
+          9.335000038146973,
+          3.9000000953674316
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "export": "Exports/House_A_Lv3_4_LOD2.fbx",
+      "sha256": "9a3ac8a6c8778f2603d0b1f5d3db061e6ae89a6227a54aeaf746da2b03a73049"
+    },
+    {
+      "model": "Lv5",
+      "lod": 0,
+      "name": "House_A_Lv5_LOD0",
+      "triangles": 5030,
+      "vertices": 3511,
+      "boundsUnityXYZ": [
+        [
+          -7.994999885559082,
+          -0.01767767034471035,
+          -8.989999771118164
+        ],
+        [
+          11.039999961853027,
+          9.335000038146973,
+          4.5
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "export": "Exports/House_A_Lv5_LOD0.fbx",
+      "sha256": "0e7e623ef4ce093a3edf33d3d1b491942c94bddc28d9045eeca9358a4bf6e176"
+    },
+    {
+      "model": "Lv5",
+      "lod": 1,
+      "name": "House_A_Lv5_LOD1",
+      "triangles": 3006,
+      "vertices": 2077,
+      "boundsUnityXYZ": [
+        [
+          -7.994999885559082,
+          0.0,
+          -8.989999771118164
+        ],
+        [
+          11.039999961853027,
+          9.335000038146973,
+          4.5
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "export": "Exports/House_A_Lv5_LOD1.fbx",
+      "sha256": "67632f8f7e808ea0fef6fa96558a59bf1ec832934188be9407f9d8c44711e194"
+    },
+    {
+      "model": "Lv5",
+      "lod": 2,
+      "name": "House_A_Lv5_LOD2",
+      "triangles": 972,
+      "vertices": 751,
+      "boundsUnityXYZ": [
+        [
+          -7.994999885559082,
+          0.0,
+          -8.989999771118164
+        ],
+        [
+          11.039999961853027,
+          9.335000038146973,
+          4.5
+        ]
+      ],
+      "materials": [
+        "TFP_Atlas_1A",
+        "TFP_Atlas_Lights_1A"
+      ],
+      "export": "Exports/House_A_Lv5_LOD2.fbx",
+      "sha256": "7ff438fefeeefe01960673bce9e71827e2fb2d2008f277eb357eebe1ac8b13aa"
+    }
+  ],
+  "uniqueDesigns": 4,
+  "levelMapping": {
+    "1": "Lv1",
+    "2": "Lv2",
+    "3": "Lv3-4",
+    "4": "Lv3-4",
+    "5": "Lv5"
+  },
+  "level3And4ShareMesh": true,
+  "runtimeMaterials": [
+    "TFP_Atlas_1A.mat",
+    "TFP_Atlas_Lights_1A.mat"
+  ],
+  "newRuntimeTextures": 0,
+  "packedBlenderPreviewImages": 1,
+  "unityAssetsModified": true,
+  "frontConvention": "Unity +Z / Blender -Y",
+  "sunroomTreatment": "Solid blue opaque from existing atlas",
+  "blueSwatchRGB": [
+    137,
+    178,
+    197
+  ],
+  "unityVersion": "6000.0.81f1",
+  "runtimeFrontConvention": "Unity +Z, sketch-right becomes local -X through standard FBX handedness conversion",
+  "runtimePrefabs": "Assets/Nature  Paradaise/Prefabs/PlayerHouse/Exterior",
+  "unityImportAudit": "Previews/UnityImportAudit.txt",
+  "unityPlayAudit": "Previews/UnityPlayAudit.txt",
+  "productionSpecificationSha256": "96e5a5840526214c8cdb4dbe3d233e7fcb58c18e1abe24ed1c89a77ed28ff24c"
+}

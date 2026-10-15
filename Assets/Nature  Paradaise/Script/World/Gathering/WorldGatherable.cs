@@ -75,6 +75,9 @@ public sealed class WorldGatherable : MonoBehaviour
     int respawnDay;
     bool depleted;
 
+    [SerializeField] StaminaResourceSize staminaSize;
+    public float StaminaCostPerHit => StaminaBalance.Current.Cost(staminaSize==StaminaResourceSize.Large || staminaSize==StaminaResourceSize.Auto && maximumDurability>1 ? "break_large_rock" : "break_small_rock") * Mathf.Min(currentDurability,Mathf.Max(1,hammerDamagePerHit)) / Mathf.Max(1,maximumDurability);
+
     public string Id => gatherableId;
     public GatherableKind Kind => kind;
     public bool IsAvailable => !depleted;

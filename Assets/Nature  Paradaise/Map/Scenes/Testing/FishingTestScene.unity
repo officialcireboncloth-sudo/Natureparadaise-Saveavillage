@@ -907,9 +907,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca166f8531f38164ab2bd18fe17c9a82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2.2
-  runSpeed: 4
-  sprintSpeed: 6.2
+  walkSpeed: 1.2
+  runSpeed: 2.4
+  sprintSpeed: 3.4
+  locomotionTuningVersion: 1
+  walkAnimationSpeed: 1.05937
+  runAnimationSpeed: 2.88722
   analogRunThreshold: 0.72
   carrySpeedMultiplier: 0.82
   maximumFatigueSpeedMultiplier: 0.7
@@ -1222,13 +1225,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.45
+  m_Height: 1.5
+  m_Radius: 0.24
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_StepOffset: 0.21428572
+  m_SkinWidth: 0.02
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!1 &661094134
 GameObject:
   m_ObjectHideFlags: 0
@@ -2475,20 +2478,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 581703898}
-  focusOffset: {x: 0, y: 1, z: 0}
+  focusOffset: {x: 0, y: 0.75, z: 0}
   pitch: 55
   yaw: 0
-  distance: 18
+  distance: 15
   allowPlayerZoom: 1
   zoomLevels:
-  - 10
-  - 11
-  - 12
-  - 13
+  - 5
+  - 6.5
+  - 8
   mobilePinchStepPixels: 65
   adaptSizeToNarrowScreens: 0
   referenceAspect: 1.7777778
-  maximumOrthographicSize: 12
+  maximumOrthographicSize: 9
   smoothTime: 0.15
   maximumFollowSpeed: 60
   snapToTargetOnEnable: 1
@@ -2535,7 +2537,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8.5
+  orthographic size: 6.5
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2

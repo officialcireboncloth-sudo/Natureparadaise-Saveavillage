@@ -15,10 +15,15 @@ public sealed class PlayerController : MonoBehaviour
     public enum MovementMode { Idle, Walk, Run, Sprint, Airborne }
 
     [Header("Speed")]
-    [SerializeField, Min(0f)] float walkSpeed = 2.2f;
+    [SerializeField, Min(0f)] float walkSpeed = 1.2f;
     [FormerlySerializedAs("moveSpeed")]
-    [SerializeField, Min(0f)] float runSpeed = 4f;
-    [SerializeField, Min(0f)] float sprintSpeed = 6.2f;
+    [SerializeField, Min(0f)] float runSpeed = 2.4f;
+    [SerializeField, Min(0f)] float sprintSpeed = 3.4f;
+    [SerializeField, HideInInspector] int locomotionTuningVersion;
+    [Tooltip("Ground speed of the walking clip at playback 1, calibrated on the 1.5 m model.")]
+    [SerializeField, Min(.01f)] float walkAnimationSpeed = 1.05937f;
+    [Tooltip("Ground speed of the running clip at playback 1. Sprint reuses this clip at a faster cadence.")]
+    [SerializeField, Min(.01f)] float runAnimationSpeed = 2.88722f;
     [SerializeField, Range(0.1f, 1f)] float analogRunThreshold = 0.72f;
     [SerializeField, Range(0.1f, 1f)] float carrySpeedMultiplier = 0.82f;
 
@@ -45,7 +50,7 @@ public sealed class PlayerController : MonoBehaviour
 
     [Header("Run / Sprint Stamina (No Passive Recovery)")]
     [SerializeField] PlayerStatusSystem status;
-    [SerializeField, Min(0f), Tooltip("Biaya stamina per detik saat Run atau Sprint; mendukung nilai pecahan.")]
+    [SerializeField, HideInInspector, Min(0f), Tooltip("Legacy slot. Running cost uses StaminaActions.csv.")]
     float sprintDrainPerSecond = 0.025f;
     [SerializeField, Range(0.05f, 0.5f)] float staminaUpdateInterval = 0.2f;
 
@@ -166,7 +171,19 @@ public sealed class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        // Upgrade serialized scenes from the previous 3.6 m movement preset once.
+        // A versioned preset also handles scenes already open when the scripts reload.
+        if(locomotionTuningVersion<1)
+        {
+            walkSpeed=1.2f;runSpeed=2.4f;sprintSpeed=3.4f;
+            locomotionTuningVersion=1;
+        }
         characterController = GetComponent<CharacterController>();
+        characterController.height=PlayerDimensions.Height;
+        characterController.radius=PlayerDimensions.Radius;
+        characterController.center=new Vector3(0,PlayerDimensions.Height*.5f,0);
+        characterController.stepOffset=PlayerDimensions.StepOffset;
+        characterController.skinWidth=PlayerDimensions.SkinWidth;
         if (status == null) status = GetComponent<PlayerStatusSystem>();
         if (movementCamera == null) movementCamera = Camera.main;
         ResolveRigAnimator();
@@ -193,7 +210,7 @@ public sealed class PlayerController : MonoBehaviour
 
         foreach (Animator candidate in candidates)
         {
-            if (candidate.avatar == null || !candidate.avatar.isValid || !candidate.avatar.isHuman ||
+            if (candidate.avatar == null || !candidate.avatar.isValid ||
                 candidate.GetComponentInChildren<SkinnedMeshRenderer>(true) == null)
                 continue;
 
@@ -254,16 +271,20 @@ public sealed class PlayerController : MonoBehaviour
         if (isCarrying) targetSpeed *= carrySpeedMultiplier;
         targetSpeed *= FatigueMovementMultiplier;
 
-        planarVelocity = forwardJumpActive ? forwardJumpVelocity : direction * targetSpeed;
+        planarVelocity = forwardJumpActive ? forwardJumpVelocity : direction.normalized * targetSpeed;
         if (facingDirection.sqrMagnitude > 0.001f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(facingDirection, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
 
-        UpdateStamina(mode);
         verticalVelocity += gravity * Time.deltaTime;
+        Vector3 previousPosition=transform.position;
         CollisionFlags collision = characterController.Move((planarVelocity + Vector3.up * verticalVelocity) * Time.deltaTime);
+        // Animate distance actually travelled, including walls/steps, rather than requested input speed.
+        planarVelocity=Time.deltaTime>0f ? (transform.position-previousPosition)/Time.deltaTime : Vector3.zero;
+        planarVelocity.y=0f;
+        UpdateStamina(mode);
         if ((collision & CollisionFlags.Above) != 0 && verticalVelocity > 0f)
             verticalVelocity = 0f;
 
@@ -281,7 +302,8 @@ public sealed class PlayerController : MonoBehaviour
 
     Vector2 ReadMovementInput()
     {
-        Vector2 keyboard = new(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        // Avoid legacy axis decay keeping the character sliding after a key is released.
+        Vector2 keyboard = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Vector2 joystick = MobileJoystick.Active != null ? MobileJoystick.Active.Direction : externalMobileInput;
         Vector2 input = joystick.sqrMagnitude > keyboard.sqrMagnitude ? joystick : keyboard;
         return Vector2.ClampMagnitude(input, 1f);
@@ -382,24 +404,17 @@ public sealed class PlayerController : MonoBehaviour
 
     void UpdateStamina(MovementMode mode)
     {
-        if (status == null) return;
-
-        bool running = mode is MovementMode.Run or MovementMode.Sprint && planarVelocity.sqrMagnitude > 0.01f;
-        if (running)
+        if(status==null)status=GetComponent<PlayerStatusSystem>();
+        if(status==null) return;
+        var clock=TimeManager.Instance;
+        if(clock==null || clock.IsPaused || Time.timeScale<=0f) return;
+        bool running=(mode is MovementMode.Run or MovementMode.Sprint) && planarVelocity.sqrMagnitude>.01f;
+        if(running) staminaTimer+=Time.deltaTime;
+        if(staminaTimer>0f && (!running || staminaTimer>=staminaUpdateInterval))
         {
-            staminaTimer += Time.deltaTime;
-            if (staminaTimer >= staminaUpdateInterval)
-            {
-                float elapsed = staminaTimer;
-                staminaTimer = 0f;
-                status.TrySpendStamina(sprintDrainPerSecond * elapsed);
-            }
-            return;
+            status.SpendStaminaOutcome(StaminaBalance.Current.Cost("run") * staminaTimer * 24f / (clock.RealMinutesPerFullDay*60f));
+            staminaTimer=0f;
         }
-
-        // Stamina tidak pulih karena diam/jalan. Recovery hanya datang dari sumber gameplay
-        // eksplisit seperti makanan, tidur, dan nantinya hot spring.
-        staminaTimer = 0f;
     }
 
     void SetMovementMode(MovementMode mode)
@@ -412,10 +427,17 @@ public sealed class PlayerController : MonoBehaviour
     void UpdateAnimator(bool grounded, MovementMode mode)
     {
         if (animator == null || !animator.isActiveAndEnabled || animator.runtimeAnimatorController == null) return;
-        // Pertahankan pilihan Idle/Walk/Run dari input aslinya. Perlambatan cycle dilakukan
-        // oleh FatigueLocomotionSpeed, jadi blend tree tidak ikut merosot ke arah Idle.
-        if (hasSpeedParameter) animator.SetFloat(speedParameter,
-            CurrentSpeed / Mathf.Max(0.01f,sprintSpeed*FatigueMovementMultiplier),0.12f,Time.deltaTime);
+        // Gait selection and cadence are separate: dividing walk speed by sprint speed
+        // blended idle into walking, while sprint reused the run clip at unchanged cadence.
+        bool moving=CurrentSpeed>.03f && mode!=MovementMode.Idle;
+        float gait=!moving?0f:mode==MovementMode.Walk?.35f:mode==MovementMode.Sprint?1f:.65f;
+        if (hasSpeedParameter) animator.SetFloat(speedParameter,gait,.06f,Time.deltaTime);
+        if(hasFatigueLocomotionSpeedParameter)
+        {
+            float reference=mode==MovementMode.Walk?walkAnimationSpeed:runAnimationSpeed;
+            float cadence=moving&&grounded?Mathf.Clamp(CurrentSpeed/Mathf.Max(.01f,reference),.05f,3f):1f;
+            animator.SetFloat(fatigueLocomotionSpeedParameter,cadence);
+        }
         if (hasGroundedParameter) animator.SetBool(groundedParameter, grounded);
         if (hasSprintParameter) animator.SetBool(sprintParameter, mode == MovementMode.Sprint);
         if (hasCarryParameter) animator.SetBool(carryParameter, isCarrying);
@@ -448,8 +470,8 @@ public sealed class PlayerController : MonoBehaviour
 
         if(animator==null || !animator.isActiveAndEnabled || animator.runtimeAnimatorController==null) return;
         if(hasFatigueParameter) animator.SetFloat(fatigueParameter,fatigueLayerWeight);
-        if(hasFatigueLocomotionSpeedParameter)
-            animator.SetFloat(fatigueLocomotionSpeedParameter,FatigueMovementMultiplier);
+        // Locomotion cadence is set from actual travelled distance in UpdateAnimator;
+        // that already includes fatigue and carrying penalties without affecting action clips.
         if(fatigueLayerIndex>=0 && fatigueLayerIndex<animator.layerCount)
             animator.SetLayerWeight(fatigueLayerIndex,fatigueLayerWeight);
     }

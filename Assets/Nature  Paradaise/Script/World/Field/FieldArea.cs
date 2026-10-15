@@ -21,7 +21,7 @@ public sealed class FieldArea : MonoBehaviour
     [Header("Manual Grid Size")]
     [SerializeField, Min(1)] int columns = 10;
     [SerializeField, Min(1)] int rows = 10;
-    [SerializeField, Min(0.25f)] float cellSize = 1f;
+    [SerializeField, Min(0.25f)] float cellSize = .8f;
     [SerializeField] bool allowCrops = true;
     [SerializeField] bool allowBuildings = true;
     [Tooltip("Aktifkan untuk field di dalam Greenhouse. Hujan tidak menyiram dan angin tidak dapat mencabut crop.")]
@@ -35,8 +35,8 @@ public sealed class FieldArea : MonoBehaviour
     [SerializeField] float fieldSurfaceYOffset;
     [Tooltip("Follow terrain height and soften field/tile edges. Visual only; farming grid stays unchanged.")]
     [SerializeField] bool blendGroundSurface = true;
-    [SerializeField, Range(.05f, 2f)] float fieldEdgeFeather = .65f;
-    [SerializeField, Range(.01f, .6f)] float tileEdgeFeather = .40f;
+    [SerializeField, Range(.05f, 2f)] float fieldEdgeFeather = .12f;
+    [SerializeField, Range(.01f, .6f)] float tileEdgeFeather = .05f;
     [Header("Harvestable Wild Grass")]
     [SerializeField] GameObject wildGrassPrefab;
     public GameObject WildGrassPrefab => wildGrassPrefab;
@@ -630,16 +630,28 @@ public sealed class FieldArea : MonoBehaviour
 
     /// <summary>Memvalidasi footprint bangunan terhadap batas dan occupancy grid.</summary>
     public bool CanPlaceBuilding(int startX, int startZ, int width, int depth)
+        => ValidateBuildingFootprint(startX, startZ, width, depth, null, out _);
+
+    public bool ValidateBuildingFootprint(int startX, int startZ, int width, int depth, string existingBuildingId, out string reason)
     {
+        reason = string.Empty;
         if (!allowBuildings || width < 1 || depth < 1)
-            return false;
+        { reason = "Area ini tidak mengizinkan bangunan"; return false; }
+
+        if (startX < 0 || startZ < 0 || startX+width > columns || startZ+depth > rows)
+        { reason = $"Seluruh tapak {width}x{depth} tile harus berada di dalam field"; return false; }
 
         for (int x = startX; x < startX + width; x++)
         {
             for (int z = startZ; z < startZ + depth; z++)
             {
-                if (FarmPlacement.Occupied(this, x, z) || !TryGetIndex(x, z, out int index) || tiles[index].state != TileState.Empty)
-                    return false;
+                if (!TryGetIndex(x, z, out int index)) { reason = "Tapak keluar dari field"; return false; }
+                FieldTileData tile = tiles[index];
+                if (!string.IsNullOrEmpty(existingBuildingId) && tile.state == TileState.Building && tile.buildingId == existingBuildingId) continue;
+                if (FarmPlacement.Occupied(this, x, z)) { reason = "Tapak terhalang sprinkler atau bibit pohon"; return false; }
+                // Bare cultivated soil is free space; crops, weeds and existing buildings remain protected.
+                if (tile.state != TileState.Empty && tile.state != TileState.Hoed)
+                { reason = tile.state == TileState.Building ? "Tapak terisi bangunan lain" : "Bersihkan rumput liar atau tanaman di seluruh tapak"; return false; }
             }
         }
 
@@ -647,17 +659,23 @@ public sealed class FieldArea : MonoBehaviour
     }
 
     /// <summary>Menandai footprint bangunan pada grid menggunakan ID persisten.</summary>
-    public bool TryPlaceBuilding(int startX, int startZ, int width, int depth, string buildingId)
+    public bool TryPlaceBuilding(int startX, int startZ, int width, int depth, string buildingId, bool expandExisting = false)
+        => TryPlaceBuilding(startX, startZ, width, depth, buildingId, expandExisting, out _);
+
+    public bool TryPlaceBuilding(int startX, int startZ, int width, int depth, string buildingId, bool expandExisting, out Action rollback)
     {
-        if (string.IsNullOrWhiteSpace(buildingId) || !CanPlaceBuilding(startX, startZ, width, depth))
+        rollback = null;
+        if (string.IsNullOrWhiteSpace(buildingId) || !ValidateBuildingFootprint(startX, startZ, width, depth, expandExisting ? buildingId : null, out _))
             return false;
 
+        var previous = new FieldTileData[width * depth];
         for (int x = startX; x < startX + width; x++)
         {
             for (int z = startZ; z < startZ + depth; z++)
             {
                 int index = ToIndex(x, z);
                 FieldTileData tile = tiles[index];
+                previous[(z-startZ)*width+x-startX] = tile;
                 tile.state = TileState.Building;
                 tile.buildingId = buildingId;
                 tile.dirty = true;
@@ -667,6 +685,17 @@ public sealed class FieldArea : MonoBehaviour
             }
         }
 
+        rollback = () =>
+        {
+            for (int x = startX; x < startX+width; x++)
+                for (int z = startZ; z < startZ+depth; z++)
+                {
+                    int index = ToIndex(x,z);
+                    tiles[index] = previous[(z-startZ)*width+x-startX];
+                    SetActive(index,tiles[index].state != TileState.Empty);
+                    NotifyChanged(x,z);
+                }
+        };
         return true;
     }
 
@@ -1559,7 +1588,8 @@ public sealed class FieldArea : MonoBehaviour
         ground.GetComponent<MeshFilter>().sharedMesh = blendedFieldMesh;
         var renderer = ground.GetComponent<MeshRenderer>(); renderer.sharedMaterial = blendedFieldMaterial;
         FieldGroundSurface.ApplyEdges(renderer, WorldSize,
-            soilVisualProfile != null ? soilVisualProfile.fieldFeather : fieldEdgeFeather, cellSize * .5f);
+            soilVisualProfile != null ? soilVisualProfile.fieldFeather : fieldEdgeFeather,
+            Mathf.Min(cellSize * .25f, .2f));
         originalSurfaceVisible = originalSurfaceRenderer.enabled;
         originalSurfaceRenderer.enabled = false;
     }

@@ -1,0 +1,60 @@
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\01_Crops_Shop.prefab capsule exists
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\01_Crops_Shop.prefab height actual=1.2 expected=1.2
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\01_Crops_Shop.prefab width actual=0.4 expected=0.4
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\01_Crops_Shop.prefab collider height actual=1.2 expected=1.2
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\01_Crops_Shop.prefab UI owner scale retained
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\01_Crops_Shop.prefab feet on ground actual=0 expected=0
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\02_Animal_Shop.prefab capsule exists
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\02_Animal_Shop.prefab height actual=1.2 expected=1.2
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\02_Animal_Shop.prefab width actual=0.4 expected=0.4
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\02_Animal_Shop.prefab collider height actual=1.2 expected=1.2
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\02_Animal_Shop.prefab UI owner scale retained
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\02_Animal_Shop.prefab feet on ground actual=0 expected=0
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\03_Minimarket_Shop.prefab capsule exists
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\03_Minimarket_Shop.prefab height actual=1.2 expected=1.2
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\03_Minimarket_Shop.prefab width actual=0.4 expected=0.4
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\03_Minimarket_Shop.prefab collider height actual=1.2 expected=1.2
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\03_Minimarket_Shop.prefab UI owner scale retained
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\03_Minimarket_Shop.prefab feet on ground actual=0 expected=0
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\04_Blacksmith_Shop.prefab capsule exists
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\04_Blacksmith_Shop.prefab height actual=1.2 expected=1.2
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\04_Blacksmith_Shop.prefab width actual=0.4 expected=0.4
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\04_Blacksmith_Shop.prefab collider height actual=1.2 expected=1.2
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\04_Blacksmith_Shop.prefab UI owner scale retained
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\04_Blacksmith_Shop.prefab feet on ground actual=0 expected=0
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\05_Lumber_Store.prefab capsule exists
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\05_Lumber_Store.prefab height actual=1.2 expected=1.2
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\05_Lumber_Store.prefab width actual=0.4 expected=0.4
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\05_Lumber_Store.prefab collider height actual=1.2 expected=1.2
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\05_Lumber_Store.prefab UI owner scale retained
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\05_Lumber_Store.prefab feet on ground actual=0 expected=0
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\06_Cafe_Shop.prefab capsule exists
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\06_Cafe_Shop.prefab height actual=1.2 expected=1.2
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\06_Cafe_Shop.prefab width actual=0.4 expected=0.4
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\06_Cafe_Shop.prefab collider height actual=1.2 expected=1.2
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\06_Cafe_Shop.prefab UI owner scale retained
+FIELD DUMMY PASS Assets/Nature  Paradaise/Prefabs/Shops/Testing\06_Cafe_Shop.prefab feet on ground actual=0 expected=0
+FIELD DUMMY PASS Production URP loaded for soil shader
+FIELD DUMMY PASS Actual Map tile size actual=0.8 expected=0.8
+FIELD DUMMY PASS 15 columns cover 12 metres actual=12 expected=12
+FIELD DUMMY PASS Field collider follows grid actual=12 expected=12
+FIELD DUMMY PASS Authored plane follows grid actual=1.2 expected=1.2
+FIELD DUMMY PASS Clicks outside resized field rejected
+FIELD DUMMY PASS Neighbour cell world spacing actual=0.7999998 expected=0.8
+FIELD DUMMY PASS Shared soil profile resolved
+FIELD DUMMY PASS Field texture repeat actual=2 expected=2
+FIELD DUMMY PASS Hoed texture repeat actual=0.8 expected=0.8
+FIELD DUMMY PASS Blended field exists
+FIELD DUMMY PASS Field edge fade in metres actual=0.12 expected=0.12
+FIELD DUMMY PASS Field corner radius actual=0.2 expected=0.2
+FIELD DUMMY PASS Field shader texture frequency actual=0.5 expected=0.5
+FIELD DUMMY PASS Hoe tiles at both resized field corners
+FIELD DUMMY PASS Save captures three modified tiles
+FIELD DUMMY PASS Save restore retains modified tile indices
+FIELD DUMMY PASS Restored hoe meshes rebuilt
+FIELD DUMMY PASS Tile feather scales with 0.8m grid actual=0.052 expected=0.052
+FIELD DUMMY PASS Wet soil fade reduced actual=0.05 expected=0.05
+FIELD DUMMY PASS Tile mesh respects inset actual=0.7120018 expected=0.712
+FIELD DUMMY PASS Actual terrain dirt layer repeat actual=4 expected=4
+FIELD DUMMY PASS Actual terrain sand layer repeat actual=5 expected=5
+FIELD DUMMY VALIDATION PASSED

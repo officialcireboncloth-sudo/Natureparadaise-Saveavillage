@@ -814,7 +814,10 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
             // Only switch the saved stage objects. Keep authored transforms and deletions intact.
             foreach (AnimalSceneStageVisual entry in sceneStageVisuals)
                 if (entry != null && entry.visual != null)
+                {
                     entry.visual.SetActive(entry.stage == stage);
+                    if(entry.stage==stage)FitCowCollider(entry.visual);
+                }
             return;
         }
 
@@ -833,6 +836,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         {
             SetFallbackRenderersVisible(true);
             visualAnchor.localScale = Vector3.Scale(originalVisualScale, GetDefaultScale(stage));
+            FitCowCollider(visualAnchor.gameObject);
             ApplyConditionVisual(true);
             return;
         }
@@ -858,6 +862,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
                 Quaternion.Euler(slot.localEulerAngles)
             );
             spawnedStageModel.transform.localScale = slot.scale;
+            FitCowCollider(spawnedStageModel);
             Animator animator = spawnedStageModel.GetComponentInChildren<Animator>();
             if (animator != null && slot.animatorController != null)
                 animator.runtimeAnimatorController = slot.animatorController;
@@ -867,6 +872,28 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
         SpawnPrimitiveDummy(stage, slot != null ? slot.scale : GetDefaultScale(stage));
         ApplyConditionVisual(true);
+    }
+
+    // Legacy Map cows attach growth to a raw pack model, rather than the authored
+    // Cow prefab. Keep that actor's old collider from remaining giant after a stage swap.
+    void FitCowCollider(GameObject model)
+    {
+        if(Type!=AnimalType.Cow || model==null)return;
+        var capsule=GetComponent<CapsuleCollider>();if(capsule==null)return;
+        bool found=false;Bounds bounds=default;
+        foreach(var renderer in model.GetComponentsInChildren<Renderer>(true))
+        {
+            if(!renderer.enabled || !renderer.gameObject.activeInHierarchy ||
+                renderer is not MeshRenderer && renderer is not SkinnedMeshRenderer ||
+                renderer.GetComponent<TMPro.TMP_Text>()!=null || renderer.GetComponent<TextMesh>()!=null)continue;
+            if(!found){bounds=renderer.bounds;found=true;}else bounds.Encapsulate(renderer.bounds);
+        }
+        if(!found || bounds.size.y<.01f)return;
+        float height=bounds.size.y/Mathf.Max(.001f,Mathf.Abs(transform.lossyScale.y));
+        capsule.direction=1;
+        capsule.radius=Mathf.Clamp(height*.27f,.08f,.5f);
+        capsule.height=Mathf.Max(height,capsule.radius*2f);
+        capsule.center=transform.InverseTransformPoint(bounds.center);
     }
 
     void SpawnPrimitiveDummy(AnimalGrowthStage stage, Vector3 growthScale)

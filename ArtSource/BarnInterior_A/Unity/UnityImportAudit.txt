@@ -1,0 +1,156 @@
+BARN INTERIOR A UNITY APPLY
+PASS Editor is stopped
+PASS Existing atlas material supported
+PASS Imported BarnInterior_Lv1
+PASS BarnInterior_Lv1 metre bounds, rear +Z, entrance at origin (error 0.02286372)
+PASS BarnInterior_Lv1 imported triangle count
+PASS BarnInterior_Lv1 shared Toonpack material
+PASS BarnInterior_Lv1 correct compartment count
+PASS BarnInterior_Lv1 combined geometry preserves every triangle plus 10 open-surface backs
+PASS BarnInterior_Lv1 renderers reduced from 60 to 12
+PASS Imported BarnInterior_Lv2
+PASS BarnInterior_Lv2 metre bounds, rear +Z, entrance at origin (error 0.02286307)
+PASS BarnInterior_Lv2 imported triangle count
+PASS BarnInterior_Lv2 shared Toonpack material
+PASS BarnInterior_Lv2 correct compartment count
+PASS BarnInterior_Lv2 combined geometry preserves every triangle plus 10 open-surface backs
+PASS BarnInterior_Lv2 renderers reduced from 81 to 16
+PASS Imported BarnInterior_Lv3
+PASS BarnInterior_Lv3 metre bounds, rear +Z, entrance at origin (error 0.02286307)
+PASS BarnInterior_Lv3 imported triangle count
+PASS BarnInterior_Lv3 shared Toonpack material
+PASS BarnInterior_Lv3 correct compartment count
+PASS BarnInterior_Lv3 combined geometry preserves every triangle plus 20 open-surface backs
+PASS BarnInterior_Lv3 renderers reduced from 115 to 22
+PASS Imported BarnInterior_Lv4
+PASS BarnInterior_Lv4 metre bounds, rear +Z, entrance at origin (error 0.02286187)
+PASS BarnInterior_Lv4 imported triangle count
+PASS BarnInterior_Lv4 shared Toonpack material
+PASS BarnInterior_Lv4 correct compartment count
+PASS BarnInterior_Lv4 combined geometry preserves every triangle plus 20 open-surface backs
+PASS BarnInterior_Lv4 renderers reduced from 140 to 28
+PASS Lv1 exactly one active layout
+PASS Lv1 no primitive trough duplication
+PASS Lv1 zero stock hides authored fills
+PASS Lv1 portion 1 reachable, including shared compartments
+PASS Lv1 portion 2 reachable, including shared compartments
+PASS Lv1 portion 3 reachable, including shared compartments
+PASS Lv1 portion 4 reachable, including shared compartments
+PASS Lv1 original storage capacity retained
+PASS Lv1 full stock displays every bound compartment
+PASS Lv1 consumption updates shared fill once
+PASS Lv2 exactly one active layout
+PASS Lv2 no primitive trough duplication
+PASS Lv2 zero stock hides authored fills
+PASS Lv2 portion 1 reachable, including shared compartments
+PASS Lv2 portion 2 reachable, including shared compartments
+PASS Lv2 portion 3 reachable, including shared compartments
+PASS Lv2 portion 4 reachable, including shared compartments
+PASS Lv2 portion 5 reachable, including shared compartments
+PASS Lv2 portion 6 reachable, including shared compartments
+PASS Lv2 portion 7 reachable, including shared compartments
+PASS Lv2 portion 8 reachable, including shared compartments
+PASS Lv2 original storage capacity retained
+PASS Lv2 full stock displays every bound compartment
+PASS Lv2 consumption updates shared fill once
+PASS Lv3 exactly one active layout
+PASS Lv3 no primitive trough duplication
+PASS Lv3 zero stock hides authored fills
+PASS Lv3 portion 1 reachable, including shared compartments
+PASS Lv3 portion 2 reachable, including shared compartments
+PASS Lv3 portion 3 reachable, including shared compartments
+PASS Lv3 portion 4 reachable, including shared compartments
+PASS Lv3 portion 5 reachable, including shared compartments
+PASS Lv3 portion 6 reachable, including shared compartments
+PASS Lv3 portion 7 reachable, including shared compartments
+PASS Lv3 portion 8 reachable, including shared compartments
+PASS Lv3 portion 9 reachable, including shared compartments
+PASS Lv3 portion 10 reachable, including shared compartments
+PASS Lv3 portion 11 reachable, including shared compartments
+PASS Lv3 portion 12 reachable, including shared compartments
+PASS Lv3 portion 13 reachable, including shared compartments
+PASS Lv3 portion 14 reachable, including shared compartments
+PASS Lv3 original storage capacity retained
+PASS Lv3 full stock displays every bound compartment
+PASS Lv3 consumption updates shared fill once
+PASS Lv4 exactly one active layout
+PASS Lv4 no primitive trough duplication
+PASS Lv4 zero stock hides authored fills
+PASS Lv4 portion 1 reachable, including shared compartments
+PASS Lv4 portion 2 reachable, including shared compartments
+PASS Lv4 portion 3 reachable, including shared compartments
+PASS Lv4 portion 4 reachable, including shared compartments
+PASS Lv4 portion 5 reachable, including shared compartments
+PASS Lv4 portion 6 reachable, including shared compartments
+PASS Lv4 portion 7 reachable, including shared compartments
+PASS Lv4 portion 8 reachable, including shared compartments
+PASS Lv4 portion 9 reachable, including shared compartments
+PASS Lv4 portion 10 reachable, including shared compartments
+PASS Lv4 portion 11 reachable, including shared compartments
+PASS Lv4 portion 12 reachable, including shared compartments
+PASS Lv4 portion 13 reachable, including shared compartments
+PASS Lv4 portion 14 reachable, including shared compartments
+PASS Lv4 portion 15 reachable, including shared compartments
+PASS Lv4 portion 16 reachable, including shared compartments
+PASS Lv4 portion 17 reachable, including shared compartments
+PASS Lv4 portion 18 reachable, including shared compartments
+PASS Lv4 portion 19 reachable, including shared compartments
+PASS Lv4 portion 20 reachable, including shared compartments
+PASS Lv4 original storage capacity retained
+PASS Lv4 full stock displays every bound compartment
+PASS Lv4 consumption updates shared fill once
+PASS Coop legacy four-slot fallback preserved
+PASS Real BarnInterior scene open
+PASS Existing entry spawn retained
+PASS Existing exit marker retained
+PASS Existing camera marker retained
+PASS Layout_Lv1_Editable animal spot clears solid geometry
+PASS Layout_Lv1_Editable animal spot clears solid geometry
+PASS Layout_Lv1_Editable animal spot clears solid geometry
+PASS Layout_Lv1_Editable animal spot clears solid geometry
+PASS Layout_Lv2_Editable animal spot clears solid geometry
+PASS Layout_Lv2_Editable animal spot clears solid geometry
+PASS Layout_Lv2_Editable animal spot clears solid geometry
+PASS Layout_Lv2_Editable animal spot clears solid geometry
+PASS Layout_Lv2_Editable animal spot clears solid geometry
+PASS Layout_Lv2_Editable animal spot clears solid geometry
+PASS Layout_Lv2_Editable animal spot clears solid geometry
+PASS Layout_Lv2_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv3_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS Layout_Lv4_Editable animal spot clears solid geometry
+PASS BarnInterior registered in build settings
+PASS BarnInterior saved with four connected prefabs
+
+BARN_INTERIOR_APPLY_PASS

@@ -11,7 +11,7 @@ public sealed class TerrainLayerVegetation : MonoBehaviour
     [SerializeField, HideInInspector] List<Binding> bindings = new();
     [SerializeField, HideInInspector] List<int> ownedSlots = new();
     Terrain terrain;
-    TerrainData authoredData, runtimeData;
+    TerrainData runtimeData;
     RectInt pending;
     bool hasPending;
     float rebuildAt;
@@ -29,6 +29,7 @@ public sealed class TerrainLayerVegetation : MonoBehaviour
         terrain = GetComponent<Terrain>();
         CaptureLayerMatches();
         if (terrain.terrainData != null) EnsureWritableData();
+        RefreshPrototypeDimensions();
         ApplyCulling();
         TerrainCallbacks.textureChanged += TextureChanged;
         TerrainCallbacks.heightmapChanged += HeightChanged;
@@ -37,13 +38,9 @@ public sealed class TerrainLayerVegetation : MonoBehaviour
     {
         TerrainCallbacks.textureChanged -= TextureChanged;
         TerrainCallbacks.heightmapChanged -= HeightChanged;
-        if (runtimeData != null)
-        {
-            terrain.terrainData = authoredData;
-            var collider = GetComponent<TerrainCollider>();
-            if (collider != null) collider.terrainData = authoredData;
-            Destroy(runtimeData); runtimeData = null;
-        }
+        // The host owns this data, including hidden/felled trees and harvested wild grass.
+        // Disabling decorative vegetation must not restore or destroy their shared state.
+        runtimeData = null;
     }
     void ApplyCulling()
     {
@@ -88,12 +85,44 @@ public sealed class TerrainLayerVegetation : MonoBehaviour
     void EnsureWritableData()
     {
         if (!Application.isPlaying || runtimeData != null) return;
-        authoredData = terrain.terrainData;
-        runtimeData = Instantiate(authoredData);
-        runtimeData.name = authoredData.name + " (runtime vegetation)";
-        terrain.terrainData = runtimeData;
-        var collider = GetComponent<TerrainCollider>();
-        if (collider != null) collider.terrainData = runtimeData;
+        var host = terrain.GetComponent<TerrainRuntimeDataHost>();
+        if (host == null) host = terrain.gameObject.AddComponent<TerrainRuntimeDataHost>();
+        if (host.EnsureInitialized()) runtimeData = host.RuntimeData;
+    }
+    /// <summary>Apply profile size edits without repainting details or restoring harvested grass.</summary>
+    [ContextMenu("Refresh Detail Dimensions Only")]
+    public void RefreshPrototypeDimensions()
+    {
+        if (terrain == null) terrain = GetComponent<Terrain>();
+        if (profile == null || terrain == null || terrain.terrainData == null) return;
+        EnsureWritableData();
+        var data = terrain.terrainData;
+        var prototypes = data.detailPrototypes;
+        bool changed = false;
+        foreach (var binding in bindings)
+        {
+            if (binding.prototype < 0 || binding.prototype >= prototypes.Length ||
+                binding.rule < 0 || binding.rule >= profile.rules.Count) continue;
+            var rule = profile.rules[binding.rule];
+            if (binding.variant < 0 || binding.variant >= rule.variants.Count) continue;
+            var variant = rule.variants[binding.variant];
+            var prototype = prototypes[binding.prototype];
+            float minWidth = Mathf.Max(.01f, Mathf.Min(variant.widthScale.x, variant.widthScale.y));
+            float maxWidth = Mathf.Max(.01f, Mathf.Max(variant.widthScale.x, variant.widthScale.y));
+            float minHeight = Mathf.Max(.01f, Mathf.Min(variant.heightScale.x, variant.heightScale.y));
+            float maxHeight = Mathf.Max(.01f, Mathf.Max(variant.heightScale.x, variant.heightScale.y));
+            if (Mathf.Approximately(prototype.minWidth,minWidth) && Mathf.Approximately(prototype.maxWidth,maxWidth) &&
+                Mathf.Approximately(prototype.minHeight,minHeight) && Mathf.Approximately(prototype.maxHeight,maxHeight)) continue;
+            prototype.minWidth=minWidth; prototype.maxWidth=maxWidth;
+            prototype.minHeight=minHeight; prototype.maxHeight=maxHeight;
+            changed=true;
+        }
+        if (!changed) return;
+        data.detailPrototypes=prototypes;
+        terrain.Flush();
+#if UNITY_EDITOR
+        if (!Application.isPlaying) UnityEditor.EditorUtility.SetDirty(data);
+#endif
     }
     void CaptureLayerMatches()
     {

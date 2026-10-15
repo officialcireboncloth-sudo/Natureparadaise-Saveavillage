@@ -54,8 +54,13 @@ Grid detail/manual detail yang sudah ada dipertahankan; sistem hanya mengubah
 slot miliknya. Terrain kosong dibuatkan grid 512 dengan patch 16. Terrain yang
 sebelumnya berbagi TerrainData diberi copy per tile untuk pengecualian berdasarkan
 posisi world. Backup awal TerrainData disimpan lokal di `Library/GardenTerrainBackups`.
-Saat masuk Play Mode, TerrainData dicopy runtime agar paint/detail runtime tidak ikut
-menulis asset asli; perubahan paint tersebut mengikuti persistence milik sistem terrain yang
+Saat masuk Play Mode, `TerrainRuntimeDataHost` menyediakan satu salinan TerrainData
+bersama untuk vegetasi dekoratif, pohon interaktif, rumput liar, Terrain renderer dan
+TerrainCollider. Semua manager membuat host bila belum ada. Vegetasi tidak boleh
+membuat salinan terpisah: perubahan tebang pohon pada salinan lain meninggalkan
+visual pohon asli yang tidak bisa diinteraksi. Disable/re-enable vegetasi tidak
+menghapus salinan bersama atau mengembalikan data asset. Asset sumber tetap tidak
+ditulis; perubahan paint mengikuti persistence milik sistem terrain yang
 memanggilnya, bukan disimpan otomatis oleh vegetation.
 Indeks layer paint tetap dipakai saat sistem musim mengganti layer dengan varian
 warna/salju runtime, sehingga mask grass tidak hilang ketika musim berganti.

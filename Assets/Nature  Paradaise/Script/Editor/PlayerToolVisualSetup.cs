@@ -13,6 +13,35 @@ public static class PlayerToolVisualSetup
     const string Models=Root+"/mesh/Prop/Tools";
     const string Prefabs=Root+"/Prefabs/Player/Tools";
     static bool rebuild;
+    [MenuItem("Nature Paradise/Player/Apply Revised Tool Fit (Updated Player FBX)")]
+    public static void ApplyRevisedToolFit()
+    {
+        if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Stop Play Mode before calibrating tool assets.");
+        var catalog=AssetDatabase.LoadAssetAtPath<PlayerToolVisualCatalog>(Root+"/Resources/Player/Player Tool Visual Catalog.asset");
+        if(catalog==null)throw new InvalidOperationException("Tool catalog missing");
+        foreach(var pair in new[]{("Hoe",1.5f),("Axe",1.85f),("Hammer",1.8f),("WateringCan",.85f)})
+        {
+            var entry=catalog.Find(pair.Item1);
+            if(entry==null)throw new InvalidOperationException("Missing tool "+pair.Item1);
+            var filters=entry.prefab.GetComponentsInChildren<MeshFilter>(true);
+            Bounds bounds=new Bounds();bool first=true;
+            foreach(var filter in filters)
+            {
+                var b=filter.sharedMesh.bounds;var matrix=entry.prefab.transform.worldToLocalMatrix*filter.transform.localToWorldMatrix;
+                for(int x=-1;x<=1;x+=2)for(int y=-1;y<=1;y+=2)for(int z=-1;z<=1;z+=2)
+                {
+                    Vector3 v=matrix.MultiplyPoint3x4(b.center+Vector3.Scale(b.extents,new Vector3(x,y,z)));
+                    if(first){bounds=new Bounds(v,Vector3.zero);first=false;}else bounds.Encapsulate(v);
+                }
+            }
+            float size=Mathf.Max(bounds.size.x,Mathf.Max(bounds.size.y,bounds.size.z));
+            entry.scale=pair.Item2*PlayerDimensions.ReferenceScale/size;
+        }
+        foreach(string id in new[]{"Axe","Hammer","Sickle"})CalibrateGatheringAction(catalog.Find(id));
+        CalibrateWateringGrip(catalog.Find("WateringCan"));
+        EditorUtility.SetDirty(catalog);AssetDatabase.SaveAssets();
+        Debug.Log("[HeldTools] Updated FBX fit applied: Original tool/body proportions at the shared player reference scale.");
+    }
     public static void RebuildGenerated(){rebuild=true;try{Apply();}finally{rebuild=false;}}
     [MenuItem("Nature Paradise/Player/Create Imported Tool Visuals")]
     public static void Apply()
@@ -24,7 +53,9 @@ public static class PlayerToolVisualSetup
         if(catalog==null){catalog=ScriptableObject.CreateInstance<PlayerToolVisualCatalog>();AssetDatabase.CreateAsset(catalog,path);}
         AddWorkTools(catalog);
         AddCuttingTools(catalog);
-        Add(catalog,"WateringCan",PlayerToolType.WateringCan,.65f,new Vector3(.08f,.77f,0f),Quaternion.Euler(0f,180f,0f),new Vector3(0f,0f,180f));
+        Add(catalog,"WateringCan",PlayerToolType.WateringCan,.85f,new Vector3(.08f,.77f,0f),Quaternion.Euler(0f,180f,0f),new Vector3(0f,0f,180f));
+        var watering=catalog.Find("WateringCan");
+        if(watering!=null && (rebuild || !watering.workGrip))CalibrateWateringGrip(watering);
         Add(catalog,"FishingRod",PlayerToolType.FishingRod,1.85f,new Vector3(.20f,.18f,.38f),Quaternion.Inverse(Quaternion.LookRotation(new Vector3(-.49f,.80f,-.68f),Vector3.up)));
         Add(catalog,"Shears",PlayerToolType.Shears,.32f,new Vector3(0f,.11f,-.15f),Quaternion.Euler(0f,90f,0f));
         Add(catalog,"Brush",PlayerToolType.None,.22f,new Vector3(0f,.44f,0f),Quaternion.identity,new Vector3(0f,0f,180f));
@@ -55,17 +86,18 @@ public static class PlayerToolVisualSetup
     {
         // The imported hoe has its blade at the LOW end of Y; the axe at the HIGH end.
         // Canonical +Z runs along the shaft towards the head; +Y is the cutting edge.
-        if(onlyId==null || onlyId=="Hoe")Add(catalog,"Hoe",PlayerToolType.Hoe,1.8f,new Vector3(-.10f,.73f,0f),Quaternion.Inverse(Quaternion.LookRotation(Vector3.down,Vector3.left)));
-        if(onlyId==null || onlyId=="Axe")Add(catalog,"Axe",PlayerToolType.Axe,1.65f,new Vector3(-.10f,.37f,0f),Quaternion.Inverse(Quaternion.LookRotation(Vector3.up,Vector3.right)));
+        if(onlyId==null || onlyId=="Hoe")Add(catalog,"Hoe",PlayerToolType.Hoe,1.5f,new Vector3(-.10f,.73f,0f),Quaternion.Inverse(Quaternion.LookRotation(Vector3.down,Vector3.left)));
+        if(onlyId==null || onlyId=="Axe")Add(catalog,"Axe",PlayerToolType.Axe,1.85f,new Vector3(-.10f,.37f,0f),Quaternion.Inverse(Quaternion.LookRotation(Vector3.up,Vector3.right)));
         foreach(var id in new[]{"Hoe","Axe"})
         {
             if(onlyId!=null && onlyId!=id)continue;
             var entry=catalog.Find(id);if(entry==null || (!rebuild && entry.workGrip))continue;
             entry.workGrip=true;entry.twoHandsWhileCarrying=id=="Axe";
             entry.handPosition=Vector3.zero;
-            entry.secondHandGrip=id=="Axe"?new Vector3(0f,0f,-.30f):new Vector3(0f,.18f,-.279f);
+            entry.secondHandGrip=id=="Axe"?new Vector3(0f,0f,-.30f):new Vector3(0f,.15f,-.2325f);
             entry.carryDirection=id=="Axe"?new Vector3(.55f,.3f,.78f):new Vector3(0f,-.75f,.66f);
             CalibrateCarryGrips(catalog,id);
+            if(id=="Axe")CalibrateGatheringAction(entry);
         }
     }
     [MenuItem("Nature Paradise/Player/Rebuild Hammer and Sickle Grips")]
@@ -80,7 +112,7 @@ public static class PlayerToolVisualSetup
     static void AddCuttingTools(PlayerToolVisualCatalog catalog)
     {
         // Hammer: +Z along shaft, +Y normal to an end striking face (source +X).
-        Add(catalog,"Hammer",PlayerToolType.Hammer,1.5f,new Vector3(.00013f,.30f,0f),Quaternion.Inverse(Quaternion.LookRotation(Vector3.up,Vector3.right)));
+        Add(catalog,"Hammer",PlayerToolType.Hammer,1.8f,new Vector3(.00013f,.30f,0f),Quaternion.Inverse(Quaternion.LookRotation(Vector3.up,Vector3.right)));
         // Curved sickle handle: +Z towards the blade; +X normal to the flat blade (source +Z).
         Add(catalog,"Sickle",PlayerToolType.Sickle,1.05f,new Vector3(.32f,.15f,0f),Quaternion.Inverse(Quaternion.LookRotation(new Vector3(-.65f,.75f,0f),new Vector3(.75f,.65f,0f))));
         foreach(string id in new[]{"Hammer","Sickle"})
@@ -98,18 +130,57 @@ public static class PlayerToolVisualSetup
     {
         var source=AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/Player/PlayerVisual.prefab");
         var set=AssetDatabase.LoadAssetAtPath<PlayerAnimationSetSO>(Root+"/Player/Animations/Player Animation Set.asset");
-        var clip=set==null?null:entry.tool==PlayerToolType.Hammer?set.hammeringRock:set.sickle;
+        var clip=set==null?null:entry.tool==PlayerToolType.Hammer?set.hammeringRock:entry.tool==PlayerToolType.Axe?set.choppingTree:set.sickle;
         if(source==null || clip==null)return;
         var preview=UnityEngine.Object.Instantiate(source);
         try
         {
             var rig=preview.GetComponentsInChildren<Animator>(true).First(x=>x.runtimeAnimatorController!=null);rig.enabled=false;
-            clip.SampleAnimation(rig.gameObject,entry.tool==PlayerToolType.Hammer?.68f:.85f);
+            float contact=Mathf.Min(clip.length,entry.tool==PlayerToolType.Hammer?.68f:entry.tool==PlayerToolType.Axe?.55f:.85f);
+            clip.SampleAnimation(rig.gameObject,contact);
             var hand=preview.GetComponentsInChildren<Transform>(true).First(t=>t.name=="mixamorig:RightHand");
-            Vector3 shaft=(preview.transform.forward*(entry.tool==PlayerToolType.Hammer?.72f:.6f)-Vector3.up*(entry.tool==PlayerToolType.Hammer?.70f:.8f)).normalized;
+            var left=preview.GetComponentsInChildren<Transform>(true).First(t=>t.name=="mixamorig:LeftHand");
+            Vector3 shaft=entry.tool==PlayerToolType.Sickle?(preview.transform.forward-Vector3.up*.15f).normalized:(PalmPosition(hand)-PalmPosition(left)).normalized;
             Vector3 normal=Vector3.ProjectOnPlane(Vector3.up,shaft);
             Quaternion cuttingPose=Quaternion.LookRotation(shaft,entry.tool==PlayerToolType.Hammer?-normal:Vector3.Cross(shaft,normal));
             entry.handEuler=(Quaternion.Inverse(hand.rotation)*cuttingPose).eulerAngles;
+            if(entry.tool!=PlayerToolType.Sickle)
+            {
+                Quaternion sampledRotation=hand.rotation;
+                float separation=Vector3.Distance(PalmPosition(hand),PalmPosition(left));
+                clip.SampleAnimation(rig.gameObject,Mathf.Max(0,contact-.025f));Vector3 before=PalmPosition(hand);
+                clip.SampleAnimation(rig.gameObject,Mathf.Min(clip.length,contact+.025f));Vector3 after=PalmPosition(hand);
+                Vector3 face=Vector3.ProjectOnPlane(after-before,shaft).normalized;
+                if(face.sqrMagnitude<.1f)throw new InvalidOperationException("No swing velocity at contact for "+entry.id);
+                entry.actionPlaneNormal=preview.transform.InverseTransformDirection(Vector3.Cross(shaft,face).normalized);
+                cuttingPose=Quaternion.LookRotation(shaft,face);
+                entry.handEuler=(Quaternion.Inverse(sampledRotation)*cuttingPose).eulerAngles;
+                entry.secondHandGrip=new Vector3(0,0,-separation/entry.scale);
+            }
+        }
+        finally{UnityEngine.Object.DestroyImmediate(preview);}
+    }
+    static Vector3 PalmPosition(Transform hand)
+    {
+        var knuckles=hand.GetComponentsInChildren<Transform>(true).Where(t=>t.name.EndsWith("HandIndex1") || t.name.EndsWith("HandMiddle1") || t.name.EndsWith("HandRing1")).ToArray();
+        return knuckles.Length==0?hand.position:Vector3.Lerp(hand.position,knuckles.Aggregate(Vector3.zero,(v,t)=>v+t.position)/knuckles.Length,.75f);
+    }
+    static void CalibrateWateringGrip(PlayerToolVisualCatalog.Entry entry)
+    {
+        var source=AssetDatabase.LoadAssetAtPath<GameObject>(Root+"/Prefabs/Player/PlayerVisual.prefab");
+        var set=AssetDatabase.LoadAssetAtPath<PlayerAnimationSetSO>(Root+"/Player/Animations/Player Animation Set.asset");
+        if(entry==null || source==null || set==null || set.wateringPlant==null)throw new InvalidOperationException("Watering calibration source missing");
+        var preview=UnityEngine.Object.Instantiate(source);
+        try
+        {
+            var rig=preview.GetComponentsInChildren<Animator>(true).First(a=>a.runtimeAnimatorController!=null);rig.enabled=false;
+            var hand=preview.GetComponentsInChildren<Transform>(true).First(t=>t.name=="mixamorig:RightHand");
+            Quaternion canonical=Quaternion.Inverse(Quaternion.LookRotation(Vector3.right,Vector3.up));
+            set.idle.SampleAnimation(rig.gameObject,.25f);
+            entry.carryHandEuler=(Quaternion.Inverse(hand.rotation)*Quaternion.LookRotation(preview.transform.forward,Vector3.up)*canonical).eulerAngles;
+            set.wateringPlant.SampleAnimation(rig.gameObject,Mathf.Min(set.wateringPlant.length,1.36f));
+            entry.handEuler=(Quaternion.Inverse(hand.rotation)*Quaternion.LookRotation((preview.transform.forward-Vector3.up*.65f).normalized,Vector3.up)*canonical).eulerAngles;
+            entry.handPosition=Vector3.zero;entry.workGrip=true;entry.twoHandsDuringAction=false;entry.twoHandsWhileCarrying=false;
         }
         finally{UnityEngine.Object.DestroyImmediate(preview);}
     }
@@ -120,6 +191,8 @@ public static class PlayerToolVisualSetup
         var catalog=AssetDatabase.LoadAssetAtPath<PlayerToolVisualCatalog>(Root+"/Resources/Player/Player Tool Visual Catalog.asset");
         if(catalog==null)return;
         CalibrateCarryGrips(catalog,null);
+        var watering=catalog.Find("WateringCan");
+        if(watering!=null && watering.workGrip)CalibrateWateringGrip(watering);
         EditorUtility.SetDirty(catalog);AssetDatabase.SaveAssets();
     }
     static void CalibrateCarryGrips(PlayerToolVisualCatalog catalog,string onlyId)
@@ -135,7 +208,7 @@ public static class PlayerToolVisualSetup
             rig.enabled=false;animations.idle.SampleAnimation(rig.gameObject,.25f);
             var hand=preview.GetComponentsInChildren<Transform>(true).FirstOrDefault(x=>x.name=="mixamorig:RightHand");
             if(hand==null)return;
-            foreach(var entry in catalog.entries.Where(x=>x!=null && x.workGrip && (onlyId==null || x.id==onlyId)))
+            foreach(var entry in catalog.entries.Where(x=>x!=null && x.workGrip && x.tool!=PlayerToolType.WateringCan && (onlyId==null || x.id==onlyId)))
             {
                 Vector3 shaft=preview.transform.TransformDirection(entry.carryDirection).normalized;
                 Quaternion carry=Quaternion.LookRotation(shaft,Vector3.ProjectOnPlane(Vector3.down,shaft));
@@ -147,6 +220,7 @@ public static class PlayerToolVisualSetup
     }
     static void Add(PlayerToolVisualCatalog catalog,string id,PlayerToolType tool,float longestSize,Vector3 sourceGrip,Quaternion orientation,Vector3? handEuler=null)
     {
+        longestSize*=PlayerDimensions.ReferenceScale;
         var entry=catalog.Find(id);if(entry!=null && !rebuild)return; // Preserve Inspector edits on subsequent setup runs.
         var source=AssetDatabase.LoadAssetAtPath<GameObject>(Models+"/Tool_"+id+".fbx");if(source==null)throw new InvalidOperationException("Missing tool "+id);
         var model=(GameObject)PrefabUtility.InstantiatePrefab(source);

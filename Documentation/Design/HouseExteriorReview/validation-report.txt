@@ -1,0 +1,121 @@
+PASS: proposal status is sketch only
+PASS: four designs; Lv3/Lv4 share model
+PASS: front convention explicit +Z
+PASS: atlas dimensions match actual PSD
+PASS: source atlas hash unchanged
+PASS: wall: color sampled from source atlas
+PASS: wall: UV conversion and margin 4 px
+PASS: trim: color sampled from source atlas
+PASS: trim: UV conversion and margin 4 px
+PASS: roof: color sampled from source atlas
+PASS: roof: UV conversion and margin 4 px
+PASS: roof_light: color sampled from source atlas
+PASS: roof_light: UV conversion and margin 4 px
+PASS: wood: color sampled from source atlas
+PASS: wood: UV conversion and margin 4 px
+PASS: stone: color sampled from source atlas
+PASS: stone: UV conversion and margin 4 px
+PASS: stone_light: color sampled from source atlas
+PASS: stone_light: UV conversion and margin 4 px
+PASS: brick: color sampled from source atlas
+PASS: brick: UV conversion and margin 4 px
+PASS: metal: color sampled from source atlas
+PASS: metal: UV conversion and margin 4 px
+PASS: window: color sampled from source atlas
+PASS: window: UV conversion and margin 4 px
+PASS: leaf: color sampled from source atlas
+PASS: leaf: UV conversion and margin 4 px
+PASS: flower: color sampled from source atlas
+PASS: flower: UV conversion and margin 4 px
+PASS: purple: color sampled from source atlas
+PASS: purple: UV conversion and margin 4 px
+PASS: pot: color sampled from source atlas
+PASS: pot: UV conversion and margin 4 px
+PASS: glass: color sampled from source atlas
+PASS: glass: UV conversion and margin 4 px
+PASS: opaque material exists
+PASS: emission material exists
+PASS: glass material exists
+PASS: glass uses actual pack texture + transparency
+PASS: existing glass PSD is 128 x 128
+PASS: no new runtime textures planned
+PASS: Lv1: all coordinates finite
+PASS: Lv1: declared bounds match exact primitives
+PASS: Lv1: W/D/H correct axis mapping
+PASS: Lv1: 22 x 17 m reservation contains all visual parts
+PASS: Lv1: approach within reservation
+PASS: Lv1: door height accommodates 3.6 m player
+PASS: Lv1: stable scale and common front door plane
+PASS: Lv1: component triangle allocation adds to target
+PASS: Lv1: LOD budgets ordered
+PASS: Lv1: sketch complexity below final hard cap (not final mesh count)
+PASS: Lv1: roof slope derived from actual rise/run
+PASS: Lv1: production material slots <= 3
+PASS: Lv1: attached decor clears 2.4 m approach lane
+PASS: Lv1: front-right drawing present
+PASS: Lv1: rear-left drawing present
+PASS: Lv1: elevations drawing present
+PASS: Lv1: plan drawing present
+PASS: Lv2: all coordinates finite
+PASS: Lv2: declared bounds match exact primitives
+PASS: Lv2: W/D/H correct axis mapping
+PASS: Lv2: 22 x 17 m reservation contains all visual parts
+PASS: Lv2: approach within reservation
+PASS: Lv2: door height accommodates 3.6 m player
+PASS: Lv2: stable scale and common front door plane
+PASS: Lv2: component triangle allocation adds to target
+PASS: Lv2: LOD budgets ordered
+PASS: Lv2: sketch complexity below final hard cap (not final mesh count)
+PASS: Lv2: roof slope derived from actual rise/run
+PASS: Lv2: production material slots <= 3
+PASS: Lv2: attached decor clears 2.4 m approach lane
+PASS: Lv2: front-right drawing present
+PASS: Lv2: rear-left drawing present
+PASS: Lv2: elevations drawing present
+PASS: Lv2: plan drawing present
+PASS: Lv3-4: all coordinates finite
+PASS: Lv3-4: declared bounds match exact primitives
+PASS: Lv3-4: W/D/H correct axis mapping
+PASS: Lv3-4: 22 x 17 m reservation contains all visual parts
+PASS: Lv3-4: approach within reservation
+PASS: Lv3-4: door height accommodates 3.6 m player
+PASS: Lv3-4: stable scale and common front door plane
+PASS: Lv3-4: component triangle allocation adds to target
+PASS: Lv3-4: LOD budgets ordered
+PASS: Lv3-4: sketch complexity below final hard cap (not final mesh count)
+PASS: Lv3-4: roof slope derived from actual rise/run
+PASS: Lv3-4: production material slots <= 3
+PASS: Lv3-4: attached decor clears 2.4 m approach lane
+PASS: Lv3-4: front-right drawing present
+PASS: Lv3-4: rear-left drawing present
+PASS: Lv3-4: elevations drawing present
+PASS: Lv3-4: plan drawing present
+PASS: Lv5: all coordinates finite
+PASS: Lv5: declared bounds match exact primitives
+PASS: Lv5: W/D/H correct axis mapping
+PASS: Lv5: 22 x 17 m reservation contains all visual parts
+PASS: Lv5: approach within reservation
+PASS: Lv5: door height accommodates 3.6 m player
+PASS: Lv5: stable scale and common front door plane
+PASS: Lv5: component triangle allocation adds to target
+PASS: Lv5: LOD budgets ordered
+PASS: Lv5: sketch complexity below final hard cap (not final mesh count)
+PASS: Lv5: roof slope derived from actual rise/run
+PASS: Lv5: production material slots <= 3
+PASS: Lv5: attached decor clears 2.4 m approach lane
+PASS: Lv5: front-right drawing present
+PASS: Lv5: rear-left drawing present
+PASS: Lv5: elevations drawing present
+PASS: Lv5: plan drawing present
+PASS: all component identifiers unique
+PASS: Lv2 has exactly one skylight
+PASS: Lv5 has exactly two skylights
+PASS: Lv3-4 has wing + dormer
+PASS: Lv5 glass bay has fixed six-point footprint / five exterior facets
+PASS: Lv1: correct unique reference archived
+PASS: Lv2: correct unique reference archived
+PASS: Lv3-4: correct unique reference archived
+PASS: Lv5: correct unique reference archived
+PASS: review folder contains no production meshes
+
+119 design checks passed. No Blender/Unity validation claimed.

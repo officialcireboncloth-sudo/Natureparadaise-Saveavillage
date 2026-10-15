@@ -1,0 +1,39 @@
+BARN SIZE REVISION +75% = 1.75x
+PASS Editor stopped
+PASS Exterior authoring Lv1
+PASS Exterior bounds/collider/entrance scale Lv1
+PASS Exterior geometry count unchanged Lv1
+PASS Exterior authoring Lv2
+PASS Exterior bounds/collider/entrance scale Lv2
+PASS Exterior geometry count unchanged Lv2
+PASS Exterior authoring Lv3
+PASS Exterior bounds/collider/entrance scale Lv3
+PASS Exterior geometry count unchanged Lv3
+PASS Exterior authoring Lv4
+PASS Exterior bounds/collider/entrance scale Lv4
+PASS Exterior geometry count unchanged Lv4
+PASS Exterior authoring Lv5
+PASS Exterior bounds/collider/entrance scale Lv5
+PASS Exterior geometry count unchanged Lv5
+PASS Interior markers/capacity Lv1
+PASS Interior floor and colliders enlarged Lv1
+PASS Interior geometry count unchanged Lv1
+PASS Interior markers/capacity Lv2
+PASS Interior floor and colliders enlarged Lv2
+PASS Interior geometry count unchanged Lv2
+PASS Interior markers/capacity Lv3
+PASS Interior floor and colliders enlarged Lv3
+PASS Interior geometry count unchanged Lv3
+PASS Interior markers/capacity Lv4
+PASS Interior floor and colliders enlarged Lv4
+PASS Interior geometry count unchanged Lv4
+PASS Scene layout 1
+PASS Scene layout 2
+PASS Scene layout 3
+PASS Scene layout 4
+PASS Scaled BarnInterior scene saved
+PropertySite restore + rotated entrance checks: PASS
+Lv1: saved state restores new prefab; 0/90/180/270-degree animal/portal entry matches placement +Z PASS.
+Lv2: saved state restores new prefab; 0/90/180/270-degree animal/portal entry matches placement +Z PASS.
+Lv3: saved state restores new prefab; 0/90/180/270-degree animal/portal entry matches placement +Z PASS.
+Lv4: saved state restores new prefab; 0/90/180/270-degree animal/portal entry matches placement +Z PASS.

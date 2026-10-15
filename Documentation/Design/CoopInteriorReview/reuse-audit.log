@@ -1,0 +1,427 @@
+Extensions: writing cache failed ([Errno 13] Permission denied: 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.cache\\compat.dat').
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\LICENSE', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52E140>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\METADATA', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52E140>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\RECORD', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52E140>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\top_level.txt', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52E140>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\WHEEL', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52E140>))
+Failed to remove: (<built-in function rmdir>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52E140>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\adapters.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\api.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\auth.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\certs.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\compat.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\cookies.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\exceptions.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\help.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\hooks.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\models.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\packages.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\sessions.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\status_codes.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\structures.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\utils.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\_internal_utils.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__init__.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\adapters.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\api.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\auth.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7D52EA80>))Blender 4.5.14 LTS (hash 62c1db4208e8 built 2026-10-14 01:33:56)
+Fra:1 Mem:8.56M (Peak 8.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | AuditKey
+Fra:1 Mem:8.56M (Peak 8.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | TFP_Raw_Egg_01A_LOD0
+Fra:1 Mem:10.57M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:10.35M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:10.35M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:10.35M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:10.35M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:10.43M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:10.43M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:10.43M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:10.43M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:10.43M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:10.43M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:10.43M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:10.43M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:10.43M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:10.43M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:10.43M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:10.44M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:10.44M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:10.44M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:10.44M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:10.44M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:10.44M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:10.44M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:10.44M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:10.44M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:10.44M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:10.44M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:26.45M (Peak 26.45M) | Time:00:00.10 | Mem:16.01M, Peak:16.01M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:26.45M (Peak 26.45M) | Time:00:00.10 | Mem:16.01M, Peak:16.01M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.45M (Peak 26.45M) | Time:00:00.10 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:26.45M (Peak 26.45M) | Time:00:00.10 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:26.45M (Peak 26.45M) | Time:00:00.10 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:26.45M (Peak 26.45M) | Time:00:00.10 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:26.46M (Peak 26.46M) | Time:00:00.10 | Mem:16.01M, Peak:16.10M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.46M (Peak 26.46M) | Time:00:00.10 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:26.46M (Peak 26.46M) | Time:00:00.10 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:26.46M (Peak 26.46M) | Time:00:00.10 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:26.46M (Peak 26.46M) | Time:00:00.10 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Sample 0/6
+Fra:1 Mem:43.60M (Peak 43.60M) | Time:00:00.14 | Remaining:00:00.20 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 1/6
+Fra:1 Mem:50.78M (Peak 61.55M) | Time:00:03.47 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 6/6
+Fra:1 Mem:50.78M (Peak 61.55M) | Time:00:03.47 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Documentation\Design\CoopInteriorReview\ReusePreviews\TFP_Raw_Egg_01A.png'
+Time: 00:03.51 (Saving: 00:00.02)
+
+Fra:1 Mem:10.56M (Peak 10.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | AuditKey
+Fra:1 Mem:10.56M (Peak 10.56M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | TFP_Egg_01A
+Fra:1 Mem:10.57M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:10.38M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:10.38M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:10.38M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:10.38M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:10.46M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:10.46M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:10.46M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:10.46M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:10.46M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:10.46M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:10.46M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:10.46M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:10.46M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:10.46M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:10.46M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:10.47M (Peak 10.57M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:10.47M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:10.47M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:10.47M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:10.47M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:10.47M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:10.47M (Peak 10.57M) | Time:00:00.00 | Mem:0.01M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:10.47M (Peak 10.57M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:10.47M (Peak 10.57M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:10.47M (Peak 10.57M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:10.47M (Peak 10.57M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:26.48M (Peak 26.48M) | Time:00:00.09 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:26.48M (Peak 26.48M) | Time:00:00.09 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.48M (Peak 26.48M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:26.48M (Peak 26.48M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:26.48M (Peak 26.48M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:26.48M (Peak 26.48M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:26.48M (Peak 26.48M) | Time:00:00.09 | Mem:16.02M, Peak:16.10M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.48M (Peak 26.48M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:26.48M (Peak 26.48M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:26.49M (Peak 26.49M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:26.49M (Peak 26.49M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Sample 0/6
+Fra:1 Mem:43.63M (Peak 43.63M) | Time:00:00.12 | Remaining:00:00.15 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 1/6
+Fra:1 Mem:50.81M (Peak 61.57M) | Time:00:03.37 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 6/6
+Fra:1 Mem:50.81M (Peak 61.57M) | Time:00:03.38 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Documentation\Design\CoopInteriorReview\ReusePreviews\TFP_Egg_01A.png'
+Time: 00:03.42 (Saving: 00:00.03)
+
+Fra:1 Mem:10.62M (Peak 10.62M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | AuditKey
+Fra:1 Mem:10.62M (Peak 10.62M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | TFP_Egg_02A
+Fra:1 Mem:10.63M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:10.44M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:10.44M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:10.44M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:10.44M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:10.52M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:10.52M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:10.52M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:10.52M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:10.52M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:10.52M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.01M, Peak:0.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.01M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.01M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:10.53M (Peak 10.63M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:26.54M (Peak 26.54M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:26.54M (Peak 26.54M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.54M (Peak 26.54M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:26.54M (Peak 26.54M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:26.54M (Peak 26.54M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:26.54M (Peak 26.54M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:26.55M (Peak 26.55M) | Time:00:00.11 | Mem:16.02M, Peak:16.10M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.55M (Peak 26.55M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:26.55M (Peak 26.55M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:26.55M (Peak 26.55M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:26.55M (Peak 26.55M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Sample 0/6
+Fra:1 Mem:43.69M (Peak 43.69M) | Time:00:00.14 | Remaining:00:00.15 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 1/6
+Fra:1 Mem:50.87M (Peak 61.64M) | Time:00:03.77 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 6/6
+Fra:1 Mem:50.87M (Peak 61.64M) | Time:00:03.77 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Documentation\Design\CoopInteriorReview\ReusePreviews\TFP_Egg_02A.png'
+Time: 00:03.79 (Saving: 00:00.02)
+
+Fra:1 Mem:10.69M (Peak 10.69M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | AuditKey
+Fra:1 Mem:10.69M (Peak 10.69M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | TFP_Jar_01A
+Fra:1 Mem:10.70M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:10.51M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:10.51M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:10.51M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:10.51M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:10.59M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:10.59M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:10.59M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:10.59M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:10.59M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:10.59M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:10.59M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:10.59M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:10.59M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:10.59M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:10.59M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:10.60M (Peak 10.70M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:10.60M (Peak 10.70M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:10.60M (Peak 10.70M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:10.60M (Peak 10.70M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:10.60M (Peak 10.70M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:10.60M (Peak 10.70M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:10.60M (Peak 10.70M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:10.60M (Peak 10.70M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:10.60M (Peak 10.70M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:10.60M (Peak 10.70M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:10.60M (Peak 10.70M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:26.61M (Peak 26.61M) | Time:00:00.08 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:26.61M (Peak 26.61M) | Time:00:00.08 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.61M (Peak 26.61M) | Time:00:00.08 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:26.61M (Peak 26.61M) | Time:00:00.08 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:26.61M (Peak 26.61M) | Time:00:00.08 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:26.61M (Peak 26.61M) | Time:00:00.08 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:26.62M (Peak 26.62M) | Time:00:00.08 | Mem:16.02M, Peak:16.10M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.62M (Peak 26.62M) | Time:00:00.08 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:26.62M (Peak 26.62M) | Time:00:00.08 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:26.62M (Peak 26.62M) | Time:00:00.08 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:26.62M (Peak 26.62M) | Time:00:00.08 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Sample 0/6
+Fra:1 Mem:43.76M (Peak 43.76M) | Time:00:00.15 | Remaining:00:00.32 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 1/6
+Fra:1 Mem:50.94M (Peak 61.71M) | Time:00:03.77 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 6/6
+Fra:1 Mem:50.94M (Peak 61.71M) | Time:00:03.77 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Documentation\Design\CoopInteriorReview\ReusePreviews\TFP_Jar_01A.png'
+Time: 00:03.80 (Saving: 00:00.03)
+
+Fra:1 Mem:10.75M (Peak 10.75M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | AuditKey
+Fra:1 Mem:10.75M (Peak 10.75M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | TFP_Jar_01B
+Fra:1 Mem:10.76M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:10.57M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:10.57M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:10.57M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:10.57M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:10.66M (Peak 10.76M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:26.68M (Peak 26.68M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:26.68M (Peak 26.68M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.68M (Peak 26.68M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:26.68M (Peak 26.68M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:26.68M (Peak 26.68M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:26.68M (Peak 26.68M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:26.68M (Peak 26.68M) | Time:00:00.11 | Mem:16.02M, Peak:16.10M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.68M (Peak 26.68M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:26.68M (Peak 26.68M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:26.68M (Peak 26.68M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:26.68M (Peak 26.68M) | Time:00:00.11 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Sample 0/6
+Fra:1 Mem:43.82M (Peak 43.82M) | Time:00:00.18 | Remaining:00:00.35 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 1/6
+Fra:1 Mem:51.00M (Peak 61.77M) | Time:00:03.76 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 6/6
+Fra:1 Mem:51.00M (Peak 61.77M) | Time:00:03.76 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Documentation\Design\CoopInteriorReview\ReusePreviews\TFP_Jar_01B.png'
+Time: 00:03.80 (Saving: 00:00.03)
+
+Fra:1 Mem:10.82M (Peak 10.82M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | AuditKey
+Fra:1 Mem:10.82M (Peak 10.82M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | TFP_Honey_Jar_01A
+Fra:1 Mem:10.83M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:10.64M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:10.64M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:10.64M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:10.64M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:10.73M (Peak 10.83M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:10.72M (Peak 10.83M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:10.73M (Peak 10.83M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:10.73M (Peak 10.83M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:10.73M (Peak 10.83M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:10.73M (Peak 10.83M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:10.73M (Peak 10.83M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:26.74M (Peak 26.74M) | Time:00:00.09 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:26.74M (Peak 26.74M) | Time:00:00.09 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.74M (Peak 26.74M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:26.74M (Peak 26.74M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:26.74M (Peak 26.74M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:26.74M (Peak 26.74M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:26.74M (Peak 26.74M) | Time:00:00.09 | Mem:16.02M, Peak:16.10M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.74M (Peak 26.74M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:26.74M (Peak 26.74M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:26.75M (Peak 26.75M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:26.75M (Peak 26.75M) | Time:00:00.09 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Sample 0/6
+Fra:1 Mem:43.88M (Peak 43.88M) | Time:00:00.14 | Remaining:00:00.26 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 1/6
+Fra:1 Mem:51.07M (Peak 61.83M) | Time:00:03.78 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 6/6
+Fra:1 Mem:51.07M (Peak 61.83M) | Time:00:03.78 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Documentation\Design\CoopInteriorReview\ReusePreviews\TFP_Honey_Jar_01A.png'
+Time: 00:03.81 (Saving: 00:00.03)
+
+Fra:1 Mem:10.89M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | AuditKey
+Fra:1 Mem:10.89M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | TFP_Kitchen_Bowl_01A
+Fra:1 Mem:10.90M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:10.71M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:10.71M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:10.71M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:10.71M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:10.80M (Peak 26.65M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:26.82M (Peak 26.82M) | Time:00:00.08 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:26.82M (Peak 26.82M) | Time:00:00.08 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.82M (Peak 26.82M) | Time:00:00.08 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:26.82M (Peak 26.82M) | Time:00:00.08 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:26.82M (Peak 26.82M) | Time:00:00.08 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:26.82M (Peak 26.82M) | Time:00:00.08 | Mem:16.10M, Peak:16.10M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:26.82M (Peak 26.82M) | Time:00:00.08 | Mem:16.02M, Peak:16.10M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.82M (Peak 26.82M) | Time:00:00.08 | Mem:16.11M, Peak:16.11M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:26.82M (Peak 26.82M) | Time:00:00.08 | Mem:16.11M, Peak:16.11M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:26.82M (Peak 26.82M) | Time:00:00.08 | Mem:16.11M, Peak:16.11M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:26.82M (Peak 26.82M) | Time:00:00.08 | Mem:16.11M, Peak:16.11M | Scene, ViewLayer | Sample 0/6
+Fra:1 Mem:43.96M (Peak 43.96M) | Time:00:00.12 | Remaining:00:00.18 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 1/6
+Fra:1 Mem:51.14M (Peak 61.91M) | Time:00:04.71 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Sample 6/6
+Fra:1 Mem:51.14M (Peak 61.91M) | Time:00:04.72 | Mem:33.16M, Peak:33.16M | Scene, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Documentation\Design\CoopInteriorReview\ReusePreviews\TFP_Kitchen_Bowl_01A.png'
+Time: 00:04.75 (Saving: 00:00.03)
+
+Fra:1 Mem:10.97M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | AuditKey
+Fra:1 Mem:10.97M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | TFP_Kitchen_Bowl_02A
+Fra:1 Mem:10.99M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:10.80M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:10.80M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:10.80M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:10.80M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:10.88M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:10.88M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:10.88M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:10.88M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:10.88M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:10.88M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:10.88M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:10.88M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:10.88M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:10.88M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:10.88M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:10.89M (Peak 26.74M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:10.89M (Peak 26.74M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:10.89M (Peak 26.74M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:10.89M (Peak 26.74M) | Time:00:00.00 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:10.89M (Peak 26.74M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:10.89M (Peak 26.74M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:10.89M (Peak 26.74M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:10.89M (Peak 26.74M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:10.89M (Peak 26.74M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:10.89M (Peak 26.74M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:10.89M (Peak 26.74M) | Time:00:00.00 | Mem:0.02M, Peak:0.02M | Scene, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:26.91M (Peak 26.91M) | Time:00:00.09 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:26.91M (Peak 26.91M) | Time:00:00.09 | Mem:16.02M, Peak:16.02M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.91M (Peak 26.91M) | Time:00:00.09 | Mem:16.11M, Peak:16.11M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:26.91M (Peak 26.91M) | Time:00:00.09 | Mem:16.11M, Peak:16.11M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:26.91M (Peak 26.91M) | Time:00:00.09 | Mem:16.11M, Peak:16.11M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:26.91M (Peak 26.91M) | Time:00:00.09 | Mem:16.11M, Peak:16.11M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:26.91M (Peak 26.91M) | Time:00:00.09 | Mem:16.03M, Peak:16.11M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:26.91M (Peak 26.91M) | Time:00:00.09 | Mem:16.11M, Peak:16.11M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:26.91M (Peak 26.91M) | Time:00:00.09 | Mem:16.11M, Peak:16.11M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:26.91M (Peak 26.91M) | Time:00:00.09 | Mem:16.11M, Peak:16.11M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:26.91M (Peak 26.91M) | Time:00:00.09 | Mem:16.11M, Peak:16.11M | Scene, ViewLayer | Sample 0/6
+Fra:1 Mem:44.05M (Peak 44.05M) | Time:00:00.14 | Remaining:00:00.24 | Mem:33.17M, Peak:33.17M | Scene, ViewLayer | Sample 1/6
+Fra:1 Mem:51.23M (Peak 62.00M) | Time:00:04.16 | Mem:33.17M, Peak:33.17M | Scene, ViewLayer | Sample 6/6
+Fra:1 Mem:51.23M (Peak 62.00M) | Time:00:04.16 | Mem:33.17M, Peak:33.17M | Scene, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Documentation\Design\CoopInteriorReview\ReusePreviews\TFP_Kitchen_Bowl_02A.png'
+Time: 00:04.19 (Saving: 00:00.03)
+
+
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\certs.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\compat.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\cookies.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\exceptions.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\hooks.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\models.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\packages.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\sessions.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\status_codes.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\structures.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\utils.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\_internal_utils.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\__init__.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\__version__.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function rmdir>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__version__.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Failed to remove: (<built-in function rmdir>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x0000026E7B6B4340>))
+Unable to set stale files pending: [Errno 13] Permission denied: 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\config\\stale-pending'
+FBX version: 7400
+FBX version: 7400
+FBX version: 7400
+FBX version: 7400
+FBX version: 7400
+FBX version: 7400
+FBX version: 7400
+WARNING: material link b'3dsMax|Parameters|base_color_map' ignored
+FBX version: 7400
+WARNING: material link b'3dsMax|Parameters|base_color_map' ignored
+COOP_REUSE_SOURCE_AUDIT_COMPLETE
+
+Blender quit

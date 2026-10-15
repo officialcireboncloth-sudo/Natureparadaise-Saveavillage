@@ -1,0 +1,4 @@
+System.InvalidOperationException: Farm reference: FBX orientation matches source sides, roof ridge and front +Z (error 0.2099986)
+  at FarmReferenceSetup.Check (System.Boolean ok, System.String text) [0x0002a] in C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Assets\Nature  Paradaise\Script\Editor\FarmReferenceSetup.cs:55 
+  at FarmReferenceSetup.Apply () [0x004de] in C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Assets\Nature  Paradaise\Script\Editor\FarmReferenceSetup.cs:124 
+  at FarmReferenceSetup.Tick () [0x00088] in C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Assets\Nature  Paradaise\Script\Editor\FarmReferenceSetup.cs:46 

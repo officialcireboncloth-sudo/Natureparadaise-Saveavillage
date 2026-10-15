@@ -1,0 +1,173 @@
+FISH POND A UNITY APPLY
+PASS Existing Toon Pack atlas and water available
+PASS Water reuses pack normal/noise textures
+PASS Stable pond building definition
+PASS FishPond_A_Lv1_High.fbx single mesh/material remapped
+PASS FishPond_A_Lv1_High.fbx metre scale and ground pivot
+PASS FishPond_A_Lv1_High.fbx approved asymmetrical bounds and front +Z
+FishPond_A_Lv1_High.fbx triangles 2563
+PASS FishPond_A_Lv1_Medium.fbx single mesh/material remapped
+PASS FishPond_A_Lv1_Medium.fbx metre scale and ground pivot
+FishPond_A_Lv1_Medium.fbx triangles 1633
+PASS FishPond_A_Lv1_Low.fbx single mesh/material remapped
+PASS FishPond_A_Lv1_Low.fbx metre scale and ground pivot
+FishPond_A_Lv1_Low.fbx triangles 574
+PASS FishPond_A_Lv1_Water.fbx single mesh/material remapped
+PASS FishPond_A_Lv1_Water.fbx metre scale and ground pivot
+PASS FishPond_A_Lv1_Water.fbx 14 triangles
+PASS FishPond_A_Lv1_Water.fbx water height
+PASS FishPond_A_Lv1_Water.fbx upward normals for pack backface culling
+PASS FishPond_A_Lv1_Water.fbx approved boundary (-4.90, 0.65, -2.05)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (-4.85, 0.65, -2.23)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (-4.73, 0.65, -2.35)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (-4.55, 0.65, -2.40)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (1.55, 0.65, -2.40)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (1.73, 0.65, -2.35)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (1.85, 0.65, -2.23)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (1.90, 0.65, -2.05)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (1.90, 0.65, 2.05)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (1.85, 0.65, 2.23)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (1.73, 0.65, 2.35)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (1.55, 0.65, 2.40)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (-4.55, 0.65, 2.40)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (-4.73, 0.65, 2.35)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (-4.85, 0.65, 2.23)
+PASS FishPond_A_Lv1_Water.fbx approved boundary (-4.90, 0.65, 2.05)
+FishPond_A_Lv1_Water.fbx triangles 14
+PASS Prefab Lv1 existing GUID/root retained
+PASS Existing cost data Lv1
+PASS Lv1 three Blender LODs
+PASS Lv1 one opaque per LOD and shared water
+PASS Lv1 water follows every LOD and culls together
+PASS Lv1 one bound feed maker
+PASS Lv1 no prototype renderers
+PASS Lv1 fixed high collision for stairs and basin
+PASS Lv1 only existing atlas/pack water shader
+PASS Lv1 approved dock E marker
+PASS Lv1 fish 0 inside water and outside dock
+PASS Lv1 fish 1 inside water and outside dock
+PASS Lv1 fish 2 inside water and outside dock
+PASS Lv1 fish 3 inside water and outside dock
+PASS Lv1 fish 4 inside water and outside dock
+PASS Lv1 fish 5 inside water and outside dock
+PASS Lv1 fish 6 inside water and outside dock
+PASS Lv1 fish 7 inside water and outside dock
+PASS FishPond_A_Lv2_High.fbx single mesh/material remapped
+PASS FishPond_A_Lv2_High.fbx metre scale and ground pivot
+PASS FishPond_A_Lv2_High.fbx approved asymmetrical bounds and front +Z
+FishPond_A_Lv2_High.fbx triangles 3193
+PASS FishPond_A_Lv2_Medium.fbx single mesh/material remapped
+PASS FishPond_A_Lv2_Medium.fbx metre scale and ground pivot
+FishPond_A_Lv2_Medium.fbx triangles 2101
+PASS FishPond_A_Lv2_Low.fbx single mesh/material remapped
+PASS FishPond_A_Lv2_Low.fbx metre scale and ground pivot
+FishPond_A_Lv2_Low.fbx triangles 782
+PASS FishPond_A_Lv2_Water.fbx single mesh/material remapped
+PASS FishPond_A_Lv2_Water.fbx metre scale and ground pivot
+PASS FishPond_A_Lv2_Water.fbx 14 triangles
+PASS FishPond_A_Lv2_Water.fbx water height
+PASS FishPond_A_Lv2_Water.fbx upward normals for pack backface culling
+PASS FishPond_A_Lv2_Water.fbx approved boundary (-5.90, 0.65, -2.65)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (-5.83, 0.65, -2.90)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (-5.65, 0.65, -3.08)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (-5.40, 0.65, -3.15)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (2.40, 0.65, -3.15)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (2.65, 0.65, -3.08)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (2.83, 0.65, -2.90)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (2.90, 0.65, -2.65)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (2.90, 0.65, 2.65)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (2.83, 0.65, 2.90)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (2.65, 0.65, 3.08)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (2.40, 0.65, 3.15)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (-5.40, 0.65, 3.15)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (-5.65, 0.65, 3.08)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (-5.83, 0.65, 2.90)
+PASS FishPond_A_Lv2_Water.fbx approved boundary (-5.90, 0.65, 2.65)
+FishPond_A_Lv2_Water.fbx triangles 14
+PASS Prefab Lv2 existing GUID/root retained
+PASS Existing cost data Lv2
+PASS Lv2 three Blender LODs
+PASS Lv2 one opaque per LOD and shared water
+PASS Lv2 water follows every LOD and culls together
+PASS Lv2 one bound feed maker
+PASS Lv2 no prototype renderers
+PASS Lv2 fixed high collision for stairs and basin
+PASS Lv2 only existing atlas/pack water shader
+PASS Lv2 approved dock E marker
+PASS Lv2 fish 0 inside water and outside dock
+PASS Lv2 fish 1 inside water and outside dock
+PASS Lv2 fish 2 inside water and outside dock
+PASS Lv2 fish 3 inside water and outside dock
+PASS Lv2 fish 4 inside water and outside dock
+PASS Lv2 fish 5 inside water and outside dock
+PASS Lv2 fish 6 inside water and outside dock
+PASS Lv2 fish 7 inside water and outside dock
+PASS Lv2 fish 8 inside water and outside dock
+PASS Lv2 fish 9 inside water and outside dock
+PASS Lv2 fish 10 inside water and outside dock
+PASS Lv2 fish 11 inside water and outside dock
+PASS FishPond_A_Lv3_High.fbx single mesh/material remapped
+PASS FishPond_A_Lv3_High.fbx metre scale and ground pivot
+PASS FishPond_A_Lv3_High.fbx approved asymmetrical bounds and front +Z
+FishPond_A_Lv3_High.fbx triangles 4084
+PASS FishPond_A_Lv3_Medium.fbx single mesh/material remapped
+PASS FishPond_A_Lv3_Medium.fbx metre scale and ground pivot
+FishPond_A_Lv3_Medium.fbx triangles 2621
+PASS FishPond_A_Lv3_Low.fbx single mesh/material remapped
+PASS FishPond_A_Lv3_Low.fbx metre scale and ground pivot
+FishPond_A_Lv3_Low.fbx triangles 864
+PASS FishPond_A_Lv3_Water.fbx single mesh/material remapped
+PASS FishPond_A_Lv3_Water.fbx metre scale and ground pivot
+PASS FishPond_A_Lv3_Water.fbx 14 triangles
+PASS FishPond_A_Lv3_Water.fbx water height
+PASS FishPond_A_Lv3_Water.fbx upward normals for pack backface culling
+PASS FishPond_A_Lv3_Water.fbx approved boundary (-7.90, 0.65, -3.95)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (-7.81, 0.65, -4.30)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (-7.55, 0.65, -4.56)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (-7.20, 0.65, -4.65)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (4.20, 0.65, -4.65)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (4.55, 0.65, -4.56)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (4.81, 0.65, -4.30)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (4.90, 0.65, -3.95)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (4.90, 0.65, 3.95)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (4.81, 0.65, 4.30)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (4.55, 0.65, 4.56)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (4.20, 0.65, 4.65)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (-7.20, 0.65, 4.65)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (-7.55, 0.65, 4.56)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (-7.81, 0.65, 4.30)
+PASS FishPond_A_Lv3_Water.fbx approved boundary (-7.90, 0.65, 3.95)
+FishPond_A_Lv3_Water.fbx triangles 14
+PASS Prefab Lv3 existing GUID/root retained
+PASS Existing cost data Lv3
+PASS Lv3 three Blender LODs
+PASS Lv3 one opaque per LOD and shared water
+PASS Lv3 water follows every LOD and culls together
+PASS Lv3 one bound feed maker
+PASS Lv3 no prototype renderers
+PASS Lv3 fixed high collision for stairs and basin
+PASS Lv3 only existing atlas/pack water shader
+PASS Lv3 approved dock E marker
+PASS Lv3 fish 0 inside water and outside dock
+PASS Lv3 fish 1 inside water and outside dock
+PASS Lv3 fish 2 inside water and outside dock
+PASS Lv3 fish 3 inside water and outside dock
+PASS Lv3 fish 4 inside water and outside dock
+PASS Lv3 fish 5 inside water and outside dock
+PASS Lv3 fish 6 inside water and outside dock
+PASS Lv3 fish 7 inside water and outside dock
+PASS Lv3 fish 8 inside water and outside dock
+PASS Lv3 fish 9 inside water and outside dock
+PASS Lv3 fish 10 inside water and outside dock
+PASS Lv3 fish 11 inside water and outside dock
+PASS Lv3 fish 12 inside water and outside dock
+PASS Lv3 fish 13 inside water and outside dock
+PASS Lv3 fish 14 inside water and outside dock
+PASS Lv3 fish 15 inside water and outside dock
+PASS Lv3 fish 16 inside water and outside dock
+PASS Lv3 fish 17 inside water and outside dock
+Native Unity URP renders captured with depth and opaque textures; testing scene saved.
+PASS Legacy Lv4->3 retains every over-capacity fish and feed
+PASS Approved capacities 50/100/250
+
+APPLY PASS

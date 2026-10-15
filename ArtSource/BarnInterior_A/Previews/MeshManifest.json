@@ -1,0 +1,206 @@
+{
+  "status": "BUILT",
+  "atlasGUID": "522fcb2b5717c7640b460ee9ff73a78a",
+  "newRuntimeTextures": 0,
+  "reuseSources": [
+    "Assets\\Nature  Paradaise\\Pack\\Toon Series\\Toon Farm Pack\\Models\\TFP_Wood_Barrel_01A.fbx",
+    "Assets\\Nature  Paradaise\\Pack\\Toon Series\\Toon Farm Pack\\Models\\TFP_Bucket_Metal_01A.fbx",
+    "Assets\\Nature  Paradaise\\Pack\\Toon Series\\Toon Farm Pack\\Models\\TFP_Wooden_Crate_01A.fbx",
+    "Assets\\Nature  Paradaise\\Pack\\Toon Series\\Toon Farm Pack\\Models\\TFP_Cereal_Sack_01A.fbx",
+    "Assets\\Nature  Paradaise\\Pack\\Toon Series\\Toon Farm Pack\\Models\\TFP_Milk_Bottle_01A.fbx",
+    "Assets\\Nature  Paradaise\\Pack\\Toon Series\\Toon Farm Pack\\Models\\TFP_Spading_Fork_01A.fbx"
+  ],
+  "levels": [
+    {
+      "level": 1,
+      "footprint": [
+        12,
+        10
+      ],
+      "triangles": 5918,
+      "meshVerticesInstanced": 5500,
+      "meshObjects": 60,
+      "uniqueMeshes": 17,
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "budget": 6000
+    },
+    {
+      "level": 2,
+      "footprint": [
+        16,
+        12
+      ],
+      "triangles": 7592,
+      "meshVerticesInstanced": 6978,
+      "meshObjects": 81,
+      "uniqueMeshes": 22,
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "budget": 8000
+    },
+    {
+      "level": 3,
+      "footprint": [
+        20,
+        14
+      ],
+      "triangles": 9584,
+      "meshVerticesInstanced": 8580,
+      "meshObjects": 115,
+      "uniqueMeshes": 33,
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "budget": 12000
+    },
+    {
+      "level": 4,
+      "footprint": [
+        24,
+        16
+      ],
+      "triangles": 11792,
+      "meshVerticesInstanced": 10262,
+      "meshObjects": 140,
+      "uniqueMeshes": 37,
+      "materials": [
+        "TFP_Atlas_1A"
+      ],
+      "budget": 15000
+    }
+  ],
+  "modules": {
+    "N01_Wall_2m": {
+      "triangles": 62,
+      "vertices": 60
+    },
+    "N01_WindowWall_2m": {
+      "triangles": 192,
+      "vertices": 152
+    },
+    "N01_Post": {
+      "triangles": 12,
+      "vertices": 8
+    },
+    "N01_Brace": {
+      "triangles": 12,
+      "vertices": 8
+    },
+    "N02_Trough_3Slots": {
+      "triangles": 132,
+      "vertices": 80
+    },
+    "N02_FeedFill": {
+      "triangles": 24,
+      "vertices": 50
+    },
+    "N03_Manual": {
+      "triangles": 286,
+      "vertices": 184
+    },
+    "N03_Motor": {
+      "triangles": 466,
+      "vertices": 284
+    },
+    "N03_LargeMotor": {
+      "triangles": 466,
+      "vertices": 284
+    },
+    "N04_Mixer": {
+      "triangles": 206,
+      "vertices": 136
+    },
+    "N05_Pipe_2m": {
+      "triangles": 28,
+      "vertices": 16
+    },
+    "N05_Elbow": {
+      "triangles": 56,
+      "vertices": 30
+    },
+    "N05_Tee": {
+      "triangles": 56,
+      "vertices": 32
+    },
+    "N05_Coupler": {
+      "triangles": 28,
+      "vertices": 16
+    },
+    "N05_Support": {
+      "triangles": 40,
+      "vertices": 24
+    },
+    "N05_Dispenser": {
+      "triangles": 104,
+      "vertices": 64
+    },
+    "N06_ProcessTank": {
+      "triangles": 258,
+      "vertices": 140
+    },
+    "A_StorageRack": {
+      "triangles": 60,
+      "vertices": 36
+    },
+    "A_SupplyCabinet": {
+      "triangles": 88,
+      "vertices": 56
+    },
+    "A_WaterTrough": {
+      "triangles": 86,
+      "vertices": 52
+    },
+    "A_Sink": {
+      "triangles": 142,
+      "vertices": 90
+    },
+    "A_BottleCounter": {
+      "triangles": 36,
+      "vertices": 24
+    },
+    "A_HayBale_Mobile": {
+      "triangles": 84,
+      "vertices": 56
+    },
+    "R_ChickenStore_Lantern": {
+      "triangles": 84,
+      "vertices": 56
+    },
+    "A_ToolBoard": {
+      "triangles": 12,
+      "vertices": 8
+    },
+    "R_Barrel": {
+      "triangles": 350,
+      "vertices": 208
+    },
+    "R_Bucket": {
+      "triangles": 208,
+      "vertices": 196
+    },
+    "R_Crate": {
+      "triangles": 242,
+      "vertices": 216
+    },
+    "R_Sack": {
+      "triangles": 381,
+      "vertices": 213
+    },
+    "R_Bottle": {
+      "triangles": 124,
+      "vertices": 72
+    },
+    "R_Fork": {
+      "triangles": 244,
+      "vertices": 256
+    }
+  },
+  "notes": [
+    "Counts exclude camera/lights and animals; include all repeated source props and fill.",
+    "Unity map and gameplay untouched.",
+    "Four approved compact footprints; no automatic replacement of existing placeholders."
+  ]
+}

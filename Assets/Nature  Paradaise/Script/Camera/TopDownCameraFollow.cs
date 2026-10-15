@@ -10,17 +10,17 @@ public sealed class TopDownCameraFollow : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] Transform target;
-    [SerializeField] Vector3 focusOffset = new Vector3(0f, 1f, 0f);
+    [SerializeField] Vector3 focusOffset = new Vector3(0f, .75f, 0f);
 
     [Header("Top Down Framing")]
     [SerializeField, Range(35f, 75f)] float pitch = 55f;
     [SerializeField, Range(-180f, 180f)] float yaw;
-    [SerializeField, Min(1f)] float distance = 18f;
+    [SerializeField, Min(1f)] float distance = 15f;
 
     [Header("Player Zoom")]
     [SerializeField] bool allowPlayerZoom = true;
     [Tooltip("Pilihan Camera Size. Mouse wheel atau pinch dua jari berpindah satu level.")]
-    [SerializeField] float[] zoomLevels = { 10f, 11f, 12f, 13f };
+    [SerializeField] float[] zoomLevels = { 5f, 6.5f, 8f };
     [SerializeField, Min(10f)] float mobilePinchStepPixels = 65f;
 
     [Header("Screen Adaptation")]
@@ -29,7 +29,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     [Tooltip("Aspect ratio acuan sebelum pandangan mulai diperluas pada layar yang lebih sempit.")]
     [SerializeField, Min(0.1f)] float referenceAspect = 16f / 9f;
     [Tooltip("Batas maksimum Size ketika adaptasi layar sempit diaktifkan.")]
-    [SerializeField, Min(1f)] float maximumOrthographicSize = 12f;
+    [SerializeField, Min(1f)] float maximumOrthographicSize = 9f;
 
     [Header("Follow")]
     [SerializeField, Min(0f)] float smoothTime = 0.15f;
@@ -265,7 +265,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     void EnsureZoomLevels()
     {
         if (zoomLevels == null || zoomLevels.Length == 0)
-            zoomLevels = new[] { 10f, 11f, 12f, 13f };
+            zoomLevels = new[] { 5f, 6.5f, 8f };
         for (int i = 0; i < zoomLevels.Length; i++)
             zoomLevels[i] = Mathf.Max(1f, zoomLevels[i]);
     }

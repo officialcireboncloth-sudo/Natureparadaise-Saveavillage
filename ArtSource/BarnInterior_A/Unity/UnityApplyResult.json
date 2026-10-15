@@ -1,0 +1,62 @@
+{
+  "status": "PASS",
+  "scene": "Assets/Nature  Paradaise/Map/Scenes/Interiors/BarnInterior.unity",
+  "levels": [
+    {
+      "level": 1,
+      "triangles": 5928,
+      "openSurfaceBackTriangles": 10,
+      "vertices": 11380,
+      "renderers": 12,
+      "originalRenderers": 60,
+      "logicalFeedSlots": 4,
+      "visualCompartments": 6,
+      "animalSlots": 4,
+      "colliders": 12,
+      "prefab": "Assets/Nature  Paradaise/Prefabs/Barn/Interior/BarnInteriorLayout_Lv1.prefab"
+    },
+    {
+      "level": 2,
+      "triangles": 7602,
+      "openSurfaceBackTriangles": 10,
+      "vertices": 14314,
+      "renderers": 16,
+      "originalRenderers": 81,
+      "logicalFeedSlots": 8,
+      "visualCompartments": 9,
+      "animalSlots": 8,
+      "colliders": 17,
+      "prefab": "Assets/Nature  Paradaise/Prefabs/Barn/Interior/BarnInteriorLayout_Lv2.prefab"
+    },
+    {
+      "level": 3,
+      "triangles": 9604,
+      "openSurfaceBackTriangles": 20,
+      "vertices": 18147,
+      "renderers": 22,
+      "originalRenderers": 115,
+      "logicalFeedSlots": 14,
+      "visualCompartments": 12,
+      "animalSlots": 14,
+      "colliders": 20,
+      "prefab": "Assets/Nature  Paradaise/Prefabs/Barn/Interior/BarnInteriorLayout_Lv3.prefab"
+    },
+    {
+      "level": 4,
+      "triangles": 11812,
+      "openSurfaceBackTriangles": 20,
+      "vertices": 22038,
+      "renderers": 28,
+      "originalRenderers": 140,
+      "logicalFeedSlots": 20,
+      "visualCompartments": 15,
+      "animalSlots": 20,
+      "colliders": 24,
+      "prefab": "Assets/Nature  Paradaise/Prefabs/Barn/Interior/BarnInteriorLayout_Lv4.prefab"
+    }
+  ],
+  "capacityChanged": false,
+  "mapSceneChanged": false,
+  "legacyCoopValidated": true,
+  "backup": "ArtSource/BarnInterior_A/Revisions/20261014_160945700"
+}

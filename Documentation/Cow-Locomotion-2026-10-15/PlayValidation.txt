@@ -1,0 +1,18 @@
+MOVEMENT COW PASS Actual Map legacy cow young stage actual=0.8400 expected=0.8400
+MOVEMENT COW PASS Young cow collider follows stage actual=0.8400 expected=0.8400
+MOVEMENT COW PASS Actual Map legacy cow adult stage actual=1.2600 expected=1.2600
+MOVEMENT COW PASS Adult cow collider follows stage actual=1.2600 expected=1.2600
+MOVEMENT COW PASS Player rig animator resolved
+MOVEMENT COW PASS Analog half-walk has one magnitude scaling actual=0.6000 expected=0.6000
+MOVEMENT COW PASS Walk clip selected independently of sprint speed actual=0.3492 expected=0.3500
+MOVEMENT COW PASS Walk cadence matches actual travel actual=0.6000 expected=0.6000
+MOVEMENT COW PASS Run speed for 1.5 m player actual=2.4000 expected=2.4000
+MOVEMENT COW PASS Run gait selected actual=0.6495 expected=0.6500
+MOVEMENT COW PASS Run cadence matches actual travel actual=2.4000 expected=2.4000
+MOVEMENT COW PASS Sprint speed reduced from legacy 7.2 actual=3.4000 expected=3.4000
+MOVEMENT COW PASS Sprint accelerates reused run clip actual=3.4000 expected=3.4000
+MOVEMENT COW PASS Carry penalty retained actual=0.9703 expected=0.9703
+MOVEMENT COW PASS Carrying slows cadence without blending idle actual=0.9703 expected=0.9703
+MOVEMENT COW PASS Wall collision reports zero actual travel
+MOVEMENT COW PASS Blocked movement returns to idle
+COW MOVEMENT PLAY VALIDATION PASSED

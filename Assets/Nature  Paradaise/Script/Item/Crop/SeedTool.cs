@@ -23,7 +23,7 @@ public class SeedTool : MonoBehaviour
 
     [Header("Player Stamina")]
     public PlayerStatusSystem playerStatus;
-    [Min(0f)] public float plantingCost = 0.05f;
+    [HideInInspector, Min(0f)] public float plantingCost = 0.05f;
 
     [Header("Legacy Fallback")]
     [Tooltip("Dipertahankan untuk scene lama. Seed baru harus mengisi Seed Crop pada ItemSO.")]
@@ -46,7 +46,7 @@ public class SeedTool : MonoBehaviour
         if (inventoryHotbar == null) inventoryHotbar = GetComponent<InventoryHotbarUI>();
         ItemSO seed = inventoryHotbar != null ? inventoryHotbar.SelectedItem : null;
         return seed != null && seed.IsSeed && playerInv != null && playerInv.GetCount(seed) > 0 &&
-            (playerStatus == null || playerStatus.CanSpendStamina(plantingCost)) &&
+            (playerStatus == null || playerStatus.CanSpendStamina(StaminaBalance.Current.Cost("plant"))) &&
             field != null && field.CanPlant(x, z, ResolveCrop(seed));
     }
 
@@ -101,7 +101,7 @@ public class SeedTool : MonoBehaviour
             return;
         }
 
-        if (playerStatus != null && !playerStatus.CanSpendStamina(plantingCost))
+        if (playerStatus != null && !playerStatus.CanSpendStamina(StaminaBalance.Current.Cost("plant")))
         {
             ShowPlantFeedback("GAGAL MENANAM: Stamina tidak cukup.");
             return;
@@ -170,7 +170,7 @@ public class SeedTool : MonoBehaviour
             yield break;
         }
 
-        playerStatus?.TrySpendStamina(plantingCost);
+        playerStatus?.TrySpendStamina(StaminaBalance.Current.Cost("plant"));
         playerStatus?.PulseActivity(PlayerMovementState.ToolAction);
         string cropName = selectedCrop.produceItem != null
             ? selectedCrop.produceItem.itemName

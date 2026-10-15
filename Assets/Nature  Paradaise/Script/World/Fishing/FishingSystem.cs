@@ -14,7 +14,7 @@ public sealed class FishingSystem : MonoBehaviour
     [SerializeField] bool allowLeftMouse = true;
 
     [Header("Player")]
-    [SerializeField, Min(0f)] float castStaminaCost = 0.5f;
+    [SerializeField, HideInInspector, Min(0f)] float castStaminaCost = 0.5f;
     [SerializeField, Min(0.05f)] float reelRiseSpeed = 0.62f;
     [SerializeField, Min(0.05f)] float reelFallSpeed = 0.48f;
     [SerializeField, Min(0.05f)] float lineStressGain = 0.55f;
@@ -268,7 +268,7 @@ public sealed class FishingSystem : MonoBehaviour
             CleanupSession(true);
             return;
         }
-        if (!status.BeginFishing(this, castStaminaCost))
+        if (!status.BeginFishing(this, StaminaBalance.Current.Cost("cast_fishing_line")))
         {
             SaveLoadFeedback.Instance?.ShowMessage("Stamina tidak cukup untuk memancing.");
             activeFish = null;
@@ -295,6 +295,7 @@ public sealed class FishingSystem : MonoBehaviour
         GameAudio.PlayOneShot(audioSource, castSound, GameAudioBus.Main);
         castTarget = castPoint;
         CastDistance = Vector3.Distance(new Vector3(transform.position.x, castPoint.y, transform.position.z), castPoint);
+        staminaResultPending=true;
         CatchLocation = activeSpot.LocationName;
         HasCastPreview = false;
         swingDuration = 1.6f / (CastPower >= 0.67f ? 1.25f : 1f);
@@ -399,8 +400,17 @@ public sealed class FishingSystem : MonoBehaviour
             Fail("Ikan berhasil melepaskan diri.");
     }
 
+    bool staminaResultPending;
+    void SettleStaminaResult(bool success)
+    {
+        if(!staminaResultPending) return;
+        staminaResultPending=false;
+        status?.SpendStaminaOutcome(StaminaBalance.Current.Cost(success?"catch_fish":"fail_fishing"));
+    }
+
     void CompleteCatch()
     {
+        SettleStaminaResult(activeJunk==null);
         float contactRatio = successfulContactTime / Mathf.Max(0.01f, minigameElapsed);
         int qualityStars = Mathf.Clamp(Mathf.FloorToInt(contactRatio * 5f), 0, 4);
         float sizeCm = activeFish.RollSize(castReach);
@@ -449,6 +459,7 @@ public sealed class FishingSystem : MonoBehaviour
 
     void CleanupSession(bool keepRodVisible)
     {
+        SettleStaminaResult(false);
         HasCastPreview = false;
         DeliverCatch();
         presentation?.HideCatch();

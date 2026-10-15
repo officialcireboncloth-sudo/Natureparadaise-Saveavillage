@@ -1,0 +1,11 @@
+GROUND AUDIT idle root=(0.00, 0.02, 0.00) min=0.02028584 hip=(0.01, 0.86, -0.09) model=(0.02, 0.15, -0.10) Generic=True
+GROUND MOUNT PASS Standing sole close to floor: 0.02028584
+GROUND AUDIT running sole=0.02822864
+GROUND MOUNT PASS Mount started
+GROUND AUDIT mounted root=(1.18, 0.17, 0.73) hip=(1.20, 1.09, 0.61) seat=(1.20, 1.09, 0.61) gap=0.0001797606 scale=(1.00, 1.00, 1.00) feet=0.5042292
+GROUND MOUNT PASS Generic pelvis follows saddle
+GROUND MOUNT PASS Rider world scale preserved
+GROUND AUDIT dismount root=(0.53, 0.02, 0.61) sole=0.01985371 scale=(1.00, 1.00, 1.00)
+GROUND MOUNT PASS Dismounted feet return to ground: 0.01985371
+GROUND MOUNT PASS Character controller restored
+GROUND MOUNT CHECK COMPLETED

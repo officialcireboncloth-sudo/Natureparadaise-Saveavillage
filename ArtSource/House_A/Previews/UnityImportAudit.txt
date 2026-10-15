@@ -1,0 +1,23 @@
+HOUSE A UNITY APPLY
+Solid blue opaque bay; 2 shared atlas materials; 4 unique designs / 5 levels.
+House_A_Lv1_LOD0.fbx: 3831 triangles, atlas/front/bounds PASS
+House_A_Lv1_LOD1.fbx: 2167 triangles, atlas/front/bounds PASS
+House_A_Lv1_LOD2.fbx: 589 triangles, atlas/front/bounds PASS
+House_A_Lv2_LOD0.fbx: 4661 triangles, atlas/front/bounds PASS
+House_A_Lv2_LOD1.fbx: 2669 triangles, atlas/front/bounds PASS
+House_A_Lv2_LOD2.fbx: 661 triangles, atlas/front/bounds PASS
+House_A_Lv3_4_LOD0.fbx: 5715 triangles, atlas/front/bounds PASS
+House_A_Lv3_4_LOD1.fbx: 3191 triangles, atlas/front/bounds PASS
+House_A_Lv3_4_LOD2.fbx: 907 triangles, atlas/front/bounds PASS
+House_A_Lv5_LOD0.fbx: 5030 triangles, atlas/front/bounds PASS
+House_A_Lv5_LOD1.fbx: 3006 triangles, atlas/front/bounds PASS
+House_A_Lv5_LOD2.fbx: 972 triangles, atlas/front/bounds PASS
+Lv1: correct prefab/LOD/shared materials/stair E/rear rejection PASS
+Lv2: correct prefab/LOD/shared materials/stair E/rear rejection PASS
+Lv3: correct prefab/LOD/shared materials/stair E/rear rejection PASS
+Lv4: correct prefab/LOD/shared materials/stair E/rear rejection PASS
+Lv5: correct prefab/LOD/shared materials/stair E/rear rejection PASS
+Assets/Nature  Paradaise/Map/Scenes/World/Map.unity: five authored levels, fixed-camera facing (0.61, 0.00, 0.79), old facade retired, stair portal PASS
+Assets/Nature  Paradaise/Map/Scenes/World/Map_GameplayPreview.unity: five authored levels, fixed-camera facing (0.00, 0.00, -1.00), old facade retired, stair portal PASS
+Assets/Nature  Paradaise/Map/Scenes/Testing/TestingScene.unity: five authored levels, fixed-camera facing (0.00, 0.00, -1.00), old facade retired, stair portal PASS
+APPLY_PASS

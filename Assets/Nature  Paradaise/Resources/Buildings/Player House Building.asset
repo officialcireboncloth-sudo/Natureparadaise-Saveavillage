@@ -17,8 +17,8 @@ MonoBehaviour:
   icon: {fileID: 0}
   category: 0
   animalHousing: 0
-  footprintWidth: 6
-  footprintDepth: 5
+  footprintWidth: 22
+  footprintDepth: 17
   defaultPlacementYaw: 0
   placementArea: 0
   canRelocate: 0
@@ -29,7 +29,8 @@ MonoBehaviour:
     goldCost: 0
     constructionDays: 0
     materialCosts: []
-    completedPrefab: {fileID: 0}
+    completedPrefab: {fileID: 6282928927231427020, guid: 468728557271d484e95ab7294dade61e, type: 3}
+    constructionStagePrefabs: []
     capacity: 8
     unlockIds:
     - house.bed
@@ -46,7 +47,8 @@ MonoBehaviour:
       amount: 12
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 8
-    completedPrefab: {fileID: 0}
+    completedPrefab: {fileID: 8491854892506939142, guid: 6011f9660fc750446b72ab0b19ff79c3, type: 3}
+    constructionStagePrefabs: []
     capacity: 16
     unlockIds:
     - house.tv
@@ -60,7 +62,8 @@ MonoBehaviour:
       amount: 28
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 20
-    completedPrefab: {fileID: 0}
+    completedPrefab: {fileID: 8519198005784077280, guid: 727b71d11a5893e4191ab7298d632cf4, type: 3}
+    constructionStagePrefabs: []
     capacity: 24
     unlockIds:
     - house.kitchen
@@ -77,7 +80,8 @@ MonoBehaviour:
       amount: 55
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 40
-    completedPrefab: {fileID: 0}
+    completedPrefab: {fileID: 1618599057836706576, guid: b489af8257fa01e43b8f3bb61de0a9ca, type: 3}
+    constructionStagePrefabs: []
     capacity: 32
     unlockIds:
     - house.master-bedroom
@@ -94,7 +98,8 @@ MonoBehaviour:
       amount: 110
     - item: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
       amount: 80
-    completedPrefab: {fileID: 0}
+    completedPrefab: {fileID: 885806419552713597, guid: f408a9a119e57104b971bdade5d7bb1e, type: 3}
+    constructionStagePrefabs: []
     capacity: 64
     unlockIds:
     - house.tv-max

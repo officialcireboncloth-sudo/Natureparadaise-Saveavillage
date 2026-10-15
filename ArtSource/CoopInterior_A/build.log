@@ -1,0 +1,448 @@
+Extensions: writing cache failed ([Errno 13] Permission denied: 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.cache\\compat.dat').
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\LICENSE', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26833A4C0>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\METADATA', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26833A4C0>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\RECORD', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26833A4C0>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\top_level.txt', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26833A4C0>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\WHEEL', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26833A4C0>))
+Failed to remove: (<built-in function rmdir>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268352400>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\adapters.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\api.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\auth.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\certs.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\compat.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\cookies.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\exceptions.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\help.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\hooks.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\models.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\packages.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\sessions.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\status_codes.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\structures.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\utils.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\_internal_utils.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__init__.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\adapters.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C40>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\api.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C40>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\auth.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D268743C40>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\certs.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\compat.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\cookies.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\exceptions.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\hooks.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\models.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\packages.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\sessions.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\status_codes.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\structures.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\utils.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\_internal_utils.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\__init__.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\__version__.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function rmdir>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__version__.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Failed to remove: (<built-in function rmdir>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000001D26831C740>))
+Unable to set stale files pending: [Errno 13] Permission denied: 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\config\\stale-pending'
+FBX version: 7400
+FBX version: 7400
+Warning: No mesh data to join
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\CoopInterior_Lv1.fbx'
+export finished in 0.0864 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\CoopInterior_Lv2.fbx'
+export finished in 0.0817 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\CoopInterior_Lv3.fbx'
+export finished in 0.1173 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\CoopInterior_Lv4.fbx'
+export finished in 0.1509 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\N01_Wall_2m.fbx'
+export finished in 0.0107 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\N01_WindowWall_2m.fbx'
+export finished in 0.0115 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\N01_Post.fbx'
+export finished in 0.0103 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\N01_Brace.fbx'
+export finished in 0.0095 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\N05_Pipe_2m.fbx'
+export finished in 0.0084 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\N05_Tee.fbx'
+export finished in 0.0086 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\N05_Coupler.fbx'
+export finished in 0.0092 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\N05_Support.fbx'
+export finished in 0.0077 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\R_Crate.fbx'
+export finished in 0.0080 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\R_Sack.fbx'
+export finished in 0.0092 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\R_Bucket.fbx'
+export finished in 0.0106 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\R_Barrel.fbx'
+export finished in 0.0081 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\R_ChickenStore_Lantern.fbx'
+export finished in 0.0077 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\R_RawEgg.fbx'
+export finished in 0.0100 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\R_MayoJar.fbx'
+export finished in 0.0095 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C01_ChickenTrough_3Slots.fbx'
+export finished in 0.0353 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C01_GrainFill.fbx'
+export finished in 0.0078 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C_Table_Small.fbx'
+export finished in 0.0092 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C_Table_Wide.fbx'
+export finished in 0.0107 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C_Perch_2m.fbx'
+export finished in 0.0086 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C02_FeedMaker_Small.fbx'
+export finished in 0.0103 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C02_FeedMaker_Large.fbx'
+export finished in 0.0095 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C03_Incubator_1Egg.fbx'
+export finished in 0.0084 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C03_Incubator_1Egg_Hood.fbx'
+export finished in 0.0094 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C03_Incubator_3Egg.fbx'
+export finished in 0.0149 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C03_Incubator_3Egg_Hood.fbx'
+export finished in 0.0072 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C04_MayonnaiseMixer.fbx'
+export finished in 0.0099 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C05_AutoHopper.fbx'
+export finished in 0.0101 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C05_BellHead.fbx'
+export finished in 0.0098 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C06_ChickenDrinker.fbx'
+export finished in 0.0091 sec.
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\CoopInterior_A\\Exports\\C_DrinkerBase.fbx'
+export finished in 0.0084 sec.
+Info: Saved as "CoopInterior_A.blend"
+COOP_BUILD_COMPLETE [{"level": 1, "capacity": 6, "footprint": [10, 8], "triangles": 4766, "meshVerticesInstanced": 3740, "meshObjects": 48, "uniqueMeshes": 19, "troughs": 2, "autoHeads": 0, "incubatorEggs": 1, "materials": ["Coop_Hood_Glass_ExistingPalette", "TFP_Atlas_1A"]}, {"level": 2, "capacity": 9, "footprint": [12, 10], "triangles": 5438, "meshVerticesInstanced": 4314, "meshObjects": 56, "uniqueMeshes": 19, "troughs": 3, "autoHeads": 0, "incubatorEggs": 1, "materials": ["Coop_Hood_Glass_ExistingPalette", "TFP_Atlas_1A"]}, {"level": 3, "capacity": 12, "footprint": [14, 12], "triangles": 8386, "meshVerticesInstanced": 6084, "meshObjects": 81, "uniqueMeshes": 26, "troughs": 4, "autoHeads": 4, "incubatorEggs": 1, "materials": ["Coop_Hood_Glass_ExistingPalette", "TFP_Atlas_1A"]}, {"level": 4, "capacity": 15, "footprint": [16, 14], "triangles": 9950, "meshVerticesInstanced": 7130, "meshObjects": 95, "uniqueMeshes": 25, "troughs": 5, "autoHeads": 5, "incubatorEggs": 3, "materials": ["Coop_Hood_Glass_ExistingPalette", "TFP_Atlas_1A"]}]
+Blender 4.5.14 LTS (hash 62c1db4208e8 built 2026-10-14 01:33:56)
+Fra:1 Mem:39.10M (Peak 39.10M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | Floor
+Fra:1 Mem:39.10M (Peak 39.10M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | N01_Wall_2m.001
+Fra:1 Mem:39.10M (Peak 39.10M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | N01_WindowWall_2m.001
+Fra:1 Mem:39.11M (Peak 39.11M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | N01_Post.001
+Fra:1 Mem:39.14M (Peak 39.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | FrontCutaway_2mDoor
+Fra:1 Mem:39.13M (Peak 39.14M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | R_ChickenStore_Lantern.001
+Fra:1 Mem:39.19M (Peak 39.19M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | R_Crate.001
+Fra:1 Mem:39.21M (Peak 39.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | C_Table_Small.001
+Fra:1 Mem:39.21M (Peak 39.21M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | C_Perch_2m.001
+Fra:1 Mem:39.23M (Peak 39.23M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | C_DrinkerBase.001
+Fra:1 Mem:39.23M (Peak 39.23M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | Fill
+Fra:1 Mem:39.26M (Peak 39.26M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | C06_ChickenDrinker.001
+Fra:1 Mem:39.27M (Peak 39.27M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | Key
+Fra:1 Mem:39.28M (Peak 39.28M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | C03_Incubator_1Egg.001
+Fra:1 Mem:39.29M (Peak 39.29M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | Fill_01_1
+Fra:1 Mem:39.35M (Peak 39.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | Trough_01
+Fra:1 Mem:39.35M (Peak 39.35M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | C03_Incubator_1Egg_Hood.001
+Fra:1 Mem:39.38M (Peak 39.38M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Synchronizing object | IncubatorEgg_1
+Fra:1 Mem:39.43M (Peak 39.43M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Initializing
+Fra:1 Mem:39.21M (Peak 39.43M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:53.78M (Peak 71.22M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Waiting for render to start
+Fra:1 Mem:53.78M (Peak 71.22M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Scene
+Fra:1 Mem:53.78M (Peak 71.22M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Shaders
+Fra:1 Mem:53.78M (Peak 71.22M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:53.86M (Peak 71.22M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Procedurals
+Fra:1 Mem:53.86M (Peak 71.22M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Background
+Fra:1 Mem:53.86M (Peak 71.22M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Camera
+Fra:1 Mem:53.86M (Peak 71.22M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:53.86M (Peak 71.22M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Objects
+Fra:1 Mem:53.86M (Peak 71.22M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:53.88M (Peak 71.22M) | Time:00:00.11 | Mem:16.01M, Peak:16.01M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Particle Systems
+Fra:1 Mem:53.88M (Peak 71.22M) | Time:00:00.11 | Mem:16.01M, Peak:16.01M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:53.88M (Peak 71.22M) | Time:00:00.11 | Mem:16.01M, Peak:16.01M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Meshes
+Fra:1 Mem:53.88M (Peak 71.22M) | Time:00:00.11 | Mem:16.01M, Peak:16.01M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:53.88M (Peak 71.22M) | Time:00:00.11 | Mem:16.01M, Peak:16.01M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:53.97M (Peak 71.22M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:53.97M (Peak 71.22M) | Time:00:00.11 | Mem:16.11M, Peak:16.11M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Geometry BVH N01_WindowWall_2mMesh.001 3/7 | Building BVH
+Fra:1 Mem:53.97M (Peak 71.22M) | Time:00:00.11 | Mem:16.11M, Peak:16.11M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Geometry BVH R_ChickenStore_LanternMesh.001 5/7 | Building BVH
+Fra:1 Mem:53.97M (Peak 71.22M) | Time:00:00.11 | Mem:16.11M, Peak:16.11M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Geometry BVH C01_ChickenTrough_3SlotsMesh 7/7 | Building BVH
+Fra:1 Mem:53.97M (Peak 71.22M) | Time:00:00.11 | Mem:16.12M, Peak:16.12M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Geometry BVH C01_ChickenTrough_3SlotsMesh 7/7 | Building BVH 0%
+Fra:1 Mem:53.97M (Peak 71.22M) | Time:00:00.11 | Mem:16.14M, Peak:16.14M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Geometry BVH C01_ChickenTrough_3SlotsMesh 7/7 | Building BVH
+Fra:1 Mem:53.97M (Peak 71.22M) | Time:00:00.11 | Mem:16.19M, Peak:16.20M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:53.97M (Peak 71.22M) | Time:00:00.11 | Mem:16.19M, Peak:16.20M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:53.97M (Peak 71.22M) | Time:00:00.11 | Mem:16.33M, Peak:16.38M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:53.97M (Peak 71.22M) | Time:00:00.11 | Mem:16.33M, Peak:16.38M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:54.07M (Peak 71.22M) | Time:00:00.11 | Mem:16.33M, Peak:16.38M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:54.07M (Peak 71.22M) | Time:00:00.11 | Mem:16.43M, Peak:16.43M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Objects Flags
+Fra:1 Mem:54.07M (Peak 71.22M) | Time:00:00.11 | Mem:16.43M, Peak:16.43M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:54.07M (Peak 71.22M) | Time:00:00.11 | Mem:16.43M, Peak:16.43M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Images
+Fra:1 Mem:54.07M (Peak 71.22M) | Time:00:00.11 | Mem:16.43M, Peak:16.43M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Camera Volume
+Fra:1 Mem:54.07M (Peak 71.22M) | Time:00:00.11 | Mem:16.43M, Peak:16.43M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:54.07M (Peak 71.22M) | Time:00:00.11 | Mem:16.51M, Peak:16.51M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Lights
+Fra:1 Mem:54.07M (Peak 71.22M) | Time:00:00.11 | Mem:16.51M, Peak:16.51M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:54.07M (Peak 71.22M) | Time:00:00.11 | Mem:16.51M, Peak:16.51M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Integrator
+Fra:1 Mem:54.07M (Peak 71.22M) | Time:00:00.11 | Mem:16.51M, Peak:16.51M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Film
+Fra:1 Mem:54.08M (Peak 71.22M) | Time:00:00.11 | Mem:16.43M, Peak:16.51M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:54.08M (Peak 71.22M) | Time:00:00.11 | Mem:16.51M, Peak:16.51M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Baking
+Fra:1 Mem:54.08M (Peak 71.22M) | Time:00:00.11 | Mem:16.51M, Peak:16.51M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:54.08M (Peak 71.22M) | Time:00:00.11 | Mem:16.51M, Peak:16.51M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:54.08M (Peak 71.22M) | Time:00:00.11 | Mem:16.51M, Peak:16.51M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Sample 0/12
+Fra:1 Mem:143.23M (Peak 143.23M) | Time:00:00.76 | Remaining:00:07.18 | Mem:105.59M, Peak:105.59M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Sample 1/12
+Fra:1 Mem:180.74M (Peak 236.99M) | Time:00:24.62 | Mem:105.59M, Peak:105.59M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Sample 12/12
+Fra:1 Mem:180.74M (Peak 236.99M) | Time:00:24.62 | Mem:105.59M, Peak:105.59M | 01 COOP INTERIOR - LEVEL 1, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\ArtSource\CoopInterior_A\Previews\Lv1_Overview.png'
+Time: 00:24.79 (Saving: 00:00.16)
+
+Fra:1 Mem:74.87M (Peak 74.87M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | Floor.001
+Fra:1 Mem:74.87M (Peak 74.87M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | N01_Wall_2m.010
+Fra:1 Mem:74.88M (Peak 74.88M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | N01_WindowWall_2m.005
+Fra:1 Mem:74.89M (Peak 74.89M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | N01_Post.010
+Fra:1 Mem:74.90M (Peak 74.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | FrontCutaway_2mDoor.001
+Fra:1 Mem:74.90M (Peak 74.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | R_ChickenStore_Lantern.005
+Fra:1 Mem:74.90M (Peak 74.90M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | R_Crate.002
+Fra:1 Mem:74.97M (Peak 74.97M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | R_Sack.003
+Fra:1 Mem:75.07M (Peak 75.07M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | C_Table_Small.002
+Fra:1 Mem:75.04M (Peak 75.07M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | Fill.001
+Fra:1 Mem:75.05M (Peak 75.07M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | C_Perch_2m.002
+Fra:1 Mem:75.05M (Peak 75.07M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | Key.001
+Fra:1 Mem:75.05M (Peak 75.07M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | Fill_01_1.001
+Fra:1 Mem:75.05M (Peak 75.07M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | C_DrinkerBase.002
+Fra:1 Mem:75.06M (Peak 75.07M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | Trough_01.001
+Fra:1 Mem:75.06M (Peak 75.07M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | C03_Incubator_1Egg.002
+Fra:1 Mem:75.08M (Peak 75.08M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | C03_Incubator_1Egg_Hood.002
+Fra:1 Mem:75.15M (Peak 75.15M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Synchronizing object | IncubatorEgg_1.001
+Fra:1 Mem:75.15M (Peak 75.15M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Initializing
+Fra:1 Mem:74.90M (Peak 75.15M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:89.26M (Peak 106.91M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Waiting for render to start
+Fra:1 Mem:89.26M (Peak 106.91M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Scene
+Fra:1 Mem:89.26M (Peak 106.91M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Shaders
+Fra:1 Mem:89.26M (Peak 106.91M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:89.34M (Peak 106.91M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Procedurals
+Fra:1 Mem:89.34M (Peak 106.91M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Background
+Fra:1 Mem:89.34M (Peak 106.91M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Camera
+Fra:1 Mem:89.34M (Peak 106.91M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:89.34M (Peak 106.91M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Objects
+Fra:1 Mem:89.34M (Peak 106.91M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:89.36M (Peak 106.91M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Particle Systems
+Fra:1 Mem:89.36M (Peak 106.91M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:89.36M (Peak 106.91M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Meshes
+Fra:1 Mem:89.36M (Peak 106.91M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:89.36M (Peak 106.91M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:89.46M (Peak 106.91M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:89.45M (Peak 106.91M) | Time:00:00.11 | Mem:16.11M, Peak:16.11M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Geometry BVH N01_Wall_2mMesh.001 2/7 | Building BVH
+Fra:1 Mem:89.45M (Peak 106.91M) | Time:00:00.11 | Mem:16.11M, Peak:16.11M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Geometry BVH N01_PostMesh.001 4/7 | Building BVH
+Fra:1 Mem:89.45M (Peak 106.91M) | Time:00:00.11 | Mem:16.11M, Peak:16.11M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Geometry BVH R_ChickenStore_LanternMesh.001 5/7 | Building BVH
+Fra:1 Mem:89.45M (Peak 106.91M) | Time:00:00.11 | Mem:16.11M, Peak:16.11M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Geometry BVH C01_ChickenTrough_3SlotsMesh 7/7 | Building BVH
+Fra:1 Mem:89.45M (Peak 106.91M) | Time:00:00.11 | Mem:16.12M, Peak:16.12M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Geometry BVH C01_ChickenTrough_3SlotsMesh 7/7 | Building BVH 0%
+Fra:1 Mem:89.45M (Peak 106.91M) | Time:00:00.11 | Mem:16.13M, Peak:16.13M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Geometry BVH C01_ChickenTrough_3SlotsMesh 7/7 | Building BVH
+Fra:1 Mem:89.45M (Peak 106.91M) | Time:00:00.11 | Mem:16.19M, Peak:16.20M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:89.45M (Peak 106.91M) | Time:00:00.11 | Mem:16.19M, Peak:16.20M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:89.45M (Peak 106.91M) | Time:00:00.11 | Mem:16.33M, Peak:16.39M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:89.45M (Peak 106.91M) | Time:00:00.11 | Mem:16.33M, Peak:16.39M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.33M, Peak:16.39M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.44M, Peak:16.44M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Objects Flags
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.44M, Peak:16.44M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.44M, Peak:16.44M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Images
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.44M, Peak:16.44M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Camera Volume
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.44M, Peak:16.44M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.52M, Peak:16.52M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Lights
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.52M, Peak:16.52M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.52M, Peak:16.52M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Integrator
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.52M, Peak:16.52M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Film
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.44M, Peak:16.52M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.52M, Peak:16.52M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Baking
+Fra:1 Mem:89.56M (Peak 106.91M) | Time:00:00.11 | Mem:16.52M, Peak:16.52M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:89.57M (Peak 106.91M) | Time:00:00.11 | Mem:16.52M, Peak:16.52M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:89.57M (Peak 106.91M) | Time:00:00.11 | Mem:16.52M, Peak:16.52M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Sample 0/12
+Fra:1 Mem:178.72M (Peak 178.72M) | Time:00:00.74 | Remaining:00:06.95 | Mem:105.60M, Peak:105.60M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Sample 1/12
+Fra:1 Mem:216.22M (Peak 272.47M) | Time:00:27.63 | Mem:105.60M, Peak:105.60M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Sample 12/12
+Fra:1 Mem:216.22M (Peak 272.47M) | Time:00:27.63 | Mem:105.60M, Peak:105.60M | 02 COOP INTERIOR - LEVEL 2, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\ArtSource\CoopInterior_A\Previews\Lv2_Overview.png'
+Time: 00:27.84 (Saving: 00:00.21)
+
+Fra:1 Mem:110.11M (Peak 110.11M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | Floor.002
+Fra:1 Mem:110.11M (Peak 110.11M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | N01_Wall_2m.020
+Fra:1 Mem:110.11M (Peak 110.11M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | N01_WindowWall_2m.011
+Fra:1 Mem:110.13M (Peak 110.13M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | N01_Post.020
+Fra:1 Mem:110.13M (Peak 110.13M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | FrontCutaway_2mDoor.002
+Fra:1 Mem:110.13M (Peak 110.13M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | SparseStraw.002
+Fra:1 Mem:110.14M (Peak 110.14M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | R_ChickenStore_Lantern.009
+Fra:1 Mem:110.17M (Peak 110.17M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | R_Crate.003
+Fra:1 Mem:110.19M (Peak 110.19M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | R_Sack.005
+Fra:1 Mem:110.20M (Peak 110.20M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | C_Table_Small.003
+Fra:1 Mem:110.22M (Peak 110.22M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | C_Perch_2m.003
+Fra:1 Mem:110.26M (Peak 110.26M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | C_DrinkerBase.003
+Fra:1 Mem:110.29M (Peak 110.29M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | C_Table_Wide.001
+Fra:1 Mem:110.30M (Peak 110.30M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | C03_Incubator_1Egg.003
+Fra:1 Mem:110.34M (Peak 110.34M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | C03_Incubator_1Egg_Hood.003
+Fra:1 Mem:110.38M (Peak 110.38M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | IncubatorEgg_1.002
+Fra:1 Mem:110.38M (Peak 110.38M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | C04_MayonnaiseMixer.001
+Fra:1 Mem:110.39M (Peak 110.39M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | R_MayoJar.001
+Fra:1 Mem:110.42M (Peak 110.42M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | Trough_01.002
+Fra:1 Mem:110.43M (Peak 110.43M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | Fill_01_1.002
+Fra:1 Mem:110.43M (Peak 110.43M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | C05_AutoHopper.001
+Fra:1 Mem:110.44M (Peak 110.44M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | N05_Tee.001
+Fra:1 Mem:110.45M (Peak 110.45M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | AutoHead_01
+Fra:1 Mem:110.46M (Peak 110.46M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | ConnectedPipeNetwork
+Fra:1 Mem:110.50M (Peak 110.50M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | Key.002
+Fra:1 Mem:110.50M (Peak 110.50M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Synchronizing object | Fill.002
+Fra:1 Mem:110.50M (Peak 110.50M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Initializing
+Fra:1 Mem:110.14M (Peak 110.50M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:123.95M (Peak 142.15M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Waiting for render to start
+Fra:1 Mem:123.95M (Peak 142.15M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Scene
+Fra:1 Mem:123.95M (Peak 142.15M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Shaders
+Fra:1 Mem:123.95M (Peak 142.15M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:124.03M (Peak 142.15M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Procedurals
+Fra:1 Mem:124.03M (Peak 142.15M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Background
+Fra:1 Mem:124.03M (Peak 142.15M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Camera
+Fra:1 Mem:124.03M (Peak 142.15M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:124.03M (Peak 142.15M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Objects
+Fra:1 Mem:124.03M (Peak 142.15M) | Time:00:00.11 | Mem:16.00M, Peak:16.00M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:124.05M (Peak 142.15M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Particle Systems
+Fra:1 Mem:124.05M (Peak 142.15M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:124.05M (Peak 142.15M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Meshes
+Fra:1 Mem:124.05M (Peak 142.15M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:124.05M (Peak 142.15M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:124.19M (Peak 142.15M) | Time:00:00.11 | Mem:16.02M, Peak:16.02M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:124.18M (Peak 142.15M) | Time:00:00.11 | Mem:16.16M, Peak:16.16M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Geometry BVH C05_BellHeadMesh 14/13 | Building BVH
+Fra:1 Mem:124.18M (Peak 142.15M) | Time:00:00.11 | Mem:16.16M, Peak:16.16M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Geometry BVH R_ChickenStore_LanternMesh.001 5/13 | Building BVH
+Fra:1 Mem:124.18M (Peak 142.15M) | Time:00:00.11 | Mem:16.16M, Peak:16.16M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Geometry BVH C_DrinkerBaseMesh 7/13 | Building BVH
+Fra:1 Mem:124.18M (Peak 142.15M) | Time:00:00.11 | Mem:16.16M, Peak:16.16M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Geometry BVH C06_ChickenDrinkerMesh 8/13 | Building BVH
+Fra:1 Mem:124.18M (Peak 142.15M) | Time:00:00.11 | Mem:16.16M, Peak:16.16M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Geometry BVH C06_ChickenDrinkerMesh 8/13 | Building BVH 0%
+Fra:1 Mem:124.18M (Peak 142.15M) | Time:00:00.11 | Mem:16.18M, Peak:16.18M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Geometry BVH C06_ChickenDrinkerMesh 8/13 | Building BVH
+Fra:1 Mem:124.18M (Peak 142.15M) | Time:00:00.11 | Mem:16.19M, Peak:16.20M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Geometry BVH N05_TeeMesh.001 13/13 | Building BVH
+Fra:1 Mem:124.18M (Peak 142.15M) | Time:00:00.11 | Mem:16.20M, Peak:16.20M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Geometry BVH Sphere.005 9/13 | Building BVH
+Fra:1 Mem:124.18M (Peak 142.15M) | Time:00:00.11 | Mem:16.22M, Peak:16.22M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Geometry BVH TFP_Jar_01A.002 10/13 | Building BVH
+Fra:1 Mem:124.18M (Peak 142.15M) | Time:00:00.11 | Mem:16.22M, Peak:16.22M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Geometry BVH C01_ChickenTrough_3SlotsMesh 11/13 | Building BVH
+Fra:1 Mem:124.18M (Peak 142.15M) | Time:00:00.11 | Mem:16.23M, Peak:16.23M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Geometry BVH C01_GrainFillMesh 12/13 | Building BVH
+Fra:1 Mem:124.18M (Peak 142.15M) | Time:00:00.11 | Mem:16.30M, Peak:16.31M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:124.19M (Peak 142.15M) | Time:00:00.11 | Mem:16.30M, Peak:16.31M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:124.19M (Peak 142.15M) | Time:00:00.11 | Mem:16.48M, Peak:16.56M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:124.19M (Peak 142.15M) | Time:00:00.11 | Mem:16.48M, Peak:16.56M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.48M, Peak:16.56M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.62M, Peak:16.62M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Objects Flags
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.63M, Peak:16.63M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.63M, Peak:16.63M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Images
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.63M, Peak:16.63M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Camera Volume
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.63M, Peak:16.63M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.71M, Peak:16.71M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Lights
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.71M, Peak:16.71M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.71M, Peak:16.71M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Integrator
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.71M, Peak:16.71M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Film
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.63M, Peak:16.71M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.71M, Peak:16.71M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Baking
+Fra:1 Mem:124.33M (Peak 142.15M) | Time:00:00.11 | Mem:16.71M, Peak:16.71M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:124.34M (Peak 142.15M) | Time:00:00.12 | Mem:16.71M, Peak:16.71M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:124.34M (Peak 142.15M) | Time:00:00.12 | Mem:16.71M, Peak:16.71M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Sample 0/12
+Fra:1 Mem:213.49M (Peak 213.49M) | Time:00:00.69 | Remaining:00:06.33 | Mem:105.79M, Peak:105.79M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Sample 1/12
+Fra:1 Mem:250.99M (Peak 307.25M) | Time:00:25.28 | Mem:105.79M, Peak:105.79M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Sample 12/12
+Fra:1 Mem:250.99M (Peak 307.25M) | Time:00:25.28 | Mem:105.79M, Peak:105.79M | 03 COOP INTERIOR - LEVEL 3, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\ArtSource\CoopInterior_A\Previews\Lv3_Overview.png'
+Time: 00:25.45 (Saving: 00:00.16)
+
+Fra:1 Mem:144.50M (Peak 144.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | Floor.003
+Fra:1 Mem:144.50M (Peak 144.50M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | N01_Wall_2m.033
+Fra:1 Mem:144.51M (Peak 144.51M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | N01_WindowWall_2m.017
+Fra:1 Mem:144.52M (Peak 144.52M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | N01_Post.032
+Fra:1 Mem:144.53M (Peak 144.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | FrontCutaway_2mDoor.003
+Fra:1 Mem:144.53M (Peak 144.53M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | R_ChickenStore_Lantern.013
+Fra:1 Mem:144.60M (Peak 144.60M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | R_Crate.004
+Fra:1 Mem:144.60M (Peak 144.60M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | R_Sack.007
+Fra:1 Mem:144.61M (Peak 144.61M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | C_Perch_2m.004
+Fra:1 Mem:144.67M (Peak 144.68M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | C_DrinkerBase.005
+Fra:1 Mem:144.69M (Peak 144.69M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | C06_ChickenDrinker.005
+Fra:1 Mem:144.71M (Peak 144.71M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | C03_Incubator_3Egg.001
+Fra:1 Mem:144.72M (Peak 144.72M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | IncubatorEgg_1.003
+Fra:1 Mem:144.76M (Peak 144.76M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | C04_MayonnaiseMixer.002
+Fra:1 Mem:144.78M (Peak 144.78M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | R_MayoJar.003
+Fra:1 Mem:144.82M (Peak 144.82M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | Trough_01.003
+Fra:1 Mem:144.85M (Peak 144.85M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | Fill_01_1.003
+Fra:1 Mem:144.85M (Peak 144.85M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | C05_AutoHopper.002
+Fra:1 Mem:144.87M (Peak 144.87M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | N05_Tee.003
+Fra:1 Mem:144.88M (Peak 144.88M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | AutoHead_01.001
+Fra:1 Mem:144.87M (Peak 144.88M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | ConnectedPipeNetwork.001
+Fra:1 Mem:144.90M (Peak 144.90M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | Key.003
+Fra:1 Mem:144.90M (Peak 144.90M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Synchronizing object | Fill.003
+Fra:1 Mem:144.92M (Peak 144.92M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Initializing
+Fra:1 Mem:144.50M (Peak 144.92M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:158.00M (Peak 176.51M) | Time:00:00.10 | Mem:16.00M, Peak:16.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Waiting for render to start
+Fra:1 Mem:158.00M (Peak 176.51M) | Time:00:00.10 | Mem:16.00M, Peak:16.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Scene
+Fra:1 Mem:158.00M (Peak 176.51M) | Time:00:00.10 | Mem:16.00M, Peak:16.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Shaders
+Fra:1 Mem:158.00M (Peak 176.51M) | Time:00:00.10 | Mem:16.00M, Peak:16.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:158.09M (Peak 176.51M) | Time:00:00.10 | Mem:16.00M, Peak:16.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Procedurals
+Fra:1 Mem:158.09M (Peak 176.51M) | Time:00:00.10 | Mem:16.00M, Peak:16.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Background
+Fra:1 Mem:158.09M (Peak 176.51M) | Time:00:00.10 | Mem:16.00M, Peak:16.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Camera
+Fra:1 Mem:158.09M (Peak 176.51M) | Time:00:00.10 | Mem:16.00M, Peak:16.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:158.09M (Peak 176.51M) | Time:00:00.10 | Mem:16.00M, Peak:16.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Objects
+Fra:1 Mem:158.09M (Peak 176.51M) | Time:00:00.10 | Mem:16.00M, Peak:16.00M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:158.11M (Peak 176.51M) | Time:00:00.10 | Mem:16.02M, Peak:16.02M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Particle Systems
+Fra:1 Mem:158.11M (Peak 176.51M) | Time:00:00.10 | Mem:16.02M, Peak:16.02M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:158.11M (Peak 176.51M) | Time:00:00.10 | Mem:16.02M, Peak:16.02M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Meshes
+Fra:1 Mem:158.11M (Peak 176.51M) | Time:00:00.10 | Mem:16.02M, Peak:16.02M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:158.11M (Peak 176.51M) | Time:00:00.10 | Mem:16.02M, Peak:16.02M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.10 | Mem:16.03M, Peak:16.03M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.10 | Mem:16.17M, Peak:16.17M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Geometry BVH N01_Wall_2mMesh.001 2/14 | Building BVH
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.10 | Mem:16.17M, Peak:16.17M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Geometry BVH R_ChickenStore_LanternMesh.001 5/14 | Building BVH
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.10 | Mem:16.17M, Peak:16.17M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Geometry BVH C_DrinkerBaseMesh 8/14 | Building BVH
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.10 | Mem:16.17M, Peak:16.17M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Geometry BVH C_DrinkerBaseMesh 8/14 | Building BVH 0%
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.10 | Mem:16.18M, Peak:16.18M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Geometry BVH C_DrinkerBaseMesh 8/14 | Building BVH
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.10 | Mem:16.18M, Peak:16.19M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Geometry BVH C06_ChickenDrinkerMesh 9/14 | Building BVH
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.10 | Mem:16.20M, Peak:16.21M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Geometry BVH Sphere.005 10/14 | Building BVH
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.10 | Mem:16.20M, Peak:16.21M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Geometry BVH N05_TeeMesh.001 14/14 | Building BVH
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.10 | Mem:16.21M, Peak:16.21M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Geometry BVH TFP_Jar_01A.002 11/14 | Building BVH
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.11 | Mem:16.22M, Peak:16.22M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Geometry BVH C01_ChickenTrough_3SlotsMesh 12/14 | Building BVH
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.11 | Mem:16.23M, Peak:16.23M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Geometry BVH C01_GrainFillMesh 13/14 | Building BVH
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.11 | Mem:16.32M, Peak:16.34M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.11 | Mem:16.32M, Peak:16.34M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.11 | Mem:16.52M, Peak:16.61M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:158.26M (Peak 176.51M) | Time:00:00.11 | Mem:16.52M, Peak:16.61M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:158.41M (Peak 176.51M) | Time:00:00.11 | Mem:16.52M, Peak:16.61M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:158.41M (Peak 176.51M) | Time:00:00.11 | Mem:16.68M, Peak:16.68M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Objects Flags
+Fra:1 Mem:158.41M (Peak 176.51M) | Time:00:00.11 | Mem:16.68M, Peak:16.68M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:158.41M (Peak 176.51M) | Time:00:00.11 | Mem:16.68M, Peak:16.68M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Images
+Fra:1 Mem:158.41M (Peak 176.51M) | Time:00:00.11 | Mem:16.68M, Peak:16.68M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Camera Volume
+Fra:1 Mem:158.41M (Peak 176.51M) | Time:00:00.11 | Mem:16.68M, Peak:16.68M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:158.41M (Peak 176.51M) | Time:00:00.11 | Mem:16.76M, Peak:16.76M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Lights
+Fra:1 Mem:158.41M (Peak 176.51M) | Time:00:00.11 | Mem:16.76M, Peak:16.76M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:158.41M (Peak 176.51M) | Time:00:00.11 | Mem:16.76M, Peak:16.76M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Integrator
+Fra:1 Mem:158.41M (Peak 176.51M) | Time:00:00.11 | Mem:16.76M, Peak:16.76M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Film
+Fra:1 Mem:158.42M (Peak 176.51M) | Time:00:00.11 | Mem:16.68M, Peak:16.76M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:158.42M (Peak 176.51M) | Time:00:00.11 | Mem:16.77M, Peak:16.77M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Baking
+Fra:1 Mem:158.42M (Peak 176.51M) | Time:00:00.11 | Mem:16.77M, Peak:16.77M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:158.42M (Peak 176.51M) | Time:00:00.11 | Mem:16.77M, Peak:16.77M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:158.42M (Peak 176.51M) | Time:00:00.11 | Mem:16.77M, Peak:16.77M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Sample 0/12
+Fra:1 Mem:247.57M (Peak 247.57M) | Time:00:00.61 | Remaining:00:05.52 | Mem:105.84M, Peak:105.84M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Sample 1/12
+Fra:1 Mem:285.08M (Peak 341.33M) | Time:00:25.65 | Mem:105.84M, Peak:105.84M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Sample 12/12
+Fra:1 Mem:285.08M (Peak 341.33M) | Time:00:25.65 | Mem:105.84M, Peak:105.84M | 04 COOP INTERIOR - LEVEL 4, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\ArtSource\CoopInterior_A\Previews\Lv4_Overview.png'
+Time: 00:25.83 (Saving: 00:00.17)
+
+
+Blender quit

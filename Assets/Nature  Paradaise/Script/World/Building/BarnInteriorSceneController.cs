@@ -18,7 +18,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     [Header("Editable Interior Camera")]
     [Tooltip("Rotasi marker ini menjadi arah kamera Barn/Coop saat Play.")]
     [SerializeField] Transform cameraAngle;
-    [SerializeField, Min(1f)] float cameraDistance = 25f;
+    [SerializeField, Min(1f)] float cameraDistance = 18f;
     readonly List<Transform> feedingSlots = new();
     readonly List<Renderer> feedFillRenderers = new();
     readonly HashSet<int> occupiedFeedSlots = new();
@@ -31,6 +31,8 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     float previousCameraYaw;
     float previousCameraDistance;
     bool cameraOverridden;
+    BarnInteriorLayout authoredLayout;
+    readonly HashSet<Renderer> visibleAuthoredFills = new();
 
     void Awake() => Instance=this;
     void OnDestroy()
@@ -66,13 +68,33 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     {
         AnimalHome home=BarnInterior.Current!=null ? BarnInterior.Current.home : null;
         int level=home?.site!=null ? Mathf.Clamp(home.site.CurrentLevel,1,4) : 1;
+        ApplyLayout(home,level);
+    }
+
+    void ApplyLayout(AnimalHome home,int level)
+    {
         for(int i=0;i<levelLayouts.Count;i++) if(levelLayouts[i]!=null)
             levelLayouts[i].SetActive(i==level-1);
+        BindAuthoredLayout(level);
         LayoutAnimalSpots(home,level);
         LayoutFeedingTrough(home,level);
         ResolveFeedMakerPoint(level);
         ResolveDedicatedFeedMaker(home);
         EnsureDebugLabels();
+    }
+
+    void BindAuthoredLayout(int level)
+    {
+        BarnInteriorLayout next=levelLayouts!=null && levelLayouts.Count>=level && levelLayouts[level-1]!=null
+            ? levelLayouts[level-1].GetComponent<BarnInteriorLayout>() : null;
+        if(next==authoredLayout) return;
+        authoredLayout=next;
+        feedingSlots.Clear();feedFillRenderers.Clear();occupiedFeedSlots.Clear();
+        if(next==null) return;
+        feedingTroughRoot=next.FeedingRoot;
+        animalSpots=next.AnimalSpots;
+        feedingSlots.AddRange(next.FeedingSlots);
+        feedFillRenderers.AddRange(next.FeedFills);
     }
 
     void EnsureDebugLabels()
@@ -85,6 +107,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
 
     void ResolveFeedMakerPoint(int level)
     {
+        if(authoredLayout!=null) {feedMakerPoint=authoredLayout.FeedMakerPoint;return;}
         feedMakerPoint=null;
         if(levelLayouts==null || levelLayouts.Count<level || levelLayouts[level-1]==null) return;
         foreach(Transform candidate in levelLayouts[level-1].GetComponentsInChildren<Transform>(true))
@@ -112,9 +135,11 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     void LayoutFeedingTrough(AnimalHome home,int level)
     {
         EnsureFeedingRoot(level);
-        int capacity=home!=null ? Mathf.Max(1,home.FeedingSlotCapacity) : new[]{4,8,14,20}[level-1];
+        int capacity=home!=null ? Mathf.Max(1,home.FeedingSlotCapacity) :
+            authoredLayout!=null ? authoredLayout.FeedingSlots.Length : new[]{4,8,14,20}[level-1];
         RegisterAuthoredFeedingSlots();
-        while(feedingSlots.Count<capacity) CreateFeedingSlot(feedingSlots.Count);
+        if(authoredLayout==null)
+            while(feedingSlots.Count<capacity) CreateFeedingSlot(feedingSlots.Count);
         for(int i=0;i<feedingSlots.Count;i++)
         {
             bool active=i<capacity;
@@ -207,6 +232,18 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         }
         for(int i=0;occupiedFeedSlots.Count<filled && i<feedingSlots.Count;i++)
             if(feedingSlots[i]!=null && feedingSlots[i].gameObject.activeSelf) occupiedFeedSlots.Add(i);
+        // A compartment can display several logical portions. Accumulate first so
+        // a later empty portion cannot hide the renderer of an earlier full one.
+        if(authoredLayout!=null)
+        {
+            visibleAuthoredFills.Clear();
+            for(int i=0;i<feedFillRenderers.Count;i++)
+                if(feedFillRenderers[i]!=null && occupiedFeedSlots.Contains(i) && feedingSlots[i].gameObject.activeSelf)
+                    visibleAuthoredFills.Add(feedFillRenderers[i]);
+            foreach(Renderer fill in feedFillRenderers)
+                if(fill!=null) fill.gameObject.SetActive(visibleAuthoredFills.Contains(fill));
+            return;
+        }
         for(int i=0;i<feedFillRenderers.Count;i++)
             if(feedFillRenderers[i]!=null) feedFillRenderers[i].gameObject.SetActive(
                 occupiedFeedSlots.Contains(i) && feedingSlots[i].gameObject.activeSelf);
@@ -216,11 +253,16 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     {
         Transform closest=null;
         distance=float.PositiveInfinity;
-        foreach(Transform slot in feedingSlots)
+        for(int i=0;i<feedingSlots.Count;i++)
         {
+            Transform slot=feedingSlots[i];
             if(slot==null || !slot.gameObject.activeInHierarchy) continue;
             float candidate=HorizontalDistanceToSlotSurface(slot,position);
-            if(candidate>=distance) continue;
+            bool sameCompartment=authoredLayout!=null && closest!=null &&
+                (closest.position-slot.position).sqrMagnitude<.0001f;
+            bool preferEmpty=sameCompartment && occupiedFeedSlots.Contains(feedingSlots.IndexOf(closest)) &&
+                !occupiedFeedSlots.Contains(i);
+            if(candidate>=distance && !preferEmpty) continue;
             distance=candidate;
             closest=slot;
         }
@@ -248,7 +290,8 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
 
     void LayoutAnimalSpots(AnimalHome home,int level)
     {
-        int capacity=home!=null ? Mathf.Max(1,home.Capacity) : new[]{4,8,14,20}[level-1];
+        int capacity=home!=null ? Mathf.Max(1,home.Capacity) :
+            authoredLayout!=null ? authoredLayout.AnimalSpots.Length : new[]{4,8,14,20}[level-1];
         if(animalSpots==null) return;
         for(int i=0;i<animalSpots.Length;i++)
         {
@@ -339,13 +382,14 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
             bool occupied=troughIndex>=0 && occupiedFeedSlots.Contains(troughIndex);
             ItemStack heldStack=hotbar!=null ? hotbar.SelectedStack : null;
             bool holdingFeed=heldStack?.item!=null && heldStack.count>0 && home.AcceptsFeedItem(heldStack.item);
+            string unit=authoredLayout!=null ? "Porsi" : "Box";
             string action=occupied
-                ? $"Box {troughIndex+1}: TERISI"
+                ? $"{unit} {troughIndex+1}: TERISI"
                 : home.FeedSpace<=0
                     ? "Tempat pakan penuh"
                     : holdingFeed
-                        ? $"F: Masukkan 1 {heldStack.DisplayName} ke Box {troughIndex+1}"
-                        : $"Box {troughIndex+1}: KOSONG — pilih Animal Feed/Grass di hotbar";
+                        ? $"F: Masukkan 1 {heldStack.DisplayName} ke {unit} {troughIndex+1}"
+                        : $"{unit} {troughIndex+1}: KOSONG — pilih Animal Feed/Grass di hotbar";
             WorldInteractionPrompt.Request(this,trough,
                 $"{action}\nTempat Pakan {home.Label}: {home.TotalFeed}/{home.FeedingSlotCapacity} " +
                 $"(Feed {home.Fodder} | Grass {home.Grass}) | Belum makan {home.RequiredFeedToday}",
@@ -355,7 +399,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
             if(PlayerInteractionTarget.Press(KeyCode.F))
             {
                 if(occupied)
-                    SaveLoadFeedback.Instance?.ShowMessage($"Box {troughIndex+1} sudah terisi.");
+                    SaveLoadFeedback.Instance?.ShowMessage($"{unit} {troughIndex+1} sudah terisi.");
                 else if(!holdingFeed)
                     SaveLoadFeedback.Instance?.ShowMessage("Pilih Animal Feed atau Grass dari hotbar terlebih dahulu.");
                 else
@@ -364,8 +408,8 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
                     if(moved>0)
                     {
                         occupiedFeedSlots.Add(troughIndex);
-                        PlayerPickupNotification.Show(player.transform,$"{heldStack.DisplayName} x1 → Box {troughIndex+1}");
-                        SaveLoadFeedback.Instance?.ShowMessage($"Box {troughIndex+1} diisi 1 {heldStack.DisplayName}.");
+                        PlayerPickupNotification.Show(player.transform,$"{heldStack.DisplayName} x1 → {unit} {troughIndex+1}");
+                        SaveLoadFeedback.Instance?.ShowMessage($"{unit} {troughIndex+1} diisi 1 {heldStack.DisplayName}.");
                         RefreshFeedVisual(home);
                     }
                     else SaveLoadFeedback.Instance?.ShowMessage(home.FeedSpace<=0

@@ -207,7 +207,8 @@ public sealed class AnimalHome : MonoBehaviour
         int accepted = source == null || feed == null || amount <= 0
             ? 0
             : Mathf.Min(1, FeedSpace, source.GetCount(feed));
-        if (accepted <= 0 || !source.Remove(feed, accepted)) return false;
+        if (accepted <= 0 || !StaminaBalance.Can(source,"feed_animal",accepted) || !source.Remove(feed, accepted)) return false;
+        StaminaBalance.Spend(source,"feed_animal",accepted);
         fodderStock += accepted;
         PrepareHousedAnimals();
         return true;
@@ -229,7 +230,8 @@ public sealed class AnimalHome : MonoBehaviour
 
         // Satu interaksi mengisi tepat satu kompartemen trough.
         int accepted = Mathf.Min(1, stack.count, FeedSpace);
-        if (accepted <= 0 || !source.RemoveFromSlot(slotIndex, accepted)) return 0;
+        if (accepted <= 0 || !StaminaBalance.Can(source,"feed_animal",accepted) || !source.RemoveFromSlot(slotIndex, accepted)) return 0;
+        StaminaBalance.Spend(source,"feed_animal",accepted);
         if (processed) fodderStock += accepted;
         else grassStock += accepted;
         PrepareHousedAnimals();

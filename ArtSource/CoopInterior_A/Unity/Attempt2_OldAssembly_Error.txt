@@ -1,0 +1,5 @@
+System.InvalidOperationException: Coop interior: Balance CSV one Coop capacity row 1
+  at CoopApprovedInteriorSetup.Require (System.Boolean ok, System.String message) [0x0002a] in C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Assets\Nature  Paradaise\Script\Editor\CoopApprovedInteriorSetup.cs:52 
+  at CoopApprovedInteriorSetup.UpdateCapacity () [0x00090] in C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Assets\Nature  Paradaise\Script\Editor\CoopApprovedInteriorSetup.cs:223 
+  at CoopApprovedInteriorSetup.Apply () [0x00162] in C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Assets\Nature  Paradaise\Script\Editor\CoopApprovedInteriorSetup.cs:236 
+  at CoopApprovedInteriorSetup.Tick () [0x000b9] in C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\Assets\Nature  Paradaise\Script\Editor\CoopApprovedInteriorSetup.cs:46 

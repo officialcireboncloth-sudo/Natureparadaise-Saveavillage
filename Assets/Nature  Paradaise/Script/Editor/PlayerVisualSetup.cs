@@ -25,8 +25,11 @@ public static class PlayerVisualSetup
     const string ControllerPath=AnimationFolder+"/Player Locomotion.controller";
     const string MaterialPath=MaterialFolder+"/m_PlayerDummy.mat";
     const string PrefabPath=PrefabFolder+"/PlayerVisual.prefab";
-    const float PlayerVisualHeight=3.6f;
+    const float PlayerVisualHeight=WorldScaleAudit.PlayerHeight;
     const float PlayerVisualGroundOffset=0f;
+    // Measured idle-sole clearance above this FBX's imported culling-bound minimum
+    // at 1.5 m. Keep the collider pivot at the soles when rebuilding the visual.
+    const float StandingSoleBoundsPadding=.031461403f;
     internal static bool IsRunning { get; private set; }
 
     internal static bool NeedsSourceRefresh()
@@ -1095,7 +1098,7 @@ public static class PlayerVisualSetup
         model.name="Model_Editable";
         model.transform.SetLocalPositionAndRotation(Vector3.zero,Quaternion.identity);
         model.transform.localScale=Vector3.one;
-        // Dummy baru sengaja dibuat dua kali lebih tinggi dari ukuran visual lama.
+        // Player body uses the shared 1.5m geometry target.
         // Kaki disejajarkan ke pivot player agar tubuh tidak tenggelam ke terrain.
         FitModelToPlayer(model,root,PlayerVisualHeight);
         Animator importedAnimator=model.GetComponent<Animator>();
@@ -1119,21 +1122,13 @@ public static class PlayerVisualSetup
         // Export Blender terbaru juga membawa geometry control-rig. Jika semua Renderer
         // dihitung, bounds menjadi sekitar 10x tinggi badan dan player diperkecil ke 0.19.
         // Ukuran visual harus mengikuti mesh yang benar-benar di-skin ke skeleton.
-        Renderer[] renderers=model.GetComponentsInChildren<SkinnedMeshRenderer>(true)
-            .Cast<Renderer>()
-            .ToArray();
-        if(renderers.Length==0)
-            renderers=model.GetComponentsInChildren<Renderer>(true);
-        if(renderers.Length==0) return;
-        Bounds bounds=renderers[0].bounds;
-        for(int index=1;index<renderers.Length;index++) bounds.Encapsulate(renderers[index].bounds);
-        float scale=targetHeight/Mathf.Max(0.001f,bounds.size.y);
+        if(!WorldScaleAudit.TryBounds(model,true,out Bounds bounds)) return;
+        float scale=targetHeight/Mathf.Max(.001f,bounds.size.y);
         model.transform.localScale=Vector3.one*scale;
-        bounds=renderers[0].bounds;
-        for(int index=1;index<renderers.Length;index++) bounds.Encapsulate(renderers[index].bounds);
-        Vector3 worldBottomCenter=new(bounds.center.x,bounds.min.y,bounds.center.z);
-        Vector3 localBottomCenter=root.InverseTransformPoint(worldBottomCenter);
-        model.transform.localPosition-=localBottomCenter;
+        if(!WorldScaleAudit.TryBounds(model,true,out bounds)) return;
+        Vector3 worldBottomCenter=new(bounds.center.x,
+            bounds.min.y+StandingSoleBoundsPadding*(targetHeight/PlayerDimensions.Height),bounds.center.z);
+        model.transform.localPosition-=root.InverseTransformPoint(worldBottomCenter);
     }
 
     static int InstallOnLoadedPlayers(GameObject prefab,AnimatorController controller)
@@ -1141,6 +1136,8 @@ public static class PlayerVisualSetup
         int installed=0;
         foreach(PlayerController player in Object.FindObjectsByType<PlayerController>(FindObjectsInactive.Include,FindObjectsSortMode.None))
         {
+            var capsule=player.GetComponent<CharacterController>();
+            if(capsule!=null){capsule.height=PlayerVisualHeight;capsule.radius=PlayerDimensions.Radius;capsule.center=new Vector3(0,PlayerVisualHeight*.5f,0);capsule.stepOffset=PlayerDimensions.StepOffset;capsule.skinWidth=PlayerDimensions.SkinWidth;}
             Transform visual=player.transform.Find("PlayerVisual_Editable");
             if(visual==null)
             {
@@ -1151,6 +1148,7 @@ public static class PlayerVisualSetup
                 visual=instance.transform;
                 installed++;
             }
+            visual.localScale=Vector3.one;visual.localPosition=Vector3.zero;
             Animator wrapperAnimator=visual.GetComponent<Animator>();
             if(wrapperAnimator!=null) Object.DestroyImmediate(wrapperAnimator);
             Animator animator=visual.GetComponentInChildren<Animator>(true);

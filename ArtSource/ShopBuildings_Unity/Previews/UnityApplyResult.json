@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "scene": "Assets/Nature  Paradaise/Map/Scenes/World/Map.unity",
+  "backup": "ArtSource/ShopBuildings_Unity/Revisions/Map_BeforeMobileShops_20261014_141514311.unity",
+  "groups": [
+    {
+      "group": "ChickenStore_Mobile_Group",
+      "position": [
+        259.2035,
+        18.4958076,
+        577.6776
+      ],
+      "triangles": 9575,
+      "vertices": 18096,
+      "renderers": 125,
+      "boxColliders": 124
+    },
+    {
+      "group": "MiniMarket_Group",
+      "position": [
+        295.2035,
+        18.4958076,
+        577.6776
+      ],
+      "triangles": 2910,
+      "vertices": 5238,
+      "renderers": 3,
+      "boxColliders": 3
+    }
+  ],
+  "sharedMaterial": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Models/Materials/TFP_Atlas_1A.mat",
+  "newRuntimeTextures": 0,
+  "gameplayRegistrationChanged": false
+}

@@ -1,0 +1,293 @@
+BARN INTERIOR A SAVED ASSET VALIDATION
+PASS Four saved level prefabs exist
+PASS Lv1 exactly one active layout
+PASS Lv1 no primitive trough duplication
+PASS Lv1 zero stock hides authored fills
+PASS Lv1 portion 1 reachable, including shared compartments
+PASS Lv1 portion 2 reachable, including shared compartments
+PASS Lv1 portion 3 reachable, including shared compartments
+PASS Lv1 portion 4 reachable, including shared compartments
+PASS Lv1 original storage capacity retained
+PASS Lv1 full stock displays every bound compartment
+PASS Lv1 consumption updates shared fill once
+PASS Lv2 exactly one active layout
+PASS Lv2 no primitive trough duplication
+PASS Lv2 zero stock hides authored fills
+PASS Lv2 portion 1 reachable, including shared compartments
+PASS Lv2 portion 2 reachable, including shared compartments
+PASS Lv2 portion 3 reachable, including shared compartments
+PASS Lv2 portion 4 reachable, including shared compartments
+PASS Lv2 portion 5 reachable, including shared compartments
+PASS Lv2 portion 6 reachable, including shared compartments
+PASS Lv2 portion 7 reachable, including shared compartments
+PASS Lv2 portion 8 reachable, including shared compartments
+PASS Lv2 original storage capacity retained
+PASS Lv2 full stock displays every bound compartment
+PASS Lv2 consumption updates shared fill once
+PASS Lv3 exactly one active layout
+PASS Lv3 no primitive trough duplication
+PASS Lv3 zero stock hides authored fills
+PASS Lv3 portion 1 reachable, including shared compartments
+PASS Lv3 portion 2 reachable, including shared compartments
+PASS Lv3 portion 3 reachable, including shared compartments
+PASS Lv3 portion 4 reachable, including shared compartments
+PASS Lv3 portion 5 reachable, including shared compartments
+PASS Lv3 portion 6 reachable, including shared compartments
+PASS Lv3 portion 7 reachable, including shared compartments
+PASS Lv3 portion 8 reachable, including shared compartments
+PASS Lv3 portion 9 reachable, including shared compartments
+PASS Lv3 portion 10 reachable, including shared compartments
+PASS Lv3 portion 11 reachable, including shared compartments
+PASS Lv3 portion 12 reachable, including shared compartments
+PASS Lv3 portion 13 reachable, including shared compartments
+PASS Lv3 portion 14 reachable, including shared compartments
+PASS Lv3 original storage capacity retained
+PASS Lv3 full stock displays every bound compartment
+PASS Lv3 consumption updates shared fill once
+PASS Lv4 exactly one active layout
+PASS Lv4 no primitive trough duplication
+PASS Lv4 zero stock hides authored fills
+PASS Lv4 portion 1 reachable, including shared compartments
+PASS Lv4 portion 2 reachable, including shared compartments
+PASS Lv4 portion 3 reachable, including shared compartments
+PASS Lv4 portion 4 reachable, including shared compartments
+PASS Lv4 portion 5 reachable, including shared compartments
+PASS Lv4 portion 6 reachable, including shared compartments
+PASS Lv4 portion 7 reachable, including shared compartments
+PASS Lv4 portion 8 reachable, including shared compartments
+PASS Lv4 portion 9 reachable, including shared compartments
+PASS Lv4 portion 10 reachable, including shared compartments
+PASS Lv4 portion 11 reachable, including shared compartments
+PASS Lv4 portion 12 reachable, including shared compartments
+PASS Lv4 portion 13 reachable, including shared compartments
+PASS Lv4 portion 14 reachable, including shared compartments
+PASS Lv4 portion 15 reachable, including shared compartments
+PASS Lv4 portion 16 reachable, including shared compartments
+PASS Lv4 portion 17 reachable, including shared compartments
+PASS Lv4 portion 18 reachable, including shared compartments
+PASS Lv4 portion 19 reachable, including shared compartments
+PASS Lv4 portion 20 reachable, including shared compartments
+PASS Lv4 original storage capacity retained
+PASS Lv4 full stock displays every bound compartment
+PASS Lv4 consumption updates shared fill once
+PASS Coop legacy four-slot fallback preserved
+PASS Controller stores four level references
+PASS Lv1 controller references saved prefab instance
+PASS Lv1 entry above authored floor
+PASS Lv1 active animal marker clears colliders
+PASS Lv1 active animal marker clears colliders
+PASS Lv1 active animal marker clears colliders
+PASS Lv1 active animal marker clears colliders
+PASS Lv1 saved mesh UV and normals present: BarnInterior_Lv1_Runtime
+PASS Lv1 finite vertex positions: BarnInterior_Lv1_Runtime
+PASS Lv1 saved mesh UV and normals present: BarnInterior_Lv1_Machine_N03_Manual.002
+PASS Lv1 finite vertex positions: BarnInterior_Lv1_Machine_N03_Manual.002
+PASS Lv1 saved mesh UV and normals present: BarnInterior_Lv1_PropsAndStraw
+PASS Lv1 finite vertex positions: BarnInterior_Lv1_PropsAndStraw
+PASS Lv1 saved mesh UV and normals present: BarnInterior_Lv1_Shell
+PASS Lv1 finite vertex positions: BarnInterior_Lv1_Shell
+PASS Lv1 saved mesh UV and normals present: BarnInterior_Lv1_Trough_01
+PASS Lv1 finite vertex positions: BarnInterior_Lv1_Trough_01
+PASS Lv1 saved mesh UV and normals present: BarnInterior_Lv1_Fill_01_1
+PASS Lv1 finite vertex positions: BarnInterior_Lv1_Fill_01_1
+PASS Lv1 saved mesh UV and normals present: BarnInterior_Lv1_Fill_01_2
+PASS Lv1 finite vertex positions: BarnInterior_Lv1_Fill_01_2
+PASS Lv1 saved mesh UV and normals present: BarnInterior_Lv1_Fill_01_3
+PASS Lv1 finite vertex positions: BarnInterior_Lv1_Fill_01_3
+PASS Lv1 saved mesh UV and normals present: BarnInterior_Lv1_Trough_02
+PASS Lv1 finite vertex positions: BarnInterior_Lv1_Trough_02
+PASS Lv1 saved mesh UV and normals present: BarnInterior_Lv1_Fill_02_1
+PASS Lv1 finite vertex positions: BarnInterior_Lv1_Fill_02_1
+PASS Lv1 saved mesh UV and normals present: BarnInterior_Lv1_Fill_02_2
+PASS Lv1 finite vertex positions: BarnInterior_Lv1_Fill_02_2
+PASS Lv1 saved mesh UV and normals present: BarnInterior_Lv1_Fill_02_3
+PASS Lv1 finite vertex positions: BarnInterior_Lv1_Fill_02_3
+PASS Lv1 source FBX CPU copy disabled
+PASS Lv2 controller references saved prefab instance
+PASS Lv2 entry above authored floor
+PASS Lv2 active animal marker clears colliders
+PASS Lv2 active animal marker clears colliders
+PASS Lv2 active animal marker clears colliders
+PASS Lv2 active animal marker clears colliders
+PASS Lv2 active animal marker clears colliders
+PASS Lv2 active animal marker clears colliders
+PASS Lv2 active animal marker clears colliders
+PASS Lv2 active animal marker clears colliders
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Runtime
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Runtime
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Machine_N03_Motor.002
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Machine_N03_Motor.002
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_PropsAndStraw
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_PropsAndStraw
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Shell
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Shell
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Trough_01
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Trough_01
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Fill_01_1
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Fill_01_1
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Fill_01_2
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Fill_01_2
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Fill_01_3
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Fill_01_3
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Trough_02
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Trough_02
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Fill_02_1
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Fill_02_1
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Fill_02_2
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Fill_02_2
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Fill_02_3
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Fill_02_3
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Trough_03
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Trough_03
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Fill_03_1
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Fill_03_1
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Fill_03_2
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Fill_03_2
+PASS Lv2 saved mesh UV and normals present: BarnInterior_Lv2_Fill_03_3
+PASS Lv2 finite vertex positions: BarnInterior_Lv2_Fill_03_3
+PASS Lv2 source FBX CPU copy disabled
+PASS Lv3 controller references saved prefab instance
+PASS Lv3 entry above authored floor
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 active animal marker clears colliders
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Runtime
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Runtime
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Floor
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Floor
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Machine_N03_LargeMotor.002
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Machine_N03_LargeMotor.002
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Machine_N04_Mixer.002
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Machine_N04_Mixer.002
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_PropsAndStraw
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_PropsAndStraw
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Shell
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Shell
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Trough_01
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Trough_01
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Fill_01_1
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Fill_01_1
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Fill_01_2
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Fill_01_2
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Fill_01_3
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Fill_01_3
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Trough_02
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Trough_02
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Fill_02_1
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Fill_02_1
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Fill_02_2
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Fill_02_2
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Fill_02_3
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Fill_02_3
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Trough_03
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Trough_03
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Fill_03_1
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Fill_03_1
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Fill_03_2
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Fill_03_2
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Fill_03_3
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Fill_03_3
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Trough_04
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Trough_04
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Fill_04_1
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Fill_04_1
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Fill_04_2
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Fill_04_2
+PASS Lv3 saved mesh UV and normals present: BarnInterior_Lv3_Fill_04_3
+PASS Lv3 finite vertex positions: BarnInterior_Lv3_Fill_04_3
+PASS Lv3 source FBX CPU copy disabled
+PASS Lv4 controller references saved prefab instance
+PASS Lv4 entry above authored floor
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 active animal marker clears colliders
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Runtime
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Runtime
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Floor
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Floor
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Machine_N03_LargeMotor.003
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Machine_N03_LargeMotor.003
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Machine_N04_Mixer.003
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Machine_N04_Mixer.003
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Machine_N06_ProcessTank.003
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Machine_N06_ProcessTank.003
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Machine_N06_ProcessTank.004
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Machine_N06_ProcessTank.004
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_PropsAndStraw
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_PropsAndStraw
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Shell
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Shell
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Trough_01
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Trough_01
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_01_1
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_01_1
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_01_2
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_01_2
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_01_3
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_01_3
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Trough_02
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Trough_02
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_02_1
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_02_1
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_02_2
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_02_2
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_02_3
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_02_3
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Trough_03
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Trough_03
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_03_1
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_03_1
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_03_2
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_03_2
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_03_3
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_03_3
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Trough_04
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Trough_04
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_04_1
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_04_1
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_04_2
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_04_2
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_04_3
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_04_3
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Trough_05
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Trough_05
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_05_1
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_05_1
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_05_2
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_05_2
+PASS Lv4 saved mesh UV and normals present: BarnInterior_Lv4_Fill_05_3
+PASS Lv4 finite vertex positions: BarnInterior_Lv4_Fill_05_3
+PASS Lv4 source FBX CPU copy disabled
+PASS Portal spawn ID retained
+PASS Exit marker has no cube renderer or blocker
+PASS Validated default level 1 scene saved
+
+BARN_INTERIOR_SAVED_VALIDATION_PASS

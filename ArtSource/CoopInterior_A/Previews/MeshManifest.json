@@ -1,0 +1,106 @@
+{
+  "status": "BUILT",
+  "atlasGUID": "522fcb2b5717c7640b460ee9ff73a78a",
+  "newRuntimeTextures": 0,
+  "reuseSources": [
+    "N01_Wall_2m",
+    "N01_WindowWall_2m",
+    "N01_Post",
+    "N01_Brace",
+    "N05_Pipe_2m",
+    "N05_Tee",
+    "N05_Coupler",
+    "N05_Support",
+    "R_Crate",
+    "R_Sack",
+    "R_Bucket",
+    "R_Barrel",
+    "R_ChickenStore_Lantern",
+    "Assets\\Nature  Paradaise\\Pack\\Toon Series\\Toon Farm Pack\\Models\\TFP_Raw_Egg_01A.fbx",
+    "Assets\\Nature  Paradaise\\Pack\\Toon Series\\Toon Farm Pack\\Models\\TFP_Jar_01A.fbx"
+  ],
+  "levels": [
+    {
+      "level": 1,
+      "capacity": 6,
+      "footprint": [
+        10,
+        8
+      ],
+      "triangles": 4654,
+      "meshVerticesInstanced": 3612,
+      "meshObjects": 48,
+      "uniqueMeshes": 19,
+      "troughs": 2,
+      "autoHeads": 0,
+      "incubatorEggs": 1,
+      "materials": [
+        "Coop_Hood_Glass_ExistingPalette",
+        "TFP_Atlas_1A"
+      ]
+    },
+    {
+      "level": 2,
+      "capacity": 9,
+      "footprint": [
+        12,
+        10
+      ],
+      "triangles": 5270,
+      "meshVerticesInstanced": 4122,
+      "meshObjects": 56,
+      "uniqueMeshes": 19,
+      "troughs": 3,
+      "autoHeads": 0,
+      "incubatorEggs": 1,
+      "materials": [
+        "Coop_Hood_Glass_ExistingPalette",
+        "TFP_Atlas_1A"
+      ]
+    },
+    {
+      "level": 3,
+      "capacity": 12,
+      "footprint": [
+        14,
+        12
+      ],
+      "triangles": 8218,
+      "meshVerticesInstanced": 5892,
+      "meshObjects": 81,
+      "uniqueMeshes": 26,
+      "troughs": 4,
+      "autoHeads": 4,
+      "incubatorEggs": 1,
+      "materials": [
+        "Coop_Hood_Glass_ExistingPalette",
+        "TFP_Atlas_1A"
+      ]
+    },
+    {
+      "level": 4,
+      "capacity": 15,
+      "footprint": [
+        16,
+        14
+      ],
+      "triangles": 9726,
+      "meshVerticesInstanced": 6874,
+      "meshObjects": 95,
+      "uniqueMeshes": 25,
+      "troughs": 5,
+      "autoHeads": 5,
+      "incubatorEggs": 3,
+      "materials": [
+        "Coop_Hood_Glass_ExistingPalette",
+        "TFP_Atlas_1A"
+      ]
+    }
+  ],
+  "notes": [
+    "Source mesh triangles include repeated modules, hood and props, exclude animals and preview cameras/lights.",
+    "Coop assets only: Unity scenes/prefabs/gameplay untouched.",
+    "Final dimensions; do not multiply by Barn scale 1.75.",
+    "Transparent Blender preview is a local approximation; existing Unity glass candidate needs hood validation."
+  ]
+}

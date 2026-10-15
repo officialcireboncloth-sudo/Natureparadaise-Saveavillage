@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "meshes": [
+    {
+      "mesh": "Lv2_windowsMesh",
+      "facesFlipped": 1
+    },
+    {
+      "mesh": "Lv2_shellMesh.001",
+      "facesFlipped": 2
+    },
+    {
+      "mesh": "Lv2_shellMesh.003",
+      "facesFlipped": 2
+    },
+    {
+      "mesh": "Lv2_shellMesh.005",
+      "facesFlipped": 2
+    },
+    {
+      "mesh": "Lv5_windowsMesh",
+      "facesFlipped": 2
+    },
+    {
+      "mesh": "Lv5_shellMesh.001",
+      "facesFlipped": 4
+    },
+    {
+      "mesh": "Lv5_shellMesh.003",
+      "facesFlipped": 4
+    },
+    {
+      "mesh": "Lv5_shellMesh.005",
+      "facesFlipped": 4
+    }
+  ],
+  "vertexPositionsPreserved": true,
+  "triangleCountsPreserved": true
+}

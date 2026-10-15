@@ -1,0 +1,393 @@
+ℹ️  blenderkit: Verbose is enabled [22:38:26.850, addon_updater.py:150]
+ℹ️  blenderkit: Read in JSON settings from file [22:38:26.854, addon_updater.py:150]
+ℹ️  blenderkit: Ports reordered so first port is now 62485 (previous index was 0) [22:38:26.858, client_lib.py:129]
+Traceback (most recent call last):
+  File "C:\Users\huxel\AppData\Roaming\Blender Foundation\Blender\4.5\extensions\user_default\PolyQuilt_Fork\utils\draw_util.py", line 63, in <module>
+    shaderEx = gpu.types.GPUShader(dot_line_vertex_shader, dot_line_fragment_shader)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SystemError: GPU functions for drawing are not available in background mode
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files (x86)\Steam\steamapps\common\Blender\4.5\scripts\modules\addon_utils.py", line 432, in enable
+    mod = importlib.import_module(module_name)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files (x86)\Steam\steamapps\common\Blender\4.5\python\Lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\huxel\AppData\Roaming\Blender Foundation\Blender\4.5\extensions\user_default\PolyQuilt_Fork\__init__.py", line 16, in <module>
+    from .pq_operator import *
+  File "C:\Users\huxel\AppData\Roaming\Blender Foundation\Blender\4.5\extensions\user_default\PolyQuilt_Fork\pq_operator.py", line 26, in <module>
+    from .utils.pqutil import *
+  File "C:\Users\huxel\AppData\Roaming\Blender Foundation\Blender\4.5\extensions\user_default\PolyQuilt_Fork\utils\__init__.py", line 23, in <module>
+    from . import mouse_event_util
+  File "C:\Users\huxel\AppData\Roaming\Blender Foundation\Blender\4.5\extensions\user_default\PolyQuilt_Fork\utils\mouse_event_util.py", line 21, in <module>
+    from . import draw_util
+  File "C:\Users\huxel\AppData\Roaming\Blender Foundation\Blender\4.5\extensions\user_default\PolyQuilt_Fork\utils\draw_util.py", line 65, in <module>
+    shaderEx = gpu.shader.from_builtin('UNIFORM_COLOR')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SystemError: GPU functions for drawing are not available in background mode
+----  speedretopo 插件由xz-blender汉化!感谢支持!  ----
+LOADED UPDATER!
+
+### Loading Rokoko Studio Live for Blender...
+No connection to the server.
+SILENT LOGIN
+### Loaded Rokoko Studio Live for Blender successfully!
+
+Created history step 949e43b6-5796-41c4-838a-93a9d2fafb43
+ℹ️  blenderkit: Created new search history step [22:38:28.901, search.py:2525]
+ℹ️  blenderkit: No temporarily enabled addons to clean up [22:38:28.904, download.py:416]
+ℹ️  blenderkit: No temporarily enabled addons to clean up [22:38:29.013, download.py:416]
+Blender 4.5.14 LTS (hash 62c1db4208e8 built 2026-10-14 01:33:56)
+Read blend: "C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\ArtSource\BarnInterior_A\Blender\BarnInterior_A.blend"
+Fra:1 Mem:17.50M (Peak 17.50M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | Lv1_Floor
+Fra:1 Mem:17.50M (Peak 17.50M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | N01_Wall_2m.001
+Fra:1 Mem:17.59M (Peak 17.59M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | N01_WindowWall_2m.001
+Fra:1 Mem:17.59M (Peak 17.59M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | N01_Brace.001
+Fra:1 Mem:17.65M (Peak 17.65M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | Lv1_FrontCutaway
+Fra:1 Mem:17.63M (Peak 17.65M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | R_ChickenStore_Lantern.001
+Fra:1 Mem:17.66M (Peak 17.66M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | R_Crate.001
+Fra:1 Mem:17.66M (Peak 17.66M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | R_Barrel.001
+Fra:1 Mem:17.67M (Peak 17.68M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | R_Bucket.001
+Fra:1 Mem:19.69M (Peak 19.69M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | A_WaterTrough.001
+Fra:1 Mem:19.70M (Peak 19.70M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | FeedTrough_01
+Fra:1 Mem:19.70M (Peak 19.70M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | Fill
+Fra:1 Mem:19.73M (Peak 19.73M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | Key
+Fra:1 Mem:19.74M (Peak 19.74M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Synchronizing object | FeedFill_01_1
+Fra:1 Mem:19.90M (Peak 19.90M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Initializing
+Fra:1 Mem:19.65M (Peak 19.90M) | Time:00:00.14 | Mem:0.00M, Peak:0.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:34.15M (Peak 51.66M) | Time:00:00.28 | Mem:16.00M, Peak:16.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Waiting for render to start
+Fra:1 Mem:34.15M (Peak 51.66M) | Time:00:00.28 | Mem:16.00M, Peak:16.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Scene
+Fra:1 Mem:34.15M (Peak 51.66M) | Time:00:00.28 | Mem:16.00M, Peak:16.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Shaders
+Fra:1 Mem:34.15M (Peak 51.66M) | Time:00:00.28 | Mem:16.00M, Peak:16.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:34.23M (Peak 51.66M) | Time:00:00.28 | Mem:16.00M, Peak:16.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Procedurals
+Fra:1 Mem:34.23M (Peak 51.66M) | Time:00:00.28 | Mem:16.00M, Peak:16.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Background
+Fra:1 Mem:34.23M (Peak 51.66M) | Time:00:00.28 | Mem:16.00M, Peak:16.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Camera
+Fra:1 Mem:34.23M (Peak 51.66M) | Time:00:00.28 | Mem:16.00M, Peak:16.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:34.23M (Peak 51.66M) | Time:00:00.28 | Mem:16.00M, Peak:16.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Objects
+Fra:1 Mem:34.23M (Peak 51.66M) | Time:00:00.28 | Mem:16.00M, Peak:16.00M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:34.25M (Peak 51.66M) | Time:00:00.28 | Mem:16.02M, Peak:16.02M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Particle Systems
+Fra:1 Mem:34.25M (Peak 51.66M) | Time:00:00.28 | Mem:16.02M, Peak:16.02M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:34.25M (Peak 51.66M) | Time:00:00.28 | Mem:16.02M, Peak:16.02M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Meshes
+Fra:1 Mem:34.25M (Peak 51.66M) | Time:00:00.28 | Mem:16.02M, Peak:16.02M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:34.25M (Peak 51.66M) | Time:00:00.28 | Mem:16.02M, Peak:16.02M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:34.36M (Peak 51.66M) | Time:00:00.28 | Mem:16.02M, Peak:16.02M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.28 | Mem:16.12M, Peak:16.12M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Geometry BVH N02_FeedFillMesh 12/11 | Building BVH
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.28 | Mem:16.12M, Peak:16.12M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Geometry BVH N01_PostMesh 4/11 | Building BVH
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.28 | Mem:16.12M, Peak:16.12M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Geometry BVH N01_BraceMesh 5/11 | Building BVH
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.28 | Mem:16.12M, Peak:16.12M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Geometry BVH R_ChickenStore_LanternMesh 6/11 | Building BVH
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.28 | Mem:16.12M, Peak:16.12M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Geometry BVH A_HayBale_MobileMesh 7/11 | Building BVH
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.28 | Mem:16.12M, Peak:16.12M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Geometry BVH Cylinder.001 8/11 | Building BVH
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.28 | Mem:16.14M, Peak:16.14M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Geometry BVH Cylinder.001 8/11 | Building BVH 0%
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.28 | Mem:16.16M, Peak:16.16M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Geometry BVH Mesh.001 9/11 | Building BVH
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.28 | Mem:16.18M, Peak:16.18M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Geometry BVH Circle.001 10/11 | Building BVH
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.28 | Mem:16.19M, Peak:16.19M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Geometry BVH N02_Trough_3SlotsMesh 11/11 | Building BVH
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.28 | Mem:16.24M, Peak:16.25M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.28 | Mem:16.24M, Peak:16.25M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.29 | Mem:16.35M, Peak:16.38M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:34.35M (Peak 51.66M) | Time:00:00.29 | Mem:16.35M, Peak:16.38M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:34.47M (Peak 51.66M) | Time:00:00.29 | Mem:16.35M, Peak:16.38M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:34.47M (Peak 51.66M) | Time:00:00.29 | Mem:16.47M, Peak:16.47M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Objects Flags
+Fra:1 Mem:34.47M (Peak 51.66M) | Time:00:00.29 | Mem:16.47M, Peak:16.47M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:34.47M (Peak 51.66M) | Time:00:00.29 | Mem:16.47M, Peak:16.47M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Images
+Fra:1 Mem:34.47M (Peak 51.66M) | Time:00:00.29 | Mem:16.47M, Peak:16.47M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Camera Volume
+Fra:1 Mem:34.47M (Peak 51.66M) | Time:00:00.29 | Mem:16.47M, Peak:16.47M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:34.47M (Peak 51.66M) | Time:00:00.29 | Mem:16.55M, Peak:16.55M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Lights
+Fra:1 Mem:34.47M (Peak 51.66M) | Time:00:00.29 | Mem:16.55M, Peak:16.55M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:34.47M (Peak 51.66M) | Time:00:00.29 | Mem:16.55M, Peak:16.55M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Integrator
+Fra:1 Mem:34.47M (Peak 51.66M) | Time:00:00.29 | Mem:16.55M, Peak:16.55M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Film
+Fra:1 Mem:34.48M (Peak 51.66M) | Time:00:00.29 | Mem:16.47M, Peak:16.55M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:34.48M (Peak 51.66M) | Time:00:00.29 | Mem:16.55M, Peak:16.55M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Baking
+Fra:1 Mem:34.48M (Peak 51.66M) | Time:00:00.29 | Mem:16.55M, Peak:16.55M | 01 BARN INTERIOR - MANUAL, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:34.48M (Peak 51.66M) | Time:00:00.29 | Mem:16.55M, Peak:16.55M | 01 BARN INTERIOR - MANUAL, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:34.48M (Peak 51.66M) | Time:00:00.29 | Mem:16.55M, Peak:16.55M | 01 BARN INTERIOR - MANUAL, ViewLayer | Sample 0/10
+Fra:1 Mem:123.63M (Peak 123.63M) | Time:00:01.14 | Remaining:00:07.66 | Mem:105.63M, Peak:105.63M | 01 BARN INTERIOR - MANUAL, ViewLayer | Sample 1/10
+Fra:1 Mem:161.14M (Peak 217.39M) | Time:00:29.04 | Mem:105.63M, Peak:105.63M | 01 BARN INTERIOR - MANUAL, ViewLayer | Sample 10/10
+Fra:1 Mem:161.14M (Peak 217.39M) | Time:00:29.04 | Mem:105.63M, Peak:105.63M | 01 BARN INTERIOR - MANUAL, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\ArtSource\BarnInterior_A\Previews\Lv1_Overview.png'
+Time: 00:29.26 (Saving: 00:00.17)
+
+Fra:1 Mem:60.07M (Peak 60.07M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | Lv2_Floor
+Fra:1 Mem:60.07M (Peak 60.07M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | N01_Wall_2m.013
+Fra:1 Mem:60.16M (Peak 60.16M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | N01_WindowWall_2m.005
+Fra:1 Mem:60.22M (Peak 60.22M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | N01_Post.011
+Fra:1 Mem:60.23M (Peak 60.23M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | N01_Brace.005
+Fra:1 Mem:60.23M (Peak 60.23M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | Lv2_FrontCutaway
+Fra:1 Mem:60.24M (Peak 60.24M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | R_ChickenStore_Lantern.005
+Fra:1 Mem:60.24M (Peak 60.24M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | R_Sack.003
+Fra:1 Mem:60.28M (Peak 60.28M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | R_Barrel.003
+Fra:1 Mem:60.30M (Peak 60.30M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | R_Bucket.003
+Fra:1 Mem:60.32M (Peak 60.32M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | A_WaterTrough.002
+Fra:1 Mem:60.40M (Peak 60.40M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | A_SupplyCabinet.001
+Fra:1 Mem:60.40M (Peak 60.40M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | A_ToolBoard.001
+Fra:1 Mem:60.40M (Peak 60.40M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | R_Fork.001
+Fra:1 Mem:60.40M (Peak 60.40M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | R_Bottle.001
+Fra:1 Mem:60.41M (Peak 60.41M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | N03_Motor.001
+Fra:1 Mem:60.45M (Peak 60.45M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | FeedTrough_01.001
+Fra:1 Mem:60.50M (Peak 60.50M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | Fill.001
+Fra:1 Mem:60.51M (Peak 60.51M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Synchronizing object | Key.001
+Fra:1 Mem:60.50M (Peak 60.51M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Initializing
+Fra:1 Mem:60.16M (Peak 60.51M) | Time:00:00.08 | Mem:0.00M, Peak:0.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:74.24M (Peak 92.17M) | Time:00:00.17 | Mem:16.00M, Peak:16.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Waiting for render to start
+Fra:1 Mem:74.24M (Peak 92.17M) | Time:00:00.17 | Mem:16.00M, Peak:16.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Scene
+Fra:1 Mem:74.24M (Peak 92.17M) | Time:00:00.17 | Mem:16.00M, Peak:16.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Shaders
+Fra:1 Mem:74.24M (Peak 92.17M) | Time:00:00.17 | Mem:16.00M, Peak:16.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:74.32M (Peak 92.17M) | Time:00:00.17 | Mem:16.00M, Peak:16.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Procedurals
+Fra:1 Mem:74.32M (Peak 92.17M) | Time:00:00.17 | Mem:16.00M, Peak:16.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Background
+Fra:1 Mem:74.32M (Peak 92.17M) | Time:00:00.17 | Mem:16.00M, Peak:16.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Camera
+Fra:1 Mem:74.32M (Peak 92.17M) | Time:00:00.17 | Mem:16.00M, Peak:16.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:74.32M (Peak 92.17M) | Time:00:00.17 | Mem:16.00M, Peak:16.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Objects
+Fra:1 Mem:74.32M (Peak 92.17M) | Time:00:00.17 | Mem:16.00M, Peak:16.00M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:74.34M (Peak 92.17M) | Time:00:00.17 | Mem:16.02M, Peak:16.02M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Particle Systems
+Fra:1 Mem:74.34M (Peak 92.17M) | Time:00:00.17 | Mem:16.02M, Peak:16.02M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:74.34M (Peak 92.17M) | Time:00:00.17 | Mem:16.02M, Peak:16.02M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Meshes
+Fra:1 Mem:74.34M (Peak 92.17M) | Time:00:00.17 | Mem:16.02M, Peak:16.02M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:74.34M (Peak 92.17M) | Time:00:00.17 | Mem:16.02M, Peak:16.02M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:74.48M (Peak 92.17M) | Time:00:00.17 | Mem:16.02M, Peak:16.02M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.15M, Peak:16.15M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH N02_FeedFillMesh 15/14 | Building BVH
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.15M, Peak:16.15M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH N01_WindowWall_2mMesh 3/14 | Building BVH
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.15M, Peak:16.15M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH N01_BraceMesh 5/14 | Building BVH
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.15M, Peak:16.15M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH A_HayBale_MobileMesh 8/14 | Building BVH
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.16M, Peak:16.16M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH A_HayBale_MobileMesh 8/14 | Building BVH 0%
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.16M, Peak:16.16M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH A_HayBale_MobileMesh 8/14 | Building BVH
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.16M, Peak:16.16M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH A_HayBale_MobileMesh 8/14 | Building BVH 0%
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.16M, Peak:16.16M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH A_HayBale_MobileMesh 8/14 | Building BVH
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.16M, Peak:16.16M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH Cylinder.001 9/14 | Building BVH
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.18M, Peak:16.18M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH Circle.001 11/14 | Building BVH
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.18M, Peak:16.18M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH N02_Trough_3SlotsMesh 14/14 | Building BVH
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.19M, Peak:16.19M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH A_WaterTroughMesh 12/14 | Building BVH
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.20M, Peak:16.20M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Geometry BVH Cylinder.002 13/14 | Building BVH
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.30M, Peak:16.31M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.17 | Mem:16.30M, Peak:16.31M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.18 | Mem:16.44M, Peak:16.49M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:74.47M (Peak 92.17M) | Time:00:00.18 | Mem:16.44M, Peak:16.49M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:74.62M (Peak 92.17M) | Time:00:00.18 | Mem:16.44M, Peak:16.49M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:74.62M (Peak 92.17M) | Time:00:00.18 | Mem:16.59M, Peak:16.59M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Objects Flags
+Fra:1 Mem:74.62M (Peak 92.17M) | Time:00:00.18 | Mem:16.59M, Peak:16.59M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:74.62M (Peak 92.17M) | Time:00:00.18 | Mem:16.59M, Peak:16.59M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Images
+Fra:1 Mem:74.62M (Peak 92.17M) | Time:00:00.18 | Mem:16.59M, Peak:16.59M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Camera Volume
+Fra:1 Mem:74.62M (Peak 92.17M) | Time:00:00.18 | Mem:16.59M, Peak:16.59M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:74.62M (Peak 92.17M) | Time:00:00.18 | Mem:16.67M, Peak:16.67M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Lights
+Fra:1 Mem:74.62M (Peak 92.17M) | Time:00:00.18 | Mem:16.67M, Peak:16.67M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:74.62M (Peak 92.17M) | Time:00:00.18 | Mem:16.67M, Peak:16.67M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Integrator
+Fra:1 Mem:74.62M (Peak 92.17M) | Time:00:00.18 | Mem:16.67M, Peak:16.67M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Film
+Fra:1 Mem:74.63M (Peak 92.17M) | Time:00:00.18 | Mem:16.59M, Peak:16.67M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:74.63M (Peak 92.17M) | Time:00:00.18 | Mem:16.68M, Peak:16.68M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Baking
+Fra:1 Mem:74.63M (Peak 92.17M) | Time:00:00.18 | Mem:16.68M, Peak:16.68M | 02 BARN INTERIOR - MOTOR, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:74.63M (Peak 92.17M) | Time:00:00.18 | Mem:16.68M, Peak:16.68M | 02 BARN INTERIOR - MOTOR, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:74.63M (Peak 92.17M) | Time:00:00.18 | Mem:16.68M, Peak:16.68M | 02 BARN INTERIOR - MOTOR, ViewLayer | Sample 0/10
+Fra:1 Mem:163.78M (Peak 163.78M) | Time:00:01.01 | Remaining:00:07.47 | Mem:105.75M, Peak:105.75M | 02 BARN INTERIOR - MOTOR, ViewLayer | Sample 1/10
+Fra:1 Mem:201.29M (Peak 257.54M) | Time:00:25.72 | Mem:105.75M, Peak:105.75M | 02 BARN INTERIOR - MOTOR, ViewLayer | Sample 10/10
+Fra:1 Mem:201.29M (Peak 257.54M) | Time:00:25.72 | Mem:105.75M, Peak:105.75M | 02 BARN INTERIOR - MOTOR, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\ArtSource\BarnInterior_A\Previews\Lv2_Overview.png'
+Time: 00:26.05 (Saving: 00:00.28)
+
+Fra:1 Mem:101.78M (Peak 101.78M) | Time:00:00.09 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | Lv3_Floor
+Fra:1 Mem:101.78M (Peak 101.78M) | Time:00:00.09 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | Lv3_SparseStraw
+Fra:1 Mem:101.79M (Peak 101.79M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | N01_Wall_2m.029
+Fra:1 Mem:101.91M (Peak 101.91M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | N01_WindowWall_2m.009
+Fra:1 Mem:101.99M (Peak 101.99M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | N01_Post.024
+Fra:1 Mem:101.96M (Peak 101.99M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | N01_Brace.010
+Fra:1 Mem:101.97M (Peak 101.99M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | Lv3_FrontCutaway
+Fra:1 Mem:101.97M (Peak 101.99M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | R_ChickenStore_Lantern.009
+Fra:1 Mem:101.98M (Peak 101.99M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | R_Crate.003
+Fra:1 Mem:101.98M (Peak 101.99M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | A_StorageRack.003
+Fra:1 Mem:101.98M (Peak 101.99M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | A_HayBale_Mobile.013
+Fra:1 Mem:101.99M (Peak 101.99M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | R_Sack.005
+Fra:1 Mem:102.03M (Peak 102.03M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | R_Barrel.005
+Fra:1 Mem:102.03M (Peak 102.03M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | R_Bucket.005
+Fra:1 Mem:102.12M (Peak 102.12M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | A_WaterTrough.004
+Fra:1 Mem:102.12M (Peak 102.12M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | A_SupplyCabinet.002
+Fra:1 Mem:102.14M (Peak 102.14M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | A_ToolBoard.002
+Fra:1 Mem:102.15M (Peak 102.15M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | R_Fork.002
+Fra:1 Mem:102.16M (Peak 102.16M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | R_Bottle.004
+Fra:1 Mem:102.11M (Peak 102.16M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | A_Sink.001
+Fra:1 Mem:102.17M (Peak 102.17M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | N03_LargeMotor.001
+Fra:1 Mem:102.22M (Peak 102.22M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | N04_Mixer.001
+Fra:1 Mem:102.23M (Peak 102.23M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | FeedTrough_01.002
+Fra:1 Mem:102.23M (Peak 102.23M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | FeedFill_01_1.002
+Fra:1 Mem:102.25M (Peak 102.25M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | N05_Pipe_2m.001
+Fra:1 Mem:102.26M (Peak 102.26M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | N05_Support.001
+Fra:1 Mem:102.30M (Peak 102.30M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | N05_Tee.001
+Fra:1 Mem:102.31M (Peak 102.31M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | DropPipe
+Fra:1 Mem:102.27M (Peak 102.31M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | DropPipe.001
+Fra:1 Mem:102.27M (Peak 102.31M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | DropPipe.002
+Fra:1 Mem:102.28M (Peak 102.31M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | DropPipe.003
+Fra:1 Mem:102.28M (Peak 102.31M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | MixerSupplyConnection
+Fra:1 Mem:102.28M (Peak 102.31M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | Fill.002
+Fra:1 Mem:102.29M (Peak 102.31M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Synchronizing object | Key.002
+Fra:1 Mem:102.29M (Peak 102.31M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Initializing
+Fra:1 Mem:101.81M (Peak 102.31M) | Time:00:00.10 | Mem:0.00M, Peak:0.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:115.18M (Peak 133.82M) | Time:00:00.20 | Mem:16.00M, Peak:16.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Waiting for render to start
+Fra:1 Mem:115.18M (Peak 133.82M) | Time:00:00.20 | Mem:16.00M, Peak:16.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Scene
+Fra:1 Mem:115.18M (Peak 133.82M) | Time:00:00.20 | Mem:16.00M, Peak:16.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Shaders
+Fra:1 Mem:115.18M (Peak 133.82M) | Time:00:00.20 | Mem:16.00M, Peak:16.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:115.27M (Peak 133.82M) | Time:00:00.20 | Mem:16.00M, Peak:16.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Procedurals
+Fra:1 Mem:115.27M (Peak 133.82M) | Time:00:00.20 | Mem:16.00M, Peak:16.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Background
+Fra:1 Mem:115.27M (Peak 133.82M) | Time:00:00.20 | Mem:16.00M, Peak:16.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Camera
+Fra:1 Mem:115.27M (Peak 133.82M) | Time:00:00.20 | Mem:16.00M, Peak:16.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:115.27M (Peak 133.82M) | Time:00:00.20 | Mem:16.00M, Peak:16.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Objects
+Fra:1 Mem:115.27M (Peak 133.82M) | Time:00:00.20 | Mem:16.00M, Peak:16.00M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:115.29M (Peak 133.82M) | Time:00:00.20 | Mem:16.03M, Peak:16.03M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Particle Systems
+Fra:1 Mem:115.29M (Peak 133.82M) | Time:00:00.20 | Mem:16.03M, Peak:16.03M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:115.29M (Peak 133.82M) | Time:00:00.20 | Mem:16.03M, Peak:16.03M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Meshes
+Fra:1 Mem:115.29M (Peak 133.82M) | Time:00:00.20 | Mem:16.03M, Peak:16.03M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:115.29M (Peak 133.82M) | Time:00:00.20 | Mem:16.03M, Peak:16.03M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:115.46M (Peak 133.82M) | Time:00:00.20 | Mem:16.03M, Peak:16.03M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.19M, Peak:16.19M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH N05_DispenserMesh 19/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.19M, Peak:16.19M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH N01_BraceMesh 5/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.19M, Peak:16.19M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH R_ChickenStore_LanternMesh 6/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.19M, Peak:16.19M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH A_HayBale_MobileMesh 8/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.19M, Peak:16.19M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH A_HayBale_MobileMesh 8/18 | Building BVH 0%
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.19M, Peak:16.19M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH A_HayBale_MobileMesh 8/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.19M, Peak:16.19M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH Cylinder.001 9/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.20M, Peak:16.20M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH Mesh.001 10/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.27M, Peak:16.27M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH N05_TeeMesh 18/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.28M, Peak:16.29M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH Circle.001 11/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.29M, Peak:16.29M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH A_WaterTroughMesh 12/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.29M, Peak:16.30M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH Cylinder.002 13/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.31M, Peak:16.31M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH N02_FeedFillMesh 15/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.31M, Peak:16.31M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Geometry BVH N05_Pipe_2mMesh 16/18 | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.35M, Peak:16.36M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.35M, Peak:16.36M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.55M, Peak:16.62M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:115.45M (Peak 133.82M) | Time:00:00.20 | Mem:16.55M, Peak:16.62M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:115.63M (Peak 133.82M) | Time:00:00.20 | Mem:16.55M, Peak:16.62M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:115.63M (Peak 133.82M) | Time:00:00.20 | Mem:16.73M, Peak:16.73M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Objects Flags
+Fra:1 Mem:115.63M (Peak 133.82M) | Time:00:00.20 | Mem:16.73M, Peak:16.73M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:115.63M (Peak 133.82M) | Time:00:00.20 | Mem:16.73M, Peak:16.73M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Images
+Fra:1 Mem:115.63M (Peak 133.82M) | Time:00:00.20 | Mem:16.73M, Peak:16.73M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Camera Volume
+Fra:1 Mem:115.63M (Peak 133.82M) | Time:00:00.20 | Mem:16.73M, Peak:16.73M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:115.63M (Peak 133.82M) | Time:00:00.20 | Mem:16.81M, Peak:16.81M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Lights
+Fra:1 Mem:115.63M (Peak 133.82M) | Time:00:00.20 | Mem:16.81M, Peak:16.81M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:115.63M (Peak 133.82M) | Time:00:00.20 | Mem:16.81M, Peak:16.81M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Integrator
+Fra:1 Mem:115.63M (Peak 133.82M) | Time:00:00.20 | Mem:16.81M, Peak:16.81M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Film
+Fra:1 Mem:115.64M (Peak 133.82M) | Time:00:00.20 | Mem:16.73M, Peak:16.81M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:115.64M (Peak 133.82M) | Time:00:00.20 | Mem:16.81M, Peak:16.81M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Baking
+Fra:1 Mem:115.64M (Peak 133.82M) | Time:00:00.20 | Mem:16.81M, Peak:16.81M | 03 BARN INTERIOR - AUTO, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:115.64M (Peak 133.82M) | Time:00:00.20 | Mem:16.81M, Peak:16.81M | 03 BARN INTERIOR - AUTO, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:115.64M (Peak 133.82M) | Time:00:00.21 | Mem:16.81M, Peak:16.81M | 03 BARN INTERIOR - AUTO, ViewLayer | Sample 0/10
+Fra:1 Mem:204.79M (Peak 204.79M) | Time:00:00.96 | Remaining:00:06.82 | Mem:105.89M, Peak:105.89M | 03 BARN INTERIOR - AUTO, ViewLayer | Sample 1/10
+Fra:1 Mem:242.30M (Peak 298.55M) | Time:00:26.74 | Mem:105.89M, Peak:105.89M | 03 BARN INTERIOR - AUTO, ViewLayer | Sample 10/10
+Fra:1 Mem:242.30M (Peak 298.55M) | Time:00:26.74 | Mem:105.89M, Peak:105.89M | 03 BARN INTERIOR - AUTO, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\ArtSource\BarnInterior_A\Previews\Lv3_Overview.png'
+Time: 00:27.14 (Saving: 00:00.34)
+
+Fra:1 Mem:143.88M (Peak 143.88M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | Lv4_Floor
+Fra:1 Mem:143.88M (Peak 143.88M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | Lv4_SparseStraw
+Fra:1 Mem:143.88M (Peak 143.88M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | N01_Wall_2m.049
+Fra:1 Mem:144.02M (Peak 144.02M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | N01_WindowWall_2m.013
+Fra:1 Mem:144.06M (Peak 144.06M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | N01_Post.038
+Fra:1 Mem:144.10M (Peak 144.10M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | N01_Brace.016
+Fra:1 Mem:144.09M (Peak 144.10M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | Lv4_FrontCutaway
+Fra:1 Mem:144.09M (Peak 144.10M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | R_ChickenStore_Lantern.013
+Fra:1 Mem:144.10M (Peak 144.10M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | R_Crate.004
+Fra:1 Mem:144.10M (Peak 144.10M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | A_StorageRack.005
+Fra:1 Mem:144.11M (Peak 144.11M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | A_HayBale_Mobile.019
+Fra:1 Mem:144.12M (Peak 144.12M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | R_Sack.007
+Fra:1 Mem:144.18M (Peak 144.18M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | R_Barrel.007
+Fra:1 Mem:144.22M (Peak 144.22M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | R_Bucket.007
+Fra:1 Mem:144.24M (Peak 144.24M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | A_WaterTrough.006
+Fra:1 Mem:144.25M (Peak 144.25M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | A_SupplyCabinet.003
+Fra:1 Mem:144.28M (Peak 144.28M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | A_ToolBoard.003
+Fra:1 Mem:144.24M (Peak 144.28M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | R_Fork.003
+Fra:1 Mem:144.24M (Peak 144.28M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | R_Bottle.007
+Fra:1 Mem:144.27M (Peak 144.28M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | A_Sink.002
+Fra:1 Mem:144.28M (Peak 144.28M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | A_BottleCounter.001
+Fra:1 Mem:144.28M (Peak 144.28M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | N03_LargeMotor.002
+Fra:1 Mem:144.28M (Peak 144.28M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | N04_Mixer.002
+Fra:1 Mem:144.30M (Peak 144.30M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | N06_ProcessTank.001
+Fra:1 Mem:144.35M (Peak 144.35M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | TankBridgePipe
+Fra:1 Mem:144.36M (Peak 144.36M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | FeedTrough_01.003
+Fra:1 Mem:144.37M (Peak 144.37M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | FeedFill_01_1.003
+Fra:1 Mem:144.37M (Peak 144.37M) | Time:00:00.15 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | N05_Support.003
+Fra:1 Mem:144.38M (Peak 144.38M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | N05_Tee.005
+Fra:1 Mem:144.38M (Peak 144.38M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | N05_Dispenser.005
+Fra:1 Mem:144.39M (Peak 144.39M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | DropPipe.004
+Fra:1 Mem:144.39M (Peak 144.39M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | DropPipe.005
+Fra:1 Mem:144.40M (Peak 144.40M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | DropPipe.007
+Fra:1 Mem:144.40M (Peak 144.40M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | DropPipe.006
+Fra:1 Mem:144.40M (Peak 144.40M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | DropPipe.008
+Fra:1 Mem:144.40M (Peak 144.40M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | MixerSupplyConnection.001
+Fra:1 Mem:144.41M (Peak 144.41M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | Key.003
+Fra:1 Mem:144.41M (Peak 144.41M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Synchronizing object | Fill.003
+Fra:1 Mem:144.41M (Peak 144.41M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Initializing
+Fra:1 Mem:143.83M (Peak 144.41M) | Time:00:00.16 | Mem:0.00M, Peak:0.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Images | Loading TFP_Atlas_1A_BlenderPreview.png
+Fra:1 Mem:156.70M (Peak 175.84M) | Time:00:00.29 | Mem:16.00M, Peak:16.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Waiting for render to start
+Fra:1 Mem:156.70M (Peak 175.84M) | Time:00:00.29 | Mem:16.00M, Peak:16.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Scene
+Fra:1 Mem:156.70M (Peak 175.84M) | Time:00:00.29 | Mem:16.00M, Peak:16.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Shaders
+Fra:1 Mem:156.70M (Peak 175.84M) | Time:00:00.29 | Mem:16.00M, Peak:16.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:156.79M (Peak 175.84M) | Time:00:00.29 | Mem:16.00M, Peak:16.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Procedurals
+Fra:1 Mem:156.79M (Peak 175.84M) | Time:00:00.29 | Mem:16.00M, Peak:16.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Background
+Fra:1 Mem:156.79M (Peak 175.84M) | Time:00:00.29 | Mem:16.00M, Peak:16.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Camera
+Fra:1 Mem:156.79M (Peak 175.84M) | Time:00:00.29 | Mem:16.00M, Peak:16.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:156.79M (Peak 175.84M) | Time:00:00.29 | Mem:16.00M, Peak:16.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Objects
+Fra:1 Mem:156.79M (Peak 175.84M) | Time:00:00.29 | Mem:16.00M, Peak:16.00M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:156.82M (Peak 175.84M) | Time:00:00.29 | Mem:16.03M, Peak:16.03M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Particle Systems
+Fra:1 Mem:156.82M (Peak 175.84M) | Time:00:00.29 | Mem:16.03M, Peak:16.03M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:156.82M (Peak 175.84M) | Time:00:00.29 | Mem:16.03M, Peak:16.03M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Meshes
+Fra:1 Mem:156.82M (Peak 175.84M) | Time:00:00.29 | Mem:16.03M, Peak:16.03M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:156.82M (Peak 175.84M) | Time:00:00.29 | Mem:16.03M, Peak:16.03M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:157.00M (Peak 175.84M) | Time:00:00.29 | Mem:16.04M, Peak:16.04M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.21M, Peak:16.21M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH N05_DispenserMesh 20/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.21M, Peak:16.21M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH N01_Wall_2mMesh 2/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.21M, Peak:16.21M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH N01_PostMesh 4/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.21M, Peak:16.21M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH N01_PostMesh 4/19 | Building BVH 0%
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.21M, Peak:16.21M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH N01_BraceMesh 5/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.22M, Peak:16.22M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH R_ChickenStore_LanternMesh 6/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.22M, Peak:16.22M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH N05_TeeMesh 19/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.24M, Peak:16.24M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH A_StorageRackMesh 7/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.24M, Peak:16.24M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH Cylinder.001 9/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.24M, Peak:16.25M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH Mesh.001 10/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.31M, Peak:16.31M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH A_WaterTroughMesh 12/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.33M, Peak:16.33M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH N05_SupportMesh 18/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.33M, Peak:16.35M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH Cylinder.002 13/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.34M, Peak:16.35M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH N05_Pipe_2mMesh 17/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.34M, Peak:16.35M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH N06_ProcessTankMesh 14/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.34M, Peak:16.35M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH N02_Trough_3SlotsMesh 15/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.34M, Peak:16.35M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Geometry BVH N02_FeedFillMesh 16/19 | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.40M, Peak:16.41M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.29 | Mem:16.40M, Peak:16.41M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.30 | Mem:16.62M, Peak:16.69M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:156.99M (Peak 175.84M) | Time:00:00.30 | Mem:16.62M, Peak:16.69M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:157.19M (Peak 175.84M) | Time:00:00.30 | Mem:16.62M, Peak:16.69M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:157.19M (Peak 175.84M) | Time:00:00.30 | Mem:16.82M, Peak:16.82M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Objects Flags
+Fra:1 Mem:157.19M (Peak 175.84M) | Time:00:00.30 | Mem:16.82M, Peak:16.82M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:157.19M (Peak 175.84M) | Time:00:00.30 | Mem:16.82M, Peak:16.82M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Images
+Fra:1 Mem:157.19M (Peak 175.84M) | Time:00:00.30 | Mem:16.82M, Peak:16.82M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Camera Volume
+Fra:1 Mem:157.19M (Peak 175.84M) | Time:00:00.30 | Mem:16.82M, Peak:16.82M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:157.19M (Peak 175.84M) | Time:00:00.30 | Mem:16.90M, Peak:16.90M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Lights
+Fra:1 Mem:157.19M (Peak 175.84M) | Time:00:00.30 | Mem:16.90M, Peak:16.90M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:157.19M (Peak 175.84M) | Time:00:00.30 | Mem:16.90M, Peak:16.90M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Integrator
+Fra:1 Mem:157.19M (Peak 175.84M) | Time:00:00.30 | Mem:16.90M, Peak:16.90M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Film
+Fra:1 Mem:157.20M (Peak 175.84M) | Time:00:00.30 | Mem:16.82M, Peak:16.90M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:157.20M (Peak 175.84M) | Time:00:00.30 | Mem:16.90M, Peak:16.90M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Baking
+Fra:1 Mem:157.20M (Peak 175.84M) | Time:00:00.30 | Mem:16.90M, Peak:16.90M | 04 BARN INTERIOR - PROCESS, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:157.20M (Peak 175.84M) | Time:00:00.30 | Mem:16.90M, Peak:16.90M | 04 BARN INTERIOR - PROCESS, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:157.20M (Peak 175.84M) | Time:00:00.30 | Mem:16.90M, Peak:16.90M | 04 BARN INTERIOR - PROCESS, ViewLayer | Sample 0/10
+Fra:1 Mem:246.35M (Peak 246.35M) | Time:00:01.71 | Remaining:00:12.68 | Mem:105.98M, Peak:105.98M | 04 BARN INTERIOR - PROCESS, ViewLayer | Sample 1/10
+Fra:1 Mem:283.86M (Peak 340.11M) | Time:00:28.00 | Mem:105.98M, Peak:105.98M | 04 BARN INTERIOR - PROCESS, ViewLayer | Sample 10/10
+Fra:1 Mem:283.86M (Peak 340.11M) | Time:00:28.00 | Mem:105.98M, Peak:105.98M | 04 BARN INTERIOR - PROCESS, ViewLayer | Finished
+Saved: 'C:\GitHub\Unity 6.000LTS - Nature Paradise\Natureparadaise-Saveavillage\ArtSource\BarnInterior_A\Previews\Lv4_Overview.png'
+Time: 00:28.24 (Saving: 00:00.19)
+
+
+ERROR: Could not connect to the endpoint URL: "https://cognito-idp.us-east-1.amazonaws.com/" 
+
+VERIFICATION [{"scene": "01 BARN INTERIOR - MANUAL", "degenerateFaces": 0, "invalidUVs": 0, "estimatedVerticesAfterUVNormalSplits": 13100, "triangles": 5918, "bounds": [[-6.119999885559082, -0.10999999940395355, -0.18000000715255737], [6.139972686767578, 10.120000839233398, 3.4000000953674316]]}, {"scene": "02 BARN INTERIOR - MOTOR", "degenerateFaces": 0, "invalidUVs": 0, "estimatedVerticesAfterUVNormalSplits": 16494, "triangles": 7592, "bounds": [[-8.0, -1.7999999523162842, -0.19750000536441803], [8.0, 12.0, 3.4000000953674316]]}, {"scene": "03 BARN INTERIOR - AUTO", "degenerateFaces": 0, "invalidUVs": 0, "estimatedVerticesAfterUVNormalSplits": 20320, "triangles": 9584, "bounds": [[-10.0, -1.7999999523162842, -0.3499999940395355], [10.0, 14.0, 3.4000000953674316]]}, {"scene": "04 BARN INTERIOR - PROCESS", "degenerateFaces": 0, "invalidUVs": 0, "estimatedVerticesAfterUVNormalSplits": 24594, "triangles": 11792, "bounds": [[-12.0, -1.7999999523162842, -0.3499999940395355], [12.0, 16.0, 3.4000000953674316]]}]
+ℹ️  blenderkit: Unregistering BlenderKit add-on [22:40:21.656, __init__.py:2881]
+ℹ️  blenderkit: No temporarily enabled addons to clean up [22:40:21.657, download.py:416]
+### Unloading Rokoko Studio Live for Blender...
+No connection to the server.
+### Unloaded Rokoko Studio Live for Blender successfully!
+
+
+Blender quit

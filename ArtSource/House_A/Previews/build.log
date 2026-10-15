@@ -1,0 +1,98 @@
+Extensions: writing cache failed ([Errno 13] Permission denied: 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.cache\\compat.dat').
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\LICENSE', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C253E00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\METADATA', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C253E00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\RECORD', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C253E00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\top_level.txt', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C253E00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info\\WHEEL', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C253E00>))
+Failed to remove: (<built-in function rmdir>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests-2.32.3.dist-info', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C253E00>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\adapters.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\api.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\auth.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\certs.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\compat.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\cookies.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\exceptions.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\help.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\hooks.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\models.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\packages.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\sessions.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\status_codes.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\structures.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\utils.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\_internal_utils.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__init__.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\adapters.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\api.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\auth.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735CF20180>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\certs.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\compat.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\cookies.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\exceptions.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\hooks.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\models.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\packages.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\sessions.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\status_codes.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\structures.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\utils.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\_internal_utils.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\__init__.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__\\__version__.cpython-311.pyc', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function rmdir>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__pycache__', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function unlink>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests\\__version__.py', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Failed to remove: (<built-in function rmdir>, 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\extensions\\.local\\lib\\python3.11\\site-packages\\requests', (<class 'PermissionError'>, PermissionError(13, 'Access is denied'), <traceback object at 0x000002735C21C740>))
+Unable to set stale files pending: [Errno 13] Permission denied: 'C:\\Users\\huxel\\AppData\\Roaming\\Blender Foundation\\Blender\\4.5\\config\\stale-pending'
+HOUSE_MESH House_A_Lv1_LOD0 triangles=3831 limit=6000
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\House_A\\Exports\\House_A_Lv1_LOD0.fbx'
+export finished in 0.0158 sec.
+HOUSE_MESH House_A_Lv1_LOD1 triangles=2167 limit=2200
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\House_A\\Exports\\House_A_Lv1_LOD1.fbx'
+export finished in 0.0160 sec.
+HOUSE_MESH House_A_Lv1_LOD2 triangles=589 limit=650
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\House_A\\Exports\\House_A_Lv1_LOD2.fbx'
+export finished in 0.0166 sec.
+HOUSE_MESH House_A_Lv2_LOD0 triangles=4661 limit=7500
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\House_A\\Exports\\House_A_Lv2_LOD0.fbx'
+export finished in 0.0177 sec.
+HOUSE_MESH House_A_Lv2_LOD1 triangles=2669 limit=2800
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\House_A\\Exports\\House_A_Lv2_LOD1.fbx'
+export finished in 0.0160 sec.
+HOUSE_MESH House_A_Lv2_LOD2 triangles=661 limit=800
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\House_A\\Exports\\House_A_Lv2_LOD2.fbx'
+export finished in 0.0087 sec.
+HOUSE_MESH House_A_Lv3_4_LOD0 triangles=5715 limit=9500
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\House_A\\Exports\\House_A_Lv3_4_LOD0.fbx'
+export finished in 0.0319 sec.
+HOUSE_MESH House_A_Lv3_4_LOD1 triangles=3191 limit=3500
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\House_A\\Exports\\House_A_Lv3_4_LOD1.fbx'
+export finished in 0.0020 sec.
+HOUSE_MESH House_A_Lv3_4_LOD2 triangles=907 limit=1100
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\House_A\\Exports\\House_A_Lv3_4_LOD2.fbx'
+export finished in 0.0000 sec.
+HOUSE_MESH House_A_Lv5_LOD0 triangles=5030 limit=11000
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\House_A\\Exports\\House_A_Lv5_LOD0.fbx'
+export finished in 0.0104 sec.
+HOUSE_MESH House_A_Lv5_LOD1 triangles=3006 limit=4000
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\House_A\\Exports\\House_A_Lv5_LOD1.fbx'
+export finished in 0.0128 sec.
+HOUSE_MESH House_A_Lv5_LOD2 triangles=972 limit=1300
+
+FBX export starting... 'C:\\GitHub\\Unity 6.000LTS - Nature Paradise\\Natureparadaise-Saveavillage\\ArtSource\\House_A\\Exports\\House_A_Lv5_LOD2.fbx'
+export finished in 0.0173 sec.
+Info: Saved as "House_A_Masters.blend"
+HOUSE_BUILD_COMPLETE
+Blender 4.5.14 LTS (hash 62c1db4208e8 built 2026-10-12 01:33:42)
+
+Blender quit

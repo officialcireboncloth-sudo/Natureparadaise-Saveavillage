@@ -1,0 +1,33 @@
+{
+  "status": "BUILT",
+  "scene": "MiniMarket A - EDITABLE",
+  "targetTrianglesMax": 5000,
+  "triangles": 2910,
+  "meshVertices": 2106,
+  "materialCount": 1,
+  "runtimeMeshes": 3,
+  "texturesNew": 0,
+  "atlasGUID": "522fcb2b5717c7640b460ee9ff73a78a",
+  "atlasSHA256": "7fe0569f122bda89faca68565ea94bdb8be1431298424424f2776f23e987e231",
+  "bounds": [
+    [
+      -5.75,
+      -4.760000228881836,
+      -9.417099988695554e-08
+    ],
+    [
+      6.03000020980835,
+      3.7200000286102295,
+      4.849999904632568
+    ]
+  ],
+  "export": "MiniMarket_A.fbx",
+  "mobileChoices": [
+    "Single shared opaque atlas material",
+    "No subdivision or global bevel",
+    "Roof and canopy panel seams are thin quads",
+    "Flat low-resolution sign letters",
+    "Six-sided lamp shades; no runtime lights",
+    "Three runtime meshes: static building and two hinged doors"
+  ]
+}

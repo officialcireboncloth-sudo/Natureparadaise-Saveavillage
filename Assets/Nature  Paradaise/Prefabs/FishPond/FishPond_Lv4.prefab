@@ -702,7 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pondId: 
-  fallbackLevel: 4
+  fallbackLevel: 3
   fishFeed: {fileID: 11400000, guid: f15fee4d53d94d2385555d0f0a48bd01, type: 2}
   maximumVisibleFish: 8
   interactionRadius: 3.5

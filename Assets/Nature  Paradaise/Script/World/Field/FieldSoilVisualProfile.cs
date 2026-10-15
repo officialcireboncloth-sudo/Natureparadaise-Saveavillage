@@ -9,7 +9,7 @@ public sealed class FieldSoilVisualProfile : ScriptableObject
     [Range(0, .5f)] public float textureContrast = .16f;
     [Range(0, .15f)] public float soilVariation = .055f;
     [Tooltip("Width of the field-to-terrain transition in metres.")]
-    [Range(.05f, 2)] public float fieldFeather = .4f;
+    [Range(.05f, 2)] public float fieldFeather = .12f;
     [Header("Tile shape (fraction of cell size)")]
     [Range(.02f, .16f)] public float tileInset = .055f;
     [Range(.02f, .2f)] public float tileFeather = .065f;
@@ -27,12 +27,12 @@ public sealed class FieldSoilVisualProfile : ScriptableObject
     public Texture2D fieldTexture;
     [ColorUsage(false, true)] public Color fieldTint = new Color(1.3f, 1.1f, .85f);
     [Tooltip("Texture repeat size in field-local metres, independent of grid rotation and dimensions.")]
-    [Min(.1f)] public float fieldTextureSize = 8;
+    [Min(.1f)] public float fieldTextureSize = 2;
     [Range(0, 1)] public float fieldTextureStrength = 1;
     [Header("Hoed — dry tile")]
     public Texture2D hoedTexture;
     [ColorUsage(false, true)] public Color hoedTint = new Color(1.3f, 1.15f, .95f);
-    [Min(.1f)] public float hoedTextureSize = 2;
+    [Min(.1f)] public float hoedTextureSize = .8f;
     [Range(0, .3f)] public float furrows = .09f;
     [Header("Hoed — watered tile")]
     public Texture2D wateredTexture;
@@ -42,7 +42,7 @@ public sealed class FieldSoilVisualProfile : ScriptableObject
     [Range(0, 1)] public float drySmoothness = .03f;
     [Range(0, 1)] public float wetSmoothness = .35f;
     [Tooltip("Wet texture, tint and gloss fade into dry hoed soil near each tile edge, in metres.")]
-    [Range(.01f, .6f)] public float wetEdgeBlend = .13f;
+    [Range(.01f, .6f)] public float wetEdgeBlend = .05f;
 
     public void Apply(Material material, bool field)
     {

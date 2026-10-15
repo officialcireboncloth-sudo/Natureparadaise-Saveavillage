@@ -171,6 +171,8 @@ public class SaveManager : MonoBehaviour
         public bool hasExtendedPlayerStatus;
         public float playerMaxHealth;
         public float playerMaxStamina;
+        public bool hasStaminaProgression;
+        public int staminaSkillTier, staminaBerryTier;
         public float playerMaxHunger;
         public bool hungerEnabled;
         public string playerLocation;
@@ -455,6 +457,9 @@ public class SaveManager : MonoBehaviour
             data.hasExtendedPlayerStatus = true;
             data.playerMaxHealth = playerStatus.MaxHealth;
             data.playerMaxStamina = playerStatus.MaxStamina;
+            data.hasStaminaProgression=true;
+            data.staminaSkillTier=playerStatus.StaminaSkillTier;
+            data.staminaBerryTier=playerStatus.StaminaBerryTier;
             data.playerMaxHunger = playerStatus.MaxHunger;
             data.hungerEnabled = playerStatus.HungerEnabled;
             data.playerLocation = playerStatus.PlayerLocation;
@@ -805,6 +810,7 @@ public class SaveManager : MonoBehaviour
                 playerStatus?.RestoreToolLevels(data.toolLevels);
             }
 
+            playerStatus?.RestoreStaminaProgression(data.hasStaminaProgression?data.staminaSkillTier:0, data.hasStaminaProgression?data.staminaBerryTier:0);
             playerStatus?.RestoreSavedState(
                 data.playerHealth,
                 data.playerStamina,

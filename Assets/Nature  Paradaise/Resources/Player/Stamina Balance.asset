@@ -1,0 +1,10 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a35f65ea20804985a1e1b4e379870ae1, type: 3}
+  m_Name: Stamina Balance
+  actionsCsv: {fileID: 4900000, guid: 63c054e05f494d8ab12fcd171ca9446c, type: 3}
+  levelsCsv: {fileID: 4900000, guid: 9ceee304755844acae27bb4786b6467a, type: 3}
+  berryCsv: {fileID: 4900000, guid: 8ece79c78e2749c89a1b02323f016137, type: 3}

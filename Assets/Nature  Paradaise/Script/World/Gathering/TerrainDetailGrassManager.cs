@@ -121,7 +121,8 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
             return;
         }
 
-        runtimeHost = GetComponent<TerrainRuntimeDataHost>();
+        runtimeHost = targetTerrain.GetComponent<TerrainRuntimeDataHost>();
+        if (runtimeHost == null) runtimeHost = targetTerrain.gameObject.AddComponent<TerrainRuntimeDataHost>();
         if (runtimeHost != null && runtimeHost.EnsureInitialized())
         {
             sourceData = runtimeHost.SourceData;

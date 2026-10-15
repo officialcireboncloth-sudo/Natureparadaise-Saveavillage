@@ -25,9 +25,9 @@ public sealed class FootstepAudio : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] LayerMask groundMask = ~0;
     [SerializeField, Min(0.1f)] float groundCheckDistance = 1.4f;
-    [SerializeField, Min(0.1f)] float walkStepDistance = 1.25f;
-    [SerializeField, Min(0.1f)] float runStepDistance = 1.65f;
-    [SerializeField, Min(0.1f)] float sprintStepDistance = 1.9f;
+    [SerializeField, Min(0.1f)] float walkStepDistance = .53f;
+    [SerializeField, Min(0.1f)] float runStepDistance = .91f;
+    [SerializeField, Min(0.1f)] float sprintStepDistance = .91f;
     [SerializeField, Range(0f, 1f)] float baseVolume = 0.65f;
     [SerializeField] AudioClip[] defaultClips;
     [SerializeField] SurfaceProfile[] surfaces;

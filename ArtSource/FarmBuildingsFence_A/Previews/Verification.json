@@ -1,0 +1,122 @@
+{
+  "status": "PASS",
+  "savedBlend": [
+    {
+      "asset": "Farm_Lumbung_A",
+      "bounds": [
+        [
+          -3.929999828338623,
+          -3.0299999713897705,
+          0.0
+        ],
+        [
+          3.929999828338623,
+          2.924999952316284,
+          5.599999904632568
+        ]
+      ],
+      "groundOrigin": true,
+      "triangulated": true,
+      "materials": [
+        "TFP_Atlas_1A"
+      ]
+    },
+    {
+      "asset": "Farm_BarnStore_B",
+      "bounds": [
+        [
+          -4.929999828338623,
+          -3.5299999713897705,
+          0.0
+        ],
+        [
+          4.929999828338623,
+          3.424999952316284,
+          5.399999618530273
+        ]
+      ],
+      "groundOrigin": true,
+      "triangulated": true,
+      "materials": [
+        "TFP_Atlas_1A"
+      ]
+    },
+    {
+      "asset": "Fence_Rails_1m",
+      "pitch": 1,
+      "railLength": 0.76,
+      "postFree": true
+    },
+    {
+      "asset": "Fence_Rails_2m",
+      "pitch": 2,
+      "railLength": 1.76,
+      "postFree": true
+    },
+    {
+      "asset": "Fence_Gate_2m",
+      "hingesVerified": true
+    },
+    {
+      "asset": "Fence_Gate_3m",
+      "hingesVerified": true
+    }
+  ],
+  "fbxRoundtrip": [
+    {
+      "file": "Farm_BarnStore_B.fbx",
+      "boundsPreserved": true,
+      "materialsPreserved": true,
+      "uvPreserved": true
+    },
+    {
+      "file": "Farm_Lumbung_A.fbx",
+      "boundsPreserved": true,
+      "materialsPreserved": true,
+      "uvPreserved": true
+    },
+    {
+      "file": "Fence_Corner_90.fbx",
+      "boundsPreserved": true,
+      "materialsPreserved": true,
+      "uvPreserved": true
+    },
+    {
+      "file": "Fence_Gate_2m.fbx",
+      "boundsPreserved": true,
+      "materialsPreserved": true,
+      "uvPreserved": true
+    },
+    {
+      "file": "Fence_Gate_3m.fbx",
+      "boundsPreserved": true,
+      "materialsPreserved": true,
+      "uvPreserved": true
+    },
+    {
+      "file": "Fence_Junction_T.fbx",
+      "boundsPreserved": true,
+      "materialsPreserved": true,
+      "uvPreserved": true
+    },
+    {
+      "file": "Fence_Post.fbx",
+      "boundsPreserved": true,
+      "materialsPreserved": true,
+      "uvPreserved": true
+    },
+    {
+      "file": "Fence_Rails_1m.fbx",
+      "boundsPreserved": true,
+      "materialsPreserved": true,
+      "uvPreserved": true
+    },
+    {
+      "file": "Fence_Rails_2m.fbx",
+      "boundsPreserved": true,
+      "materialsPreserved": true,
+      "uvPreserved": true
+    }
+  ],
+  "atlasUnchanged": true
+}
