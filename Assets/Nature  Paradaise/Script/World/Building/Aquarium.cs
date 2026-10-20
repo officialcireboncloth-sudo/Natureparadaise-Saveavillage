@@ -142,10 +142,21 @@ public sealed class Aquarium : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey)) ClosePanel();
             return;
         }
-        if (!PlayerInteractionTarget.ContainsPickup(inventory.transform, transform, interactionRadius)) return;
+        if (!CanInteract(inventory.transform)) return;
         float distance = Vector3.Distance(inventory.transform.position, transform.position);
         WorldInteractionPrompt.Request(this, transform, $"{interactKey}: Aquarium — {FishCount}/{Capacity} fish", distance, promptHeight);
-        if (PlayerInteractionTarget.PressPickup(inventory.transform, transform, interactKey, interactionRadius)) OpenPanel();
+        if (PlayerInteractionTarget.PressPrompt(this, interactKey)) OpenPanel();
+    }
+
+    /// <summary>Nearby tank access must not cross the bedroom partition or other solid furniture.</summary>
+    public bool CanInteract(Transform actor)
+    {
+        if (!PlayerInteractionTarget.ContainsPickup(actor, transform, interactionRadius)) return false;
+        if (!Physics.Linecast(actor.position + Vector3.up * .9f, transform.position,
+            out RaycastHit hit, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore)) return true;
+        Transform obstacle = hit.collider.transform;
+        // The authored tank collider can live on the normalized interaction's parent.
+        return obstacle.IsChildOf(transform) || transform.IsChildOf(obstacle) || obstacle.IsChildOf(actor);
     }
 
     public void AddFish(int slotIndex)
@@ -276,6 +287,7 @@ public sealed class Aquarium : MonoBehaviour
     {
         if (!panelOpen) return; panelOpen = false;
         AquariumUI.Hide(this);player?.ReleaseMovementLock(this); TimeManager.Instance?.ReleasePause(this); WorldInteractionPrompt.ReleaseSuppression(this);
+        GameplayInput.ConsumeCurrentFrame();
     }
     void ResolvePlayer() { if (inventory == null) inventory = FindFirstObjectByType<Inventory>(); if (player == null && inventory != null) player = inventory.GetComponent<PlayerController>(); }
     string BuildStableId() => $"aquarium.{gameObject.scene.name}.{TransformPath(transform)}".ToLowerInvariant().Replace(' ', '_');

@@ -24,6 +24,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     readonly HashSet<int> occupiedFeedSlots = new();
     Transform feedMakerPoint;
     FeedMaker feedMaker;
+    EggIncubator eggIncubator;
     WorldDebugStatusLabel troughDebugLabel;
     PlayerController player;
     TopDownCameraFollow cameraFollow;
@@ -80,6 +81,8 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         LayoutFeedingTrough(home,level);
         ResolveFeedMakerPoint(level);
         ResolveDedicatedFeedMaker(home);
+        eggIncubator=authoredLayout!=null?authoredLayout.GetComponentInChildren<EggIncubator>(true):null;
+        eggIncubator?.Bind(home);
         EnsureDebugLabels();
     }
 
@@ -356,6 +359,8 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
             $"Konsumsi {home.DailyFeedRequirement}/hari | Estimasi {home.EstimatedFeedDays} hari | 00:00 {GameTimeDebugText.UntilMidnight()}");
         RefreshFeedVisual(home);
         Transform trough=ClosestFeedingSlot(player.transform.position,out float troughDistance);
+        if(eggIncubator!=null&&eggIncubator.InRange(player.transform)&&eggIncubator.DistanceTo(player.transform)<=troughDistance&&
+            (feedMakerPoint==null||eggIncubator.DistanceTo(player.transform)<=Vector3.Distance(feedMakerPoint.position,player.transform.position))&&eggIncubator.HandleInteraction(player))return;
         if(feedMakerPoint!=null)
         {
             Vector3 makerDelta=feedMakerPoint.position-player.transform.position;

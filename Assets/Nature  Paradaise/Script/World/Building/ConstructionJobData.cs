@@ -1,12 +1,13 @@
 using System;
 using UnityEngine;
 
-public enum ConstructionWorkerPhase { Travelling, Working, Returning, Finished }
+// Append only: the first four values are already stored in player saves.
+public enum ConstructionWorkerPhase { Travelling, Working, Returning, Finished, Revealing }
 
 [Serializable]
 public sealed class ConstructionJobData
 {
-    public int version = 1;
+    public int version = 3;
     public ConstructionWorkerPhase phase;
     public Vector3 departurePosition, workerPosition, workPosition;
     public Quaternion workerRotation = Quaternion.identity;
@@ -15,6 +16,7 @@ public sealed class ConstructionJobData
     public double requiredWorkHours;
     public int workStarts = 8, workEnds = 17;
     public bool pathBlocked;
+    public float revealElapsed;
     public float Progress => requiredWorkHours <= 0 ? 1 : Mathf.Clamp01((float)(completedWorkHours / requiredWorkHours));
 
     public static double ClockHours => TimeManager.Instance != null

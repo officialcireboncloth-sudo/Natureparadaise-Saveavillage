@@ -106,7 +106,7 @@ public sealed class PropertySite : MonoBehaviour
     bool previewIsRelocation;
     bool previewRelocatesSelf;
     bool previewAllowsCatalogNavigation;
-    bool previewDebugInstant;
+    bool previewDebugFree;
     int previewStartedFrame = -1;
     int previewLevel;
     int previewCatalogIndex;
@@ -126,6 +126,18 @@ public sealed class PropertySite : MonoBehaviour
     public string SiteId => siteId;
     public static IReadOnlyList<PropertySite> ActiveSites => Registry;
     public Transform BuildingAnchor => buildingAnchor != null ? buildingAnchor : transform;
+    /// <summary>Visual bangunan selesai yang benar-benar dimiliki site, bukan child runtime milik sistem lain.</summary>
+    public Transform CompletedVisualRoot
+    {
+        get
+        {
+            if (runtimeCompletedVisual != null && runtimeCompletedVisual.activeInHierarchy) return runtimeCompletedVisual.transform;
+            if (state != BuildingConstructionState.Completed) return null;
+            int index = currentLevel - 1;
+            return index >= 0 && index < completedLevelVisuals.Count && completedLevelVisuals[index] != null &&
+                completedLevelVisuals[index].activeInHierarchy ? completedLevelVisuals[index].transform : null;
+        }
+    }
     public BuildingCatalogSO Catalog => catalog;
     public BuildingDefinitionSO ActiveDefinition => activeDefinition;
     public BuildingConstructionState State => state;
@@ -136,6 +148,7 @@ public sealed class PropertySite : MonoBehaviour
     public bool IsPreviewActive => previewActive;
     public bool IsGlobalBuildInstance => globalBuildInstance;
     public static bool DebugShortcutsEnabled => Application.isEditor || Debug.isDebugBuild;
+    static bool DebugFinishModifierHeld => GameplayInput.GetKey(KeyCode.LeftShift) || GameplayInput.GetKey(KeyCode.RightShift);
 
     public static bool TryGetAvailableBuildSite(out PropertySite result)
     {
@@ -404,7 +417,7 @@ public sealed class PropertySite : MonoBehaviour
     void HandleConstructionInteraction(float distance)
     {
         int remaining = Mathf.Max(0, completionDay - CurrentDay);
-        string debugFinish = DebugShortcutsEnabled ? "  F9: DEBUG langsung selesai" : string.Empty;
+        string debugFinish = DebugShortcutsEnabled ? $"  Shift+{debugConfirmKey}: DEBUG lewati proses" : string.Empty;
         WorldInteractionPrompt.Request(
             this,
             buildingAnchor,
@@ -413,7 +426,7 @@ public sealed class PropertySite : MonoBehaviour
             distance,
             promptHeight
         );
-        if (DebugShortcutsEnabled && GameplayInput.GetKeyDown(debugConfirmKey))
+        if (DebugShortcutsEnabled && DebugFinishModifierHeld && GameplayInput.GetKeyDown(debugConfirmKey))
         {
             CompleteConstruction();
             SaveManager.Instance?.SaveGame();
@@ -432,7 +445,7 @@ public sealed class PropertySite : MonoBehaviour
             ? $"{demolishKey}: Demolish"
             : string.Empty;
         string debugUpgrade = DebugShortcutsEnabled && activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel)
-            ? $"  {debugConfirmKey}: DEBUG Upgrade Instan"
+            ? $"  {debugConfirmKey}: DEBUG Upgrade Gratis (pakai tukang)"
             : string.Empty;
 
         WorldInteractionPrompt.Request(
@@ -446,7 +459,7 @@ public sealed class PropertySite : MonoBehaviour
         if (DebugShortcutsEnabled && GameplayInput.GetKeyDown(debugConfirmKey) &&
             activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel))
         {
-            if (BeginUpgradePreview()) ConfirmPreview(true);
+            if (BeginUpgradePreview()) ConfirmPreview(debugFree: true);
         }
         else if (GameplayInput.GetKeyDown(upgradeKey) && activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel))
             BeginUpgradePreview();
@@ -466,14 +479,14 @@ public sealed class PropertySite : MonoBehaviour
         BuildingLevelDefinition level = previewDefinition != null
             ? previewDefinition.GetLevel(previewLevel)
             : null;
-        bool canAfford = previewIsRelocation || previewDebugInstant || CanAfford(level, out _);
+        bool canAfford = previewIsRelocation || previewDebugFree || CanAfford(level, out _);
         string validity = !previewLocationValid
             ? "TEMPAT TIDAK VALID"
             : canAfford ? "VALID" : "RESOURCE KURANG";
         string requirements = previewIsRelocation
             ? "<color=#58D982>Tanpa biaya relocate</color>"
-            : previewDebugInstant
-                ? "<color=#58D982>DEBUG: biaya 0, waktu 0</color>"
+            : previewDebugFree
+                ? "<color=#58D982>DEBUG: biaya 0 · tetap dikerjakan tukang</color>"
                 : BuildRequirementLabel(level);
         string navigation = previewAllowsCatalogNavigation
             ? $"{previousBuildingKey}/{nextBuildingKey}: Pilih  "
@@ -484,7 +497,7 @@ public sealed class PropertySite : MonoBehaviour
         string placementControls = previewUsesFreePlacement
             ? $"Gerakkan player: Pindah preview  {rotatePreviewKey}: Putar  Arah: {previewYaw} derajat\n"
             : string.Empty;
-        string debugControls = DebugShortcutsEnabled && !previewDebugInstant && !previewIsRelocation
+        string debugControls = DebugShortcutsEnabled && !previewDebugFree && !previewIsRelocation
             ? $"  {debugConfirmKey}: Aktifkan DEBUG Gratis"
             : string.Empty;
         WorldInteractionPrompt.Request(
@@ -508,9 +521,9 @@ public sealed class PropertySite : MonoBehaviour
             CycleCatalog(1);
         else if (DebugShortcutsEnabled && GameplayInput.GetKeyDown(debugConfirmKey))
         {
-            previewDebugInstant = true;
+            previewDebugFree = true;
             ApplyPreviewColor(previewLocationValid);
-            SaveLoadFeedback.Instance?.ShowMessage("DEBUG konstruksi gratis aktif. Pilih lokasi lalu tekan C.");
+            SaveLoadFeedback.Instance?.ShowMessage("DEBUG gratis aktif; tukang tetap bekerja. Pilih lokasi lalu tekan C.");
         }
         else if (GameplayInput.GetKeyDown(confirmKey))
             ConfirmPreview();
@@ -538,7 +551,7 @@ public sealed class PropertySite : MonoBehaviour
         previewAllowsCatalogNavigation = true;
         previewIsRelocation = false;
         previewRelocatesSelf = false;
-        previewDebugInstant = false;
+        previewDebugFree = false;
         previewUsesFreePlacement = allowFreePlacement;
         InitializeFreePlacementPose();
         return RefreshPreview();
@@ -565,7 +578,7 @@ public sealed class PropertySite : MonoBehaviour
         previewAllowsCatalogNavigation = false;
         previewIsRelocation = false;
         previewRelocatesSelf = false;
-        previewDebugInstant = debugFree && DebugShortcutsEnabled;
+        previewDebugFree = debugFree && DebugShortcutsEnabled;
         previewUsesFreePlacement = allowFreePlacement;
         InitializeFreePlacementPose();
         return RefreshPreview();
@@ -583,7 +596,7 @@ public sealed class PropertySite : MonoBehaviour
         previewAllowsCatalogNavigation = false;
         previewIsRelocation = false;
         previewRelocatesSelf = false;
-        previewDebugInstant = false;
+        previewDebugFree = false;
         previewUsesFreePlacement = false;
         return RefreshPreview();
     }
@@ -617,7 +630,7 @@ public sealed class PropertySite : MonoBehaviour
         previewAllowsCatalogNavigation = false;
         previewIsRelocation = true;
         previewRelocatesSelf = true;
-        previewDebugInstant = false;
+        previewDebugFree = false;
         previewUsesFreePlacement = true;
         if (runtimeCompletedVisual != null)
             runtimeCompletedVisual.SetActive(false);
@@ -640,14 +653,14 @@ public sealed class PropertySite : MonoBehaviour
         previewAllowsCatalogNavigation = false;
         previewIsRelocation = true;
         previewRelocatesSelf = false;
-        previewDebugInstant = false;
+        previewDebugFree = false;
         previewUsesFreePlacement = allowFreePlacement;
         InitializeFreePlacementPose();
         return RefreshPreview();
     }
 
     /// <summary>Menjalankan transaksi build/upgrade atau transfer relocate dari preview aktif.</summary>
-    public bool ConfirmPreview(bool debugInstant = false)
+    public bool ConfirmPreview(bool debugInstant = false, bool debugFree = false)
     {
         if (!previewActive || !previewLocationValid || previewDefinition == null)
         {
@@ -658,7 +671,11 @@ public sealed class PropertySite : MonoBehaviour
         if (previewIsRelocation)
             return previewRelocatesSelf ? ConfirmSelfRelocation() : ConfirmRelocation();
 
-        bool useDebug = (debugInstant || previewDebugInstant) && DebugShortcutsEnabled;
+        // Explicit debugInstant is retained for isolated regression fixtures. The F9 player UI
+        // sets debugFree instead: waive the transaction, NEVER skip dispatch/work/reveal.
+        bool instant = debugInstant && DebugShortcutsEnabled;
+        bool useDebug = (debugFree || previewDebugFree || instant) && DebugShortcutsEnabled;
+        int minimumWorkDays = useDebug && !instant ? 1 : 0;
         BuildingLevelDefinition targetLevel = previewDefinition.GetLevel(previewLevel);
         string reason = null;
         if (targetLevel == null || (!useDebug && !CanAfford(targetLevel, out reason)))
@@ -692,23 +709,25 @@ public sealed class PropertySite : MonoBehaviour
 
         activeDefinition = previewDefinition;
         pendingLevel = previewLevel;
-        completionDay = CurrentDay + (useDebug ? 0 : Mathf.Max(0, targetLevel.constructionDays));
+        completionDay = CurrentDay + (instant ? 0 : Mathf.Max(minimumWorkDays, targetLevel.constructionDays));
         state = BuildingConstructionState.UnderConstruction;
         if (previewUsesFreePlacement)
             buildingAnchor.SetPositionAndRotation(previewPlacementPosition, previewPlacementRotation);
         CancelPreview();
-        if (!useDebug && targetLevel.constructionDays > 0)
-            StartWorker(targetLevel);
+        if (!instant && (useDebug || targetLevel.constructionDays > 0))
+            StartWorker(targetLevel, minimumWorkDays: minimumWorkDays);
         ApplyVisualState();
 
-        if (useDebug || targetLevel.constructionDays <= 0)
+        if (instant || (!useDebug && targetLevel.constructionDays <= 0))
         {
             CompleteConstruction();
-            if (useDebug)
+            if (instant)
                 SaveLoadFeedback.Instance?.ShowMessage($"[DEBUG] {activeDefinition.displayName} Lv.{currentLevel} gratis dan langsung selesai");
         }
         else
-            SaveLoadFeedback.Instance?.ShowMessage($"Builder berangkat untuk {activeDefinition.displayName}");
+            SaveLoadFeedback.Instance?.ShowMessage(useDebug
+                ? $"[DEBUG GRATIS] Builder berangkat untuk {activeDefinition.displayName}; proses animasi tetap berjalan"
+                : $"Builder berangkat untuk {activeDefinition.displayName}");
 
         SaveManager.Instance?.SaveGame();
         return true;
@@ -730,7 +749,7 @@ public sealed class PropertySite : MonoBehaviour
         previewIsRelocation = false;
         previewRelocatesSelf = false;
         previewAllowsCatalogNavigation = false;
-        previewDebugInstant = false;
+        previewDebugFree = false;
         previewUsesFreePlacement = false;
         previewLevel = 0;
         previewDefinition = null;
@@ -808,7 +827,7 @@ public sealed class PropertySite : MonoBehaviour
     {
         if (previewIsRelocation)
             return true;
-        if (previewDebugInstant && DebugShortcutsEnabled)
+        if (previewDebugFree && DebugShortcutsEnabled)
             return true;
         BuildingLevelDefinition level = previewDefinition?.GetLevel(previewLevel);
         return CanAfford(level, out _);
@@ -1017,10 +1036,10 @@ public sealed class PropertySite : MonoBehaviour
             CompleteConstruction();
     }
 
-    void StartWorker(BuildingLevelDefinition target, ConstructionJobData saved = null)
+    void StartWorker(BuildingLevelDefinition target, ConstructionJobData saved = null, int minimumWorkDays = 0)
     {
         constructionProject = ConstructionProject.Begin(gameObject, BuildingAnchor, activeDefinition, target,
-            GetCompletedPrefab(target.level), currentLevel > 0, CompleteConstruction, saved);
+            GetCompletedPrefab(target.level), currentLevel > 0, CompleteConstruction, saved, minimumWorkDays: minimumWorkDays);
     }
 
     void CompleteConstruction()

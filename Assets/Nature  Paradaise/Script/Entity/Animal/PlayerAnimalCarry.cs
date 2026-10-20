@@ -21,6 +21,7 @@ public sealed class PlayerAnimalCarry : MonoBehaviour
     readonly Dictionary<Collider, bool> colliderStates = new();
     AnimalGrowthSystem carriedAnimal;
     AnimalGrowthSystem pendingAnimal;
+    AnimalRoutine pendingPickupRoutine;
     AnimalRoutine carriedRoutine;
     Transform originalParent;
     Rigidbody carriedBody;
@@ -49,6 +50,7 @@ public sealed class PlayerAnimalCarry : MonoBehaviour
         StopAllCoroutines();
         TimeManager.OnBeforeDayChange -= DropBeforeDailyReset;
         if (carriedAnimal != null) DropImmediate();
+        pendingPickupRoutine?.ReleaseCareLock(this);pendingPickupRoutine=null;
         pendingAnimal=null;
         actionBusy=false;
         movement?.ReleaseMovementLock(this);
@@ -85,6 +87,9 @@ public sealed class PlayerAnimalCarry : MonoBehaviour
         PlayerGatheringTool gathering = GetComponent<PlayerGatheringTool>();
         if (gathering != null && gathering.IsCarrying) return false;
         pendingAnimal=animal;
+        pendingPickupRoutine=animal.GetComponent<AnimalRoutine>();
+        // Keep a housed chick at the nest until the existing pickup contact frame.
+        pendingPickupRoutine?.AcquireCareLock(this);
         actionBusy=true;
         movement?.AcquireMovementLock(this);
         Vector3 towardAnimal=animal.transform.position-transform.position;
@@ -148,6 +153,7 @@ public sealed class PlayerAnimalCarry : MonoBehaviour
 
     void FinishPickupAction(bool carrying)
     {
+        pendingPickupRoutine?.ReleaseCareLock(this);pendingPickupRoutine=null;
         movement?.ReleaseMovementLock(this);
         actionBusy=false;
         if(!carrying)

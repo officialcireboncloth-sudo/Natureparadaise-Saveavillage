@@ -21,6 +21,7 @@ public sealed class AnimalSceneStageVisual
 [Serializable]
 public sealed class AnimalSaveData
 {
+    public string incubatorId;
     public string animalId;
     public string animalName;
     public AnimalHeartState heart;
@@ -95,6 +96,9 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     [SerializeField, Min(0)] int growthDays = 28;
     [SerializeField, Min(0)] int prenatalDays;
     [SerializeField] bool hasBeenBorn = true;
+    [SerializeField] string incubatorId;
+    public string IncubatorId => incubatorId;
+    public bool IsInIncubator => !string.IsNullOrEmpty(incubatorId);
 
     [Header("Daily Care")]
     [SerializeField, Range(0f, 100f)] float fullness = 50f;
@@ -384,6 +388,9 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     void HandleDailyReset()
     {
+        // Incubator owns the only prenatal clock. Protected nest occupants do not eat,
+        // get sick or age into an adult while waiting for the player to remove them.
+        if(IsInIncubator)return;
         GetComponent<AnimalRoutine>()?.PrepareDailyCare();
         int currentDay = TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
         if (heart.lastDailyDay >= currentDay) return;
@@ -669,6 +676,30 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         growthProfile = profile;
     }
 
+    public void InitializeIncubatorEgg(string id,int day)
+    {
+        if(visualAnchor==null)Awake();
+        InitializeBreeding(day);incubatorId=id;runtimePurchased=true;
+        if(!Registry.Contains(this))OnEnable();
+    }
+    public void HatchInIncubator(int day)
+    {
+        if(!IsInIncubator||hasBeenBorn)return;
+        hasBeenBorn=true;birthDay=day;ageDays=growthDays=prenatalDays=0;
+        lastCalendarSeasonIndex=CalendarSeasonIndex(day);ApplyGrowthVisual(true);
+    }
+    public void LeaveIncubator()
+    {
+        incubatorId=null;birthDay=CurrentDay;
+        if(heart!=null)heart.lastDailyDay=CurrentDay-1;
+        ApplyGrowthVisual(true); // Remove nest-only presentation scaling before normal care/carry.
+    }
+    public void FitIncubatorDisplay(float height,float currentHeight)
+    {
+        if(IsInIncubator&&hasBeenBorn&&spawnedStageModel!=null&&currentHeight>.001f)
+            spawnedStageModel.transform.localScale*=Mathf.Clamp(height/currentHeight,.1f,10f);
+    }
+
     public void InitializeBreeding(int currentDay, string trait = "")
     {
         animalId = Guid.NewGuid().ToString("N");
@@ -768,7 +799,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         if (conditionAnimator != null) conditionAnimator.runtimeAnimatorController = originalConditionAnimator;
         conditionAnimator = null;
         originalConditionAnimator = null;
-        if (spawnedConditionModel != null) Destroy(spawnedConditionModel);
+        if (spawnedConditionModel != null) {if(Application.isPlaying)Destroy(spawnedConditionModel);else DestroyImmediate(spawnedConditionModel);}
         spawnedConditionModel = null;
         if (spawnedStageModel != null) spawnedStageModel.SetActive(true);
         if (condition == AnimalIllnessStage.Healthy) return;
@@ -826,7 +857,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         spawnedConditionModel = null;
         conditionAnimator = null;
         originalConditionAnimator = null;
-        if (spawnedStageModel != null) Destroy(spawnedStageModel);
+        if (spawnedStageModel != null) {if(Application.isPlaying)Destroy(spawnedStageModel);else DestroyImmediate(spawnedStageModel);}
         spawnedStageModel = null;
         visualAnchor.localScale = originalVisualScale;
 
@@ -1018,6 +1049,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     public AnimalSaveData Capture() => new()
     {
+        incubatorId = incubatorId,
         animalId = animalId,
         animalName = animalName,
         heart = heart?.Copy(),
@@ -1059,6 +1091,8 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     public void Restore(AnimalSaveData data)
     {
         if (data == null) return;
+        if(visualAnchor==null)Awake();
+        incubatorId=data.incubatorId;
         animalId = data.animalId;
         animalName = data.animalName;
         heart = data.heart?.Copy() ?? new AnimalHeartState { points = Mathf.Clamp(Mathf.RoundToInt(data.friendship * 10f), 0, 1000) };
@@ -1105,6 +1139,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         AnimalRoutine routine = GetComponent<AnimalRoutine>();
         if (routine == null) routine = gameObject.AddComponent<AnimalRoutine>();
         routine.RestoreHome(data.homeId, data.housed, data.returningHome);
+        if(!Registry.Contains(this))OnEnable();
     }
 
     public static List<AnimalSaveData> CaptureAll()

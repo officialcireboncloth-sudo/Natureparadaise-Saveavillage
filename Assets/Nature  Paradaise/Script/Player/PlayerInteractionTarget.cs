@@ -75,6 +75,12 @@ public static class PlayerInteractionTarget
         return GameplayInput.GetKeyDown(key) && ConsumeKey(key);
     }
 
+    /// <summary>Only the visible prompt may consume this press; range is checked by its owner.</summary>
+    public static bool PressPrompt(Object owner, KeyCode key)
+    {
+        return WorldInteractionPrompt.IsDisplayedFor(owner) && Press(key);
+    }
+
     /// <summary>
     /// True jika tombol sudah dipakai interaksi dunia pada frame ini. Sistem tool
     /// memakainya agar satu tekanan F tidak ikut mencangkul/menebang setelah mengambil item.

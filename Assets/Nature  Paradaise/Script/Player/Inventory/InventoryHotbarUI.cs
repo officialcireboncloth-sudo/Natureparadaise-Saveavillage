@@ -35,6 +35,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     RectTransform hintRoot;
     RectTransform waterFill;
     CanvasGroup pauseVisibility;
+    bool hotSpringContext;
     Coroutine temporaryHintRoutine;
     string temporaryHint;
     int selectedIndex;
@@ -86,8 +87,10 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     void Update()
     {
         if (fishingSystem == null) fishingSystem = GetComponent<FishingSystem>();
-        bool hidden = DataDrivenModal.Active != null || GameplayPauseMenu.IsOpen || (GetComponent<InventoryUI>()?.IsOpen ?? false) || (fishingSystem != null && fishingSystem.isActiveAndEnabled && fishingSystem.State != FishingState.Idle);
-        if (pauseVisibility != null) { pauseVisibility.alpha = hidden ? 0f : 1f; pauseVisibility.interactable = !hidden; pauseVisibility.blocksRaycasts = !hidden; }
+        bool hidden = NPCGiftUI.Active != null || DataDrivenModal.Active != null || GameplayPauseMenu.IsOpen || (GetComponent<InventoryUI>()?.IsOpen ?? false) || (fishingSystem != null && fishingSystem.isActiveAndEnabled && fishingSystem.State != FishingState.Idle);
+        bool bathing = HotSpringUI.Active != null;
+        if (pauseVisibility != null) { pauseVisibility.alpha = hidden ? 0f : bathing ? .45f : 1f; pauseVisibility.interactable = !hidden && !bathing; pauseVisibility.blocksRaycasts = !hidden && !bathing; }
+        if (hotSpringContext != bathing) { hotSpringContext = bathing; RefreshActionHint(); }
         if (WorldInteractionPrompt.IsSuppressed) return;
         if (GameplayInput.GetKeyDown(KeyCode.Alpha1)) SelectSlot(0);
         else if (GameplayInput.GetKeyDown(KeyCode.Alpha2)) SelectSlot(1);
@@ -153,6 +156,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
 
     void RefreshActionHint()
     {
+        if (HotSpringUI.Active != null) { if (hintRoot != null) hintRoot.gameObject.SetActive(false); return; }
         if (actionHint == null || toolHotbar == null) return;
         if (!string.IsNullOrEmpty(temporaryHint))
         {

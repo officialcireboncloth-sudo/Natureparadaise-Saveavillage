@@ -140,6 +140,7 @@ public class SaveManager : MonoBehaviour
 
         // HEWAN: umur, growth progress, care, health, produksi, trait, dan posisi.
         public List<AnimalSaveData> animals;
+        public List<EggIncubatorSaveData> eggIncubators;
         public AnimalManureSaveData animalManure;
         public List<AnimalHomeSaveData> animalHomes;
         // PERSONAL COMPANION terpisah dari ternak produksi Barn/Coop.
@@ -425,6 +426,7 @@ public class SaveManager : MonoBehaviour
             PlacedWorldItem.CaptureAll();
 
 
+        data.eggIncubators = EggIncubator.CaptureAll();
         data.animals =
             AnimalGrowthSystem.CaptureAll();
         data.animalHomes = AnimalHome.CaptureAll();
@@ -779,9 +781,11 @@ public class SaveManager : MonoBehaviour
             manager.RestoreManagedTrees(data.trees);
 
         AnimalHome.RestoreAll(data.animalHomes);
+        EggIncubator.RestoreAll(data.eggIncubators);
         AnimalGrowthSystem.RestoreAll(
             data.animals
         );
+        EggIncubator.AdvanceAll(EggIncubator.CurrentDay);
         PersonalAnimal.RestoreAll(data.personalAnimals);
         AnimalManureSystem.Restore(data.animalManure);
         TameableCreature.RestoreAll(data.tameableCreatures);
@@ -793,6 +797,7 @@ public class SaveManager : MonoBehaviour
         WorldMapService.Instance?.Restore(data.worldMap);
         AquariumTestFishGrant.EnsureTestFish(playerInv);
         FishPondTestGrant.EnsureTestFeed(playerInv);
+        EggIncubatorTestGrant.EnsureTestEggs(playerInv);
 
         if (data.hasPlayerStatus)
         {

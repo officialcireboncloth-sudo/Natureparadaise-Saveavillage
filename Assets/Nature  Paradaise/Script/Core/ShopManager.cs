@@ -281,6 +281,21 @@ public class ShopManager : MonoBehaviour
         return true;
     }
 
+    public AnimalGrowthSystem CreateIncubatorEgg(AnimalHome home,string incubatorId)
+    {
+        if(home==null||!home.HasRoom(AnimalType.Chicken))return null;
+        EnsureDefaultAnimalOffers();
+        var offer=animalOffers.Find(o=>o!=null&&o.animalType==AnimalType.Chicken&&o.offerKind==AnimalShopOfferKind.Young);
+        if(offer==null)return null;
+        var animal=SpawnAnimal(offer,home.Entry,false);
+        if(animal==null)return null;
+        UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(animal.gameObject,home.gameObject.scene);
+        animal.PrepareRestoreProfile(AnimalType.Chicken,offer.growthProfile??Resources.Load<AnimalGrowthProfileSO>("Profiles/Animals/Chicken Growth Profile"));
+        animal.InitializeIncubatorEgg(incubatorId,TimeManager.Instance!=null?TimeManager.Instance.day:1);
+        if(animal.GetComponent<AnimalRoutine>().Assign(home))return animal;
+        animal.gameObject.SetActive(false);Destroy(animal.gameObject);return null;
+    }
+
     AnimalGrowthSystem SpawnAnimal(AnimalShopOffer offer, Vector3 position, bool initializePurchase)
     {
         GameObject animalObject = CreateAnimalObject(offer, position);
@@ -443,7 +458,8 @@ public class ShopManager : MonoBehaviour
         if (data.animalType == AnimalType.Cow && offer.productItem == null) offer.productItem = milkItem;
 
         AnimalGrowthSystem growth = SpawnAnimal(offer, new Vector3(data.x, data.y, data.z), false);
-        growth?.PrepareRestoreProfile(data.animalType, offer.growthProfile);
+        growth?.PrepareRestoreProfile(data.animalType, offer.growthProfile??(data.animalType==AnimalType.Chicken?
+            Resources.Load<AnimalGrowthProfileSO>("Profiles/Animals/Chicken Growth Profile"):null));
         growth?.Restore(data);
         return growth;
     }

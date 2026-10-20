@@ -56,7 +56,7 @@ public sealed class PlayerBed : MonoBehaviour
             }
         }
 
-        if (nearbyPlayer != null && CanInteract(nearbyPlayer.transform) && PlayerInteractionTarget.Press(interactKey))
+        if (nearbyPlayer != null && CanInteract(nearbyPlayer.transform) && PlayerInteractionTarget.PressPrompt(this, interactKey))
             Sleep();
     }
 
@@ -97,6 +97,41 @@ public sealed class PlayerBed : MonoBehaviour
         float dz = Mathf.Max(0f, Mathf.Abs(player.position.z - bounds.center.z) - bounds.extents.z);
         float distance = Mathf.Sqrt(dx * dx + dz * dz);
         return distance <= interactionRadius && Mathf.Abs(player.position.y - bounds.center.y) <= 2.5f && !ToolStorageChest.HasCloserRack(player,distance) && !HouseStorageChest.HasCloserStorage(player,distance) && !HouseSaveBook.HasCloserBook(player,distance);
+    }
+
+    /// <summary>Mencari permukaan kasur pada geometri visual, tanpa memakai puncak collider yang mencakup kepala ranjang.</summary>
+    public bool TryGetMattressSurface(Vector3 center, out float height)
+    {
+        height = float.NegativeInfinity;
+        Vector3 origin = new(center.x, GetComponent<Collider>().bounds.max.y + 1f, center.z);
+        // Hanya saat mulai tidur: tidak menambah collider atau scan mesh pada setiap frame mobile.
+        foreach (var filter in GetComponentsInChildren<MeshFilter>())
+        {
+            var mesh = filter.sharedMesh;
+            if (mesh == null || !mesh.isReadable) continue;
+            var renderer = filter.GetComponent<Renderer>();
+            if (renderer == null || !renderer.enabled) continue;
+            Vector3 rayOrigin = filter.transform.InverseTransformPoint(origin);
+            Vector3 direction = filter.transform.InverseTransformVector(Vector3.down);
+            var vertices = mesh.vertices;
+            var triangles = mesh.triangles;
+            for (int i = 0; i + 2 < triangles.Length; i += 3)
+            {
+                Vector3 a = vertices[triangles[i]], edge1 = vertices[triangles[i + 1]] - a, edge2 = vertices[triangles[i + 2]] - a;
+                Vector3 cross = Vector3.Cross(direction, edge2);
+                float determinant = Vector3.Dot(edge1, cross);
+                if (Mathf.Abs(determinant) < .000001f) continue;
+                float inverse = 1f / determinant;
+                Vector3 offset = rayOrigin - a;
+                float u = Vector3.Dot(offset, cross) * inverse;
+                Vector3 q = Vector3.Cross(offset, edge1);
+                float v = Vector3.Dot(direction, q) * inverse;
+                float distance = Vector3.Dot(edge2, q) * inverse;
+                if (u < 0f || v < 0f || u + v > 1f || distance < 0f) continue;
+                height = Mathf.Max(height, filter.transform.TransformPoint(rayOrigin + direction * distance).y);
+            }
+        }
+        return !float.IsNegativeInfinity(height);
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]

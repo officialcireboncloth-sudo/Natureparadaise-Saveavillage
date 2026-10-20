@@ -2791,7 +2791,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.09629088, y: -0.9034985, z: 0.28487197, w: 0.30539566}
-  m_LocalPosition: {x: 452.59457, y: 40.685173, z: 655.19073}
+  m_LocalPosition: {x: 442.65482, y: 28.963646, z: 642.1675}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6128,6 +6128,7 @@ MonoBehaviour:
   growthDays: 28
   prenatalDays: 0
   hasBeenBorn: 1
+  incubatorId: 
   fullness: 50
   dailyFullnessLoss: 35
   fedToday: 0
@@ -8050,7 +8051,7 @@ MonoBehaviour:
   minute: 0
   hour: 8
   day: 1
-  realMinutesPerFullDay: 24
+  realMinutesPerFullDay: 1
 --- !u!114 &971125959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20290,7 +20291,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.32021624, z: -0, w: 0.94734454}
   m_LocalPosition: {x: 405.22736, y: 18.29, z: 607.58795}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1264210499}

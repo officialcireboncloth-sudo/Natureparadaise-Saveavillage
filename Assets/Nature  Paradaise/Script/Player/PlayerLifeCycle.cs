@@ -46,6 +46,8 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     bool busy;
     bool bedPoseActive;
     bool bedControllerWasEnabled;
+    Transform bedVisualRoot;
+    Vector3 bedVisualOriginalPosition;
     bool sleepBlackout;
     bool hasPendingWeatherFaint;
     bool pendingWeatherFaintAtHospital = true;
@@ -199,6 +201,11 @@ public sealed class PlayerLifeCycle : MonoBehaviour
             bedControllerWasEnabled = characterController != null && characterController.enabled;
             if (characterController != null) characterController.enabled = false;
             PlaceAt(sleepPose.position, sleepPose.rotation);
+            movement?.PlayWakeUpBedAnimation();
+            // Tunggu skinning setelah teleport; matriks renderer pada frame sebelumnya
+            // dapat masih mengacu posisi berdiri saat pose kasur baru dievaluasi.
+            yield return null;
+            AlignWakePoseToMattress(sleepPose);
         }
 
         sleepBlackout = false;
@@ -210,11 +217,10 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         }
         else
         {
-            movement?.PlayWakeUpBedAnimation();
+            if (!bedPoseActive) movement?.PlayWakeUpBedAnimation();
             float wakeDuration = Mathf.Max(bedWakeAnimationTime, movement != null ? movement.BedWakeAnimationDuration : 0f);
             if (wakeDuration > 0f)
                 yield return new WaitForSecondsRealtime(wakeDuration + .15f);
-            movement?.FinishBedWakeAnimation();
             if (wakeStandPoint != null)
             {
                 var house = wakeStandPoint.GetComponentInParent<HouseInteriorController>();
@@ -225,7 +231,10 @@ public sealed class PlayerLifeCycle : MonoBehaviour
             }
             else if (bedPoseActive)
                 PlaceAt(standingPosition, standingRotation);
-            RestoreBedController();
+            // Pose terakhir bangun ditahan sampai root berada di lantai, sehingga idle
+            // tidak sempat dimainkan pada root sementara di bawah permukaan kasur.
+            if (bedPoseActive) RestoreBedController();
+            else movement?.FinishBedWakeAnimation();
         }
         // Save the standing position, never the temporary pose on the mattress.
         if (saveAfterSleep) SaveManager.Instance?.SaveGame();
@@ -324,8 +333,42 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     void RestoreBedController()
     {
         if (!bedPoseActive) return;
+        if (bedVisualRoot != null) bedVisualRoot.localPosition = bedVisualOriginalPosition;
+        bedVisualRoot = null;
+        movement?.FinishBedWakeAnimation();
         if (characterController != null) characterController.enabled = bedControllerWasEnabled;
         bedPoseActive = false;
+    }
+
+    void AlignWakePoseToMattress(Transform pose)
+    {
+        var bed = pose.GetComponentInParent<PlayerBed>();
+        if (bed == null || !bed.TryGetMattressSurface(pose.position, out float mattressHeight)) return;
+        var visual = movement != null && movement.CharacterAnimator != null ? movement.CharacterAnimator.transform : null;
+        while (visual != null && visual.parent != transform) visual = visual.parent;
+        if (visual == null) return;
+        bedVisualRoot = visual;
+        bedVisualOriginalPosition = visual.localPosition;
+        // Root gameplay tetap di kasur; offset animasi impor hanya diterapkan pada visual.
+        // Ini menjaga target kamera dan koordinat player tidak ikut tenggelam bersama offset clip.
+        PlaceAt(new Vector3(transform.position.x, mattressHeight, transform.position.z), transform.rotation);
+        var bones = movement.CharacterAnimator.GetComponentsInChildren<Transform>();
+        Transform FindBone(string name)
+        {
+            foreach (var bone in bones)
+                if (bone.name == "mixamorig:" + name || bone.name == name) return bone;
+            return null;
+        }
+        var spine = FindBone("Spine");
+        var head = FindBone("Head");
+        var leftFoot = FindBone("LeftFoot");
+        var rightFoot = FindBone("RightFoot");
+        if (spine == null || head == null || leftFoot == null || rightFoot == null) return;
+        // Titik tubuh aktual menghindari vertex kontrol/outlier dari rig ekspor.
+        // Tengah kepala-kaki dipakai untuk X/Z; punggung diberi ruang sesuai tebal badan.
+        Vector3 center = (head.position + (leftFoot.position + rightFoot.position) * .5f) * .5f;
+        visual.position += new Vector3(pose.position.x - center.x,
+            mattressHeight + PlayerDimensions.Height * .075f - spine.position.y, pose.position.z - center.z);
     }
 
     /// <summary>Ground the capsule on the house foundation and keep it clear of beds, furniture and walls.</summary>

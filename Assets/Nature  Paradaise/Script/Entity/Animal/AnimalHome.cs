@@ -53,10 +53,10 @@ public sealed class AnimalHome : MonoBehaviour
     public int TotalFeed => fodderStock + grassStock;
     public int FeedSpace => Mathf.Max(0, FeedingSlotCapacity - TotalFeed);
     public int FeedPortionsReserved => Mathf.Clamp(feedPortionsReserved,0,TotalFeed);
-    public int DailyFeedRequirement => AnimalCount;
+    public int DailyFeedRequirement => Residents.FindAll(r=>r.Animal!=null&&r.Animal.HasBeenBorn&&!r.Animal.IsInIncubator).Count;
     public int EstimatedFeedDays => AnimalCount<=0 ? 0 : Mathf.CeilToInt(TotalFeed/(float)AnimalCount);
     public int RequiredFeedToday => Residents.FindAll(animal =>
-        animal != null && animal.Animal != null && animal.Animal.HasBeenBorn && !animal.Animal.FedToday).Count;
+        animal != null && animal.Animal != null && animal.Animal.HasBeenBorn && !animal.Animal.IsInIncubator && !animal.Animal.FedToday).Count;
     public bool HasAutoFeeder => forceAutoFeeder || (site != null && site.CurrentLevel >= autoFeederStartingLevel);
     public AnimalBellStation BellStation => runtimeBellStation;
     public bool AnimalsOutside
@@ -68,7 +68,20 @@ public sealed class AnimalHome : MonoBehaviour
         }
     }
     public string Label => site != null ? site.ActiveDefinition?.displayName ?? name : name;
-    public List<AnimalRoutine> Residents => AnimalRoutine.Active.FindAll(a => a != null && a.HomeId == Id);
+    public List<AnimalRoutine> Residents
+    {
+        get
+        {
+            // Ownership must survive a temporarily disabled AI (e.g. player carrying a chick).
+            var result=new List<AnimalRoutine>();
+            foreach(var animal in AnimalGrowthSystem.ActiveAnimals)
+            {
+                var routine=animal!=null?animal.GetComponent<AnimalRoutine>():null;
+                if(routine!=null&&routine.HomeId==Id)result.Add(routine);
+            }
+            return result;
+        }
+    }
     // Prenatal animals already have persistent IDs and growth/save data. They reserve one slot.
     public int AnimalCount => Residents.FindAll(a => a.Animal != null && a.Animal.HasBeenBorn).Count;
     public int ReservedSlots => Residents.FindAll(a => a.Animal != null && !a.Animal.HasBeenBorn).Count;
@@ -284,7 +297,7 @@ public sealed class AnimalHome : MonoBehaviour
     }
     public bool Feed(AnimalGrowthSystem animal)
     {
-        if (!Available || animal == null || !animal.HasBeenBorn || animal.FedToday) return false;
+        if (!Available || animal == null || !animal.HasBeenBorn || animal.IsInIncubator || animal.FedToday) return false;
 
         // Isi trough mewakili box terisi dan baru dikosongkan pada 00:00. Jangan
         // mengurangi stok saat routine hewan mengecek makan, karena secara visual

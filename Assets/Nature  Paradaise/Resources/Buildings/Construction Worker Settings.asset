@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2cdff870a70c634c944d538f66d359c, type: 3}
   m_Name: Construction Worker Settings
   m_EditorClassIdentifier: 
-  workerPrefab: {fileID: 0}
-  hammerPrefab: {fileID: 0}
-  workerScale: 1
+  workerPrefab: {fileID: 6585021729222965323, guid: cbb548cd45ce1464fb36bcb805fa6453, type: 3}
+  hammerPrefab: {fileID: 2379483701125022315, guid: 67b10a65ae5702c4d8f66a07835f130d, type: 3}
+  humanoidActions: {fileID: 11400000, guid: dd4f682206d14954786be6e013aaf8e5, type: 2}
+  workerScale: 0.75
   walkingSpeed: 2.4
   workStarts: 8
   workEnds: 17
@@ -24,6 +25,24 @@ MonoBehaviour:
   workerClothes: {fileID: 2100000, guid: eb0826ba83418c042a28758f7577630c, type: 2}
   workerSkin: {fileID: 2100000, guid: 7f6ce4cbb1ed3724195845ead57419d6, type: 2}
   workerHat: {fileID: 2100000, guid: 8fa69d70923313f4c92b6b4fa91bf6bd, type: 2}
+  tarpPanel: {fileID: 208273110886500927, guid: cbf637dc3659c62499758449a9238751, type: 3}
+  supportPost: {fileID: 3405532249930462894, guid: 0dd49da719aa514429134230f336af6f, type: 3}
+  workBench: {fileID: 4847804644054674657, guid: 3092f661aba42ef4ba5f27334728b7a5, type: 3}
+  lumberStack: {fileID: 6326424656189442174, guid: 6220895d3197bff4c94fbecdc93822ee, type: 3}
+  toolCrate: {fileID: 2033158139787901059, guid: 4447337feef14cc46bac1bff87728c5b, type: 3}
+  workingBoard: {fileID: 9026487734656450017, guid: 2de60cc77a65cd540bb1c06e17973def, type: 3}
+  sawPrefab: {fileID: 6694183753796644483, guid: d45e03b35f94f57449b6d2aa9ebabad0, type: 3}
+  panelWidth: 2
+  panelHeight: 2.4
+  siteClearance: 0.65
+  screenHeight: 1.8
+  exitWidth: 2.2
+  screenCollision: 1
+  screenCollisionThickness: 0.16
+  revealSeconds: 2.6
+  revealShader: {fileID: 4800000, guid: f4e0f68e64e199d4aa89c3cff7cbea76, type: 3}
+  dustShader: {fileID: 4800000, guid: 08f0b54dcc0f3aa459ad98c07eaddb88, type: 3}
+  dustIntensity: 0.65
   progressTextShader: {fileID: 4800000, guid: dd89cf5b9246416f84610a006f916af7, type: 3}
   displayDistance: 42
   barHeight: 1.2

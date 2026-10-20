@@ -149,6 +149,7 @@ public sealed class PlayerController : MonoBehaviour
     bool hasPickUpChickenTrigger;
     bool hasPlaceChickenTrigger;
     bool hasWakeUpBedTrigger;
+    bool hasBedWakeActiveParameter;
     bool hasYawnTrigger;
     bool hasShearSheepTrigger;
     bool hasScoopManureTrigger;
@@ -525,6 +526,7 @@ public sealed class PlayerController : MonoBehaviour
             if (name == pickUpChickenTrigger) hasPickUpChickenTrigger = true;
             if (name == placeChickenTrigger) hasPlaceChickenTrigger = true;
             if (name == wakeUpBedTrigger) hasWakeUpBedTrigger = true;
+            if (name == "BedWakeActive") hasBedWakeActiveParameter = true;
             if (name == yawnTrigger) hasYawnTrigger = true;
             if (name == shearSheepTrigger) hasShearSheepTrigger = true;
             if (name == scoopManureTrigger) hasScoopManureTrigger = true;
@@ -586,6 +588,20 @@ public sealed class PlayerController : MonoBehaviour
             animator.SetBool(carryingAnimalParameter,carrying);
     }
     public void PlayPlaceItemAnimation() => PlayTrigger(placeItemTrigger, hasPlaceItemTrigger);
+
+    /// <summary>Berjalan singkat ke posisi interaksi melalui collision normal, hanya untuk pemilik movement lock.</summary>
+    public void MoveForInteraction(object owner, Vector3 displacement)
+    {
+        if (owner == null || !movementLocks.Contains(owner) || characterController == null || !characterController.enabled) return;
+        displacement.y = 0f;
+        Vector3 previous = transform.position;
+        characterController.Move(displacement);
+        planarVelocity = Time.deltaTime > 0f ? (transform.position - previous) / Time.deltaTime : Vector3.zero;
+        planarVelocity.y = 0f;
+        var mode = planarVelocity.sqrMagnitude > .001f ? MovementMode.Walk : MovementMode.Idle;
+        SetMovementMode(mode);
+        UpdateAnimator(characterController.isGrounded, mode);
+    }
     public void PlayBrushAnimalAnimation() => PlayTrigger(brushAnimalTrigger, hasBrushAnimalTrigger);
     public void SetBrushingAnimation(bool active)
     {
@@ -598,20 +614,38 @@ public sealed class PlayerController : MonoBehaviour
     public void PlayDismountHorseAnimation() => PlayTrigger(dismountHorseTrigger, hasDismountHorseTrigger);
     public void PlayPickUpChickenAnimation() => PlayTrigger(pickUpChickenTrigger, hasPickUpChickenTrigger);
     public void PlayPlaceChickenAnimation() => PlayTrigger(placeChickenTrigger, hasPlaceChickenTrigger);
-    public void PlayWakeUpBedAnimation() => PlayTrigger(wakeUpBedTrigger, hasWakeUpBedTrigger);
+    /// <summary>Memulai pose berbaring langsung dan menahannya sampai lifecycle memindahkan player dari kasur.</summary>
+    public void PlayWakeUpBedAnimation()
+    {
+        if (animator == null || !animator.isActiveAndEnabled) return;
+        if (hasBedWakeActiveParameter) animator.SetBool("BedWakeActive", true);
+        if (animator.HasState(0, Animator.StringToHash("Wake Up Bed")))
+        {
+            if (hasWakeUpBedTrigger) animator.ResetTrigger(wakeUpBedTrigger);
+            animator.Play("Wake Up Bed", 0, 0f);
+            animator.Update(0f);
+        }
+        else PlayTrigger(wakeUpBedTrigger, hasWakeUpBedTrigger);
+    }
     public float BedWakeAnimationDuration
     {
         get
         {
             if(animator == null || animator.runtimeAnimatorController == null) return 0f;
             foreach(var clip in animator.runtimeAnimatorController.animationClips)
-                if(clip.name.Replace("_","").Replace(" ","").ToLowerInvariant().Contains("wakeupbed")) return clip.length;
+                if(clip.name.Replace("_","").Replace(" ","").ToLowerInvariant().Contains("wakeupbed"))
+                {
+                    var state = animator.GetCurrentAnimatorStateInfo(0);
+                    float speed = state.IsName("Wake Up Bed") ? Mathf.Abs(state.speed * state.speedMultiplier * animator.speed) : 1f;
+                    return clip.length / Mathf.Max(.01f, speed);
+                }
             return 0f;
         }
     }
     public void FinishBedWakeAnimation()
     {
         if(animator == null || !animator.isActiveAndEnabled) return;
+        if (hasBedWakeActiveParameter) animator.SetBool("BedWakeActive", false);
         if(hasWakeUpBedTrigger) animator.ResetTrigger(wakeUpBedTrigger);
         if(animator.HasState(0,Animator.StringToHash("Locomotion")))
         {

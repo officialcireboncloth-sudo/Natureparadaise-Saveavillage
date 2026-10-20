@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace UnityEngine
 {
+    public class Object {}
     public struct Vector3
     {
         public float x,y,z;
@@ -30,7 +31,13 @@ namespace UnityEngine
     public static class Time {public static int frameCount;}
 }
 public class PlayerController {public bool IsMovementLocked;public Vector3 FacingDirection=Vector3.forward;}
-public static class WorldInteractionPrompt {public static bool IsSuppressed;}
+public static class WorldInteractionPrompt
+{
+    public static bool IsSuppressed;
+    public static UnityEngine.Object displayed;
+    public static bool IsDisplayedFor(UnityEngine.Object owner)=>!IsSuppressed && displayed==owner;
+}
+public static class GameplayInput {public static bool GetKeyDown(KeyCode key)=>Input.GetKeyDown(key);}
 public class FieldArea
 {
     public static List<FieldArea> ActiveAreas=new List<FieldArea>();
@@ -70,6 +77,19 @@ class InteractionTargetTests
         Check(PlayerInteractionTarget.Press(player,target,KeyCode.E),"first E");
         Check(!PlayerInteractionTarget.Press(player,target,KeyCode.E),"second E same frame rejected");
         Time.frameCount=2;Check(PlayerInteractionTarget.Press(player,target,KeyCode.E),"next press accepted");
+        var bed=new UnityEngine.Object();var aquarium=new UnityEngine.Object();
+        WorldInteractionPrompt.displayed=bed;Time.frameCount=3;
+        Check(!PlayerInteractionTarget.PressPrompt(aquarium,KeyCode.E),"aquarium updating first cannot steal visible bed prompt");
+        Check(!PlayerInteractionTarget.WasConsumed(KeyCode.E),"rejected aquarium leaves E for the bed");
+        Check(PlayerInteractionTarget.PressPrompt(bed,KeyCode.E),"visible bed consumes E");
+        Check(!PlayerInteractionTarget.PressPrompt(bed,KeyCode.E),"visible owner cannot consume E twice");
+        Time.frameCount=4;WorldInteractionPrompt.displayed=aquarium;
+        Check(!PlayerInteractionTarget.PressPrompt(bed,KeyCode.E),"bed updating first cannot steal visible aquarium prompt");
+        Check(PlayerInteractionTarget.PressPrompt(aquarium,KeyCode.E),"visible aquarium consumes E");
+        Time.frameCount=5;WorldInteractionPrompt.displayed=null;
+        Check(!PlayerInteractionTarget.PressPrompt(aquarium,KeyCode.E),"no displayed prompt cannot open a panel");
+        WorldInteractionPrompt.displayed=bed;WorldInteractionPrompt.IsSuppressed=true;
+        Check(!PlayerInteractionTarget.PressPrompt(bed,KeyCode.E),"modal suppresses prompt input");
         Console.WriteLine(checks+" interaction target assertions passed (stub geometry, not Play Mode).");
     }
 }

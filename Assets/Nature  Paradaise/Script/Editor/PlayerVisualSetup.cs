@@ -386,6 +386,7 @@ public static class PlayerVisualSetup
         AddParameter(controller,"PickUpChicken",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"PlaceChicken",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"WakeUpBed",AnimatorControllerParameterType.Trigger);
+        AddParameter(controller,"BedWakeActive",AnimatorControllerParameterType.Bool);
         AddParameter(controller,"Yawn",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"ShearSheep",AnimatorControllerParameterType.Trigger);
         AddParameter(controller,"Tired",AnimatorControllerParameterType.Bool);
@@ -453,7 +454,9 @@ public static class PlayerVisualSetup
         ConfigureHorseSideMirror(dismountHorse);
         EnsureActionState(stateMachine,"Pick Up Chicken","PickUpChicken",clips.pickUpChicken,1.25f,true);
         EnsureActionState(stateMachine,"Place Chicken","PlaceChicken",clips.placeChicken,1.25f,true);
-        EnsureActionState(stateMachine,"Wake Up Bed","WakeUpBed",clips.wakeUpBed,2f,true);
+        AnimatorState bedWake = EnsureActionState(stateMachine,"Wake Up Bed","WakeUpBed",clips.wakeUpBed,2f,true);
+        foreach (var transition in bedWake.transitions)
+            transition.conditions = new[] { new AnimatorCondition { mode = AnimatorConditionMode.IfNot, parameter = "BedWakeActive" } };
         EnsureActionState(stateMachine,"Yawn","Yawn",clips.yawn,1.5f,true);
         AddParameter(controller,"ShearingActive",AnimatorControllerParameterType.Bool);
         AddParameter(controller,"ScoopManure",AnimatorControllerParameterType.Trigger);

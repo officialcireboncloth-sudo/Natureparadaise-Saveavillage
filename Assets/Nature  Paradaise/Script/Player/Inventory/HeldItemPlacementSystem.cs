@@ -60,6 +60,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     float nextPreviewRefresh;
     bool actionBusy;
     bool animalCarrySuppressed;
+    readonly System.Collections.Generic.HashSet<Object> externalActionOwners = new();
     readonly Collider[] placementOverlapBuffer = new Collider[24];
 
     /// <summary>Item world-action yang saat ini divisualkan di tangan player.</summary>
@@ -330,7 +331,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         ItemStack stack = GetSelectedStack();
         bool hasWorldAction = HasHeldWorldAction(stack);
         bool isHeldPitchfork = IsHeldPitchfork(stack);
-        ItemSO item = !animalCarrySuppressed && (hasWorldAction || isHeldPitchfork) ? stack.item : null;
+        ItemSO item = !animalCarrySuppressed && externalActionOwners.Count == 0 && (hasWorldAction || isHeldPitchfork) ? stack.item : null;
         // Pitchfork keeps its item visual; imported Shears are owned by PlayerHeldTools.
         // Tool use must not enable Hold Item and overwrite the action's arm animation.
         movement?.SetHoldingItemAnimation(hasWorldAction && item != null && !actionBusy);
@@ -364,6 +365,15 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     {
         if(animalCarrySuppressed==suppressed) return;
         animalCarrySuppressed=suppressed;
+        RefreshHeldVisual();
+    }
+
+    /// <summary>Menyembunyikan item dan preview selama aksi eksternal tanpa mengubah slot inventory.</summary>
+    public void SetExternalActionSuppressed(Object owner, bool suppressed)
+    {
+        if (owner == null) return;
+        if (suppressed) externalActionOwners.Add(owner);
+        else externalActionOwners.Remove(owner);
         RefreshHeldVisual();
     }
 
@@ -526,6 +536,8 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         }
         Animator rig=movement!=null?movement.CharacterAnimator:GetComponentInChildren<Animator>();
         Transform rightHand=rig!=null && rig.isHuman?rig.GetBoneTransform(HumanBodyBones.RightHand):null;
+        // Rig Generic player memakai socket yang sama dengan alat, bukan anchor mengambang di depan badan.
+        if (rightHand == null) rightHand = GetComponent<PlayerHeldTools>()?.GripPoint?.parent;
         if(rightHand!=null)
         {
             handAnchor.SetParent(rightHand,false);

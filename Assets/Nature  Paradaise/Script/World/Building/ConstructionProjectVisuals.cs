@@ -23,13 +23,21 @@ public sealed class ConstructionProjectVisuals
     readonly Vector3 sitePosition;
     readonly Quaternion siteRotation;
     readonly Vector3 buildingPosition, workPosition;
+    readonly Transform anchor;
+    readonly Bounds bounds;
+    readonly ConstructionSiteLayout layout;
+    ConstructionSitePresentation presentation;
+    ConstructionBuilderMotion motion;
+    ConstructionHumanoidMotion humanoidMotion;
 
     public Transform Worker => worker;
     public int Stage => stage;
     public ConstructionProjectVisuals(Transform owner, Transform anchor, Bounds bounds, Vector3 work,
-        BuildingLevelDefinition target, GameObject finalVisual, bool upgrading, ConstructionWorkerSettings profile)
+        BuildingLevelDefinition target, GameObject finalVisual, bool upgrading, ConstructionWorkerSettings profile,ConstructionSiteLayout? siteLayout=null)
     {
         settings = profile; level = target; finalSource = finalVisual; renovation = upgrading;
+        this.anchor=anchor;this.bounds=bounds;
+        layout=siteLayout??ConstructionSiteLayout.FromWorldBounds(anchor,bounds);
         size = bounds.size; buildingPosition=anchor.position;workPosition=work;
         sitePosition = new Vector3(bounds.center.x,anchor.position.y,bounds.center.z); siteRotation = anchor.rotation;
         root = new GameObject("Construction_Visuals_Runtime").transform;
@@ -67,6 +75,8 @@ public sealed class ConstructionProjectVisuals
         foreach (var behaviour in clone.GetComponentsInChildren<MonoBehaviour>(true)) Object.DestroyImmediate(behaviour);
         foreach (var collider in clone.GetComponentsInChildren<Collider>(true)) collider.enabled = false;
         foreach (var light in clone.GetComponentsInChildren<Light>(true)) light.enabled = false;
+        foreach (var audio in clone.GetComponentsInChildren<AudioSource>(true)) audio.enabled = false;
+        foreach (var body in clone.GetComponentsInChildren<Rigidbody>(true)){body.isKinematic=true;body.detectCollisions=false;}
         clone.SetActive(true); parent.gameObject.SetActive(active); return clone;
     }
     void BuildWorker()
@@ -76,6 +86,9 @@ public sealed class ConstructionProjectVisuals
         if (settings != null && settings.workerPrefab != null)
         {
             var model = VisualClone(settings.workerPrefab, worker); animator = model.GetComponentInChildren<Animator>();
+            if(animator!=null&&animator.avatar!=null&&animator.avatar.isValid&&animator.avatar.isHuman&&settings.humanoidActions!=null)
+                humanoidMotion=new ConstructionHumanoidMotion(worker,animator,settings);
+            else if(animator==null)motion=new ConstructionBuilderMotion(worker,model.transform,settings);
             return;
         }
         body = Part(worker,"Builder_Capsule",PrimitiveType.Capsule,new Vector3(0,.96f,0),new Vector3(.57f,.66f,.5f),clothes);
@@ -100,6 +113,9 @@ public sealed class ConstructionProjectVisuals
     }
     public void Animate(bool walking, bool working, float time)
     {
+        presentation?.Tick(working,TimeManager.Instance!=null&&TimeManager.Instance.IsPaused);
+        if(humanoidMotion!=null){humanoidMotion.BindBoard(presentation?.Board);humanoidMotion.Animate(walking,working,time);return;}
+        if(motion!=null){motion.BindBoard(presentation?.Board);motion.Animate(walking,working,time);return;}
         if(animator != null)
         {
             foreach(var parameter in animator.parameters)
@@ -155,6 +171,11 @@ public sealed class ConstructionProjectVisuals
     public void SetStage(float progress)
     {
         int index=Mathf.Clamp(Mathf.FloorToInt(progress*4),0,3); if(index==stage)return; stage=index;
+        if(settings!=null && settings.tarpPanel!=null)
+        {
+            presentation ??= new ConstructionSitePresentation(root,anchor,bounds,workPosition,finalSource,settings,layout);
+            return;
+        }
         if(stageRoot!=null){stageRoot.SetActive(false);Object.Destroy(stageRoot);}
         stageRoot=new GameObject($"Stage_{index}_Runtime");stageRoot.transform.SetParent(root,false);
         if(level?.constructionStagePrefabs != null && index<level.constructionStagePrefabs.Count && level.constructionStagePrefabs[index]!=null)
@@ -211,6 +232,8 @@ public sealed class ConstructionProjectVisuals
             for(int x=-1;x<=1;x+=2)Part(bench,"WorkBenchLeg",PrimitiveType.Cube,new Vector3(x*.5f,.43f,0),new Vector3(.12f,.86f,.22f),wood);
         }
     }
-    public void HideSite(){if(stageRoot!=null)stageRoot.SetActive(false);if(bar!=null)bar.gameObject.SetActive(false);}
-    public void Dispose(){if(root!=null){root.gameObject.SetActive(false);Object.Destroy(root.gameObject);}foreach(var material in ownedMaterials)Object.Destroy(material);}
+    public void Reveal(float progress){SetStage(1);presentation?.Reveal(progress);}
+    public void HideSite(){presentation?.Hide();if(stageRoot!=null)stageRoot.SetActive(false);if(bar!=null)bar.gameObject.SetActive(false);}
+    public static void DestroyRuntime(Object value){if(value==null)return;if(Application.isPlaying)Object.Destroy(value);else Object.DestroyImmediate(value);}
+    public void Dispose(){humanoidMotion?.Dispose();presentation?.Dispose();if(root!=null){root.gameObject.SetActive(false);DestroyRuntime(root.gameObject);}foreach(var material in ownedMaterials)DestroyRuntime(material);}
 }

@@ -12,6 +12,8 @@ public sealed class BarnInterior : MonoBehaviour
     [SerializeField] string interiorSceneName = "BarnInterior";
     [SerializeField] string entrySpawnId = "barn-interior-entry";
     [SerializeField, Min(1f)] float interactionRadius = 3.5f;
+    [SerializeField, Min(.5f), Tooltip("Jangkauan pintu prefab sesuai skala player sekarang, dalam meter.")]
+    float authoredEntranceRadius = 1.3f;
     [Tooltip("Collider badan Barn. Gunakan Edit Collider untuk mengatur Center dan Size secara manual.")]
     [SerializeField] BoxCollider exteriorBarrier;
     [Tooltip("Jika aktif, ukuran collider dihitung ulang dari model ketika Play.")]
@@ -32,6 +34,12 @@ public sealed class BarnInterior : MonoBehaviour
     Transform runtimeExteriorDoor;
     public bool Visiting => Current == this;
 
+    void Awake()
+    {
+        if (exteriorBarrier == null) exteriorBarrier = GetComponent<BoxCollider>();
+        if (exteriorBarrier != null) exteriorBarrier.enabled = false;
+    }
+
     public static bool TryGetReturnPosition(out Vector3 position)
     {
         position=Current!=null ? Current.returnPosition : Vector3.zero;
@@ -47,6 +55,7 @@ public sealed class BarnInterior : MonoBehaviour
         home=targetHome;
         exteriorDoor=exterior;
         exteriorBarrier=barrier!=null ? barrier : GetComponent<BoxCollider>();
+        if (exteriorBarrier != null) exteriorBarrier.enabled = false;
         ResolveInteriorDestination();
         if(roomRoot!=null) roomRoot.gameObject.SetActive(false);
         DisableLegacyRoomChildren();
@@ -96,10 +105,11 @@ public sealed class BarnInterior : MonoBehaviour
         // Bila area portal dan bell masih bersentuhan, E selalu menjadi input bell.
         // Ini mencegah player tidak sengaja masuk interior saat menekan saklar.
         if(home.BellStation!=null && home.BellStation.IsPlayerInRange(player.transform)) return;
-        if(!PlayerInteractionTarget.ContainsPickup(player.transform,target,interactionRadius)) return;
+        float radius = runtimeExteriorDoor != null ? Mathf.Min(interactionRadius, authoredEntranceRadius) : interactionRadius;
+        if(!PlayerInteractionTarget.ContainsPickup(player.transform,target,radius)) return;
         float distance=Vector3.Distance(player.transform.position,target.position);
         WorldInteractionPrompt.Request(this,target,$"E: Masuk {home.Label}",Mathf.Max(0f,distance-0.25f),1.5f);
-        if(PlayerInteractionTarget.PressPickup(player.transform,target,KeyCode.E,interactionRadius)) Enter();
+        if(PlayerInteractionTarget.PressPrompt(this,KeyCode.E)) Enter();
     }
 
     void DisableLegacyRoomChildren()
@@ -132,10 +142,12 @@ public sealed class BarnInterior : MonoBehaviour
         if(exteriorBarrier!=null)
         {
             exteriorBarrier.isTrigger=false;
-            exteriorBarrier.enabled=home.Available;
+            // Volume portal lama bukan collision bangunan. Jangan mengaktifkannya saat
+            // visual belum ada, sedang diganti levelnya, atau sudah memiliki collider prefab.
+            exteriorBarrier.enabled=false;
         }
 
-        Transform visualRoot=FindCompletedVisual(anchor);
+        Transform visualRoot=home.site.CompletedVisualRoot;
         if(visualRoot==null)
         {
             runtimeExteriorDoor=null;
@@ -155,6 +167,9 @@ public sealed class BarnInterior : MonoBehaviour
         }
 
         runtimeExteriorDoor=null;
+        bool hasPrefabCollision = false;
+        foreach (var collision in visualRoot.GetComponentsInChildren<Collider>(false))
+            if (collision.enabled && !collision.isTrigger) { hasPrefabCollision = true; break; }
         if(!autoFitBarrierToModel && !autoPlaceEntranceFromModel) return;
 
         Renderer[] renderers=visualRoot.GetComponentsInChildren<Renderer>(false);
@@ -166,10 +181,11 @@ public sealed class BarnInterior : MonoBehaviour
 
         GetLocalBounds(anchor,renderers,out Vector3 localMin,out Vector3 localMax);
 
-        if(autoFitBarrierToModel && exteriorBarrier!=null)
+        if(autoFitBarrierToModel && exteriorBarrier!=null && !hasPrefabCollision)
         {
             exteriorBarrier.center=(localMin+localMax)*0.5f;
             exteriorBarrier.size=localMax-localMin;
+            exteriorBarrier.enabled=home.Available;
         }
 
         if(!autoPlaceEntranceFromModel || exteriorDoor==null) return;
@@ -200,18 +216,6 @@ public sealed class BarnInterior : MonoBehaviour
         Gizmos.color=new Color(0.15f,1f,0.3f,0.95f);
         Gizmos.DrawSphere(exteriorDoor.position+Vector3.up*0.15f,0.3f);
         Gizmos.DrawLine(exteriorDoor.position,exteriorDoor.position+Vector3.up*2f);
-    }
-
-    static Transform FindCompletedVisual(Transform anchor)
-    {
-        if(anchor==null) return null;
-        for(int index=0;index<anchor.childCount;index++)
-        {
-            Transform child=anchor.GetChild(index);
-            if(child.gameObject.activeInHierarchy && child.name.EndsWith("_Runtime",System.StringComparison.Ordinal))
-                return child;
-        }
-        return null;
     }
 
     static Vector3 FindPreferredDoorLocal(Transform visualRoot,Transform anchor,int level,Vector3 fallback)

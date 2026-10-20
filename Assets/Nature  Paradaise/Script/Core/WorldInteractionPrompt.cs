@@ -29,6 +29,23 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
     Vector3 requestedWorldPosition;
     string requestedText;
     bool requestedCleanStyle;
+    Object requestedOwner;
+    Object displayedOwner;
+    int displayedFrame = -1;
+
+    /// <summary>
+    /// Input in Update belongs to the prompt presented by the preceding LateUpdate,
+    /// not whichever nearby component happens to run first this frame.
+    /// Callers must also check their current range/availability before consuming input.
+    /// </summary>
+    public static bool IsDisplayedFor(Object owner)
+    {
+        if (owner == null || IsSuppressed || instance == null ||
+            instance.displayedOwner != owner || instance.displayedFrame < Time.frameCount - 1 ||
+            instance.panelRect == null || !instance.panelRect.gameObject.activeInHierarchy)
+            return false;
+        return !(owner is Behaviour behaviour) || behaviour.isActiveAndEnabled;
+    }
 
     /// <summary>
     /// Minta prompt tampil pada frame ini. Jika beberapa object meminta bersamaan,
@@ -79,6 +96,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         instance.requestedWorldPosition = worldPosition;
         instance.requestedText = text;
         instance.requestedCleanStyle = cleanStyle;
+        instance.requestedOwner = owner;
     }
 
     /// <summary>True ketika minimal satu modal UI sedang menahan world prompt.</summary>
@@ -112,6 +130,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
             return;
 
         SuppressionOwners.Add(owner);
+        if (instance != null) instance.displayedOwner = null;
         if (instance != null && instance.panelRect != null)
             instance.panelRect.gameObject.SetActive(false);
     }
@@ -153,6 +172,8 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
 
     void LateUpdate()
     {
+        displayedOwner = null;
+        displayedFrame = -1;
         if (panelRect == null)
             return;
 
@@ -206,6 +227,8 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         localPoint.y = Mathf.Clamp(localPoint.y, safeRect.yMin + half.y + 12f, safeRect.yMax - half.y - 12f);
         panelRect.anchoredPosition = localPoint;
         panelRect.gameObject.SetActive(true);
+        displayedOwner = requestedOwner;
+        displayedFrame = Time.frameCount;
     }
 
     void BuildUI()

@@ -105,6 +105,8 @@ public sealed class AnimalRoutine : MonoBehaviour
     }
     public bool Assign(AnimalHome home)
     {
+        if(Animal==null)Awake();
+        if(!Active.Contains(this))OnEnable();
         if (home == null || !home.HasRoom(Animal.Type)) return false;
         // Baca saklar sebelum routine ini menjadi resident. Kandang yang masih kosong
         // harus default DI DALAM, bukan menganggap hewan liar ini sebagai resident luar.
@@ -148,6 +150,7 @@ public sealed class AnimalRoutine : MonoBehaviour
     public bool Release() => ReleaseAt(null);
     public bool ReleaseAt(Vector3? outsidePosition)
     {
+        if(!isActiveAndEnabled||(Animal!=null&&Animal.IsInIncubator))return false;
         int hour = TimeManager.Instance != null ? TimeManager.Instance.hour : 6;
         // Tombol keluar juga membatalkan perjalanan pulang yang belum selesai.
         if (returning && Animal.HasBeenBorn && Animal.Health == AnimalHealthState.Healthy &&
@@ -205,6 +208,7 @@ public sealed class AnimalRoutine : MonoBehaviour
     public void PrepareDailyCare() { Home?.Feed(Animal); }
     void Overnight()
     {
+        if(Animal!=null&&Animal.IsInIncubator)return;
         // Pergantian hari mewakili perjalanan pulang saat waktu tidur dilewati.
         if (Home != null) Board(false);
     }
@@ -218,6 +222,7 @@ public sealed class AnimalRoutine : MonoBehaviour
     }
     void Update()
     {
+        if(Animal!=null&&Animal.IsInIncubator){Activity="Di penetasan";return;}
         if (Time.timeScale <= 0 || (TimeManager.Instance != null && TimeManager.Instance.IsPaused) || Animal == null) return;
         if(careLocks.Count>0)
         {
@@ -743,6 +748,7 @@ public sealed class AnimalRoutine : MonoBehaviour
 
     void LateUpdate()
     {
+        if(Animal!=null&&Animal.IsInIncubator){PresentIncubatorOccupant();return;}
         UpdateLocomotionAnimation();
         if (!housed) return;
         BarnInterior interior = BarnInterior.Current;
@@ -807,6 +813,29 @@ public sealed class AnimalRoutine : MonoBehaviour
         locomotionAnimator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
         lastAnimationMovementTime = float.NegativeInfinity;
     }
+    void PresentIncubatorOccupant()
+    {
+        // Retain original renderer/collider states in the same cache used by housed animals.
+        ShowModel();
+        bool visible=EggIncubator.TryGetNest(Animal,out var nest)&&Animal.HasBeenBorn;
+        if(visible)
+        {
+            transform.SetPositionAndRotation(nest.position,nest.rotation);
+            float bottom=float.MaxValue,top=float.MinValue;
+            foreach(var renderer in GetComponentsInChildren<Renderer>())if(renderer.enabled)
+            {bottom=Mathf.Min(bottom,renderer.bounds.min.y);top=Mathf.Max(top,renderer.bounds.max.y);}
+            // Existing growth model is very small at Hatchling scale. Fit only its nest
+            // display, not the source prefab/profile or gameplay growth stage.
+            Animal.FitIncubatorDisplay(.20f,top-bottom);
+            bottom=float.MaxValue;
+            foreach(var renderer in GetComponentsInChildren<Renderer>())if(renderer.enabled)bottom=Mathf.Min(bottom,renderer.bounds.min.y);
+            if(bottom<float.MaxValue)transform.position+=Vector3.up*(nest.position.y-bottom);
+        }
+        foreach(var renderer in GetComponentsInChildren<Renderer>(true))
+        {if(!renderers.ContainsKey(renderer))renderers[renderer]=renderer.enabled;if(!visible)renderer.enabled=false;}
+        foreach(var collider in GetComponentsInChildren<Collider>(true))
+        {if(!colliders.ContainsKey(collider))colliders[collider]=collider.enabled;collider.enabled=false;}
+    }
     void ShowModel()
     {
         foreach (var pair in renderers) if (pair.Key != null) pair.Key.enabled = pair.Value;
@@ -815,6 +844,8 @@ public sealed class AnimalRoutine : MonoBehaviour
     }
     public void RestoreHome(string id, bool inside, bool goingHome)
     {
+        if(Animal==null)Awake();
+        if(!Active.Contains(this))OnEnable();
         ShowModel(); homeId = id; housed = inside; returning = goingHome;
         returningSince = goingHome ? Time.unscaledTime : -1f;
         path = null; ClearGrassTarget(); ClearRoamingTarget(); nextPathTime = 0;

@@ -20,6 +20,17 @@
 # Local restore copies created before balance CSV imports.
 /BalanceBackups/
 
+# Local art sources, exports, previews and validation workspaces.
+# Existing versioned files in these folders remain tracked.
+/ArtSource/
+/Documentation/
+
+# Only Nature Paradise assets belong to this repository.
+# Keep other local asset packs/settings on disk, outside version control.
+/Assets/*
+!/Assets/Nature  Paradaise/
+!/Assets/Nature  Paradaise.meta
+
 # Toon Farm vendor demo scenes exceed GitHub's 100 MB per-file limit.
 # Keep them locally for reference; game assets and prefabs remain versioned.
 /Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Scenes/Demo_Gardens.unity

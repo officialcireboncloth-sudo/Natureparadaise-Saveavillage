@@ -20,40 +20,52 @@ public sealed class ConstructionProject : MonoBehaviour
     public string Status => job == null ? "" : job.pathBlocked ? "Jalur builder terhalang" :
         job.phase == ConstructionWorkerPhase.Travelling ? "Builder menuju proyek" :
         job.phase == ConstructionWorkerPhase.Returning ? "Selesai · builder kembali" :
+        job.phase == ConstructionWorkerPhase.Revealing ? "Bangunan selesai · merapikan proyek" :
         !WithinWorkingHours ? "Istirahat · dilanjutkan besok" : StageName;
-    public string StageName => Progress < .25f ? "Fondasi" : Progress < .5f ? "Rangka" : Progress < .75f ? "Dinding & atap" : "Finishing";
+    public string StageName => Progress < .25f ? "Persiapan & material" : Progress < .5f ? "Pengerjaan" : Progress < .75f ? "Perakitan" : "Finishing";
     bool WithinWorkingHours => TimeManager.Instance == null ||
         (TimeManager.Instance.CurrentTimeHours >= job.workStarts && TimeManager.Instance.CurrentTimeHours < job.workEnds);
 
     public static ConstructionProject Begin(GameObject owner, Transform anchor, BuildingDefinitionSO building,
         BuildingLevelDefinition target, GameObject finalVisual, bool renovation, Action onCompleted,
-        ConstructionJobData saved = null, Vector3? departure = null)
+        ConstructionJobData saved = null, Vector3? departure = null, int minimumWorkDays = 0)
     {
         var project=owner.GetComponent<ConstructionProject>();
         if(project == null)project=owner.AddComponent<ConstructionProject>();
         project.Clear();project.definition=building;project.settings=ConstructionWorkerSettings.Load();project.completed=onCompleted;
         int start=project.settings != null ? project.settings.workStarts : 8;
         int end=project.settings != null ? project.settings.workEnds : 17;
-        Bounds bounds=MeasureSite(owner,anchor,building,finalVisual,renovation);
+        var layout=ConstructionSiteLayout.Measure(owner,anchor,building,finalVisual,renovation);
+        Bounds bounds=layout.WorldBounds;
         project.siteCenter=bounds.center;
         Vector3 origin=departure ?? FindDeparture(bounds.center);
-        Vector3 work=FindWorkPosition(bounds,origin,anchor.position.y);
+        Vector3 work=FindWorkPosition(layout,origin);
         project.job=saved?.Copy() ?? new ConstructionJobData
         {
             phase=ConstructionWorkerPhase.Travelling,departurePosition=origin,workerPosition=origin,workPosition=work,
             lastClockHours=ConstructionJobData.ClockHours,workStarts=start,workEnds=end,
-            requiredWorkHours=Math.Max(0,target.constructionDays)*(end-start)
+            requiredWorkHours=Math.Max(Math.Max(0,minimumWorkDays),target.constructionDays)*(end-start)
         };
         if (saved != null && saved.version == 0)
         {
             project.job.version = 1; project.job.workPosition = work; project.job.workerPosition = work;
         }
+        if(saved!=null && project.job.version<3 && project.settings!=null && project.settings.tarpPanel!=null)
+        {
+            // v1 had close scaffolding; v2 measured stations against world-aligned AABBs.
+            // Preserve travelling/returning positions and paid progress; migrate only the work station.
+            project.job.workPosition=work;
+            if(project.job.phase==ConstructionWorkerPhase.Working || project.job.phase==ConstructionWorkerPhase.Revealing)
+                project.job.workerPosition=work;
+            project.job.version=3;
+        }
         project.job.workEnds=Mathf.Clamp(project.job.workEnds,project.job.workStarts+1,24);
-        project.visuals=new ConstructionProjectVisuals(owner.transform,anchor,bounds,project.job.workPosition,target,finalVisual,renovation,project.settings);
+        project.visuals=new ConstructionProjectVisuals(owner.transform,anchor,bounds,project.job.workPosition,target,finalVisual,renovation,project.settings,layout);
         project.visuals.Worker.SetPositionAndRotation(project.job.workerPosition,project.job.workerRotation);
         project.job.CatchUp(ConstructionJobData.ClockHours);
         if(project.Phase == ConstructionWorkerPhase.Returning || project.Phase == ConstructionWorkerPhase.Finished)project.visuals.HideSite();
         else project.visuals.SetStage(project.Progress);
+        if(project.Phase == ConstructionWorkerPhase.Revealing)project.visuals.Reveal(project.RevealProgress);
         if(project.Phase == ConstructionWorkerPhase.Finished)project.visuals.Worker.gameObject.SetActive(false);
         return project;
     }
@@ -65,29 +77,6 @@ public sealed class ConstructionProject : MonoBehaviour
         return new ConstructionJobData {version=0,phase=ConstructionWorkerPhase.Working,workerPosition=site,workPosition=site,
             departurePosition=FindDeparture(site),lastClockHours=ConstructionJobData.ClockHours,requiredWorkHours=required,
             completedWorkHours=Math.Max(0,required-remaining),workStarts=start,workEnds=end};
-    }
-    static Bounds MeasureSite(GameObject owner,Transform anchor,BuildingDefinitionSO building,GameObject finalVisual,bool renovation)
-    {
-        var bounds=new Bounds(anchor.position+Vector3.up*1.5f,new Vector3(building != null ? building.footprintWidth : 3,3,building != null ? building.footprintDepth : 3));
-        bool found=false;
-        foreach(var renderer in renovation ? owner.GetComponentsInChildren<Renderer>() : Array.Empty<Renderer>())
-        {
-            if(renderer.GetComponentInParent<ConstructionProject>() != null && renderer.transform.name.Contains("Runtime"))continue;
-            if(!renderer.enabled || renderer.GetComponent<TMPro.TMP_Text>() != null || renderer.bounds.size.sqrMagnitude<.01f)continue;
-            if(!found){bounds=renderer.bounds;found=true;}else bounds.Encapsulate(renderer.bounds);
-        }
-        if(!found && finalVisual != null)
-        {
-            // Asset render bounds are in prefab coordinates. The placement anchor supplies the world pose.
-            foreach(var renderer in finalVisual.GetComponentsInChildren<Renderer>(true))
-            {
-                Bounds b=renderer.bounds;if(b.size.sqrMagnitude<.01f)continue;
-                Vector3 center=anchor.TransformPoint(finalVisual.transform.InverseTransformPoint(b.center));
-                if(!found){bounds=new Bounds(center,b.size);found=true;}
-                else bounds.Encapsulate(new Bounds(center,b.size));
-            }
-        }
-        return bounds;
     }
     public static Vector3 FindDeparture(Vector3 site)
     {
@@ -107,10 +96,13 @@ public sealed class ConstructionProject : MonoBehaviour
         }
         return origin; // Explicit blocked state, rather than spawning at the project.
     }
-    static Vector3 FindWorkPosition(Bounds bounds,Vector3 origin,float groundY)
+    static Vector3 FindWorkPosition(ConstructionSiteLayout layout,Vector3 origin)
     {
-        Vector3[] candidates={new(bounds.min.x-.95f,groundY,bounds.center.z),new(bounds.max.x+.95f,groundY,bounds.center.z),
-            new(bounds.center.x,groundY,bounds.min.z-.95f),new(bounds.center.x,groundY,bounds.max.z+.95f)};
+        var profile=ConstructionWorkerSettings.Load();
+        float margin=(profile!=null?profile.siteClearance:.65f)+(profile!=null?profile.workerScale:1)*1.1f;
+        Bounds bounds=layout.LocalBounds;
+        Vector3[] candidates={layout.ToWorld(new(bounds.min.x-margin,0,bounds.center.z)),layout.ToWorld(new(bounds.max.x+margin,0,bounds.center.z)),
+            layout.ToWorld(new(bounds.center.x,0,bounds.min.z-margin)),layout.ToWorld(new(bounds.center.x,0,bounds.max.z+margin))};
         Array.Sort(candidates,(a,b)=>(a-origin).sqrMagnitude.CompareTo((b-origin).sqrMagnitude));
         foreach(var point in candidates)if(ConstructionWorkerPath.Ground(point,out var ground))return ground;
         return candidates[0];
@@ -160,20 +152,30 @@ public sealed class ConstructionProject : MonoBehaviour
                 if(direction.sqrMagnitude>.01f)visuals.Worker.rotation=Quaternion.Slerp(visuals.Worker.rotation,Quaternion.LookRotation(direction),Time.deltaTime*7);
                 if(job.Progress >= 1)
                 {
-                    // Change phase BEFORE callbacks: a completion-triggered SaveGame sees a completed job.
-                    job.phase=ConstructionWorkerPhase.Returning;path=null;nextPathAttempt=0;visuals.HideSite();
-                    completed?.Invoke();completed=null;
-                    SaveManager.Instance?.SaveGame();
+                    job.phase=ConstructionWorkerPhase.Revealing;job.revealElapsed=0;
+                    visuals.Reveal(0);
                     working=false;
                 }
                 else visuals.SetStage(job.Progress);
             }
+            if(job.phase == ConstructionWorkerPhase.Revealing)
+            {
+                job.revealElapsed+=Time.deltaTime;visuals.Reveal(RevealProgress);
+                if(RevealProgress>=1)
+                {
+                    // Phase changes before callbacks so completion-triggered saves cannot repeat rewards/unlocks.
+                    job.phase=ConstructionWorkerPhase.Returning;path=null;nextPathAttempt=0;visuals.HideSite();
+                    var callback=completed;completed=null;callback?.Invoke();
+                    SaveManager.Instance?.SaveGame();
+                }
+            }
         }
         visuals.Animate(walking,working,animationTime);
-        if(job.phase==ConstructionWorkerPhase.Travelling || job.phase==ConstructionWorkerPhase.Working)
+        if(job.phase==ConstructionWorkerPhase.Travelling || job.phase==ConstructionWorkerPhase.Working || job.phase==ConstructionWorkerPhase.Revealing)
             visuals.UpdateBar(definition != null ? definition.displayName : "Proyek",Status,Progress);
         job.workerPosition=visuals.Worker.position;job.workerRotation=visuals.Worker.rotation;
     }
+    float RevealProgress=>Mathf.Clamp01(job.revealElapsed/(settings!=null?Mathf.Max(.5f,settings.revealSeconds):2.6f));
     bool MoveWorker(Vector3 destination)
     {
         if(path == null && Time.unscaledTime>=nextPathAttempt)

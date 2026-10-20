@@ -178,6 +178,7 @@ public class AnimalController : MonoBehaviour
     {
         if (growth == null) growth = GetComponent<AnimalGrowthSystem>();
         EnsureSheepWoolVisual();
+        if(growth!=null&&growth.IsInIncubator)return;
         UpdateMilkProduction();
         UpdateDebugUI();
         if (playerInv == null)

@@ -9,6 +9,9 @@ public sealed class PlayerHeldTools : MonoBehaviour
     [SerializeField, Tooltip("Titik pegangan pada telapak kanan; dibuat otomatis di dalam bone tangan.")]
     Transform gripPoint;
     Transform leftHand,rightForearm,rightArm,leftForearm,leftArm;
+    Transform placementSpine;
+    Transform placementHips, leftThigh, leftShin, leftFoot, rightThigh, rightShin, rightFoot;
+    float placementFootError;
     Vector3 rightPalmOffset,leftPalmOffset;
     Animator rig;
     PlayerToolType actionTool;
@@ -41,6 +44,15 @@ public sealed class PlayerHeldTools : MonoBehaviour
         if(rightHand!=null)
         {
             rightForearm=rightHand.parent;rightArm=rightForearm!=null?rightForearm.parent:null;
+            foreach (var bone in GetComponentsInChildren<Transform>(true))
+            {
+                if (bone.name == "mixamorig:Spine" || bone.name == "Spine") placementSpine = bone;
+                else if (bone.name == "mixamorig:Hips" || bone.name == "Hips") placementHips = bone;
+                else if (bone.name == "mixamorig:LeftFoot" || bone.name == "LeftFoot") leftFoot = bone;
+                else if (bone.name == "mixamorig:RightFoot" || bone.name == "RightFoot") rightFoot = bone;
+            }
+            if (leftFoot != null) { leftShin = leftFoot.parent; leftThigh = leftShin?.parent; }
+            if (rightFoot != null) { rightShin = rightFoot.parent; rightThigh = rightShin?.parent; }
             foreach(var t in GetComponentsInChildren<Transform>(true))if(t.name=="mixamorig:LeftHand" || t.name=="LeftHand"){leftHand=t;break;}
             if(leftHand!=null){leftForearm=leftHand.parent;leftArm=leftForearm!=null?leftForearm.parent:null;}
             rightPalmOffset=PalmOffset(rightHand);leftPalmOffset=PalmOffset(leftHand);
@@ -98,6 +110,38 @@ public sealed class PlayerHeldTools : MonoBehaviour
     public void BeginWorkAction(PlayerToolType tool,Vector3 target,float duration)
     {
         actionTool=tool;actionTarget=target;actionUntil=Time.time+duration;
+    }
+
+    /// <summary>Menjangkau titik penempatan dengan sedikit membungkuk tanpa meregangkan tulang lengan.</summary>
+    public Vector3 ReachRightPalm(Vector3 target, float weight)
+    {
+        if (rightHand == null) ResolveHand();
+        if (rightHand == null) return transform.position + transform.forward * .35f + Vector3.up;
+        weight = Mathf.Clamp01(weight);
+        // Geser berat badan ke meja, lalu pertahankan kedua kaki pada pose animasi.
+        // Dengan begitu lengan pendek karakter dapat menjangkau tanpa memanjangkan tulang.
+        if (placementHips != null && leftFoot != null && rightFoot != null)
+        {
+            Vector3 leftPosition = leftFoot.position, rightPosition = rightFoot.position;
+            Quaternion leftRotation = leftFoot.rotation, rightRotation = rightFoot.rotation;
+            placementHips.position += (transform.forward * .30f - Vector3.up * .14f) * weight;
+            SolveArm(leftThigh, leftShin, leftFoot, leftPosition, leftRotation);
+            SolveArm(rightThigh, rightShin, rightFoot, rightPosition, rightRotation);
+            placementFootError = Mathf.Max(Vector3.Distance(leftFoot.position, leftPosition), Vector3.Distance(rightFoot.position, rightPosition));
+        }
+        if (placementSpine != null)
+            placementSpine.rotation = Quaternion.AngleAxis(18f * weight, transform.right) * placementSpine.rotation;
+        Vector3 palm = rightHand.position + rightHand.rotation * rightPalmOffset;
+        Vector3 desired = Vector3.Lerp(palm, target, Mathf.Clamp01(weight));
+        SolveArm(rightArm, rightForearm, rightHand, desired - rightHand.rotation * rightPalmOffset, rightHand.rotation);
+        if (leftHand != null)
+        {
+            Vector3 support = target - transform.forward * .2f - transform.right * .18f - Vector3.up * .02f;
+            Vector3 leftPalm = leftHand.position + leftHand.rotation * leftPalmOffset;
+            SolveArm(leftArm, leftForearm, leftHand,
+                Vector3.Lerp(leftPalm, support, weight) - leftHand.rotation * leftPalmOffset, leftHand.rotation);
+        }
+        return rightHand.position + rightHand.rotation * rightPalmOffset;
     }
     bool UsingWorkTool(PlayerToolVisualCatalog.Entry entry)
     {

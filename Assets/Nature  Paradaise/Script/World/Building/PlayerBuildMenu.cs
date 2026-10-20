@@ -128,13 +128,13 @@ public sealed class PlayerBuildMenu : MonoBehaviour
         WorldInteractionPrompt.ReleaseSuppression(this);
     }
 
-    void StartPlacement(bool debugInstant = false)
+    void StartPlacement(bool debugFree = false)
     {
         if (selectedSite == null || catalog == null ||
             selectedIndex < 0 || selectedIndex >= catalog.Count)
             return;
 
-        if (!selectedSite.BeginBuildSelection(selectedIndex, selectedLevel, debugInstant))
+        if (!selectedSite.BeginBuildSelection(selectedIndex, selectedLevel, debugFree))
         {
             SaveLoadFeedback.Instance?.ShowMessage("Placement bangunan gagal dimulai");
             return;
@@ -236,7 +236,7 @@ public sealed class PlayerBuildMenu : MonoBehaviour
 
         footerText = CreateText("Footer", panel,
             PropertySite.DebugShortcutsEnabled
-                ? "A/D: Pilih   W/S: Level   C: Placement Normal   F9: Placement DEBUG Gratis   B/Esc: Tutup"
+                ? "A/D: Pilih   W/S: Level   C: Normal   F9: Gratis + Proses Tukang   B/Esc: Tutup"
                 : "A/D: Pilih   W/S: Level   C/Enter: Mulai Placement   B/Esc: Tutup", 19f,
             TextAlignmentOptions.Center);
         SetRect(footerText.rectTransform, new Vector2(24f, -474f), new Vector2(-24f, -520f));
