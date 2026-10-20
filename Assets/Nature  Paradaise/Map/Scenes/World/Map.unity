@@ -8051,7 +8051,7 @@ MonoBehaviour:
   minute: 0
   hour: 8
   day: 1
-  realMinutesPerFullDay: 1
+  realMinutesPerFullDay: 15
 --- !u!114 &971125959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9687,6 +9687,7 @@ MonoBehaviour:
   interiorSceneName: BarnInterior
   entrySpawnId: barn-interior-entry
   interactionRadius: 3.5
+  authoredEntranceRadius: 1.3
   exteriorBarrier: {fileID: 1207898965}
   autoFitBarrierToModel: 0
   autoPlaceEntranceFromModel: 0
@@ -11633,6 +11634,7 @@ MonoBehaviour:
   interiorSceneName: BarnInterior
   entrySpawnId: barn-interior-entry
   interactionRadius: 3.5
+  authoredEntranceRadius: 1.3
   exteriorBarrier: {fileID: 1389681596}
   autoFitBarrierToModel: 0
   autoPlaceEntranceFromModel: 0
@@ -15433,6 +15435,7 @@ MonoBehaviour:
   interiorSceneName: BarnInterior
   entrySpawnId: barn-interior-entry
   interactionRadius: 3.5
+  authoredEntranceRadius: 1.3
   exteriorBarrier: {fileID: 1770605953}
   autoFitBarrierToModel: 0
   autoPlaceEntranceFromModel: 0
