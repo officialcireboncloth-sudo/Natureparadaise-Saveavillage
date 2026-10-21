@@ -11,10 +11,14 @@ public sealed class BarnExteriorAuthoring : MonoBehaviour
     [SerializeField] Transform modelRoot;
     [SerializeField] BoxCollider buildingCollision;
     [SerializeField] Transform entrance;
+    [SerializeField] AnimalBellVisual bell;
 
     public Transform ModelRoot => modelRoot != null ? modelRoot : transform;
     public BoxCollider BuildingCollision => buildingCollision;
     public Transform Entrance => entrance != null ? entrance : transform;
+    public AnimalBellVisual Bell => bell;
+    /// <summary>Connects the modeled bell to its own approach and prompt anchors.</summary>
+    public void ConfigureBell(AnimalBellVisual visual) => bell=visual;
 
     public void Configure(Transform model, BoxCollider collision, Transform entranceMarker)
     {

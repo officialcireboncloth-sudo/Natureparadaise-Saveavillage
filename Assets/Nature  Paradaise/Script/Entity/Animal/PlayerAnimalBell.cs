@@ -68,6 +68,7 @@ public sealed class PlayerAnimalBell : MonoBehaviour
         }
 
         nextUseTime = Time.unscaledTime + cooldown;
+        selectedHome?.BellStation?.PlayRing();
         GameAudio.PlayOneShot(audioSource, bellClip != null ? bellClip : GetFallbackBell(), GameAudioBus.Main);
         int changed = 0;
         int targetCount = 0;
@@ -152,19 +153,37 @@ public sealed class PlayerAnimalBell : MonoBehaviour
 [DisallowMultipleComponent]
 public sealed class AnimalBellStation : MonoBehaviour
 {
-    [SerializeField, Min(1f)] float interactionRadius = 2.25f;
+    [SerializeField, Min(.5f)] float interactionRadius = 1.05f;
     AnimalHome home;
     Inventory player;
     PlayerAnimalBell bell;
-    Transform toggleButton;
-    Renderer buttonRenderer;
+    AnimalBellVisual visual;
+    AnimalBellVisual fallbackVisual;
+    Transform boundExterior;
+    BarnExteriorAuthoring boundAuthoring;
+    bool visualResolved;
+    System.Action openMenuAction;
     public AnimalHome Home => home;
     public PlayerAnimalBell Bell => bell;
     public Inventory PlayerInventory => player;
+    public AnimalBellVisual Visual => visual;
+    public Transform InteractionPoint => visual!=null?visual.Approach:null;
+    public float InteractionRadius
+    {
+        get
+        {
+            return boundAuthoring!=null&&boundAuthoring.Bell==visual&&visual.Approach!=null
+                ?Mathf.Min(interactionRadius,HorizontalDistance(home.Entry,visual.Approach.position)*.42f):interactionRadius;
+        }
+    }
+    /// <summary>Animates the authored bell alongside the existing audio/animal command.</summary>
+    public void PlayRing(){if(visual!=null)visual.Ring();}
     public void OpenMenu()
     {
         ResolvePlayer();
-        if(home!=null&&home.Available&&player!=null&&bell!=null&&IsPlayerInRange(player.transform))AnimalBellUI.Show(this);
+        var movement=player!=null?player.GetComponent<PlayerController>():null;
+        if(home!=null&&home.Available&&player!=null&&bell!=null&&
+           (movement==null||!movement.IsMovementLocked)&&IsPlayerInRange(player.transform))AnimalBellUI.Show(this);
     }
     void OnDisable(){if(AnimalBellUI.Instance!=null&&AnimalBellUI.Instance.Station==this)AnimalBellUI.Instance.Dispose();}
 
@@ -186,95 +205,54 @@ public sealed class AnimalBellStation : MonoBehaviour
     void Configure(AnimalHome owner)
     {
         home = owner;
-        Transform building = owner.site != null && owner.site.BuildingAnchor != null
-            ? owner.site.BuildingAnchor : owner.transform;
-        // Jauhkan bell dari radius portal masuk kandang. BarnInterior juga memberi
-        // prioritas eksplisit kepada bell bila kedua radius masih bersentuhan.
-        transform.position = owner.Entry - building.right * 5f;
-        transform.rotation = Quaternion.Euler(0f, building.eulerAngles.y, 0f);
-        if (toggleButton == null) BuildVisual();
+        RefreshVisual();
     }
-
-    void BuildVisual()
+    void RefreshVisual()
     {
-        GameObject stand = CreatePart("BellStand", PrimitiveType.Cube,
-            new Vector3(0f, 0.55f, 0f), new Vector3(1.15f, 1.1f, 0.55f), new Color(0.22f, 0.16f, 0.1f));
-        stand.GetComponent<Collider>().enabled = false;
-        GameObject button = CreatePart("AnimalBell_Toggle", PrimitiveType.Cylinder,
-            new Vector3(0f, 1.18f, 0f), new Vector3(0.38f, 0.13f, 0.38f), Color.green);
-        toggleButton = button.transform;
-        buttonRenderer = button.GetComponent<Renderer>();
-        toggleButton.localRotation = Quaternion.Euler(90f, 0f, 0f);
-        AddLabel(toggleButton, "BELL");
-    }
-
-    GameObject CreatePart(string partName, PrimitiveType primitive, Vector3 localPosition, Vector3 localScale, Color color)
-    {
-        GameObject part = GameObject.CreatePrimitive(primitive);
-        part.name = partName;
-        part.transform.SetParent(transform, false);
-        part.transform.localPosition = localPosition;
-        part.transform.localScale = localScale;
-        Renderer renderer = part.GetComponent<Renderer>();
-        if (renderer != null)
+        Transform exterior=home.site!=null?home.site.CompletedVisualRoot:null;
+        if(visualResolved&&boundExterior==exterior&&visual!=null)return;
+        boundExterior=exterior;visualResolved=true;
+        var authored=exterior!=null?exterior.GetComponentInChildren<BarnExteriorAuthoring>(true):null;
+        boundAuthoring=authored;
+        visual=authored!=null?authored.Bell:null;
+        if(visual!=null){if(fallbackVisual!=null)fallbackVisual.gameObject.SetActive(false);return;}
+        // Older barns and coops use the SAME authored bell mesh on a timber post.
+        // New Barn B prefabs always bind their wall-mounted model instead.
+        if(fallbackVisual==null)
         {
-            Shader shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
-            if (shader != null)
-            {
-                Material material = ToonWorldStyle.CreateMaterial(color);
-                renderer.material = material;
-            }
+            var prefab=Resources.Load<AnimalBellVisual>("Buildings/AnimalBell");
+            if(prefab!=null)fallbackVisual=Instantiate(prefab,transform);
         }
-        return part;
-    }
-
-    static void AddLabel(Transform button, string value)
-    {
-        GameObject labelObject = new($"Label_{value}");
-        labelObject.transform.SetParent(button, false);
-        labelObject.transform.localPosition = new Vector3(0f, 0.8f, 0f);
-        labelObject.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-        labelObject.transform.localScale = Vector3.one * 0.18f;
-        TextMesh label = labelObject.AddComponent<TextMesh>();
-        label.text = value;
-        label.anchor = TextAnchor.MiddleCenter;
-        label.alignment = TextAlignment.Center;
-        label.fontSize = 42;
-        label.color = Color.white;
+        visual=fallbackVisual;
+        if(visual==null)return;
+        visual.gameObject.SetActive(true);
+        Transform building=home.site!=null?home.site.BuildingAnchor:home.transform;
+        transform.SetPositionAndRotation(home.Entry-building.right*5f,building.rotation);
     }
 
     void Update()
     {
         if (home == null || !home.Available) return;
+        RefreshVisual();
         ResolvePlayer();
-        if (player == null || bell == null || toggleButton == null) return;
-
-        home.SynchronizeBellStateFromResidents();
-        bool currentlyOutside = home.AnimalsOutside;
-        if (buttonRenderer != null && buttonRenderer.material != null)
-            buttonRenderer.material.color = currentlyOutside
-                ? new Color(0.95f, 0.48f, 0.08f)
-                : new Color(0.12f, 0.8f, 0.3f);
-        float distance = HorizontalDistance(player.transform.position, toggleButton.position);
-        if (distance > interactionRadius) return;
-
-        int inside = 0;
-        int outside = 0;
-        foreach (AnimalRoutine resident in home.Residents)
-        {
-            if (resident == null || resident.Animal == null || !resident.Animal.HasBeenBorn) continue;
-            if (resident.IsHoused) inside++; else outside++;
-        }
-        WorldInteractionPrompt.Request(this, toggleButton,
-            $"E: Gunakan Bell\n{home.Label} | Dalam {inside} | Luar {outside}", distance, 0.55f);
+        if (player == null || bell == null || !IsPlayerInRange(player.transform)) return;
+        var movement=player.GetComponent<PlayerController>();
+        if(movement!=null&&movement.IsMovementLocked)return;
+        if(SceneTransitionManager.Instance!=null&&SceneTransitionManager.Instance.IsInsideInterior)return;
+        float distance=HorizontalDistance(player.transform.position,visual.Approach.position);
+        if(openMenuAction==null)openMenuAction=OpenMenu;
+        WorldInteractionPrompt.Request(this,visual.PromptAnchor,
+            Application.isMobilePlatform?"Ketuk: Lonceng Kandang":"E: Lonceng Kandang",distance,.35f,openMenuAction);
         if (!PlayerInteractionTarget.PressPrompt(this, KeyCode.E)) return;
         OpenMenu();
     }
 
     public bool IsPlayerInRange(Transform playerTransform)
     {
-        return playerTransform != null && toggleButton != null &&
-               HorizontalDistance(playerTransform.position, toggleButton.position) <= interactionRadius;
+        if(playerTransform==null||visual==null||visual.Approach==null)return false;
+        Vector3 delta=playerTransform.position-visual.Approach.position;
+        return Mathf.Abs(delta.y)<2f&&HorizontalDistance(playerTransform.position,visual.Approach.position)<=InteractionRadius&&
+               Vector3.Dot(delta,visual.Approach.forward)>-.50f;
     }
 
     void ResolvePlayer()

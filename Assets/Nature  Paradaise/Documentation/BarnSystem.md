@@ -1,13 +1,49 @@
 # Barn System
 
-Exterior barn sekarang memakai model low poly Barn A yang disetujui: satu mesh
-per LOD, material atlas Toon Farm Pack, collider badan dan marker pintu depan.
+Revisi terbaru (21 Oktober 2026): exterior Barn B memakai **atap papan kayu,
+dinding kayu horizontal hangat, logo kepala sapi dan lonceng bertali di fasad**.
+LOD statis 4.446 / 3.812 / 2.966 segitiga, plus mesh lonceng/tali 240 segitiga
+yang berayun saat perintah hewan berhasil. Semua berbagi material/atlas yang sama.
+Lonceng menempel pada prefab aktif, tidak lagi membuat kotak/tombol dummy.
+Radius pintu dan lonceng mengikuti jarak marker setelah skala placement sehingga
+tidak tumpang-tindih. E atau tap prompt menjalankan target yang sedang terlihat;
+panel lonceng memakai tombol keluar/masuk hewan yang sudah ada.
+Validasi: 429 cek gameplay barn + 65 regresi interaksi rumah + 271 normal/shader
+mobile PASS. Laporan/render: `Documentation/BarnB-WoodBell-2026-10-21`.
+Sumber lengkap: `ArtSource/BarnStyle_B/Blender/BarnStyle_B.blend`.
+
+Catatan integrasi awal sebelum revisi atap kayu:
+
+Exterior barn sekarang memakai **Barn B dengan tekstur kayu/genteng GIMP**
+(21 Oktober 2026): satu renderer dan satu material atlas per LOD. Collider
+mengikuti badan bangunan dan tepi serambi; marker pintu berada di depan model.
 Prefab exterior Lv1–5 berbeda uniform scale saja. Building Definition yang
 sudah ada menghubungkan Lv1–4; prefab Lv5 siap dipakai setelah data biaya dan
 kapasitas gameplay Lv5 ditentukan. LOD0/1/2 dibuat di Blender dan dipilih oleh
 LODGroup Unity otomatis berdasarkan tinggi bangunan di layar, termasuk culling.
-File gabungan ada di `ArtSource/Barn_A/Blender/Barn_A_Combined.blend`.
-Untuk apply ulang pakai `Nature Paradise > Barn > Apply Approved Barn A Exterior`.
+LOD0/1/2 memiliki 5.002 / 3.500 / 2.500 segitiga. Arah genteng diperbaiki pada
+ekspor Unity agar sesuai shader yang hanya menggambar sisi depan. File gabungan
+ada di `ArtSource/BarnStyle_B/Blender/BarnStyle_B.blend`. Aset runtime ada di
+`mesh/Buildings/BarnStyle_B`. Untuk apply ulang pakai
+`Nature Paradise > Barn > Apply Barn B Wood and Roof`.
+
+Interior Lv1–4 juga memakai Barn B dan atlas yang sama. Ukuran 1,75×, referensi
+pakan, mesin, hewan, collider dan prefab root/GUID dipertahankan. Pemasangan
+tidak menulis ulang Map, scene interior, Building Definition, harga, kapasitas
+atau save player. Uji Play Mode memakai scene interior tersimpan dan jalur
+portal sebenarnya: 213 pemeriksaan PASS, termasuk rotasi barn 0/90/180/270°,
+semua level interior, isi pakan, bagian pakan bersama dan masuk/keluar barn.
+Laporan dan render native Unity: `Documentation/BarnB-Unity-2026-10-21`.
+
+Kayu dan genteng Barn B sekarang memakai satu normal atlas GIMP 1024×1024
+bersama, strength 1, dengan shader khusus `Nature Paradise/Barn Atlas Normal`.
+Atlas warna dan shader Toonpack asli tetap. Normal map linear, mipmap aktif,
+kompresi PC BC5 / Android ETC2 / iOS ASTC 6×6; tidak menambah polygon atau material.
+Tangent mesh dihitung ulang di Editor dari UV, tanpa perubahan geometri/referensi.
+241 pemeriksaan native PASS termasuk A/B kamera gameplay dan kompilasi GLES3/Vulkan/Metal;
+FPS perangkat mobile fisik belum diuji. Apply ulang lewat
+`Nature Paradise > Barn > Apply Shared Normal Atlas`.
+Laporan: `Documentation/BarnB-Normal-2026-10-21`.
 
 Barn System menyediakan kapasitas kandang per bangunan, reservasi slot kelahiran, Universal Animal Feed, Feed Maker, Feed Silo, dan scene interior kandang tersendiri.
 

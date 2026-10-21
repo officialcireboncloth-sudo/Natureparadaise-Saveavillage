@@ -33,6 +33,22 @@ public sealed class BarnInterior : MonoBehaviour
     PlayerController player;
     Transform runtimeExteriorDoor;
     public bool Visiting => Current == this;
+    /// <summary>Keep authored bell/door zones separate even when placement scales the prefab.</summary>
+    public float EntranceInteractionRadius
+    {
+        get
+        {
+            if(runtimeExteriorDoor==null)return interactionRadius;
+            float radius=Mathf.Min(interactionRadius,authoredEntranceRadius);
+            var bell=home!=null?home.BellStation:null;
+            if(bell!=null&&bell.InteractionPoint!=null)
+            {
+                Vector3 delta=bell.InteractionPoint.position-runtimeExteriorDoor.position;delta.y=0;
+                radius=Mathf.Min(radius,delta.magnitude*.42f);
+            }
+            return radius;
+        }
+    }
 
     void Awake()
     {
@@ -102,14 +118,18 @@ public sealed class BarnInterior : MonoBehaviour
         if(player==null || home==null || !home.Available || Visiting ||
            (SceneTransitionManager.Instance!=null && SceneTransitionManager.Instance.IsInsideInterior)) return;
         Transform target=runtimeExteriorDoor!=null ? runtimeExteriorDoor : exteriorDoor!=null ? exteriorDoor : transform;
-        // Bila area portal dan bell masih bersentuhan, E selalu menjadi input bell.
-        // Ini mencegah player tidak sengaja masuk interior saat menekan saklar.
-        if(home.BellStation!=null && home.BellStation.IsPlayerInRange(player.transform)) return;
-        float radius = runtimeExteriorDoor != null ? Mathf.Min(interactionRadius, authoredEntranceRadius) : interactionRadius;
+        float radius = EntranceInteractionRadius;
         if(!PlayerInteractionTarget.ContainsPickup(player.transform,target,radius)) return;
         float distance=Vector3.Distance(player.transform.position,target.position);
-        WorldInteractionPrompt.Request(this,target,$"E: Masuk {home.Label}",Mathf.Max(0f,distance-0.25f),1.5f);
+        WorldInteractionPrompt.Request(this,target,Application.isMobilePlatform?$"Ketuk: Masuk {home.Label}":$"E: Masuk {home.Label}",Mathf.Max(0f,distance-0.25f),1.5f,EnterFromPrompt);
         if(PlayerInteractionTarget.PressPrompt(this,KeyCode.E)) Enter();
+    }
+
+    void EnterFromPrompt()
+    {
+        Transform target=runtimeExteriorDoor!=null?runtimeExteriorDoor:exteriorDoor!=null?exteriorDoor:transform;
+        float radius=EntranceInteractionRadius;
+        if(player!=null&&PlayerInteractionTarget.ContainsPickup(player.transform,target,radius)&&Enter())GameplayInput.ConsumeCurrentFrame();
     }
 
     void DisableLegacyRoomChildren()

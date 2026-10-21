@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Satu prompt UI ringan yang mengikuti object di dunia. Semua interactable berbagi
@@ -33,6 +34,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
     Object displayedOwner;
     Transform requestedAnchor, displayedAnchor;
     int displayedFrame = -1;
+    System.Action requestedAction, displayedAction;
 
     /// <summary>
     /// Input in Update belongs to the prompt presented by the preceding LateUpdate,
@@ -68,12 +70,12 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
     /// Minta prompt tampil pada frame ini. Jika beberapa object meminta bersamaan,
     /// object terdekat yang dipilih.
     /// </summary>
-    public static void Request(Object owner, Transform anchor, string text, float distance, float height = 1.2f)
+    public static void Request(Object owner, Transform anchor, string text, float distance, float height = 1.2f, System.Action action = null)
     {
         if (anchor == null || IsSuppressed)
             return;
 
-        RequestInternal(owner, anchor.position + Vector3.up * height, text, distance, false, anchor);
+        RequestInternal(owner, anchor.position + Vector3.up * height, text, distance, false, anchor,action);
     }
 
     /// <summary>Prompt ringkas tanpa panel gelap, cocok untuk aksi yang terus tersedia pada player.</summary>
@@ -90,7 +92,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         RequestInternal(owner,worldPosition,text,distance,false);
     }
 
-    static void RequestInternal(Object owner,Vector3 worldPosition,string text,float distance,bool cleanStyle,Transform anchor = null)
+    static void RequestInternal(Object owner,Vector3 worldPosition,string text,float distance,bool cleanStyle,Transform anchor = null,System.Action action = null)
     {
         if (owner == null || string.IsNullOrWhiteSpace(text) || IsSuppressed)
             return;
@@ -123,6 +125,16 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         instance.requestedCleanStyle = cleanStyle;
         instance.requestedOwner = owner;
         instance.requestedAnchor = anchor;
+        instance.requestedAction = action;
+    }
+
+    /// <summary>Touch/click executes the same visible target; its callback rechecks live range.</summary>
+    public static bool InvokeDisplayedAction()
+    {
+        if(instance==null||!HasDisplayedPrompt||instance.displayedAction==null||
+           GameplayPauseMenu.BlocksGameplayInput||GameplayInput.ConsumedThisFrame)return false;
+        var action=instance.displayedAction;
+        action();GameplayInput.ConsumeCurrentFrame();return true;
     }
 
     /// <summary>True ketika minimal satu modal UI sedang menahan world prompt.</summary>
@@ -199,6 +211,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
     void LateUpdate()
     {
         displayedOwner = null;
+        displayedAction = null;
         displayedFrame = -1;
         if (panelRect == null)
             return;
@@ -239,6 +252,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         float verticalPadding=requestedCleanStyle?6f:18f;
         float preferredWidth = Mathf.Clamp(preferredSize.x + horizontalPadding, requestedCleanStyle?80f:180f, 680f);
         float preferredHeight = Mathf.Clamp(preferredSize.y + verticalPadding, requestedCleanStyle?30f:52f, 360f);
+        if(requestedAction!=null&&Application.isMobilePlatform)preferredHeight=Mathf.Max(80f,preferredHeight);
         panelRect.sizeDelta = new Vector2(preferredWidth, preferredHeight);
 
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPoint, null, out Vector2 localPoint))
@@ -253,9 +267,12 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         localPoint.y = Mathf.Clamp(localPoint.y, safeRect.yMin + half.y + 12f, safeRect.yMax - half.y - 12f);
         panelRect.anchoredPosition = localPoint;
         panelRect.gameObject.SetActive(true);
+        panelBackground.raycastTarget=requestedAction!=null;
+        if(requestedAction!=null)EnsureEventSystem();
         displayedOwner = requestedOwner;
         displayedAnchor = requestedAnchor;
         displayedFrame = Time.frameCount;
+        displayedAction=requestedAction;
     }
 
     void BuildUI()
@@ -266,6 +283,8 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         canvas = gameObject.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 290;
+        gameObject.AddComponent<GraphicRaycaster>();
+        EnsureEventSystem();
 
         CanvasScaler scaler = gameObject.AddComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -284,6 +303,8 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         panelBackground = panel.GetComponent<Image>();
         panelBackground.color = GameplayHUDStyle.Panel;
         panelBackground.raycastTarget = false;
+        var button=panel.AddComponent<Button>();button.targetGraphic=panelBackground;
+        button.onClick.AddListener(()=>InvokeDisplayedAction());
 
         GameObject textObject = new("Text", typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI));
         textObject.layer = gameObject.layer;
@@ -304,5 +325,11 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         promptText.raycastTarget = false;
 
         panel.SetActive(false);
+    }
+    void EnsureEventSystem()
+    {
+        if(EventSystem.current!=null)return;
+        var events=new GameObject("World Interaction EventSystem",typeof(EventSystem),typeof(StandaloneInputModule));
+        events.transform.SetParent(transform,false);
     }
 }
