@@ -68,9 +68,8 @@ public sealed class HouseStorageChest:MonoBehaviour
         Resolve();if(inventory==null)return;
         if(open)return;
         if(!PlayerInteractionTarget.ContainsPickup(inventory.transform,transform,2.2f))return;
-        var house=GetComponentInParent<HouseInteriorController>();if(house!=null)foreach(var bed in house.GetComponentsInChildren<PlayerBed>())if(bed.CanInteract(inventory.transform))return;
-        WorldInteractionPrompt.Request(this,transform,$"E: Storage Rumah | {HouseStorageService.Entries.Count}/{HouseStorageService.Capacity} slot",Vector3.Distance(inventory.transform.position,transform.position),1.4f);
-        if(!PlayerInteractionTarget.PressPickup(inventory.transform,transform,KeyCode.E,2.2f))return;
+        WorldInteractionPrompt.Request(this,transform,$"E: Storage Rumah | {HouseStorageService.Entries.Count}/{HouseStorageService.Capacity} slot",PlayerInteractionTarget.SurfaceDistance(inventory.transform,transform),1.4f);
+        if(!PlayerInteractionTarget.PressPrompt(this,KeyCode.E))return;
         HouseStorageService.SortForHouseLevel();StorageChestUI.Show(this);
     }
     void OnDisable(){Close();active.Remove(this);}

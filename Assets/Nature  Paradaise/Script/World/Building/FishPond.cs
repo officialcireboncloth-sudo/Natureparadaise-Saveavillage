@@ -325,12 +325,12 @@ public sealed class FishPond : MonoBehaviour
             WorldInteractionPrompt.Request(this, feedMaker.transform,
                 $"E: Kelola Fish Feed Maker\nF: Ambil 1 Fish Feed — Ready {feedMaker.FishFeedOutput}",
                 makerDistance, 1.3f);
-            if (PlayerInteractionTarget.PressPickup(inventory.transform, feedMaker.transform, KeyCode.F, feedInteractionRadius))
+            if (PlayerInteractionTarget.PressPrompt(this, feedMaker.transform, KeyCode.F))
             {
                 if(!feedMaker.CollectAnimated(inventory,true,feedMaker.transform))
                     SaveLoadFeedback.Instance?.ShowMessage("Fish Feed belum ready / Inventory penuh.");
             }
-            else if (PlayerInteractionTarget.PressPickup(inventory.transform, feedMaker.transform, interactKey, feedInteractionRadius))
+            else if (PlayerInteractionTarget.PressPrompt(this, feedMaker.transform, interactKey))
                 feedMaker.OpenFor(inventory);
             return;
         }
@@ -349,7 +349,7 @@ public sealed class FishPond : MonoBehaviour
             WorldInteractionPrompt.Request(this,target,
                 $"{action}\nTempat Pakan Ikan — {FeedStock}/{FeedCapacity} | Butuh {FeedNeeded}/hari | {FeedRemainingText()}",
                 targetDistance,1.25f);
-            if(PlayerInteractionTarget.Press(KeyCode.F))
+            if(PlayerInteractionTarget.PressPrompt(this, target, KeyCode.F))
                 DepositHeldFishFeed(hotbar,heldStack);
             return;
         }
@@ -363,7 +363,7 @@ public sealed class FishPond : MonoBehaviour
             WorldInteractionPrompt.Request(this, feedingPoint,
                 $"{action}\nTempat Pakan Ikan — {FeedStock}/{FeedCapacity} | Butuh {FeedNeeded}/hari | {FeedRemainingText()}",
                 troughDistance, 1.25f);
-            if (PlayerInteractionTarget.Press(KeyCode.F))
+            if (PlayerInteractionTarget.PressPrompt(this, feedingPoint, KeyCode.F))
             {
                 if(!holdingFishFeed)
                     SaveLoadFeedback.Instance?.ShowMessage("Pilih Fish Feed dari hotbar terlebih dahulu.");
@@ -376,7 +376,7 @@ public sealed class FishPond : MonoBehaviour
         WorldInteractionPrompt.Request(this, pondTarget,
             $"{interactKey}: Fish Pond Lv.{Level} — {FishCount}/{Capacity} | {PondFeedStatus()}",
             distance, 1.2f);
-        if (PlayerInteractionTarget.PressPickup(inventory.transform, pondTarget, interactKey, interactionRadius)) OpenPanel();
+        if (PlayerInteractionTarget.PressPrompt(this, pondTarget, interactKey)) OpenPanel();
     }
 
     public void AddFish(int slotIndex)

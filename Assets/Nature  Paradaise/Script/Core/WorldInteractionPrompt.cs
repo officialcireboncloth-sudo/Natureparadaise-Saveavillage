@@ -31,6 +31,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
     bool requestedCleanStyle;
     Object requestedOwner;
     Object displayedOwner;
+    Transform requestedAnchor, displayedAnchor;
     int displayedFrame = -1;
 
     /// <summary>
@@ -47,6 +48,22 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         return !(owner is Behaviour behaviour) || behaviour.isActiveAndEnabled;
     }
 
+    public static bool IsDisplayedFor(Object owner, Transform anchor)
+        => IsDisplayedFor(owner) && anchor != null && instance.displayedAnchor == anchor;
+
+    public static bool HasDisplayedPrompt => instance != null && IsDisplayedFor(instance.displayedOwner);
+
+    /// <summary>Tools may act without a world prompt, but cannot take input from another visible interaction.</summary>
+    public static bool AllowsAction(Object owner)
+    {
+        if (owner == null || IsSuppressed) return false;
+        if (!HasDisplayedPrompt || IsDisplayedFor(owner)) return true;
+        // Farming, seeds, eating and held-item hints share one player action context.
+        // A world object (door/NPC/animal/etc.) never grants that access to the player.
+        return owner is Component action && instance.displayedOwner is Component prompt &&
+            action.gameObject == prompt.gameObject && action.GetComponent<PlayerController>() != null;
+    }
+
     /// <summary>
     /// Minta prompt tampil pada frame ini. Jika beberapa object meminta bersamaan,
     /// object terdekat yang dipilih.
@@ -56,7 +73,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         if (anchor == null || IsSuppressed)
             return;
 
-        Request(owner, anchor.position + Vector3.up * height, text, distance);
+        RequestInternal(owner, anchor.position + Vector3.up * height, text, distance, false, anchor);
     }
 
     /// <summary>Prompt ringkas tanpa panel gelap, cocok untuk aksi yang terus tersedia pada player.</summary>
@@ -65,7 +82,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         if (anchor == null || IsSuppressed)
             return;
 
-        RequestInternal(owner,anchor.position+Vector3.up*height,text,distance,true);
+        RequestInternal(owner,anchor.position+Vector3.up*height,text,distance,true,anchor);
     }
 
     public static void Request(Object owner, Vector3 worldPosition, string text, float distance)
@@ -73,7 +90,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         RequestInternal(owner,worldPosition,text,distance,false);
     }
 
-    static void RequestInternal(Object owner,Vector3 worldPosition,string text,float distance,bool cleanStyle)
+    static void RequestInternal(Object owner,Vector3 worldPosition,string text,float distance,bool cleanStyle,Transform anchor = null)
     {
         if (owner == null || string.IsNullOrWhiteSpace(text) || IsSuppressed)
             return;
@@ -87,9 +104,17 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         {
             instance.requestFrame = frame;
             instance.nearestDistance = float.PositiveInfinity;
+            instance.requestedOwner = null;
         }
 
-        if (distance > instance.nearestDistance)
+        // Preserve the visible target across near-equal distances, independent of Update order.
+        bool tied = Mathf.Abs(distance - instance.nearestDistance) <= .02f;
+        if (tied && instance.requestedOwner != null)
+        {
+            if (instance.requestedOwner == instance.displayedOwner) return;
+            if (owner != instance.displayedOwner && owner.GetInstanceID() > instance.requestedOwner.GetInstanceID()) return;
+        }
+        else if (distance > instance.nearestDistance)
             return;
 
         instance.nearestDistance = distance;
@@ -97,6 +122,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         instance.requestedText = text;
         instance.requestedCleanStyle = cleanStyle;
         instance.requestedOwner = owner;
+        instance.requestedAnchor = anchor;
     }
 
     /// <summary>True ketika minimal satu modal UI sedang menahan world prompt.</summary>
@@ -228,6 +254,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         panelRect.anchoredPosition = localPoint;
         panelRect.gameObject.SetActive(true);
         displayedOwner = requestedOwner;
+        displayedAnchor = requestedAnchor;
         displayedFrame = Time.frameCount;
     }
 

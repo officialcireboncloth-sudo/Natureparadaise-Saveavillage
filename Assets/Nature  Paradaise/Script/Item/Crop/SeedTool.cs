@@ -75,7 +75,7 @@ public class SeedTool : MonoBehaviour
             inventoryHotbar = GetComponent<InventoryHotbarUI>();
         ItemSO selectedSeed = inventoryHotbar != null ? inventoryHotbar.SelectedItem : null;
         if (selectedSeed == null || !selectedSeed.IsSeed ||
-            !hotbar.IsUsePressed(PlayerToolType.Seed))
+            !hotbar.IsUsePressed(PlayerToolType.Seed, (UnityEngine.Object)farmingTool ?? this))
             return;
 
         // Pastikan Inventory tersedia

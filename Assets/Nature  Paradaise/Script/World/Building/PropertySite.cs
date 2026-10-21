@@ -308,7 +308,7 @@ public sealed class PropertySite : MonoBehaviour
             return;
 
         // Relocate harus dapat dibatalkan walaupun player sudah berjalan menjauhi source site.
-        if (relocationSource == this && GameplayInput.GetKeyDown(cancelKey))
+        if (relocationSource == this && PlayerInteractionTarget.PressAction(this, cancelKey))
         {
             CancelRelocationMode();
             return;
@@ -349,9 +349,9 @@ public sealed class PropertySite : MonoBehaviour
                 distance,
                 promptHeight
             );
-            if (GameplayInput.GetKeyDown(confirmKey))
+            if (PlayerInteractionTarget.PressPrompt(this, confirmKey))
                 ConfirmDemolish();
-            else if (GameplayInput.GetKeyDown(cancelKey))
+            else if (PlayerInteractionTarget.PressPrompt(this, cancelKey))
                 demolishConfirmationActive = false;
             return;
         }
@@ -384,9 +384,9 @@ public sealed class PropertySite : MonoBehaviour
                 distance,
                 promptHeight
             );
-            if (PlayerInteractionTarget.Press(playerTransform, buildingAnchor, interactKey))
+            if (PlayerInteractionTarget.PressPrompt(this, interactKey))
                 BeginRelocationPreview();
-            else if (GameplayInput.GetKeyDown(cancelKey))
+            else if (PlayerInteractionTarget.PressPrompt(this, cancelKey))
                 CancelRelocationMode();
             return;
         }
@@ -402,7 +402,7 @@ public sealed class PropertySite : MonoBehaviour
             distance,
             promptHeight
         );
-        if (!PlayerInteractionTarget.Press(playerTransform, buildingAnchor, interactKey))
+        if (!PlayerInteractionTarget.PressPrompt(this, interactKey))
             return;
 
         PlayerBuildMenu menu = playerInventory != null
@@ -426,7 +426,7 @@ public sealed class PropertySite : MonoBehaviour
             distance,
             promptHeight
         );
-        if (DebugShortcutsEnabled && DebugFinishModifierHeld && GameplayInput.GetKeyDown(debugConfirmKey))
+        if (DebugShortcutsEnabled && DebugFinishModifierHeld && PlayerInteractionTarget.PressPrompt(this, debugConfirmKey))
         {
             CompleteConstruction();
             SaveManager.Instance?.SaveGame();
@@ -456,21 +456,21 @@ public sealed class PropertySite : MonoBehaviour
             promptHeight
         );
 
-        if (DebugShortcutsEnabled && GameplayInput.GetKeyDown(debugConfirmKey) &&
+        if (DebugShortcutsEnabled && PlayerInteractionTarget.PressPrompt(this, debugConfirmKey) &&
             activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel))
         {
             if (BeginUpgradePreview()) ConfirmPreview(debugFree: true);
         }
-        else if (GameplayInput.GetKeyDown(upgradeKey) && activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel))
+        else if (PlayerInteractionTarget.PressPrompt(this, upgradeKey) && activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel))
             BeginUpgradePreview();
-        else if (GameplayInput.GetKeyDown(relocateKey) && activeDefinition != null && activeDefinition.canRelocate)
+        else if (PlayerInteractionTarget.PressPrompt(this, relocateKey) && activeDefinition != null && activeDefinition.canRelocate)
         {
             if (globalBuildInstance && allowFreePlacement)
                 BeginSelfRelocationPreview();
             else
                 BeginRelocationMode();
         }
-        else if (GameplayInput.GetKeyDown(demolishKey) && activeDefinition != null && activeDefinition.canDemolish)
+        else if (PlayerInteractionTarget.PressPrompt(this, demolishKey) && activeDefinition != null && activeDefinition.canDemolish)
             demolishConfirmationActive = true;
     }
 
@@ -515,19 +515,19 @@ public sealed class PropertySite : MonoBehaviour
         if (Time.frameCount == previewStartedFrame)
             return;
 
-        if (previewAllowsCatalogNavigation && GameplayInput.GetKeyDown(previousBuildingKey))
+        if (previewAllowsCatalogNavigation && PlayerInteractionTarget.PressPrompt(this, previousBuildingKey))
             CycleCatalog(-1);
-        else if (previewAllowsCatalogNavigation && GameplayInput.GetKeyDown(nextBuildingKey))
+        else if (previewAllowsCatalogNavigation && PlayerInteractionTarget.PressPrompt(this, nextBuildingKey))
             CycleCatalog(1);
-        else if (DebugShortcutsEnabled && GameplayInput.GetKeyDown(debugConfirmKey))
+        else if (DebugShortcutsEnabled && PlayerInteractionTarget.PressPrompt(this, debugConfirmKey))
         {
             previewDebugFree = true;
             ApplyPreviewColor(previewLocationValid);
             SaveLoadFeedback.Instance?.ShowMessage("DEBUG gratis aktif; tukang tetap bekerja. Pilih lokasi lalu tekan C.");
         }
-        else if (GameplayInput.GetKeyDown(confirmKey))
+        else if (PlayerInteractionTarget.PressPrompt(this, confirmKey))
             ConfirmPreview();
-        else if (GameplayInput.GetKeyDown(cancelKey))
+        else if (PlayerInteractionTarget.PressPrompt(this, cancelKey))
         {
             if (previewIsRelocation)
                 CancelRelocationMode();
@@ -810,7 +810,7 @@ public sealed class PropertySite : MonoBehaviour
 
     void UpdateFreePlacementPreview()
     {
-        if (GameplayInput.GetKeyDown(rotatePreviewKey))
+        if (PlayerInteractionTarget.PressPrompt(this, rotatePreviewKey))
         {
             float nextYaw = Mathf.Repeat(previewPlacementRotation.eulerAngles.y + rotationStep, 360f);
             previewPlacementRotation = Quaternion.Euler(0f, nextYaw, 0f);

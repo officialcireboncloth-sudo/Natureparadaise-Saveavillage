@@ -141,10 +141,10 @@ public class FarmingTool : MonoBehaviour
 
         if (TryUseHandHarvest()) return;
 
-        bool useHoe = hotbar.IsUsePressed(PlayerToolType.Hoe);
-        bool useWater = hotbar.IsUsePressed(PlayerToolType.WateringCan);
-        bool useFertilizer = hotbar.IsUsePressed(PlayerToolType.Fertilizer);
-        bool useCropBooster = hotbar.IsUsePressed(PlayerToolType.CropBooster);
+        bool useHoe = hotbar.IsUsePressed(PlayerToolType.Hoe, this);
+        bool useWater = hotbar.IsUsePressed(PlayerToolType.WateringCan, this);
+        bool useFertilizer = hotbar.IsUsePressed(PlayerToolType.Fertilizer, this);
+        bool useCropBooster = hotbar.IsUsePressed(PlayerToolType.CropBooster, this);
 
         if (useHoe) UseHoe();
         else if (useWater) UseSoilEffect(true);
@@ -408,7 +408,7 @@ public class FarmingTool : MonoBehaviour
             !currentField.TryGetSnapshot(currentX, currentZ, out FieldTileSnapshot snapshot) ||
             snapshot.State != TileState.Planted || snapshot.CropState != CropLifecycleState.HarvestReady)
             return false;
-        if (!PlayerInteractionTarget.Press(handHarvestKey)) return false;
+        if (!PlayerInteractionTarget.PressPrompt(this, handHarvestKey)) return false;
         return TryHarvestCurrentTile();
     }
 

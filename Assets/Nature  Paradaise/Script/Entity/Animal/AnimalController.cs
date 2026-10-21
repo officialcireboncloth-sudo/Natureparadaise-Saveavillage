@@ -261,13 +261,13 @@ public class AnimalController : MonoBehaviour
         PlayerAnimalCarry animalCarry = playerInv.GetComponent<PlayerAnimalCarry>();
         if (growth != null && growth.HasBeenBorn && AnimalGrowthProfileSO.IsBird(growth.Type) &&
             animalCarry != null && !animalCarry.HasAnimal &&
-            PlayerInteractionTarget.PressPickup(playerInv.transform, transform, KeyCode.E, interactionRadius))
+            PlayerInteractionTarget.PressPrompt(this, KeyCode.E))
         {
             animalCarry.TryPickup(growth);
             return;
         }
         if(growth!=null && growth.HasBeenBorn && !AnimalGrowthProfileSO.IsBird(growth.Type) &&
-           PlayerInteractionTarget.PressPickup(playerInv.transform,transform,KeyCode.E,interactionRadius))
+           PlayerInteractionTarget.PressPrompt(this, KeyCode.E))
         {
             PlayerAnimalPush animalPush=playerInv.GetComponent<PlayerAnimalPush>();
             if(animalPush==null) animalPush=playerInv.gameObject.AddComponent<PlayerAnimalPush>();
@@ -275,14 +275,14 @@ public class AnimalController : MonoBehaviour
             return;
         }
 
-        if (PlayerInteractionTarget.Press(playerInv.transform, transform, KeyCode.I))
+        if (PlayerInteractionTarget.PressPrompt(this, KeyCode.I))
         {
             AnimalCarePanel.Show(growth, null, playerInv);
             return;
         }
 
         if (growth != null && growth.Type == AnimalType.Cow &&
-            PlayerInteractionTarget.Press(playerInv.transform, transform, interactKey))
+            PlayerInteractionTarget.PressPrompt(this, interactKey))
         {
             PlayerController controller = playerInv.GetComponent<PlayerController>();
             controller?.FaceTowardsInteraction(transform.position);
@@ -297,7 +297,7 @@ public class AnimalController : MonoBehaviour
         // FEED CABBAGE
         // =========================
 
-        if (PlayerInteractionTarget.Press(playerInv.transform, transform, feedKey))
+        if (PlayerInteractionTarget.PressPrompt(this, feedKey))
         {
             ItemSO selected = SelectedItem;
             if (selected != null && selected.IsAnimalMedicine)
@@ -312,15 +312,15 @@ public class AnimalController : MonoBehaviour
         // TAKE MILK
         // =========================
 
-        if (PlayerInteractionTarget.Press(playerInv.transform, transform, milkKey))
+        if (PlayerInteractionTarget.PressPrompt(this, milkKey))
         {
             TakeMilk();
         }
 
         if (!brushBusy && !productCollectBusy && growth != null && growth.HasBeenBorn && !growth.PetToday &&
-            PlayerInteractionTarget.Press(playerInv.transform, transform, petKey))
+            PlayerInteractionTarget.PressPrompt(this, petKey))
             TryStartBrush();
-        if (HUDManager.DebugCluesEnabled && GameplayInput.GetKeyDown(debugNextStageKey))
+        if (HUDManager.DebugCluesEnabled && PlayerInteractionTarget.PressPrompt(this, debugNextStageKey))
             growth?.DebugAdvanceToNextStage();
     }
 

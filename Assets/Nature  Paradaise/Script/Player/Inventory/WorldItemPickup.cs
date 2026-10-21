@@ -138,7 +138,7 @@ public sealed class WorldItemPickup : MonoBehaviour
             promptHeight
         );
 
-        if (PlayerInteractionTarget.PressPickup(nearbyInventory.transform, target, pickupKey, pickupRadius))
+        if (PlayerInteractionTarget.PressPrompt(this, pickupKey))
             TryPickup();
     }
 

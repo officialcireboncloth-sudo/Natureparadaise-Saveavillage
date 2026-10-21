@@ -73,7 +73,7 @@ public sealed class ShopFront:MonoBehaviour
   }
   if(IsAnyOpen||UpgradeShopFront.Active!=null||!interactionEnabled)return;Resolve();if(player==null||!PlayerInteractionTarget.ContainsPickup(player.transform,transform,interactionRadius))return;
   WorldInteractionPrompt.Request(this,transform,"E: "+catalog.displayName,Vector3.Distance(player.transform.position,transform.position),1.5f);
-  if(PlayerInteractionTarget.PressPickup(player.transform,transform,KeyCode.E,interactionRadius))Open();
+  if(PlayerInteractionTarget.PressPrompt(this, KeyCode.E))Open();
  }
  [ContextMenu("Open Shop For Testing")]
  public void Open()

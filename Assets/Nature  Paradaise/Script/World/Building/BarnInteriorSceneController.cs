@@ -371,12 +371,12 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
                 string ready=feedMaker!=null ? feedMaker.AnimalFeedOutput.ToString() : "-";
                 WorldInteractionPrompt.Request(this,feedMakerPoint,
                     $"F: Ambil 1 Animal Feed ke Inventory (Ready {ready}) | E: Kelola Feed Maker",makerDistance,1.2f);
-                if(PlayerInteractionTarget.PressPickup(player.transform,feedMakerPoint,KeyCode.F,interactionRadius))
+                if(PlayerInteractionTarget.PressPrompt(this, feedMakerPoint, KeyCode.F))
                 {
                     if(feedMaker==null || !feedMaker.CollectAnimated(playerInventory,false,feedMakerPoint))
                         SaveLoadFeedback.Instance?.ShowMessage("Animal Feed belum ready / Inventory penuh.");
                 }
-                else if(PlayerInteractionTarget.PressPickup(player.transform,feedMakerPoint,KeyCode.E,interactionRadius))
+                else if(PlayerInteractionTarget.PressPrompt(this, feedMakerPoint, KeyCode.E))
                     feedMaker?.OpenFor(playerInventory);
                 return;
             }
@@ -401,7 +401,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
                 troughDistance,1.15f);
             // Jarak sudah dihitung dari permukaan box, jadi tombol berlaku dari
             // kanan/kiri/depan/belakang tanpa bergantung pada pivot slot.
-            if(PlayerInteractionTarget.Press(KeyCode.F))
+            if(PlayerInteractionTarget.PressPrompt(this, trough, KeyCode.F))
             {
                 if(occupied)
                     SaveLoadFeedback.Instance?.ShowMessage($"{unit} {troughIndex+1} sudah terisi.");
@@ -428,8 +428,8 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         if(!PlayerInteractionTarget.ContainsPickup(player.transform,exitDoor,interactionRadius)) return;
         float distance=Vector3.Distance(player.transform.position,exitDoor.position);
         WorldInteractionPrompt.Request(this,exitDoor,"E: Keluar Kandang | I: Kelola Hewan",distance,1.5f);
-        if(PlayerInteractionTarget.PressPickup(player.transform,exitDoor,KeyCode.E,interactionRadius)) BarnInterior.Current.Leave();
-        else if(PlayerInteractionTarget.PressPickup(player.transform,exitDoor,KeyCode.I,interactionRadius))
+        if(PlayerInteractionTarget.PressPrompt(this, exitDoor, KeyCode.E)) BarnInterior.Current.Leave();
+        else if(PlayerInteractionTarget.PressPrompt(this, exitDoor, KeyCode.I))
             AnimalCarePanel.Show(null,BarnInterior.Current.home,player.GetComponent<Inventory>());
     }
 }

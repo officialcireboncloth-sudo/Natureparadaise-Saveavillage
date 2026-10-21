@@ -164,7 +164,7 @@ public sealed class FishingSystem : MonoBehaviour
         {
             string action = EquippedBait == selectedItem ? "F: Lepas bait" : $"F: Pasang {selectedItem.itemName}";
             WorldInteractionPrompt.Request(this, transform, action, 0f, 1.9f);
-            if (hotbar.IsUsePressed(PlayerToolType.None)) ToggleBait(selectedItem);
+            if (hotbar.IsUsePressed(PlayerToolType.None, this)) ToggleBait(selectedItem);
             return;
         }
         if (State == FishingState.Catching || State == FishingState.Result)
@@ -185,7 +185,7 @@ public sealed class FishingSystem : MonoBehaviour
         {
             case FishingState.Idle:
                 WorldInteractionPrompt.Request(this, transform, $"F - Hold to Cast  |  Bait: {EquippedBaitLabel}", 0f, 1.9f);
-                if (hotbar.IsUsePressed(PlayerToolType.FishingRod) || (ui != null && ui.MobileCastHeld)) BeginCharge();
+                if (hotbar.IsUsePressed(PlayerToolType.FishingRod, this) || (ui != null && ui.MobileCastHeld && WorldInteractionPrompt.IsDisplayedFor(this))) BeginCharge();
                 break;
             case FishingState.Charging:
                 chargeElapsed += Time.deltaTime;
@@ -201,14 +201,14 @@ public sealed class FishingSystem : MonoBehaviour
             case FishingState.WaitingForBite:
                 stateTimer -= Time.deltaTime;
                 UpdateLine();
-                if (hotbar.IsUsePressed(PlayerToolType.FishingRod)) Fail("Kail ditarik terlalu cepat.");
+                if (hotbar.IsUsePressed(PlayerToolType.FishingRod, this)) Fail("Kail ditarik terlalu cepat.");
                 else if (stateTimer <= 0f) BeginBite();
                 break;
             case FishingState.Bite:
                 stateTimer -= Time.deltaTime;
                 AnimateBobber();
                 WorldInteractionPrompt.Request(this, transform, "BITE! F: HOOK", 0f, 2.15f);
-                if (hotbar.IsUsePressed(PlayerToolType.FishingRod)) BeginMinigame();
+                if (hotbar.IsUsePressed(PlayerToolType.FishingRod, this)) BeginMinigame();
                 else if (stateTimer <= 0f) Fail("Ikan lepas — hook terlambat.");
                 break;
             case FishingState.Minigame:

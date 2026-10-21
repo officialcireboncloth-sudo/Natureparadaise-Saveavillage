@@ -143,7 +143,7 @@ public sealed class Aquarium : MonoBehaviour
             return;
         }
         if (!CanInteract(inventory.transform)) return;
-        float distance = Vector3.Distance(inventory.transform.position, transform.position);
+        float distance = PlayerInteractionTarget.SurfaceDistance(inventory.transform, transform);
         WorldInteractionPrompt.Request(this, transform, $"{interactKey}: Aquarium — {FishCount}/{Capacity} fish", distance, promptHeight);
         if (PlayerInteractionTarget.PressPrompt(this, interactKey)) OpenPanel();
     }

@@ -61,10 +61,16 @@ public sealed class PlayerToolHotbar : MonoBehaviour
     }
 
     /// <summary>True satu frame saat input penggunaan untuk tool aktif diterima.</summary>
-    public bool IsUsePressed(PlayerToolType tool)
+    public bool IsUsePressed(PlayerToolType tool, UnityEngine.Object promptOwner)
     {
         if (selectedTool != tool)
             return false;
+
+        if (!WorldInteractionPrompt.AllowsAction(promptOwner))
+        {
+            mobileUsePending = false;
+            return false;
+        }
 
         bool mousePressed = allowLeftMouse && GameplayInput.GetKeyDown(KeyCode.Mouse0);
         if (FertilizerProcessor.BlocksWorldPointer || MarketStand.BlocksWorldPointer ||
@@ -73,7 +79,7 @@ public sealed class PlayerToolHotbar : MonoBehaviour
         if (mousePressed && EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             mousePressed = false;
 
-        bool keyboardPressed=GameplayInput.GetKeyDown(useToolKey) && !PlayerInteractionTarget.WasConsumed(useToolKey);
+        bool keyboardPressed=PlayerInteractionTarget.PressAction(promptOwner, useToolKey);
         bool requested = keyboardPressed || mousePressed || mobileUsePending;
         if (mobileUsePending)
             mobileUsePending = false;

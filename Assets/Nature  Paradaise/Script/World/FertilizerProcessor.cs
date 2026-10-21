@@ -22,7 +22,7 @@ public sealed class FertilizerProcessor : MonoBehaviour
     static readonly List<FertilizerProcessor> Active = new();
     static readonly Rect PanelRect = new(20, 190, 500, 480);
     void OnEnable() => Active.Add(this);
-    void OnDisable() => Active.Remove(this);
+    void OnDisable() { ClosePanel(); Active.Remove(this); }
     public static bool BlocksWorldPointer
     {
         get
@@ -30,8 +30,7 @@ public sealed class FertilizerProcessor : MonoBehaviour
             Vector2 pointer = new(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
             if (!PanelRect.Contains(pointer)) return false;
             foreach (FertilizerProcessor machine in Active)
-                if (machine.inventory != null && machine.catalog != null &&
-                    PlayerInteractionTarget.Contains(machine.inventory.transform, machine.transform))
+                if (machine.panelOpen)
                     return true;
             return false;
         }
@@ -43,6 +42,9 @@ public sealed class FertilizerProcessor : MonoBehaviour
     [SerializeField, Min(1f)] float interactionDistance = 3f;
     readonly List<FertilizerJob> jobs = new();
     string feedback = "";
+    bool panelOpen;
+    PlayerController panelPlayer;
+    TimeManager panelClock;
     public IReadOnlyList<FertilizerJob> Jobs => jobs;
     double Now => TimeManager.Instance == null ? 0 :
         (TimeManager.Instance.day - 1) * 24d + TimeManager.Instance.hour + TimeManager.Instance.minute / 60d;
@@ -90,11 +92,35 @@ public sealed class FertilizerProcessor : MonoBehaviour
         return true;
     }
 
-    void OnGUI()
+    void Update()
     {
+        if (panelOpen)
+        {
+            if (!GameplayInput.ConsumedThisFrame && Input.GetKeyDown(KeyCode.Escape)) ClosePanel();
+            return;
+        }
         if (inventory == null) inventory = FindFirstObjectByType<Inventory>();
         if (inventory == null || catalog == null ||
-            !PlayerInteractionTarget.Contains(inventory.transform, transform)) return;
+            !PlayerInteractionTarget.ContainsPickup(inventory.transform, transform, interactionDistance)) return;
+        WorldInteractionPrompt.Request(this, transform, "E: Mesin Pengolah Pupuk", PlayerInteractionTarget.SurfaceDistance(inventory.transform, transform), 1.4f);
+        if (!PlayerInteractionTarget.PressPrompt(this, KeyCode.E)) return;
+        panelOpen = true;
+        panelPlayer = inventory.GetComponent<PlayerController>(); panelClock = TimeManager.Instance;
+        panelPlayer?.AcquireMovementLock(this); panelClock?.AcquirePause(this);
+        WorldInteractionPrompt.AcquireSuppression(this); GameplayInput.ConsumeCurrentFrame();
+    }
+
+    void ClosePanel()
+    {
+        if (!panelOpen) return;
+        panelOpen = false;
+        panelPlayer?.ReleaseMovementLock(this); panelClock?.ReleasePause(this);
+        WorldInteractionPrompt.ReleaseSuppression(this); GameplayInput.ConsumeCurrentFrame();
+    }
+
+    void OnGUI()
+    {
+        if (!panelOpen || inventory == null || catalog == null) return;
         GUILayout.BeginArea(PanelRect, GUI.skin.box);
         GUILayout.Label("MESIN PENGOLAH PUPUK — QUALITY BOOSTER");
         for (int i = 0; i < catalog.recipes.Length; i++)
@@ -119,6 +145,7 @@ public sealed class FertilizerProcessor : MonoBehaviour
                 feedback = TryCollect() ? "Hasil masuk tas." : "Belum selesai atau tas penuh.";
         }
         GUILayout.Label(feedback);
+        if (GUILayout.Button("Tutup [Esc]")) ClosePanel();
         GUILayout.EndArea();
     }
 

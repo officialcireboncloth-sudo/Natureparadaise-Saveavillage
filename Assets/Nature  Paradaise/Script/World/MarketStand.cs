@@ -151,7 +151,7 @@ public sealed class MarketStand : MonoBehaviour
         float distance = Vector3.Distance(playerInventory.transform.position, transform.position);
         WorldInteractionPrompt.Request(this, transform,
             $"{interactKey}: Market Stand | Stok {TotalItemCount} item", distance, promptHeight);
-        if (PlayerInteractionTarget.Press(playerInventory.transform, transform, interactKey))
+        if (PlayerInteractionTarget.PressPrompt(this, interactKey))
             OpenPanel();
     }
 

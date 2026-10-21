@@ -127,15 +127,15 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         // memakai interval terpisah agar prompt stabil tanpa menambah beban physics.
         RequestActionPrompt(selected.item, canDrop, canPlace);
 
-        if (canDrop && GameplayInput.GetKeyDown(dropKey)) DropSelected(GameplayInput.GetKey(wholeStackModifier));
-        else if (canPlace && GameplayInput.GetKeyDown(placeKey)) PlaceSelected(GameplayInput.GetKey(wholeStackModifier));
+        if (canDrop && PlayerInteractionTarget.PressPrompt(this, dropKey)) DropSelected(GameplayInput.GetKey(wholeStackModifier));
+        else if (canPlace && PlayerInteractionTarget.PressPrompt(this, placeKey)) PlaceSelected(GameplayInput.GetKey(wholeStackModifier));
     }
 
     /// <summary>Dipakai UI mobile untuk menjatuhkan satu item atau seluruh stack.</summary>
-    public void RequestDrop(bool wholeStack = false) => DropSelected(wholeStack);
+    public void RequestDrop(bool wholeStack = false) { if (WorldInteractionPrompt.IsDisplayedFor(this)) DropSelected(wholeStack); }
 
     /// <summary>Dipakai UI mobile untuk meletakkan satu item atau seluruh stack.</summary>
-    public void RequestPlace(bool wholeStack = false) => PlaceSelected(wholeStack);
+    public void RequestPlace(bool wholeStack = false) { if (WorldInteractionPrompt.IsDisplayedFor(this)) PlaceSelected(wholeStack); }
 
     void DropSelected(bool wholeStack)
     {

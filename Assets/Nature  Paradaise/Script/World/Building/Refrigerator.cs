@@ -371,12 +371,12 @@ public sealed class Refrigerator : MonoBehaviour
             return;
         }
         if (!PlayerInteractionTarget.ContainsPickup(playerInventory.transform, transform, interactionRadius)) return;
-        float distance = Vector3.Distance(playerInventory.transform.position, transform.position);
+        float distance = PlayerInteractionTarget.SurfaceDistance(playerInventory.transform, transform);
         string prompt = RefrigeratorService.IsUnlocked
             ? $"{interactKey}: Refrigerator | {RefrigeratorService.UsedSlots}/{RefrigeratorService.MaxSlots} slot"
             : "Refrigerator terkunci — Upgrade House ke Lv.2";
         WorldInteractionPrompt.Request(this, transform, prompt, distance, promptHeight);
-        if (!PlayerInteractionTarget.PressPickup(playerInventory.transform, transform, interactKey, interactionRadius)) return;
+        if (!PlayerInteractionTarget.PressPrompt(this, interactKey)) return;
         if (!RefrigeratorService.IsUnlocked)
         {
             SaveLoadFeedback.Instance?.ShowMessage("Kitchen dan Refrigerator terbuka pada House Lv.2.");

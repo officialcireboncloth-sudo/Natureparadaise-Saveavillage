@@ -184,23 +184,17 @@ public sealed class ToolStorageChest : MonoBehaviour
 
         if (panelOpen)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey))
-                ClosePanel();
+            // StorageChestUI owns transfer/close input while open.
             return;
         }
 
         if (!PlayerInteractionTarget.ContainsPickup(playerInventory.transform, transform, interactionRadius))
             return;
 
-        var house = GetComponentInParent<HouseInteriorController>();
-        if(house != null)
-            foreach(var bed in house.GetComponentsInChildren<PlayerBed>())
-                if(bed.CanInteract(playerInventory.transform)) return;
-
-        float distance = Vector3.Distance(playerInventory.transform.position, transform.position);
+        float distance = PlayerInteractionTarget.SurfaceDistance(playerInventory.transform, transform);
         WorldInteractionPrompt.Request(this, transform,
             $"{interactKey}: Rak Penyimpanan | {ToolStorageService.TotalCount} tool tersimpan", distance, promptHeight);
-        if (PlayerInteractionTarget.PressPickup(playerInventory.transform, transform, interactKey, interactionRadius))
+        if (PlayerInteractionTarget.PressPrompt(this, interactKey))
             OpenPanel();
     }
 

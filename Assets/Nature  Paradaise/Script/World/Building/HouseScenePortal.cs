@@ -28,12 +28,12 @@ public sealed class HouseScenePortal : MonoBehaviour
         if (player == null)
             return;
 
-        float distance = Vector3.Distance(transform.position, player.position);
+        float distance = PlayerInteractionTarget.SurfaceDistance(player, transform);
         if (!CanInteract(player))
             return;
         string action = (exitsInterior ? "Keluar " : "Masuk ") + locationLabel;
         WorldInteractionPrompt.Request(this, transform, $"{interactKey}: {action}", distance, promptHeight);
-        if (!GameplayInput.GetKeyDown(interactKey) || !PlayerInteractionTarget.Press(interactKey))
+        if (!PlayerInteractionTarget.PressPrompt(this, interactKey))
             return;
         if (exitsInterior && locationLabel == "Rumah" && WeatherSystem.Instance != null &&
             WeatherSystem.BlocksLeavingHome(WeatherSystem.Instance.CurrentWeather))

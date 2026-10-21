@@ -90,7 +90,7 @@ public sealed class AnimalManureSystem : MonoBehaviour
         if(target==null || distance>radius) return;
         bool hasFork=HasPitchfork(playerInventory);
         WorldInteractionPrompt.Request(this,target.transform,hasFork?"[E] Ambil Kotoran":"Pilih Garpu untuk mengambil kotoran",distance,.65f);
-        if(hasFork && PlayerInteractionTarget.PressPickup(playerInventory.transform,target.transform,KeyCode.E,radius))
+        if(hasFork && PlayerInteractionTarget.PressPrompt(this, target.transform, KeyCode.E))
             TryCollect(nearest.id,playerInventory);
     }
     public void ProduceDueDrops()

@@ -54,7 +54,7 @@ public enum UpgradeShopKind { Blacksmith, Lumber }
   if(Active!=null||ShopFront.IsAnyOpen||MarketStand.IsAnyOpen||GameplayPauseMenu.BlocksGameplayInput)return;
   Resolve();if(player==null||!PlayerInteractionTarget.ContainsPickup(player.transform,transform,interactionRadius))return;
   WorldInteractionPrompt.Request(this,transform,"E: "+(kind==UpgradeShopKind.Blacksmith?"Pandai Besi":"Lumber Store"),Vector3.Distance(player.transform.position,transform.position),2.2f);
-  if(PlayerInteractionTarget.PressPickup(player.transform,transform,KeyCode.E,interactionRadius))Open();
+  if(PlayerInteractionTarget.PressPrompt(this, KeyCode.E))Open();
  }
  [ContextMenu("Open Upgrade Shop For Testing")] public void Open()
  {

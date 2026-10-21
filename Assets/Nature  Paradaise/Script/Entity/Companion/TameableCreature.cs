@@ -48,7 +48,7 @@ public sealed class TameableCreature : MonoBehaviour
         PlayerController player = FindFirstObjectByType<PlayerController>();
         if (player == null || !PlayerInteractionTarget.Contains(player.transform, transform)) return;
         WorldInteractionPrompt.Request(this, transform, "E: Pilih Mercy / End", Vector3.Distance(player.transform.position, transform.position), 1.2f);
-        if (PlayerInteractionTarget.Press(player.transform, transform, KeyCode.E))
+        if (PlayerInteractionTarget.PressPrompt(this, KeyCode.E))
             CreatureFatePanel.Show(this, player);
     }
 

@@ -5,6 +5,7 @@ public static class PlayerInteractionTarget
 {
     static int inputFrame = -1;
     static readonly System.Collections.Generic.HashSet<KeyCode> UsedKeys = new();
+    static PlayerController actionPlayer;
 
     public static bool Contains(Transform player, Transform target)
     {
@@ -49,6 +50,7 @@ public static class PlayerInteractionTarget
     }
 
     /// <summary>Satu penekanan tombol tidak menjalankan beberapa interaksi sekaligus.</summary>
+    [System.Obsolete("World interactions must use PressPrompt(owner, key) after validating their current range.", true)]
     public static bool Press(Transform player, Transform target, KeyCode key)
     {
         if (!GameplayInput.GetKeyDown(key) || !Contains(player, target)) return false;
@@ -64,13 +66,25 @@ public static class PlayerInteractionTarget
         return Mathf.Abs(delta.y) <= 2f && delta.x * delta.x + delta.z * delta.z <= radius * radius;
     }
 
+    /// <summary>Comparable horizontal distance for furniture and doors, including trigger interaction shapes.</summary>
+    public static float SurfaceDistance(Transform player, Transform target)
+    {
+        if (player == null || target == null) return float.PositiveInfinity;
+        Collider shape = target.GetComponent<Collider>();
+        Vector3 point = shape != null && shape.enabled
+            ? shape.ClosestPoint(player.position + Vector3.up * .75f) : target.position;
+        Vector3 delta = point - player.position;
+        return Mathf.Sqrt(delta.x * delta.x + delta.z * delta.z);
+    }
+
+    [System.Obsolete("World interactions must use PressPrompt(owner, key) after validating their current range.", true)]
     public static bool PressPickup(Transform player, Transform target, KeyCode key, float radius)
     {
         return GameplayInput.GetKeyDown(key) && ContainsPickup(player, target, radius) && ConsumeKey(key);
     }
 
     /// <summary>Memakai satu tombol untuk interaksi tanpa target dunia, misalnya menurunkan hewan.</summary>
-    public static bool Press(KeyCode key)
+    static bool Press(KeyCode key)
     {
         return GameplayInput.GetKeyDown(key) && ConsumeKey(key);
     }
@@ -78,7 +92,20 @@ public static class PlayerInteractionTarget
     /// <summary>Only the visible prompt may consume this press; range is checked by its owner.</summary>
     public static bool PressPrompt(Object owner, KeyCode key)
     {
-        return WorldInteractionPrompt.IsDisplayedFor(owner) && Press(key);
+        return WorldInteractionPrompt.IsDisplayedFor(owner) && CanReceiveInput(owner) && Press(key);
+    }
+
+    public static bool PressPrompt(Object owner, Transform anchor, KeyCode key)
+        => WorldInteractionPrompt.IsDisplayedFor(owner, anchor) && CanReceiveInput(owner) && Press(key);
+
+    public static bool PressAction(Object owner, KeyCode key)
+        => WorldInteractionPrompt.AllowsAction(owner) && CanReceiveInput(owner) && Press(key);
+
+    static bool CanReceiveInput(Object owner)
+    {
+        if (actionPlayer == null) actionPlayer = Object.FindFirstObjectByType<PlayerController>();
+        // An active session may use its own keys (e.g. dismount), never another session's lock.
+        return actionPlayer == null || !actionPlayer.HasMovementLockOtherThan(owner);
     }
 
     /// <summary>

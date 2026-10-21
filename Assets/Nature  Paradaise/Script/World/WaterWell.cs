@@ -25,7 +25,7 @@ public sealed class WaterWell : MonoBehaviour
         string status = can != null ? $"{can.CurrentWater}/{can.MaximumWater}" : "100/100";
         WorldInteractionPrompt.Request(this, transform, $"{interactKey}: Isi Watering Can ({status})",
             Vector3.Distance(playerInventory.transform.position, transform.position), promptHeight);
-        if (!PlayerInteractionTarget.PressPickup(playerInventory.transform, transform, interactKey, interactionRadius)) return;
+        if (!PlayerInteractionTarget.PressPrompt(this, interactKey)) return;
 
         if (can == null) can = playerInventory.gameObject.AddComponent<WateringCanSystem>();
         if (can.CurrentWater >= can.MaximumWater)

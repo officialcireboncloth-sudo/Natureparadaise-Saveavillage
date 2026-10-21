@@ -11,8 +11,8 @@ public sealed class HouseInteriorController : MonoBehaviour
     [SerializeField] bool useAuthoredSceneLayout;
     [Header("Authored Level Preview")]
     [SerializeField, Range(1,5)] int previewLevel = 1;
-    [Tooltip("Di Unity Editor, gunakan Preview Level saat Play untuk mengetes layout beserta fasilitasnya.")]
-    [SerializeField] bool usePreviewLevelInEditorPlay = true;
+    [Tooltip("Opsional untuk testing: pakai Preview Level saat Play. Default mati agar interior mengikuti level rumah asli.")]
+    [SerializeField] bool usePreviewLevelInEditorPlay;
     static HouseInteriorController activeController;
     bool runtimeUseActualLevel;
     public static int GameplayPreviewLevel => activeController != null && activeController.IsPlayerInside && activeController.IsPreviewingGameplay
@@ -69,7 +69,8 @@ public sealed class HouseInteriorController : MonoBehaviour
         int actualLevel = PlayerHouseController.Instance != null
             ? PlayerHouseController.Instance.CurrentLevel
             : 1;
-        int level = ProgressionRequirementSettings.EffectiveHouseLevel(actualLevel);
+        // Bypass requirement membuka akses testing, bukan mengganti level fisik rumah.
+        int level = Mathf.Max(1, actualLevel);
         ApplyLayout(Application.isPlaying ? (runtimeDebugLevel>0?runtimeDebugLevel:EditorPreviewEnabled?previewLevel:level) : previewLevel);
     }
 

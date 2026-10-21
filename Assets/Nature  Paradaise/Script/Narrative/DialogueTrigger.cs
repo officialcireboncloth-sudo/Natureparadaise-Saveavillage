@@ -27,7 +27,7 @@ public sealed class DialogueTrigger : MonoBehaviour
 
         float distance = Vector3.Distance(playerInventory.transform.position, transform.position);
         WorldInteractionPrompt.Request(this, transform, promptText, distance, promptHeight);
-        if (!PlayerInteractionTarget.Press(playerInventory.transform, transform, interactKey)) return;
+        if (!PlayerInteractionTarget.PressPrompt(this, interactKey)) return;
 
         DialogueConversationSO selected = SelectConversation();
         if (selected == null)

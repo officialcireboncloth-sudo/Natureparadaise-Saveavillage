@@ -18,8 +18,8 @@ public sealed class KitchenSet : MonoBehaviour
         if(!PlayerInteractionTarget.ContainsPickup(playerInventory.transform,transform,interactionRadius))return;
         WorldInteractionPrompt.Request(this,transform,KitchenService.IsUnlocked
             ? $"{interactKey}: Memasak — Kitchen Lv.{KitchenService.Level}" : "Kompor terkunci — House Lv.3",
-            Vector3.Distance(playerInventory.transform.position,transform.position),promptHeight);
-        if(PlayerInteractionTarget.PressPickup(playerInventory.transform,transform,interactKey,interactionRadius))OpenPanel();
+            PlayerInteractionTarget.SurfaceDistance(playerInventory.transform,transform),promptHeight);
+        if(PlayerInteractionTarget.PressPrompt(this,interactKey))OpenPanel();
     }
     public void OpenPanel()
     {

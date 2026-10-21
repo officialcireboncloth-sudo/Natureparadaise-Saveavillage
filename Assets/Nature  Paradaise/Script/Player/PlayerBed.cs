@@ -47,7 +47,7 @@ public sealed class PlayerBed : MonoBehaviour
             {
                 nearbyPlayer = playerCandidate;
                 var bounds = GetComponent<Collider>().bounds;
-                float distance = Vector3.Distance(playerCandidate.transform.position, bounds.ClosestPoint(playerCandidate.transform.position));
+                float distance = PlayerInteractionTarget.SurfaceDistance(playerCandidate.transform, transform);
                 WorldInteractionPrompt.Request(this, bounds.center + Vector3.up * promptHeight, prompt, distance);
             }
             else if (nearbyPlayer == playerCandidate)
@@ -96,7 +96,7 @@ public sealed class PlayerBed : MonoBehaviour
         float dx = Mathf.Max(0f, Mathf.Abs(player.position.x - bounds.center.x) - bounds.extents.x);
         float dz = Mathf.Max(0f, Mathf.Abs(player.position.z - bounds.center.z) - bounds.extents.z);
         float distance = Mathf.Sqrt(dx * dx + dz * dz);
-        return distance <= interactionRadius && Mathf.Abs(player.position.y - bounds.center.y) <= 2.5f && !ToolStorageChest.HasCloserRack(player,distance) && !HouseStorageChest.HasCloserStorage(player,distance) && !HouseSaveBook.HasCloserBook(player,distance);
+        return distance <= interactionRadius && Mathf.Abs(player.position.y - bounds.center.y) <= 2.5f;
     }
 
     /// <summary>Mencari permukaan kasur pada geometri visual, tanpa memakai puncak collider yang mencakup kepala ranjang.</summary>

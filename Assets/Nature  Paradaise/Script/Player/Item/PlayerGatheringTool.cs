@@ -120,24 +120,27 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if (carriedItem != null)
         {
             WorldInteractionPrompt.Request(this, transform, $"{pullOrStoreKey}: simpan   {dropCarriedKey}: jatuhkan", 0f, 1.65f);
-            if (GameplayInput.GetKeyDown(pullOrStoreKey)) StoreCarriedItem();
-            else if (GameplayInput.GetKeyDown(dropCarriedKey)) DropCarriedItem();
+            if (PlayerInteractionTarget.PressPrompt(this, transform, pullOrStoreKey)) StoreCarriedItem();
+            else if (PlayerInteractionTarget.PressPrompt(this, transform, dropCarriedKey)) DropCarriedItem();
             return;
         }
 
         ShowTargetPrompt();
         if (movement != null && movement.IsMovementLocked) return;
+        Transform actionTarget = hotbar.SelectedTool == PlayerToolType.Axe ? treeTarget?.transform : target?.transform;
+        if (actionTarget != null && WorldInteractionPrompt.HasDisplayedPrompt &&
+            !WorldInteractionPrompt.IsDisplayedFor(this, actionTarget)) return;
 
-        if (target != null && GameplayInput.GetKeyDown(pullOrStoreKey) && target.CanPull)
+        if (target != null && target.CanPull && PlayerInteractionTarget.PressPrompt(this, target.transform, pullOrStoreKey))
             PullTarget();
-        else if (hotbar.IsUsePressed(PlayerToolType.Sickle))
+        else if (hotbar.IsUsePressed(PlayerToolType.Sickle, this))
             UseSickle();
         else if (hotbar.SelectedTool == PlayerToolType.Hammer && target != null && target.CanHammer &&
-            GameplayInput.GetKeyDown(pullOrStoreKey) && PlayerInteractionTarget.Press(pullOrStoreKey))
+            PlayerInteractionTarget.PressPrompt(this, target.transform, pullOrStoreKey))
             UseHammer();
-        else if (hotbar.IsUsePressed(PlayerToolType.Hammer))
+        else if (hotbar.IsUsePressed(PlayerToolType.Hammer, this))
             UseHammer();
-        else if (hotbar.IsUsePressed(PlayerToolType.Axe))
+        else if (hotbar.IsUsePressed(PlayerToolType.Axe, this))
             UseAxe();
     }
 

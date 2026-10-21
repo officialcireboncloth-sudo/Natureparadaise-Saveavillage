@@ -70,7 +70,7 @@ public sealed class PlayerAnimalCarry : MonoBehaviour
             0f,
             3.35f
         );
-        if (PlayerInteractionTarget.Press(interactionKey)) Drop();
+        if (PlayerInteractionTarget.PressPrompt(this, interactionKey)) Drop();
     }
 
     void LateUpdate()

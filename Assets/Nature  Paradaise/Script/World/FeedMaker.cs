@@ -348,14 +348,14 @@ public sealed class FeedMaker : MonoBehaviour
         if(inventory==null || !PlayerInteractionTarget.Contains(inventory.transform,transform)) return;
         string state=Output>0 ? $"Ready: Animal {output} | Fish {fishFeedOutput}" : jobs.Count>0 ? "Processing" : "Idle";
         WorldInteractionPrompt.Request(this,transform,$"E: Buka Feed Maker Lv.{Level} — {state}\nF: Ambil 1 pakan",Vector3.Distance(inventory.transform.position,transform.position),1.5f);
-        if(PlayerInteractionTarget.Press(inventory.transform,transform,KeyCode.F))
+        if(PlayerInteractionTarget.PressPrompt(this, KeyCode.F))
         {
             bool fish=fishFeedMode ? fishFeedOutput>0 : output<=0 && fishFeedOutput>0;
             if(!CollectAnimated(inventory,fish,transform))
                 SaveLoadFeedback.Instance?.ShowMessage("Feed belum ready / Inventory penuh");
             return;
         }
-        if(!PlayerInteractionTarget.Press(inventory.transform,transform,KeyCode.E)) return;
+        if(!PlayerInteractionTarget.PressPrompt(this, KeyCode.E)) return;
         OpenFor(inventory);
     }
 

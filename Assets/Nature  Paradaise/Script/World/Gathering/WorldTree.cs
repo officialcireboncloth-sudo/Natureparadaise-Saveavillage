@@ -531,6 +531,8 @@ public sealed class WorldTree : MonoBehaviour
         if (definition == null || progress == null || state != TreeGrowthState.Standing) return;
         if (fruitInventory == null) fruitInventory = FindFirstObjectByType<Inventory>();
         if (fruitInventory == null || (fruitInventory.GetComponent<PlayerController>()?.IsMovementLocked ?? false)) return;
+        // The gathering controller owns the axe prompt and hit target while the axe is selected.
+        if (fruitInventory.GetComponent<PlayerToolHotbar>()?.SelectedTool == PlayerToolType.Axe) return;
         // Pohon dalam farm mengikuti satu tile target hoe, bukan semua pohon dalam radius.
         bool inField = FieldArea.TryGetAt(transform.position, out _, out _, out _);
         FarmingTool farming = fruitInventory.GetComponent<FarmingTool>();
@@ -543,7 +545,7 @@ public sealed class WorldTree : MonoBehaviour
             (definition.fruitSeasons & CropDataSO.GetSeasonForDay(CurrentDay)) != 0)
         {
             WorldInteractionPrompt.Request(this, transform, "E - Panen " + definition.fruitItem.itemName, 1f, promptHeight);
-            if (PlayerInteractionTarget.Press(fruitInventory.transform, transform, KeyCode.E))
+            if (PlayerInteractionTarget.PressPrompt(this, KeyCode.E))
                 TryHarvestFruit(fruitInventory);
         }
         else if (HUDManager.DebugCluesEnabled)

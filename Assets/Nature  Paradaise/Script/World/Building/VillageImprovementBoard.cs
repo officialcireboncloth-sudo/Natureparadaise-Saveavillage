@@ -45,7 +45,7 @@ public sealed class VillageImprovementBoard : MonoBehaviour
         VillageProgressionService village = VillageProgressionService.Instance;
         string level = village != null ? $"Lv.{village.VillageLevel}" : "--";
         WorldInteractionPrompt.Request(this, transform, $"{interactKey}: Village Improvement Board — {level}", distance, 1.7f);
-        if (GameplayInput.GetKeyDown(interactKey)) OpenPanel();
+        if (PlayerInteractionTarget.PressPrompt(this, interactKey)) OpenPanel();
     }
 
     void OnGUI()

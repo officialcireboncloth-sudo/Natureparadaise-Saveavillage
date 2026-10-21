@@ -235,7 +235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6995015179392430850, guid: 47b4400c4cd26f246b6f6f0c2477dc6f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -431,8 +431,8 @@ MonoBehaviour:
   - {fileID: 1891613964}
   - {fileID: 1795745807}
   useAuthoredSceneLayout: 1
-  previewLevel: 5
-  usePreviewLevelInEditorPlay: 1
+  previewLevel: 1
+  usePreviewLevelInEditorPlay: 0
   levelEntryPoints:
   - {fileID: 236146570}
   - {fileID: 578272126}
@@ -837,7 +837,7 @@ Transform:
   m_GameObject: {fileID: 1409614242}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.8000007, y: 0.65, z: 0.10000001}
+  m_LocalPosition: {x: 2.6, y: 0.65, z: 0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1056,6 +1056,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: InteriorLayout_Lv5_Editable
       objectReference: {fileID: 0}
+    - target: {fileID: 6821471306962926315, guid: 2cd55c823d0566a4598d81f5a4e7f8e1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1266,7 +1270,7 @@ Transform:
   m_GameObject: {fileID: 1931645637}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.8000007, y: 0.08, z: 0.95}
+  m_LocalPosition: {x: 2.6, y: 0.08, z: 0.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

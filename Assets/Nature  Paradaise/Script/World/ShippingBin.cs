@@ -146,7 +146,7 @@ public sealed class ShippingBin : MonoBehaviour
         WorldInteractionPrompt.Request(this, transform,
             $"{interactKey}: Shipping Bin | {PendingItemCount} item | Est. {PendingEstimatedValue} G",
             distance, promptHeight);
-        if (PlayerInteractionTarget.Press(playerInventory.transform, transform, interactKey)) OpenPanel();
+        if (PlayerInteractionTarget.PressPrompt(this, interactKey)) OpenPanel();
     }
 
     public void RequestDeposit(int slotIndex, int amount)

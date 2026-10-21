@@ -285,7 +285,7 @@ public sealed class PersonalAnimal : MonoBehaviour
             ? $"E: {DisplayName} Commands / Mount"
             : $"E: {DisplayName} Commands";
         WorldInteractionPrompt.Request(this, transform, label, Vector3.Distance(player.transform.position, transform.position), 1.2f);
-        if (PlayerInteractionTarget.Press(player.transform, transform, KeyCode.E))
+        if (PlayerInteractionTarget.PressPrompt(this, KeyCode.E))
             CompanionCommandPanel.Show(this, player);
     }
 
@@ -700,7 +700,8 @@ public sealed class PersonalAnimal : MonoBehaviour
 
     void UpdateMounted()
     {
-        if (GameplayInput.GetKeyDown(KeyCode.E)) { Dismount(); return; }
+        WorldInteractionPrompt.RequestClean(this, transform, "E: Turun dari " + DisplayName, 0f, 1.8f);
+        if (PlayerInteractionTarget.PressPrompt(this, KeyCode.E)) { Dismount(); return; }
         Vector2 input = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Transform cameraTransform = Camera.main != null ? Camera.main.transform : null;
         Vector3 forward = cameraTransform != null ? cameraTransform.forward : Vector3.forward;

@@ -267,7 +267,7 @@ public sealed class AnimalBellStation : MonoBehaviour
         }
         WorldInteractionPrompt.Request(this, toggleButton,
             $"E: Gunakan Bell\n{home.Label} | Dalam {inside} | Luar {outside}", distance, 0.55f);
-        if (!PlayerInteractionTarget.PressPickup(player.transform, toggleButton, KeyCode.E, interactionRadius)) return;
+        if (!PlayerInteractionTarget.PressPrompt(this, KeyCode.E)) return;
         OpenMenu();
     }
 

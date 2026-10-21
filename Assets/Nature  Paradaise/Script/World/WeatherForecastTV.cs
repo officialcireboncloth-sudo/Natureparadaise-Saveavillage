@@ -36,7 +36,7 @@ public sealed class WeatherForecastTV : MonoBehaviour
             if (player == null) return;
         }
 
-        bool inRange = isOpen || PlayerInteractionTarget.Contains(player.transform, transform);
+        bool inRange = isOpen || PlayerInteractionTarget.ContainsPickup(player.transform, transform, interactionRadius);
         if (!inRange)
         {
             if (isOpen) CloseTV();
@@ -44,9 +44,9 @@ public sealed class WeatherForecastTV : MonoBehaviour
         }
 
         if (!isOpen)
-            WorldInteractionPrompt.Request(this, transform, isRadio ? "E: Radio — Ramalan cuaca" : "E: TV — Ramalan cuaca", Vector3.Distance(player.transform.position, transform.position), promptHeight);
+            WorldInteractionPrompt.Request(this, transform, isRadio ? "E: Radio — Ramalan cuaca" : "E: TV — Ramalan cuaca", PlayerInteractionTarget.SurfaceDistance(player.transform, transform), promptHeight);
 
-        if (!isOpen && PlayerInteractionTarget.Press(player.transform, transform, interactKey))
+        if (!isOpen && PlayerInteractionTarget.PressPrompt(this, interactKey))
             OpenTV();
     }
 

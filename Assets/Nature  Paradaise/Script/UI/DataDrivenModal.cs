@@ -22,8 +22,8 @@ public abstract class DataDrivenModal : MonoBehaviour
         if(Active!=null||ShopFront.IsAnyOpen||UpgradeShopFront.Active!=null||MarketStand.IsAnyOpen||WorldInteractionPrompt.IsSuppressed||GameplayPauseMenu.BlocksGameplayInput)return;
         player??=FindFirstObjectByType<PlayerController>();
         if(player==null||!PlayerInteractionTarget.ContainsPickup(player.transform,transform,interactionRadius))return;
-        WorldInteractionPrompt.Request(this,transform,Prompt,Vector3.Distance(player.transform.position,transform.position),1.5f);
-        if(PlayerInteractionTarget.PressPickup(player.transform,transform,KeyCode.E,interactionRadius))Open();
+        WorldInteractionPrompt.Request(this,transform,Prompt,PlayerInteractionTarget.SurfaceDistance(player.transform,transform),1.5f);
+        if(PlayerInteractionTarget.PressPrompt(this, KeyCode.E))Open();
     }
     [ContextMenu("Open For Testing")]public void Open()
     {

@@ -125,7 +125,7 @@ public class NPCSeller : MonoBehaviour
         // E = OPEN / CLOSE SHOP
         // =====================================================
 
-        if (shopOpen ? GameplayInput.GetKeyDown(interactKey) : PlayerInteractionTarget.Press(playerInv.transform, transform, interactKey))
+        if (shopOpen ? GameplayInput.GetKeyDown(interactKey) : PlayerInteractionTarget.PressPrompt(this, interactKey))
         {
             if (shopOpen)
                 CloseShop();
