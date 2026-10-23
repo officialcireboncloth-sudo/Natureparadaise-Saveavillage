@@ -21,8 +21,12 @@
 
 ## Git handoff checklist
 
+See `Assets/Nature  Paradaise/Documentation/GitHandoff.md` for required files,
+historical reference matching, clean-copy validation and client setup.
+
 - Commit `.meta` files together with Unity assets.
 - Keep required TMP Essential Resources in `Assets/Nature  Paradaise/Pack/TextMesh Pro`, including fonts, shaders and `Resources/TMP Settings.asset`. The top-level `Assets/TextMesh Pro` folder is ignored and must not be the only local copy.
+- Required URP/renderer/volume settings live in `Nature  Paradaise/Settings/Graphics`, Input settings in `Settings/Input`, and scene terrain data in `Map/TerrainData`. Used SoStylized dependencies belong in `Pack/SoStylized`. Root-level Assets folders are ignored; do not leave live scene or ProjectSettings references depending on them. Move each asset with its existing `.meta` and check Unity dependencies before handoff.
 - Never commit `Library`, `Temp`, `Logs`, or generated build output.
 - Open `SampleScene`, wait for compilation, and check the Console before pushing.
 - Test save/load when changing inventory, field, weather, player status, or gatherable state.

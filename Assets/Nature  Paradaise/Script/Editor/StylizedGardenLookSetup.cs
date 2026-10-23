@@ -105,7 +105,7 @@ public static class StylizedGardenLookSetup
             UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);
         }
         finally { if (opened) UnityEditor.SceneManagement.EditorSceneManager.CloseScene(scene, true); }
-        var pipeline = AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>("Assets/Settings/PC_RPAsset.asset");
+        var pipeline = AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>("Assets/Nature  Paradaise/Settings/Graphics/PC_RPAsset.asset");
         if (pipeline != null)
         {
             pipeline.shadowDistance = 100f;

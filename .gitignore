@@ -6,6 +6,12 @@
 [Uu]ser[Ss]ettings/
 .vs/
 
+# Local player builds and captured output, not project source dependencies.
+/Build/
+/Builds/
+/MemoryCaptures/
+/Recordings/
+
 # Visual Studio / IDE generated files
 *.csproj
 *.sln
@@ -16,6 +22,7 @@
 
 # Unity package archives
 *.unitypackage
+*.unitypackage.meta
 
 # Local restore copies created before balance CSV imports.
 /BalanceBackups/
@@ -27,7 +34,8 @@
 
 # Only Nature Paradise assets belong to this repository.
 # Keep other local asset packs/settings on disk, outside version control.
-# Required game dependencies (including TMP resources) live inside this folder.
+# Required game dependencies (TMP, URP/Input settings, terrain and used pack assets)
+# live inside this folder. Move asset + .meta together to preserve references.
 /Assets/*
 !/Assets/Nature  Paradaise/
 !/Assets/Nature  Paradaise.meta
