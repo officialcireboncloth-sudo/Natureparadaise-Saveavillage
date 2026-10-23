@@ -13,7 +13,7 @@ public static class MainMenuSetup
     const string PrefabPath = "Assets/Nature  Paradaise/Prefabs/UI/MainMenu.prefab";
     const string ScenePath = "Assets/Nature  Paradaise/Map/Scenes/UI/MainMenu.unity";
     const string GameplayScenePath = "Assets/Nature  Paradaise/Map/Scenes/World/Map.unity";
-    const string DefaultFontPath = "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset";
+    const string DefaultFontPath = "Assets/Nature  Paradaise/Pack/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset";
 
     static MainMenuSetup()
     {

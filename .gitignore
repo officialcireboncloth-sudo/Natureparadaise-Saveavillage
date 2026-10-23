@@ -27,6 +27,7 @@
 
 # Only Nature Paradise assets belong to this repository.
 # Keep other local asset packs/settings on disk, outside version control.
+# Required game dependencies (including TMP resources) live inside this folder.
 /Assets/*
 !/Assets/Nature  Paradaise/
 !/Assets/Nature  Paradaise.meta

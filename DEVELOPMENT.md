@@ -22,6 +22,7 @@
 ## Git handoff checklist
 
 - Commit `.meta` files together with Unity assets.
+- Keep required TMP Essential Resources in `Assets/Nature  Paradaise/Pack/TextMesh Pro`, including fonts, shaders and `Resources/TMP Settings.asset`. The top-level `Assets/TextMesh Pro` folder is ignored and must not be the only local copy.
 - Never commit `Library`, `Temp`, `Logs`, or generated build output.
 - Open `SampleScene`, wait for compilation, and check the Console before pushing.
 - Test save/load when changing inventory, field, weather, player status, or gatherable state.
