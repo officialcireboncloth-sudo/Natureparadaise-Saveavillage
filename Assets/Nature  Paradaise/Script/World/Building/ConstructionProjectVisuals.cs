@@ -17,9 +17,9 @@ public sealed class ConstructionProjectVisuals
     int stage = -1;
     Transform worker, hammerPivot, leftLeg, rightLeg, body;
     Animator animator;
-    Canvas bar;
-    TMP_Text title, status;
-    RectTransform fill;
+    PlayerController infoPlayer;
+
+
     readonly Vector3 sitePosition;
     readonly Quaternion siteRotation;
     readonly Vector3 buildingPosition, workPosition;
@@ -51,7 +51,7 @@ public sealed class ConstructionProjectVisuals
         clothes = Material(profile?.workerClothes, new Color(.23f,.36f,.42f));
         skin = Material(profile?.workerSkin, new Color(.91f,.76f,.56f));
         hat = Material(profile?.workerHat, new Color(.77f,.55f,.22f));
-        BuildWorker(); BuildBar();
+        BuildWorker();
     }
     Material Material(Material assigned, Color color)
     {
@@ -130,43 +130,12 @@ public sealed class ConstructionProjectVisuals
         float swing=working ? Mathf.Lerp(-90,35,Mathf.Pow((Mathf.Sin(time*7)+1)*.5f,.65f)) : walking ? -gait*.4f : 0;
         hammerPivot.localRotation=Quaternion.Euler(swing,0,0);
     }
-    void BuildBar()
+    public void UpdateBar(string name,string label,float progress)
     {
-        var go=new GameObject("Construction_Progress",typeof(RectTransform),typeof(Canvas));
-        go.transform.SetParent(root,false); bar=go.GetComponent<Canvas>();bar.renderMode=RenderMode.WorldSpace;
-        var rect=go.GetComponent<RectTransform>();rect.sizeDelta=new Vector2(420,108);rect.localScale=Vector3.one*.008f;
-        GameplayHUDStyle.Surface(rect,GameplayHUDStyle.Modal,12);
-        title=GameplayHUDStyle.Text("Project",rect,"",26,new Vector2(.05f,.60f),new Vector2(.95f,.94f));title.alignment=TextAlignmentOptions.Center;
-        status=GameplayHUDStyle.Text("Stage",rect,"",22,new Vector2(.05f,.30f),new Vector2(.95f,.61f));status.alignment=TextAlignmentOptions.Center;status.color=GameplayHUDStyle.Muted;
-        var track=GameplayHUDStyle.Rect("Track",rect,new Vector2(.06f,.12f),new Vector2(.94f,.24f));
-        GameplayHUDStyle.Surface(track,GameplayHUDStyle.Card,6);
-        fill=GameplayHUDStyle.Rect("Progress",track,Vector2.zero,Vector2.one);GameplayHUDStyle.Surface(fill,GameplayHUDStyle.Accent,6);
-        foreach(var graphic in go.GetComponentsInChildren<Graphic>())
-        {
-            graphic.raycastTarget=false;
-            // Progress is a HUD label: scaffold poles must not cut through its text.
-            var text=graphic as TMP_Text;
-            var overlay=new Material(text != null ? text.fontSharedMaterial : graphic.material);
-            Shader textOverlay=settings != null && settings.progressTextShader != null ? settings.progressTextShader : Shader.Find("TextMeshPro/Distance Field Overlay");
-            if(graphic is TMP_Text && textOverlay != null)
-                overlay.shader=textOverlay;
-            overlay.SetInt("unity_GUIZTestMode",(int)UnityEngine.Rendering.CompareFunction.Always);
-            if(text != null)text.fontSharedMaterial=overlay;else graphic.material=overlay;
-            ownedMaterials.Add(overlay);
-        }
-    }
-    public void UpdateBar(string name, string label, float progress)
-    {
-        var camera=Camera.main;
-        Vector3 position=workPosition+Vector3.up*(2.1f+(settings != null ? settings.barHeight : 1.2f));
-        bool visible=camera != null && camera.WorldToViewportPoint(position).z > 0 && (camera.transform.position-position).sqrMagnitude < Mathf.Pow(settings != null ? settings.displayDistance : 42,2);
-        bar.gameObject.SetActive(visible);
-        if(!visible)return;
-        bar.transform.SetPositionAndRotation(position,camera.transform.rotation);
-        float depth=Vector3.Dot(position-camera.transform.position,camera.transform.forward);
-        float visibleHeight=camera.orthographic ? camera.orthographicSize*2 : 2*Mathf.Max(.1f,depth)*Mathf.Tan(camera.fieldOfView*Mathf.Deg2Rad*.5f);
-        bar.transform.localScale=Vector3.one*(visibleHeight/Mathf.Max(1,camera.pixelHeight)*(settings != null ? settings.barPixelWidth : 260)/420);
-        title.text=$"{name}  ·  {progress:P0}"; status.text=label; fill.anchorMax=new Vector2(Mathf.Max(.001f,progress),1);
+        if(infoPlayer==null)infoPlayer=Object.FindFirstObjectByType<PlayerController>();
+        if(infoPlayer==null)return;
+        float distance=Vector3.Distance(infoPlayer.transform.position,workPosition);
+        if(distance<=3f)GameplayInfoPanel.RequestHint(root,$"{name} · {label} · {progress:P0}",25,distance);
     }
     public void SetStage(float progress)
     {
@@ -233,7 +202,7 @@ public sealed class ConstructionProjectVisuals
         }
     }
     public void Reveal(float progress){SetStage(1);presentation?.Reveal(progress);}
-    public void HideSite(){presentation?.Hide();if(stageRoot!=null)stageRoot.SetActive(false);if(bar!=null)bar.gameObject.SetActive(false);}
+    public void HideSite(){presentation?.Hide();if(stageRoot!=null)stageRoot.SetActive(false);}
     public static void DestroyRuntime(Object value){if(value==null)return;if(Application.isPlaying)Object.Destroy(value);else Object.DestroyImmediate(value);}
     public void Dispose(){humanoidMotion?.Dispose();presentation?.Dispose();if(root!=null){root.gameObject.SetActive(false);DestroyRuntime(root.gameObject);}foreach(var material in ownedMaterials)DestroyRuntime(material);}
 }

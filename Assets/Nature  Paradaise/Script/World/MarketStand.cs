@@ -54,6 +54,9 @@ public sealed class MarketStand : MonoBehaviour
 
     [Header("Identity")]
     [SerializeField] string standId = "village-market-stand-01";
+    [Header("Atlas Stand Presentation")]
+    [Tooltip("Pertahankan ukuran prefab atlas dalam meter saat Play, termasuk instance Map lama yang masih memakai scale 2x.")]
+    [SerializeField] bool normalizeAtlasWorldScale;
 
     [Header("Interaction")]
     [SerializeField] Inventory playerInventory;
@@ -108,6 +111,12 @@ public sealed class MarketStand : MonoBehaviour
 
     void Awake()
     {
+        if(normalizeAtlasWorldScale)
+        {
+            Vector3 parentScale=transform.parent!=null?transform.parent.lossyScale:Vector3.one;
+            if(Mathf.Abs(parentScale.x)>.0001f&&Mathf.Abs(parentScale.y)>.0001f&&Mathf.Abs(parentScale.z)>.0001f)
+                transform.localScale=new Vector3(1f/parentScale.x,1f/parentScale.y,1f/parentScale.z);
+        }
         ResolveInventory();
         NormalizeListings();
 
@@ -150,9 +159,17 @@ public sealed class MarketStand : MonoBehaviour
 
         float distance = Vector3.Distance(playerInventory.transform.position, transform.position);
         WorldInteractionPrompt.Request(this, transform,
-            $"{interactKey}: Market Stand | Stok {TotalItemCount} item", distance, promptHeight);
+            $"{interactKey}: Market Stand | Stok {TotalItemCount} item", distance, promptHeight, OpenFromPrompt);
         if (PlayerInteractionTarget.PressPrompt(this, interactKey))
             OpenPanel();
+    }
+
+    void OpenFromPrompt()
+    {
+        ResolveInventory();
+        var movement=playerInventory!=null?playerInventory.GetComponent<PlayerController>():null;
+        if(playerInventory!=null&&!WorldInteractionPrompt.IsSuppressed&&
+            (movement==null||!movement.IsMovementLocked)&&PlayerInteractionTarget.Contains(playerInventory.transform,transform))OpenPanel();
     }
 
     public bool TryDepositFromSlot(int slotIndex, int amount)

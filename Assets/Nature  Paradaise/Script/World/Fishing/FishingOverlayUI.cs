@@ -59,9 +59,13 @@ public sealed class FishingOverlayUI : MonoBehaviour
             FishingState.Result=>"Tangkapan akan masuk ke inventory",
             _=>""
         };
+
+        instructions.gameObject.SetActive(false);hint.gameObject.SetActive(false);
         details.text=fishing.State==FishingState.Result
             ?$"{fishing.ResultItem?.itemName}\n{(fishing.ResultItem?.category==ItemCategory.Fish?$"Ukuran: {fishing.ResultSize:0.0} cm\n":"")}Lokasi: {fishing.CatchLocation}\nMasuk inventory: {fishing.ResultTimeRemaining:0.0}s"
             :$"Umpan: {(fishing.ActiveCastBait!=null?fishing.ActiveCastBait.itemName:"Tanpa umpan")}\nJarak: {(fishing.State==FishingState.Charging?fishing.PreviewCastDistance:fishing.CastDistance):0.0} m";
+        GameplayInfoPanel.RequestHint(this,title.text+" · "+instructions.text.Replace("\n"," · ")+"\n"+details.text.Replace("\n"," · "),70);
+        title.gameObject.SetActive(false);details.gameObject.SetActive(false);
         catchImage.sprite=fishing.ResultItem?.icon!=null?fishing.ResultItem.icon:imageSlots?.catchPlaceholder;
         catchImage.enabled=catchImage.sprite!=null;
         hint.text=minigame?$"[{key}]  Tahan / Lepas untuk menarik":instructions.text;
@@ -105,6 +109,7 @@ public sealed class FishingOverlayUI : MonoBehaviour
         var mobile=GameplayHUDStyle.Rect("Touch Hold",safe,new(.79f,.025f),new(.98f,.09f));GameplayHUDStyle.Surface(mobile,new(.25f,.33f,.37f,.95f),8).raycastTarget=true;
         Text(mobile,"Label","TAHAN / LEPAS",20,Vector2.zero,Vector2.one).alignment=TextAlignmentOptions.Center;
         hold=mobile.gameObject.AddComponent<FishingHoldButton>();
+        GameplayInfoPanel.RegisterTools(mobile);
         if(Application.isMobilePlatform&&EventSystem.current==null)new GameObject("EventSystem_Fishing",typeof(EventSystem),typeof(StandaloneInputModule));
     }
     static TMP_Text Text(Transform parent,string name,string value,float size,Vector2 min,Vector2 max)=>GameplayHUDStyle.Text(name,parent,value,size,min,max);

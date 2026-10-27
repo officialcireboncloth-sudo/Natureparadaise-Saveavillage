@@ -99,6 +99,53 @@ public sealed class PlayerBed : MonoBehaviour
         return distance <= interactionRadius && Mathf.Abs(player.position.y - bounds.center.y) <= 2.5f;
     }
 
+    /// <summary>Finds a capsule-clear standing spot along a long side of this bed and its matching seat.</summary>
+    public bool TryFindFreeSide(CharacterController player, Transform houseRoot, Vector3 reference,
+        out Vector3 stand, out Vector3 seat, out Quaternion facing)
+    {
+        stand=seat=default;facing=Quaternion.identity;
+        if(player==null)return false;
+        var bounds=new Bounds();bool first=true;
+        foreach(var renderer in GetComponentsInChildren<Renderer>())
+        {
+            var source=renderer.localBounds;
+            for(int corner=0;corner<8;corner++)
+            {
+                var point=source.center+Vector3.Scale(source.extents,new Vector3((corner&1)==0?-1:1,(corner&2)==0?-1:1,(corner&4)==0?-1:1));
+                point=transform.InverseTransformPoint(renderer.transform.TransformPoint(point));
+                if(first){bounds=new Bounds(point,Vector3.zero);first=false;}else bounds.Encapsulate(point);
+            }
+        }
+        if(first)return false;
+        bool narrowX=bounds.size.x<bounds.size.z;
+        Vector3 side=narrowX?Vector3.right:Vector3.forward;
+        Vector3 length=narrowX?Vector3.forward:Vector3.right;
+        float halfWidth=narrowX?bounds.extents.x:bounds.extents.z;
+        float bedLength=narrowX?bounds.size.z:bounds.size.x;
+        Vector3 worldCenter=transform.TransformPoint(bounds.center);
+        if(!TryGetMattressSurface(worldCenter,out float mattress))return false;
+        float radius=player.radius*Mathf.Max(Mathf.Abs(player.transform.lossyScale.x),Mathf.Abs(player.transform.lossyScale.z));
+        float sideScale=transform.TransformVector(side).magnitude;
+        Vector3 outward=transform.TransformDirection(side).normalized;
+        int preferred=Vector3.Dot(reference-worldCenter,outward)>=0?1:-1;
+        Physics.SyncTransforms();
+        for(int pass=0;pass<2;pass++)
+        for(int offset=0;offset<5;offset++)
+        {
+            int sign=pass==0?preferred:-preferred;
+            float along=offset switch{0=>0,1=>-.22f,2=>.22f,3=>-.38f,_=>.38f};
+            Vector3 edge=transform.TransformPoint(bounds.center+length*(bedLength*along)+side*(halfWidth*sign));
+            Vector3 candidate=edge+outward*sign*(radius+.18f);
+            candidate.y=player.transform.position.y;
+            if(!PlayerLifeCycle.TryResolveStandingPoint(candidate,player,houseRoot,out stand,false))continue;
+            seat=edge-outward*sign*Mathf.Min(.07f,halfWidth*sideScale*.15f);
+            seat.y=mattress+PlayerDimensions.Height*.07f;
+            facing=Quaternion.LookRotation(outward*sign,Vector3.up);
+            return true;
+        }
+        return false;
+    }
+
     /// <summary>Mencari permukaan kasur pada geometri visual, tanpa memakai puncak collider yang mencakup kepala ranjang.</summary>
     public bool TryGetMattressSurface(Vector3 center, out float height)
     {

@@ -292,6 +292,7 @@ public static class PlayerVisualSetup
         set.mountHorse=Clip("Mount Horse");
         set.dismountHorse=Clip("Dismount Horse");
         set.ridingIdle=Clip("Riding Idle");
+        HorseRiderTransitionsSetup.ApplyClipOverrides(set);
         set.pickUpChicken=Clip("Pick Up Chicken");
         set.holdTwoHands=Clip("Hold Two Hands");
         set.placeChicken=Clip("Place Chicken");
@@ -468,6 +469,7 @@ public static class PlayerVisualSetup
             exit.conditions=new[]{new AnimatorCondition{mode=AnimatorConditionMode.IfNot,parameter="ShearingActive"}};
         }
         EnsureRidingState(stateMachine,clips.ridingIdle);
+        HorseRiderTransitionsSetup.ConfigureController(controller);
         EnsureTiredState(stateMachine,clips.tiredPose);
         EnsureHoldItemLayer(controller,clips.holdItem,clips.holdTwoHands);
         EnsureFatigueLayer(controller,clips.staggerOverlay);

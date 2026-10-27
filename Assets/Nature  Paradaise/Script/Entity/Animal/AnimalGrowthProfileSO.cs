@@ -83,6 +83,9 @@ public sealed class AnimalConditionVisualSlot
 public sealed class AnimalGrowthProfileSO : ScriptableObject
 {
     public AnimalType animalType = AnimalType.Cow;
+    [Header("Locomotion")]
+    [Min(0.1f), Tooltip("Pengali kecepatan jalan dan tempo langkah. 0.5 = setengah kecepatan dasar AnimalRoutine.")]
+    public float walkingSpeedMultiplier = 1f;
     [Header("Animal Sale Price")]
     public AnimalSalePriceSettings salePrice = new();
     [Min(0)] public int incubationOrPregnancyDays = 7;

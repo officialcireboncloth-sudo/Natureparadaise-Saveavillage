@@ -93,6 +93,8 @@ public class ItemSO : ScriptableObject
     [Header("Inventory")]
     [Tooltip("Dipakai untuk sorting dan validasi fitur seperti eating atau tool selection.")]
     public ItemCategory category = ItemCategory.General;
+    [Tooltip("Only the matching animal trough or fish pond accepts this feed. None is an ordinary item.")]
+    public FeedKind feedKind;
     public bool isAnimalProduct;
     [Tooltip("Key Item tidak dapat dijual melalui shop, shipping, atau Market Stand.")]
     public bool isKeyItem;

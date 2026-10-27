@@ -107,6 +107,7 @@ public sealed class PropertySite : MonoBehaviour
     bool previewRelocatesSelf;
     bool previewAllowsCatalogNavigation;
     bool previewDebugFree;
+    bool cameraFacingPoseReady;
     int previewStartedFrame = -1;
     int previewLevel;
     int previewCatalogIndex;
@@ -290,6 +291,14 @@ public sealed class PropertySite : MonoBehaviour
     void Update()
     {
         ResolvePlayerIfNeeded();
+        // Repair older Lumber placements once after load, using the world camera rather than an interior camera.
+        if (!cameraFacingPoseReady && globalBuildInstance && state == BuildingConstructionState.Completed &&
+            activeDefinition != null && activeDefinition.faceCameraOnPlacement && Camera.main != null &&
+            (SceneTransitionManager.Instance == null || !SceneTransitionManager.Instance.IsInsideInterior) && !previewActive)
+        {
+            buildingAnchor.rotation = CameraFacingRotation(activeDefinition);
+            cameraFacingPoseReady = true;
+        }
         if (playerTransform == null)
             return;
 
@@ -390,6 +399,11 @@ public sealed class PropertySite : MonoBehaviour
                 CancelRelocationMode();
             return;
         }
+
+        // Keep placement/relocation APIs for Lumber orders and existing saves, but remove
+        // the old independent animal-housing menu from vacant world sites.
+        if (catalog != null && catalog.ContainsAnimalHousing)
+            return;
 
         string firstName = FirstCatalogDefinition != null ? FirstCatalogDefinition.displayName : "Catalog kosong";
         string actionLabel = allowFreePlacement
@@ -495,7 +509,7 @@ public sealed class PropertySite : MonoBehaviour
         Transform promptAnchor = previewObject != null ? previewObject.transform : buildingAnchor;
         int previewYaw = Mathf.RoundToInt(Mathf.Repeat(previewPlacementRotation.eulerAngles.y, 360f));
         string placementControls = previewUsesFreePlacement
-            ? $"Gerakkan player: Pindah preview  {rotatePreviewKey}: Putar  Arah: {previewYaw} derajat\n"
+            ? previewDefinition.faceCameraOnPlacement ? "Gerakkan player: Pindah preview · Pintu menghadap kamera\n" : $"Gerakkan player: Pindah preview  {rotatePreviewKey}: Putar  Arah: {previewYaw} derajat\n"
             : string.Empty;
         string debugControls = DebugShortcutsEnabled && !previewDebugFree && !previewIsRelocation
             ? $"  {debugConfirmKey}: Aktifkan DEBUG Gratis"
@@ -599,6 +613,15 @@ public sealed class PropertySite : MonoBehaviour
         previewDebugFree = false;
         previewUsesFreePlacement = false;
         return RefreshPreview();
+    }
+
+    /// <summary>Waives the active project's cost in editor/development testing; placement and worker stages still apply.</summary>
+    public bool EnableFreeDebugPreview()
+    {
+        if (!DebugShortcutsEnabled || !previewActive || previewIsRelocation) return false;
+        previewDebugFree = true;
+        ApplyPreviewColor(previewLocationValid);
+        return true;
     }
 
     /// <summary>Menandai bangunan selesai sebagai source untuk dipindahkan ke site kosong.</summary>
@@ -799,6 +822,11 @@ public sealed class PropertySite : MonoBehaviour
     {
         if (!previewUsesFreePlacement)
             return;
+        if (previewDefinition != null && previewDefinition.faceCameraOnPlacement)
+        {
+            previewPlacementRotation = CameraFacingRotation(previewDefinition);
+            return;
+        }
 
         // Relocate mempertahankan arah bangunan asal. Bangunan baru selalu memakai
         // arah default definition sehingga hasilnya tidak bergantung pada arah player.
@@ -810,7 +838,9 @@ public sealed class PropertySite : MonoBehaviour
 
     void UpdateFreePlacementPreview()
     {
-        if (PlayerInteractionTarget.PressPrompt(this, rotatePreviewKey))
+        bool facesCamera = previewDefinition != null && previewDefinition.faceCameraOnPlacement;
+        if (facesCamera) previewPlacementRotation = CameraFacingRotation(previewDefinition);
+        if (!facesCamera && PlayerInteractionTarget.PressPrompt(this, rotatePreviewKey))
         {
             float nextYaw = Mathf.Repeat(previewPlacementRotation.eulerAngles.y + rotationStep, 360f);
             previewPlacementRotation = Quaternion.Euler(0f, nextYaw, 0f);
@@ -821,6 +851,17 @@ public sealed class PropertySite : MonoBehaviour
         previewLocationValid = ValidatePreviewLocation(previewDefinition);
         ApplyPreviewTransform();
         ApplyPreviewColor(previewLocationValid && CanAffordPreview());
+    }
+
+    static Quaternion CameraFacingRotation(BuildingDefinitionSO definition)
+    {
+        Camera camera = Camera.main;
+        Vector3 towardCamera = camera != null ? -camera.transform.forward : Vector3.forward;
+        towardCamera.y = 0f;
+        if (towardCamera.sqrMagnitude < .0001f && camera != null) towardCamera = -camera.transform.up;
+        towardCamera.y = 0f;
+        float yaw = towardCamera.sqrMagnitude > .0001f ? Mathf.Atan2(towardCamera.x, towardCamera.z) * Mathf.Rad2Deg : 0f;
+        return Quaternion.Euler(0f, yaw + definition.defaultPlacementYaw, 0f);
     }
 
     bool CanAffordPreview()
@@ -1335,7 +1376,8 @@ public sealed class PropertySite : MonoBehaviour
         DestroyRuntimeCompletedVisual();
 
         if (availableMarker != null)
-            availableMarker.SetActive(IsEmpty && showAvailableMarker);
+            availableMarker.SetActive(IsEmpty && showAvailableMarker &&
+                (catalog == null || !catalog.ContainsAnimalHousing));
         if (constructionVisual != null)
             constructionVisual.SetActive(state == BuildingConstructionState.UnderConstruction && constructionProject == null);
 
@@ -1602,6 +1644,7 @@ public sealed class PropertySite : MonoBehaviour
 
     void Restore(PropertySiteSaveData data)
     {
+        cameraFacingPoseReady = false;
         CancelPreview();
         demolishConfirmationActive = false;
         unlocked = data.unlocked;
@@ -1626,7 +1669,7 @@ public sealed class PropertySite : MonoBehaviour
 
         // Save yang dibuka setelah construction day langsung diselesaikan.
         var target = activeDefinition?.GetLevel(pendingLevel > 0 ? pendingLevel : currentLevel);
-        if (data.constructionJob != null && target != null)
+        if (data.constructionJob != null && data.constructionJob.ShouldRestoreFor(state) && target != null)
             StartWorker(target, data.constructionJob);
         else if (state == BuildingConstructionState.UnderConstruction && target != null && CurrentDay < completionDay)
             StartWorker(target, ConstructionProject.MigrateLegacy(target, completionDay, BuildingAnchor.position));

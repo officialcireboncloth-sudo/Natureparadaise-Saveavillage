@@ -78,7 +78,9 @@ public sealed class WeatherSystem : MonoBehaviour
     [SerializeField] Transform effectFollowTarget;
 
     [Header("Rain Visual Comfort")]
-    [Tooltip("Hanya menampilkan renderer tetesan hujan. Cuaca, simulasi partikel, dan efek gameplay tetap aktif saat dimatikan.")]
+    [Tooltip("Shared soft rain preset. Empty uses Resources/Profiles/Soft Rain Visuals. Player options: Pengaturan > Grafis > Efek Hujan.")]
+    [SerializeField] RainVisualProfile rainVisualProfile;
+    [Tooltip("Legacy fallback only. Soft Rain uses the player's Ringan / Normal / Mati setting.")]
     [SerializeField] bool enableRainVisuals = false;
     [Tooltip("Pengali jumlah garis hujan. Nilai rendah lebih nyaman dan tidak menutup gameplay.")]
     [SerializeField, Range(0.1f, 1f)] float rainVisualDensity = 0.65f;
@@ -531,6 +533,26 @@ public sealed class WeatherSystem : MonoBehaviour
 
     void RefreshWeatherEffect()
     {
+        // Reuse the same batches across rainy/sunny changes so intensity can fade gently.
+        var softRain = activeWeatherEffect != null ? activeWeatherEffect.GetComponent<SoftRainEffect>() : null;
+        if (IsRainWeather(currentWeather) || (softRain != null && currentWeather is not WeatherType.Snow and not WeatherType.Blizzard))
+        {
+            if (rainVisualProfile == null) rainVisualProfile = Resources.Load<RainVisualProfile>("Profiles/Soft Rain Visuals");
+            if (rainVisualProfile != null && rainVisualProfile.dropMaterial != null && rainVisualProfile.splashMaterial != null)
+            {
+                if (softRain == null)
+                {
+                    if (activeWeatherEffect != null) Destroy(activeWeatherEffect);
+                    activeWeatherEffect = new GameObject("WeatherEffect_SoftRain");
+                    activeWeatherEffect.transform.SetParent(transform, false);
+                    softRain = activeWeatherEffect.AddComponent<SoftRainEffect>();
+                    softRain.Initialize(rainVisualProfile);
+                }
+                activeEffectWeather = currentWeather;
+                activeEffectUsesFallback = false;
+                return;
+            }
+        }
         if (activeEffectWeather == currentWeather &&
             (!IsPrecipitationWeather(currentWeather) || activeWeatherEffect != null)) return;
         if (activeWeatherEffect != null) Destroy(activeWeatherEffect);
@@ -718,6 +740,12 @@ public sealed class WeatherSystem : MonoBehaviour
                 foreach (ParticleSystem particles in activeWeatherEffect.GetComponentsInChildren<ParticleSystem>())
                     particles.Play(true);
         }
+        if (activeWeatherEffect != null && activeWeatherEffect.TryGetComponent<SoftRainEffect>(out var softRain))
+        {
+            if (weatherCamera == null) weatherCamera = Camera.main;
+            softRain.Tick(weatherCamera, effectFollowTarget, currentWeather, outdoors, Time.deltaTime);
+            return;
+        }
         if (!outdoors) return;
         if (activeWeatherEffect != null && effectFollowTarget != null)
             activeWeatherEffect.transform.position = effectFollowTarget.position;
@@ -730,6 +758,7 @@ public sealed class WeatherSystem : MonoBehaviour
     {
         presentedRainVisuals = enableRainVisuals;
         if (activeWeatherEffect == null || !IsRainWeather(currentWeather)) return;
+        if (activeWeatherEffect.GetComponent<SoftRainEffect>() != null) return;
         bool rainOnlyEffect = activeEffectUsesFallback || currentWeather is
             WeatherType.Drizzle or WeatherType.Rain or WeatherType.HeavyRain;
         foreach (ParticleSystemRenderer renderer in activeWeatherEffect.GetComponentsInChildren<ParticleSystemRenderer>(true))

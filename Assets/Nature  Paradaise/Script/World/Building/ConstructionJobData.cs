@@ -19,6 +19,11 @@ public sealed class ConstructionJobData
     public float revealElapsed;
     public float Progress => requiredWorkHours <= 0 ? 1 : Mathf.Clamp01((float)(completedWorkHours / requiredWorkHours));
 
+    /// <summary>Rejects empty JSON jobs and stale work phases on completed buildings; preserves a builder returning home.</summary>
+    public bool ShouldRestoreFor(BuildingConstructionState state) => requiredWorkHours > 0 &&
+        (state == BuildingConstructionState.UnderConstruction ||
+         state == BuildingConstructionState.Completed && phase == ConstructionWorkerPhase.Returning);
+
     public static double ClockHours => TimeManager.Instance != null
         ? (TimeManager.Instance.day - 1) * 24d + TimeManager.Instance.CurrentTimeHours : 8d;
 

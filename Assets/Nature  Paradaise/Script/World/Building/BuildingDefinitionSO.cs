@@ -89,6 +89,8 @@ public sealed class BuildingDefinitionSO : ScriptableObject
     [Header("Placement Orientation")]
     [Tooltip("Arah awal bangunan pada sumbu Y. Preview tidak mengambil arah hadap player; gunakan T untuk memutarnya.")]
     [Range(-180f, 180f)] public float defaultPlacementYaw;
+    [Tooltip("Pintu (+Z prefab) menghadap kamera saat placement/pindah. Default Placement Yaw menjadi koreksi arah depan prefab.")]
+    public bool faceCameraOnPlacement;
 
     [Header("Rules")]
     [Tooltip("Outside Field menolak area tanam, Field Only wajib di area tanam, dan Anywhere dapat ditempatkan pada permukaan kosong mana pun.")]

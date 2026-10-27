@@ -16,6 +16,9 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
     TMP_Text speciesText, nameText, ageText, heartFallback, genderText, fourthLabel, fourthValue;
     TMP_Text clockText, moneyText, actionLabel, remainingText;
     Image portrait, genderIcon, fourthIcon, actionIcon, reactionImage;
+    WeatherForecastTVTheme weatherArtwork;
+    WeatherHUDIcon clockWeatherIcon;
+    TMP_Text clockWeatherLabel;
     readonly List<Image> hearts=new();
     AnimalController target;
     RectTransform informationCard, detailContents, detailArea;
@@ -29,6 +32,7 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
     {
         inventory=GetComponent<Inventory>();
         if(theme==null) theme=Resources.Load<AnimalInteractionTheme>("UI/AnimalInteractionTheme");
+        weatherArtwork=Resources.Load<WeatherForecastTVTheme>("UI/WeatherForecastTVTheme");
     }
     void Start() => BuildUI();
     void Update()
@@ -56,7 +60,8 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
             foreach(var refresh in refreshDetailRows) refresh();
         }
         else { renderedDetail=null; renderedRevision=-1; }
-        progressRoot.SetActive(ownAction && !GameplayPauseMenu.IsOpen);
+        progressRoot.SetActive(false);
+        if(ownAction && !GameplayPauseMenu.IsOpen) GameplayInfoPanel.RequestHint(target,$"{target.CareActionLabel} · {target.CareSecondsRemaining:0.0}s · E: Batal",80,0,true);
         if(ownAction && !GameplayPauseMenu.IsOpen)
         {
             actionLabel.text=target.CareActionLabel;
@@ -64,7 +69,7 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
             progressFill.anchorMax=new Vector2(target.CareProgress,1);
             progressFill.GetComponent<Image>().color=target.IsBrushing?new Color(.60f,.91f,.56f):new Color(.29f,.73f,.95f);
             actionIcon.sprite=target.IsBrushing?theme?.brushIcon:target.IsShearing?theme?.shearsIcon:
-                target.Growth!=null && target.Growth.Type==AnimalType.Cow?theme?.milkIcon:theme?.productIcon;
+                target.Growth!=null && (target.Growth.Type==AnimalType.Cow || target.Growth.Type==AnimalType.Goat)?theme?.milkIcon:theme?.productIcon;
             actionIcon.enabled=actionIcon.sprite!=null;
         }
         UpdateBubble(ownAction && target.IsBrushing && !GameplayPauseMenu.IsOpen);
@@ -97,7 +102,11 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
         safe=GameplayHUDStyle.Rect("SafeArea",canvasObject.transform,Vector2.zero,Vector2.one);safe.gameObject.AddComponent<SafeAreaFitter>();
         context=GameplayHUDStyle.Rect("AnimalContext",safe,Vector2.zero,Vector2.one).gameObject;
         var time=Fixed("AnimalClock",context.transform,new Vector2(0,1),new Vector2(28,-28),new Vector2(320,92));
-        Surface(time);Art(time,"SunImageSlot",theme?.sunIcon,new Vector2(.05f,.13f),new Vector2(.25f,.87f));
+        Surface(time);
+        var weatherRect=GameplayHUDStyle.Rect("Current Weather Icon",time,new Vector2(.05f,.37f),new Vector2(.25f,.96f));
+        clockWeatherIcon=weatherRect.gameObject.AddComponent<WeatherHUDIcon>();clockWeatherIcon.raycastTarget=false;
+        clockWeatherLabel=Text(time,"Weather Caption","",11,new Vector2(.01f,.02f),new Vector2(.29f,.37f));
+        clockWeatherLabel.alignment=TextAlignmentOptions.Center;
         clockText=Text(time,"Clock","",19,new Vector2(.30f,.06f),new Vector2(.96f,.94f));
         var money=Fixed("AnimalMoney",context.transform,Vector2.one,new Vector2(-28,-28),new Vector2(230,62));
         Surface(money);Art(money,"CoinImageSlot",theme?.coinIcon,new Vector2(.06f,.18f),new Vector2(.24f,.82f));
@@ -160,6 +169,11 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
     void RefreshClock()
     {
         var t=TimeManager.Instance;
+        var weather=WeatherSystem.Instance;
+        bool night=t!=null && (t.hour<6 || t.hour>=18);
+        clockWeatherIcon.SetWeather(weather!=null?weather.CurrentWeather:(WeatherType?)null,night,
+            weather!=null?weatherArtwork?.Icon(weather.CurrentWeather,night):null);
+        clockWeatherLabel.text=weather!=null?WeatherSystem.GetShortName(weather.CurrentWeather):"Memuat...";
         clockText.text=Season()+ (t!=null?$"\nHari ke-{t.day}\n{t.hour:00}:{t.minute:00}":"\nJam belum tersedia");
         moneyText.text=(ScoreManager.Instance!=null?ScoreManager.Instance.points:0).ToString("N0",CultureInfo.GetCultureInfo("id-ID"))+" G";
     }
@@ -201,7 +215,7 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
         if(home!=null)
         {
             DetailLine("Kandang",()=> $"{home.Label} — Level {(home.site!=null?home.site.CurrentLevel:1)}\nHewan {home.AnimalCount} / {home.Capacity}\nSlot reservasi {home.ReservedSlots}  •  Slot kosong {home.AvailableSlots}");
-            DetailLine("FeedStorage",()=> $"Tempat pakan: {home.TotalFeed} / {home.FeedingSlotCapacity}\nAnimal Feed {home.Fodder}  •  Grass {home.Grass}\nBelum makan: {home.RequiredFeedToday}  •  Auto Feeder: {(home.HasAutoFeeder?"Aktif":"Nonaktif")}\nDipakai hari ini: {home.FeedPortionsReserved} box\nKebutuhan: {home.DailyFeedRequirement} / hari  •  Stok: {home.EstimatedFeedDays} hari");
+            DetailLine("FeedStorage",()=> $"Tempat pakan: {home.TotalFeed} / {home.FeedingSlotCapacity}\n{FeedTypes.Label(home.RequiredFeedKind)} {home.Fodder}\nBelum makan: {home.RequiredFeedToday}  •  Auto Feeder: {(home.HasAutoFeeder?"Aktif":"Nonaktif")}\nDipakai hari ini: {home.FeedPortionsReserved} box\nKebutuhan: {home.DailyFeedRequirement} / hari  •  Stok: {home.EstimatedFeedDays} hari");
             DetailLine("FeedingGuide",()=>"Isi pakan: pegang Grass atau Animal Feed pada hotbar, dekati box kosong, lalu F untuk memasukkan satu item. Pakan yang dipakai berkurang pukul 00:00.");
             DetailLine("BellState",()=>home.AnimalsOutside?"Hewan di luar. Gunakan bell untuk memasukkan semuanya.":"Hewan di dalam. Gunakan bell untuk mengeluarkan semuanya.");
             foreach(var resident in home.Residents)
@@ -308,4 +322,3 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
     static void EnsureHUD()
     {var inv=FindFirstObjectByType<Inventory>();if(inv!=null && inv.GetComponent<AnimalInteractionHUD>()==null)inv.gameObject.AddComponent<AnimalInteractionHUD>();}
 }
-

@@ -174,6 +174,8 @@ public sealed class WorldGatherable : MonoBehaviour
     public bool Cut(PlayerGatheringTool player)
     {
         if (!CanSickle) return false;
+        FarmActionEffects.Burst(FarmEffect.Sickle,transform.position+Vector3.up*.15f,
+            player!=null?player.transform.forward:Vector3.forward,sound:cutSound==null);
         PlayFeedback(cutSound, leafParticles);
         Deplete(player, false);
         return true;
@@ -218,7 +220,10 @@ public sealed class WorldGatherable : MonoBehaviour
     public bool Hammer(PlayerGatheringTool player, int hammerLevel)
     {
         if (!CanHammer || hammerLevel < minimumHammerLevel) return false;
+        Vector3 impact=GetInteractionPoint(player!=null?player.transform.position+Vector3.up*.7f:transform.position+Vector3.up*.5f);
         currentDurability = Mathf.Max(0, currentDurability - Mathf.Max(1, hammerDamagePerHit));
+        FarmActionEffects.Burst(currentDurability==0?FarmEffect.HammerBreak:FarmEffect.Hammer,impact,
+            player!=null?player.transform.forward:Vector3.forward,sound:hammerSound==null);
         PlayFeedback(hammerSound, rockParticles);
         ApplyCrackVisual();
         if (kind == GatherableKind.Rock) GrantMiningHit(player);
@@ -273,10 +278,10 @@ public sealed class WorldGatherable : MonoBehaviour
     }
 
     /// <summary>Membuat pickup fisik sementara untuk drop resource.</summary>
-    public static void SpawnLoosePickup(ItemSO item, int amount, Vector3 position,
-        int qualityStars = 0, float fishSizeCm = 0f)
+    public static WorldItemPickup SpawnLoosePickup(ItemSO item, int amount, Vector3 position,
+        int qualityStars = 0, float fishSizeCm = 0f, float fishWeightKg = 0f)
     {
-        if (item == null || amount <= 0) return;
+        if (item == null || amount <= 0) return null;
         // Scatter offset can land uphill from the source tree. Keep the drop above terrain.
         foreach (Terrain terrain in Terrain.activeTerrains)
         {
@@ -291,7 +296,8 @@ public sealed class WorldGatherable : MonoBehaviour
         drop.transform.position = position;
         drop.transform.localScale = Vector3.one * 0.38f;
         WorldItemPickup pickup = drop.AddComponent<WorldItemPickup>();
-        pickup.Initialize(item, amount, false, qualityStars, fishSizeCm);
+        pickup.Initialize(item, amount, false, qualityStars, fishSizeCm, fishWeightKg);
+        return pickup;
     }
 
     void HandleDayChanged()

@@ -15,7 +15,8 @@ public sealed class PlayerToolHotbarUI : MonoBehaviour
     {
         if(fishingVisibility==null)return;
         var fishing=GetComponent<FishingSystem>();
-        bool hidden=DataDrivenModal.Active!=null||GameplayPauseMenu.IsOpen||(fishing!=null&&fishing.isActiveAndEnabled&&fishing.State!=FishingState.Idle);
+        bool hidden=CompanionCommandPanel.IsOpen||DataDrivenModal.Active!=null||GameplayPauseMenu.IsOpen||(fishing!=null&&fishing.isActiveAndEnabled&&fishing.State!=FishingState.Idle);
+        if(!hidden && GetComponent<InventoryHotbarUI>()==null) GameplayInfoPanel.RequestHint(this,hotbar.SelectedTool==PlayerToolType.None?"Tangan Kosong · Pilih alat":PlayerToolHotbar.GetDisplayName(hotbar.SelectedTool)+" · F: Gunakan alat",5);
         fishingVisibility.alpha=hidden?0:1;fishingVisibility.interactable=!hidden;fishingVisibility.blocksRaycasts=!hidden;
     }
     void OnDestroy(){if(canvasObject!=null)Destroy(canvasObject);}
@@ -55,7 +56,7 @@ public sealed class PlayerToolHotbarUI : MonoBehaviour
         scaler.referenceResolution = new Vector2(1920f, 1080f);
         scaler.matchWidthOrHeight = 0.5f;
 
-        PlayerToolType[] tools = { PlayerToolType.Hoe, PlayerToolType.Seed, PlayerToolType.WateringCan, PlayerToolType.Fertilizer, PlayerToolType.Sickle, PlayerToolType.Hammer };
+        PlayerToolType[] tools = { PlayerToolType.Hoe, PlayerToolType.Seed, PlayerToolType.WateringCan, PlayerToolType.Fertilizer, PlayerToolType.Sickle, PlayerToolType.Hammer, PlayerToolType.None };
         const float width = 112f;
         const float spacing = 10f;
         float totalWidth = tools.Length * width + (tools.Length - 1) * spacing;
@@ -66,6 +67,7 @@ public sealed class PlayerToolHotbarUI : MonoBehaviour
             slot.layer = canvasObject.layer;
             RectTransform rect = slot.GetComponent<RectTransform>();
             rect.SetParent(canvasObject.transform, false);
+            GameplayInfoPanel.RegisterTools(rect);
             rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0f);
             rect.pivot = new Vector2(0f, 0f);
             rect.sizeDelta = new Vector2(width, 72f);
@@ -76,10 +78,10 @@ public sealed class PlayerToolHotbarUI : MonoBehaviour
 
             Button button = slot.GetComponent<Button>();
             button.targetGraphic = image;
-            button.onClick.AddListener(() => hotbar.SelectTool(tool));
+            button.onClick.AddListener(() => { if (!WorldInteractionPrompt.IsSuppressed) hotbar.ToggleTool(tool); });
 
             TextMeshProUGUI label = CreateLabel(slot.transform);
-            label.text = $"[{i + 1}]\n{PlayerToolHotbar.GetDisplayName(tool).ToUpperInvariant()}";
+            label.text = tool == PlayerToolType.None ? "Tangan\nKosong" : $"[{i + 1}]\n{PlayerToolHotbar.GetDisplayName(tool).ToUpperInvariant()}";
         }
 
         if (Application.isMobilePlatform)
@@ -88,6 +90,7 @@ public sealed class PlayerToolHotbarUI : MonoBehaviour
             use.layer = canvasObject.layer;
             RectTransform rect = use.GetComponent<RectTransform>();
             rect.SetParent(canvasObject.transform, false);
+
             rect.anchorMin = rect.anchorMax = Vector2.one;
             rect.pivot = Vector2.one;
             rect.sizeDelta = new Vector2(170f, 86f);

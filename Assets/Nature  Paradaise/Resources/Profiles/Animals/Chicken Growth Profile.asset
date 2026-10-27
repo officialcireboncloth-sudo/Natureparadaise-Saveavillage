@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Chicken Growth Profile
   m_EditorClassIdentifier:
   animalType: 0
+  walkingSpeedMultiplier: 0.5
   salePrice:
     baseSellPrice: 1000
     bonusPerHeart: 0.1

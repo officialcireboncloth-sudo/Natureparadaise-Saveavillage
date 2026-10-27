@@ -3,28 +3,45 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1060000000040008000000000000002, type: 3}
   m_Name: FeedMakerCatalog
+  m_EditorClassIdentifier:
   animalFeed: {fileID: 11400000, guid: d1060000000040008000000000000010, type: 2}
+  poultryFeed: {fileID: 11400000, guid: 1658fe53c46a4c959af930121c7b696e, type: 2}
   fishFeed: {fileID: 11400000, guid: f15fee4d53d94d2385555d0f0a48bd01, type: 2}
   upgradeWood: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
   upgradeStone: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
   recipes:
   - id: grass
     input: {fileID: 11400000, guid: a33f7b52dbbf45b18c8796d0dfe5a91a, type: 2}
+    mixedInputs: []
     inputCount: 5
     outputCount: 5
     hours: 4
+    producesFishFeed: 0
+    producesPoultryFeed: 0
   - id: corn
     input: {fileID: 11400000, guid: d1060000000040008000000000000011, type: 2}
+    mixedInputs: []
     inputCount: 3
     outputCount: 5
     hours: 4
+    producesFishFeed: 0
+    producesPoultryFeed: 0
   - id: wheat
     input: {fileID: 11400000, guid: d1060000000040008000000000000012, type: 2}
+    mixedInputs: []
     inputCount: 3
     outputCount: 5
     hours: 4
+    producesFishFeed: 0
+    producesPoultryFeed: 0
   - id: crop-cabbage
     input: {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
     mixedInputs:
@@ -34,9 +51,48 @@ MonoBehaviour:
     inputCount: 3
     outputCount: 4
     hours: 4
+    producesFishFeed: 0
+    producesPoultryFeed: 0
   - id: fish-feed-grass
     input: {fileID: 11400000, guid: a33f7b52dbbf45b18c8796d0dfe5a91a, type: 2}
+    mixedInputs: []
     inputCount: 5
     outputCount: 5
     hours: 4
     producesFishFeed: 1
+    producesPoultryFeed: 0
+  - id: poultry-grass
+    input: {fileID: 11400000, guid: a33f7b52dbbf45b18c8796d0dfe5a91a, type: 2}
+    mixedInputs: []
+    inputCount: 5
+    outputCount: 5
+    hours: 4
+    producesFishFeed: 0
+    producesPoultryFeed: 1
+  - id: poultry-corn
+    input: {fileID: 11400000, guid: d1060000000040008000000000000011, type: 2}
+    mixedInputs: []
+    inputCount: 3
+    outputCount: 5
+    hours: 4
+    producesFishFeed: 0
+    producesPoultryFeed: 1
+  - id: poultry-wheat
+    input: {fileID: 11400000, guid: d1060000000040008000000000000012, type: 2}
+    mixedInputs: []
+    inputCount: 3
+    outputCount: 5
+    hours: 4
+    producesFishFeed: 0
+    producesPoultryFeed: 1
+  - id: poultry-crop-cabbage
+    input: {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
+    mixedInputs:
+    - {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
+    - {fileID: 11400000, guid: d1060000000040008000000000000011, type: 2}
+    - {fileID: 11400000, guid: d1060000000040008000000000000012, type: 2}
+    inputCount: 3
+    outputCount: 4
+    hours: 4
+    producesFishFeed: 0
+    producesPoultryFeed: 1

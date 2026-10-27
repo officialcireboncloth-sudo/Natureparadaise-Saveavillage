@@ -39,8 +39,14 @@ public sealed class GameplayPauseMenu : MonoBehaviour
         if (theme != null) { editorDebugKey = theme.editorPauseKey; allowEscapeInEditor = theme.allowEscapeInEditor; }
         var menu = GameplayHUDStyle.Rect("Menu Button", transform.parent, Vector2.one, Vector2.one);
         menuLauncher=menu;menu.gameObject.SetActive(DataDrivenModal.Active==null);
-        menu.pivot=Vector2.one; menu.sizeDelta=new Vector2(100,52); menu.anchoredPosition=new Vector2(-20,-20);
-        MakeButton(menu, MenuKeyLabel()+"  Menu", Toggle);
+        menu.pivot=Vector2.one; menu.sizeDelta=new Vector2(100,64);
+        var hudPanel=transform as RectTransform;
+        menu.anchoredPosition=new Vector2(-20,hudPanel!=null?hudPanel.anchoredPosition.y-(hudPanel.rect.height-64)*.5f:-20);
+        var launcher=MakeButton(menu, Application.isMobilePlatform?"Menu":MenuKeyLabel()+"  Menu", Toggle);
+        var launcherText=launcher.GetComponentInChildren<TMP_Text>();
+        launcherText.textWrappingMode=TextWrappingModes.NoWrap;
+        launcherText.enableAutoSizing=true;launcherText.fontSizeMin=16;launcherText.fontSizeMax=20;
+        launcherText.margin=Vector4.zero;
         var root=GameplayHUDStyle.Rect("Pause Overlay",transform.parent,Vector2.zero,Vector2.one);
         var canvas=root.gameObject.AddComponent<Canvas>(); canvas.overrideSorting=true; canvas.sortingOrder=450;
         root.gameObject.AddComponent<GraphicRaycaster>();
@@ -273,7 +279,8 @@ public sealed class GameplayPauseMenu : MonoBehaviour
         } else if(settingsPage==2) {
             var levels=QualitySettings.names.Length>0?QualitySettings.names:new[]{"Default"};
             Cycle(center,"Kualitas",.70f,levels,()=>draft.quality,v=>draft.quality=v);
-            Text(center,"Kualitas mengikuti preset grafik game.",new(.04f,.25f),new(.95f,.50f),22);
+            Cycle(center,"Efek Hujan",.50f,new[]{"Mati","Ringan","Normal"},()=>draft.rainEffects,v=>draft.rainEffects=v);
+            Text(center,"Ringan mengurangi jumlah tetesan hujan.\nPilihan ini tidak mengubah penyiraman tanaman oleh hujan.",new(.04f,.12f),new(.95f,.39f),22);
         } else {
             Text(center,$"Menu (Editor): {editorDebugKey}\nMenu (Build): ESC\n\nGerak: WASD\nHotbar: 1–8\nAksi Alat: F / Klik Kiri\nTas: Tab\nMisi: J\n\nKeybind editor dapat diatur pada Pause Menu Theme.",new(.04f,.04f),new(.96f,.85f),22);
         }

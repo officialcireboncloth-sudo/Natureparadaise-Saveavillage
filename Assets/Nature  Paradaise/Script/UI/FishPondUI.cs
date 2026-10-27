@@ -67,7 +67,7 @@ public sealed class FishPondUI : MonoBehaviour
     public void TreatSelected(){if(pondSelection>=0&&pondSelection<groups.Count)Pond.TreatFish(groups[pondSelection][0]);Refresh();GameplayInput.ConsumeCurrentFrame();}
     public void GiveFeed()
     {
-        for(int i=0;i<Pond.PlayerInventory.slots.Count;i++){var stack=Pond.PlayerInventory.GetSlot(i);if(Pond.IsFishFeed(stack)){Pond.DepositFeed(i,1);Refresh();GameplayInput.ConsumeCurrentFrame();return;}}
+        for(int i=0;i<Pond.PlayerInventory.slots.Count;i++){var stack=Pond.PlayerInventory.GetSlot(i);if(Pond.IsFishFeed(stack)){var pond=Pond;if(!pond.TryFeedFromSlot(i)){Refresh();feedback.text=pond.Feedback;}GameplayInput.ConsumeCurrentFrame();return;}}
         feedback.text="Pakan ikan tidak tersedia di tas.";GameplayInput.ConsumeCurrentFrame();
     }
     public int TakeReady()

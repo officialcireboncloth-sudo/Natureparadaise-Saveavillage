@@ -5,6 +5,10 @@ using UnityEngine;
 public sealed class AnimalCareCatalog : ScriptableObject
 {
     public ItemSO fodder;
+    public ItemSO poultryFodder;
+    /// <summary>Species-specific processed feed; existing livestock references retain their identity.</summary>
+    public ItemSO FeedFor(AnimalType type)=>FeedTypes.ForAnimal(type)==FeedKind.Poultry
+        ? poultryFodder!=null?poultryFodder:FeedTypes.Item(FeedKind.Poultry) : fodder;
     public ItemSO treat;
     public ItemSO medicine;
     [Tooltip("Urutan Basic, Strong, Premium. Field Medicine lama tetap menjadi fallback Basic.")]

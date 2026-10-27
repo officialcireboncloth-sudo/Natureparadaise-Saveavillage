@@ -56,7 +56,7 @@ public sealed class AnimalCarePanel : MonoBehaviour
     {
         var controller=Controller(); if(controller==null)return;
         bool before=Animal.FedToday;controller.FeedCabbage();
-        Feedback=!before && Animal.FedToday?"Hewan diberi makan.":"Sudah makan hari ini atau Animal Feed tidak tersedia.";
+        Feedback=!before && Animal.FedToday?"Hewan diberi makan.":$"Sudah makan hari ini atau {FeedTypes.Label(FeedTypes.ForAnimal(Animal.Type))} tidak tersedia.";
     }
     public void Brush()
     {
@@ -67,7 +67,8 @@ public sealed class AnimalCarePanel : MonoBehaviour
     {
         var controller=Controller();if(controller==null)return;
         controller.TakeMilk();if(controller.IsCareBusy)Close();
-        else Feedback=Animal.Type==AnimalType.Sheep?"Produk belum siap atau Shears belum dipilih.":"Produk belum siap.";
+        else Feedback=Animal.Type==AnimalType.Sheep?"Produk belum siap atau Shears belum dipilih.":
+            Animal.Type is AnimalType.Cow or AnimalType.Goat?"Produk belum siap atau Milker belum dipilih.":"Produk belum siap.";
     }
     public void Interact()
     {if(Animal!=null)Feedback=Animal.Interact()?"Interaksi harian selesai.":"Interaksi sudah dihitung hari ini.";}

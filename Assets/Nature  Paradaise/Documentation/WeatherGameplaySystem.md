@@ -50,12 +50,75 @@ agar hujan tidak menyiramnya dan Storm/Extreme Weather tidak mencabut crop.
   pemeriksaan petir outdoor global dari `WeatherSystem`.
 - Tambahkan `WeatherAudioController` pada object audio environment, lalu isi loop
   gerimis, hujan, hujan lebat, salju, dan angin. Volume mengikuti intensitas snapshot.
-- Slot particle pada `WeatherSystem` sekarang aktif. Prefab yang diisi akan mengikuti
-  `Effect Follow Target` dan otomatis berganti saat cuaca berubah.
+- Semua cuaca hujan menggunakan preset bersama `Resources/Profiles/Soft Rain Visuals.asset`.
+  Tetes pendek dan percikan kecil berjalan pada dua ParticleSystem dengan material
+  `SoftRain_Drop` / `SoftRain_Splash`. Preset dapat diganti lewat `Rain Visual Profile`
+  pada WeatherSystem. Slot particle lama tetap digunakan untuk salju / fallback.
 - Tekan `F12` saat `Debug Clues` aktif untuk mengganti cuaca hari ini secara berurutan.
 
 Prefab puing dan posisi hazard tidak dibuat otomatis supaya layout map tetap dapat
 diatur manual tanpa object dummy yang muncul kembali.
+
+## Hujan lembut dan kenyamanan visual
+
+Default baru adalah **Ringan**, juga untuk pengaturan tersimpan sebelum opsi ini ada.
+Player dapat memilih **Mati / Ringan / Normal** melalui Menu > Pengaturan > Grafis >
+Efek Hujan, lalu Terapkan. Opsi disimpan bersama pengaturan UI, bukan save cuaca.
+Flag scene lama `enableRainVisuals = false` hanya berlaku untuk renderer fallback lama;
+ia tidak mematikan sistem Soft Rain yang baru. Scene tidak perlu disimpan ulang.
+
+Gerimis memakai tetesan lebih transparan dan sedikit. Hujan sedang/lebat meningkatkan
+jumlah tetesan secara bertahap; badai memakai arah miring yang stabil tanpa noise
+berputar, kamera goyang atau flash lighting. Lebar tetesan default 0.045m, panjang
+sekitar 0.225m, tinggi jatuh maksimum 3m, dengan warna air abu kebiruan yang lembut.
+Tetes dekat kamera dibuang/fade dan opacity dikurangi di atas karakter. Percikan
+berupa cincin pendek 0.18–0.30 detik, dengan posisi hasil probe permukaan. Di air,
+bentuk cincin yang sama terbaca sebagai riak jika permukaan memiliki collider.
+
+Sampling memakai maksimal 32 probe permukaan per detik, empat per frame, dan hasil
+probe dibagi dalam kelompok tetesan kecil. Tidak ada collision/noise per partikel,
+texture baru, material per tetes, atau game object per tetes. Area distribusi mengikuti
+viewport kamera; jumlah tidak meningkat mengikuti luas seluruh map. Batas mobile
+160 tetes + 64 percikan; desktop 256 + 96. Ringan memakai 55% kepadatan Normal,
+dan mobile memakai pengali 80% lagi. Batas adalah kapasitas, bukan jumlah wajib tampil.
+
+Intensitas emisi memudar selama sekitar 1.2 detik ketika cuaca berubah. Masuk interior,
+teleport kamera dan opsi Mati membersihkan partikel serta impact tertunda agar tidak
+terbawa masuk ruangan. Material tidak membuat shadow dan queue 3020 menjaga hujan
+terlihat di atas overlay tanah. Mesh tanah, tanaman, perhitungan penyiraman oleh hujan,
+forecast/save cuaca, audio ambience dan risiko cuaca tetap memakai sistem yang ada.
+Efek ini bukan simulasi akumulasi genangan atau collision tetes pada setiap daun.
+
+## Pencahayaan per musim
+
+`DayNightCycle` mengambil preset dari `Resources/Profiles/Seasons`, melalui
+`SeasonVisualController.CurrentProfile`. Preset berlaku otomatis saat musim berubah
+atau `RefreshFromCalendar` dipanggil setelah load. Pencahayaan matahari, ambient fill,
+bayangan dan exposure langit diinterpolasi secara halus; pergantian musim tidak
+membuat material atlas baru atau menambah lampu / volume / texture per musim.
+
+| Musim | Suasana cahaya | Terbit–terbenam | Pengali matahari | Pengali kekuatan bayangan |
+| --- | --- | --- | --- | --- |
+| Semi | Lembut, segar, fill netral sedikit sejuk | 05:45–18:15 | 1.00 | 0.90 |
+| Panas | Lebih terang, hangat ringan, siang lebih panjang | 05:15–19:15 | 1.08 | 1.00 |
+| Gugur | Keemasan, fill hangat, matahari lebih rendah | 06:00–17:45 | 0.92 | 0.88 |
+| Dingin | Sejuk, fill biru lembut, bayangan lebih ringan | 06:30–17:15 | 0.87 | 0.80 |
+
+`lightingTint` hanya memberi warna matahari. `ambientTint` mengatur cahaya isi
+terpisah agar area teduh tidak ikut terlalu kuning. `sunElevationMultiplier`
+merendahkan sudut matahari pada gugur/dingin; `shadowStrengthMultiplier` mengurangi
+kontras bayangan tanpa menambah kualitas shadow map atau biaya render baru.
+
+Malam memakai `nightTint`, `nightSunMultiplier`, `nightAmbientMultiplier` dan
+`nightSkyExposureMultiplier`, sehingga warna hangat siang tidak menumpuk di cahaya
+bulan. Batas ambient malam juga tetap berlaku pada palet waktu stylized, termasuk
+saat badai. Modifier cuaca tetap dikombinasikan dengan preset musim; gerimis/hujan
+dan badai tidak memakai pencahayaan cerah musim panas secara paksa.
+
+Interior tetap menggunakan fill interior yang sudah ada; preset outdoor tidak
+mengubah pencahayaan rumah. Profil musim dan Garden Lighting dapat diedit tanpa
+menyimpan ulang Map. Untuk inspeksi Editor/Development Build, gunakan menu musim
+`PageUp`, pilih musim dan cuaca, lalu `PageDown` untuk kembali mengikuti kalender.
 
 ## Stabilitas lighting pagi/sore
 

@@ -176,6 +176,10 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     public string AnimalId => animalId;
     public AnimalType Type => growthProfile != null ? growthProfile.animalType : animalType;
+    /// <summary>Species walking pace, including legacy chickens without an assigned profile.</summary>
+    public float WalkingSpeedMultiplier => growthProfile != null
+        ? Mathf.Max(0.1f, growthProfile.walkingSpeedMultiplier)
+        : Type == AnimalType.Chicken ? 0.5f : 1f;
     public AnimalBirthSource BirthSource => birthSource;
     public int BirthDay => birthDay;
     public int AgeDays => ageDays;

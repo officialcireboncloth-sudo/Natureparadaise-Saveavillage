@@ -702,7 +702,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1561332549557739852}
@@ -731,11 +731,13 @@ MonoBehaviour:
   fallbackLevel: 3
   fishFeed: {fileID: 11400000, guid: f15fee4d53d94d2385555d0f0a48bd01, type: 2}
   maximumVisibleFish: 18
-  interactionRadius: 3.5
+  interactionRadius: 1.4
   interactKey: 101
   feedingPoint: {fileID: 4141508141611355960}
   feedMaker: {fileID: 3847663270290806495}
-  feedInteractionRadius: 2.4
+  feedInteractionRadius: 1
+  feedScatterImpactDelay: 0.45
+  feedScatterDuration: 1.2
 --- !u!114 &7069192980423931680
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,9 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>Small vector icons; independent of sprite slots and font glyph availability.</summary>
+[RequireComponent(typeof(CanvasRenderer))]
 public sealed class MainMenuIcon : MaskableGraphic
 {
-    public enum Kind { Play, Sprout, Settings, People, Exit, Chevron, Globe, Monitor, Info, Heart, Energy, Sun, Coin, Drop }
+    public enum Kind { Play, Sprout, Settings, People, Exit, Chevron, Globe, Monitor, Info, Heart, Energy, Sun, Coin, Drop,
+        Horse, Dog, Cat, Footsteps, Hand, Home, Saddle, Close }
     public Kind kind;
     VertexHelper mesh;
 
@@ -13,6 +15,40 @@ public sealed class MainMenuIcon : MaskableGraphic
         vh.Clear(); mesh = vh;
         switch (kind)
         {
+            case Kind.Horse:
+                Line(new(-.26f,.08f),new(.10f,.08f),.27f);
+                Line(new(.10f,.08f),new(.21f,.32f),.17f);
+                Line(new(.21f,.32f),new(.38f,.22f),.14f);
+                Triangle(new(.16f,.35f),new(.20f,.48f),new(.25f,.34f));
+                Line(new(-.28f,.04f),new(-.32f,-.37f),.065f);Line(new(-.15f,.02f),new(-.10f,-.37f),.06f);
+                Line(new(.04f,.02f),new(.02f,-.37f),.065f);Line(new(.13f,.04f),new(.23f,-.33f),.06f);
+                Line(new(-.37f,.15f),new(-.44f,-.20f),.05f);break;
+            case Kind.Dog:
+            case Kind.Cat:
+                Line(new(-.23f,.02f),new(.12f,.02f),.24f);Disc(new(.20f,.21f),.14f);
+                Triangle(new(.10f,.28f),new(.18f,.44f),new(.25f,.28f));
+                if(kind==Kind.Dog)Line(new(.25f,.18f),new(.38f,.16f),.12f);
+                else Triangle(new(.24f,.30f),new(.33f,.43f),new(.32f,.20f));
+                Line(new(-.24f,-.02f),new(-.26f,-.34f),.07f);Line(new(.10f,-.02f),new(.13f,-.34f),.07f);
+                Line(new(-.33f,.04f),new(-.43f,.28f),.06f);break;
+            case Kind.Footsteps:
+                Line(new(-.19f,-.30f),new(-.26f,-.04f),.15f);Disc(new(-.27f,.12f),.10f);
+                Line(new(.17f,-.04f),new(.23f,.22f),.15f);Disc(new(.25f,.38f),.10f);break;
+            case Kind.Hand:
+                Disc(new(0,-.12f),.23f);Line(new(-.10f,-.26f),new(.10f,-.40f),.20f);
+                for(int i=0;i<4;i++){float x=-.18f+i*.115f;float top=i==0?.23f:i==3?.28f:.38f;Line(new(x,-.06f),new(x,top),.085f);Disc(new(x,top),.0425f);}
+                Line(new(-.15f,-.16f),new(-.36f,.05f),.10f);Disc(new(-.36f,.05f),.05f);break;
+            case Kind.Home:
+                Triangle(new(-.44f,.12f),new(0,.46f),new(.44f,.12f));
+                Line(new(-.30f,.14f),new(-.30f,-.36f),.07f);Line(new(.30f,.14f),new(.30f,-.36f),.07f);
+                Line(new(-.30f,-.36f),new(.30f,-.36f),.07f);Line(new(-.15f,-.34f),new(-.15f,.03f),.045f);Line(new(.15f,-.34f),new(.15f,.03f),.045f);
+                Line(new(-.15f,.03f),new(.15f,.03f),.045f);Line(new(-.13f,-.31f),new(.13f,0),.035f);Line(new(.13f,-.31f),new(-.13f,0),.035f);break;
+            case Kind.Saddle:
+                Line(new(-.34f,.18f),new(.32f,.18f),.16f);Disc(new(-.32f,.24f),.12f);Disc(new(.32f,.24f),.12f);
+                Triangle(new(-.24f,.14f),new(.24f,.14f),new(-.12f,-.28f));Triangle(new(.24f,.14f),new(.12f,-.28f),new(-.12f,-.28f));
+                Line(new(.25f,.11f),new(.28f,-.30f),.045f);Ring(new(.28f,-.30f),.09f,.035f);break;
+            case Kind.Close:
+                Line(new(-.29f,-.29f),new(.29f,.29f),.065f);Line(new(-.29f,.29f),new(.29f,-.29f),.065f);break;
             case Kind.Heart:
                 Disc(new(-.18f, .15f), .23f); Disc(new(.18f, .15f), .23f);
                 Triangle(new(-.39f, .05f), new(.39f, .05f), new(0, -.43f)); break;

@@ -14,6 +14,7 @@ public sealed class PlayerBuildMenu : MonoBehaviour
     [SerializeField] KeyCode confirmKey = KeyCode.Return;
 
     readonly List<Button> buildingButtons = new();
+    readonly List<int> availableIndices = new();
     Inventory inventory;
     PlayerController movement;
     TimeManager timeManager;
@@ -103,6 +104,19 @@ public sealed class PlayerBuildMenu : MonoBehaviour
             return false;
         }
 
+        availableIndices.Clear();
+        for (int i = 0; i < catalog.Count; i++)
+        {
+            var definition = catalog.GetAt(i);
+            if (definition != null && definition.HousingKind == AnimalHousingKind.None)
+                availableIndices.Add(i);
+        }
+        if (availableIndices.Count == 0)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Pembangunan kandang tersedia di Lumber Store → Bangun");
+            return false;
+        }
+
         EnsureUI();
         titleText.text = selectedSite.IsGlobalBuildInstance ? "FIELD BUILD MENU" : "FIXED FARM CONSTRUCTION";
         RebuildButtons();
@@ -131,10 +145,10 @@ public sealed class PlayerBuildMenu : MonoBehaviour
     void StartPlacement(bool debugFree = false)
     {
         if (selectedSite == null || catalog == null ||
-            selectedIndex < 0 || selectedIndex >= catalog.Count)
+            selectedIndex < 0 || selectedIndex >= availableIndices.Count)
             return;
 
-        if (!selectedSite.BeginBuildSelection(selectedIndex, selectedLevel, debugFree))
+        if (!selectedSite.BeginBuildSelection(availableIndices[selectedIndex], selectedLevel, debugFree))
         {
             SaveLoadFeedback.Instance?.ShowMessage("Placement bangunan gagal dimulai");
             return;
@@ -144,10 +158,10 @@ public sealed class PlayerBuildMenu : MonoBehaviour
 
     void Select(int index)
     {
-        if (catalog == null || catalog.Count == 0)
+        if (catalog == null || availableIndices.Count == 0)
             return;
 
-        int nextIndex = (index % catalog.Count + catalog.Count) % catalog.Count;
+        int nextIndex = (index % availableIndices.Count + availableIndices.Count) % availableIndices.Count;
         if (nextIndex != selectedIndex)
             selectedLevel = 1;
         selectedIndex = nextIndex;
@@ -160,7 +174,7 @@ public sealed class PlayerBuildMenu : MonoBehaviour
                     : new Color(0.30f, 0.20f, 0.12f, 1f);
         }
 
-        BuildingDefinitionSO definition = catalog.GetAt(selectedIndex);
+        BuildingDefinitionSO definition = catalog.GetAt(availableIndices[selectedIndex]);
         int maximumLevel = GetMaximumLevel(definition);
         selectedLevel = Mathf.Clamp(selectedLevel, 1, maximumLevel);
         BuildingLevelDefinition level = definition?.GetLevel(selectedLevel);
@@ -175,7 +189,8 @@ public sealed class PlayerBuildMenu : MonoBehaviour
 
     void ChangeLevel(int direction)
     {
-        BuildingDefinitionSO definition = catalog != null ? catalog.GetAt(selectedIndex) : null;
+        BuildingDefinitionSO definition = catalog != null && selectedIndex < availableIndices.Count
+            ? catalog.GetAt(availableIndices[selectedIndex]) : null;
         selectedLevel = Mathf.Clamp(selectedLevel + direction, 1, GetMaximumLevel(definition));
         Select(selectedIndex);
     }
@@ -251,10 +266,10 @@ public sealed class PlayerBuildMenu : MonoBehaviour
         buildingButtons.Clear();
 
         Transform cards = panelObject.transform.Find("BuildingCards");
-        for (int index = 0; index < catalog.Count; index++)
+        for (int index = 0; index < availableIndices.Count; index++)
         {
             int capturedIndex = index;
-            BuildingDefinitionSO definition = catalog.GetAt(index);
+            BuildingDefinitionSO definition = catalog.GetAt(availableIndices[index]);
             RectTransform card = CreateRect($"Building_{index}", cards);
             Image background = AddImage(card, new Color(0.30f, 0.20f, 0.12f, 1f));
             Button button = card.gameObject.AddComponent<Button>();

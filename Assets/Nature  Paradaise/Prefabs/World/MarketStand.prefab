@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 727470857990522195}
+  - {fileID: 7916085887680758150}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3206334946836837109
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   standId: village-market-stand-01
+  normalizeAtlasWorldScale: 1
   playerInventory: {fileID: 0}
   interactKey: 101
   promptHeight: 2.2
@@ -78,9 +79,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.4, y: 2.3, z: 2.3}
-  m_Center: {x: 0, y: 1.15, z: 0}
---- !u!1001 &9197974024212221072
+  m_Size: {x: 2.64, y: 0.864, z: 1.12}
+  m_Center: {x: 0, y: 0.432, z: 0}
+--- !u!1001 &6485652351951990991
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -88,57 +89,57 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 148767842070547304}
     m_Modifications:
-    - target: {fileID: 3116596603087944551, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
-      propertyPath: m_Name
-      value: Visual_ToonFarm_ProduceStand
-      objectReference: {fileID: 0}
-    - target: {fileID: 8484142058226436547, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
+    - target: {fileID: 4024595599695786313, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8484142058226436547, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
+    - target: {fileID: 4024595599695786313, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8484142058226436547, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
+    - target: {fileID: 4024595599695786313, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8484142058226436547, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
+    - target: {fileID: 4024595599695786313, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8484142058226436547, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
+    - target: {fileID: 4024595599695786313, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8484142058226436547, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
+    - target: {fileID: 4024595599695786313, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8484142058226436547, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
+    - target: {fileID: 4024595599695786313, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8484142058226436547, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
+    - target: {fileID: 4024595599695786313, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8484142058226436547, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
+    - target: {fileID: 4024595599695786313, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8484142058226436547, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
+    - target: {fileID: 4024595599695786313, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6085095059023463161, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
+      propertyPath: m_Name
+      value: Visual_AtlasMarketStand
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
---- !u!4 &727470857990522195 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
+--- !u!4 &7916085887680758150 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 8484142058226436547, guid: acf46fff987cd744ebd9cc9eee9d27d6, type: 3}
-  m_PrefabInstance: {fileID: 9197974024212221072}
+  m_CorrespondingSourceObject: {fileID: 4024595599695786313, guid: 19a7dd4b5a8ce704dbf795d41bc9e41b, type: 3}
+  m_PrefabInstance: {fileID: 6485652351951990991}
   m_PrefabAsset: {fileID: 0}

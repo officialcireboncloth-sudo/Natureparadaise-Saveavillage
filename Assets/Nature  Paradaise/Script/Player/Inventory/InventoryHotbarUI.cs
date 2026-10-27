@@ -34,16 +34,16 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     TMP_Text actionHint;
     RectTransform hintRoot;
     RectTransform waterFill;
+    Image emptyHandsBackground;
     CanvasGroup pauseVisibility;
     bool hotSpringContext;
-    Coroutine temporaryHintRoutine;
-    string temporaryHint;
     int selectedIndex;
 
     public int SelectedIndex => selectedIndex;
     public ItemStack SelectedStack => inventory != null ? inventory.GetSlot(selectedIndex) : null;
     public ItemSO SelectedItem => SelectedStack?.item;
     public event Action<int> SelectionChanged;
+    float PanelWidth => inventory.HotbarSlotCount * 96f - 8f + 20f + 136f;
 
     void Awake()
     {
@@ -62,6 +62,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         GameplayUISettings.Applied += Refresh;
         if (inventory != null) inventory.OnInventoryChanged += Refresh;
         if (wateringCan != null) wateringCan.Changed += RefreshActionHint;
+        if (toolHotbar != null) toolHotbar.SelectionChanged += ToolChanged;
     }
 
     void OnDisable()
@@ -69,6 +70,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         GameplayUISettings.Applied -= Refresh;
         if (inventory != null) inventory.OnInventoryChanged -= Refresh;
         if (wateringCan != null) wateringCan.Changed -= RefreshActionHint;
+        if (toolHotbar != null) toolHotbar.SelectionChanged -= ToolChanged;
     }
 
     void OnDestroy()
@@ -87,28 +89,52 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     void Update()
     {
         if (fishingSystem == null) fishingSystem = GetComponent<FishingSystem>();
-        bool hidden = NPCGiftUI.Active != null || DataDrivenModal.Active != null || GameplayPauseMenu.IsOpen || (GetComponent<InventoryUI>()?.IsOpen ?? false) || (fishingSystem != null && fishingSystem.isActiveAndEnabled && fishingSystem.State != FishingState.Idle);
+        bool hidden = CompanionCommandPanel.IsOpen || NPCGiftUI.Active != null || DataDrivenModal.Active != null || GameplayPauseMenu.IsOpen || (GetComponent<InventoryUI>()?.IsOpen ?? false) || (fishingSystem != null && fishingSystem.isActiveAndEnabled && fishingSystem.State != FishingState.Idle);
         bool bathing = HotSpringUI.Active != null;
         if (pauseVisibility != null) { pauseVisibility.alpha = hidden ? 0f : bathing ? .45f : 1f; pauseVisibility.interactable = !hidden && !bathing; pauseVisibility.blocksRaycasts = !hidden && !bathing; }
         if (hotSpringContext != bathing) { hotSpringContext = bathing; RefreshActionHint(); }
+        if (!hidden && !bathing && actionHint != null) GameplayInfoPanel.RequestHint(this, actionHint.text);
         if (WorldInteractionPrompt.IsSuppressed) return;
-        if (GameplayInput.GetKeyDown(KeyCode.Alpha1)) SelectSlot(0);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha2)) SelectSlot(1);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha3)) SelectSlot(2);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha4)) SelectSlot(3);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha5)) SelectSlot(4);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha6)) SelectSlot(5);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha7)) SelectSlot(6);
-        else if (GameplayInput.GetKeyDown(KeyCode.Alpha8)) SelectSlot(7);
+        if (GameplayInput.GetKeyDown(KeyCode.Alpha0)) ClearSelection();
+        else if (GameplayInput.GetKeyDown(KeyCode.Alpha1)) ToggleSlot(0);
+        else if (GameplayInput.GetKeyDown(KeyCode.Alpha2)) ToggleSlot(1);
+        else if (GameplayInput.GetKeyDown(KeyCode.Alpha3)) ToggleSlot(2);
+        else if (GameplayInput.GetKeyDown(KeyCode.Alpha4)) ToggleSlot(3);
+        else if (GameplayInput.GetKeyDown(KeyCode.Alpha5)) ToggleSlot(4);
+        else if (GameplayInput.GetKeyDown(KeyCode.Alpha6)) ToggleSlot(5);
+        else if (GameplayInput.GetKeyDown(KeyCode.Alpha7)) ToggleSlot(6);
+        else if (GameplayInput.GetKeyDown(KeyCode.Alpha8)) ToggleSlot(7);
     }
 
+    /// <summary>Selects a slot without toggling; inventory moves and startup can safely reselect it.</summary>
     public void SelectSlot(int index)
     {
-        selectedIndex = Mathf.Clamp(index, 0, inventory.HotbarSlotCount - 1);
+        int next = Mathf.Clamp(index, 0, inventory.HotbarSlotCount - 1);
+        if (selectedIndex != next) toolHotbar.CancelCurrentAction();
+        selectedIndex = next;
         EquipSelectedItem();
         RefreshActionHint();
         Refresh();
         SelectionChanged?.Invoke(selectedIndex);
+    }
+
+    /// <summary>Click/tap or press the active slot again to put its item away.</summary>
+    public void ToggleSlot(int index)
+    {
+        if (index < 0 || index >= inventory.HotbarSlotCount) return;
+        if (index == selectedIndex) ClearSelection();
+        else SelectSlot(index);
+    }
+
+    /// <summary>Unequips the selected item without moving or removing any inventory stack.</summary>
+    public void ClearSelection()
+    {
+        toolHotbar.CancelCurrentAction();
+        selectedIndex = -1;
+        eatingSystem?.SetSelectedFood(null);
+        EquipSelectedItem();
+        Refresh();
+        SelectionChanged?.Invoke(-1);
     }
 
     public void Refresh()
@@ -136,6 +162,10 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             view.Fallback.text = hasItem && stack.item.icon == null && GameplayUISettings.Current.showItemNames ? stack.DisplayName : "";
         }
         EquipSelectedItem();
+        if (emptyHandsBackground != null)
+            emptyHandsBackground.color = selectedIndex < 0
+                ? referenceHUDStyle ? new Color(.40f,.49f,.34f,.72f) : selectedColor
+                : referenceHUDStyle ? GameplayHUDStyle.Slot : slotColor;
         RefreshActionHint();
     }
 
@@ -154,32 +184,18 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         toolHotbar.SelectTool(selectedTool);
     }
 
+    void ToolChanged(PlayerToolType tool) => RefreshActionHint();
+
     void RefreshActionHint()
     {
         if (HotSpringUI.Active != null) { if (hintRoot != null) hintRoot.gameObject.SetActive(false); return; }
         if (actionHint == null || toolHotbar == null) return;
-        if (!string.IsNullOrEmpty(temporaryHint))
-        {
-            if (hintRoot != null) hintRoot.gameObject.SetActive(true);
-            if (waterFill != null) waterFill.parent.gameObject.SetActive(false);
-            actionHint.text = $"<b>{temporaryHint}</b>";
-            return;
-        }
         ItemSO item = SelectedItem;
-        if (hintRoot != null)
-        {
-            hintRoot.gameObject.SetActive(item != null || !string.IsNullOrEmpty(temporaryHint));
-            float width = inventory.HotbarSlotCount * 88f + (inventory.HotbarSlotCount - 1) * 8f + 20f;
-            hintRoot.anchoredPosition = new Vector2(Mathf.Clamp(-width * .5f + 10 + selectedIndex * 96f, -width * .5f, Mathf.Max(-width * .5f, width * .5f - 300f)), 160f);
-        }
-        if (waterFill != null)
-        {
-            waterFill.parent.gameObject.SetActive(toolHotbar.SelectedTool == PlayerToolType.WateringCan);
-            waterFill.anchorMax = new Vector2(wateringCan != null ? (float)wateringCan.CurrentWater / wateringCan.MaximumWater : 1f, 1f);
-        }
+        if (hintRoot != null) hintRoot.gameObject.SetActive(false);
         if (fishingSystem == null) fishingSystem = GetComponent<FishingSystem>();
         AnimalCareCatalog animalCare = AnimalCareCatalog.Load();
-        string itemName = item != null ? item.itemName : "Slot kosong";
+        string itemName = item != null ? item.itemName : "Tangan Kosong";
+        if (toolHotbar.SelectedTool != PlayerToolType.None && (item == null || item.equippedTool != toolHotbar.SelectedTool)) itemName = PlayerToolHotbar.GetDisplayName(toolHotbar.SelectedTool);
         PlayerStatusSystem status = GetComponent<PlayerStatusSystem>();
         if (item != null && item.equippedTool != PlayerToolType.None && status != null)
             itemName += $" Lv. {status.GetToolLevel(item.equippedTool)}";
@@ -195,15 +211,16 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             PlayerToolType.FishingRod => $"Hold F: Power Cast / Release  |  Bait: {(fishingSystem != null ? fishingSystem.EquippedBaitLabel : "No Bait")}",
             PlayerToolType.CropBooster => "F: gunakan crop booster",
             PlayerToolType.Shears => "Dekati domba lalu G: cukur bulu",
+            PlayerToolType.Milker => "Dekati sapi/kambing lalu F / G: perah susu",
             PlayerToolType.Pitchfork => "Dekati kotoran hewan lalu E: ambil kotoran",
             _ when item != null && item.IsAnimalMedicine => "Dekati hewan sakit lalu tekan F: Give Medicine",
             _ when item != null && item.IsFishingBait =>
                 fishingSystem != null && fishingSystem.EquippedBait == item
                     ? "F: lepas bait dari Fishing Rod"
                     : "F: pasang bait pada Fishing Rod",
-            _ when item != null && animalCare != null && item == animalCare.fodder => "Dekati box pakan lalu tekan F: isi 1",
-            _ when item != null && item.itemId == "item.grass" => "Dekati box pakan lalu tekan F: isi 1",
-            _ when item != null && item.itemId == "item.fish_feed" => "Dekati tempat pakan kolam lalu tekan F: isi 1",
+            _ when FeedTypes.Kind(item)==FeedKind.Livestock => "F: isi Pakan Hewan di tempat pakan ternak",
+            _ when FeedTypes.Kind(item)==FeedKind.Poultry => "F: isi Pakan Unggas di tempat pakan ayam/bebek",
+            _ when FeedTypes.Kind(item)==FeedKind.Fish => "F: tabur Pakan Ikan ke kolam",
             _ when item != null && animalCare != null && item == animalCare.treat => "Dekati hewan lalu tekan F: beri treat",
             _ when item != null && item.category == ItemCategory.Food => "C: makan item terpilih",
             _ when item != null && item.canPlaceInWorld && item.canDropToWorld => "P: letakkan  |  G: jatuhkan  |  Shift: seluruh stack",
@@ -226,35 +243,17 @@ public sealed class InventoryHotbarUI : MonoBehaviour
     /// <summary>Memakai panel petunjuk hotbar untuk feedback agar tidak muncul dua kotak UI.</summary>
     public static bool TryShowTemporaryMessage(string message, float duration)
     {
-        if (instance == null || instance.actionHint == null || string.IsNullOrWhiteSpace(message))
-            return false;
-        instance.ShowTemporaryMessage(message, duration);
+        if(string.IsNullOrWhiteSpace(message))return false;
+        GameplayInfoPanel.Notify(message,duration);
         return true;
     }
-
-    void ShowTemporaryMessage(string message, float duration)
-    {
-        if (temporaryHintRoutine != null) StopCoroutine(temporaryHintRoutine);
-        temporaryHint = message;
-        RefreshActionHint();
-        temporaryHintRoutine = StartCoroutine(ClearTemporaryMessage(Mathf.Max(0.2f, duration)));
-    }
-
-    IEnumerator ClearTemporaryMessage(float duration)
-    {
-        yield return new WaitForSecondsRealtime(duration);
-        temporaryHint = null;
-        temporaryHintRoutine = null;
-        RefreshActionHint();
-    }
-
     void BuildUI()
     {
         int count = inventory.HotbarSlotCount;
         const float slotWidth = 88f;
         const float slotHeight = 88f;
         const float gap = 8f;
-        float totalWidth = count * slotWidth + (count - 1) * gap + 20f;
+        float totalWidth = PanelWidth;
 
         GameObject canvasObject = new("InventoryHotbarCanvas_Runtime", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
         Canvas canvas = canvasObject.GetComponent<Canvas>();
@@ -300,6 +299,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         panel.pivot = new Vector2(0.5f, 0f);
         panel.anchoredPosition = new Vector2(0f, 36f);
         panel.sizeDelta = new Vector2(totalWidth, slotHeight + 20f);
+        GameplayInfoPanel.RegisterTools(panel);
         Image panelImage = hotbarPanelSprite != null ? panel.gameObject.AddComponent<Image>() : GameplayHUDStyle.Surface(panel, GameplayHUDStyle.Panel);
         panelImage.sprite = hotbarPanelSprite;
         panelImage.type = hotbarPanelSprite != null ? Image.Type.Sliced : Image.Type.Simple;
@@ -321,7 +321,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             background.raycastTarget = true;
             button.transition = Selectable.Transition.None;
             button.navigation = new Navigation { mode = Navigation.Mode.None };
-            button.onClick.AddListener(() => { if (!WorldInteractionPrompt.IsSuppressed) SelectSlot(captured); });
+            button.onClick.AddListener(() => { if (!WorldInteractionPrompt.IsSuppressed) ToggleSlot(captured); });
             GameplayHUDStyle.Text("Key", slot, (i + 1).ToString(), 18, new(.09f,.72f), new(.4f,.98f));
 
             RectTransform iconRect = CreateRect("Icon", slot);
@@ -349,6 +349,21 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             fallback.alignment = TextAlignmentOptions.Center;
             views.Add(new SlotView(background, icon, label, fallback));
         }
+        RectTransform emptyHands = CreateRect("EmptyHandsButton", panel);
+        emptyHands.anchorMin = emptyHands.anchorMax = new Vector2(0f, .5f);
+        emptyHands.pivot = new Vector2(0f, .5f);
+        emptyHands.anchoredPosition = new Vector2(10f + count * (slotWidth + gap), 0f);
+        emptyHands.sizeDelta = new Vector2(128f, slotHeight);
+        emptyHandsBackground = GameplayHUDStyle.Surface(emptyHands, GameplayHUDStyle.Slot);
+        emptyHandsBackground.raycastTarget = true;
+        Button emptyButton = emptyHands.gameObject.AddComponent<Button>();
+        emptyButton.targetGraphic = emptyHandsBackground;
+        emptyButton.transition = Selectable.Transition.None;
+        emptyButton.navigation = new Navigation { mode = Navigation.Mode.None };
+        emptyButton.onClick.AddListener(() => { if (!WorldInteractionPrompt.IsSuppressed) ClearSelection(); });
+        GameplayHUDStyle.Text("Key", emptyHands, "0", 18, new(.09f,.72f), new(.4f,.98f));
+        TMP_Text emptyLabel = GameplayHUDStyle.Text("Label", emptyHands, "Tangan\nKosong", 20, new(.06f,.08f), new(.94f,.74f));
+        emptyLabel.alignment = TextAlignmentOptions.Center;
         RefreshActionHint();
     }
 

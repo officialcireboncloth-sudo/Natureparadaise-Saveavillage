@@ -62,6 +62,12 @@ public class HUDManager : MonoBehaviour
     public Sprite healthFillSprite;
     public Sprite staminaFillSprite;
 
+    [Header("Weather Artwork (Optional)")]
+    [Tooltip("Pemetaan sprite cuaca yang sama dengan TV. Jika kosong, ikon cuaca digambar otomatis tanpa tekstur tambahan.")]
+    public WeatherForecastTVTheme weatherArtwork;
+    [Tooltip("Currency artwork. Empty uses the shared InventoryTheme coin icon, then a simple readable fallback.")]
+    public Sprite goldIcon;
+
     [Header("Status Effect Icons")]
     [Tooltip("Daftarkan Sprite berdasarkan Effect ID. Slot tanpa Sprite memakai singkatan ID.")]
     public List<PlayerStatusEffectIconEntry> statusEffectIcons = new();
@@ -82,6 +88,10 @@ public class HUDManager : MonoBehaviour
     RectTransform runtimeHudRoot;
     RectTransform runtimeCanvasRoot;
     RectTransform timePanelRoot;
+    WeatherHUDIcon weatherIcon;
+    TMP_Text weatherStatusText;
+    TMP_Text seasonText;
+    TMP_Text timeOfDayText;
     bool animalContextVisible;
     bool modalContextVisible;
     public void SetModalContextVisible(bool visible){modalContextVisible=visible;ApplyContextVisibility();}
@@ -118,6 +128,7 @@ public class HUDManager : MonoBehaviour
     InventoryHotbarUI inventoryHotbar;
     RectTransform farmingDebugRoot;
     TMP_Text farmingDebugText;
+    bool housingDebugSuppressed;
 
     // =====================================================
     // INITIALIZE
@@ -146,6 +157,8 @@ public class HUDManager : MonoBehaviour
 
     void OnEnable()
     {
+        WeatherSystem.CurrentWeatherChanged += HandleWeatherChanged;
+        RefreshWeatherIndicator();
         if (playerInv != null)
             playerInv.OnInventoryChanged += UpdateInventoryUI;
         if (playerStatus != null)
@@ -154,6 +167,7 @@ public class HUDManager : MonoBehaviour
 
     void OnDisable()
     {
+        WeatherSystem.CurrentWeatherChanged -= HandleWeatherChanged;
         if (playerInv != null)
             playerInv.OnInventoryChanged -= UpdateInventoryUI;
         if (playerStatus != null)
@@ -174,11 +188,13 @@ public class HUDManager : MonoBehaviour
     // =====================================================
 
     static bool MiningContextActive() => CaveInteriorController.IsMiningContext;
+    static bool HousingContextActive()=>BarnInterior.Current!=null&&BarnInteriorSceneController.Instance!=null&&BarnInteriorSceneController.Instance.isActiveAndEnabled;
 
     void Update()
     {
         ApplyContextVisibility();
-        if (GameplayInput.GetKeyDown(debugCluesToggleKey))
+        if(housingDebugSuppressed!=HousingContextActive())ApplyDebugClueVisibility();
+        if (!housingDebugSuppressed&&GameplayInput.GetKeyDown(debugCluesToggleKey))
             SetDebugCluesEnabled(!DebugCluesEnabled, true);
 
         UpdateClockUI();
@@ -193,6 +209,7 @@ public class HUDManager : MonoBehaviour
 
     void UpdateClockUI()
     {
+        RefreshWeatherIndicator();
         if (clockText == null)
             return;
 
@@ -201,8 +218,9 @@ public class HUDManager : MonoBehaviour
 
         var t = TimeManager.Instance;
 
-        clockText.text =
-            $"Hari {t.day}   {GetSeasonLabel()}   |   {t.hour:00}:{t.minute:00}";
+        clockText.text = $"Hari {t.day}";
+        if (seasonText != null) seasonText.text = GetSeasonLabel();
+        if (timeOfDayText != null) timeOfDayText.text = $"{t.hour:00}:{t.minute:00}";
 
         if (weatherDebugText != null)
         {
@@ -224,6 +242,22 @@ public class HUDManager : MonoBehaviour
         }
     }
 
+    void HandleWeatherChanged(WeatherType _) => RefreshWeatherIndicator();
+
+    void RefreshWeatherIndicator()
+    {
+        if (weatherIcon == null || weatherStatusText == null)
+            return;
+
+        WeatherType? current = WeatherSystem.Instance != null ? WeatherSystem.Instance.CurrentWeather : null;
+        var time = TimeManager.Instance;
+        bool night = time != null && (time.hour < 6 || time.hour >= 18);
+        weatherIcon.SetWeather(current, night, current.HasValue ? weatherArtwork?.Icon(current.Value, night) : null);
+        string label = current.HasValue ? WeatherSystem.GetShortName(current.Value) : "Memuat...";
+        if (weatherStatusText.text != label)
+            weatherStatusText.text = label;
+    }
+
     void BuildWeatherDebug()
     {
         if (clockText == null || clockText.transform.parent == null || weatherDebugText != null)
@@ -238,7 +272,7 @@ public class HUDManager : MonoBehaviour
         RectTransform rect = weatherDebugText.rectTransform;
         rect.anchorMin = rect.anchorMax = new Vector2(1f, 1f);
         rect.pivot = new Vector2(1f, 1f);
-        rect.anchoredPosition = new Vector2(0f, -66f);
+        rect.anchoredPosition = new Vector2(0f, -94f);
         rect.sizeDelta = new Vector2(420f, 58f);
         rect.localScale = Vector3.one;
     }
@@ -253,8 +287,9 @@ public class HUDManager : MonoBehaviour
 
     void ApplyDebugClueVisibility()
     {
-        DebugCluesEnabled = showDebugClues;
-        FarmingDebugCluesEnabled = showDebugClues && showFarmingDebugControls;
+        housingDebugSuppressed=HousingContextActive();
+        DebugCluesEnabled = showDebugClues&&!housingDebugSuppressed;
+        FarmingDebugCluesEnabled = DebugCluesEnabled && showFarmingDebugControls;
 
         if (weatherDebugText != null)
             weatherDebugText.gameObject.SetActive(showWeatherDebugText && DebugCluesEnabled);
@@ -381,11 +416,29 @@ public class HUDManager : MonoBehaviour
         ConfigureClockPanel(clockText);
         if (timePanelRoot != null && moneyText != null)
         {
-            ConfigureExistingText(moneyText, timePanelRoot, new Vector2(384f, -8f), new Vector2(150f, 36f), 20f);
+            ConfigureExistingText(moneyText, timePanelRoot, new Vector2(494f, -24f), new Vector2(174f, 40f), 23f);
+            moneyText.enableAutoSizing = true;
+            moneyText.fontSizeMin = 18f;
+            moneyText.fontSizeMax = 23f;
             moneyText.alignment = TextAlignmentOptions.MidlineLeft;
             moneyText.margin = Vector4.zero;
             moneyText.gameObject.SetActive(true);
-            GameplayHUDStyle.Icon(timePanelRoot, MainMenuIcon.Kind.Coin, new Color(1f,.76f,.15f), new(.65f,.23f), new(.70f,.77f));
+            var currency = CreateRect("Gold Icon", timePanelRoot);
+            currency.anchorMin = currency.anchorMax = new Vector2(0, .5f);
+            currency.anchoredPosition = new Vector2(466, 0);
+            currency.sizeDelta = new Vector2(48, 48);
+            if (goldIcon == null) goldIcon = Resources.Load<InventoryTheme>("UI/InventoryTheme")?.coinIcon;
+            if (goldIcon != null)
+            {
+                var art = currency.gameObject.AddComponent<Image>(); art.sprite = goldIcon;
+                art.preserveAspect = true; art.raycastTarget = false;
+            }
+            else
+            {
+                var fallback = currency.gameObject.AddComponent<MainMenuIcon>();
+                fallback.kind = MainMenuIcon.Kind.Coin; fallback.color = new Color(1, .76f, .15f);
+                fallback.raycastTarget = false;
+            }
         }
 
         Debug.Log("[HUD] Unified HUD aktif pada Screen Space Overlay Canvas.");
@@ -527,22 +580,64 @@ public class HUDManager : MonoBehaviour
         timePanelRoot = CreateRect("TimeWeatherPanel", runtimeCanvasRoot);
         timePanelRoot.anchorMin = timePanelRoot.anchorMax = new Vector2(1f, 1f);
         timePanelRoot.pivot = new Vector2(1f, 1f);
-        timePanelRoot.anchoredPosition = new Vector2(-126f, -20f);
-        timePanelRoot.sizeDelta = new Vector2(548f, 52f);
-        AddSolidImage(timePanelRoot, GameplayHUDStyle.Panel);
-        GameplayHUDStyle.Icon(timePanelRoot, MainMenuIcon.Kind.Sun, new Color(1f,.77f,.16f), new(.03f,.16f), new(.095f,.84f));
+        timePanelRoot.anchoredPosition = new Vector2(-134f, -20f);
+        timePanelRoot.sizeDelta = new Vector2(690f, 88f);
+        var panel = GameplayHUDStyle.Surface(timePanelRoot, new Color(.13f, .19f, .14f, .84f), 14);
+        panel.borderWidth = 1;
+        panel.borderColor = new Color(.72f, .79f, .62f, .28f);
+        var iconRect = CreateRect("Current Weather Icon", timePanelRoot);
+        iconRect.anchorMin = iconRect.anchorMax = new Vector2(0, 1);
+        iconRect.pivot = new Vector2(.5f, 1);
+        iconRect.anchoredPosition = new Vector2(56, -8);
+        iconRect.sizeDelta = new Vector2(42, 42);
+        weatherIcon = iconRect.gameObject.AddComponent<WeatherHUDIcon>();
+        weatherIcon.raycastTarget = false;
+        weatherStatusText = GameplayHUDStyle.Text("Current Weather Name", timePanelRoot, "Memuat...", 15f, Vector2.zero, Vector2.zero);
+        ConfigureExistingText(weatherStatusText, timePanelRoot, new Vector2(8, -54), new Vector2(96, 24), 15);
+        weatherStatusText.alignment = TextAlignmentOptions.Center;
+        weatherStatusText.enableAutoSizing = true;
+        weatherStatusText.fontSizeMin = 12f;
+        weatherStatusText.fontSizeMax = 15f;
+        weatherStatusText.textWrappingMode = TextWrappingModes.NoWrap;
+        if (weatherArtwork == null)
+            weatherArtwork = Resources.Load<WeatherForecastTVTheme>("UI/WeatherForecastTVTheme");
+        foreach (float x in new[] { 112f, 290f, 430f })
+        {
+            var divider = CreateRect("Divider", timePanelRoot);
+            divider.anchorMin = divider.anchorMax = new Vector2(0, .5f);
+            divider.anchoredPosition = new Vector2(x, 0);
+            divider.sizeDelta = new Vector2(1, 44);
+            AddSolidImage(divider, new Color(.74f,.80f,.68f,.25f));
+        }
 
         RectTransform rect = clock.rectTransform;
         rect.SetParent(timePanelRoot, false);
         rect.anchorMin = rect.anchorMax = new Vector2(0f, 1f);
         rect.pivot = new Vector2(0f, 1f);
-        rect.anchoredPosition = new Vector2(60f, -8f);
-        rect.sizeDelta = new Vector2(300f, 36f);
+        rect.anchoredPosition = new Vector2(130f, -17f);
+        rect.sizeDelta = new Vector2(146f, 30f);
         rect.localScale = Vector3.one;
-        clock.fontSize = 19f;
+        clock.fontSize = 23f;
+        clock.enableAutoSizing = true;
+        clock.fontSizeMin = 19;
+        clock.fontSizeMax = 23;
+        clock.fontStyle = FontStyles.Bold;
+        clock.richText = true;
         clock.alignment = TextAlignmentOptions.MidlineLeft;
         clock.textWrappingMode = TextWrappingModes.NoWrap;
         clock.raycastTarget = false;
+        clock.margin = Vector4.zero;
+        seasonText = GameplayHUDStyle.Text("Season Name", timePanelRoot, GetSeasonLabel(), 16, Vector2.zero, Vector2.zero);
+        ConfigureExistingText(seasonText, timePanelRoot, new Vector2(130, -49), new Vector2(146, 24), 16);
+        seasonText.alignment = TextAlignmentOptions.MidlineLeft;
+        seasonText.margin = Vector4.zero;
+        seasonText.color = new Color(.79f, .84f, .75f);
+        timeOfDayText = GameplayHUDStyle.Text("Time Of Day", timePanelRoot, "06:00", 25, Vector2.zero, Vector2.zero);
+        ConfigureExistingText(timeOfDayText, timePanelRoot, new Vector2(304, -23), new Vector2(112, 42), 25);
+        timeOfDayText.alignment = TextAlignmentOptions.Center;
+        timeOfDayText.margin = Vector4.zero;
+        timeOfDayText.fontStyle = FontStyles.Bold;
+        RefreshWeatherIndicator();
         timePanelRoot.gameObject.AddComponent<GameplayPauseMenu>();
     }
 

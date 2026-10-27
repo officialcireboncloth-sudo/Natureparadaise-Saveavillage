@@ -65,9 +65,6 @@ public class FarmingTool : MonoBehaviour
     [SerializeField, Min(0f)] float actionLockDuration = 1.15f;
     [SerializeField, Min(0f), Tooltip("Waktu dari awal Hoeing sampai mata cangkul menyentuh tanah.")]
     float hoeImpactDelay = 0.72f;
-    [SerializeField, Min(0f), Tooltip("Waktu dari awal Watering sampai air menyentuh tanah.")]
-    float wateringImpactDelay = 0.68f;
-    [SerializeField, Min(0f)] float wateringActionDuration = 1.35f;
     [SerializeField, Min(0f)] float pickupImpactDelay = 0.72f;
     [SerializeField, Min(0f)] float pickupActionDuration = 1.45f;
     [SerializeField, Min(0f)] float cameraShakeStrength = 0.07f;
@@ -86,6 +83,9 @@ public class FarmingTool : MonoBehaviour
     float nextTargetRefresh;
     bool actionBusy;
     bool hasUseToolTrigger;
+    bool capturedTile;
+    Animator pausedWateringAnimator;
+    float resumeWateringSpeed;
     readonly List<HoeTileTarget> hoeTargets = new(9);
     readonly List<LineRenderer> indicators = new(9);
     readonly Collider[] blockerBuffer = new Collider[24];
@@ -119,11 +119,11 @@ public class FarmingTool : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
         cameraFollow = Camera.main != null ? Camera.main.GetComponent<TopDownCameraFollow>() : null;
         hasUseToolTrigger = HasAnimatorParameter(useToolTrigger, AnimatorControllerParameterType.Trigger);
-        EnsureDirtParticles();
     }
 
     void Update()
     {
+        if(GetComponent<PlayerToolApproach>()?.IsActive==true)return;
         if (Time.unscaledTime >= nextTargetRefresh)
         {
             nextTargetRefresh = Time.unscaledTime + targetRefreshInterval;
@@ -146,10 +146,24 @@ public class FarmingTool : MonoBehaviour
         bool useFertilizer = hotbar.IsUsePressed(PlayerToolType.Fertilizer, this);
         bool useCropBooster = hotbar.IsUsePressed(PlayerToolType.CropBooster, this);
 
-        if (useHoe) UseHoe();
-        else if (useWater) UseSoilEffect(true);
-        else if (useFertilizer) UseSoilEffect(false);
-        else if (useCropBooster) UseCropBooster();
+        if (useHoe) ApproachCurrentTile(UseHoe);
+        else if (useWater) ApproachCurrentTile(()=>UseSoilEffect(true));
+        else if (useFertilizer) ApproachCurrentTile(()=>UseSoilEffect(false));
+        else if (useCropBooster) ApproachCurrentTile(UseCropBooster);
+    }
+
+    void ApproachCurrentTile(System.Action action)
+    {
+        RefreshCurrentTarget();if(currentField==null){action();return;}
+        var field=currentField;int x=currentX,z=currentZ;
+        ApproachTile(this,field,x,z,()=>{currentField=field;currentX=x;currentZ=z;capturedTile=true;try{action();}finally{capturedTile=false;}});
+    }
+    /// <summary>Approaches the selected tile centre without changing it as the player walks.</summary>
+    public bool ApproachTile(UnityEngine.Object owner,FieldArea field,int x,int z,System.Action action)
+    {
+        if(field==null)return false;
+        return PlayerToolApproach.For(this).Begin(owner,()=>field.GridToWorld(x,z),Mathf.Clamp(field.CellSize*1.15f,.65f,1.15f),action,
+            ()=>field!=null&&field.isActiveAndEnabled&&field.TryGetSnapshot(x,z,out _));
     }
 
     void RefreshCropInteractionPrompt()
@@ -258,6 +272,7 @@ public class FarmingTool : MonoBehaviour
 
     void RefreshCurrentTarget()
     {
+        if(capturedTile)return;
         Vector3 facing = movement != null ? movement.FacingDirection : transform.forward;
         if (facing.sqrMagnitude < 0.001f)
             facing = transform.forward;
@@ -389,6 +404,7 @@ public class FarmingTool : MonoBehaviour
 
         if (field != null && field.TryHarvest(x, z, playerInv, out CropGrade grade))
         {
+            FarmActionEffects.Burst(FarmEffect.Harvest,field.GridToWorld(x,z)+field.transform.up*.3f);
             SpendStamina(StaminaBalance.Current.Cost("harvest"));
             ShowFeedback($"Panen berhasil - {(int)grade + 1} bintang");
         }
@@ -409,7 +425,7 @@ public class FarmingTool : MonoBehaviour
             snapshot.State != TileState.Planted || snapshot.CropState != CropLifecycleState.HarvestReady)
             return false;
         if (!PlayerInteractionTarget.PressPrompt(this, handHarvestKey)) return false;
-        return TryHarvestCurrentTile();
+        ApproachCurrentTile(()=>TryHarvestCurrentTile());return true;
     }
 
     void UseSoilEffect(bool watering)
@@ -466,20 +482,35 @@ public class FarmingTool : MonoBehaviour
             return;
         }
 
-        bool success = currentField.TryFertilize(currentX, currentZ,
-            (int)fertilizer.fertilizerLevel, fertilizer.SoilRestoreAmount);
+        if(!currentField.CanFertilize(currentX,currentZ))
+        { ShowFeedback("Pupuk hanya bisa dipakai pada tanah cangkul yang belum penuh");return; }
+        movement?.FaceTowardsInteraction(currentField.GridToWorld(currentX,currentZ));
+        movement?.PlayPlantingAnimation();
+        StartCoroutine(FertilizerActionRoutine(currentField,currentX,currentZ,fertilizer,inventoryHotbar.SelectedIndex,cost));
+    }
+
+    IEnumerator FertilizerActionRoutine(FieldArea field,int x,int z,ItemSO fertilizer,int slot,float cost)
+    {
+        actionBusy=true;movement?.AcquireMovementLock(this);playerStatus?.AcquireActivity(this,PlayerMovementState.ToolAction);
+        yield return new WaitForSeconds(.62f);
+        var stack=playerInv!=null?playerInv.GetSlot(slot):null;
+        bool success=field!=null&&fertilizer!=null&&stack?.item==fertilizer&&stack.count>0&&HasStamina(cost)&&
+            field.CanFertilize(x,z)&&playerInv.RemoveFromSlot(slot,1);
         if (success)
         {
-            if (!playerInv.RemoveFromSlot(inventoryHotbar.SelectedIndex, 1))
+            if (!field.TryFertilize(x,z,(int)fertilizer.fertilizerLevel,fertilizer.SoilRestoreAmount))
             {
-                Debug.LogError("[FARMING] Tanah dipupuk tetapi item Fertilizer gagal dikurangi.");
-                return;
+                playerInv.Add(fertilizer,1);
             }
-            SpendStamina(cost);
-            ShowFeedback($"Tanah sudah dipupuk dengan {fertilizer.itemName}. Siap ditanami");
+            else
+            {
+                SpendStamina(cost);
+                FarmActionEffects.Burst(FarmEffect.Fertilize,field.GridToWorld(x,z),radius:field.CellSize*.3f);
+                ShowFeedback($"Tanah sudah dipupuk dengan {fertilizer.itemName}. Siap ditanami");
+            }
         }
-        else
-            ShowFeedback("Pupuk hanya bisa dipakai pada tanah cangkul yang belum penuh");
+        yield return new WaitForSeconds(.33f);
+        movement?.ReleaseMovementLock(this);playerStatus?.ReleaseActivity(this);actionBusy=false;
     }
 
     IEnumerator WateringActionRoutine(FieldArea field, int x, int z, float staminaCost)
@@ -487,27 +518,86 @@ public class FarmingTool : MonoBehaviour
         actionBusy = true;
         playerStatus?.AcquireActivity(this, PlayerMovementState.ToolAction);
         movement?.AcquireMovementLock(this);
-        if (wateringImpactDelay > 0f) yield return new WaitForSeconds(wateringImpactDelay);
-
-        if (field != null && wateringCan != null && !wateringCan.IsEmpty &&
-            field.TryWater(x, z))
+        var timing = WateringActionProfile.Current;
+        var rig = movement != null ? movement.CharacterAnimator : animator;
+        var held = GetComponent<PlayerHeldTools>();
+        bool animated = rig != null && rig.isActiveAndEnabled && rig.runtimeAnimatorController != null &&
+            rig.HasState(0, Animator.StringToHash("Base Layer.Watering Plant"));
+        bool seenAnimation = false, started = false, committed = false, completed = false;
+        float elapsed = 0, lastPhase = 0;
+        FarmActionEffects.PourHandle flow = null;
+        held?.BeginWorkAction(PlayerToolType.WateringCan, field != null ? field.GridToWorld(x,z) : transform.position, timing.actionTimeout);
+        try
         {
-            if (wateringCan.TryUse())
+            while(elapsed < timing.actionTimeout)
             {
-                SpendStamina(staminaCost);
-                ShowFeedback($"Tanah atau tanaman sudah disiram — air {wateringCan.CurrentWater}/{wateringCan.MaximumWater}");
+                if(field == null || !field.isActiveAndEnabled || hotbar == null || hotbar.SelectedTool != PlayerToolType.WateringCan) break;
+                if(Time.timeScale <= 0 || (TimeManager.Instance != null && TimeManager.Instance.IsPaused))
+                {
+                    if(rig != null && pausedWateringAnimator == null)
+                    { pausedWateringAnimator = rig; resumeWateringSpeed = rig.speed; rig.speed = 0; }
+                    yield return null;
+                    continue;
+                }
+                RestoreWateringAnimator();
+                elapsed += Time.deltaTime;
+                float phase;
+                if(animated)
+                {
+                    if(!WateringActionProfile.TryPhase(rig, out phase))
+                    {
+                        if(seenAnimation) { completed = lastPhase >= timing.pourEnd; break; }
+                        if(elapsed >= timing.animationEntryTimeout) break;
+                        yield return null; continue;
+                    }
+                    seenAnimation = true;
+                }
+                else phase = Mathf.Clamp01(elapsed / timing.fallbackDuration);
+                lastPhase = phase;
+                if(!started && phase >= timing.pourStart && phase < timing.pourEnd)
+                {
+                    if(!CanWaterTarget(field,x,z) || !HasStamina(staminaCost)) break;
+                    Vector3 point = field.GridToWorld(x,z)+field.transform.up*.03f;
+                    flow = FarmActionEffects.Pour(this,held,field.transform,point,timing.actionTimeout,timing.dropFlightTime,
+                        () => { committed = CommitWateringContact(field,x,z,staminaCost); return committed; });
+                    if(flow == null) break;
+                    started = true;
+                }
+                if(flow != null && flow.Cancelled) break;
+                if(started && phase >= timing.pourEnd) FarmActionEffects.StopPour(this);
+                if(phase >= 1) { completed = true; break; }
+                yield return null;
             }
-            else
-                Debug.LogError("[FARMING] Tile tersiram tetapi kapasitas Watering Can gagal dikurangi.");
         }
-        else
-            ShowFeedback("Tanah harus dicangkul atau sudah disiram hari ini");
+        finally
+        {
+            if(completed && committed) FarmActionEffects.StopPour(this); else FarmActionEffects.Cancel(this);
+            RestoreWateringAnimator(); held?.EndWorkAction();
+            movement?.ReleaseMovementLock(this); playerStatus?.ReleaseActivity(this); actionBusy = false;
+        }
+    }
 
-        float remaining = Mathf.Max(0f, wateringActionDuration - wateringImpactDelay);
-        if (remaining > 0f) yield return new WaitForSeconds(remaining);
-        movement?.ReleaseMovementLock(this);
-        playerStatus?.ReleaseActivity(this);
-        actionBusy = false;
+    bool CanWaterTarget(FieldArea field,int x,int z) => wateringCan != null && !wateringCan.IsEmpty &&
+        field != null && field.TryGetSnapshot(x,z,out var tile) && !tile.WateredToday &&
+        (tile.State == TileState.Hoed || tile.State == TileState.Planted);
+
+    bool CommitWateringContact(FieldArea field,int x,int z,float staminaCost)
+    {
+        if(!isActiveAndEnabled || hotbar == null || hotbar.SelectedTool != PlayerToolType.WateringCan ||
+            !CanWaterTarget(field,x,z) || !HasStamina(staminaCost)) return false;
+        int previousWater = wateringCan.CurrentWater;
+        if(!wateringCan.TryUse()) return false;
+        if(!field.TryWater(x,z)) { wateringCan.Restore(previousWater); return false; }
+        SpendStamina(staminaCost);
+        ShowFeedback($"Tanah atau tanaman sudah disiram — air {wateringCan.CurrentWater}/{wateringCan.MaximumWater}");
+        return true;
+    }
+
+    void RestoreWateringAnimator()
+    {
+        if(pausedWateringAnimator == null) return;
+        pausedWateringAnimator.speed = resumeWateringSpeed;
+        pausedWateringAnimator = null;
     }
 
     void UseCropBooster()
@@ -719,11 +809,6 @@ public class FarmingTool : MonoBehaviour
     {
         if (hoeSound != null)
             GameAudio.PlayOneShot(audioSource, hoeSound, GameAudioBus.Main);
-        if (dirtParticles != null)
-        {
-            dirtParticles.transform.position = position + Vector3.up * 0.08f;
-            dirtParticles.Emit(CurrentUpgradeTier == HoeUpgradeTier.Gold ? 24 : 12);
-        }
         if (cameraFollow == null && Camera.main != null)
             cameraFollow = Camera.main.GetComponent<TopDownCameraFollow>();
         cameraFollow?.AddImpulse(cameraShakeStrength, cameraShakeDuration);
@@ -743,7 +828,12 @@ public class FarmingTool : MonoBehaviour
         for(int i=0;i<pendingTargets.Count;i++)
         {
             HoeTileTarget target=pendingTargets[i];
-            if(target.Field!=null && target.Field.TryHoe(target.X,target.Z)) changed++;
+            if(target.Field!=null && target.Field.TryHoe(target.X,target.Z))
+            {
+                changed++;
+                FarmActionEffects.Burst(FarmEffect.Hoe,target.Field.GridToWorld(target.X,target.Z),
+                    radius:target.Field.CellSize*.28f,sound:hoeSound==null);
+            }
         }
         if(changed>0)
         {
@@ -807,13 +897,21 @@ public class FarmingTool : MonoBehaviour
         Debug.Log($"[FARMING] {message}");
     }
 
-    void OnDisable()
+    void OnDisable() => CancelAction();
+
+    /// <summary>Cancels uncommitted contacts and pouring when the player puts the tool away.</summary>
+    public void CancelAction()
     {
+        GetComponent<PlayerToolApproach>()?.Cancel(this);
+        FarmActionEffects.Cancel(this);
         StopAllCoroutines();
+        RestoreWateringAnimator();
+        GetComponent<PlayerHeldTools>()?.EndWorkAction();
         HideIndicators();
         movement?.ReleaseMovementLock(this);
         playerStatus?.ReleaseActivity(this);
         actionBusy = false;
+        movement?.CancelToolAnimation();
         if (Gamepad.current != null) Gamepad.current.SetMotorSpeeds(0f, 0f);
     }
 

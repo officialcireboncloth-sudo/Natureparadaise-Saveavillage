@@ -25,7 +25,7 @@ public sealed class LumberConstructionMenu : MonoBehaviour
     readonly List<Image> icons = new();
     GameObject canvas;
     TMP_Text title, detail, requirements, notice, page;
-    Button order, previous, next;
+    Button order, debugOrder, previous, next;
     UpgradeShopFront store;
     BuildingCatalogSO catalog;
     PlayerController player;
@@ -35,7 +35,7 @@ public sealed class LumberConstructionMenu : MonoBehaviour
     int selection, openedFrame;
     public void Show(UpgradeShopFront front, bool upgrade)
     {
-        if(open || Active != null || PropertySite.HasActivePlacementPreview())return;
+        if(front == null || front.kind != UpgradeShopKind.Lumber || open || Active != null || PropertySite.HasActivePlacementPreview())return;
         store=front;upgrading=upgrade;player=GetComponent<PlayerController>();inventory=GetComponent<Inventory>();
         catalog=front.constructionCatalog != null ? front.constructionCatalog : Resources.Load<BuildingCatalogSO>("Buildings/Lumber Building Catalog");
         if(catalog==null)catalog=Resources.Load<BuildingCatalogSO>("Buildings/Farm Building Catalog");
@@ -88,8 +88,12 @@ public sealed class LumberConstructionMenu : MonoBehaviour
         detail=CommerceUIStyle.Label("Description",panel.transform,"",24,.07f,.20f,.39f,.27f,true);
         requirements=CommerceUIStyle.Label("Materials",panel.transform,"",21,.51f,.23f,.42f,.24f);
         notice=CommerceUIStyle.Label("Availability",panel.transform,"",19,.07f,.085f,.58f,.055f);notice.color=CommerceUIStyle.Muted;
-        order=CommerceUIStyle.Button("Order",panel.transform,"Pilih lokasi",.70f,.08f,.255f,.065f,true);order.onClick.AddListener(Order);
-        CommerceUIStyle.Label("KeyboardGuide",safe,"A / D  Pilih bangunan     Enter  Konfirmasi     Esc  Kembali ke Lumber",20,.20f,.06f,.60f,.045f).alignment=TextAlignmentOptions.Center;
+        order=CommerceUIStyle.Button("Order",panel.transform,"Pilih lokasi",.70f,.08f,.255f,.065f,true);order.onClick.AddListener(()=>Order());
+        debugOrder=CommerceUIStyle.Button("DebugFreeOrder",panel.transform,"F9 · DEBUG Gratis",.70f,.17f,.255f,.055f);debugOrder.onClick.AddListener(()=>Order(true));
+        debugOrder.gameObject.SetActive(PropertySite.DebugShortcutsEnabled);
+        string guide="A / D  Pilih bangunan     Enter  Konfirmasi     Esc  Kembali ke Lumber";
+        if(PropertySite.DebugShortcutsEnabled)guide+="     F9  Gratis + Proses Tukang";
+        CommerceUIStyle.Label("KeyboardGuide",safe,guide,20,.12f,.06f,.76f,.045f).alignment=TextAlignmentOptions.Center;
     }
     void Update()
     {
@@ -97,7 +101,8 @@ public sealed class LumberConstructionMenu : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape)){Close(true);return;}
         if(Input.GetKeyDown(KeyCode.A)||Input.GetKeyDown(KeyCode.LeftArrow))Select(selection-1);
         if(Input.GetKeyDown(KeyCode.D)||Input.GetKeyDown(KeyCode.RightArrow))Select(selection+1);
-        if(Input.GetKeyDown(KeyCode.Return))Order();
+        if(PropertySite.DebugShortcutsEnabled&&Input.GetKeyDown(KeyCode.F9))Order(true);
+        else if(Input.GetKeyDown(KeyCode.Return))Order();
     }
     void Select(int value){selection=Mathf.Clamp(value,0,Mathf.Max(0,offers.Count-1));Refresh();}
     void Refresh()
@@ -113,25 +118,31 @@ public sealed class LumberConstructionMenu : MonoBehaviour
         previous.interactable=selection>=6;next.interactable=selection/6*6+6<offers.Count;
         page.text=$"{(offers.Count>0?selection/6+1:0)} / {Mathf.CeilToInt(offers.Count/6f)}";
         order.interactable=false;
+        debugOrder.gameObject.SetActive(PropertySite.DebugShortcutsEnabled);
+        debugOrder.interactable=false;
         if(offers.Count==0){detail.text=upgrading?"Belum ada struktur yang dapat di-upgrade.":"Belum ada bangunan yang tersedia.";requirements.text="";notice.text="Pilih layanan lain di Lumber.";return;}
         var selected=offers[selection];var level=selected.definition.GetLevel(selected.level);
         detail.text=$"{selected.definition.displayName}\n<color=#A8D4AC>Level {selected.level}</color>\n\n{level?.constructionDays??0} hari kerja\n{(upgrading?"Renovasi di lokasi struktur yang dipilih.":"Pilih lokasi di dunia setelah memesan.")}";
         requirements.text=BuildingCostUtility.BuildRequirementLabel(level,inventory);
         bool affordable=BuildingCostUtility.CanAfford(level,inventory,out var reason);
         order.interactable=!selected.Busy&&affordable;
+        debugOrder.interactable=PropertySite.DebugShortcutsEnabled&&!selected.Busy&&level!=null;
         order.GetComponentInChildren<TMP_Text>().text=upgrading?"Preview upgrade":"Pilih lokasi";
         notice.text=selected.Busy?(selected.Project!=null?$"{selected.Project.Status} · {selected.Project.Progress:P0}":"Konstruksi sedang berjalan"):affordable?"Biaya dibayar saat konfirmasi proyek.":reason;
     }
-    void Order()
+    void Order(bool debugFree=false)
     {
-        if(!open || offers.Count==0 || !order.interactable)return;
+        if(!open || offers.Count==0)return;
+        if(debugFree ? !PropertySite.DebugShortcutsEnabled||!debugOrder.interactable : !order.interactable)return;
         var selected=offers[selection];Close(false);bool started;
         if(upgrading)started=selected.property!=null?selected.property.BeginUpgradePreview():selected.fixedSite!=null&&selected.fixedSite.BeginPreview(selected.level);
         else
         {
             var site=PropertySite.GetOrCreateGlobalBuildSite(catalog,transform.position);
-            started=site!=null&&site.BeginBuildSelection(selected.catalogIndex,1,false);
+            started=site!=null&&site.BeginBuildSelection(selected.catalogIndex,1,debugFree);
         }
+        if(started&&upgrading&&debugFree)
+            started=selected.property!=null?selected.property.EnableFreeDebugPreview():selected.fixedSite.EnableFreeDebugPreview();
         if(!started)SaveLoadFeedback.Instance?.ShowMessage("Preview proyek belum bisa dimulai");
         GameplayInput.ConsumeCurrentFrame();
     }

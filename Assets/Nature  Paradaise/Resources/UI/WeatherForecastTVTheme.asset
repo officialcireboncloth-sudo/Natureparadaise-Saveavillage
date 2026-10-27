@@ -15,31 +15,33 @@ MonoBehaviour:
   panel: {fileID: 0}
   logo: {fileID: 0}
   leafIcon: {fileID: 0}
-  forecastIcon: {fileID: 0}
+  forecastIcon: {fileID: 21300000, guid: f4c4e63ff0413ac4e88ec1ba8b9711eb, type: 3}
   newsIcon: {fileID: 0}
-  rainIcon: {fileID: 0}
+  rainIcon: {fileID: 21300000, guid: 461a7e625120dcf4a9bdbe24cd674bea, type: 3}
   windIcon: {fileID: 0}
   villageNewsIcon: {fileID: 0}
+  clearNightIcon: {fileID: 21300000, guid: 4020710499113ba43a21be7f1cf6de81, type: 3}
+  partlyCloudyNightIcon: {fileID: 21300000, guid: 6e337a78c4d51b047a73bde776d748c2, type: 3}
   weatherIcons:
   - weather: 0
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: e82a1399a1e53804b9ff4ba62daad947, type: 3}
   - weather: 1
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: f4c4e63ff0413ac4e88ec1ba8b9711eb, type: 3}
   - weather: 2
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: f1acbaa857374254b8cc82205f79da51, type: 3}
   - weather: 3
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: e4d70bec064f66a47b291d5593c53473, type: 3}
   - weather: 4
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 461a7e625120dcf4a9bdbe24cd674bea, type: 3}
   - weather: 5
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 56ee76d1f549a614cbe4c3589ad825c7, type: 3}
   - weather: 6
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: fc27940473c80fe49be9d47d55d92d38, type: 3}
   - weather: 7
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: abb47bf6f6581f046be4298256ad4548, type: 3}
   - weather: 8
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: a8b4d58e9464e0e41a073faa9f089873, type: 3}
   - weather: 9
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 1d8b06a138fd69941bfe6583a99fc850, type: 3}
   - weather: 10
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: a942366143393ca45a7c87564aeb9c7f, type: 3}

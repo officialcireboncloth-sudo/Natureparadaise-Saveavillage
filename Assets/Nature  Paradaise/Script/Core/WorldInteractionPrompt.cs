@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// Satu prompt UI ringan yang mengikuti object di dunia. Semua interactable berbagi
+/// Satu prompt aksi pada dock informasi bawah. Semua interactable berbagi
 /// satu Canvas sehingga tidak membuat Canvas/Update terpisah untuk setiap object.
 /// </summary>
 [DisallowMultipleComponent]
@@ -18,8 +18,8 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
     static WorldInteractionPrompt instance;
     static readonly HashSet<Object> SuppressionOwners = new();
 
-    Canvas canvas;
-    RectTransform canvasRect;
+
+
     RectTransform panelRect;
     Image panelBackground;
     TMP_Text promptText;
@@ -54,6 +54,10 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         => IsDisplayedFor(owner) && anchor != null && instance.displayedAnchor == anchor;
 
     public static bool HasDisplayedPrompt => instance != null && IsDisplayedFor(instance.displayedOwner);
+
+    /// <summary>Returns the exact anchor the player was shown, so an action cannot silently switch targets.</summary>
+    public static bool TryGetDisplayedAnchor(Object owner,out Transform anchor)
+    {anchor=IsDisplayedFor(owner)?instance.displayedAnchor:null;return anchor!=null;}
 
     /// <summary>Tools may act without a world prompt, but cannot take input from another visible interaction.</summary>
     public static bool AllowsAction(Object owner)
@@ -231,41 +235,16 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
             return;
         }
 
-        Vector3 screenPoint = worldCamera.WorldToScreenPoint(requestedWorldPosition);
-        if (screenPoint.z <= 0f || screenPoint.x < 0f || screenPoint.y < 0f ||
-            screenPoint.x > Screen.width || screenPoint.y > Screen.height)
+        Vector3 viewport = worldCamera.WorldToViewportPoint(requestedWorldPosition);
+        if(viewport.z<=0 || viewport.x<0 || viewport.x>1 || viewport.y<0 || viewport.y>1)
         {
             panelRect.gameObject.SetActive(false);
             return;
         }
-
         promptText.text = requestedText;
-        panelBackground.color=requestedCleanStyle
-            ? Color.clear
-            : GameplayHUDStyle.Panel;
-        promptText.outlineWidth=requestedCleanStyle?0.22f:0f;
-        promptText.outlineColor=requestedCleanStyle?new Color32(0,0,0,210):Color.clear;
-        // Prompt build dapat memiliki beberapa baris requirement. Ukuran panel mengikuti
-        // konten agar daftar material tetap terbaca tanpa memenuhi seluruh layar mobile.
-        Vector2 preferredSize = promptText.GetPreferredValues(requestedText);
-        float horizontalPadding=requestedCleanStyle?12f:44f;
-        float verticalPadding=requestedCleanStyle?6f:18f;
-        float preferredWidth = Mathf.Clamp(preferredSize.x + horizontalPadding, requestedCleanStyle?80f:180f, 680f);
-        float preferredHeight = Mathf.Clamp(preferredSize.y + verticalPadding, requestedCleanStyle?30f:52f, 360f);
-        if(requestedAction!=null&&Application.isMobilePlatform)preferredHeight=Mathf.Max(80f,preferredHeight);
-        panelRect.sizeDelta = new Vector2(preferredWidth, preferredHeight);
-
-        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPoint, null, out Vector2 localPoint))
-        {
-            panelRect.gameObject.SetActive(false);
-            return;
-        }
-
-        Vector2 half = panelRect.sizeDelta * 0.5f;
-        Rect safeRect = canvasRect.rect;
-        localPoint.x = Mathf.Clamp(localPoint.x, safeRect.xMin + half.x + 12f, safeRect.xMax - half.x - 12f);
-        localPoint.y = Mathf.Clamp(localPoint.y, safeRect.yMin + half.y + 12f, safeRect.yMax - half.y - 12f);
-        panelRect.anchoredPosition = localPoint;
+        float width=GameplayInfoPanel.ContentWidth-32;
+        float height=Mathf.Clamp(promptText.GetPreferredValues(requestedText,width,0).y+18,Application.isMobilePlatform?88:54,152);
+        GameplayInfoPanel.ReportInteraction(height);
         panelRect.gameObject.SetActive(true);
         panelBackground.raycastTarget=requestedAction!=null;
         if(requestedAction!=null)EnsureEventSystem();
@@ -277,54 +256,15 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
 
     void BuildUI()
     {
-        int uiLayer = LayerMask.NameToLayer("UI");
-        gameObject.layer = uiLayer >= 0 ? uiLayer : 5;
-
-        canvas = gameObject.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 290;
-        gameObject.AddComponent<GraphicRaycaster>();
-        EnsureEventSystem();
-
-        CanvasScaler scaler = gameObject.AddComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(ReferenceWidth, ReferenceHeight);
-        scaler.matchWidthOrHeight = 0.5f;
-
-        canvasRect = GetComponent<RectTransform>();
-
-        GameObject panel = new("Prompt", typeof(RectTransform), typeof(CanvasRenderer), typeof(MainMenuRoundedImage));
-        panel.layer = gameObject.layer;
-        panelRect = panel.GetComponent<RectTransform>();
-        panelRect.SetParent(transform, false);
-        panelRect.anchorMin = panelRect.anchorMax = new Vector2(0.5f, 0.5f);
-        panelRect.pivot = new Vector2(0.5f, 0.5f);
-        panelRect.sizeDelta = new Vector2(300f, 52f);
-        panelBackground = panel.GetComponent<Image>();
-        panelBackground.color = GameplayHUDStyle.Panel;
-        panelBackground.raycastTarget = false;
-        var button=panel.AddComponent<Button>();button.targetGraphic=panelBackground;
-        button.onClick.AddListener(()=>InvokeDisplayedAction());
-
-        GameObject textObject = new("Text", typeof(RectTransform), typeof(CanvasRenderer), typeof(TextMeshProUGUI));
-        textObject.layer = gameObject.layer;
-        RectTransform textRect = textObject.GetComponent<RectTransform>();
-        textRect.SetParent(panelRect, false);
-        textRect.anchorMin = Vector2.zero;
-        textRect.anchorMax = Vector2.one;
-        textRect.offsetMin = new Vector2(14f, 4f);
-        textRect.offsetMax = new Vector2(-14f, -4f);
-
-        promptText = textObject.GetComponent<TextMeshProUGUI>();
-        promptText.font = TMP_Settings.defaultFontAsset;
-        promptText.fontSize = 20f;
-        promptText.fontStyle = FontStyles.Bold;
-        promptText.color = Color.white;
-        promptText.alignment = TextAlignmentOptions.Center;
-        promptText.textWrappingMode = TextWrappingModes.NoWrap;
-        promptText.raycastTarget = false;
-
-        panel.SetActive(false);
+        panelRect=GameplayHUDStyle.Rect("Interaction",GameplayInfoPanel.ActionRoot,Vector2.zero,Vector2.one);
+        panelBackground=panelRect.gameObject.AddComponent<Image>();panelBackground.color=Color.clear;panelBackground.canvasRenderer.cullTransparentMesh=false;panelBackground.raycastTarget=false;
+        var button=panelRect.gameObject.AddComponent<Button>();button.targetGraphic=panelBackground;button.onClick.AddListener(()=>InvokeDisplayedAction());
+        promptText=GameplayHUDStyle.Text("Action",panelRect,"",22,Vector2.zero,Vector2.one);
+        GameplayInfoPanel.StyleMinimalText(promptText);
+        promptText.color=Color.white;promptText.fontStyle=FontStyles.Bold;promptText.alignment=TextAlignmentOptions.Center;
+        promptText.rectTransform.offsetMin=new Vector2(16,8);promptText.rectTransform.offsetMax=new Vector2(-16,-8);
+        promptText.textWrappingMode=TextWrappingModes.Normal;promptText.fontSizeMin=18;
+        panelRect.gameObject.SetActive(false);EnsureEventSystem();
     }
     void EnsureEventSystem()
     {

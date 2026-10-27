@@ -11,6 +11,8 @@ public sealed class AnimalRoutine : MonoBehaviour
     [SerializeField] bool returning;
     [SerializeField, Min(2f)] float maximumRecallSeconds = 12f;
     [Min(0.1f)] public float walkSpeed = 1.5f;
+    /// <summary>World movement speed after applying the species pace from its growth profile.</summary>
+    public float EffectiveWalkSpeed => walkSpeed * (Animal != null ? Animal.WalkingSpeedMultiplier : 1f);
     [Min(1f)] public float grazingSearchRadius = 20f;
     [Tooltip("Jarak horizontal dari marker pintu saat hewan dianggap sudah masuk kandang.")]
     [SerializeField, Min(0.5f)] float boardingDistance = 2.25f;
@@ -58,6 +60,8 @@ public sealed class AnimalRoutine : MonoBehaviour
     Transform playerPusher;
     Animator activeEatingAnimator;
     Animator locomotionAnimator;
+    Animator pacedAnimator;
+    float animationSpeedBeforePacing;
     Transform animationRoot;
     AnimalLocomotionCatalog locomotionCatalog;
     RuntimeAnimatorController activeIdleController;
@@ -100,6 +104,7 @@ public sealed class AnimalRoutine : MonoBehaviour
     }
     void OnDisable()
     {
+        ApplyWalkingPace(false);
         Active.Remove(this); TimeManager.OnDay -= Overnight; StopAllCoroutines(); RestoreEatingAnimation(); eating = false; careLocks.Clear(); ShowModel();
         if (body != null) body.isKinematic = originalKinematic;
     }
@@ -394,7 +399,7 @@ public sealed class AnimalRoutine : MonoBehaviour
             return;
         }
         if (waypoint >= path.Count) { path = null; return; }
-        Vector3 next = Vector3.MoveTowards(transform.position, path[waypoint], walkSpeed * Time.deltaTime);
+        Vector3 next = Vector3.MoveTowards(transform.position, path[waypoint], EffectiveWalkSpeed * Time.deltaTime);
         if (!AnimalWalkingPath.Ground(next, transform, out Vector3 ground)) { path = null; return; }
         Vector3 direction = ground - transform.position; direction.y = 0;
         if (direction.sqrMagnitude > 0.0001f) transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 6f);
@@ -563,6 +568,7 @@ public sealed class AnimalRoutine : MonoBehaviour
         Activity = "Makan rumput";
         ResolveLocomotionAnimator();
         activeEatingAnimator = locomotionAnimator;
+        ApplyWalkingPace(false);
         controllerBeforeEating = activeEatingAnimator != null ? activeEatingAnimator.runtimeAnimatorController : null;
         if (eatingController == null && Animal != null)
             eatingController = AnimalCareCatalog.Load()?.EatingController(Animal.Type);
@@ -752,16 +758,19 @@ public sealed class AnimalRoutine : MonoBehaviour
         UpdateLocomotionAnimation();
         if (!housed) return;
         BarnInterior interior = BarnInterior.Current;
-        if (interior != null && interior.home == Home && Animal.HasBeenBorn)
+        var transition = SceneTransitionManager.Instance;
+        var controller = BarnInteriorSceneController.Instance;
+        if (interior != null && interior.home == Home && Animal.HasBeenBorn &&
+            controller != null && transition != null && transition.IsInsideInterior &&
+            transition.CurrentInteriorSceneName == controller.gameObject.scene.name)
         {
-            ShowModel();
             // Perawatan mempertahankan posisi dan arah hewan selama animasi cukur.
             if(careLocks.Count==0)
             {
-                var controller=BarnInteriorSceneController.Instance;
                 transform.SetPositionAndRotation(interior.AnimalPosition(this),
-                    controller!=null ? controller.AnimalFacing(this) : transform.rotation);
+                    controller.AnimalFacing(this));
             }
+            ShowModel();
             return;
         }
         if (Home != null) transform.position = Home.Entry;
@@ -778,7 +787,7 @@ public sealed class AnimalRoutine : MonoBehaviour
         Vector3 delta = transform.position - previousAnimationPosition;
         delta.y = 0f;
         previousAnimationPosition = transform.position;
-        if (locomotionAnimator == null || eating) return;
+        if (locomotionAnimator == null || eating) { ApplyWalkingPace(false); return; }
 
         float horizontalSpeed = Time.deltaTime > 0.0001f ? delta.magnitude / Time.deltaTime : 0f;
         if (horizontalSpeed >= movingAnimationThreshold) lastAnimationMovementTime = Time.time;
@@ -790,6 +799,26 @@ public sealed class AnimalRoutine : MonoBehaviour
             : activeIdleController;
         if (desired != null && locomotionAnimator.runtimeAnimatorController != desired)
             locomotionAnimator.runtimeAnimatorController = desired;
+        ApplyWalkingPace(moving && desired != null && desired == activeWalkController);
+    }
+
+    void ApplyWalkingPace(bool walking)
+    {
+        float multiplier = Animal != null ? Animal.WalkingSpeedMultiplier : 1f;
+        bool adjust = walking && locomotionAnimator != null && !Mathf.Approximately(multiplier, 1f);
+        if (pacedAnimator != null && (!adjust || pacedAnimator != locomotionAnimator))
+        {
+            pacedAnimator.speed = animationSpeedBeforePacing;
+            pacedAnimator = null;
+        }
+        if (!adjust) return;
+        if (pacedAnimator == null)
+        {
+            pacedAnimator = locomotionAnimator;
+            animationSpeedBeforePacing = pacedAnimator.speed;
+        }
+        // Use the same ratio as displacement; idle, eating and care retain their original timing.
+        pacedAnimator.speed = animationSpeedBeforePacing * multiplier;
     }
 
     void ResolveLocomotionAnimator()

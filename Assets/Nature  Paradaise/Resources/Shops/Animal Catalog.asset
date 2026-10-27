@@ -99,6 +99,7 @@ MonoBehaviour:
     sellInventory: 0
     items:
     - {fileID: 11400000, guid: d1060000000040008000000000000010, type: 2}
+    - {fileID: 11400000, guid: 1658fe53c46a4c959af930121c7b696e, type: 2}
     - {fileID: 11400000, guid: 9f31dc224ab34790918a125000000006, type: 2}
     - {fileID: 11400000, guid: 83f11f03f141462693f31c14c5589812, type: 2}
     - {fileID: 11400000, guid: 36cb3af0cdcb4bf79275d94c18a42db7, type: 2}
@@ -106,5 +107,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: f15fee4d53d94d2385555d0f0a48bd01, type: 2}
     - {fileID: 11400000, guid: 799566f6bcc9489e8dfba589c377bfac, type: 2}
     - {fileID: 11400000, guid: b9137e7d62bd4db69158ce9860ea5cef, type: 2}
+    - {fileID: 11400000, guid: 31309eaadbb97dd45acd4702b54d9b11, type: 2}
     animals: []
   priceOverrides: []

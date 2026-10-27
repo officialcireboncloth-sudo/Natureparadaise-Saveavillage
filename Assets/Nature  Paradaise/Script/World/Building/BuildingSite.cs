@@ -69,6 +69,7 @@ public sealed class BuildingSite : MonoBehaviour
     ConstructionProject constructionProject;
     public ConstructionProject Construction => constructionProject;
     bool previewActive;
+    bool previewDebugFree;
     int previewLevel;
     bool previewLocationValid;
     GameObject previewObject;
@@ -139,7 +140,7 @@ public sealed class BuildingSite : MonoBehaviour
         {
             string validity = previewLocationValid ? "VALID" : "TERHALANG";
             BuildingLevelDefinition previewDefinition = definition.GetLevel(previewLevel);
-            string requirements = BuildRequirementLabel(previewDefinition);
+            string requirements = previewDebugFree ? "DEBUG: biaya 0 · tetap dikerjakan tukang" : BuildRequirementLabel(previewDefinition);
             WorldInteractionPrompt.Request(
                 this,
                 buildingAnchor,
@@ -157,6 +158,8 @@ public sealed class BuildingSite : MonoBehaviour
 
         if (state == BuildingConstructionState.Available)
         {
+            if (definition.HousingKind != AnimalHousingKind.None)
+                return;
             WorldInteractionPrompt.Request(this, buildingAnchor, $"{previewKey}: Preview {definition.displayName}", distance, promptHeight);
             if (PlayerInteractionTarget.PressPrompt(this, previewKey))
                 BeginPreview(1);
@@ -205,8 +208,9 @@ public sealed class BuildingSite : MonoBehaviour
         }
 
         BuildingLevelDefinition target = definition.GetLevel(previewLevel);
+        bool useDebug = previewDebugFree && PropertySite.DebugShortcutsEnabled;
         string reason = null;
-        if (target == null || !CanAfford(target, out reason))
+        if (target == null || (!useDebug && !CanAfford(target, out reason)))
         {
             SaveLoadFeedback.Instance?.ShowMessage(reason ?? "Resource tidak cukup");
             return false;
@@ -221,7 +225,7 @@ public sealed class BuildingSite : MonoBehaviour
             return false;
         }
 
-        if (!SpendCost(target))
+        if (!useDebug && !SpendCost(target))
         {
             if (isNewBuilding)
                 ReleaseFootprint();
@@ -230,14 +234,14 @@ public sealed class BuildingSite : MonoBehaviour
         }
 
         pendingLevel = previewLevel;
-        completionDay = CurrentDay + Mathf.Max(0, target.constructionDays);
+        completionDay = CurrentDay + Mathf.Max(useDebug ? 1 : 0, target.constructionDays);
         state = BuildingConstructionState.UnderConstruction;
         CancelPreview();
-        if (target.constructionDays > 0)
-            StartWorker(target);
+        if (useDebug || target.constructionDays > 0)
+            StartWorker(target, minimumWorkDays: useDebug ? 1 : 0);
         ApplyVisualState();
 
-        if (target.constructionDays <= 0)
+        if (!useDebug && target.constructionDays <= 0)
             CompleteConstruction();
         else
             SaveLoadFeedback.Instance?.ShowMessage($"Builder berangkat untuk {definition.displayName}");
@@ -246,10 +250,19 @@ public sealed class BuildingSite : MonoBehaviour
         return true;
     }
 
+    /// <summary>Enables cost-free editor/development testing while retaining the construction worker and location rules.</summary>
+    public bool EnableFreeDebugPreview()
+    {
+        if (!PropertySite.DebugShortcutsEnabled || !previewActive) return false;
+        previewDebugFree = true;
+        return true;
+    }
+
     /// <summary>Membatalkan preview tanpa mengubah resource atau state bangunan.</summary>
     public void CancelPreview()
     {
         previewActive = false;
+        previewDebugFree = false;
         previewLevel = 0;
         DestroyPreviewVisual();
     }
@@ -261,13 +274,13 @@ public sealed class BuildingSite : MonoBehaviour
             CompleteConstruction();
     }
 
-    void StartWorker(BuildingLevelDefinition target, ConstructionJobData saved = null)
+    void StartWorker(BuildingLevelDefinition target, ConstructionJobData saved = null, int minimumWorkDays = 0)
     {
         GameObject finalVisual = target.completedPrefab;
         if (finalVisual == null && target.level - 1 < completedLevelVisuals.Count)
             finalVisual = completedLevelVisuals[target.level - 1];
         constructionProject = ConstructionProject.Begin(gameObject, buildingAnchor, definition, target,
-            finalVisual, currentLevel > 0, CompleteConstruction, saved);
+            finalVisual, currentLevel > 0, CompleteConstruction, saved, minimumWorkDays: minimumWorkDays);
     }
 
     void CompleteConstruction()
@@ -507,7 +520,7 @@ public sealed class BuildingSite : MonoBehaviour
 
         // Jika load dilakukan setelah tanggal selesai, bangunan langsung diselesaikan.
         var target = definition?.GetLevel(pendingLevel > 0 ? pendingLevel : currentLevel);
-        if (data.constructionJob != null && target != null)
+        if (data.constructionJob != null && data.constructionJob.ShouldRestoreFor(state) && target != null)
             StartWorker(target, data.constructionJob);
         else if (state == BuildingConstructionState.UnderConstruction && target != null && CurrentDay < completionDay)
             StartWorker(target, ConstructionProject.MigrateLegacy(target, completionDay, buildingAnchor.position));

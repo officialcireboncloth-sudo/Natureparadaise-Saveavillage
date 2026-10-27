@@ -27,6 +27,7 @@ public static class BarnApprovedInteriorSetup
     const string Request="ArtSource/BarnInterior_A/apply-unity.request";
     const string ReviewRequest="ArtSource/BarnInterior_A/verify-unity.request";
     const string AtlasPath=Root+"/Pack/Toon Series/Toon Farm Pack/Models/Materials/TFP_Atlas_1A.mat";
+    const float LayoutScale=1.4f;
     static readonly int[] Capacity={4,8,14,20};
     static readonly float[] Width={12,16,20,24},Depth={10,12,14,16},FeedY={4.5f,5.5f,6,6.7f};
     static readonly float[][] TroughX={new[]{-2.3f,2.3f},new[]{-4f,0,4},new[]{-6f,-2,2,6},new[]{-8f,-4,0,4,8}};
@@ -194,7 +195,7 @@ public static class BarnApprovedInteriorSetup
         Require(tris==(int)spec["triangles"]+backfaceTriangles,stem+" combined geometry preserves every triangle plus "+backfaceTriangles+" open-surface backs");
         Require(root.GetComponentsInChildren<MeshRenderer>(true).Length<=(level==4?32:28),stem+" renderers reduced from "+filters.Length+" to "+runtimeFilters.Length);
         foreach(var fill in fills.Values)fill.gameObject.SetActive(false);
-        root.transform.localScale=Vector3.one*1.75f;
+        root.transform.localScale=Vector3.one*LayoutScale;
         var prefab=PrefabUtility.SaveAsPrefabAsset(root,Prefabs+"/BarnInteriorLayout_Lv"+level+".prefab");
         report=new JObject{["level"]=level,["triangles"]=tris,["openSurfaceBackTriangles"]=backfaceTriangles,["vertices"]=runtimeFilters.Sum(f=>f.sharedMesh.vertexCount),["renderers"]=runtimeFilters.Length,["originalRenderers"]=filters.Length,["logicalFeedSlots"]=slots.Length,["visualCompartments"]=fills.Count,["animalSlots"]=spots.Length,["colliders"]=root.GetComponentsInChildren<BoxCollider>().Length,["prefab"]=AssetDatabase.GetAssetPath(prefab)};
         Object.DestroyImmediate(root);Object.DestroyImmediate(source);return prefab;
@@ -314,13 +315,13 @@ public static class BarnApprovedInteriorSetup
             var layout=(GameObject)PrefabUtility.InstantiatePrefab(prefabs[i],scene);layout.name=name;layout.transform.SetParent(root,false);layout.transform.localPosition=new Vector3(0,-200,-10);layout.SetActive(i==0);layouts.Add(layout);
         }
         foreach(string name in new[]{"AnimalSpots_Editable","FeedingTroughSlots_Editable"}){var old=root.Find(name);if(old){old.gameObject.SetActive(false);old.name="Legacy_"+name;}}
-        var entry=root.Find("BarnInteriorEntrySpawn");Require(entry,"Existing entry spawn retained");entry.localPosition=new Vector3(0,-200,-10)+new Vector3(0,.15f,1.7f)*1.75f;entry.localRotation=Quaternion.identity;
-        var exit=root.Find("BarnExitDoor_Editable");Require(exit,"Existing exit marker retained");exit.localPosition=new Vector3(0,-200,-10)+new Vector3(0,.7f,.35f)*1.75f;
+        var entry=root.Find("BarnInteriorEntrySpawn");Require(entry,"Existing entry spawn retained");entry.localPosition=new Vector3(0,-200,-10)+new Vector3(0,.15f,1.7f)*LayoutScale;entry.localRotation=Quaternion.identity;
+        var exit=root.Find("BarnExitDoor_Editable");Require(exit,"Existing exit marker retained");exit.localPosition=new Vector3(0,-200,-10)+new Vector3(0,.7f,.35f)*LayoutScale;
         foreach(var r in exit.GetComponentsInChildren<Renderer>(true))r.enabled=false;foreach(var c in exit.GetComponentsInChildren<Collider>(true))c.enabled=false;
         var camera=root.Find("BarnCameraAngle_Editable");Require(camera,"Existing camera marker retained");camera.localRotation=Quaternion.Euler(55,0,0);
-        camera.localPosition=new Vector3(0,-200,-10)+new Vector3(0,5,2)*1.75f;
+        camera.localPosition=new Vector3(0,-200,-10)+new Vector3(0,5,2)*LayoutScale;
         controller.Configure(layouts,exit,Array.Empty<Transform>(),null,camera);EditorUtility.SetDirty(controller);
-        var framing=new SerializedObject(controller);framing.FindProperty("cameraDistance").floatValue=43.75f;framing.ApplyModifiedPropertiesWithoutUndo();
+        var framing=new SerializedObject(controller);framing.FindProperty("cameraDistance").floatValue=18f;framing.ApplyModifiedPropertiesWithoutUndo();
         Physics.SyncTransforms();
         foreach(var layout in layouts)
         {

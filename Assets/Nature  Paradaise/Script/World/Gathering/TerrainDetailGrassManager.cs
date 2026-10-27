@@ -90,6 +90,7 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
     readonly Dictionary<int, PrototypeSetting> settingsByIndex = new();
     readonly Dictionary<int, int[,]> sourceLayers = new();
     readonly Dictionary<int, int[,]> runtimeLayers = new();
+    readonly HashSet<int> sickleDirtyLayers = new();
     TerrainData sourceData;
     TerrainData runtimeData;
     TerrainRuntimeDataHost runtimeHost;
@@ -271,6 +272,30 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
         return total;
     }
 
+    /// <summary>Collects harvestable terrain patches from existing spatial buckets once per sickle action.</summary>
+    public static void CollectSickleTargets(SickleSweepRegion region,List<SickleCutTarget> results)
+    {
+        foreach(var manager in ActiveManagers){
+            if(manager==null||!manager.initialized||manager.grassItem==null)continue;
+            var min=manager.Cell(region.origin-Vector3.one*region.radius);var max=manager.Cell(region.origin+Vector3.one*region.radius);
+            for(int z=min.y;z<=max.y;z++)for(int x=min.x;x<=max.x;x++){
+                if(!manager.spatialCells.TryGetValue(new Vector2Int(x,z),out var bucket))continue;
+                foreach(int index in bucket){var patch=manager.records[index];if(manager.IsPatchAvailable(index)&&region.Contains(patch.worldPosition,out float angle))results.Add(new SickleCutTarget(manager,index,patch.worldPosition,angle));}
+            }
+        }
+    }
+    /// <summary>Defers terrain uploads so all blade contacts in one frame share one update per dirty detail layer.</summary>
+    public bool TrySicklePatch(int index)
+    {
+        if(grassItem==null||!IsPatchAvailable(index))return false;
+        var record=records[index];Deplete(record);sickleDirtyLayers.Add(record.prototypeIndex);
+        int amount=settingsByIndex.TryGetValue(record.prototypeIndex,out var setting)?Mathf.Max(1,setting.grassYield):2;
+        PlacedWorldItem.Spawn(grassItem,amount,record.worldPosition+Vector3.up*.15f,Quaternion.Euler(0,Deterministic01(record.id,CurrentDay)*360,0),false);
+        FarmActionEffects.Burst(FarmEffect.Sickle,record.worldPosition,radius:patchWorldSize*.3f);return true;
+    }
+    /// <summary>Completes only the pending sickle terrain updates.</summary>
+    public static void FlushSickleChanges(){foreach(var manager in ActiveManagers)if(manager!=null&&manager.sickleDirtyLayers.Count>0){manager.ApplyDirtyLayers(manager.sickleDirtyLayers);manager.sickleDirtyLayers.Clear();}}
+
     int CutInRadius(Vector3 center, float radius)
     {
         if (!initialized || grassItem == null) return 0;
@@ -295,6 +320,7 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
                     ? Mathf.Max(1, setting.grassYield) : 2;
                 PlacedWorldItem.Spawn(grassItem, amount, record.worldPosition + Vector3.up * 0.15f,
                     Quaternion.Euler(0f, Deterministic01(record.id, CurrentDay) * 360f, 0f), false);
+                  FarmActionEffects.Burst(FarmEffect.Sickle,record.worldPosition,radius:patchWorldSize*.3f);
                 cut++;
             }
         }

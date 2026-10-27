@@ -14,7 +14,7 @@ MonoBehaviour:
   itemId: item.stone
   m_EditorClassIdentifier: 
   itemName: Stone
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: fc19a37c436546a9b93af9fcc29b0894, type: 3}
   buyPrice: 0
   sellPrice: 3
   category: 3

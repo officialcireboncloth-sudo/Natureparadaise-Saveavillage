@@ -24,6 +24,27 @@ public static class FishPondApprovedExteriorSetup
     static readonly string[] Suffix={"High","Medium","Low","Water"};
     static JObject spec;
     static StringBuilder report;
+    [MenuItem("Nature Paradise/Fish Pond/Apply Compact Field Scale",false,124)]
+    public static void ApplyCompactScale()
+    {
+        if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Stop Play Mode before resizing pond prefabs.");
+        for(int level=1;level<=3;level++)
+        {
+            string path=$"{Prefabs}/FishPond_Lv{level}.prefab";
+            var root=PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                root.transform.localScale=Vector3.one*FishPondExterior.WorldScale;
+                var so=new SerializedObject(root.GetComponent<FishPond>());
+                so.FindProperty("interactionRadius").floatValue=3.5f*FishPondExterior.WorldScale;
+                so.FindProperty("feedInteractionRadius").floatValue=Mathf.Max(1,2.4f*FishPondExterior.WorldScale);
+                so.ApplyModifiedPropertiesWithoutUndo();
+                PrefabUtility.SaveAsPrefabAsset(root,path);
+            }
+            finally{PrefabUtility.UnloadPrefabContents(root);}
+        }
+        AssetDatabase.SaveAssets();
+    }
     public static Vector3 FromApproved(JToken p)=>new(-(float)p[0],(float)p[1],-(float)p[2]);
     static Vector3 ExpectedSize(JToken p)=>new((float)p[0],(float)p[2],(float)p[1]);
     static Transform Child(Transform parent,string name){var o=new GameObject(name);o.transform.SetParent(parent,false);return o.transform;}
@@ -120,7 +141,7 @@ public static class FishPondApprovedExteriorSetup
         {
             foreach(var t in root.transform.Cast<Transform>().ToArray())Object.DestroyImmediate(t.gameObject);
             foreach(var c in root.GetComponents<Collider>())Object.DestroyImmediate(c);
-            root.transform.SetLocalPositionAndRotation(Vector3.zero,Quaternion.identity);root.transform.localScale=Vector3.one;
+            root.transform.SetLocalPositionAndRotation(Vector3.zero,Quaternion.identity);root.transform.localScale=Vector3.one*FishPondExterior.WorldScale;
             var model=Child(root.transform,"Model_Approved");var group=model.gameObject.AddComponent<LODGroup>();var lods=new LOD[3];
             var waterObject=Child(model,"Water_ToonPack");waterObject.localRotation=rotations[3];waterObject.gameObject.AddComponent<MeshFilter>().sharedMesh=meshes[3];
             var waterRenderer=waterObject.gameObject.AddComponent<MeshRenderer>();waterRenderer.sharedMaterial=water;waterRenderer.shadowCastingMode=ShadowCastingMode.Off;
@@ -139,7 +160,7 @@ public static class FishPondApprovedExteriorSetup
             var maker=makerPoint.gameObject.AddComponent<FeedMaker>();maker.SetDedicatedOutput(true);maker.SetExternalInteraction(true);maker.SetWorldDebugVisible(false);
             var so=new SerializedObject(maker);so.FindProperty("catalog").objectReferenceValue=Resources.Load<FeedMakerCatalog>("Catalogs/FeedMakerCatalog");so.ApplyModifiedPropertiesWithoutUndo();
             var pond=root.GetComponent<FishPond>();pond.Configure(string.Empty,lv,Resources.Load<ItemSO>("Items/Fish/Fish Feed"));pond.EditorConfigureFeedStations(barrel,maker);
-            so=new SerializedObject(pond);so.FindProperty("maximumVisibleFish").intValue=(int)m["maximumVisibleFish"];so.FindProperty("interactionRadius").floatValue=3.5f;so.ApplyModifiedPropertiesWithoutUndo();
+            so=new SerializedObject(pond);so.FindProperty("maximumVisibleFish").intValue=(int)m["maximumVisibleFish"];so.FindProperty("interactionRadius").floatValue=3.5f*FishPondExterior.WorldScale;so.FindProperty("feedInteractionRadius").floatValue=Mathf.Max(1,2.4f*FishPondExterior.WorldScale);so.ApplyModifiedPropertiesWithoutUndo();
             var exterior=root.GetComponent<FishPondExterior>()??root.AddComponent<FishPondExterior>();
             var polygon=m["waterPolygonXZ"].Select(v=>new Vector2(-(float)v[0],-(float)v[1])).ToArray();var d=m["dock"];float x=-(float)d["centerXYZ"][0],w=(float)d["width"];
             exterior.EditorConfigure(point,polygon,new Vector2(x-w/2,-(float)d["backZ"]),new Vector2(x+w/2,-(float)d["frontZ"]));
@@ -233,9 +254,10 @@ public static class FishPondApprovedExteriorSetup
         // FieldOnly dimensions are grid cells, while the approved site dimensions are metres.
         var field=map.GetRootGameObjects().SelectMany(o=>o.GetComponentsInChildren<FieldArea>(true)).FirstOrDefault();
         float cell=field!=null?field.CellSize:1;
-        definition.footprintWidth=Mathf.CeilToInt(20/cell);definition.footprintDepth=Mathf.CeilToInt(16/cell);
+        var size=FishPondExterior.PlacementSizeMeters(3);
+        definition.footprintWidth=Mathf.CeilToInt(size.x/cell);definition.footprintDepth=Mathf.CeilToInt(size.y/cell);
         EditorUtility.SetDirty(definition);
-        report.AppendLine($"Largest site reserved: {definition.footprintWidth}x{definition.footprintDepth} field cells of {cell} m (20x16 m minimum).");
+        report.AppendLine($"Largest compact site: {definition.footprintWidth}x{definition.footprintDepth} field cells of {cell} m ({size.x}x{size.y} m).");
     }
 
     [MenuItem("Nature Paradise/Fish Pond/Refresh Water Review",false,121)]

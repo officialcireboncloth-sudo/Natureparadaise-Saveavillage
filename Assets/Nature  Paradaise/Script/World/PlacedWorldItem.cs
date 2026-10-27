@@ -141,6 +141,8 @@ public sealed class PlacedWorldItem : MonoBehaviour
     /// <summary>Membuat kembali seluruh placed item dari save data.</summary>
     public static void RestoreAll(List<PlacedItemSaveData> data)
     {
+        // An absent section belongs to an older save; it is not a request to remove the world.
+        if (data == null) return;
         PlacedWorldItem[] current = Registry.ToArray();
         Registry.Clear();
         for (int i = 0; i < current.Length; i++) if (current[i] != null)
@@ -148,11 +150,11 @@ public sealed class PlacedWorldItem : MonoBehaviour
             current[i].gameObject.SetActive(false);
             Destroy(current[i].gameObject);
         }
-        if (data == null) return;
 
         for (int i = 0; i < data.Count; i++)
         {
             PlacedItemSaveData saved = data[i];
+            if(saved==null)continue;
             ItemSO resolved = ItemCatalog.Resolve(saved.itemId, saved.assetName, saved.itemName);
             PlacedWorldItem restored = Spawn(resolved,saved.amount,saved.position,
                 Quaternion.Euler(saved.eulerAngles),saved.physicsDrop,saved.qualityStars,

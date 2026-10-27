@@ -87,6 +87,8 @@ public class ShopManager : MonoBehaviour
             }
             ItemSO pitchfork = Resources.Load<ItemSO>("Items/Tools/Pitchfork Tool");
             if (pitchfork != null && !toolItems.Contains(pitchfork)) toolItems.Add(pitchfork);
+            ItemSO milker = Resources.Load<ItemSO>("Items/Tools/Milker Tool");
+            if (milker != null && !toolItems.Contains(milker)) toolItems.Add(milker);
             if (sprinklerItems.Count == 0) sprinklerItems.AddRange(equipment.sprinklers);
             if (treeSeedItems.Count == 0) treeSeedItems.AddRange(equipment.treeSeeds);
         }
@@ -222,7 +224,7 @@ public class ShopManager : MonoBehaviour
         if (home == null)
         {
             SaveLoadFeedback.Instance?.ShowMessage(AnimalGrowthProfileSO.IsBird(offer.animalType)
-                ? "Bangun Coop dengan slot kosong dahulu" : "Bangun Barn dengan slot kosong dahulu");
+                ? "Bangun Coop melalui Lumber Store dan sediakan slot kosong dahulu" : "Bangun Barn melalui Lumber Store dan sediakan slot kosong dahulu");
             return false;
         }
         if (VillageProgressionService.Instance != null &&

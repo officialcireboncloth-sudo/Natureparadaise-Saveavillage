@@ -22,10 +22,16 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     readonly List<Transform> feedingSlots = new();
     readonly List<Renderer> feedFillRenderers = new();
     readonly HashSet<int> occupiedFeedSlots = new();
+    readonly List<Collider> troughAccessColliders = new();
+    readonly List<Renderer> troughAccessRenderers = new();
     Transform feedMakerPoint;
     FeedMaker feedMaker;
     EggIncubator eggIncubator;
-    WorldDebugStatusLabel troughDebugLabel;
+    int activeLayoutLevel=1;
+    public int LayoutLevel=>activeLayoutLevel;
+    public FeedMaker InteriorFeedMaker=>feedMaker;
+    /// <summary>Whether the visible prompt targets a trough rather than this controller's machine or exit.</summary>
+    public bool IsFeedingPromptDisplayed=>WorldInteractionPrompt.TryGetDisplayedAnchor(this,out var anchor)&&feedingSlots.Contains(anchor);
     PlayerController player;
     TopDownCameraFollow cameraFollow;
     float previousCameraPitch;
@@ -35,7 +41,11 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     BarnInteriorLayout authoredLayout;
     readonly HashSet<Renderer> visibleAuthoredFills = new();
 
-    void Awake() => Instance=this;
+    void Awake()
+    {
+        Instance=this;
+        if(GetComponent<BarnInteriorHUD>()==null)gameObject.AddComponent<BarnInteriorHUD>();
+    }
     void OnDestroy()
     {
         if(cameraOverridden && cameraFollow!=null)
@@ -74,6 +84,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
 
     void ApplyLayout(AnimalHome home,int level)
     {
+        activeLayoutLevel=Mathf.Clamp(level,1,4);
         for(int i=0;i<levelLayouts.Count;i++) if(levelLayouts[i]!=null)
             levelLayouts[i].SetActive(i==level-1);
         BindAuthoredLayout(level);
@@ -83,7 +94,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         ResolveDedicatedFeedMaker(home);
         eggIncubator=authoredLayout!=null?authoredLayout.GetComponentInChildren<EggIncubator>(true):null;
         eggIncubator?.Bind(home);
-        EnsureDebugLabels();
+        DisableInteriorDebugLabels();
     }
 
     void BindAuthoredLayout(int level)
@@ -100,12 +111,13 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         feedFillRenderers.AddRange(next.FeedFills);
     }
 
-    void EnsureDebugLabels()
+    void DisableInteriorDebugLabels()
     {
+        foreach(var label in GetComponentsInChildren<WorldDebugStatusLabel>(true))label.gameObject.SetActive(false);
+        foreach(var layout in levelLayouts)if(layout!=null)
+            foreach(var label in layout.GetComponentsInChildren<WorldDebugStatusLabel>(true))label.gameObject.SetActive(false);
         if(feedingTroughRoot!=null)
-            troughDebugLabel=WorldDebugStatusLabel.GetOrCreate(feedingTroughRoot,"Trough_DebugLabel",
-                new Vector3(-1.2f,2.1f,0f));
-        troughDebugLabel?.SetColor(new Color(0.25f,0.9f,1f,1f));
+            foreach(var label in feedingTroughRoot.GetComponentsInChildren<WorldDebugStatusLabel>(true))label.gameObject.SetActive(false);
     }
 
     void ResolveFeedMakerPoint(int level)
@@ -132,7 +144,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         feedMaker.Connect(home,null);
         feedMaker.SetDedicatedOutput(false);
         feedMaker.SetExternalInteraction(true);
-        feedMaker.SetWorldDebugVisible(true);
+        feedMaker.SetWorldDebugVisible(false);
     }
 
     void LayoutFeedingTrough(AnimalHome home,int level)
@@ -148,6 +160,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
             bool active=i<capacity;
             feedingSlots[i].gameObject.SetActive(active);
         }
+        CacheTroughAccessSurfaces();
         RefreshFeedVisual(home);
     }
 
@@ -226,6 +239,8 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     void RefreshFeedVisual(AnimalHome home)
     {
         int filled=home!=null ? home.TotalFeed : 0;
+        occupiedFeedSlots.RemoveWhere(index=>index<0 || index>=feedingSlots.Count ||
+            feedingSlots[index]==null || !feedingSlots[index].gameObject.activeInHierarchy);
         while(occupiedFeedSlots.Count>filled)
         {
             int remove=-1;
@@ -291,6 +306,107 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         return best;
     }
 
+    void CacheTroughAccessSurfaces()
+    {
+        troughAccessColliders.Clear();
+        troughAccessRenderers.Clear();
+        foreach(Transform slot in feedingSlots)
+        {
+            // Authored portion markers have no geometry. Measure the physical trough,
+            // not its feed socket, so all four sides use the same reach rule.
+            Transform surface=slot!=null ? (authoredLayout!=null && slot.parent!=null ? slot.parent.Find("TroughCollider") : slot.Find("TroughContainer")) : null;
+            troughAccessColliders.Add(surface!=null ? surface.GetComponent<Collider>() : null);
+            troughAccessRenderers.Add(surface!=null ? surface.GetComponent<Renderer>() : null);
+        }
+    }
+
+    Transform ClosestTroughAccess(Vector3 position,out float distance)
+    {
+        Transform closest=null;
+        distance=float.PositiveInfinity;
+        for(int i=0;i<feedingSlots.Count;i++)
+        {
+            Transform slot=feedingSlots[i];
+            if(slot==null || !slot.gameObject.activeInHierarchy) continue;
+            Collider collider=i<troughAccessColliders.Count ? troughAccessColliders[i] : null;
+            Renderer renderer=i<troughAccessRenderers.Count ? troughAccessRenderers[i] : null;
+            bool hasBounds=collider!=null && collider.enabled || renderer!=null;
+            Bounds bounds=collider!=null && collider.enabled ? collider.bounds : renderer!=null ? renderer.bounds : default;
+            if(Mathf.Abs(position.y-(hasBounds ? bounds.center.y : slot.position.y))>2f) continue;
+            Vector3 point=hasBounds ? bounds.ClosestPoint(new Vector3(position.x,bounds.center.y,position.z)) : slot.position;
+            point.y=position.y;
+            float candidate=Vector3.Distance(position,point);
+            if(candidate>=distance) continue;
+            closest=slot;
+            distance=candidate;
+        }
+        return closest;
+    }
+
+    int FirstEmptyFeedingSlot()
+    {
+        // The authored array is front-to-back order, independent of player position.
+        for(int i=0;i<feedingSlots.Count;i++)
+            if(feedingSlots[i]!=null && feedingSlots[i].gameObject.activeInHierarchy && !occupiedFeedSlots.Contains(i)) return i;
+        return -1;
+    }
+
+    /// <summary>Whether held feed belongs to the nearby trough interaction rather than the generic green placement preview.</summary>
+    public bool IsFeedingInRange(Transform actor,ItemSO item)
+    {
+        AnimalHome home=BarnInterior.Current!=null ? BarnInterior.Current.home : null;
+        if(!isActiveAndEnabled || actor==null || home==null || !home.Available || FeedTypes.Kind(item)==FeedKind.None) return false;
+        return ClosestTroughAccess(actor.position,out float distance)!=null && distance<=troughInteractionRadius;
+    }
+
+    /// <summary>Transfers one selected feed unit into the first empty portion; inventory changes only on success.</summary>
+    public bool TryDepositSelectedFeed(Inventory source,int inventorySlot)
+    {
+        AnimalHome home=BarnInterior.Current!=null ? BarnInterior.Current.home : null;
+        PlayerController actor=source!=null ? source.GetComponent<PlayerController>() : null;
+        if(!isActiveAndEnabled || home==null || !home.Available || actor==null || actor.IsMovementLocked ||
+            WorldInteractionPrompt.IsSuppressed || GameplayPauseMenu.IsOpen ||
+            ClosestTroughAccess(actor.transform.position,out float distance)==null || distance>troughInteractionRadius) return false;
+        RefreshFeedVisual(home);
+        ItemStack stack=source.GetSlot(inventorySlot);
+        if(stack?.item!=null && stack.count>0 && !home.AcceptsFeedItem(stack.item))
+        {
+            GameplayInfoPanel.NotifyBesideTools(FeedTypes.WrongTypeMessage);
+            return false;
+        }
+        int destination=FirstEmptyFeedingSlot();
+        if(home.FeedSpace<=0 || destination<0)
+        {
+            GameplayInfoPanel.NotifyBesideTools("Tempat pakan sudah penuh");
+            return false;
+        }
+        if(stack?.item==null || stack.count<=0 || !home.AcceptsFeedItem(stack.item))
+        {
+            GameplayInfoPanel.Notify($"Pilih {FeedTypes.Label(home.RequiredFeedKind)} dari hotbar.");
+            return false;
+        }
+        string itemName=stack.DisplayName;
+        if(home.DepositFromSlot(source,inventorySlot,1)<=0)
+        {
+            GameplayInfoPanel.Notify("Pakan gagal dimasukkan.");
+            return false;
+        }
+        occupiedFeedSlots.Add(destination);
+        RefreshFeedVisual(home);
+        Transform target=feedingSlots[destination];
+        actor.PlayHandOverAnimation();
+        FarmActionEffects.Handover(actor,target,target.position+Vector3.up*.35f);
+        GameplayInfoPanel.Notify($"{itemName} x1 dimasukkan");
+        return true;
+    }
+
+    void DepositSelectedFeed()
+    {
+        if(player==null) return;
+        InventoryHotbarUI hotbar=player.GetComponent<InventoryHotbarUI>();
+        if(hotbar!=null) TryDepositSelectedFeed(player.GetComponent<Inventory>(),hotbar.SelectedIndex);
+    }
+
     void LayoutAnimalSpots(AnimalHome home,int level)
     {
         int capacity=home!=null ? Mathf.Max(1,home.Capacity) :
@@ -348,17 +464,21 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     void Update()
     {
         if(player==null) player=FindFirstObjectByType<PlayerController>();
-        if(player==null || BarnInterior.Current==null) return;
+        if(player==null || BarnInterior.Current==null || BarnInterior.Current.home==null) return;
         AnimalHome home=BarnInterior.Current.home;
         Inventory playerInventory=player.GetComponent<Inventory>();
         InventoryHotbarUI hotbar=player.GetComponent<InventoryHotbarUI>();
         if(feedMaker==null) ResolveDedicatedFeedMaker(home);
-        if(troughDebugLabel==null) EnsureDebugLabels();
-        troughDebugLabel?.SetText($"PAKAN {home.Label}: {home.TotalFeed}/{home.FeedingSlotCapacity}\n"+
-            $"Feed {home.Fodder} | Grass {home.Grass} | Dipakai hari ini {home.FeedPortionsReserved}\n"+
-            $"Konsumsi {home.DailyFeedRequirement}/hari | Estimasi {home.EstimatedFeedDays} hari | 00:00 {GameTimeDebugText.UntilMidnight()}");
         RefreshFeedVisual(home);
-        Transform trough=ClosestFeedingSlot(player.transform.position,out float troughDistance);
+        Transform trough=ClosestTroughAccess(player.transform.position,out float troughDistance);
+        bool carryingFeed=FeedTypes.Kind(hotbar!=null?hotbar.SelectedItem:null)!=FeedKind.None;
+        Vector3 makerOffset=feedMakerPoint!=null?feedMakerPoint.position-player.transform.position:Vector3.positiveInfinity;
+        makerOffset.y=0;
+        float competingDistance=Mathf.Min(troughDistance,makerOffset.magnitude);
+        if(eggIncubator!=null)competingDistance=Mathf.Min(competingDistance,eggIncubator.DistanceTo(player.transform));
+        // Compact rooms can put a trough inside the door's interaction radius.
+        // The nearest visible target owns the prompt, so leaving remains possible.
+        if(HandleExitInteraction(competingDistance))return;
         if(eggIncubator!=null&&eggIncubator.InRange(player.transform)&&eggIncubator.DistanceTo(player.transform)<=troughDistance&&
             (feedMakerPoint==null||eggIncubator.DistanceTo(player.transform)<=Vector3.Distance(feedMakerPoint.position,player.transform.position))&&eggIncubator.HandleInteraction(player))return;
         if(feedMakerPoint!=null)
@@ -366,11 +486,11 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
             Vector3 makerDelta=feedMakerPoint.position-player.transform.position;
             makerDelta.y=0f;
             float makerDistance=makerDelta.magnitude;
-            if(makerDistance<=interactionRadius && makerDistance<=troughDistance)
+            if(makerDistance<=interactionRadius && makerDistance<=troughDistance && !(carryingFeed&&troughDistance<=troughInteractionRadius))
             {
-                string ready=feedMaker!=null ? feedMaker.AnimalFeedOutput.ToString() : "-";
+                string ready=feedMaker!=null ? feedMaker.Ready(home.RequiredFeedKind).ToString() : "-";
                 WorldInteractionPrompt.Request(this,feedMakerPoint,
-                    $"F: Ambil 1 Animal Feed ke Inventory (Ready {ready}) | E: Kelola Feed Maker",makerDistance,1.2f);
+                    $"F: Ambil 1 {FeedTypes.Label(home.RequiredFeedKind)} (Siap {ready}) | E: Kelola Feed Maker",makerDistance,1.2f);
                 if(PlayerInteractionTarget.PressPrompt(this, feedMakerPoint, KeyCode.F))
                 {
                     if(feedMaker==null || !feedMaker.CollectAnimated(playerInventory,false,feedMakerPoint))
@@ -383,53 +503,40 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         }
         if(trough!=null && troughDistance<=troughInteractionRadius)
         {
-            int troughIndex=feedingSlots.IndexOf(trough);
-            bool occupied=troughIndex>=0 && occupiedFeedSlots.Contains(troughIndex);
             ItemStack heldStack=hotbar!=null ? hotbar.SelectedStack : null;
             bool holdingFeed=heldStack?.item!=null && heldStack.count>0 && home.AcceptsFeedItem(heldStack.item);
-            string unit=authoredLayout!=null ? "Porsi" : "Box";
-            string action=occupied
-                ? $"{unit} {troughIndex+1}: TERISI"
-                : home.FeedSpace<=0
-                    ? "Tempat pakan penuh"
+            string action=home.FeedSpace<=0 || FirstEmptyFeedingSlot()<0
+                    ? "F: Isi Pakan — Tempat pakan sudah penuh"
                     : holdingFeed
-                        ? $"F: Masukkan 1 {heldStack.DisplayName} ke {unit} {troughIndex+1}"
-                        : $"{unit} {troughIndex+1}: KOSONG — pilih Animal Feed/Grass di hotbar";
+                        ? $"F: Masukkan 1 {heldStack.DisplayName}"
+                        : $"F: Isi Pakan — pilih {FeedTypes.Label(home.RequiredFeedKind)}";
             WorldInteractionPrompt.Request(this,trough,
-                $"{action}\nTempat Pakan {home.Label}: {home.TotalFeed}/{home.FeedingSlotCapacity} " +
-                $"(Feed {home.Fodder} | Grass {home.Grass}) | Belum makan {home.RequiredFeedToday}",
-                troughDistance,1.15f);
-            // Jarak sudah dihitung dari permukaan box, jadi tombol berlaku dari
-            // kanan/kiri/depan/belakang tanpa bergantung pada pivot slot.
+                $"{action}\nTempat Pakan: {home.TotalFeed}/{home.FeedingSlotCapacity}",
+                troughDistance,1.15f,DepositSelectedFeed);
             if(PlayerInteractionTarget.PressPrompt(this, trough, KeyCode.F))
-            {
-                if(occupied)
-                    SaveLoadFeedback.Instance?.ShowMessage($"{unit} {troughIndex+1} sudah terisi.");
-                else if(!holdingFeed)
-                    SaveLoadFeedback.Instance?.ShowMessage("Pilih Animal Feed atau Grass dari hotbar terlebih dahulu.");
-                else
-                {
-                    int moved=home.DepositFromSlot(playerInventory,hotbar.SelectedIndex,1);
-                    if(moved>0)
-                    {
-                        occupiedFeedSlots.Add(troughIndex);
-                        PlayerPickupNotification.Show(player.transform,$"{heldStack.DisplayName} x1 → {unit} {troughIndex+1}");
-                        SaveLoadFeedback.Instance?.ShowMessage($"{unit} {troughIndex+1} diisi 1 {heldStack.DisplayName}.");
-                        RefreshFeedVisual(home);
-                    }
-                    else SaveLoadFeedback.Instance?.ShowMessage(home.FeedSpace<=0
-                        ? "Tempat pakan penuh."
-                        : "Pakan gagal dimasukkan.");
-                }
-            }
+                DepositSelectedFeed();
             return;
         }
-        if(exitDoor==null) return;
-        if(!PlayerInteractionTarget.ContainsPickup(player.transform,exitDoor,interactionRadius)) return;
+        HandleExitInteraction(float.PositiveInfinity);
+    }
+
+    bool HandleExitInteraction(float competingDistance)
+    {
+        if(exitDoor==null||player==null||BarnInterior.Current==null||
+            !PlayerInteractionTarget.ContainsPickup(player.transform,exitDoor,interactionRadius))return false;
+        Vector3 offset=exitDoor.position-player.transform.position;offset.y=0;
+        if(offset.magnitude>competingDistance)return false;
         float distance=Vector3.Distance(player.transform.position,exitDoor.position);
-        WorldInteractionPrompt.Request(this,exitDoor,"E: Keluar Kandang | I: Kelola Hewan",distance,1.5f);
+        WorldInteractionPrompt.Request(this,exitDoor,"E: Keluar Kandang | I: Kelola Hewan",distance,1.5f,LeaveFromPrompt);
         if(PlayerInteractionTarget.PressPrompt(this, exitDoor, KeyCode.E)) BarnInterior.Current.Leave();
         else if(PlayerInteractionTarget.PressPrompt(this, exitDoor, KeyCode.I))
             AnimalCarePanel.Show(null,BarnInterior.Current.home,player.GetComponent<Inventory>());
+        return true;
+    }
+
+    void LeaveFromPrompt()
+    {
+        if(player!=null&&!player.IsMovementLocked&&BarnInterior.Current!=null&&exitDoor!=null&&
+            PlayerInteractionTarget.ContainsPickup(player.transform,exitDoor,interactionRadius))BarnInterior.Current.Leave();
     }
 }

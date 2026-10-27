@@ -294,6 +294,8 @@ public sealed class QuestService : MonoBehaviour
         if (data?.quests != null)
             foreach (QuestRuntimeSaveData state in data.quests)
                 if (state != null && !string.IsNullOrWhiteSpace(state.questId)) states[state.questId] = state;
-        foreach (QuestDefinitionSO quest in definitions.Values) QuestChanged?.Invoke(quest, GetStatus(quest));
+        // GetStatus registers definitions, and UI listeners may register additional quests.
+        // Enumerating the live dictionary aborts SaveManager.Load before restoring the player location.
+        foreach (QuestDefinitionSO quest in definitions.Values.ToArray()) QuestChanged?.Invoke(quest, GetStatus(quest));
     }
 }

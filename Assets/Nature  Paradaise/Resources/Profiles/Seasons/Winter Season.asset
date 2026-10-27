@@ -18,7 +18,16 @@ MonoBehaviour:
   vegetationTint: {r: 0.72, g: 0.8, b: 0.84, a: 1}
   dryness: 0
   snowAmount: 1
-  lightingTint: {r: 0.82, g: 0.9, b: 1, a: 1}
-  sunMultiplier: 0.78
-  ambientMultiplier: 1.04
-  skyExposureMultiplier: 0.92
+  lightingTint: {r: 0.9, g: 0.95, b: 1, a: 1}
+  sunMultiplier: 0.87
+  ambientMultiplier: 1.08
+  skyExposureMultiplier: 0.94
+  ambientTint: {r: 0.87, g: 0.94, b: 1, a: 1}
+  shadowStrengthMultiplier: 0.8
+  sunElevationMultiplier: 0.78
+  sunriseHour: 6.5
+  sunsetHour: 17.25
+  nightTint: {r: 0.88, g: 0.94, b: 1, a: 1}
+  nightSunMultiplier: 1.05
+  nightAmbientMultiplier: 1.05
+  nightSkyExposureMultiplier: 1

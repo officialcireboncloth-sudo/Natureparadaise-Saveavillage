@@ -15,13 +15,13 @@ public class SaveLoadTester : MonoBehaviour
         if (GameplayInput.GetKeyDown(saveKey))
         {
             if (SaveManager.Instance != null)
-                SaveManager.Instance.SaveGame();
+                SaveManager.Instance.RequestSave();
         }
 
         if (GameplayInput.GetKeyDown(loadKey))
         {
             if (SaveManager.Instance != null)
-                SaveManager.Instance.LoadGame();
+                SaveManager.Instance.RequestLoad();
         }
     }
 }

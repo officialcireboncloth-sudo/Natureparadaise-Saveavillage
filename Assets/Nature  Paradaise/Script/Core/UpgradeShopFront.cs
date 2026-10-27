@@ -30,21 +30,41 @@ public enum UpgradeShopKind { Blacksmith, Lumber }
  Inventory inventory;PlayerController player;PlayerStatusSystem status;TimeManager clock;
  string notice="";
  int index;bool bound,cursorVisible;CursorLockMode cursorLock;
+ Button boundHouseTab,boundBuildTab,boundUpgradeTab;
  void Awake(){if(uiRoot!=null)uiRoot.SetActive(false);Bind();}
  void Resolve(){player=FindFirstObjectByType<PlayerController>();inventory=player?.GetComponent<Inventory>();status=player?.GetComponent<PlayerStatusSystem>();clock=TimeManager.Instance;}
- void Bind(){if(bound)return;EnsureConstructionTabs();bound=true;confirm?.onClick.AddListener(Confirm);close?.onClick.AddListener(Close);materialsTab?.onClick.AddListener(()=>{Close();materialShop?.Open();});upgradeTab?.onClick.AddListener(()=>Select(0));structureBuild?.onClick.AddListener(()=>OpenConstruction(false));structureUpgrade?.onClick.AddListener(()=>OpenConstruction(true));for(int n=0;n<cards.Count;n++){int i=n;cards[n].onClick.AddListener(()=>Select(i));}}
+ void Bind(){EnsureConstructionTabs();BindConstructionTabs();if(bound)return;bound=true;confirm?.onClick.AddListener(Confirm);close?.onClick.AddListener(Close);materialsTab?.onClick.AddListener(()=>{Close();materialShop?.Open();});if(kind!=UpgradeShopKind.Lumber)upgradeTab?.onClick.AddListener(()=>Select(0));for(int n=0;n<cards.Count;n++){int i=n;cards[n].onClick.AddListener(()=>Select(i));}}
+ /// <summary>Repairs construction tabs on the active UI, including older scene overrides of the shop prefab.</summary>
  public void EnsureConstructionTabs()
  {
-  if(kind!=UpgradeShopKind.Lumber||uiRoot==null||structureBuild!=null)return;
+  if(kind!=UpgradeShopKind.Lumber||uiRoot==null)return;
   var safe=uiRoot.transform.Find("SafeArea");if(safe==null)return;
   safe.Find("SelectedCategory")?.gameObject.SetActive(false);safe.Find("Category")?.gameObject.SetActive(false);
-  upgradeTab=CommerceUIStyle.Button("HouseTab",safe,"Rumah",.525f,.805f,.132f,.06f,true);
-  structureBuild=CommerceUIStyle.Button("BuildStructures",safe,"Bangun",.67f,.805f,.132f,.06f);
-  structureUpgrade=CommerceUIStyle.Button("UpgradeStructures",safe,"Upgrade",.815f,.805f,.135f,.06f);
+  // Scene-local UI overrides can leave these references pointing at an inactive prefab canvas.
+  upgradeTab=ConstructionTab(upgradeTab,safe,"HouseTab","Rumah",.525f,.132f,true);
+  structureBuild=ConstructionTab(structureBuild,safe,"BuildStructures","Bangun",.67f,.132f);
+  structureUpgrade=ConstructionTab(structureUpgrade,safe,"UpgradeStructures","Upgrade",.815f,.135f);
  }
+ Button ConstructionTab(Button current,Transform safe,string name,string label,float x,float width,bool primary=false)
+ {
+  if(current==null||!current.transform.IsChildOf(safe))current=safe.Find(name)?.GetComponent<Button>();
+  if(current==null)current=CommerceUIStyle.Button(name,safe,label,x,.805f,width,.06f,primary);
+  var rect=(RectTransform)current.transform;rect.anchorMin=new Vector2(x,.805f);rect.anchorMax=new Vector2(x+width,.865f);rect.offsetMin=rect.offsetMax=Vector2.zero;
+  current.gameObject.SetActive(true);current.GetComponentInChildren<TMP_Text>().text=label;return current;
+ }
+ void BindConstructionTabs()
+ {
+  if(kind!=UpgradeShopKind.Lumber)return;
+  if(boundHouseTab!=upgradeTab){boundHouseTab?.onClick.RemoveListener(ShowHouse);boundHouseTab=upgradeTab;boundHouseTab?.onClick.AddListener(ShowHouse);}
+  if(boundBuildTab!=structureBuild){boundBuildTab?.onClick.RemoveListener(ShowBuild);boundBuildTab=structureBuild;boundBuildTab?.onClick.AddListener(ShowBuild);}
+  if(boundUpgradeTab!=structureUpgrade){boundUpgradeTab?.onClick.RemoveListener(ShowStructureUpgrade);boundUpgradeTab=structureUpgrade;boundUpgradeTab?.onClick.AddListener(ShowStructureUpgrade);}
+ }
+ void ShowHouse()=>Select(0);
+ void ShowBuild()=>OpenConstruction(false);
+ void ShowStructureUpgrade()=>OpenConstruction(true);
  public void OpenConstruction(bool upgrade)
  {
-  if(!Application.isPlaying)return;Resolve();Close();if(player==null)return;
+  if(!Application.isPlaying||kind!=UpgradeShopKind.Lumber)return;Resolve();Close();if(player==null)return;
   var menu=player.GetComponent<LumberConstructionMenu>();if(menu==null)menu=player.gameObject.AddComponent<LumberConstructionMenu>();
   menu.Show(this,upgrade);
  }

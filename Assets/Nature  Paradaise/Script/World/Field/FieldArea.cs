@@ -12,6 +12,9 @@ using UnityEngine;
 public sealed class FieldArea : MonoBehaviour
 {
     static readonly List<FieldArea> ActiveAreasInternal = new List<FieldArea>();
+    static CropDataSO[] runtimeCrops;
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetResourceCrops()=>runtimeCrops=null;
 
     public static IReadOnlyList<FieldArea> ActiveAreas => ActiveAreasInternal;
 
@@ -770,22 +773,41 @@ public sealed class FieldArea : MonoBehaviour
                 delta.y = 0f;
                 if (delta.sqrMagnitude > radiusSquared) continue;
 
-                tile.state = TileState.Empty;
-                tile.crop = null;
-                tile.growthDays = 0f;
-                tile.growthStage = 0;
-                tile.cropHealth = 100;
-                tile.fertilizedForCurrentCycle = false;
-                tile.dirty = true;
-                area.tiles[index] = tile;
-                area.HideCropView(index);
-                area.HideHoeView(index);
-                area.SetActive(index, false);
-                area.NotifyChanged(x, z);
-                cut++;
+                if(area.TryCutDeadCrop(x,z))cut++;
             }
         }
         return cut;
+    }
+
+    /// <summary>Snapshots only dead crops inside the forward sickle fan; healthy crops are never candidates.</summary>
+    public static void CollectSickleTargets(SickleSweepRegion region,List<SickleCutTarget> results)
+    {
+        foreach(var area in ActiveAreasInternal){
+            if(area==null||area.tiles==null)continue;
+            for(int index=0;index<area.tiles.Length;index++){
+                var tile=area.tiles[index];if(tile.state!=TileState.Planted||tile.crop==null||tile.cropState!=CropLifecycleState.Dead)continue;
+                area.IndexToCoordinate(index,out int x,out int z);Vector3 point=area.GridToWorld(x,z);
+                if(region.Contains(point,out float angle))results.Add(new SickleCutTarget(area,x,z,point,angle));
+            }
+        }
+    }
+
+    /// <summary>Runs the existing dead-crop removal transaction at the blade's contact time.</summary>
+    public bool TryCutDeadCrop(int x,int z)
+    {
+        if(!TryGetIndex(x,z,out int index))return false;
+        var tile=tiles[index];if(tile.state!=TileState.Planted||tile.crop==null||tile.cropState!=CropLifecycleState.Dead)return false;
+        tile.state = TileState.Empty;
+        tile.crop = null;
+        tile.growthDays = 0f;
+        tile.growthStage = 0;
+        tile.cropHealth = 100;
+        tile.fertilizedForCurrentCycle = false;
+        tile.dirty = true;
+        tiles[index] = tile;
+        HideCropView(index);HideHoeView(index);SetActive(index,false);NotifyChanged(x,z);
+        FarmActionEffects.Burst(FarmEffect.Sickle,GridToWorld(x,z),radius:CellSize*.3f);
+        return true;
     }
 
     /// <summary>Mengubah koordinat tile menjadi titik tengah world-space.</summary>
@@ -1205,7 +1227,7 @@ public sealed class FieldArea : MonoBehaviour
             var filter = view.GetComponent<MeshFilter>();
             // Pooled geometry is resampled at the new cell, so slopes never reuse old heights.
             if (filter.sharedMesh != null) { blendedTileMeshes.Remove(filter.sharedMesh); Destroy(filter.sharedMesh); }
-            float tileWidth = cellSize * (1 - 2 * (soilVisualProfile != null ? soilVisualProfile.tileInset : .035f));
+            float tileWidth = cellSize * (1 - 2 * (soilVisualProfile != null ? soilVisualProfile.tileInset : .085f));
             filter.sharedMesh = FieldGroundSurface.CreateMesh(view.transform, Vector2.one * tileWidth, !protectedFromWeather, .035f, 4);
             blendedTileMeshes.Add(filter.sharedMesh);
             var renderer = view.GetComponent<MeshRenderer>(); renderer.sharedMaterial = blendedTileMaterial;
@@ -1382,7 +1404,7 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Memulihkan grid dan membangun ulang visual dari save data.</summary>
     public void RestoreSaveData(FieldSaveData data)
     {
-        if (data == null || !string.Equals(data.fieldId, fieldId, StringComparison.Ordinal))
+        if (data == null || data.tiles == null || !string.Equals(data.fieldId, fieldId, StringComparison.Ordinal))
             return;
 
         ResetRuntimeData();
@@ -1392,6 +1414,7 @@ public sealed class FieldArea : MonoBehaviour
         for (int i = 0; i < data.tiles.Count; i++)
         {
             FieldTileSaveData saved = data.tiles[i];
+            if(saved==null)continue;
             if (!TryGetIndex(saved.x, saved.z, out int index))
                 continue;
 
@@ -1491,7 +1514,22 @@ public sealed class FieldArea : MonoBehaviour
                 return crop;
         }
 
+        // A seed can plant a resource crop even when this field's Inspector catalog has never loaded it.
+        runtimeCrops ??= Resources.LoadAll<CropDataSO>(string.Empty);
+        foreach(var crop in runtimeCrops)if(crop!=null && crop.cropId==cropId)return crop;
+
         return null;
+    }
+
+    /// <summary>Checks crop dependencies before restoring a save can clear the current field.</summary>
+    public bool CanRestoreCrops(FieldSaveData data,out string problem)
+    {
+        problem=null;
+        if(data?.tiles==null)return true;
+        foreach(var tile in data.tiles)
+            if(tile!=null && !string.IsNullOrEmpty(tile.cropId) && ResolveCrop(tile.cropId)==null)
+            {problem=$"Aset tanaman belum tersedia: {tile.cropId} (field {fieldId}).";return false;}
+        return true;
     }
 
     public static List<FieldSaveData> CaptureAll()
@@ -1584,10 +1622,14 @@ public sealed class FieldArea : MonoBehaviour
         if (blendedFieldMaterial == null || blendedTileMaterial == null) return;
         var ground = new GameObject("FieldDirt_Blend", typeof(MeshFilter), typeof(MeshRenderer));
         ground.transform.SetParent(transform, false);
-        blendedFieldMesh = FieldGroundSurface.CreateMesh(ground.transform, WorldSize, !protectedFromWeather, .02f, 4);
+        // Extend only the dirt backdrop so edge cells retain an unhoed border.
+        // Keeping the grid centred preserves crop positions, local-metre UVs and old saves.
+        float border = Mathf.Max(0, soilVisualProfile != null ? soilVisualProfile.fieldBorderPadding : .3f);
+        Vector2 surfaceSize = WorldSize + Vector2.one * (border * 2);
+        blendedFieldMesh = FieldGroundSurface.CreateMesh(ground.transform, surfaceSize, !protectedFromWeather, .02f, 4);
         ground.GetComponent<MeshFilter>().sharedMesh = blendedFieldMesh;
         var renderer = ground.GetComponent<MeshRenderer>(); renderer.sharedMaterial = blendedFieldMaterial;
-        FieldGroundSurface.ApplyEdges(renderer, WorldSize,
+        FieldGroundSurface.ApplyEdges(renderer, surfaceSize,
             soilVisualProfile != null ? soilVisualProfile.fieldFeather : fieldEdgeFeather,
             Mathf.Min(cellSize * .25f, .2f));
         originalSurfaceVisible = originalSurfaceRenderer.enabled;

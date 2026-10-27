@@ -63,7 +63,8 @@ public sealed class PersonalAnimal : MonoBehaviour
     [SerializeField] RuntimeAnimatorController runController;
 
     [Header("Horse Mount")]
-    [SerializeField, Min(0.1f), Tooltip("Horse companion selalu adult; scale muda/save lama akan dinormalisasi ke ukuran ini saat spawn.")]
+    [SerializeField] HorseRiderTransitionProfile riderTransitionProfile;
+    [SerializeField, Min(0.1f), Tooltip("Ukuran cadangan jika prefab memiliki scale nol. Ukuran horse yang dibuat artist tetap dipertahankan.")]
     float adultHorseScale = .6330591f;
     [SerializeField] Transform mountPoint;
     [SerializeField] Vector3 mountLocalPosition = new(0f, 1.25f, 0f);
@@ -75,13 +76,13 @@ public sealed class PersonalAnimal : MonoBehaviour
     [SerializeField] Vector3 dismountEndOffset = new(-0.65f, 0f, 0f);
     [Header("Horse Transition Frames")]
     [Tooltip("Frame source FBX saat script mulai menggeser player mendatar menuju horse.")]
-    [SerializeField, Range(0,75)] int mountMoveStartFrame = 0;
+    [SerializeField, HideInInspector, Range(0,75)] int mountMoveStartFrame = 0;
     [Tooltip("Frame source FBX saat posisi horizontal player sudah tepat di pelana.")]
-    [SerializeField, Range(0,75)] int mountSeatFrame = 18;
+    [SerializeField, HideInInspector, Range(0,75)] int mountSeatFrame = 18;
     [Tooltip("Frame source FBX saat script mulai menggeser player mendatar menjauhi horse.")]
-    [SerializeField, Range(0,90)] int dismountMoveStartFrame = 0;
+    [SerializeField, HideInInspector, Range(0,90)] int dismountMoveStartFrame = 0;
     [Tooltip("Frame source FBX saat posisi horizontal player sudah berada di sisi horse.")]
-    [SerializeField, Range(0,90)] int dismountGroundFrame = 30;
+    [SerializeField, HideInInspector, Range(0,90)] int dismountGroundFrame = 30;
     [SerializeField, Min(1f)] float mountedSpeed = 7f;
     [SerializeField, Min(0.1f)] float mountedAcceleration = 10f;
     [SerializeField, Min(0.1f)] float mountedDeceleration = 14f;
@@ -125,12 +126,16 @@ public sealed class PersonalAnimal : MonoBehaviour
     Quaternion animatedSeatRestRelativeRotation = Quaternion.identity;
     bool hasAnimatedSeatCalibration;
     RiderTransition riderTransition;
-    float riderTransitionStartedAt;
     Vector3 riderTransitionStartHips;
     Vector3 riderTransitionEndRoot;
     Vector3 standingHipsLocalOffset;
     Quaternion riderTransitionRotation = Quaternion.identity;
     float riderSideSign = -1f;
+    Vector3 riderWorldScale = Vector3.one;
+    float riderTransitionPhase;
+    bool riderTransitionEntered, riderAnimatorPaused;
+    float riderAnimatorSpeed;
+    static readonly Collider[] ExitColliders = new Collider[32];
 
     enum RiderTransition { None, Mounting, Dismounting }
     const string HorseMountMirrorParameter = "HorseMountMirror";
@@ -145,6 +150,14 @@ public sealed class PersonalAnimal : MonoBehaviour
     public bool IsMounted => mountedPlayer != null;
     public static IReadOnlyList<PersonalAnimal> Active => Registry;
 
+    /// <summary>Includes mounting and dismounting, when tools and normal player actions must remain suspended.</summary>
+    public static bool HasRider(PlayerController player)
+    {
+        if(player==null)return false;
+        foreach(var animal in Registry)if(animal!=null&&animal.mountedPlayer==player)return true;
+        return false;
+    }
+
     float MoveSpeed => Mathf.Lerp(normalSpeed, highHeartSpeed, Mathf.Clamp01(heartPoints / 1000f));
 
     void Awake()
@@ -154,8 +167,9 @@ public sealed class PersonalAnimal : MonoBehaviour
         if (homePoint != null) homePosition = homePoint.position;
         else if (homePosition == Vector3.zero) homePosition = transform.position;
         if (string.IsNullOrWhiteSpace(homeScene)) homeScene = gameObject.scene.name;
-        if (species == CompanionSpecies.Horse)
+        if (species == CompanionSpecies.Horse && transform.localScale.sqrMagnitude < .0001f)
             transform.localScale = Vector3.one * Mathf.Max(0.1f, adultHorseScale);
+        if (riderTransitionProfile == null) riderTransitionProfile = Resources.Load<HorseRiderTransitionProfile>("Profiles/Horse Rider Transitions");
         if (animator == null) animator = GetComponentInChildren<Animator>();
         ResolveSeatReferences();
         ApplyAnimation(false, false);
@@ -179,6 +193,7 @@ public sealed class PersonalAnimal : MonoBehaviour
 
     void OnDisable()
     {
+        RestoreRiderAnimator();
         StopAllCoroutines();
         CancelSafeArrival();
         Registry.Remove(this);
@@ -281,9 +296,8 @@ public sealed class PersonalAnimal : MonoBehaviour
     {
         PlayerController player = FindFirstObjectByType<PlayerController>();
         if (player == null || !PlayerInteractionTarget.Contains(player.transform, transform)) return;
-        string label = species == CompanionSpecies.Horse
-            ? $"E: {DisplayName} Commands / Mount"
-            : $"E: {DisplayName} Commands";
+        string label = species == CompanionSpecies.Horse ? "E: Interaksi Kuda" :
+            species == CompanionSpecies.Dog ? "E: Interaksi Anjing" : $"E: Interaksi {DisplayName}";
         WorldInteractionPrompt.Request(this, transform, label, Vector3.Distance(player.transform.position, transform.position), 1.2f);
         if (PlayerInteractionTarget.PressPrompt(this, KeyCode.E))
             CompanionCommandPanel.Show(this, player);
@@ -341,7 +355,9 @@ public sealed class PersonalAnimal : MonoBehaviour
         SetActiveCompanion();
         mountedPlayer = player;
         mountedOriginalParent = player.transform.parent;
+        riderWorldScale = player.transform.lossyScale;
         player.AcquireMovementLock(this);
+        DisableMountedPlayerColliders();
         mountTransitionBusy=true;
         playerAttachedToMount=false;
         riderSideSign=Vector3.Dot(player.transform.position-transform.position,transform.right)>=0f?1f:-1f;
@@ -349,9 +365,10 @@ public sealed class PersonalAnimal : MonoBehaviour
         sideOffset.x=Mathf.Abs(sideOffset.x)*riderSideSign;
         PlacePlayerAtHorseOffset(player, sideOffset);
         CacheMountedPlayerHips(player);
-        if (mountedPlayerHips != null)
-            standingHipsLocalOffset = Quaternion.Inverse(player.transform.rotation) *
-                                      (mountedPlayerHips.position - player.transform.position);
+        Vector3 standingPoint = player.CharacterAnimator != null && riderTransitionProfile != null
+            ? player.CharacterAnimator.transform.TransformPoint(riderTransitionProfile.standingHipModelLocal)
+            : mountedPlayerHips != null ? mountedPlayerHips.position : player.transform.position + Vector3.up * .9f;
+        standingHipsLocalOffset = Quaternion.Inverse(player.transform.rotation) * (standingPoint - player.transform.position);
         player.SetRidingAnimation(false);
         SetHorseAnimationMirror(player,riderSideSign>0f);
         player.PlayMountHorseAnimation();
@@ -362,7 +379,7 @@ public sealed class PersonalAnimal : MonoBehaviour
 
     IEnumerator MountRoutine()
     {
-        if(mountActionDuration>0f) yield return new WaitForSeconds(mountActionDuration);
+        yield return WaitForRiderAnimation(true);
         if(mountedPlayer==null)
         {
             mountTransitionBusy=false;
@@ -371,7 +388,7 @@ public sealed class PersonalAnimal : MonoBehaviour
         }
         riderTransition=RiderTransition.None;
         AttachRiderToSeat();
-        SnapRiderToSeat();
+        SnapRiderToSeat(true);
         mountedPlayer.SetRidingAnimation(true);
         SetHorseAnimationMirror(mountedPlayer,false);
         SnapRiderToSeat();
@@ -384,15 +401,10 @@ public sealed class PersonalAnimal : MonoBehaviour
         if (mountedPlayer == null || playerAttachedToMount)
             return;
 
-        mountedPlayerColliders.Clear();
-        foreach (Collider collider in mountedPlayer.GetComponents<Collider>())
-        {
-            mountedPlayerColliders[collider] = collider.enabled;
-            collider.enabled = false;
-        }
         Transform seat = mountPoint != null ? mountPoint : transform;
         mountedPlayer.transform.SetParent(seat, true);
         mountedPlayer.transform.localRotation = Quaternion.identity;
+        PreserveRiderScale();
         CacheMountedPlayerHips(mountedPlayer);
         SnapRiderToSeat();
         playerAttachedToMount=true;
@@ -408,11 +420,14 @@ public sealed class PersonalAnimal : MonoBehaviour
     public void Dismount()
     {
         if (mountedPlayer == null || mountTransitionBusy) return;
-        mountTransitionBusy=true;
         PlayerController player=mountedPlayer;
-        Vector3 sideOffset=dismountEndOffset;
-        sideOffset.x=Mathf.Abs(sideOffset.x)*riderSideSign;
-        riderTransitionEndRoot=GetHorseOffsetGroundPosition(sideOffset);
+        if(!TryDismountPosition(player,out Vector3 destination,out float side))
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Sisi kuda terhalang. Pindah ke area yang lebih lapang untuk turun.");
+            return;
+        }
+        mountTransitionBusy=true;riderSideSign=side;
+        riderTransitionEndRoot=destination;
         riderTransitionRotation=transform.rotation;
         if(playerAttachedToMount)
         {
@@ -430,7 +445,7 @@ public sealed class PersonalAnimal : MonoBehaviour
     IEnumerator DismountRoutine()
     {
         PlayerController player=mountedPlayer;
-        if(dismountActionDuration>0f) yield return new WaitForSeconds(dismountActionDuration);
+        yield return WaitForRiderAnimation(false);
         if(player==null || mountedPlayer!=player)
         {
             mountTransitionBusy=false;
@@ -461,9 +476,10 @@ public sealed class PersonalAnimal : MonoBehaviour
         if(playerAttachedToMount)
         {
             player.transform.SetParent(mountedOriginalParent, true);
-            PlacePlayerAtHorseOffset(player, dismountEndOffset);
             playerAttachedToMount=false;
         }
+        if(TryDismountPosition(player,out var destination,out _))player.transform.SetPositionAndRotation(destination,transform.rotation);
+        else PlacePlayerAtHorseOffset(player,dismountEndOffset);
         RestoreMountedPlayerColliders();
         riderTransition=RiderTransition.None;
         mountedPlayerHips=null;
@@ -509,7 +525,7 @@ public sealed class PersonalAnimal : MonoBehaviour
     void BeginRiderTransition(RiderTransition transition,Vector3 endRoot)
     {
         riderTransition=transition;
-        riderTransitionStartedAt=Time.time;
+        riderTransitionPhase=0;riderTransitionEntered=false;
         riderTransitionRotation=transform.rotation;
         riderTransitionEndRoot=endRoot;
         riderTransitionStartHips=mountedPlayerHips!=null
@@ -520,43 +536,84 @@ public sealed class PersonalAnimal : MonoBehaviour
     void UpdateRiderTransitionPose()
     {
         if(mountedPlayer==null) return;
-        float duration=riderTransition==RiderTransition.Mounting?mountActionDuration:dismountActionDuration;
-        float clipProgress=duration<=0f?1f:Mathf.Clamp01((Time.time-riderTransitionStartedAt)/duration);
-        float totalFrames=riderTransition==RiderTransition.Mounting?75f:90f;
-        float currentFrame=clipProgress*totalFrames;
-        float startFrame=riderTransition==RiderTransition.Mounting?mountMoveStartFrame:dismountMoveStartFrame;
-        float endFrame=riderTransition==RiderTransition.Mounting?mountSeatFrame:dismountGroundFrame;
-        Vector3 endHips=riderTransition==RiderTransition.Mounting
-            ?GetSeatWorldPosition()
-            :riderTransitionEndRoot+riderTransitionRotation*standingHipsLocalOffset;
-        float frameProgress=Mathf.InverseLerp(startFrame,Mathf.Max(startFrame+1f,endFrame),currentFrame);
-        frameProgress=frameProgress*frameProgress*(3f-2f*frameProgress);
-        float verticalDistance=endHips.y-riderTransitionStartHips.y;
-        float verticalProgress=Mathf.Abs(verticalDistance)>0.05f&&mountedPlayerHips!=null
-            ?Mathf.Clamp01((mountedPlayerHips.position.y-riderTransitionStartHips.y)/verticalDistance)
-            :0f;
-        verticalProgress=verticalProgress*verticalProgress*(3f-2f*verticalProgress);
-        // Pose vertikal FBX menjadi sumber timing utama. Frame progress menjadi
-        // fallback agar posisi horizontal tetap selesai bila retargeting Y sedikit meleset.
-        float progress=Mathf.Max(frameProgress,verticalProgress);
-        Vector3 desiredHips=Vector3.Lerp(riderTransitionStartHips,endHips,progress);
+        bool mounting=riderTransition==RiderTransition.Mounting;
+        if(HorseRiderTransitionProfile.TryPhase(mountedPlayer.CharacterAnimator,mounting,out float actual))riderTransitionPhase=actual;
+        float phase=riderTransitionPhase;
+        Vector3 endHips=mounting?GetSeatWorldPosition():riderTransitionEndRoot+riderTransitionRotation*standingHipsLocalOffset;
+        float horizontal=riderTransitionProfile!=null?riderTransitionProfile.Horizontal(phase,mounting):Mathf.SmoothStep(0,1,phase);
+        float vertical=riderTransitionProfile!=null?riderTransitionProfile.Vertical(phase,mounting):Mathf.SmoothStep(0,1,phase);
+        Vector3 desiredHips=Vector3.Lerp(riderTransitionStartHips,endHips,horizontal);
+        desiredHips.y=Mathf.Lerp(riderTransitionStartHips.y,endHips.y,vertical)+(riderTransitionProfile!=null?riderTransitionProfile.Lift(phase,mounting):0);
         mountedPlayer.transform.rotation=riderTransitionRotation;
-        if(mountedPlayerHips!=null)
-        {
-            // FBX terbaru mengatur gerak vertikal naik/turun. Script hanya
-            // mengoreksi arah mendatar agar satu klip dapat dipakai dari kiri/kanan.
-            Vector3 horizontalCorrection=desiredHips-mountedPlayerHips.position;
-            horizontalCorrection.y=0f;
-            mountedPlayer.transform.position+=horizontalCorrection;
-        }
-        else
-        {
-            Vector3 horizontalTarget=Vector3.Lerp(mountedPlayer.transform.position,riderTransitionEndRoot,progress);
-            horizontalTarget.y=mountedPlayer.transform.position.y;
-            mountedPlayer.transform.position=horizontalTarget;
-        }
+        PreserveRiderScale();
+        if(mountedPlayerHips!=null)mountedPlayer.transform.position+=desiredHips-mountedPlayerHips.position;
+        else mountedPlayer.transform.position=desiredHips-Vector3.up*.9f;
     }
 
+    IEnumerator WaitForRiderAnimation(bool mounting)
+    {
+        float elapsed=0;Animator animator=mountedPlayer!=null?mountedPlayer.CharacterAnimator:null;
+        float fallback=mounting?mountActionDuration:dismountActionDuration;
+        float timeout=riderTransitionProfile!=null?riderTransitionProfile.actionTimeout:8;
+        while(mountedPlayer!=null && elapsed<timeout)
+        {
+            if(TimeManager.Instance!=null && TimeManager.Instance.IsPaused)
+            {
+                if(animator!=null&&!riderAnimatorPaused){riderAnimatorSpeed=animator.speed;animator.speed=0;riderAnimatorPaused=true;}
+                yield return null;continue;
+            }
+            RestoreRiderAnimator();elapsed+=Time.deltaTime;
+            if(HorseRiderTransitionProfile.TryPhase(animator,mounting,out float phase))
+            {
+                riderTransitionEntered=true;riderTransitionPhase=phase;if(phase>=.9999f)break;
+            }
+            else if(riderTransitionEntered){riderTransitionPhase=1;break;}
+            else if(animator==null || animator.runtimeAnimatorController==null || !animator.HasState(0,Animator.StringToHash("Base Layer."+(mounting?"Mount Horse":"Dismount Horse"))))
+            {
+                riderTransitionPhase=Mathf.Clamp01(elapsed/Mathf.Max(.01f,fallback));if(riderTransitionPhase>=1)break;
+            }
+            yield return null;
+        }
+        RestoreRiderAnimator();riderTransitionPhase=1;
+        if(mountedPlayer!=null)UpdateRiderTransitionPose();
+    }
+    void RestoreRiderAnimator()
+    {
+        if(!riderAnimatorPaused)return;
+        if(mountedPlayer!=null&&mountedPlayer.CharacterAnimator!=null)mountedPlayer.CharacterAnimator.speed=riderAnimatorSpeed;
+        riderAnimatorPaused=false;
+    }
+    void PreserveRiderScale()
+    {
+        if(mountedPlayer==null)return;
+        Vector3 parentScale=mountedPlayer.transform.parent!=null?mountedPlayer.transform.parent.lossyScale:Vector3.one;
+        mountedPlayer.transform.localScale=new Vector3(riderWorldScale.x/Mathf.Max(.001f,Mathf.Abs(parentScale.x)),riderWorldScale.y/Mathf.Max(.001f,Mathf.Abs(parentScale.y)),riderWorldScale.z/Mathf.Max(.001f,Mathf.Abs(parentScale.z)));
+    }
+    bool TryDismountPosition(PlayerController player,out Vector3 destination,out float side)
+    {
+        var capsule=player.GetComponent<CharacterController>();
+        float radius=capsule!=null?capsule.radius*Mathf.Max(riderWorldScale.x,riderWorldScale.z):.28f;
+        float height=capsule!=null?capsule.height*riderWorldScale.y:1.4f;
+        float halfWidth=0;
+        foreach(var collider in GetComponentsInChildren<Collider>())
+            if(collider.enabled&&!collider.isTrigger){var b=collider.bounds;halfWidth=Mathf.Max(halfWidth,Mathf.Abs(Vector3.Dot(b.center-transform.position,transform.right))+Mathf.Abs(transform.right.x)*b.extents.x+Mathf.Abs(transform.right.z)*b.extents.z);}
+        float offset=Mathf.Max(Mathf.Abs(dismountEndOffset.x),halfWidth+radius+.1f);
+        foreach(float candidateSide in new[]{riderSideSign,-riderSideSign})
+            foreach(float forward in new[]{0f,.45f,-.45f})
+            {
+                Vector3 point=transform.position+transform.rotation*new Vector3(candidateSide*offset,dismountEndOffset.y,dismountEndOffset.z+forward);
+                if(!TryMountedGround(point,out point))continue;
+                // A roof or tall prop beside the horse is not a safe standing spot.
+                float step=capsule!=null?capsule.stepOffset*riderWorldScale.y:.3f;
+                if(point.y-transform.position.y>Mathf.Max(.35f,step+.1f)||transform.position.y-point.y>.6f)continue;
+                int count=Physics.OverlapCapsuleNonAlloc(point+Vector3.up*(radius+.04f),point+Vector3.up*Mathf.Max(radius+.04f,height-radius),radius*.95f,ExitColliders,~0,QueryTriggerInteraction.Ignore);
+                if(count==ExitColliders.Length)continue;
+                bool blocked=false;
+                for(int i=0;i<count;i++){var hit=ExitColliders[i];if(hit==null||hit.transform.IsChildOf(transform)||hit.transform.IsChildOf(player.transform)||hit.bounds.max.y<=point.y+.05f)continue;blocked=true;break;}
+                if(blocked)continue;destination=point;side=candidateSide;return true;
+            }
+        destination=default;side=riderSideSign;return false;
+    }
     static void SetHorseAnimationMirror(PlayerController player,bool mirrored)
     {
         Animator riderAnimator=player!=null?player.CharacterAnimator:null;
@@ -574,6 +631,16 @@ public sealed class PersonalAnimal : MonoBehaviour
         foreach(var pair in mountedPlayerColliders)
             if(pair.Key!=null) pair.Key.enabled=pair.Value;
         mountedPlayerColliders.Clear();
+    }
+
+    void DisableMountedPlayerColliders()
+    {
+        mountedPlayerColliders.Clear();
+        foreach(var collider in mountedPlayer.GetComponents<Collider>())
+        {
+            mountedPlayerColliders[collider]=collider.enabled;
+            collider.enabled=false;
+        }
     }
 
     Vector3 GetSeatWorldPosition()
@@ -623,20 +690,14 @@ public sealed class PersonalAnimal : MonoBehaviour
             seatPosition.y = animatedSeatBone.position.y;
         seatPosition += seatOffset;
 
-        float followBlend = immediate || mountTransitionBusy
-            ? 1f
-            : 1f - Mathf.Exp(-riderSeatFollowSharpness * Time.deltaTime);
-        mountedPlayer.transform.localRotation = Quaternion.Slerp(
-            mountedPlayer.transform.localRotation, desiredSeatLocalRotation, followBlend);
-        if (mountedPlayerHips != null)
+        float followBlend=immediate||mountTransitionBusy?1f:1f-Mathf.Exp(-riderSeatFollowSharpness*Time.deltaTime);
+        PreserveRiderScale();
+        mountedPlayer.transform.localRotation=Quaternion.Slerp(mountedPlayer.transform.localRotation,desiredSeatLocalRotation,followBlend);
+        if(mountedPlayerHips!=null)
         {
-            // Hips adalah acuan pantat karakter. Memindahkan root dengan selisih ini
-            // menjaga pose/gerakan kaki tetap hidup tanpa membuat rider melayang.
-            Vector3 targetRoot = mountedPlayer.transform.position + seatPosition - mountedPlayerHips.position;
-            mountedPlayer.transform.position = Vector3.Lerp(mountedPlayer.transform.position, targetRoot, followBlend);
+            mountedPlayer.transform.position+=GetSeatWorldPosition()-mountedPlayerHips.position;
             return;
         }
-
         // Fallback untuk avatar non-Humanoid: perkirakan jarak root-ke-pantat dari
         // CharacterController sehingga root/kaki tidak ditempelkan ke atas saddle.
         CharacterController controller = mountedPlayer.GetComponent<CharacterController>();
@@ -672,6 +733,13 @@ public sealed class PersonalAnimal : MonoBehaviour
             }
         }
 
+        foreach(Transform candidate in children)
+            if(candidate.name=="SaddleSeatAnchor"&&(mountPoint==null||mountPoint.parent==transform)){mountPoint=candidate;break;}
+        if(animatedSeatBone!=null && (mountPoint==null || mountPoint.parent==transform))
+        {
+            Vector3 position=mountPoint!=null?mountPoint.position:transform.TransformPoint(mountLocalPosition);
+            var marker=new GameObject("SaddleSeatAnchor").transform;marker.SetParent(animatedSeatBone,false);marker.SetPositionAndRotation(position,transform.rotation);mountPoint=marker;
+        }
         hasAnimatedSeatCalibration = animatedSeatBone != null;
         if (hasAnimatedSeatCalibration)
         {
@@ -693,6 +761,13 @@ public sealed class PersonalAnimal : MonoBehaviour
         if(player==null) return;
         player.SetRidingAnimation(false);
         DetachMountedPlayer(player);
+        SetHorseAnimationMirror(player,false);
+        var riderAnimator=player.CharacterAnimator;
+        if(riderAnimator!=null&&riderAnimator.isActiveAndEnabled&&riderAnimator.runtimeAnimatorController!=null)
+        {
+            riderAnimator.ResetTrigger("MountHorse");riderAnimator.ResetTrigger("DismountHorse");
+            if(riderAnimator.HasState(0,Animator.StringToHash("Base Layer.Locomotion")))riderAnimator.CrossFadeInFixedTime("Locomotion",.08f,0);
+        }
         player.ReleaseMovementLock(this);
         mountedPlayer=null;
         mountTransitionBusy=false;
@@ -952,5 +1027,5 @@ public sealed class PersonalAnimal : MonoBehaviour
     }
 
     static string CommandLabel(CompanionCommand value) => value switch
-    { CompanionCommand.Follow => "Follow Me", CompanionCommand.GoHome => "Go Home", _ => "Stay" };
+    { CompanionCommand.Follow => "Ikuti Saya", CompanionCommand.GoHome => "Pulang", _ => "Tunggu" };
 }

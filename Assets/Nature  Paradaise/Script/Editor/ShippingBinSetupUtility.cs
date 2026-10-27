@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public static class ShippingBinSetupUtility
 {
     const string MapScenePath = "Assets/Nature  Paradaise/Map/Scenes/World/Map.unity";
-    const string VisualPrefabPath = "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Exterior Props/TFP_Wooden_Crate_04A.prefab";
+    const string VisualPrefabPath = ShippingBinArtSetup.VisualPath;
     const string WorldPrefabFolder = "Assets/Nature  Paradaise/Prefabs/World";
     const string ShippingBinPrefabPath = WorldPrefabFolder + "/ShippingBin.prefab";
 
@@ -49,18 +49,18 @@ public static class ShippingBinSetupUtility
     static GameObject CreateOrUpdatePrefab()
     {
         GameObject visual = AssetDatabase.LoadAssetAtPath<GameObject>(VisualPrefabPath);
-        if (visual == null) throw new FileNotFoundException("Visual Shipping Bin Toon Farm tidak ditemukan.", VisualPrefabPath);
+        if (visual == null) throw new FileNotFoundException("Visual Shipping Bin atlas tidak ditemukan. Jalankan Nature Paradise/Art/Apply Atlas Shipping Bin.", VisualPrefabPath);
 
         GameObject root = new("ShippingBin");
         root.AddComponent<ShippingBin>();
         BoxCollider collider = root.AddComponent<BoxCollider>();
-        collider.center = new Vector3(0f, 0.55f, 0f);
-        collider.size = new Vector3(1.65f, 1.1f, 1.45f);
+        collider.center = new Vector3(0f, .44f, 0f);
+        collider.size = new Vector3(1.60f, .88f, 1.02f);
 
         GameObject visualInstance = (GameObject)PrefabUtility.InstantiatePrefab(visual, root.transform);
-        visualInstance.name = "Visual_ToonFarm_ShippingCrate";
+        visualInstance.name = "Visual_AtlasShippingBin";
         visualInstance.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        visualInstance.transform.localScale = Vector3.one * 1.35f;
+        visualInstance.transform.localScale = Vector3.one;
 
         GameObject result = PrefabUtility.SaveAsPrefabAsset(root, ShippingBinPrefabPath);
         Object.DestroyImmediate(root);

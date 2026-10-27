@@ -57,7 +57,7 @@ public static class SeparatedShopSetup
   }
   foreach(var item in c.tabs.SelectMany(t=>t.items).Where(i=>i.buyPrice<=0).Distinct())c.priceOverrides.Add(new ShopPriceOverride{item=item,price=Mathf.Max(100,item.sellPrice*3)});
  }
- static bool AnimalTool(ItemSO item)=>item.equippedTool==PlayerToolType.Shears||item.equippedTool==PlayerToolType.Pitchfork;
+ static bool AnimalTool(ItemSO item)=>item.equippedTool is PlayerToolType.Shears or PlayerToolType.Pitchfork or PlayerToolType.Milker;
  static RectTransform R(string name,Transform parent,float x,float y,float w,float h)=>GameplayHUDStyle.Rect(name,parent,new Vector2(x,y),new Vector2(x+w,y+h));
  static Image I(string name,Transform parent,float x,float y,float w,float h,Color color){var image=R(name,parent,x,y,w,h).gameObject.AddComponent<Image>();image.color=color;image.preserveAspect=true;image.raycastTarget=false;return image;}
  static TMP_Text T(string name,Transform parent,string value,int size,float x,float y,float w,float h)=>GameplayHUDStyle.Text(name,parent,value,size,new Vector2(x,y),new Vector2(x+w,y+h));

@@ -14,7 +14,7 @@ MonoBehaviour:
   itemId: item.shears_tool
   m_EditorClassIdentifier: 
   itemName: Shears
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 6cf383d0a9e26b84b9b8b59bc857da62, type: 3}
   buyPrice: 750
   sellPrice: 0
   category: 4

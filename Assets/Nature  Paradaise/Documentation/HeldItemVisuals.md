@@ -1,0 +1,11 @@
+# Non-tool held item presentation
+
+The Generic player rig has imported bone scale around 133. Parenting ordinary item geometry directly under its hand made small ItemSO worldScale values expand into a very large mesh. The old Wood fallback reproduced a box about 90 metres wide; it also remained a normal sunlight shadow caster. This affected seeds and other non-tool items through the same anchor.
+
+`HeldItemPlacementSystem` now uses the palm socket and compensates parent scale in world metres. `HeldItemVisuals` centres the model geometry on that socket and limits the held bounding diagonal to 0.22 metres for seeds, 0.65 metres for fish or 0.55 metres for other items. Large source pivots no longer move the visible item away from the palm. These limits affect hand presentation only; source ItemSO values and the scale of real dropped/placed objects are preserved.
+
+Held items, placement ghosts and caught-item displays do not cast shadows. Hand/preview models copy geometry, shared meshes/materials and necessary bone transforms rather than instantiating world behaviour, cameras, lights, colliders or rigidbodies. Small held models use an available reduced-detail mesh from prefab LOD groups. This prevents a selected item from running world-prefab effects in the hand and keeps mobile presentation bounded. Prefabs without authored render geometry retain the existing small primitive fallback.
+
+Seed presentation is suppressed during the planting action and restored afterwards if seeds remain selected. It does not affect seed consumption, crop state or contact particles. Gathering carry uses the same size/shadow safeguards and chest-height presentation, and suppresses the duplicate selected hotbar model until it is stored or dropped. Canonical Pitchfork presentation stays with PlayerHeldTools instead of also creating its legacy item clone.
+
+The change is automatic for existing item assets and saves. Verification covers all 52 eligible non-tool item assets in Resources/Items, actual hotbar selection, the real seed input/planting transaction, Wood gathering carry, component disable/re-enable, canonical fork ownership, dropped-item physics/scale and quantity/quality save-load. Main Map was not opened or saved for testing.

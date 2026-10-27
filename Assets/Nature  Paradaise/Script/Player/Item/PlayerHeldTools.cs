@@ -8,6 +8,11 @@ public sealed class PlayerHeldTools : MonoBehaviour
     [SerializeField] Transform rightHand;
     [SerializeField, Tooltip("Titik pegangan pada telapak kanan; dibuat otomatis di dalam bone tangan.")]
     Transform gripPoint;
+    [Header("Hammer strike pose")]
+    [Tooltip("Shaft elevation at the 0.68s hammer contact. Keeps the flat +Y striking face down and slightly forward.")]
+    [SerializeField, Range(-10, 25)] float hammerContactElevation = 5f;
+    [SerializeField] Vector2 hammerContactBlendIn = new(.48f, .64f);
+    [SerializeField] Vector2 hammerContactBlendOut = new(.74f, .92f);
     Transform leftHand,rightForearm,rightArm,leftForearm,leftArm;
     Transform placementSpine;
     Transform placementHips, leftThigh, leftShin, leftFoot, rightThigh, rightShin, rightFoot;
@@ -17,6 +22,7 @@ public sealed class PlayerHeldTools : MonoBehaviour
     PlayerToolType actionTool;
     Vector3 actionTarget;
     float actionUntil;
+    float actionStarted;
     PlayerController movement;
     PlayerToolHotbar hotbar;
     PlayerGatheringTool gathering;
@@ -25,6 +31,19 @@ public sealed class PlayerHeldTools : MonoBehaviour
     PlayerToolVisualCatalog.Entry shown;
     GameObject visual;
     public GameObject ActiveVisual=>visual!=null && visual.activeSelf?visual:null;
+    /// <summary>Particle origin follows the visible tool's authored spout or container rim.</summary>
+    public Vector3 WorkPoint(PlayerToolType tool)
+    {
+        if(ActiveVisual!=null)
+        {
+            string anchorName=tool==PlayerToolType.WateringCan?"WaterSpout":tool is PlayerToolType.None or PlayerToolType.Milker?"MilkSurface":"ToolImpact";
+            var anchor=visual.transform.Find(anchorName);
+            if(anchor!=null)return anchor.position;
+            var renderer=visual.GetComponentInChildren<Renderer>();
+            if(renderer!=null)return renderer.bounds.center;
+        }
+        return transform.position+transform.forward*.45f+Vector3.up*(tool==PlayerToolType.WateringCan?.7f:.4f);
+    }
     public PlayerToolVisualCatalog Catalog=>catalog;
     public Transform GripPoint { get { if(rightHand==null)ResolveHand();EnsureGripPoint();return gripPoint; } }
 
@@ -109,8 +128,11 @@ public sealed class PlayerHeldTools : MonoBehaviour
     }
     public void BeginWorkAction(PlayerToolType tool,Vector3 target,float duration)
     {
-        actionTool=tool;actionTarget=target;actionUntil=Time.time+duration;
+        actionTool=tool;actionTarget=target;actionStarted=Time.time;actionUntil=Time.time+duration;
     }
+
+    /// <summary>Discards a pending work pose when the equipped selection is cleared or changed.</summary>
+    public void EndWorkAction(){actionTool=PlayerToolType.None;actionUntil=0f;}
 
     /// <summary>Menjangkau titik penempatan dengan sedikit membungkuk tanpa meregangkan tulang lengan.</summary>
     public Vector3 ReachRightPalm(Vector3 target, float weight)
@@ -152,7 +174,7 @@ public sealed class PlayerHeldTools : MonoBehaviour
         {
             PlayerToolType.Hoe=>"Hoeing",PlayerToolType.Axe=>"Chopping Tree",
             PlayerToolType.Hammer=>"Hammering Rock",PlayerToolType.Sickle=>"Sickle",
-            PlayerToolType.WateringCan=>"Watering Plant",_=>null
+            PlayerToolType.WateringCan=>"Watering Plant",PlayerToolType.Pitchfork=>"Scoop Manure",_=>null
         };
         if(state==null)return false;
         return rig.GetCurrentAnimatorStateInfo(0).IsName(state) ||
@@ -165,6 +187,14 @@ public sealed class PlayerHeldTools : MonoBehaviour
         {
             if(usingTool)
             {
+                var timing = WateringActionProfile.Current;
+                bool inClip = WateringActionProfile.TryPhase(rig, out float phase);
+                bool fallbackPose = rig == null || !rig.isActiveAndEnabled || rig.runtimeAnimatorController == null ||
+                    !rig.HasState(0, Animator.StringToHash("Base Layer.Watering Plant"));
+                if(!inClip && fallbackPose && actionTool == PlayerToolType.WateringCan && Time.time <= actionUntil)
+                    phase = Mathf.Clamp01((Time.time-actionStarted)/timing.fallbackDuration);
+                float weight = timing.PoseWeight(phase);
+                tool.localRotation = Quaternion.Slerp(Quaternion.Euler(entry.carryHandEuler), Quaternion.Euler(entry.handEuler), weight);
                 // This prefab's cerat points along +X, body upright along +Y.
                 // Retain the animated pouring tilt while keeping the spout in the forward vertical plane.
                 Vector3 spout=tool.rotation*Vector3.right;
@@ -190,11 +220,38 @@ public sealed class PlayerHeldTools : MonoBehaviour
         // Grip the shaft with the palm, rather than placing its pivot at the wrist.
         Vector3 grip=gripPoint.position;
         Quaternion rotation=rightHand.rotation*Quaternion.Euler(entry.handEuler);
+        if(entry.tool==PlayerToolType.Pitchfork && actionTool==entry.tool && Time.time<actionUntil)
+        {
+            // Preserve the scoop's body pose, but bring the real tines to the pile at contact.
+            float elapsed=Time.time-actionStarted;
+            float weight=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.1f,.4f,elapsed)) *
+                (1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.6f,1.05f,elapsed)));
+            var anchor=tool.Find("ToolImpact");
+            float length=anchor!=null?anchor.localPosition.z*entry.scale:1f;
+            Vector3 toward=(target+Vector3.up*.03f-grip).normalized;
+            var aimed=Quaternion.LookRotation(toward,Vector3.ProjectOnPlane(Vector3.up,toward));
+            rotation=Quaternion.Slerp(rotation,aimed,weight);
+            grip=Vector3.Lerp(grip,target+Vector3.up*.03f-rotation*Vector3.forward*length,weight);
+        }
         Vector3 shaft=rotation*Vector3.forward;
         // Keep the blade in the forward swing plane; vertical target offsets must not roll it sideways.
         Vector3 towardTarget=entry.tool==PlayerToolType.Hoe?transform.forward:entry.tool==PlayerToolType.Hammer?Vector3.down:Vector3.ProjectOnPlane(target-grip,Vector3.up);
         Vector3 cuttingDirection=Vector3.ProjectOnPlane(towardTarget,shaft);
-        if(entry.tool==PlayerToolType.Hoe)
+        if(entry.tool==PlayerToolType.Hammer)
+        {
+            // The clip's palm separation contains a lateral component. It must not tilt the
+            // mallet across the actor or roll the striking face into a diagonal plane.
+            Vector3 planarShaft = Vector3.ProjectOnPlane(shaft, transform.right);
+            if(planarShaft.sqrMagnitude < .001f) planarShaft = transform.forward;
+            float elapsed = HammerPoseTime();
+            float contact = elapsed < 0 ? 0 : Mathf.SmoothStep(0, 1,
+                Mathf.InverseLerp(hammerContactBlendIn.x, hammerContactBlendIn.y, elapsed)) *
+                (1 - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(hammerContactBlendOut.x, hammerContactBlendOut.y, elapsed)));
+            Vector3 contactShaft = Quaternion.AngleAxis(-hammerContactElevation, transform.right) * transform.forward;
+            planarShaft = Vector3.Slerp(planarShaft.normalized, contactShaft, contact);
+            rotation = Quaternion.LookRotation(planarShaft, Vector3.Cross(transform.right, planarShaft));
+        }
+        else if(entry.tool==PlayerToolType.Hoe)
         {
             // Keep one signed swing plane through the whole stroke. Projecting forward onto the
             // shaft flips the blade 180 degrees when the handle passes the forward direction.
@@ -236,6 +293,18 @@ public sealed class PlayerHeldTools : MonoBehaviour
         }
         // Apply the action pose after IK: the tool is a child of the hand and inherits its final motion.
         tool.SetPositionAndRotation(grip,rotation);
+    }
+    float HammerPoseTime()
+    {
+        if(actionTool == PlayerToolType.Hammer && Time.time <= actionUntil) return Time.time - actionStarted;
+        if(rig == null || rig.runtimeAnimatorController == null) return -1;
+        var state = rig.GetCurrentAnimatorStateInfo(0);
+        if(rig.IsInTransition(0))
+        {
+            var next = rig.GetNextAnimatorStateInfo(0);
+            if(next.IsName("Hammering Rock")) state = next;
+        }
+        return state.IsName("Hammering Rock") ? Mathf.Clamp01(state.normalizedTime) * state.length : -1;
     }
     static Vector3 ReachableGrip(Transform shoulder,Transform elbow,Transform hand,Vector3 grip,Vector3 offset)
     {

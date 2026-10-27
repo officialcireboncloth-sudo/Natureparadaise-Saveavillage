@@ -24,14 +24,25 @@ public class SaveManager : MonoBehaviour
     [Header("Feedback")]
     public SaveLoadFeedback feedback;
 
-    public static string DefaultSavePath => Path.Combine(Application.persistentDataPath, "savegame.json");
-    private string SavePath => DefaultSavePath;
+    public static string DefaultSavePath => SaveSlots.GetPath(1);
+    private string SavePath => SaveSlots.GetPath(SaveSlots.ActiveSlot);
+    Coroutine locationRestore;
+    public bool IsLoading => locationRestore!=null;
 
-    public static bool SaveExists() => File.Exists(DefaultSavePath);
+    public static bool SaveExists() => SaveSlots.HasAnySave;
 
     public static void DeleteSaveFile()
     {
-        if (File.Exists(DefaultSavePath)) File.Delete(DefaultSavePath);
+        DeleteSaveFile(SaveSlots.ActiveSlot);
+    }
+
+    /// <summary>Resets only the selected save and session services; the other slots remain intact.</summary>
+    public static void DeleteSaveFile(int slot)
+    {
+        if (!SaveSlots.IsValid(slot)) return;
+        string path = SaveSlots.GetPath(slot);
+        foreach (string suffix in new[] { "", ".bak", ".tmp" })
+            if (File.Exists(path + suffix)) File.Delete(path + suffix);
         ToolStorageService.Clear();
         RefrigeratorService.Clear();
         HouseStorageService.Clear();
@@ -63,6 +74,9 @@ public class SaveManager : MonoBehaviour
         public float playerX;
         public float playerY;
         public float playerZ;
+        public bool hasPlayerLocation;
+        public PlayerLocationSaveData savedPlayerLocation;
+        public bool hasStarterPitchfork;
 
         // -------------------------
         // TIME
@@ -133,6 +147,7 @@ public class SaveManager : MonoBehaviour
 
         // ITEM YANG DI-DROP/PLACE DAN KONDISI POHON/TUNGGUL
         public List<PlacedItemSaveData> placedItems;
+        public List<LoosePickupSaveData> loosePickups;
         public List<TreeSaveData> trees;
         public List<FertilizerProcessorSaveData> fertilizerProcessors;
         public List<FeedMakerSaveData> feedMakers;
@@ -237,9 +252,38 @@ public class SaveManager : MonoBehaviour
     // SAVE GAME
     // =====================================================
 
-    /// <summary>Mengambil snapshot seluruh sistem terdaftar dan menulis JSON secara atomik.</summary>
+    /// <summary>Writes only the separate autosave; gameplay callbacks never overwrite manual slots.</summary>
     public void SaveGame()
     {
+        SaveSnapshot(SaveSlots.AutoSaveSlot);
+    }
+
+    /// <summary>Manual save entry point for buttons, the save book and keyboard shortcuts.</summary>
+    public void RequestSave()
+    {
+        if (!IsLoading && (SceneTransitionManager.Instance == null || !SceneTransitionManager.Instance.IsTransitioning))
+            SaveSlotMenu.Show(SaveSlotMenuMode.Save, slot => { if (this != null) SaveToSlot(slot); });
+    }
+
+    /// <summary>Opens the same four-slot picker used by Continue.</summary>
+    public void RequestLoad()
+    {
+        if (!IsLoading && (SceneTransitionManager.Instance == null || !SceneTransitionManager.Instance.IsTransitioning))
+            SaveSlotMenu.Show(SaveSlotMenuMode.Load, slot => { if (this != null) LoadFromSlot(slot); });
+    }
+
+    /// <summary>Writes a full atomic snapshot to one slot, selecting it only after the write succeeds.</summary>
+    public bool SaveToSlot(int slot)
+    {
+        if (!SaveSlots.IsValid(slot)) return false;
+        return SaveSnapshot(slot);
+    }
+
+    bool SaveSnapshot(int slot)
+    {
+        string targetPath = SaveSlots.GetPath(slot);
+        if(IsLoading || SceneTransitionManager.Instance!=null && SceneTransitionManager.Instance.IsTransitioning)
+        {SaveLoadFeedback.Instance?.ShowMessage("Tunggu perpindahan lokasi selesai sebelum menyimpan.");return false;}
         // -------------------------
         // CHECK INVENTORY
         // -------------------------
@@ -250,7 +294,7 @@ public class SaveManager : MonoBehaviour
                 "[SAVE] Player Inventory tidak ditemukan."
             );
 
-            return;
+            return false;
         }
 
         // -------------------------
@@ -263,7 +307,7 @@ public class SaveManager : MonoBehaviour
                 "[SAVE] ScoreManager tidak ditemukan."
             );
 
-            return;
+            return false;
         }
 
         // -------------------------
@@ -276,7 +320,7 @@ public class SaveManager : MonoBehaviour
                 "[SAVE] TimeManager tidak ditemukan."
             );
 
-            return;
+            return false;
         }
 
         // -------------------------
@@ -302,8 +346,8 @@ public class SaveManager : MonoBehaviour
         Transform player =
             playerInv.transform;
 
-        // Interior additive tidak dimuat saat startup. Simpan posisi world terakhir agar
-        // load berikutnya tidak menaruh player di koordinat interior tanpa lantai.
+        // Retain exterior coordinates for legacy readers and unavailable-interior fallback.
+        // The separate location record below restores the actual room and local pose.
         Vector3 savedPlayerPosition = player.position;
         if (BarnInterior.TryGetReturnPosition(out Vector3 barnReturnPosition)) savedPlayerPosition = barnReturnPosition;
         if (SceneTransitionManager.Instance != null &&
@@ -320,6 +364,10 @@ public class SaveManager : MonoBehaviour
 
         data.playerZ =
             savedPlayerPosition.z;
+        data.hasPlayerLocation=true;
+        data.savedPlayerLocation=SceneTransitionManager.Instance!=null?SceneTransitionManager.Instance.CaptureLocation(player):
+            new PlayerLocationSaveData{worldPosition=player.position,worldEuler=player.eulerAngles};
+        data.hasStarterPitchfork=playerInv.HasStarterPitchfork;
 
         // -------------------------
         // TIME
@@ -424,6 +472,7 @@ public class SaveManager : MonoBehaviour
 
         data.placedItems =
             PlacedWorldItem.CaptureAll();
+        data.loosePickups=WorldItemPickup.CaptureLoose();
 
 
         data.eggIncubators = EggIncubator.CaptureAll();
@@ -485,10 +534,21 @@ public class SaveManager : MonoBehaviour
         // WRITE FILE
         // -------------------------
 
-        File.WriteAllText(
-            SavePath,
-            json
-        );
+        try
+        {
+            string pending=targetPath+".tmp";
+            File.WriteAllText(pending,json);
+            if(File.Exists(targetPath))File.Replace(pending,targetPath,targetPath+".bak");
+            else File.Move(pending,targetPath);
+        }
+        catch(Exception error) when(error is IOException || error is UnauthorizedAccessException || error is NotSupportedException)
+        {
+            Debug.LogError($"[SAVE] Gagal menulis save; file sebelumnya dipertahankan. {error.Message}");
+            (feedback!=null?feedback:SaveLoadFeedback.Instance)?.ShowMessage("Gagal menyimpan. Save sebelumnya tetap dipertahankan.");
+            return false;
+        }
+
+        if (slot != SaveSlots.AutoSaveSlot) SaveSlots.Select(slot);
 
         // -------------------------
         // FEEDBACK
@@ -504,7 +564,7 @@ public class SaveManager : MonoBehaviour
 
         if (feedback != null)
         {
-            feedback.ShowSave();
+            feedback.ShowMessage(slot == SaveSlots.AutoSaveSlot ? "Autosave tersimpan" : $"Tersimpan di Slot {slot}");
         }
         else
         {
@@ -531,9 +591,10 @@ public class SaveManager : MonoBehaviour
             $"X={data.playerX}, " +
             $"Y={data.playerY}, " +
             $"Z={data.playerZ}\n" +
-            $"Path: {SavePath}\n" +
+            $"Path: {targetPath}\n" +
             "[SAVE] ========================="
         );
+        return true;
     }
 
     // =====================================================
@@ -541,13 +602,19 @@ public class SaveManager : MonoBehaviour
     // =====================================================
 
     /// <summary>Membaca save, memigrasikan layout lama, lalu memulihkan sistem dalam urutan dependensi.</summary>
-    public void LoadGame()
+    public void LoadGame() => LoadFromSlot(SaveSlots.ActiveSlot);
+
+    /// <summary>Loads a manual save or the separate autosave after validating all saved data.</summary>
+    public void LoadFromSlot(int slot)
     {
+        if (!SaveSlots.IsReadable(slot)) return;
+        string sourcePath = SaveSlots.GetPath(slot);
+        if(IsLoading || SceneTransitionManager.Instance!=null && SceneTransitionManager.Instance.IsTransitioning)return;
         // -------------------------
         // CHECK SAVE
         // -------------------------
 
-        if (!File.Exists(SavePath))
+        if (!File.Exists(sourcePath))
         {
             Debug.Log(
                 "[LOAD] Belum ada save game."
@@ -599,15 +666,10 @@ public class SaveManager : MonoBehaviour
         // READ FILE
         // -------------------------
 
-        string json =
-            File.ReadAllText(
-                SavePath
-            );
-
-        SaveData data =
-            JsonUtility.FromJson<SaveData>(
-                json
-            );
+        SaveData data;string json;
+        try{json=File.ReadAllText(sourcePath);data=JsonUtility.FromJson<SaveData>(json);}
+        catch(Exception error) when(error is IOException || error is ArgumentException || error is UnauthorizedAccessException)
+        {RejectLoad("File save tidak bisa dibaca: "+error.Message);return;}
 
         if (data == null)
         {
@@ -618,10 +680,38 @@ public class SaveManager : MonoBehaviour
             return;
         }
 
+        // JsonUtility materializes missing lists as empty lists. Missing old sections must not erase current objects.
+        if(!HasSaveSection(json,"placedItems"))data.placedItems=null;
+        if(!HasSaveSection(json,"loosePickups"))data.loosePickups=null;
+        if(data.hasSlotInventory && !HasSaveSection(json,"inventorySlots") ||
+           !data.hasSlotInventory && !HasSaveSection(json,"seed") && !HasSaveSection(json,"cabbage") && !HasSaveSection(json,"milk"))
+        {RejectLoad("Bagian inventory pada save tidak lengkap.");return;}
+
+        // Resolve every saved item and plan the complete bag before changing money, time or world objects.
+        if(!TryPrepareInventory(data,out int restoredBagLevel,out List<ItemStack> restoredSlots,out string loadProblem) ||
+           !ValidateWorldItems(data,out loadProblem))
+        {RejectLoad(loadProblem);return;}
+
+        locationRestore=StartCoroutine(LoadRoutine(data,slot,restoredBagLevel,restoredSlots));
+    }
+
+    IEnumerator LoadRoutine(SaveData data,int slot,int restoredBagLevel,List<ItemStack> restoredSlots)
+    {
+        var clock=TimeManager.Instance;
+        var movement=playerInv.GetComponent<PlayerController>();
+        LoadingScreen.Show(this);
+        clock?.AcquirePause(this);movement?.AcquireMovementLock(this);WorldInteractionPrompt.AcquireSuppression(this);
+        try
+        {
+        // Draw the black cover before replacing buildings, animals, inventory or the player pose.
+        yield return null;
+        SaveSlots.Select(slot);
+
         // -------------------------
         // LOAD GOLD
         // -------------------------
 
+        playerInv.GetComponent<PlayerToolApproach>()?.Cancel();
         ScoreManager.Instance.points =
             data.gold;
 
@@ -668,49 +758,11 @@ public class SaveManager : MonoBehaviour
 
         // Version gate mempertahankan kompatibilitas save sebelum sistem backpack/hotbar.
         // Jangan menghapus jalur legacy sampai format save production resmi dimigrasikan.
-        if (data.inventoryLayoutVersion >= 1)
-            playerInv.SetBackpackLevel(data.backpackLevel);
-        playerInv.Clear();
+        playerInv.RestoreContents(restoredBagLevel,restoredSlots);
 
         // -------------------------
         // LOAD INVENTORY
         // -------------------------
-
-        if (data.hasSlotInventory && data.inventorySlots != null)
-        {
-            for (int i = 0; i < data.inventorySlots.Count; i++)
-            {
-                InventorySlotSaveData savedSlot = data.inventorySlots[i];
-                ItemSO item = ResolveSavedItem(savedSlot);
-                if (item == null)
-                {
-                    Debug.LogWarning($"[LOAD] Item '{savedSlot.itemName}' tidak ditemukan di catalog asset aktif.");
-                    continue;
-                }
-
-                if (data.inventoryLayoutVersion >= 1)
-                {
-                    // Layout versi 1/2 memakai empat hotbar. Geser slot tas empat
-                    // posisi agar isi tas lama tidak berubah menjadi hotbar baru.
-                    int targetSlot = data.inventoryLayoutVersion < 3 && savedSlot.slotIndex >= 4
-                        ? savedSlot.slotIndex + 4
-                        : savedSlot.slotIndex;
-                    if (!playerInv.TrySetSlot(targetSlot, item, savedSlot.count, savedSlot.qualityStars, savedSlot.fishSizeCm, savedSlot.fishWeightKg))
-                        playerInv.Add(item, savedSlot.count, savedSlot.qualityStars, savedSlot.fishSizeCm, savedSlot.fishWeightKg);
-                }
-                else
-                {
-                    playerInv.Add(item, savedSlot.count, savedSlot.qualityStars, savedSlot.fishSizeCm, savedSlot.fishWeightKg);
-                }
-            }
-        }
-        else
-        {
-            // Save lama sebelum inventory 3x3.
-            AddItem(seedItem, data.seed);
-            AddItem(cabbageItem, data.cabbage);
-            AddItem(milkItem, data.milk);
-        }
 
         ToolStorageService.Restore(data.toolStorage);
 
@@ -756,6 +808,7 @@ public class SaveManager : MonoBehaviour
         finally { HouseStorageService.IsRestoringSave=false; }
         HouseStorageService.SortForHouseLevel();
         KitchenService.Restore(data.kitchen);
+        playerInv.RestoreStarterPitchfork(data.hasStarterPitchfork);
         AquariumService.Restore(data.aquariums);
         FishCollectionService.Restore(data.fishCollection);
 
@@ -770,6 +823,7 @@ public class SaveManager : MonoBehaviour
         PlacedWorldItem.RestoreAll(
             data.placedItems
         );
+        WorldItemPickup.RestoreLoose(data.loosePickups);
 
         FertilizerProcessor.RestoreAll(data.fertilizerProcessors);
         FeedMaker.RestoreAll(data.feedMakers);
@@ -795,9 +849,7 @@ public class SaveManager : MonoBehaviour
         QuestService.Instance?.Restore(data.questSystem);
         DialogueService.Instance?.Restore(data.dialogueSystem);
         WorldMapService.Instance?.Restore(data.worldMap);
-        AquariumTestFishGrant.EnsureTestFish(playerInv);
-        FishPondTestGrant.EnsureTestFeed(playerInv);
-        EggIncubatorTestGrant.EnsureTestEggs(playerInv);
+        // Development grants belong to a new-session loadout, never to restoration of saved inventory.
 
         if (data.hasPlayerStatus)
         {
@@ -830,22 +882,45 @@ public class SaveManager : MonoBehaviour
         // SAVED POSITION
         // -------------------------
 
-        Vector3 savedPosition =
-            new Vector3(
-                data.playerX,
-                data.playerY,
-                data.playerZ
-            );
+        yield return RestoreSavedLocation(data);
+        // Animal LateUpdate and additive UI/layout setup finish before the final cover is released.
+        yield return null;
+        }
+        finally
+        {
+            clock?.ReleasePause(this);movement?.ReleaseMovementLock(this);WorldInteractionPrompt.ReleaseSuppression(this);
+            LoadingScreen.Hide(this);
+            locationRestore=null;
+        }
+    }
 
-        // -------------------------
-        // RESTORE POSITION
-        // -------------------------
+    IEnumerator RestoreSavedLocation(SaveData data)
+    {
+        var movement=playerInv.GetComponent<PlayerController>();
+            if(movement!=null)
+            {
+                var transition=SceneTransitionManager.Instance;
+                if(transition==null)transition=new GameObject("SceneTransitionManager_Runtime").AddComponent<SceneTransitionManager>();
+                var location=data.hasPlayerLocation && data.savedPlayerLocation!=null?data.savedPlayerLocation:
+                    new PlayerLocationSaveData{worldPosition=new Vector3(data.playerX,data.playerY,data.playerZ),worldEuler=playerInv.transform.eulerAngles};
+                yield return transition.RestoreLocation(location);
+            }
+            else yield return RestorePlayerPosition(new Vector3(data.playerX,data.playerY,data.playerZ));
+            ReportLoaded(data);
+    }
 
-        StartCoroutine(
-            RestorePlayerPosition(
-                savedPosition
-            )
-        );
+    void OnDisable()
+    {
+        if(locationRestore!=null)StopCoroutine(locationRestore);
+        locationRestore=null;
+        TimeManager.Instance?.ReleasePause(this);
+        if(playerInv!=null)playerInv.GetComponent<PlayerController>()?.ReleaseMovementLock(this);
+        WorldInteractionPrompt.ReleaseSuppression(this);
+        LoadingScreen.Hide(this);
+    }
+
+    void ReportLoaded(SaveData data)
+    {
 
         // -------------------------
         // FEEDBACK
@@ -861,7 +936,7 @@ public class SaveManager : MonoBehaviour
 
         if (feedback != null)
         {
-            feedback.ShowLoad();
+            feedback.ShowMessage(SaveSlots.ActiveSlot == SaveSlots.AutoSaveSlot ? "Autosave dimuat" : $"Slot {SaveSlots.ActiveSlot} dimuat");
         }
         else
         {
@@ -1021,6 +1096,79 @@ public class SaveManager : MonoBehaviour
         return null;
     }
 
+    static bool HasSaveSection(string json,string key)=>System.Text.RegularExpressions.Regex.IsMatch(json,"\""+key+"\"\\s*:");
+
+    bool TryPrepareInventory(SaveData data,out int level,out List<ItemStack> restored,out string problem)
+    {
+        level=data.inventoryLayoutVersion>=1?data.backpackLevel:playerInv.BackpackLevel;
+        restored=new List<ItemStack>(new ItemStack[playerInv.CapacityAtBackpackLevel(level)]);
+        problem=null;
+        if(data.day<1 || data.hour<0 || data.hour>23 || data.minute<0 || data.minute>59)
+        {problem="Waktu pada save tidak valid.";return false;}
+        var entries=data.inventorySlots;
+        if(data.hasSlotInventory && entries==null)
+        {problem="Bagian inventory pada save tidak lengkap.";return false;}
+        if(!data.hasSlotInventory)
+        {
+            entries=new List<InventorySlotSaveData>();
+            ItemSO[] legacy={seedItem,cabbageItem,milkItem};int[] counts={data.seed,data.cabbage,data.milk};
+            for(int i=0;i<legacy.Length;i++)if(counts[i]>0)
+            {
+                if(legacy[i]==null){problem="Referensi item save legacy belum tersedia.";return false;}
+                entries.Add(new InventorySlotSaveData{itemId=legacy[i].Id,count=counts[i]});
+            }
+        }
+        var overflow=new List<ItemStack>();
+        foreach(var saved in entries)
+        {
+            if(saved==null || saved.count==0)continue;
+            if(saved.count<0){problem="Jumlah item pada save tidak valid.";return false;}
+            var item=ResolveSavedItem(saved);
+            if(item==null){problem=$"Aset item belum tersedia: {saved.itemId} ({saved.assetName}).";return false;}
+            var stack=new ItemStack{item=item,count=saved.count,qualityStars=Mathf.Clamp(saved.qualityStars,0,5),
+                fishSizeCm=Mathf.Max(0,saved.fishSizeCm),fishWeightKg=Mathf.Max(0,saved.fishWeightKg)};
+            int target=data.inventoryLayoutVersion<3 && saved.slotIndex>=4?saved.slotIndex+4:saved.slotIndex;
+            if(data.inventoryLayoutVersion>=1 && target>=0 && target<restored.Count && restored[target]==null)
+            {int first=Mathf.Min(stack.count,item.StackLimit);restored[target]=CopyStack(stack,first);stack.count-=first;}
+            if(stack.count>0)overflow.Add(stack);
+        }
+        foreach(var stack in overflow)
+        {
+            foreach(var current in restored)
+                if(current!=null && current.item==stack.item && current.qualityStars==stack.qualityStars &&
+                   current.fishSizeCm==stack.fishSizeCm && current.fishWeightKg==stack.fishWeightKg)
+                {int moved=Mathf.Min(stack.count,Mathf.Max(0,current.item.StackLimit-current.count));current.count+=moved;stack.count-=moved;}
+            for(int i=0;i<restored.Count && stack.count>0;i++)if(restored[i]==null)
+            {int moved=Mathf.Min(stack.count,stack.item.StackLimit);restored[i]=CopyStack(stack,moved);stack.count-=moved;}
+            if(stack.count>0){problem="Kapasitas tas tidak cukup untuk seluruh isi save. Isi saat ini dipertahankan.";return false;}
+        }
+        return true;
+    }
+
+    static ItemStack CopyStack(ItemStack source,int count)=>new ItemStack{item=source.item,count=count,
+        qualityStars=source.qualityStars,fishSizeCm=source.fishSizeCm,fishWeightKg=source.fishWeightKg};
+
+    bool ValidateWorldItems(SaveData data,out string problem)
+    {
+        problem=null;
+        if(data.fields!=null)foreach(var saved in data.fields)
+            foreach(var field in FieldArea.ActiveAreas)
+                if(field!=null && saved!=null && field.FieldId==saved.fieldId && !field.CanRestoreCrops(saved,out problem))return false;
+        if(data.placedItems!=null)foreach(var saved in data.placedItems)
+            if(saved!=null && (saved.amount<=0 || ItemCatalog.Resolve(saved.itemId,saved.assetName,saved.itemName)==null))
+            {problem=$"Aset item dunia belum tersedia: {saved.itemId} ({saved.assetName}).";return false;}
+        if(data.loosePickups!=null)foreach(var saved in data.loosePickups)
+            if(saved!=null && (saved.amount<=0 || ItemCatalog.Resolve(saved.itemId,saved.assetName,saved.itemName)==null))
+            {problem=$"Aset drop belum tersedia: {saved.itemId} ({saved.assetName}).";return false;}
+        return true;
+    }
+
+    void RejectLoad(string problem)
+    {
+        Debug.LogWarning($"[LOAD] Dibatalkan sebelum state berubah. {problem} Path: {SavePath}");
+        (feedback!=null?feedback:SaveLoadFeedback.Instance)?.ShowMessage("Load dibatalkan: "+problem);
+    }
+
     int GetItemCount(
         ItemSO item
     )
@@ -1076,7 +1224,7 @@ public class SaveManager : MonoBehaviour
     /// <summary>Menghapus save aktif dari persistent data path.</summary>
     public void DeleteSave()
     {
-        if (!SaveExists())
+        if (!SaveSlots.Exists(SaveSlots.ActiveSlot))
         {
             Debug.Log(
                 "[SAVE] Tidak ada save game."
@@ -1099,7 +1247,7 @@ public class SaveManager : MonoBehaviour
     /// <summary>True jika file save aktif tersedia.</summary>
     public bool HasSave()
     {
-        return SaveExists();
+        return SaveSlots.Exists(SaveSlots.ActiveSlot);
     }
 
     // =====================================================

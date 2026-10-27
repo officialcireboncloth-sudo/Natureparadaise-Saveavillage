@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(PlayerStatusSystem))]
@@ -23,6 +24,10 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     [SerializeField, Range(0, 23)] int wakeHour = 6;
     [SerializeField, Min(0f)] float bedYawnAnimationTime = 1.65f;
     [SerializeField, Min(0f)] float bedWakeAnimationTime = 2f;
+    [SerializeField,Min(.1f)] float bedSitSeconds=.8f;
+    [SerializeField,Min(.1f)] float sleepFadeOutSeconds=.75f;
+    [SerializeField,Min(0f)] float sleepBlackSeconds=.35f;
+    [SerializeField,Min(.1f)] float sleepFadeInSeconds=.8f;
 
     [Header("Forced Sleep")]
     [Tooltip("Player yang masih terjaga pada jam ini otomatis tidur dan bangun pada wakeHour.")]
@@ -46,9 +51,12 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     bool busy;
     bool bedPoseActive;
     bool bedControllerWasEnabled;
-    Transform bedVisualRoot;
-    Vector3 bedVisualOriginalPosition;
-    bool sleepBlackout;
+    PlayerBedSitPose bedSitPose;
+    CanvasGroup sleepFade;
+    TimeManager sleepClock;
+    Vector3 bedStandPosition;
+    Quaternion bedStandRotation;
+    bool gameplaySuspended,farmingWasEnabled,seedWasEnabled;
     bool hasPendingWeatherFaint;
     bool pendingWeatherFaintAtHospital = true;
     int pendingWeatherWakeHour = 12;
@@ -56,6 +64,8 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     Quaternion fallbackSpawnRotation;
 
     public bool IsBusy => busy;
+    public int PendingSaveSlot { get; private set; }
+    public float SleepFadeAlpha=>sleepFade!=null?sleepFade.alpha:0;
 
     void Awake()
     {
@@ -83,7 +93,13 @@ public sealed class PlayerLifeCycle : MonoBehaviour
 
     void OnDisable()
     {
+        StopAllCoroutines();
+        if(bedPoseActive)PlaceAt(bedStandPosition,bedStandRotation);
         RestoreBedController();
+        FinishSleepTransition();
+        SetGameplayEnabled(true);
+        busy=false;
+        PendingSaveSlot=0;
         if (status != null)
             status.Fainted -= HandleFainted;
         TimeManager.OnHour -= HandleHourChanged;
@@ -95,11 +111,14 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         if (busy)
             return;
 
+        // Loading a save or re-enabling this component can skip the 03:00 hour event.
+        if(TryForcedSleep(false))return;
+
         // L/K adalah shortcut development dan hanya aktif ketika Debug Clues ON.
         if (HUDManager.DebugCluesEnabled)
         {
             if (GameplayInput.GetKeyDown(sleepKey))
-                SleepAndSave();
+                SaveSlotMenu.Show(SaveSlotMenuMode.Save, slot => { if (this != null) SleepAndSaveToSlot(slot, null, null); });
             if (GameplayInput.GetKeyDown(damageKey))
                 status.TakeDamage(debugDamage);
         }
@@ -115,6 +134,13 @@ public sealed class PlayerLifeCycle : MonoBehaviour
     {
         if (!busy && !status.IsFainted)
             StartCoroutine(SleepRoutine(false, sleepPose, wakeStandPoint));
+    }
+
+    /// <summary>Saves to the chosen slot after waking; cancelled or obstructed sleep does not change the active slot.</summary>
+    public void SleepAndSaveToSlot(int slot, Transform sleepPose, Transform wakeStandPoint)
+    {
+        if (SaveSlots.IsValid(slot) && !busy && !status.IsFainted)
+            StartCoroutine(SleepRoutine(false, sleepPose, wakeStandPoint, true, slot));
     }
 
     public void SleepWithoutSave(Transform sleepPose = null, Transform wakeStandPoint = null)
@@ -154,107 +180,146 @@ public sealed class PlayerLifeCycle : MonoBehaviour
 
     void HandleHourChanged()
     {
-        if (!busy && TimeManager.Instance != null && TimeManager.Instance.hour == forcedSleepHour)
-        {
-            SaveLoadFeedback.Instance?.ShowMessage("Sudah pukul 03:00. Player tertidur di tempat karena kelelahan.");
-            StartCoroutine(SleepRoutine(true));
-        }
+        TryForcedSleep(true);
     }
 
-    IEnumerator SleepRoutine(bool forcedInPlace, Transform sleepPose = null, Transform wakeStandPoint = null, bool saveAfterSleep = true)
+    bool TryForcedSleep(bool clockAdvanced)
     {
-        Vector3 standingPosition = transform.position;
-        Quaternion standingRotation = transform.rotation;
-        busy = true;
-        status.AcquireActivity(this, PlayerMovementState.Sleeping);
+        var clock=TimeManager.Instance;
+        if(busy || status==null || status.IsFainted || clock==null)return false;
+        if(!clockAdvanced && (clock.IsPaused || Time.timeScale<=0))return false;
+        bool overdue=forcedSleepHour<wakeHour
+            ? clock.hour>=forcedSleepHour && clock.hour<wakeHour
+            : forcedSleepHour>wakeHour && (clock.hour>=forcedSleepHour || clock.hour<wakeHour);
+        if(!overdue)return false;
+        SaveLoadFeedback.Instance?.ShowMessage($"Sudah melewati batas {forcedSleepHour:00}:00. Kamu tertidur karena kelelahan.");
+        StartCoroutine(SleepRoutine(true));
+        return true;
+    }
+
+    IEnumerator SleepRoutine(bool forcedInPlace, Transform sleepPose = null, Transform wakeStandPoint = null, bool saveAfterSleep = true, int saveSlot = 0)
+    {
+        Vector3 standingPosition=transform.position;
+        Quaternion standingRotation=transform.rotation;
+        var bed=sleepPose!=null?sleepPose.GetComponentInParent<PlayerBed>():null;
+        var house=bed!=null?bed.GetComponentInParent<HouseInteriorController>():null;
+        Vector3 seat=default;
+        if(!forcedInPlace&&bed!=null)
+        {
+            if(!bed.TryFindFreeSide(characterController,house!=null?house.transform:null,standingPosition,
+                out bedStandPosition,out seat,out bedStandRotation))
+            {
+                SaveLoadFeedback.Instance?.ShowMessage("Sisi kasur terhalang. Kosongkan salah satu sisi untuk tidur.");
+                yield break;
+            }
+        }
+        busy=true;
+        PendingSaveSlot=saveSlot;
+        GetComponent<InventoryHotbarUI>()?.ClearSelection();
+        GetComponent<PlayerToolHotbar>()?.CancelCurrentAction();
+        status.AcquireActivity(this,PlayerMovementState.Sleeping);
         SetGameplayEnabled(false);
-        if (forcedInPlace)
+        sleepClock=TimeManager.Instance;sleepClock?.AcquirePause(this);
+        WorldInteractionPrompt.AcquireSuppression(this);
+        if(forcedInPlace)
         {
             movement?.PlayKnockOutAnimation();
-            if (knockOutAnimationTime > 0f)
-                yield return new WaitForSecondsRealtime(knockOutAnimationTime);
+            if(knockOutAnimationTime>0)yield return new WaitForSecondsRealtime(knockOutAnimationTime);
+        }
+        else if(bed!=null)
+        {
+            bedControllerWasEnabled=characterController!=null&&characterController.enabled;
+            bedPoseActive=true;
+            // The root stays on the clear floor; keep its capsule reserving the wake spot
+            // while only the visual pelvis moves onto the mattress edge.
+            PlaceAt(bedStandPosition,bedStandRotation);
+            bedSitPose=GetComponent<PlayerBedSitPose>();
+            if(bedSitPose==null)bedSitPose=gameObject.AddComponent<PlayerBedSitPose>();
+            if(bedSitPose.Begin(movement!=null?movement.CharacterAnimator:null,seat,bedSitSeconds))
+                while(!bedSitPose.IsSeated)yield return null;
+            else yield return new WaitForSecondsRealtime(bedSitSeconds);
+            yield return new WaitForSecondsRealtime(.25f);
         }
         else
         {
             movement?.PlayYawnAnimation();
-            if (bedYawnAnimationTime > 0f)
-                yield return new WaitForSecondsRealtime(bedYawnAnimationTime);
+            if(bedYawnAnimationTime>0)yield return new WaitForSecondsRealtime(bedYawnAnimationTime);
         }
-        sleepBlackout = true;
-        SaveLoadFeedback.Instance?.ShowMessage("Tidur...");
-        yield return new WaitForSecondsRealtime(0.45f);
-
-        // Kalender sudah berganti di 00:00. Tidur antara 00:00-05:59 hanya melompat ke
-        // jam bangun agar crop/hewan tidak menerima Daily Reset dua kali.
-        if (TimeManager.Instance != null && TimeManager.Instance.hour < wakeHour)
+        yield return FadeSleep(1,sleepFadeOutSeconds);
+        yield return new WaitForSecondsRealtime(sleepBlackSeconds);
+        // Midnight already performed the daily reset. Early morning sleep only moves the clock to wake time.
+        if(TimeManager.Instance!=null&&TimeManager.Instance.hour<wakeHour)
             TimeManager.Instance.SetClockSameDay(wakeHour);
-        else
-            AdvanceToNextDay();
-        // Knock karena masih terjaga pukul 03:00 selalu bangun di posisi yang sama.
-        // Tidur normal melalui kasur tetap mengikuti aturan spawn rumah/interior.
-        if (!forcedInPlace && (SceneTransitionManager.Instance == null || !SceneTransitionManager.Instance.IsInsideInterior))
-            TeleportTo(homeSpawnId);
+        else AdvanceToNextDay();
         status.RestoreAfterSleep();
-        if (!forcedInPlace && sleepPose != null)
+        if(bedPoseActive)
         {
-            bedPoseActive = true;
-            bedControllerWasEnabled = characterController != null && characterController.enabled;
-            if (characterController != null) characterController.enabled = false;
-            PlaceAt(sleepPose.position, sleepPose.rotation);
-            movement?.PlayWakeUpBedAnimation();
-            // Tunggu skinning setelah teleport; matriks renderer pada frame sebelumnya
-            // dapat masih mengacu posisi berdiri saat pose kasur baru dievaluasi.
-            yield return null;
-            AlignWakePoseToMattress(sleepPose);
+            // Day-change callbacks may move animals/furniture. Check the empty side again before revealing it.
+            if(bed!=null&&bed.TryFindFreeSide(characterController,house!=null?house.transform:null,bedStandPosition,
+                out var latest,out _,out var rotation))
+            {bedStandPosition=latest;bedStandRotation=rotation;}
+            else if(TryResolveStandingPoint(standingPosition,characterController,house!=null?house.transform:null,out latest))
+            {bedStandPosition=latest;bedStandRotation=standingRotation;}
+            PlaceAt(bedStandPosition,bedStandRotation);
+            RestoreBedController();
         }
-
-        sleepBlackout = false;
-        if (forcedInPlace)
+        else if(!forcedInPlace)
         {
-            movement?.PlayWakeUpAnimation();
-            if (wakeUpAnimationTime > 0f)
-                yield return new WaitForSecondsRealtime(wakeUpAnimationTime);
+            if(SceneTransitionManager.Instance==null||!SceneTransitionManager.Instance.IsInsideInterior)TeleportTo(homeSpawnId);
+            else if(wakeStandPoint!=null&&TryResolveStandingPoint(wakeStandPoint.position,characterController,
+                wakeStandPoint.GetComponentInParent<HouseInteriorController>()?.transform,out var grounded))
+                PlaceAt(grounded,wakeStandPoint.rotation);
+            movement?.FinishBedWakeAnimation();
         }
-        else
+        if(forcedInPlace)movement?.PlayWakeUpAnimation();
+        yield return FadeSleep(0,sleepFadeInSeconds);
+        if(forcedInPlace&&wakeUpAnimationTime>sleepFadeInSeconds)
+            yield return new WaitForSecondsRealtime(wakeUpAnimationTime-sleepFadeInSeconds);
+        FinishSleepTransition();
+        SetGameplayEnabled(true);status.ReleaseActivity(this);busy=false;
+        // Only the grounded standing position is saved, never the temporary seated visual pose.
+        if (saveAfterSleep)
         {
-            if (!bedPoseActive) movement?.PlayWakeUpBedAnimation();
-            float wakeDuration = Mathf.Max(bedWakeAnimationTime, movement != null ? movement.BedWakeAnimationDuration : 0f);
-            if (wakeDuration > 0f)
-                yield return new WaitForSecondsRealtime(wakeDuration + .15f);
-            if (wakeStandPoint != null)
-            {
-                var house = wakeStandPoint.GetComponentInParent<HouseInteriorController>();
-                if(TryResolveStandingPoint(wakeStandPoint.position, characterController, house != null ? house.transform : null, out Vector3 safePosition) ||
-                   TryResolveStandingPoint(standingPosition, characterController, house != null ? house.transform : null, out safePosition))
-                    PlaceAt(safePosition, wakeStandPoint.rotation);
-                else PlaceAt(standingPosition, standingRotation);
-            }
-            else if (bedPoseActive)
-                PlaceAt(standingPosition, standingRotation);
-            // Pose terakhir bangun ditahan sampai root berada di lantai, sehingga idle
-            // tidak sempat dimainkan pada root sementara di bawah permukaan kasur.
-            if (bedPoseActive) RestoreBedController();
-            else movement?.FinishBedWakeAnimation();
+            if (saveSlot > 0) SaveManager.Instance?.SaveToSlot(saveSlot);
+            else SaveManager.Instance?.SaveGame();
         }
-        // Save the standing position, never the temporary pose on the mattress.
-        if (saveAfterSleep) SaveManager.Instance?.SaveGame();
-        SetGameplayEnabled(true);
-        status.ReleaseActivity(this);
-        busy = false;
-        SaveLoadFeedback.Instance?.ShowMessage(forcedInPlace
-            ? "Bangun pukul 06:00 di tempat kamu tertidur"
-            : "Bangun - hari baru");
-        Debug.Log(saveAfterSleep ? "[PLAYER] Bangun setelah tidur. Game tersimpan." : "[PLAYER] Bangun setelah tidur tanpa save.");
+        PendingSaveSlot=0;
+        SaveLoadFeedback.Instance?.ShowMessage(forcedInPlace?"Bangun pukul 06:00 di tempat kamu tertidur":"Bangun - hari baru");
     }
 
-    void OnGUI()
+    IEnumerator FadeSleep(float target,float seconds)
     {
-        if (!sleepBlackout) return;
-        GUI.depth = -10000;
-        GUI.DrawTexture(new Rect(0f, 0f, Screen.width, Screen.height), Texture2D.blackTexture);
-        GUIStyle style = new(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontSize = 28 };
-        style.normal.textColor = Color.white;
-        GUI.Label(new Rect(0f, 0f, Screen.width, Screen.height), "Tidur...", style);
+        EnsureSleepFade();
+        sleepFade.gameObject.SetActive(true);
+        sleepFade.blocksRaycasts=true;
+        float start=sleepFade.alpha,elapsed=0;
+        while(elapsed<seconds)
+        {
+            // A day-change import/GC hitch must not skip the entire visible fade.
+            elapsed+=Mathf.Min(Time.unscaledDeltaTime,.05f);
+            sleepFade.alpha=Mathf.Lerp(start,target,Mathf.SmoothStep(0,1,Mathf.Clamp01(elapsed/Mathf.Max(.01f,seconds))));
+            yield return null;
+        }
+        sleepFade.alpha=target;
+    }
+
+    void EnsureSleepFade()
+    {
+        if(sleepFade!=null)return;
+        var overlay=new GameObject("SleepFade_Runtime",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster),typeof(CanvasGroup));
+        overlay.transform.SetParent(transform,false);
+        var canvas=overlay.GetComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.sortingOrder=5000;
+        var rect=new GameObject("Black",typeof(RectTransform),typeof(Image)).GetComponent<RectTransform>();rect.SetParent(overlay.transform,false);
+        rect.anchorMin=Vector2.zero;rect.anchorMax=Vector2.one;rect.offsetMin=rect.offsetMax=Vector2.zero;
+        rect.GetComponent<Image>().color=Color.black;
+        sleepFade=overlay.GetComponent<CanvasGroup>();sleepFade.alpha=0;
+    }
+
+    void FinishSleepTransition()
+    {
+        sleepClock?.ReleasePause(this);sleepClock=null;
+        WorldInteractionPrompt.ReleaseSuppression(this);
+        if(sleepFade!=null){sleepFade.alpha=0;sleepFade.blocksRaycasts=false;sleepFade.gameObject.SetActive(false);}
     }
 
     IEnumerator FaintRoutine()
@@ -332,47 +397,15 @@ public sealed class PlayerLifeCycle : MonoBehaviour
 
     void RestoreBedController()
     {
-        if (!bedPoseActive) return;
-        if (bedVisualRoot != null) bedVisualRoot.localPosition = bedVisualOriginalPosition;
-        bedVisualRoot = null;
+        if(!bedPoseActive)return;
+        bedSitPose?.End();
         movement?.FinishBedWakeAnimation();
-        if (characterController != null) characterController.enabled = bedControllerWasEnabled;
-        bedPoseActive = false;
-    }
-
-    void AlignWakePoseToMattress(Transform pose)
-    {
-        var bed = pose.GetComponentInParent<PlayerBed>();
-        if (bed == null || !bed.TryGetMattressSurface(pose.position, out float mattressHeight)) return;
-        var visual = movement != null && movement.CharacterAnimator != null ? movement.CharacterAnimator.transform : null;
-        while (visual != null && visual.parent != transform) visual = visual.parent;
-        if (visual == null) return;
-        bedVisualRoot = visual;
-        bedVisualOriginalPosition = visual.localPosition;
-        // Root gameplay tetap di kasur; offset animasi impor hanya diterapkan pada visual.
-        // Ini menjaga target kamera dan koordinat player tidak ikut tenggelam bersama offset clip.
-        PlaceAt(new Vector3(transform.position.x, mattressHeight, transform.position.z), transform.rotation);
-        var bones = movement.CharacterAnimator.GetComponentsInChildren<Transform>();
-        Transform FindBone(string name)
-        {
-            foreach (var bone in bones)
-                if (bone.name == "mixamorig:" + name || bone.name == name) return bone;
-            return null;
-        }
-        var spine = FindBone("Spine");
-        var head = FindBone("Head");
-        var leftFoot = FindBone("LeftFoot");
-        var rightFoot = FindBone("RightFoot");
-        if (spine == null || head == null || leftFoot == null || rightFoot == null) return;
-        // Titik tubuh aktual menghindari vertex kontrol/outlier dari rig ekspor.
-        // Tengah kepala-kaki dipakai untuk X/Z; punggung diberi ruang sesuai tebal badan.
-        Vector3 center = (head.position + (leftFoot.position + rightFoot.position) * .5f) * .5f;
-        visual.position += new Vector3(pose.position.x - center.x,
-            mattressHeight + PlayerDimensions.Height * .075f - spine.position.y, pose.position.z - center.z);
+        if(characterController!=null)characterController.enabled=bedControllerWasEnabled;
+        bedPoseActive=false;
     }
 
     /// <summary>Ground the capsule on the house foundation and keep it clear of beds, furniture and walls.</summary>
-    public static bool TryResolveStandingPoint(Vector3 preferred, CharacterController controller, Transform houseRoot, out Vector3 result)
+    public static bool TryResolveStandingPoint(Vector3 preferred, CharacterController controller, Transform houseRoot, out Vector3 result, bool searchNearby = true)
     {
         result = preferred;
         if(controller == null) return false;
@@ -380,21 +413,23 @@ public sealed class PlayerLifeCycle : MonoBehaviour
         float radius = controller.radius * Mathf.Max(Mathf.Abs(controller.transform.lossyScale.x), Mathf.Abs(controller.transform.lossyScale.z));
         float height = Mathf.Max(radius * 2, controller.height * scale);
         Vector3 center = Vector3.Scale(controller.center, controller.transform.lossyScale);
-        for(int ring=0; ring<=3; ring++)
+        for(int ring=0; ring<=(searchNearby?3:0); ring++)
         for(int direction=0; direction<(ring==0?1:8); direction++)
         {
             float angle=direction*Mathf.PI*.25f;
             Vector3 candidate=preferred+new Vector3(Mathf.Cos(angle),0,Mathf.Sin(angle))*ring*1.1f;
             foreach(var hit in Physics.RaycastAll(candidate+Vector3.up*4,Vector3.down,12,~0,QueryTriggerInteraction.Ignore))
             {
-                if(hit.normal.y<.8f || hit.collider.GetComponentInParent<PlayerController>()!=null)continue;
+                if(hit.normal.y<.8f || hit.collider.GetComponentInParent<PlayerController>()!=null ||
+                    hit.collider.GetComponentInParent<PlayerBed>()!=null)continue;
+                if(houseRoot==null&&hit.point.y>preferred.y+.35f)continue;
                 if(houseRoot!=null && (!hit.collider.transform.IsChildOf(houseRoot) ||
                     (hit.collider.name!="ContinuousFloorCollider" && hit.collider.name!="ContinuousFloorCollider_Editable")))continue;
                 candidate.y=hit.point.y+height*.5f-center.y+controller.skinWidth+.04f;
                 Vector3 capsuleCenter=candidate+center;
                 bool blocked=false;
                 foreach(var obstacle in Physics.OverlapCapsule(capsuleCenter+Vector3.up*(height*.5f-radius),capsuleCenter-Vector3.up*(height*.5f-radius),radius,~0,QueryTriggerInteraction.Ignore))
-                    if(obstacle.GetComponentInParent<PlayerController>()==null){blocked=true;break;}
+                    if(obstacle!=controller&&!obstacle.transform.IsChildOf(controller.transform)){blocked=true;break;}
                 if(blocked)continue;
                 result=candidate;return true;
             }
@@ -404,16 +439,23 @@ public sealed class PlayerLifeCycle : MonoBehaviour
 
     void SetGameplayEnabled(bool enabledState)
     {
-        if (movement != null)
+        if(!enabledState)
         {
-            if (enabledState)
-                movement.ReleaseMovementLock(this);
-            else
-                movement.AcquireMovementLock(this);
+            if(gameplaySuspended)return;
+            gameplaySuspended=true;
+            farmingWasEnabled=farmingTool!=null&&farmingTool.enabled;
+            seedWasEnabled=seedTool!=null&&seedTool.enabled;
+            movement?.AcquireMovementLock(this);
+            if(farmingTool!=null)farmingTool.enabled=false;
+            if(seedTool!=null)seedTool.enabled=false;
         }
-        if (farmingTool != null)
-            farmingTool.enabled = enabledState;
-        if (seedTool != null)
-            seedTool.enabled = enabledState;
+        else
+        {
+            movement?.ReleaseMovementLock(this);
+            if(!gameplaySuspended)return;
+            gameplaySuspended=false;
+            if(farmingTool!=null)farmingTool.enabled=farmingWasEnabled;
+            if(seedTool!=null)seedTool.enabled=seedWasEnabled;
+        }
     }
 }

@@ -189,19 +189,39 @@ public sealed class AnimalManureSystem : MonoBehaviour
            visual==null || !visual.activeSelf || Vector3.Distance(player.transform.position,visual.transform.position)>(settings!=null?settings.pickupRadius:2.4f))return false;
         ItemSO item=Resources.Load<ItemSO>(drop.poultry?"Items/Materials/Poultry Manure":"Items/Materials/Livestock Manure");
         if(!StaminaBalance.Can(inventory,"clean_manure")) return false;
-        if(item==null || !inventory.Add(item,1))
+        if(item==null || !inventory.CanAdd(item,1))
         {SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh; kotoran tetap di tanah.");return false;}
-        StaminaBalance.Spend(inventory,"clean_manure");
+          if(!PlayerToolApproach.InReach(player.transform,visual.transform.position,.8f,visual.transform))
+              return PlayerToolApproach.For(player).Begin(this,()=>visual.transform.position,.8f,()=>TryCollect(id,inventory),
+                  ()=>isActiveAndEnabled&&visual!=null&&visual.activeInHierarchy&&drops.Contains(drop)&&HasPitchfork(inventory),visual.transform);
         player.FaceTowardsInteraction(visual.transform.position);player.AcquireMovementLock(this);player.PlayScoopManureAnimation();
+        player.GetComponent<PlayerHeldTools>()?.BeginWorkAction(PlayerToolType.Pitchfork,visual.transform.position,settings!=null?settings.pickupAnimationSeconds:1.1f);
         collectingPlayer=player;collecting=true;
-        drops.Remove(drop);visuals.Remove(id);Destroy(visual);
-        PlayerPickupNotification.ShowItem(inventory,item,1);
-        StartCoroutine(FinishCollection());return true;
+        StartCoroutine(FinishCollection(drop,inventory,item,visual));return true;
     }
-    IEnumerator FinishCollection()
+    IEnumerator FinishCollection(AnimalManureDropData drop,Inventory inventory,ItemSO item,GameObject visual)
     {
-        yield return new WaitForSeconds(settings!=null?settings.pickupAnimationSeconds:1.1f);
+        float duration=settings!=null?settings.pickupAnimationSeconds:1.1f;
+        // The existing scoop clip runs at 2x: hand contact is near 0.45 real seconds.
+        float contact=Mathf.Min(.45f,duration);
+        yield return new WaitForSeconds(contact);
+        if(inventory!=null && HasPitchfork(inventory) && visual!=null && visual.activeInHierarchy &&
+           StaminaBalance.Can(inventory,"clean_manure") && inventory.Add(item,1))
+        {
+            StaminaBalance.Spend(inventory,"clean_manure");
+            FarmActionEffects.Burst(FarmEffect.Hoe,visual.transform.position,radius:.15f);
+            drops.Remove(drop);visuals.Remove(drop.id);Destroy(visual);
+            PlayerPickupNotification.ShowItem(inventory,item,1);
+        }
+        if(duration>contact)yield return new WaitForSeconds(duration-contact);
         collectingPlayer?.ReleaseMovementLock(this);collectingPlayer=null;collecting=false;
+    }
+    /// <summary>Putting the fork away cancels uncommitted cleaning and releases only its movement lock.</summary>
+    public void CancelCollection(PlayerController player)
+    {
+        if(!collecting || collectingPlayer!=player)return;
+        StopAllCoroutines();collectingPlayer?.ReleaseMovementLock(this);collectingPlayer?.GetComponent<PlayerHeldTools>()?.EndWorkAction();
+        collectingPlayer=null;collecting=false;
     }
     public static AnimalManureSaveData Capture()
     {

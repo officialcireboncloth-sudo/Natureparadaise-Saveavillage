@@ -10,8 +10,11 @@ public sealed class FieldSoilVisualProfile : ScriptableObject
     [Range(0, .15f)] public float soilVariation = .055f;
     [Tooltip("Width of the field-to-terrain transition in metres.")]
     [Range(.05f, 2)] public float fieldFeather = .12f;
+    [Tooltip("Extra unhoed soil around the farming grid, in field-local metres per side. The outer terrain feather remains inside this visual border; grid, colliders and saved cells do not expand.")]
+    [Range(0, 2)] public float fieldBorderPadding = .3f;
     [Header("Tile shape (fraction of cell size)")]
-    [Range(.02f, .16f)] public float tileInset = .055f;
+    [Tooltip("Inset on each side of a hoed stamp. Adjacent tiles keep a gap of twice this fraction of cell size.")]
+    [Range(.02f, .16f)] public float tileInset = .085f;
     [Range(.02f, .2f)] public float tileFeather = .065f;
     [Range(.05f, .3f)] public float tileCornerRadius = .18f;
     [Header("Surface drying — independent of crop-care flags")]

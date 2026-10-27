@@ -59,7 +59,7 @@ public sealed class CarpenterNPC : MonoBehaviour
         else if (PlayerInteractionTarget.PressPrompt(this, confirmHouseUpgradeKey))
             ConfirmHouseUpgrade();
         else if (PlayerInteractionTarget.PressPrompt(this, propertyInformationKey))
-            SaveLoadFeedback.Instance?.ShowMessage("Tutup menu Carpenter lalu tekan B untuk membuka Build Menu Player");
+            SaveLoadFeedback.Instance?.ShowMessage("Pembangunan Barn dan Coop tersedia di Lumber Store → Bangun");
     }
 
     void DrawMenuPrompt(float distance)
@@ -78,7 +78,7 @@ public sealed class CarpenterNPC : MonoBehaviour
         WorldInteractionPrompt.Request(
             this,
             transform,
-            $"CARPENTER\n{houseLine}\n{confirmHouseUpgradeKey}: Upgrade House  {propertyInformationKey}: Farm Building  {closeKey}: Tutup",
+            $"CARPENTER\n{houseLine}\nKandang: Lumber Store → Bangun\n{confirmHouseUpgradeKey}: Upgrade House  {closeKey}: Tutup",
             distance,
             promptHeight);
     }

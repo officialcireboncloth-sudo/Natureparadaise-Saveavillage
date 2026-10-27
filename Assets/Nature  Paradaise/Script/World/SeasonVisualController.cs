@@ -243,6 +243,7 @@ public sealed class SeasonVisualController : MonoBehaviour
         profile.snowAmount = snow;
         profile.sunMultiplier = sun;
         profile.ambientMultiplier = ambient;
+        if (season == CropSeason.Summer) { profile.sunriseHour = 5.25f; profile.sunsetHour = 19.25f; }
         bySeason[season] = profile;
     }
 

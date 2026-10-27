@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public static class MarketStandSetupUtility
 {
     const string MapScenePath = "Assets/Nature  Paradaise/Map/Scenes/World/Map.unity";
-    const string VisualPrefabPath = "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Market Presets/TFP_Produce_Stand_Preset_01.prefab";
+    const string VisualPrefabPath = MarketStandArtSetup.VisualPath;
     const string WorldPrefabFolder = "Assets/Nature  Paradaise/Prefabs/World";
     const string MarketStandPrefabPath = WorldPrefabFolder + "/MarketStand.prefab";
     [MenuItem("Nature Paradise/Market/Setup Market Stand In Main Map")]
@@ -59,12 +59,13 @@ public static class MarketStandSetupUtility
 
         GameObject root = new("MarketStand");
         root.AddComponent<MarketStand>();
+        var settings=new SerializedObject(root.GetComponent<MarketStand>());settings.FindProperty("normalizeAtlasWorldScale").boolValue=true;settings.ApplyModifiedPropertiesWithoutUndo();
         BoxCollider collider = root.AddComponent<BoxCollider>();
-        collider.center = new Vector3(0f, 1.15f, 0f);
-        collider.size = new Vector3(3.4f, 2.3f, 2.3f);
+        collider.center = new Vector3(0f, .54f, 0f)*MarketStandArtSetup.VisualScale;
+        collider.size = new Vector3(3.3f, 1.08f, 1.4f)*MarketStandArtSetup.VisualScale;
 
         GameObject visualInstance = (GameObject)PrefabUtility.InstantiatePrefab(visual, root.transform);
-        visualInstance.name = "Visual_ToonFarm_ProduceStand";
+        visualInstance.name = "Visual_AtlasMarketStand";
         visualInstance.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         visualInstance.transform.localScale = Vector3.one;
 

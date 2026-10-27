@@ -94,9 +94,10 @@ public sealed class MainMenuController : MonoBehaviour
 
     void Update()
     {
+        if (loading) return;
         if (responsiveLayout && (lastLayoutScreen.x != Screen.width || lastLayoutScreen.y != Screen.height))
             ApplyResponsiveLayout();
-        if (Input.GetKeyDown(KeyCode.Escape)) Back();
+        if (!SaveSlotMenu.IsOpen && !GameplayInput.ConsumedThisFrame && Input.GetKeyDown(KeyCode.Escape)) Back();
     }
 
     void ApplyResponsiveLayout()
@@ -250,25 +251,37 @@ public sealed class MainMenuController : MonoBehaviour
 
     void RequestNewGame()
     {
-        if (SaveManager.SaveExists()) Show(overwritePanel, overwriteCancelButton);
-        else ConfirmNewGame();
+        if (loading) return;
+        SaveSlotMenu.Show(SaveSlotMenuMode.NewGame, slot =>
+        {
+            if (this == null || loading) return;
+            SaveManager.DeleteSaveFile(slot);
+            SaveSlots.Select(slot);
+            StartCoroutine(Launch(false));
+        });
     }
 
     void ConfirmNewGame()
     {
-        SaveManager.DeleteSaveFile();
-        StartCoroutine(Launch(false));
+        RequestNewGame();
     }
 
     void LoadGame()
     {
-        if (SaveManager.SaveExists()) StartCoroutine(Launch(true));
+        if (loading) return;
+        SaveSlotMenu.Show(SaveSlotMenuMode.Load, slot =>
+        {
+            if (this != null && !loading) StartCoroutine(Launch(true, slot));
+        });
     }
 
-    IEnumerator Launch(bool loadSave)
+    IEnumerator Launch(bool loadSave, int slot = 0)
     {
         if (loading) yield break;
         loading = true;
+        LoadingScreen.Show(this);
+        try
+        {
         Canvas canvas = GetComponentInChildren<Canvas>();
         if (canvas != null) canvas.enabled = false;
         DontDestroyOnLoad(gameObject);
@@ -286,10 +299,20 @@ public sealed class MainMenuController : MonoBehaviour
         if (loadSave)
         {
             SaveManager manager = SaveManager.Instance != null ? SaveManager.Instance : FindFirstObjectByType<SaveManager>();
-            manager?.LoadGame();
+            manager?.LoadFromSlot(slot > 0 ? slot : SaveSlots.ActiveSlot);
+            while (manager != null && manager.IsLoading) yield return null;
+        }
+        yield return null;
+        }
+        finally
+        {
+            LoadingScreen.Hide(this);
+            loading = false;
         }
         Destroy(gameObject);
     }
+
+    void OnDestroy() => LoadingScreen.Hide(this);
 
     void ExitDesktop()
     {

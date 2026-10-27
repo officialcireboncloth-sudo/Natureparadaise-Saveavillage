@@ -14,7 +14,7 @@ MonoBehaviour:
   itemId: item.wood
   m_EditorClassIdentifier: 
   itemName: Wood
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: a86bff73c9864e80b0a12628fbb44f1b, type: 3}
   buyPrice: 0
   sellPrice: 4
   category: 3

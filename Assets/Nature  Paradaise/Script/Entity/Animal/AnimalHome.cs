@@ -49,6 +49,8 @@ public sealed class AnimalHome : MonoBehaviour
     public int FeedingSlotCapacity => Capacity;
     public bool Available => site == null || (site.CurrentLevel > 0 && site.State != BuildingConstructionState.Available && Kind != AnimalHousingKind.None);
     public int Fodder => fodderStock;
+    public FeedKind RequiredFeedKind=>FeedTypes.ForHousing(Kind);
+    public ItemSO FeedItem=>FeedTypes.Item(RequiredFeedKind);
     public int Grass => grassStock;
     public int TotalFeed => fodderStock + grassStock;
     public int FeedSpace => Mathf.Max(0, FeedingSlotCapacity - TotalFeed);
@@ -216,7 +218,7 @@ public sealed class AnimalHome : MonoBehaviour
     }
     public bool Deposit(Inventory source, int amount)
     {
-        ItemSO feed = AnimalCareCatalog.Load()?.fodder;
+        ItemSO feed = FeedItem;
         int accepted = source == null || feed == null || amount <= 0
             ? 0
             : Mathf.Min(1, FeedSpace, source.GetCount(feed));
@@ -228,7 +230,7 @@ public sealed class AnimalHome : MonoBehaviour
     }
 
     /// <summary>
-    /// Memindahkan Grass mentah atau Animal Feed dari slot inventory tertentu ke trough.
+    /// Memindahkan satu pakan olahan sesuai jenis kandang dari slot inventory tertentu.
     /// Nilai balik adalah jumlah yang benar-benar masuk setelah dibatasi kapasitas.
     /// </summary>
     public int DepositFromSlot(Inventory source, int slotIndex, int amount)
@@ -237,29 +239,18 @@ public sealed class AnimalHome : MonoBehaviour
         if (stack?.item == null || stack.count <= 0 || amount <= 0 || FeedSpace <= 0)
             return 0;
 
-        bool processed = IsProcessedFeed(stack.item);
-        bool rawGrass = IsRawGrass(stack.item);
-        if (!processed && !rawGrass) return 0;
+        if (!Available || !AcceptsFeedItem(stack.item)) return 0;
 
         // Satu interaksi mengisi tepat satu kompartemen trough.
         int accepted = Mathf.Min(1, stack.count, FeedSpace);
         if (accepted <= 0 || !StaminaBalance.Can(source,"feed_animal",accepted) || !source.RemoveFromSlot(slotIndex, accepted)) return 0;
         StaminaBalance.Spend(source,"feed_animal",accepted);
-        if (processed) fodderStock += accepted;
-        else grassStock += accepted;
+        fodderStock += accepted;
         PrepareHousedAnimals();
         return accepted;
     }
 
-    public bool AcceptsFeedItem(ItemSO item) => IsProcessedFeed(item) || IsRawGrass(item);
-
-    static bool IsProcessedFeed(ItemSO item)
-    {
-        ItemSO configured = AnimalCareCatalog.Load()?.fodder;
-        return item != null && (item == configured || item.itemId == "item.animal_feed");
-    }
-
-    static bool IsRawGrass(ItemSO item) => item != null && item.itemId == "item.grass";
+    public bool AcceptsFeedItem(ItemSO item) => RequiredFeedKind!=FeedKind.None && FeedTypes.Kind(item)==RequiredFeedKind;
 
     void PrepareHousedAnimals()
     {
@@ -275,6 +266,8 @@ public sealed class AnimalHome : MonoBehaviour
         fodderStock += accepted;
         return accepted;
     }
+    /// <summary>Typed automated transfer; machines and silos cannot send a different feed to this home.</summary>
+    public int StoreFeed(int amount,FeedKind kind)=>kind==RequiredFeedKind?StoreFeed(amount):0;
 
     /// <summary>Mengisi satu kompartemen trough dari pakan yang diangkut player.</summary>
     public bool StoreCarriedFeedUnit()
@@ -288,7 +281,7 @@ public sealed class AnimalHome : MonoBehaviour
     {
         ItemSO feed = rawGrass
             ? Resources.Load<ItemSO>("Items/Materials/Grass")
-            : AnimalCareCatalog.Load()?.fodder;
+            : FeedItem;
         int stock = rawGrass ? grassStock : fodderStock;
         if (target == null || stock <= 0 || feed == null || !target.Add(feed, stock)) return false;
         if (rawGrass) grassStock = 0;

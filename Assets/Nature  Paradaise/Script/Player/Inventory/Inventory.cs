@@ -31,6 +31,23 @@ public class Inventory : MonoBehaviour
     public int HotbarSlotCount => Mathf.Clamp(hotbarSlotCount, 1, 8);
     public int Capacity => MainCapacity + HotbarSlotCount;
     public int BackpackLevel => backpackLevel;
+    public bool HasStarterPitchfork { get; private set; }
+    /// <summary>Capacity used to validate an incoming save without resizing the live inventory.</summary>
+    public int CapacityAtBackpackLevel(int level) => Mathf.Max(8,baseBagSlotCount)+GetBackpackBonus(level)+HotbarSlotCount;
+
+    /// <summary>Commits a fully resolved save in one notification, preserving stacks larger than a newer limit by splitting them beforehand.</summary>
+    public void RestoreContents(int level,List<ItemStack> restored)
+    {
+        int targetLevel=Mathf.Clamp(level,0,maximumBackpackLevel);
+        if(restored==null || restored.Count!=CapacityAtBackpackLevel(targetLevel))throw new ArgumentException("Invalid prepared inventory capacity.");
+        foreach(var stack in restored)
+            if(stack!=null && (stack.item==null || stack.count<=0 || stack.count>stack.item.StackLimit))throw new ArgumentException("Invalid prepared inventory stack.");
+        backpackLevel=targetLevel;
+        slots=new List<ItemStack>(restored);
+        foreach(var stack in slots)if(stack!=null)stack.fishWeightKg=NormalizeFishWeight(stack.item,stack.fishSizeCm,stack.fishWeightKg);
+        NormalizeSlots();
+        OnInventoryChanged?.Invoke();
+    }
     public int UsedSlots
     {
         get
@@ -59,7 +76,25 @@ public class Inventory : MonoBehaviour
         // Beberapa komponen legacy menormalisasi inventory pada Awake. Jalankan
         // sekali lagi setelah seluruh Awake selesai agar loadout game baru stabil.
         GrantStartingHotbarIfEmpty();
+        RestoreStarterPitchfork(HasStarterPitchfork);
         OnInventoryChanged?.Invoke();
+    }
+
+    /// <summary>One-time starter/migration grant; owned or stored pitchforks are never duplicated.</summary>
+    public void RestoreStarterPitchfork(bool alreadyGranted)
+    {
+        HasStarterPitchfork = alreadyGranted;
+        if (alreadyGranted || GetComponent<PlayerController>() == null) return;
+        var fork = Resources.Load<ItemSO>("Items/Tools/Pitchfork Tool");
+        if (fork == null) return;
+        if (GetCount(fork) > 0) { HasStarterPitchfork = true; return; }
+        foreach (var entry in ToolStorageService.Entries)
+            if (entry != null && entry.item == fork && entry.count > 0) { HasStarterPitchfork = true; return; }
+        foreach (var entry in HouseStorageService.Entries)
+            if (entry != null && entry.item == fork && entry.count > 0) { HasStarterPitchfork = true; return; }
+        // Mark before Add publishes inventory events; a full bag keeps the migration pending.
+        HasStarterPitchfork = true;
+        if (!Add(fork, 1)) HasStarterPitchfork = false;
     }
 
     /// <summary>

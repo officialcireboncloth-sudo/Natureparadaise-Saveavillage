@@ -145,8 +145,16 @@ public sealed class ShippingBin : MonoBehaviour
         float distance = Vector3.Distance(playerInventory.transform.position, transform.position);
         WorldInteractionPrompt.Request(this, transform,
             $"{interactKey}: Shipping Bin | {PendingItemCount} item | Est. {PendingEstimatedValue} G",
-            distance, promptHeight);
+            distance, promptHeight, OpenFromPrompt);
         if (PlayerInteractionTarget.PressPrompt(this, interactKey)) OpenPanel();
+    }
+
+    void OpenFromPrompt()
+    {
+        ResolveInventory();
+        var movement=playerInventory!=null?playerInventory.GetComponent<PlayerController>():null;
+        if(playerInventory!=null&&!WorldInteractionPrompt.IsSuppressed&&
+            (movement==null||!movement.IsMovementLocked)&&PlayerInteractionTarget.Contains(playerInventory.transform,transform))OpenPanel();
     }
 
     public void RequestDeposit(int slotIndex, int amount)
@@ -314,10 +322,12 @@ public sealed class ShippingBin : MonoBehaviour
         if(panelOpen || GameplayPauseMenu.BlocksGameplayInput)return;
         ResolveInventory();feedback=string.Empty;StorageChestUI.Show(this);
         panelOpen=StorageChestUI.Instance!=null&&StorageChestUI.Instance.Bin==this;
+        GetComponentInChildren<ShippingBinPresentation>(true)?.SetOpen(panelOpen);
     }
     public void ClosePanel()
     {
         panelOpen=false;ClearConfirmation();
+        GetComponentInChildren<ShippingBinPresentation>(true)?.SetOpen(false);
         if(StorageChestUI.Instance!=null&&StorageChestUI.Instance.Bin==this)StorageChestUI.Instance.Close();
         GameplayInput.ConsumeCurrentFrame();
     }

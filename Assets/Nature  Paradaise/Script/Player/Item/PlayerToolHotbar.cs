@@ -16,7 +16,8 @@ public enum PlayerToolType
     FishingRod,
     CropBooster,
     Shears,
-    Pitchfork
+    Pitchfork,
+    Milker
 }
 
 [DisallowMultipleComponent]
@@ -50,14 +51,14 @@ public sealed class PlayerToolHotbar : MonoBehaviour
     void Update()
     {
         if (!allowDebugToolShortcuts) return;
-        if (GameplayInput.GetKeyDown(hoeKey)) SelectTool(PlayerToolType.Hoe);
-        else if (GameplayInput.GetKeyDown(seedKey)) SelectTool(PlayerToolType.Seed);
-        else if (GameplayInput.GetKeyDown(waterKey)) SelectTool(PlayerToolType.WateringCan);
-        else if (GameplayInput.GetKeyDown(fertilizerKey)) SelectTool(PlayerToolType.Fertilizer);
-        else if (GameplayInput.GetKeyDown(sickleKey)) SelectTool(PlayerToolType.Sickle);
-        else if (GameplayInput.GetKeyDown(hammerKey)) SelectTool(PlayerToolType.Hammer);
-        else if (GameplayInput.GetKeyDown(axeKey)) SelectTool(PlayerToolType.Axe);
-        else if (GameplayInput.GetKeyDown(cropBoosterKey)) SelectTool(PlayerToolType.CropBooster);
+        if (GameplayInput.GetKeyDown(hoeKey)) ToggleTool(PlayerToolType.Hoe);
+        else if (GameplayInput.GetKeyDown(seedKey)) ToggleTool(PlayerToolType.Seed);
+        else if (GameplayInput.GetKeyDown(waterKey)) ToggleTool(PlayerToolType.WateringCan);
+        else if (GameplayInput.GetKeyDown(fertilizerKey)) ToggleTool(PlayerToolType.Fertilizer);
+        else if (GameplayInput.GetKeyDown(sickleKey)) ToggleTool(PlayerToolType.Sickle);
+        else if (GameplayInput.GetKeyDown(hammerKey)) ToggleTool(PlayerToolType.Hammer);
+        else if (GameplayInput.GetKeyDown(axeKey)) ToggleTool(PlayerToolType.Axe);
+        else if (GameplayInput.GetKeyDown(cropBoosterKey)) ToggleTool(PlayerToolType.CropBooster);
     }
 
     /// <summary>True satu frame saat input penggunaan untuk tool aktif diterima.</summary>
@@ -92,8 +93,44 @@ public sealed class PlayerToolHotbar : MonoBehaviour
         if (selectedTool == tool)
             return;
         selectedTool = tool;
+        mobileUsePending = false;
         SelectionChanged?.Invoke(tool);
-        SaveLoadFeedback.Instance?.ShowMessage($"Tool: {GetDisplayName(tool)}");
+    }
+
+    /// <summary>User selection toggles the current tool off; programmatic SelectTool remains idempotent.</summary>
+    public void ToggleTool(PlayerToolType tool)
+    {
+        var inventoryHotbar = GetComponent<InventoryHotbarUI>();
+        if (tool == PlayerToolType.None || tool == selectedTool)
+        {
+            if (inventoryHotbar != null) inventoryHotbar.ClearSelection();
+            else { CancelCurrentAction(); SelectTool(PlayerToolType.None); }
+            return;
+        }
+        var inventory = GetComponent<Inventory>();
+        if (inventoryHotbar != null && inventory != null)
+            for (int i = 0; i < inventory.HotbarSlotCount; i++)
+                if (inventory.GetSlot(i)?.item?.equippedTool == tool)
+                { inventoryHotbar.SelectSlot(i); return; }
+        CancelCurrentAction();
+        SelectTool(tool);
+    }
+
+    /// <summary>Stops pending tool contacts and releases only action-owned locks when putting tools away.</summary>
+    public void CancelCurrentAction()
+    {
+        mobileUsePending = false;
+        GetComponent<PlayerToolApproach>()?.Cancel();
+        GetComponent<FarmingTool>()?.CancelAction();
+        GetComponent<SeedTool>()?.CancelAction();
+        GetComponent<PlayerGatheringTool>()?.CancelAction();
+        var movement = GetComponent<PlayerController>();
+        AnimalManureSystem.Instance?.CancelCollection(movement);
+        var care = AnimalController.CurrentCareAction;
+        if (movement != null && care != null && care.CarePlayer == movement) care.CancelCareAction(false);
+        GetComponent<FishingSystem>()?.CancelToolUse();
+        GetComponent<PlayerHeldTools>()?.EndWorkAction();
+        movement?.CancelToolAnimation();
     }
 
     // Untuk Unity Button mobile.
@@ -101,10 +138,10 @@ public sealed class PlayerToolHotbar : MonoBehaviour
     public void SelectToolByIndex(int toolIndex)
     {
         if (Enum.IsDefined(typeof(PlayerToolType), toolIndex))
-            SelectTool((PlayerToolType)toolIndex);
+            ToggleTool((PlayerToolType)toolIndex);
     }
 
-    public void RequestUseTool() => mobileUsePending = true;
+    public void RequestUseTool(){if(GetComponent<PlayerToolApproach>()?.IsActive!=true)mobileUsePending=true;}
 
     public static string GetDisplayName(PlayerToolType tool)
     {
@@ -121,7 +158,8 @@ public sealed class PlayerToolHotbar : MonoBehaviour
             PlayerToolType.CropBooster => "Crop Booster",
             PlayerToolType.Shears => "Shears",
             PlayerToolType.Pitchfork => "Garpu",
-            _ => "Empty"
+            PlayerToolType.Milker => "Milker",
+            _ => "Tangan Kosong"
         };
     }
 }

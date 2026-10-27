@@ -170,13 +170,13 @@ public sealed class WorldTree : MonoBehaviour
     }
 
     /// <summary>Menerapkan satu pukulan kapak jika level tool memenuhi syarat.</summary>
-    public bool Chop(int axeLevel)
+    public bool Chop(int axeLevel,Vector3? impactPoint=null)
     {
         if (!IsAvailable || axeLevel < minimumAxeLevel) return false;
         if (state == TreeGrowthState.Standing && definition != null && !progress.Mature(definition)) return false;
         durability = Mathf.Max(0, durability - Mathf.Max(1, damagePerHit));
+        FarmActionEffects.Burst(FarmEffect.Axe,impactPoint??transform.position+Vector3.up*.6f,sound:axeImpactSound==null);
         if (axeImpactSound != null) GameAudio.PlayClipAtPoint(axeImpactSound, transform.position, GameAudioBus.Main);
-        if (woodChipParticles != null) woodChipParticles.Play();
         if (durability > 0 && state == TreeGrowthState.Standing && standingVisual != null)
             StartCoroutine(ShakeRoutine());
         if (durability <= 0)
@@ -203,18 +203,29 @@ public sealed class WorldTree : MonoBehaviour
         Quaternion start = standingVisual != null ? standingVisual.localRotation : Quaternion.identity;
         Quaternion end = start * Quaternion.Euler(0f, 0f, fallAngle);
         float elapsed = 0f;
+        float nextLeaves=.18f;
         while (standingVisual != null && elapsed < fallDuration)
         {
             elapsed += Time.deltaTime;
             standingVisual.localRotation = Quaternion.Slerp(start, end, Mathf.Clamp01(elapsed / fallDuration));
+            if(elapsed>=nextLeaves)
+            {
+                Vector3 crown=standingRenderers!=null&&standingRenderers.Length>0&&standingRenderers[0]!=null?standingRenderers[0].bounds.center:standingVisual.position+Vector3.up;
+                FarmActionEffects.Burst(FarmEffect.FallingLeaves,crown,radius:.7f,sound:false);
+                nextLeaves+=.18f;
+            }
             yield return null;
         }
+
+        Vector3 contact=standingRenderers!=null&&standingRenderers.Length>0&&standingRenderers[0]!=null?standingRenderers[0].bounds.center:transform.position;
+        contact.y=transform.position.y+.03f;
 
         // Fallback untuk tree lama yang mesh-nya berada langsung pada root. Root gameplay
         // harus kembali tegak agar collider dan visual tunggul tidak ikut rebah.
         if (standingVisual == transform)
             standingVisual.localRotation = standingRestRotation;
 
+        FarmActionEffects.Burst(FarmEffect.TreeFall,contact,radius:.85f,sound:fallingSound==null);
         CompleteFall();
     }
 
@@ -239,11 +250,8 @@ public sealed class WorldTree : MonoBehaviour
             ScheduleRespawn();
         }
         ApplyStateVisual();
-        int dropped = SpawnWood(standingWoodMinimum, standingWoodMaximum, standingDropRadius);
-        if (dropped > 0)
-            SaveLoadFeedback.Instance?.ShowMessage(state == TreeGrowthState.Depleted
-                ? $"Pohon ditebang: Wood x{dropped}."
-                : $"Pohon tumbang: Wood x{dropped}. Tunggul memberi kayu bonus.");
+        // The shared pickup toast reports wood only after it enters the inventory.
+        SpawnWood(standingWoodMinimum, standingWoodMaximum, standingDropRadius);
     }
 
     void DepleteStump()
@@ -252,9 +260,7 @@ public sealed class WorldTree : MonoBehaviour
         ScheduleRespawn();
         SetHighlighted(false);
         ApplyStateVisual();
-        int dropped = SpawnWood(stumpWoodMinimum, stumpWoodMaximum, stumpDropRadius);
-        if (dropped > 0)
-            SaveLoadFeedback.Instance?.ShowMessage($"Tunggul hancur: Wood bonus x{dropped}");
+        SpawnWood(stumpWoodMinimum, stumpWoodMaximum, stumpDropRadius);
     }
 
     int SpawnWood(int minimum, int maximum, float radius)

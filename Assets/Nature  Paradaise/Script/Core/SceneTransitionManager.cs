@@ -3,6 +3,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+[System.Serializable]
+public sealed class PlayerLocationSaveData
+{
+    public bool insideInterior;
+    public string interiorScene,entrySpawnId,animalHomeId;
+    public Vector3 localPosition,localEuler,worldPosition,worldEuler;
+}
+
 /// <summary>
 /// Transisi asynchronous antara world dan interior. Interior dimuat additive agar seluruh
 /// state world yang belum disimpan tidak reset; API portal tetap kompatibel dengan streaming nanti.
@@ -25,11 +33,103 @@ public sealed class SceneTransitionManager : MonoBehaviour
     Vector3 returnPosition;
     Quaternion returnRotation;
     string loadedInteriorScene;
+    string loadedInteriorSpawnId;
     bool transitioning;
 
     public bool IsTransitioning => transitioning;
-    public bool IsInsideInterior => !string.IsNullOrEmpty(loadedInteriorScene);
-    public string CurrentInteriorSceneName => loadedInteriorScene;
+    // A new-game/Continue single-scene launch can unload the previous visit while this service survives.
+    public bool IsInsideInterior => !string.IsNullOrEmpty(loadedInteriorScene) && SceneManager.GetSceneByName(loadedInteriorScene).isLoaded;
+    public string CurrentInteriorSceneName => IsInsideInterior ? loadedInteriorScene : null;
+
+    /// <summary>Saves the exact pose relative to the interior entrance, retaining the exterior return pose independently.</summary>
+    public PlayerLocationSaveData CaptureLocation(Transform actor)
+    {
+        var data=new PlayerLocationSaveData{worldPosition=actor.position,worldEuler=actor.eulerAngles};
+        if(!IsInsideInterior)return data;
+        data.worldPosition=returnPosition;data.worldEuler=returnRotation.eulerAngles;
+        if(!PlayerSpawnPoint.TryGet(loadedInteriorSpawnId,out var anchor) || anchor.gameObject.scene.name!=loadedInteriorScene)return data;
+        data.insideInterior=true;data.interiorScene=loadedInteriorScene;data.entrySpawnId=loadedInteriorSpawnId;
+        data.localPosition=anchor.transform.InverseTransformPoint(actor.position);
+        data.localEuler=(Quaternion.Inverse(anchor.transform.rotation)*actor.rotation).eulerAngles;
+        var barn=BarnInteriorSceneController.Instance;
+        if(barn!=null && barn.gameObject.scene.name==loadedInteriorScene && BarnInterior.Current!=null)
+            data.animalHomeId=BarnInterior.Current.home?.Id;
+        return data;
+    }
+
+    /// <summary>Loads the saved room before restoring its local pose; an exterior save leaves any currently open room.</summary>
+    public IEnumerator RestoreLocation(PlayerLocationSaveData data)
+    {
+        while(transitioning)yield return null;
+        transitioning=true;ResolvePlayer();
+        if(player==null){transitioning=false;yield break;}
+        player.AcquireMovementLock(this);TimeManager.Instance?.AcquirePause(this);
+        try
+        {
+        yield return Fade(1);
+        bool inside=data.insideInterior && !string.IsNullOrEmpty(data.interiorScene);
+        var existing=inside?SceneManager.GetSceneByName(data.interiorScene):default;
+        if(inside && (!existing.IsValid() || !existing.isLoaded) && !Application.CanStreamedLevelBeLoaded(data.interiorScene))
+        {inside=false;SaveLoadFeedback.Instance?.ShowMessage("Interior save belum tersedia; kembali ke lokasi terakhir di luar.");}
+        BarnInterior.ResetVisit();
+        if(inside && !string.IsNullOrEmpty(data.animalHomeId) && !BarnInterior.RestoreVisit(data.animalHomeId,data.worldPosition))
+            inside=false;
+        if(IsInsideInterior && (!inside || loadedInteriorScene!=data.interiorScene))
+        {
+            var old=SceneManager.GetSceneByName(loadedInteriorScene);
+            if(player.gameObject.scene.IsValid())SceneManager.SetActiveScene(player.gameObject.scene);
+            MovePlayerToSpawn(string.Empty,data.worldPosition,Quaternion.Euler(data.worldEuler));
+            var unload=old.IsValid()?SceneManager.UnloadSceneAsync(old):null;
+            if(unload!=null)while(!unload.isDone)yield return null;
+            loadedInteriorScene=null;loadedInteriorSpawnId=null;
+        }
+        returnPosition=data.worldPosition;returnRotation=Quaternion.Euler(data.worldEuler);
+        if(inside)
+        {
+            var scene=SceneManager.GetSceneByName(data.interiorScene);
+            if(!scene.IsValid() || !scene.isLoaded)
+            {
+                var load=SceneManager.LoadSceneAsync(data.interiorScene,LoadSceneMode.Additive);
+                if(load!=null)while(!load.isDone)yield return null;
+                scene=SceneManager.GetSceneByName(data.interiorScene);
+            }
+            if(scene.IsValid() && scene.isLoaded)
+            {
+                loadedInteriorScene=data.interiorScene;loadedInteriorSpawnId=data.entrySpawnId;
+                SceneManager.SetActiveScene(scene);yield return null;
+                SeparateHouseFromWorld(scene);Physics.SyncTransforms();
+                BarnInteriorSceneController.Instance?.RefreshLayout();
+                if(PlayerSpawnPoint.TryGet(data.entrySpawnId,out var anchor) && anchor.gameObject.scene==scene)
+                    MovePlayerToSpawn(string.Empty,anchor.transform.TransformPoint(data.localPosition),anchor.transform.rotation*Quaternion.Euler(data.localEuler));
+                else
+                {
+                    SaveLoadFeedback.Instance?.ShowMessage("Titik interior save tidak tersedia; kembali ke lokasi terakhir di luar.");
+                    if(player.gameObject.scene.IsValid())SceneManager.SetActiveScene(player.gameObject.scene);
+                    MovePlayerToSpawn(string.Empty,returnPosition,returnRotation);
+                    var unload=SceneManager.UnloadSceneAsync(scene);if(unload!=null)while(!unload.isDone)yield return null;
+                    loadedInteriorScene=null;loadedInteriorSpawnId=null;BarnInterior.ResetVisit();
+                }
+            }
+            else
+            {
+                loadedInteriorScene=null;loadedInteriorSpawnId=null;BarnInterior.ResetVisit();
+                MovePlayerToSpawn(string.Empty,returnPosition,returnRotation);
+            }
+        }
+        else
+        {
+            if(player.gameObject.scene.IsValid())SceneManager.SetActiveScene(player.gameObject.scene);
+            MovePlayerToSpawn(string.Empty,returnPosition,returnRotation);
+        }
+        yield return Fade(0);
+        }
+        finally
+        {
+            ReleaseTransitionLocks();
+            LoadingScreen.Hide(this);
+            if(fadeCanvas!=null)fadeCanvas.gameObject.SetActive(false);
+        }
+    }
 
     /// <summary>Mengambil posisi world terakhir tanpa memindahkan player keluar dari interior.</summary>
     public bool TryGetWorldReturnPosition(out Vector3 position)
@@ -52,6 +152,7 @@ public sealed class SceneTransitionManager : MonoBehaviour
 
     void OnDestroy()
     {
+        LoadingScreen.Hide(this);
         if (Instance == this)
             Instance = null;
     }
@@ -113,7 +214,7 @@ public sealed class SceneTransitionManager : MonoBehaviour
             MovePlayerToSpawn(string.Empty, worldPosition, worldRotation);
             AsyncOperation unload = interior.IsValid() ? SceneManager.UnloadSceneAsync(interior) : null;
             if (unload != null) while (!unload.isDone) yield return null;
-            loadedInteriorScene = null;
+            loadedInteriorScene = null;loadedInteriorSpawnId=null;
         }
         else
         {
@@ -167,12 +268,13 @@ public sealed class SceneTransitionManager : MonoBehaviour
             if (world.IsValid()) SceneManager.SetActiveScene(world);
             AsyncOperation failedUnload = SceneManager.UnloadSceneAsync(interior);
             if (failedUnload != null) while (!failedUnload.isDone) yield return null;
-            loadedInteriorScene = null;
+            loadedInteriorScene = null;loadedInteriorSpawnId=null;
             yield return Fade(0f);
             ReleaseTransitionLocks();
             yield break;
         }
         SeparateHouseFromWorld(interior);
+        loadedInteriorSpawnId=targetSpawnId;
         MovePlayerToSpawn(targetSpawnId, returnPosition, returnRotation);
         yield return Fade(0f);
         ReleaseTransitionLocks();
@@ -196,7 +298,7 @@ public sealed class SceneTransitionManager : MonoBehaviour
         if (unload != null)
             while (!unload.isDone)
                 yield return null;
-        loadedInteriorScene = null;
+        loadedInteriorScene = null;loadedInteriorSpawnId=null;
 
         yield return Fade(0f);
         ReleaseTransitionLocks();
@@ -204,6 +306,7 @@ public sealed class SceneTransitionManager : MonoBehaviour
 
     void ReleaseTransitionLocks()
     {
+        LoadingScreen.Hide(this);
         player?.ReleaseMovementLock(this);
         TimeManager.Instance?.ReleasePause(this);
         transitioning = false;
@@ -320,6 +423,7 @@ public sealed class SceneTransitionManager : MonoBehaviour
 
     IEnumerator Fade(float targetAlpha)
     {
+        if (targetAlpha > .5f) LoadingScreen.Show(this);
         if (fadeImage == null)
             yield break;
         fadeCanvas.gameObject.SetActive(true);
@@ -338,6 +442,7 @@ public sealed class SceneTransitionManager : MonoBehaviour
         finalColor.a = targetAlpha;
         fadeImage.color = finalColor;
         fadeCanvas.gameObject.SetActive(targetAlpha > 0.001f);
+        if (targetAlpha <= .001f) LoadingScreen.Hide(this);
     }
 
     void BuildFadeUI()

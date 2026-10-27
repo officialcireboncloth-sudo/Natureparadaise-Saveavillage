@@ -227,6 +227,7 @@ public static class FishPondService
 [DefaultExecutionOrder(-200)]
 public sealed class FishPond : MonoBehaviour
 {
+    static readonly List<FishPond> ActivePonds=new();
     [SerializeField] string pondId;
     [SerializeField, Range(1, 3)] int fallbackLevel = 1;
     [SerializeField] ItemSO fishFeed;
@@ -237,6 +238,11 @@ public sealed class FishPond : MonoBehaviour
     [SerializeField] Transform feedingPoint;
     [SerializeField] FeedMaker feedMaker;
     [SerializeField, Min(1f)] float feedInteractionRadius = 2.4f;
+    [Header("Feed Scattering")]
+    [SerializeField,Min(.05f)] float feedScatterImpactDelay=.45f;
+    [SerializeField,Min(.1f)] float feedScatterDuration=1.2f;
+    Coroutine feedRoutine;
+    PlayerController feedingPlayer;
 
     readonly List<Transform> visualFish = new();
     readonly List<Vector3> visualOrigins = new();
@@ -278,6 +284,7 @@ public sealed class FishPond : MonoBehaviour
     void OnEnable()
     {
         if (!Application.isPlaying) return;
+        if(!ActivePonds.Contains(this))ActivePonds.Add(this);
         FishPondService.Changed += HandleChanged;
         ResolveRecord(); RebuildVisuals();
     }
@@ -285,6 +292,9 @@ public sealed class FishPond : MonoBehaviour
     void OnDisable()
     {
         if (!Application.isPlaying) return;
+        ActivePonds.Remove(this);
+        if(feedRoutine!=null)StopCoroutine(feedRoutine);
+        FinishFeeding();
         FishPondService.Changed -= HandleChanged;
         ClosePanel();
     }
@@ -308,7 +318,7 @@ public sealed class FishPond : MonoBehaviour
     {
         AnimateFish(); ResolvePlayer();
         RefreshFeedDebugLabel();
-        if (inventory == null) return;
+        if (inventory == null || feedRoutine!=null) return;
         if (panelOpen)
         {
             return;
@@ -320,7 +330,9 @@ public sealed class FishPond : MonoBehaviour
         InventoryHotbarUI hotbar=inventory.GetComponent<InventoryHotbarUI>();
         ItemStack heldStack=hotbar!=null ? hotbar.SelectedStack : null;
         bool holdingFishFeed=IsFishFeed(heldStack);
-        if (feedMaker != null && makerDistance <= feedInteractionRadius && makerDistance <= troughDistance)
+        bool holdingAnyFeed=FeedTypes.Kind(heldStack?.item)!=FeedKind.None;
+        bool feedingInRange=InFeedingRange(inventory.transform);
+        if (feedMaker != null && makerDistance <= feedInteractionRadius && makerDistance <= troughDistance && !(holdingAnyFeed&&feedingInRange))
         {
             WorldInteractionPrompt.Request(this, feedMaker.transform,
                 $"E: Kelola Fish Feed Maker\nF: Ambil 1 Fish Feed — Ready {feedMaker.FishFeedOutput}",
@@ -341,16 +353,16 @@ public sealed class FishPond : MonoBehaviour
         Transform pondTarget = exterior != null && exterior.InteractionPoint != null ? exterior.InteractionPoint : transform;
         float pondSurfaceDistance=HorizontalSurfaceDistance(pondTarget,inventory.transform.position);
         bool pondInRange=pondSurfaceDistance<=interactionRadius;
-        if(holdingFishFeed && pondInRange)
+        if(holdingAnyFeed && feedingInRange)
         {
             Transform target=feedingPoint!=null ? feedingPoint : transform;
-            float targetDistance=Mathf.Min(troughDistance,Vector3.Distance(inventory.transform.position,transform.position));
-            string action=FeedSpace>0 ? "F: Masukkan 1 Fish Feed" : "Tempat pakan ikan penuh";
+            float targetDistance=Mathf.Min(troughDistance,pondSurfaceDistance);
+            string action=FeedSpace>0 ? "F: Tabur Pakan Ikan" : "F: Tempat pakan ikan penuh";
             WorldInteractionPrompt.Request(this,target,
                 $"{action}\nTempat Pakan Ikan — {FeedStock}/{FeedCapacity} | Butuh {FeedNeeded}/hari | {FeedRemainingText()}",
-                targetDistance,1.25f);
+                targetDistance,1.25f,FeedSelected);
             if(PlayerInteractionTarget.PressPrompt(this, target, KeyCode.F))
-                DepositHeldFishFeed(hotbar,heldStack);
+                FeedSelected();
             return;
         }
         if (feedingPoint != null && troughDistance <= feedInteractionRadius && (holdingFishFeed || !pondInRange))
@@ -362,12 +374,10 @@ public sealed class FishPond : MonoBehaviour
                     : "Pilih Fish Feed di hotbar lalu tekan F";
             WorldInteractionPrompt.Request(this, feedingPoint,
                 $"{action}\nTempat Pakan Ikan — {FeedStock}/{FeedCapacity} | Butuh {FeedNeeded}/hari | {FeedRemainingText()}",
-                troughDistance, 1.25f);
+                troughDistance, 1.25f,FeedSelected);
             if (PlayerInteractionTarget.PressPrompt(this, feedingPoint, KeyCode.F))
             {
-                if(!holdingFishFeed)
-                    SaveLoadFeedback.Instance?.ShowMessage("Pilih Fish Feed dari hotbar terlebih dahulu.");
-                else DepositHeldFishFeed(hotbar,heldStack);
+                FeedSelected();
             }
             return;
         }
@@ -480,15 +490,7 @@ public sealed class FishPond : MonoBehaviour
 
     public void DepositFeed(int slotIndex, int amount)
     {
-        ItemStack stack = inventory?.GetSlot(slotIndex);
-        if (!IsFishFeed(stack) || amount <= 0) { feedback = "Hanya Fish Feed yang dapat dimasukkan."; return; }
-        int moved = Mathf.Min(1, stack.count, FeedSpace);
-        if(!StaminaBalance.Can(inventory,"feed_fish")) { feedback="Stamina tidak cukup."; return; }
-        if (moved <= 0 || !inventory.RemoveFromSlot(slotIndex, moved)) { feedback = "Tempat pakan penuh."; return; }
-        StaminaBalance.Spend(inventory,"feed_fish");
-        record.feedStock += moved;
-        feedback = $"Fish Feed x{moved} dimasukkan. Stok {FeedStock}/{FeedCapacity}.";
-        Commit();
+        if(amount>0)TryFeedFromSlot(slotIndex);
     }
 
     static float HorizontalSurfaceDistance(Transform target,Vector3 position)
@@ -511,28 +513,90 @@ public sealed class FishPond : MonoBehaviour
         return best;
     }
 
-    public bool IsFishFeed(ItemStack stack) => stack?.item!=null && stack.count>0 &&
-        (stack.item==fishFeed || stack.item.itemId=="item.fish_feed");
+    public bool IsFishFeed(ItemStack stack) => stack?.item!=null && stack.count>0 && FeedTypes.Kind(stack.item)==FeedKind.Fish;
 
-    void DepositHeldFishFeed(InventoryHotbarUI hotbar,ItemStack heldStack)
+    void FeedSelected()
     {
-        if(hotbar==null || !IsFishFeed(heldStack))
-        {
-            SaveLoadFeedback.Instance?.ShowMessage("Pilih Fish Feed dari hotbar terlebih dahulu.");
-            return;
-        }
-        if(FeedSpace<=0)
-        {
-            SaveLoadFeedback.Instance?.ShowMessage("Tempat pakan ikan penuh.");
-            return;
-        }
-        string label=heldStack.DisplayName;
-        int before=FeedStock;
-        DepositFeed(hotbar.SelectedIndex,1);
-        if(FeedStock<=before) return;
-        PlayerPickupNotification.Show(inventory.transform,$"{label} x1 → Pakan Kolam");
-        SaveLoadFeedback.Instance?.ShowMessage($"Fish Feed x1 dimasukkan. Stok {FeedStock}/{FeedCapacity}.");
+        ResolvePlayer();
+        var hotbar=inventory!=null?inventory.GetComponent<InventoryHotbarUI>():null;
+        if(hotbar!=null)TryFeedFromSlot(hotbar.SelectedIndex);
     }
+
+    /// <summary>Feeding reach is independent of facing and shared by desktop, touch and preview suppression.</summary>
+    public bool InFeedingRange(Transform actor)
+    {
+        if(!isActiveAndEnabled || actor==null || Mathf.Abs(actor.position.y-transform.position.y)>2f)return false;
+        if(site!=null && (site.CurrentLevel<=0 || site.State==BuildingConstructionState.Available))return false;
+        Transform pondTarget=exterior!=null&&exterior.InteractionPoint!=null?exterior.InteractionPoint:transform;
+        return HorizontalSurfaceDistance(pondTarget,actor.position)<=interactionRadius ||
+            feedingPoint!=null&&HorizontalSurfaceDistance(feedingPoint,actor.position)<=feedInteractionRadius;
+    }
+
+    /// <summary>Any held feed near a pond belongs to feeding, including invalid feed that must show the rejection notice.</summary>
+    public static bool UsesFeedingContext(Transform actor,ItemSO item)
+    {
+        if(FeedTypes.Kind(item)==FeedKind.None)return false;
+        foreach(var pond in ActivePonds)if(pond!=null&&pond.InFeedingRange(actor))return true;
+        return false;
+    }
+
+    /// <summary>Starts a scattering action; one fish-feed unit is committed only at the validated hand-release moment.</summary>
+    public bool TryFeedFromSlot(int slotIndex)
+    {
+        ResolvePlayer();
+        if(feedRoutine!=null || inventory==null || player==null || !InFeedingRange(player.transform) ||
+            player.HasMovementLockOtherThan(this) || WorldInteractionPrompt.IsSuppressedExcept(this) || GameplayPauseMenu.BlocksGameplayInput)return false;
+        ItemStack stack=inventory.GetSlot(slotIndex);
+        if(stack?.item!=null&&stack.count>0&&!IsFishFeed(stack))
+        {feedback=FeedTypes.WrongTypeMessage;GameplayInfoPanel.NotifyBesideTools(feedback);return false;}
+        if(!IsFishFeed(stack)){feedback="Pilih Pakan Ikan dari hotbar.";GameplayInfoPanel.Notify(feedback);return false;}
+        if(FeedSpace<=0){feedback="Tempat pakan sudah penuh";GameplayInfoPanel.NotifyBesideTools(feedback);return false;}
+        if(!StaminaBalance.Can(inventory,"feed_fish")){feedback="Stamina tidak cukup.";GameplayInfoPanel.Notify(feedback);return false;}
+        ItemSO item=stack.item;
+        ClosePanel();
+        feedRoutine=StartCoroutine(ScatterFeedRoutine(inventory,slotIndex,item));
+        return true;
+    }
+
+    System.Collections.IEnumerator ScatterFeedRoutine(Inventory source,int slotIndex,ItemSO item)
+    {
+        feedingPlayer=source.GetComponent<PlayerController>();
+        Vector3 target=exterior!=null?exterior.FeedingWaterPoint(feedingPlayer.transform.position):transform.position+Vector3.up*.3f;
+        feedingPlayer.FaceTowardsInteraction(target);
+        feedingPlayer.AcquireMovementLock(this);
+        WorldInteractionPrompt.AcquireSuppression(this);
+        source.GetComponent<HeldItemPlacementSystem>()?.SetExternalActionSuppressed(this,true);
+        feedingPlayer.PlayHandOverAnimation();
+        yield return new WaitForSeconds(Mathf.Min(feedScatterImpactDelay,feedScatterDuration));
+        ItemStack stack=source!=null?source.GetSlot(slotIndex):null;
+        bool valid=source!=null&&feedingPlayer!=null&&InFeedingRange(feedingPlayer.transform)&&
+            !feedingPlayer.HasMovementLockOtherThan(this)&&!WorldInteractionPrompt.IsSuppressedExcept(this)&&
+            stack?.item==item&&IsFishFeed(stack)&&FeedSpace>0&&StaminaBalance.Can(source,"feed_fish");
+        if(valid&&source.RemoveFromSlot(slotIndex,1))
+        {
+            StaminaBalance.Spend(source,"feed_fish");
+            record.feedStock++;
+            Commit();
+            FarmActionEffects.ScatterFeed(feedingPlayer,target);
+            feedback="Pakan Ikan x1 ditaburkan";
+            GameplayInfoPanel.Notify(feedback);
+        }
+        else {feedback="Pakan belum berhasil digunakan.";GameplayInfoPanel.Notify(feedback);}
+        yield return new WaitForSeconds(Mathf.Max(.05f,feedScatterDuration-feedScatterImpactDelay));
+        FinishFeeding();
+    }
+
+    void FinishFeeding()
+    {
+        if(feedingPlayer!=null)
+        {
+            feedingPlayer.GetComponent<HeldItemPlacementSystem>()?.SetExternalActionSuppressed(this,false);
+            feedingPlayer.ReleaseMovementLock(this);
+        }
+        WorldInteractionPrompt.ReleaseSuppression(this);
+        feedingPlayer=null;feedRoutine=null;
+    }
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]static void ResetFeedingRegistry()=>ActivePonds.Clear();
 
     void WithdrawFeed()
     {

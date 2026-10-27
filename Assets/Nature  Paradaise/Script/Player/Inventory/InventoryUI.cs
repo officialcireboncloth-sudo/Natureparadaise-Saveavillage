@@ -283,7 +283,7 @@ public sealed class InventoryUI : MonoBehaviour
     void OnSlotClicked(int index)
     {
         if(!isOpen || dialog!=null || GameplayPauseMenu.BlocksGameplayInput) return;
-        selectedIndex=index; if(index<inventory.HotbarSlotCount) hotbarUI?.SelectSlot(index); Refresh();
+        selectedIndex=index; if(index<inventory.HotbarSlotCount) hotbarUI?.ToggleSlot(index); Refresh();
     }
     public void MoveSlot(int index)
     {

@@ -19,76 +19,76 @@ MonoBehaviour:
     handPosition: {x: 0, y: 0, z: 0}
     handEuler: {x: 15.732238, y: 349.51962, z: 112.15674}
     carryHandEuler: {x: 13.53885, y: 335.4469, z: 173.17459}
-    scale: 0.544983387
+    scale: 0.5449834
     workGrip: 1
     twoHandsDuringAction: 0
     twoHandsWhileCarrying: 0
-    secondHandGrip: {x: 0, y: 0, z: 0.24999998}
+    secondHandGrip: {x: 0, y: 0, z: 0.24999999}
     carryDirection: {x: 0, y: -0.75, z: 0.66}
     actionPlaneNormal: {x: 0, y: 0, z: 0}
   - id: FishingRod
     tool: 8
     prefab: {fileID: 2838390298091415537, guid: 97737aa497c7d9a4fa1113aada7a73cc, type: 3}
-    handPosition: {x: 0.0104166683, y: 0, z: 0}
+    handPosition: {x: 0.010416668, y: 0, z: 0}
     handEuler: {x: 0, y: -90, z: 90}
     carryHandEuler: {x: 0, y: -90, z: 90}
-    scale: 0.416666733
+    scale: 0.41666675
     workGrip: 0
     twoHandsDuringAction: 1
     twoHandsWhileCarrying: 0
-    secondHandGrip: {x: 0, y: 0, z: 0.249999995}
+    secondHandGrip: {x: 0, y: 0, z: 0.25}
     carryDirection: {x: 0, y: -0.75, z: 0.66}
     actionPlaneNormal: {x: 0, y: 0, z: 0}
   - id: Shears
     tool: 10
     prefab: {fileID: 4183388848820209806, guid: 09f0e8c72ed654e459d4f518bdc7b8f7, type: 3}
-    handPosition: {x: 0.0104166683, y: 0, z: 0}
+    handPosition: {x: 0.010416668, y: 0, z: 0}
     handEuler: {x: 0, y: -90, z: 90}
     carryHandEuler: {x: 0, y: -90, z: 90}
-    scale: 0.416666738
+    scale: 0.41666675
     workGrip: 0
     twoHandsDuringAction: 1
     twoHandsWhileCarrying: 0
-    secondHandGrip: {x: 0, y: 0, z: 0.249999996}
+    secondHandGrip: {x: 0, y: 0, z: 0.25}
     carryDirection: {x: 0, y: -0.75, z: 0.66}
     actionPlaneNormal: {x: 0, y: 0, z: 0}
   - id: Brush
     tool: 0
     prefab: {fileID: 8910888139185151629, guid: a0b708b8000aed4479d8f988a49f6647, type: 3}
-    handPosition: {x: 0.0104166683, y: 0, z: 0}
+    handPosition: {x: 0.010416668, y: 0, z: 0}
     handEuler: {x: 0, y: 0, z: 180}
     carryHandEuler: {x: 0, y: -90, z: 90}
-    scale: 0.416666739
+    scale: 0.41666675
     workGrip: 0
     twoHandsDuringAction: 1
     twoHandsWhileCarrying: 0
-    secondHandGrip: {x: 0, y: 0, z: 0.249999992}
+    secondHandGrip: {x: 0, y: 0, z: 0.24999999}
     carryDirection: {x: 0, y: -0.75, z: 0.66}
     actionPlaneNormal: {x: 0, y: 0, z: 0}
   - id: Milker
-    tool: 0
+    tool: 12
     prefab: {fileID: 2407376968218229630, guid: 5c9ab5cb152bbcf4f87698cdf999c304, type: 3}
-    handPosition: {x: 0.0104166683, y: 0, z: 0}
+    handPosition: {x: 0.010416668, y: 0, z: 0}
     handEuler: {x: 0, y: 0, z: 180}
     carryHandEuler: {x: 0, y: -90, z: 90}
-    scale: 0.416666741
+    scale: 0.41666675
     workGrip: 0
     twoHandsDuringAction: 1
     twoHandsWhileCarrying: 0
-    secondHandGrip: {x: 0, y: 0, z: 0.250000011}
+    secondHandGrip: {x: 0, y: 0, z: 0.25}
     carryDirection: {x: 0, y: -0.75, z: 0.66}
     actionPlaneNormal: {x: 0, y: 0, z: 0}
   - id: Pickaxe
     tool: 0
     prefab: {fileID: 8042693159656656068, guid: 84dd3248e0bce5e4cadedb4a4c7ffd34, type: 3}
-    handPosition: {x: 0.0104166683, y: 0, z: 0}
+    handPosition: {x: 0.010416668, y: 0, z: 0}
     handEuler: {x: 0, y: -90, z: 90}
     carryHandEuler: {x: 0, y: -90, z: 90}
-    scale: 0.416666751
+    scale: 0.41666675
     workGrip: 0
     twoHandsDuringAction: 1
     twoHandsWhileCarrying: 0
-    secondHandGrip: {x: 0, y: 0, z: 0.249999981}
+    secondHandGrip: {x: 0, y: 0, z: 0.24999999}
     carryDirection: {x: 0, y: -0.75, z: 0.66}
     actionPlaneNormal: {x: 0, y: 0, z: 0}
   - id: Axe
@@ -97,38 +97,38 @@ MonoBehaviour:
     handPosition: {x: 0, y: 0, z: 0}
     handEuler: {x: 358.53345, y: 249.55649, z: 321.44977}
     carryHandEuler: {x: 4.0532966, y: 209.71823, z: 352.81616}
-    scale: 0.467433114
+    scale: 0.46743312
     workGrip: 1
     twoHandsDuringAction: 1
     twoHandsWhileCarrying: 1
-    secondHandGrip: {x: 0, y: 0, z: -0.230017622}
+    secondHandGrip: {x: 0, y: 0, z: -0.23001762}
     carryDirection: {x: 0.55, y: 0.3, z: 0.78}
     actionPlaneNormal: {x: 0.6811477, y: -0.7305319, z: 0.048590064}
   - id: Hammer
     tool: 6
     prefab: {fileID: 673933910155355174, guid: 58b04ec475c4a1145a97f6a241a20694, type: 3}
     handPosition: {x: 0, y: 0, z: 0}
-    handEuler: {x: 358.7854, y: 249.23315, z: 321.6751}
+    handEuler: {x: 358.6698, y: 270.16702, z: 0.0778369}
     carryHandEuler: {x: 24.815022, y: 218.75456, z: 348.91907}
-    scale: 0.500000046
+    scale: 0.50000006
     workGrip: 1
     twoHandsDuringAction: 1
     twoHandsWhileCarrying: 1
-    secondHandGrip: {x: 0, y: 0, z: -0.212968972}
+    secondHandGrip: {x: 0, y: 0, z: -0.21296887}
     carryDirection: {x: 0.3, y: 0.6, z: 0.75}
-    actionPlaneNormal: {x: 0.7271761, y: -0.07846034, z: -0.68195236}
+    actionPlaneNormal: {x: 1, y: 0, z: 0}
   - id: Sickle
     tool: 5
     prefab: {fileID: 6542132720781573674, guid: 98678d6d0c3eaed4baa7d3fcdb7bbe02, type: 3}
     handPosition: {x: 0, y: 0, z: 0}
     handEuler: {x: 10.712968, y: 297.1315, z: 350.70728}
-    carryHandEuler: {x: 306.77335, y: 264.24237, z: 336.97992}
-    scale: 0.416666726
+    carryHandEuler: {x: 3.0270722, y: 238.944, z: 167.18784}
+    scale: 1
     workGrip: 1
     twoHandsDuringAction: 0
     twoHandsWhileCarrying: 0
-    secondHandGrip: {x: 0, y: 0, z: -0.220000009}
-    carryDirection: {x: 0, y: -0.75, z: 0.66}
+    secondHandGrip: {x: 0, y: 0, z: -0.22000001}
+    carryDirection: {x: 0.1, y: 0.2, z: 1}
     actionPlaneNormal: {x: 0, y: 0, z: 0}
   - id: Hoe
     tool: 1
@@ -136,10 +136,23 @@ MonoBehaviour:
     handPosition: {x: 0, y: 0, z: 0}
     handEuler: {x: 0, y: -90, z: 90}
     carryHandEuler: {x: 306.77335, y: 264.24237, z: 336.97992}
-    scale: 0.347222281
+    scale: 0.34722227
     workGrip: 1
     twoHandsDuringAction: 1
     twoHandsWhileCarrying: 0
-    secondHandGrip: {x: 0, y: 0.180000028, z: -0.279000049}
+    secondHandGrip: {x: 0, y: 0.18000002, z: -0.27900004}
     carryDirection: {x: 0, y: -0.75, z: 0.66}
+    actionPlaneNormal: {x: 0, y: 0, z: 0}
+  - id: Pitchfork
+    tool: 11
+    prefab: {fileID: 3958266785429293983, guid: f4b143bc1468ce047b9541604e2c1914, type: 3}
+    handPosition: {x: 0, y: 0, z: 0}
+    handEuler: {x: 13.47952, y: 165.46579, z: 210.98663}
+    carryHandEuler: {x: 332.9562, y: 235.89452, z: 167.31282}
+    scale: 1
+    workGrip: 1
+    twoHandsDuringAction: 1
+    twoHandsWhileCarrying: 0
+    secondHandGrip: {x: 0, y: 0, z: -0.13830361}
+    carryDirection: {x: 0.25, y: -0.3, z: 0.92}
     actionPlaneNormal: {x: 0, y: 0, z: 0}

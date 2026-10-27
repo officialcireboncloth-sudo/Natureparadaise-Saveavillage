@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Inventory))]
+[DefaultExecutionOrder(1150)]
 public sealed class HeldItemPlacementSystem : MonoBehaviour
 {
     [Header("Input PC")]
@@ -78,6 +79,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     {
         if (inventory != null) inventory.OnInventoryChanged += RefreshHeldVisual;
         if (hotbarUI != null) hotbarUI.SelectionChanged += HandleSlotChanged;
+        if(inventory!=null)RefreshHeldVisual();
     }
 
     void OnDisable()
@@ -88,17 +90,26 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         movement?.ReleaseMovementLock(this);
         movement?.SetHoldingItemAnimation(false);
         actionBusy=false;
+        if(heldVisual!=null)heldVisual.SetActive(false);
+        if(previewVisual!=null)previewVisual.SetActive(false);
+        if(rangePreview!=null)rangePreview.SetActive(false);
     }
 
     void OnDestroy()
     {
         DestroyPreview();
+        if(heldVisual!=null)Destroy(heldVisual);
     }
 
     void Start()
     {
         EnsureHandAnchor();
         RefreshHeldVisual();
+    }
+    void LateUpdate()
+    {
+        EnsureHandAnchor();
+        HeldItemVisuals.NormalizeAnchor(handAnchor);
     }
 
     void Update()
@@ -111,6 +122,12 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
             return;
         }
         ItemStack selected = GetSelectedStack();
+        if (UsesFeedingTrough(selected))
+        {
+            if (previewVisual != null) previewVisual.SetActive(false);
+            if (rangePreview != null) rangePreview.SetActive(false);
+            return;
+        }
         bool canDrop = CanDrop(selected);
         bool canPlace = CanPlace(selected);
         if (previewVisual != null) previewVisual.SetActive(canPlace);
@@ -140,7 +157,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     void DropSelected(bool wholeStack)
     {
         ItemStack stack = GetSelectedStack();
-        if (!CanDrop(stack)) return;
+        if (!CanDrop(stack) || UsesFeedingTrough(stack)) return;
         int amount = wholeStack ? stack.count : 1;
         ItemSO item = stack.item;
         Vector3 facing = GetFacing();
@@ -152,7 +169,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     void PlaceSelected(bool wholeStack)
     {
         ItemStack stack = GetSelectedStack();
-        if (!CanPlace(stack)) return;
+        if (!CanPlace(stack) || UsesFeedingTrough(stack)) return;
         RefreshPlacementPreview(stack.item);
         if (!placementValid)
         {
@@ -165,6 +182,10 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         StartCoroutine(PlaceOrDropRoutine(true,item,amount,stack.qualityStars,
             stack.fishSizeCm,stack.fishWeightKg,placementPoint,placementRotation,Vector3.zero));
     }
+
+    bool UsesFeedingTrough(ItemStack stack) => stack?.item!=null &&
+        (BarnInteriorSceneController.Instance!=null &&
+        BarnInteriorSceneController.Instance.IsFeedingInRange(transform,stack.item) || FishPond.UsesFeedingContext(transform,stack.item));
 
     IEnumerator PlaceOrDropRoutine(bool controlledPlace,ItemSO item,int amount,int qualityStars,
         float fishSizeCm,float fishWeightKg,Vector3 position,Quaternion rotation,Vector3 dropDirection)
@@ -272,6 +293,8 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
                 cell.transform.SetParent(rangePreview.transform, false);
                 LineRenderer created = cell.AddComponent<LineRenderer>();
                 created.sharedMaterial = previewMaterial;
+                created.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+                created.receiveShadows=false;
                 created.widthMultiplier = 0.025f;
                 created.loop = true;
                 created.positionCount = 4;
@@ -328,21 +351,23 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
 
     void RefreshHeldVisual()
     {
+        externalActionOwners.RemoveWhere(owner=>owner==null);
         ItemStack stack = GetSelectedStack();
         bool hasWorldAction = HasHeldWorldAction(stack);
         bool isHeldPitchfork = IsHeldPitchfork(stack);
         ItemSO item = !animalCarrySuppressed && externalActionOwners.Count == 0 && (hasWorldAction || isHeldPitchfork) ? stack.item : null;
-        // Pitchfork keeps its item visual; imported Shears are owned by PlayerHeldTools.
+        // Imported tools, including Pitchfork, are owned by PlayerHeldTools.
         // Tool use must not enable Hold Item and overwrite the action's arm animation.
         movement?.SetHoldingItemAnimation(hasWorldAction && item != null && !actionBusy);
-        if (shownItem == item) return;
+        if (shownItem == item){if(heldVisual!=null)heldVisual.SetActive(isActiveAndEnabled);return;}
         shownItem = item;
-        if (heldVisual != null) Destroy(heldVisual);
+        if (heldVisual != null){heldVisual.SetActive(false);Destroy(heldVisual);}
         DestroyPreview();
         heldVisual = null;
         if (item == null) return;
 
-        heldVisual = CreateVisual(item, handAnchor, $"Held_{item.itemName}");
+        EnsureHandAnchor();
+        heldVisual = HeldItemVisuals.Create(item, handAnchor, $"Held_{item.itemName}");
         if (item.treeDefinition != null) heldVisual.transform.localScale *= 0.15f;
         heldVisual.transform.localPosition = Vector3.zero;
         heldVisual.transform.localRotation = Quaternion.identity;
@@ -359,6 +384,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         }
         if (item.canPlaceInWorld)
             EnsurePreview(item);
+        HeldItemVisuals.Fit(heldVisual,item);
     }
 
     public void SetAnimalCarrySuppressed(bool suppressed)
@@ -489,13 +515,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
 
     static GameObject CreateVisual(ItemSO item, Transform parent, string objectName)
     {
-        GameObject visual = item.worldPrefab != null ? Instantiate(item.worldPrefab, parent) : GameObject.CreatePrimitive(PrimitiveType.Cube);
-        visual.name = objectName;
-        visual.transform.SetParent(parent, false);
-        visual.transform.localScale = item.worldScale == Vector3.zero ? Vector3.one * 0.4f : item.worldScale;
-        foreach (Collider collider in visual.GetComponentsInChildren<Collider>(true)) collider.enabled = false;
-        foreach (Rigidbody body in visual.GetComponentsInChildren<Rigidbody>(true)) body.isKinematic = true;
-        return visual;
+        return HeldItemVisuals.Create(item,parent,objectName);
     }
 
     ItemStack GetSelectedStack()
@@ -509,9 +529,9 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         stack.item.category != ItemCategory.Tool &&
         (stack.item.equippedTool == PlayerToolType.None || stack.item.IsSeed);
 
-    static bool IsHeldPitchfork(ItemStack stack) =>
-        stack?.item != null && stack.count > 0 &&
-        stack.item.equippedTool == PlayerToolType.Pitchfork && stack.item.worldPrefab != null;
+    bool IsHeldPitchfork(ItemStack stack) =>
+        stack?.item != null && stack.count > 0 && stack.item.equippedTool == PlayerToolType.Pitchfork &&
+        stack.item.worldPrefab != null && GetComponent<PlayerHeldTools>()?.Catalog?.Find(PlayerToolType.Pitchfork)==null;
 
     static bool CanDrop(ItemStack stack) =>
         HasHeldWorldAction(stack) && stack.item.canDropToWorld;
@@ -534,6 +554,15 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
             handAnchor=anchor.transform;
             handAnchor.SetParent(transform,false);
         }
+        var grip=GetComponent<PlayerHeldTools>()?.GripPoint;
+        if(grip!=null)
+        {
+            handAnchor.SetParent(grip,false);
+            handAnchor.localPosition=new Vector3(.02f,.08f,.12f);
+            handAnchor.localRotation=Quaternion.Euler(0,90,90);
+            HeldItemVisuals.NormalizeAnchor(handAnchor);
+            return;
+        }
         Animator rig=movement!=null?movement.CharacterAnimator:GetComponentInChildren<Animator>();
         Transform rightHand=rig!=null && rig.isHuman?rig.GetBoneTransform(HumanBodyBones.RightHand):null;
         // Rig Generic player memakai socket yang sama dengan alat, bukan anchor mengambang di depan badan.
@@ -550,6 +579,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
             handAnchor.localPosition=new Vector3(0f,1.35f,0.42f);
             handAnchor.localRotation=Quaternion.identity;
         }
+        HeldItemVisuals.NormalizeAnchor(handAnchor);
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]

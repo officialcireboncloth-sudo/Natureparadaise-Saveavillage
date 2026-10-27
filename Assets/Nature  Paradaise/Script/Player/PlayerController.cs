@@ -44,7 +44,7 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField, Min(0f)] float groundedForce = 2f;
     [SerializeField, Min(0f)] float jumpStaminaCost = 0.1f;
     [SerializeField, Min(0f), Tooltip("Jarak horizontal total JumpingForward dalam world unit.")]
-    float forwardJumpDistance = 4.5f;
+    float forwardJumpDistance = 1.8f;
     [SerializeField, Range(0f, 0.5f), Tooltip("Jeda sebelum standing jump mulai naik agar takeoff fisik mengikuti pose animasi.")]
     float standingJumpTakeoffDelay = 0.16f;
 
@@ -115,6 +115,8 @@ public sealed class PlayerController : MonoBehaviour
     float fatigueLayerWeight;
     float fatigueLayerVelocity;
     bool manualLock;
+    object interactionMotionOwner;
+    bool groundedFromGravity;
     bool isCarrying;
     bool isPushingAnimation;
     bool isHoldingItemAnimation;
@@ -162,10 +164,12 @@ public sealed class PlayerController : MonoBehaviour
     public MovementMode CurrentMode { get; private set; }
     public Vector3 PlanarVelocity => planarVelocity;
     public float CurrentSpeed => planarVelocity.magnitude;
+    /// <summary>Uses the same walk speed, carry and fatigue modifiers for automatic approach.</summary>
+    public float InteractionWalkSpeed=>walkSpeed*FatigueMovementMultiplier*(isCarrying?carrySpeedMultiplier:1f);
     public bool IsGrounded => characterController != null && characterController.enabled && characterController.isGrounded;
     public bool IsMovementLocked => manualLock || movementLocks.Count > 0;
     public bool IsCarrying => isCarrying;
-    public bool IsRiding => isRidingAnimation;
+    public bool IsRiding => isRidingAnimation || PersonalAnimal.HasRider(this);
     public Animator CharacterAnimator => animator;
     public Vector3 FacingDirection { get; private set; } = Vector3.forward;
     public event Action<MovementMode> MovementModeChanged;
@@ -178,6 +182,12 @@ public sealed class PlayerController : MonoBehaviour
         {
             walkSpeed=1.2f;runSpeed=2.4f;sprintSpeed=3.4f;
             locomotionTuningVersion=1;
+        }
+        if(locomotionTuningVersion<2)
+        {
+            // Serialized scenes still contain the old long jump; retain designer overrides.
+            if(Mathf.Approximately(forwardJumpDistance,4.5f))forwardJumpDistance=1.8f;
+            locomotionTuningVersion=2;
         }
         characterController = GetComponent<CharacterController>();
         characterController.height=PlayerDimensions.Height;
@@ -290,6 +300,7 @@ public sealed class PlayerController : MonoBehaviour
             verticalVelocity = 0f;
 
         bool groundedAfterMove = characterController.isGrounded;
+        groundedFromGravity=groundedAfterMove;
         if (forwardJumpActive && groundedAfterMove && verticalVelocity <= 0f)
         {
             forwardJumpActive = false;
@@ -297,15 +308,19 @@ public sealed class PlayerController : MonoBehaviour
         }
         if (!groundedAfterMove && verticalVelocity > 0.01f)
             mode = MovementMode.Airborne;
-        SetMovementMode(mode);
-        UpdateAnimator(groundedAfterMove, mode);
+        // An interaction's collision move supplies the actual gait/cadence later in this frame.
+        // Writing idle here as well repeatedly halves the walk blend and makes the feet slide.
+        if(interactionMotionOwner==null||!movementLocks.Contains(interactionMotionOwner)||HasMovementLockOtherThan(interactionMotionOwner)){
+            SetMovementMode(mode);UpdateAnimator(groundedAfterMove,mode);
+        }
     }
 
     Vector2 ReadMovementInput()
     {
         // Avoid legacy axis decay keeping the character sliding after a key is released.
         Vector2 keyboard = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        Vector2 joystick = MobileJoystick.Active != null ? MobileJoystick.Active.Direction : externalMobileInput;
+        Vector2 joystick = MobileJoystick.Active != null && MobileJoystick.Active.Direction.sqrMagnitude>externalMobileInput.sqrMagnitude
+            ? MobileJoystick.Active.Direction : externalMobileInput;
         Vector2 input = joystick.sqrMagnitude > keyboard.sqrMagnitude ? joystick : keyboard;
         return Vector2.ClampMagnitude(input, 1f);
     }
@@ -553,6 +568,31 @@ public sealed class PlayerController : MonoBehaviour
     }
     public void PlayWakeUpAnimation() => PlayTrigger(wakeUpTrigger, hasWakeUpTrigger);
     public void PlayMilkingAnimation() => PlayTrigger(milkingTrigger, hasMilkingTrigger);
+
+    /// <summary>Returns an interrupted tool animation to normal locomotion without releasing unrelated locks.</summary>
+    public void CancelToolAnimation()
+    {
+        if (animator == null || !animator.isActiveAndEnabled || animator.runtimeAnimatorController == null) return;
+        foreach (var parameter in animator.parameters)
+        {
+            if (parameter.type != AnimatorControllerParameterType.Trigger) continue;
+            string name = parameter.name;
+            if (name == hoeingTrigger || name == plantingTrigger || name == wateringTrigger ||
+                name == pickupTrigger || name == pickupWaistTrigger || name == scoopManureTrigger || name is "UseTool" or "Pull" or "Sickle" or "Hammer" or "Axe")
+                animator.ResetTrigger(name);
+        }
+        if (IsMovementLocked) return;
+        var current = animator.GetCurrentAnimatorStateInfo(0);
+        var next = animator.IsInTransition(0) ? animator.GetNextAnimatorStateInfo(0) : current;
+        if (!IsToolPose(current) && !IsToolPose(next)) return;
+        int locomotion = Animator.StringToHash("Base Layer.Locomotion");
+        if (animator.HasState(0, locomotion)) animator.CrossFade(locomotion, .12f, 0);
+    }
+
+    static bool IsToolPose(AnimatorStateInfo state) => state.IsName("Hoeing") || state.IsName("Planting") ||
+        state.IsName("Watering Plant") || state.IsName("Sickle") || state.IsName("Hammering Rock") ||
+        state.IsName("Chopping Tree") || state.IsName("Pick Up From Floor") || state.IsName("Pick Up Waist") || state.IsName("Scoop Manure");
+
     public void CancelAnimalCareAnimation()
     {
         SetBrushingAnimation(false); SetShearingAnimation(false);
@@ -593,6 +633,7 @@ public sealed class PlayerController : MonoBehaviour
     public void MoveForInteraction(object owner, Vector3 displacement)
     {
         if (owner == null || !movementLocks.Contains(owner) || characterController == null || !characterController.enabled) return;
+        interactionMotionOwner=owner;
         displacement.y = 0f;
         Vector3 previous = transform.position;
         characterController.Move(displacement);
@@ -600,7 +641,7 @@ public sealed class PlayerController : MonoBehaviour
         planarVelocity.y = 0f;
         var mode = planarVelocity.sqrMagnitude > .001f ? MovementMode.Walk : MovementMode.Idle;
         SetMovementMode(mode);
-        UpdateAnimator(characterController.isGrounded, mode);
+        UpdateAnimator(characterController.isGrounded||groundedFromGravity, mode);
     }
     public void PlayBrushAnimalAnimation() => PlayTrigger(brushAnimalTrigger, hasBrushAnimalTrigger);
     public void SetBrushingAnimation(bool active)
@@ -718,6 +759,7 @@ public sealed class PlayerController : MonoBehaviour
 
     void OnDisable()
     {
+        interactionMotionOwner=null;
         SetBrushingAnimation(false);
         SetShearingAnimation(false);
         planarVelocity = Vector3.zero;

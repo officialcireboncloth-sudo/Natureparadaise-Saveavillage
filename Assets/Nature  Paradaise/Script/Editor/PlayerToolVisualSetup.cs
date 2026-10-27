@@ -38,6 +38,7 @@ public static class PlayerToolVisualSetup
             entry.scale=pair.Item2*PlayerDimensions.ReferenceScale/size;
         }
         foreach(string id in new[]{"Axe","Hammer","Sickle"})CalibrateGatheringAction(catalog.Find(id));
+        SickleSweepSetup.Apply();
         CalibrateWateringGrip(catalog.Find("WateringCan"));
         EditorUtility.SetDirty(catalog);AssetDatabase.SaveAssets();
         Debug.Log("[HeldTools] Updated FBX fit applied: Original tool/body proportions at the shared player reference scale.");
@@ -59,7 +60,7 @@ public static class PlayerToolVisualSetup
         Add(catalog,"FishingRod",PlayerToolType.FishingRod,1.85f,new Vector3(.20f,.18f,.38f),Quaternion.Inverse(Quaternion.LookRotation(new Vector3(-.49f,.80f,-.68f),Vector3.up)));
         Add(catalog,"Shears",PlayerToolType.Shears,.32f,new Vector3(0f,.11f,-.15f),Quaternion.Euler(0f,90f,0f));
         Add(catalog,"Brush",PlayerToolType.None,.22f,new Vector3(0f,.44f,0f),Quaternion.identity,new Vector3(0f,0f,180f));
-        Add(catalog,"Milker",PlayerToolType.None,.45f,new Vector3(-.26f,.54f,0f),Quaternion.identity,new Vector3(0f,0f,180f));
+        Add(catalog,"Milker",PlayerToolType.Milker,.45f,new Vector3(-.26f,.54f,0f),Quaternion.identity,new Vector3(0f,0f,180f));
         // Mining currently uses Hammer; keep Pickaxe available as an Inspector alternative.
         Add(catalog,"Pickaxe",PlayerToolType.None,1.10f,new Vector3(-.36f,.34f,0f),Quaternion.Euler(0f,-90f,0f));
         EditorUtility.SetDirty(catalog);AssetDatabase.SaveAssets();Debug.Log("[HeldTools] Catalog + ten grip prefabs ready");
@@ -113,9 +114,9 @@ public static class PlayerToolVisualSetup
     {
         // Hammer: +Z along shaft, +Y normal to an end striking face (source +X).
         Add(catalog,"Hammer",PlayerToolType.Hammer,1.8f,new Vector3(.00013f,.30f,0f),Quaternion.Inverse(Quaternion.LookRotation(Vector3.up,Vector3.right)));
-        // Curved sickle handle: +Z towards the blade; +X normal to the flat blade (source +Z).
-        Add(catalog,"Sickle",PlayerToolType.Sickle,1.05f,new Vector3(.32f,.15f,0f),Quaternion.Inverse(Quaternion.LookRotation(new Vector3(-.65f,.75f,0f),new Vector3(.75f,.65f,0f))));
-        foreach(string id in new[]{"Hammer","Sickle"})
+        // Keep the compact pack sickle without replacing the authored inventory icon.
+        if(rebuild||catalog.Find("Sickle")==null)SickleSweepSetup.Apply();
+        foreach(string id in new[]{"Hammer"})
         {
             var entry=catalog.Find(id);if(entry==null || (!rebuild && entry.workGrip))continue;
             entry.workGrip=true;entry.handPosition=Vector3.zero;
@@ -124,7 +125,19 @@ public static class PlayerToolVisualSetup
             entry.carryDirection=id=="Hammer"?new Vector3(.3f,.6f,.75f):new Vector3(0f,-.75f,.66f);
             CalibrateCarryGrips(catalog,id);
             CalibrateGatheringAction(entry);
+            FarmActionEffectsSetup.RefreshHammerAnchor();
         }
+    }
+    [MenuItem("Nature Paradise/Player/Correct Hammer Strike Grip")]
+    public static void CorrectHammerStrikeGrip()
+    {
+        if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Stop Play Mode before correcting the hammer grip.");
+        var catalog=AssetDatabase.LoadAssetAtPath<PlayerToolVisualCatalog>(Root+"/Resources/Player/Player Tool Visual Catalog.asset");
+        var entry=catalog!=null?catalog.Find(PlayerToolType.Hammer):null;
+        if(entry==null)throw new InvalidOperationException("Hammer visual entry missing");
+        CalibrateGatheringAction(entry);
+        FarmActionEffectsSetup.RefreshHammerAnchor();
+        EditorUtility.SetDirty(catalog);AssetDatabase.SaveAssets();
     }
     static void CalibrateGatheringAction(PlayerToolVisualCatalog.Entry entry)
     {
@@ -151,6 +164,11 @@ public static class PlayerToolVisualSetup
                 clip.SampleAnimation(rig.gameObject,Mathf.Max(0,contact-.025f));Vector3 before=PalmPosition(hand);
                 clip.SampleAnimation(rig.gameObject,Mathf.Min(clip.length,contact+.025f));Vector3 after=PalmPosition(hand);
                 Vector3 face=Vector3.ProjectOnPlane(after-before,shaft).normalized;
+                if(entry.tool==PlayerToolType.Hammer)
+                {
+                    shaft=Vector3.ProjectOnPlane(shaft,preview.transform.right).normalized;
+                    face=Vector3.Cross(preview.transform.right,shaft).normalized;
+                }
                 if(face.sqrMagnitude<.1f)throw new InvalidOperationException("No swing velocity at contact for "+entry.id);
                 entry.actionPlaneNormal=preview.transform.InverseTransformDirection(Vector3.Cross(shaft,face).normalized);
                 cuttingPose=Quaternion.LookRotation(shaft,face);

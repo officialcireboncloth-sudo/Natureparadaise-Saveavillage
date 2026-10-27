@@ -48,6 +48,8 @@ public sealed class FishingSystem : MonoBehaviour
     [SerializeField, Min(0.1f)] float catchAnimationDuration = 2.5f;
     float chargeElapsed, castElapsed, swingDuration, castReach;
     bool chargeWithMouse, chargeWithTouch, bobberReleased, landed;
+    bool catchSplashShown;
+    Vector3 catchSplashPoint;
     Vector3 castTarget, flightOrigin;
     FishingPresentation presentation;
     ItemSO pendingItem;
@@ -170,6 +172,18 @@ public sealed class FishingSystem : MonoBehaviour
         if (State == FishingState.Catching || State == FishingState.Result)
         {
             stateTimer -= Time.deltaTime;
+            bool catchContact=stateTimer<=catchAnimationDuration*.6f;
+            if(animator!=null&&animator.isActiveAndEnabled&&animator.runtimeAnimatorController!=null)
+            {
+                var pose=animator.GetCurrentAnimatorStateInfo(0);
+                catchContact=pose.IsName("Fishing Catch")&&pose.normalizedTime>=.3f || stateTimer<=.1f;
+            }
+            if(State==FishingState.Catching&&!catchSplashShown&&catchContact)
+            {
+                catchSplashShown=true;
+                FarmActionEffects.Burst(FarmEffect.FishCatch,catchSplashPoint,sound:catchSound==null);
+                GameAudio.PlayOneShot(audioSource,catchSound,GameAudioBus.Main);
+            }
             if (State == FishingState.Catching && stateTimer <= 0f)
             {
                 State = FishingState.Result;
@@ -422,7 +436,8 @@ public sealed class FishingSystem : MonoBehaviour
         AddFishingExperience(earnedExperience);
         TriggerIfPresent(catchTrigger);
         StopReelLoop();
-        GameAudio.PlayOneShot(audioSource, catchSound, GameAudioBus.Main);
+        catchSplashShown=false;
+        catchSplashPoint=bobber!=null?bobber.transform.position:castTarget;
 
         pendingItem = item;
         pendingQuality = qualityStars;
@@ -455,6 +470,12 @@ public sealed class FishingSystem : MonoBehaviour
     {
         SaveLoadFeedback.Instance?.ShowMessage(message);
         CleanupSession(true);
+    }
+
+    /// <summary>Puts the rod away and settles an existing session through its normal cleanup path.</summary>
+    public void CancelToolUse()
+    {
+        if (State != FishingState.Idle) CleanupSession(false);
     }
 
     void CleanupSession(bool keepRodVisible)

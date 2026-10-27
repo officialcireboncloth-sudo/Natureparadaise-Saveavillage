@@ -20,6 +20,7 @@ MonoBehaviour:
   footprintWidth: 3
   footprintDepth: 3
   defaultPlacementYaw: 0
+  faceCameraOnPlacement: 1
   placementArea: 0
   canRelocate: 1
   canDemolish: 1

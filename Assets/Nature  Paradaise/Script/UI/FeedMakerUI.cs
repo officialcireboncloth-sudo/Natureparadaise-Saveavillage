@@ -30,7 +30,7 @@ public sealed class FeedMakerUI : MonoBehaviour
         if(Instance!=null||machine==null||source==null)return;
         var ui=new GameObject("Feed Maker UI",typeof(RectTransform)).AddComponent<FeedMakerUI>();
         Instance=ui;ui.Machine=machine;ui.inventory=source;ui.previousScale=Time.timeScale;Time.timeScale=0;
-        ui.Build();ui.SelectCategory(machine.HasDedicatedOutput?(machine.DedicatedFishFeed?2:1):0);
+        ui.Build();ui.SelectCategory(machine.HasDedicatedOutput?Category(machine.DedicatedFeedKind):0);
     }
     void Update()
     {
@@ -51,12 +51,14 @@ public sealed class FeedMakerUI : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Return)||Input.GetKeyDown(KeyCode.KeypadEnter))Produce();
         if(Input.GetKeyDown(KeyCode.F))Collect();
     }
-    bool Allowed(int value)=>!Machine.HasDedicatedOutput||(value==2)==Machine.DedicatedFishFeed;
+    static FeedKind Kind(int category)=>category==2?FeedKind.Fish:category==1?FeedKind.Livestock:FeedKind.Poultry;
+    static int Category(FeedKind kind)=>kind==FeedKind.Fish?2:kind==FeedKind.Poultry?0:1;
+    bool Allowed(int value)=>!Machine.HasDedicatedOutput||Kind(value)==Machine.DedicatedFeedKind;
     void CycleCategory(int direction){for(int n=1;n<=3;n++){int value=(category+direction*n+6)%3;if(Allowed(value)){SelectCategory(value);return;}}}
     public void SelectCategory(int value)
     {
         value=Mathf.Clamp(value,0,2);if(!Allowed(value))return;category=value;recipePosition=0;batches=1;recipes.Clear();
-        var list=Machine.Catalog?.recipes;if(list!=null)for(int i=0;i<list.Length;i++)if(list[i]!=null&&list[i].producesFishFeed==(category==2))recipes.Add(i);
+        var list=Machine.Catalog?.recipes;if(list!=null)for(int i=0;i<list.Length;i++)if(list[i]!=null&&list[i].Kind==Kind(category))recipes.Add(i);
         for(int i=0;i<3;i++)markers[i].SetActive(i==category);Refresh();GameplayInput.ConsumeCurrentFrame();
     }
     public void ChangeRecipe(int direction){if(recipes.Count==0)return;recipePosition=(recipePosition+direction+recipes.Count)%recipes.Count;batches=1;Refresh();}
@@ -68,7 +70,7 @@ public sealed class FeedMakerUI : MonoBehaviour
     }
     public bool Collect()
     {
-        bool success=category==2?Machine.CollectFishFeed(inventory):Machine.Collect(inventory);
+        bool success=Machine.CollectFeed(inventory,Kind(category));
         feedback.text=success?"Satu pakan masuk ke tas.":"Belum ada hasil atau tas penuh.";Refresh();GameplayInput.ConsumeCurrentFrame();return success;
     }
     public void Upgrade(){feedback.text=Machine.Upgrade(inventory)?"Mesin berhasil ditingkatkan.":"Bahan atau gold tidak cukup.";Refresh();GameplayInput.ConsumeCurrentFrame();}
@@ -92,7 +94,7 @@ public sealed class FeedMakerUI : MonoBehaviour
         Art("Leaf Image Slot",panel,theme?.leafIcon,.025f,.94f,.08f,.982f);
         Text(panel,"MESIN PEMBUAT PAKAN",33,.09f,.935f,.64f,.99f).fontStyle=FontStyles.Bold;
         status=Text(panel,"",18,.66f,.935f,.975f,.99f);
-        string[] names={"Pakan Unggas","Pakan Ternak","Pakan Ikan"};
+        string[] names={"Pakan Unggas","Pakan Hewan","Pakan Ikan"};
         for(int i=0;i<3;i++)
         {
             int tab=i;float left=.025f+i*.322f;var button=Button(panel,"",left,.833f,left+.311f,.922f,()=>SelectCategory(tab));button.interactable=Allowed(i);
@@ -132,8 +134,8 @@ public sealed class FeedMakerUI : MonoBehaviour
         if(Machine==null)return;
         int running=0;foreach(var job in Machine.Jobs)if(job.finish>=0)running++;
         status.text=$"{(running==0?"Siap Digunakan":"Sedang Memproses")} · Lv.{Machine.Level}\nBahan {Machine.Inputs}/{Machine.InputCapacity}";
-        string label=category==2?"Pakan Ikan":category==1?"Pakan Ternak":"Pakan Unggas";title.text=label;
-        description.text=category==2?"Pakan untuk ikan.":"Pakan hewan universal untuk unggas dan ternak.";
+        string label=FeedTypes.Label(Kind(category));title.text=label;
+        description.text=category==2?"Pakan khusus kolam ikan.":category==1?"Pakan khusus ternak besar, seperti sapi dan domba.":"Pakan khusus ayam, bebek, dan unggas lainnya.";
         SetArt(bag,theme?.Bag(category));SetArt(product,theme?.Product(category));
         var recipe=Recipe;int available=0;var lines=new List<string>();var seen=new HashSet<ItemSO>();
         foreach(var icon in materialIcons)SetArt(icon,null);
@@ -155,14 +157,14 @@ public sealed class FeedMakerUI : MonoBehaviour
         {
             var row=Rect("Queue Slot "+(i+1),queueContent,0,1,1,1);row.offsetMin=new(0,-(i+1)*52+4);row.offsetMax=new(0,-i*52-4);Surface(row,GameplayHUDStyle.Card);
             if(i>=Machine.Jobs.Count){Text(row,$"{i+1}     Slot Kosong",18,.025f,.1f,.96f,.9f);continue;}
-            var job=Machine.Jobs[i];Art("Queue Bag Slot",row,theme?.Bag(job.producesFishFeed?2:1),.08f,.12f,.18f,.88f);
-            Text(row,$"{i+1}",20,.025f,.1f,.07f,.9f);Text(row,$"{(job.producesFishFeed?"Pakan Ikan":"Pakan Hewan")} x{job.output}",19,.20f,.46f,.97f,.96f);
+            var job=Machine.Jobs[i];Art("Queue Bag Slot",row,theme?.Bag(Category(job.Kind)),.08f,.12f,.18f,.88f);
+            Text(row,$"{i+1}",20,.025f,.1f,.07f,.9f);Text(row,$"{FeedTypes.Label(job.Kind)} x{job.output}",19,.20f,.46f,.97f,.96f);
             float progress=job.finish<0?0:Mathf.Clamp01((float)(1-(job.finish-Machine.CurrentGameHour)/job.hours));
             var track=Rect("Progress Track",row,.20f,.20f,.54f,.35f);Surface(track,new(.35f,.43f,.47f));var fill=Rect("Progress",track,0,0,progress,1);Surface(fill,new(.51f,.78f,.55f));
             Text(row,job.finish<0?"Menunggu":$"{progress:P0} · Sisa {Duration(Math.Max(0,job.finish-Machine.CurrentGameHour))}",16,.57f,.04f,.98f,.47f);
         }
-        outputs.text=$"Hewan: {Machine.AnimalFeedOutput}   Ikan: {Machine.FishFeedOutput}\nTotal {Machine.Output}/{Machine.OutputCapacity}";
-        take.interactable=category==2?Machine.FishFeedOutput>0:Machine.AnimalFeedOutput>0;
+        outputs.text=$"{label}: {Machine.Ready(Kind(category))}\nTotal {Machine.Output}/{Machine.OutputCapacity}";
+        take.interactable=Machine.Ready(Kind(category))>0;
         upgrade.interactable=Machine.Level<4;upgradeLabel.text=Machine.Level>=4?"Level mesin maksimum":$"Upgrade Lv.{Machine.Level+1}: {Machine.Level*5} {Machine.Catalog?.upgradeWood?.itemName} + {Machine.Level*3} {Machine.Catalog?.upgradeStone?.itemName} + {Machine.Level*100} G";
     }
     static string Duration(double hours){int minutes=(int)Math.Ceiling(hours*60);return minutes>=60?$"{minutes/60} Jam {minutes%60} Menit":$"{minutes} Menit";}
@@ -180,6 +182,3 @@ public sealed class FeedMakerUI : MonoBehaviour
         if(!string.IsNullOrEmpty(label)){var text=Text(rect,label,23,.025f,.05f,.975f,.95f);text.alignment=TextAlignmentOptions.Midline;}return button;
     }
 }
-
-
-

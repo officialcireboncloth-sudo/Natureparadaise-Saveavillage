@@ -5,13 +5,23 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public sealed class FishPondExterior : MonoBehaviour
 {
+    /// <summary>Shared scale for authored pond geometry, colliders/stations and placement metres on the 0.8m farm grid.</summary>
+    public const float WorldScale=.4f;
     [SerializeField] Transform interactionPoint;
     [SerializeField] Vector2[] waterPolygon;
     [SerializeField] Vector2 dockMinimum;
     [SerializeField] Vector2 dockMaximum;
     [SerializeField] float swimHeight = .44f;
     public Transform InteractionPoint => interactionPoint;
-    public static Vector2 PlacementSizeMeters(int level) => level <= 1 ? new Vector2(14,11) : level == 2 ? new Vector2(16,13) : new Vector2(20,16);
+    /// <summary>Closest safe water landing from the bank, excluding the dock.</summary>
+    public Vector3 FeedingWaterPoint(Vector3 actorPosition)
+    {
+        Vector3 start=transform.InverseTransformPoint(actorPosition),inside=SwimOrigin(0);
+        for(int i=1;i<=32;i++)
+        {Vector3 point=Vector3.Lerp(start,inside,i/32f);point.y=swimHeight;if(IsSwimPoint(point,.2f))return transform.TransformPoint(point);}
+        return transform.TransformPoint(inside);
+    }
+    public static Vector2 PlacementSizeMeters(int level) => WorldScale*(level <= 1 ? new Vector2(14,11) : level == 2 ? new Vector2(16,13) : new Vector2(20,16));
 
     public bool IsSwimPoint(Vector3 point, float margin = .40f)
     {

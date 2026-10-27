@@ -23,7 +23,7 @@ public sealed class HouseSaveBook : MonoBehaviour
         if (player == null || !PlayerInteractionTarget.ContainsPickup(player.transform, transform, interactionRadius)) return;
         WorldInteractionPrompt.Request(this, transform, "E: Buku Save — Simpan permainan", PlayerInteractionTarget.SurfaceDistance(player.transform, transform), .4f);
         if (!PlayerInteractionTarget.PressPrompt(this, KeyCode.E)) return;
-        if (SaveManager.Instance != null) SaveManager.Instance.SaveGame();
+        if (SaveManager.Instance != null) SaveManager.Instance.RequestSave();
         GameplayInput.ConsumeCurrentFrame();
     }
 }

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d32cc2c0e264cbb99ae222d33d4c534, type: 3}
+  m_Name: CompanionCommandTheme
+  m_EditorClassIdentifier: 
+  panel: {r: 0.12, g: 0.18, b: 0.1, a: 0.95}
+  border: {r: 0.55, g: 0.63, b: 0.44, a: 0.65}
+  row: {r: 0.22, g: 0.28, b: 0.19, a: 0.94}
+  selectedRow: {r: 0.32, g: 0.42, b: 0.27, a: 0.98}
+  mountRow: {r: 0.36, g: 0.54, b: 0.3, a: 0.98}
+  text: {r: 0.96, g: 0.96, b: 0.91, a: 1}
+  muted: {r: 0.74, g: 0.78, b: 0.69, a: 1}
+  affection: {r: 0.94, g: 0.43, b: 0.34, a: 1}
+  active: {r: 0.64, g: 0.82, b: 0.48, a: 1}
+  horseIcon: {fileID: 21300000, guid: bdb82d2ed8774e528842fa505aa31c32, type: 3}
+  dogIcon: {fileID: 21300000, guid: 34b3d4c54ac249b8a4794e0872d3d00b, type: 3}
+  catIcon: {fileID: 0}
+  followIcon: {fileID: 21300000, guid: dadd945feff04797ad388ea822c225b3, type: 3}
+  stayIcon: {fileID: 21300000, guid: 8af110dd032943c28d43b3d97e843327, type: 3}
+  homeIcon: {fileID: 21300000, guid: 461a8f7963c24b08aea95e0d619f7159, type: 3}
+  mountIcon: {fileID: 21300000, guid: 96d1c0cc739b4483a40c92fd2f61498d, type: 3}

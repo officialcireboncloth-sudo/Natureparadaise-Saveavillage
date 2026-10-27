@@ -5,6 +5,7 @@ using UnityEngine;
 public sealed class BarnInteriorLayout : MonoBehaviour
 {
     [SerializeField] Transform feedingRoot;
+    [Tooltip("Fixed front-to-back fill order. Player position only determines interaction reach.")]
     [SerializeField] Transform[] feedingSlots;
     [Tooltip("One renderer per logical portion. Multiple portions may share a visual compartment.")]
     [SerializeField] Renderer[] feedFills;

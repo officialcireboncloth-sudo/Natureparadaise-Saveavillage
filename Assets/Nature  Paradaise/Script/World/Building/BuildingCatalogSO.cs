@@ -13,6 +13,18 @@ public sealed class BuildingCatalogSO : ScriptableObject
 
     public int Count => buildings != null ? buildings.Count : 0;
 
+    /// <summary>Animal housing is ordered at Lumber Store, rather than an empty world marker.</summary>
+    public bool ContainsAnimalHousing
+    {
+        get
+        {
+            for (int i = 0; i < Count; i++)
+                if (buildings[i] != null && buildings[i].HousingKind != AnimalHousingKind.None)
+                    return true;
+            return false;
+        }
+    }
+
     /// <summary>Mengambil definition berdasarkan index dan mengembalikan null bila tidak valid.</summary>
     public BuildingDefinitionSO GetAt(int index)
     {

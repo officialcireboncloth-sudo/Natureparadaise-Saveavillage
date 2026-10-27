@@ -25,30 +25,13 @@ public sealed class WateringCanSystem : MonoBehaviour
         hotbar = GetComponent<PlayerToolHotbar>();
     }
 
-    void OnGUI()
+    void LateUpdate()
     {
-        // The selected-tool card owns this gauge when the inventory HUD is available.
-        if (GetComponent<InventoryHotbarUI>() != null) return;
-        if (hotbar == null) hotbar = GetComponent<PlayerToolHotbar>();
-        if (hotbar == null || hotbar.SelectedTool != PlayerToolType.WateringCan || Camera.main == null) return;
-
-        Vector3 screen = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * labelHeight);
-        if (screen.z <= 0f) return;
-        if (labelStyle == null)
-        {
-            labelStyle = new GUIStyle(GUI.skin.box)
-            {
-                alignment = TextAnchor.MiddleCenter,
-                fontSize = 16,
-                fontStyle = FontStyle.Bold
-            };
-            labelStyle.normal.textColor = Color.white;
-        }
-        Rect rect = new(screen.x - labelSize.x * 0.5f, Screen.height - screen.y - labelSize.y * 0.5f,
-            labelSize.x, labelSize.y);
-        GUI.Box(rect, $"Water {CurrentWater}/{MaximumWater}", labelStyle);
+        if(GetComponent<InventoryHotbarUI>()!=null)return;
+        if(hotbar==null)hotbar=GetComponent<PlayerToolHotbar>();
+        if(hotbar!=null&&hotbar.SelectedTool==PlayerToolType.WateringCan)
+            GameplayInfoPanel.RequestHint(this,$"Watering Can · Air {CurrentWater}/{MaximumWater} · F: Siram",20);
     }
-
     public bool TryUse(int amount = 1)
     {
         amount = Mathf.Max(1, amount);

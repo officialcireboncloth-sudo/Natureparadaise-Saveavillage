@@ -8,6 +8,7 @@ public sealed class GameplayUISettings
     public int textSize = 1;
     public int uiSize = 1;
     public int quality;
+    public int rainEffects = 1;
     public bool highContrast;
     public bool reduceCameraMotion;
     public bool showItemNames = true;
@@ -22,7 +23,10 @@ public sealed class GameplayUISettings
     static GameplayUISettings Load()
     {
         var value = new GameplayUISettings { quality = QualitySettings.GetQualityLevel() };
-        try { if (PlayerPrefs.HasKey("NatureParadise.UISettings")) value = JsonUtility.FromJson<GameplayUISettings>(PlayerPrefs.GetString("NatureParadise.UISettings")) ?? value; }
+        try { if (PlayerPrefs.HasKey("NatureParadise.UISettings")) {
+            string json = PlayerPrefs.GetString("NatureParadise.UISettings");
+            JsonUtility.FromJsonOverwrite(json, value);
+        } }
         catch (ArgumentException) { }
         value.master = GameAudio.MasterVolume; value.music = GameAudio.AmbientVolume; value.effects = GameAudio.MainVolume;
         return value;
@@ -30,6 +34,7 @@ public sealed class GameplayUISettings
     public void Apply()
     {
         textSize = Mathf.Clamp(textSize,0,2); uiSize = Mathf.Clamp(uiSize,0,2);
+        rainEffects = Mathf.Clamp(rainEffects,0,2);
         cameraSensitivity = Mathf.Clamp01(cameraSensitivity); opacity = Mathf.Clamp(opacity,.2f,1f);
         GameAudio.SetMaster(master); GameAudio.SetAmbient(music); GameAudio.SetMain(effects);
         if (QualitySettings.names.Length > 0)

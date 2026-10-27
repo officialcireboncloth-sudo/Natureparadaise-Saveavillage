@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public sealed class LoosePickupSaveData
+{
+    public string id,itemId,assetName,itemName;
+    public int amount,qualityStars;
+    public float fishSizeCm,fishWeightKg;
+    public Vector3 position;
+}
+
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Collider))]
 /// <summary>
@@ -14,6 +23,8 @@ public sealed class WorldItemPickup : MonoBehaviour
     const int HintArcSegments = 10;
 
     [SerializeField] ItemSO item;
+    [SerializeField,HideInInspector] bool persistLoosePickup;
+    [SerializeField,HideInInspector] string pickupId;
     [SerializeField, Min(1)] int amount = 1;
     [SerializeField, Range(0, 4)] int qualityStars;
     [SerializeField, Min(0f)] float fishSizeCm;
@@ -98,6 +109,35 @@ public sealed class WorldItemPickup : MonoBehaviour
         QualityStars = itemQualityStars;
         FishSizeCm = itemFishSizeCm;
         FishWeightKg = itemFishWeightKg;
+        persistLoosePickup=GetComponentInParent<PlacedWorldItem>()==null;
+        if(persistLoosePickup && string.IsNullOrEmpty(pickupId))pickupId=System.Guid.NewGuid().ToString("N");
+    }
+
+    /// <summary>Runtime resource drops are saved separately; placed items already own their child pickup.</summary>
+    public static List<LoosePickupSaveData> CaptureLoose()
+    {
+        var result=new List<LoosePickupSaveData>();
+        foreach(var pickup in Active)
+            if(pickup!=null && pickup.persistLoosePickup && pickup.item!=null && pickup.GetComponentInParent<PlacedWorldItem>()==null)
+                result.Add(new LoosePickupSaveData{id=pickup.pickupId,itemId=pickup.item.Id,assetName=pickup.item.name,itemName=pickup.item.itemName,
+                    amount=pickup.amount,qualityStars=pickup.qualityStars,fishSizeCm=pickup.fishSizeCm,fishWeightKg=pickup.fishWeightKg,position=pickup.transform.position});
+        return result;
+    }
+
+    /// <summary>Replaces only saved runtime drops, preserving legacy saves without this section and avoiding duplicate pickup roots.</summary>
+    public static void RestoreLoose(List<LoosePickupSaveData> data)
+    {
+        if(data==null)return;
+        foreach(var pickup in Active.ToArray())
+            if(pickup!=null && pickup.persistLoosePickup && pickup.GetComponentInParent<PlacedWorldItem>()==null)
+            {pickup.gameObject.SetActive(false);Object.Destroy(pickup.gameObject);}
+        foreach(var saved in data)
+        {
+            if(saved==null)continue;
+            var resolved=ItemCatalog.Resolve(saved.itemId,saved.assetName,saved.itemName);
+            var pickup=WorldGatherable.SpawnLoosePickup(resolved,saved.amount,saved.position,saved.qualityStars,saved.fishSizeCm,saved.fishWeightKg);
+            if(pickup!=null)pickup.pickupId=saved.id;
+        }
     }
 
     /// <summary>Menentukan root yang ikut dihapus ketika trigger pickup berada pada child.</summary>
@@ -189,7 +229,6 @@ public sealed class WorldItemPickup : MonoBehaviour
 
         int collectedAmount = pendingAmount;
         PlayerPickupNotification.ShowItem(targetInventory, pendingItem, collectedAmount);
-        SaveLoadFeedback.Instance?.ShowMessage($"Mengambil {pendingItem.itemName} x{collectedAmount}");
         QuestEventHub.Publish(QuestObjectiveType.Collect, pendingItem.name, collectedAmount, pendingItem);
         amount = 0;
         HideCollectedVisual();

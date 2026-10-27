@@ -133,44 +133,36 @@ public class SeedTool : MonoBehaviour
             return;
         }
 
-        // Kalau planting BERHASIL,
-        // baru kurangi Seed dari inventory.
-        bool removed = playerInv.Remove(selectedSeed, 1);
-
-        if (!removed)
-        {
-            // Ini seharusnya tidak terjadi karena kita sudah
-            // mengecek GetCount() sebelumnya.
-            Debug.LogError(
-                "[SEED] Plant berhasil tetapi Seed gagal dikurangi!"
-            );
-            ShowPlantFeedback("PERINGATAN: Bibit tertanam, tetapi inventory gagal diperbarui.");
-
-            return;
+        void PlantReached(){
+            if(!isActiveAndEnabled||inventoryHotbar.SelectedItem!=selectedSeed||!CanPlantAt(field,gx,gz))return;
+            movement?.PlayPlantingAnimation();StartCoroutine(PlantingRoutine(field,gx,gz,selectedSeed,selectedCrop));
         }
-
-        movement?.PlayPlantingAnimation();
-        StartCoroutine(PlantingRoutine(field, gx, gz, selectedSeed, selectedCrop));
+        if(farmingTool!=null)farmingTool.ApproachTile(this,field,gx,gz,PlantReached);
+        else PlayerToolApproach.For(this).Begin(this,()=>field.GridToWorld(gx,gz),.9f,PlantReached,()=>field!=null&&field.isActiveAndEnabled);
     }
 
     IEnumerator PlantingRoutine(FieldArea field, int gx, int gz, ItemSO selectedSeed, CropDataSO selectedCrop)
     {
         actionBusy = true;
+        GetComponent<HeldItemPlacementSystem>()?.SetExternalActionSuppressed(this,true);
         movement?.AcquireMovementLock(this);
         playerStatus?.AcquireActivity(this, PlayerMovementState.ToolAction);
         if (plantImpactDelay > 0f) yield return new WaitForSeconds(plantImpactDelay);
 
         // Perubahan tile dan pengurangan seed terjadi ketika tangan mencapai tanah.
-        bool planted = playerInv != null && playerInv.GetCount(selectedSeed) > 0 &&
-            field != null && field.TryPlant(gx, gz, selectedCrop);
+        bool removed = playerInv != null && field != null && field.CanPlant(gx,gz,selectedCrop) &&
+            playerInv.Remove(selectedSeed,1);
+        bool planted=removed && field.TryPlant(gx,gz,selectedCrop);
         if (!planted)
         {
+            if(removed)playerInv.Add(selectedSeed,1);
             ShowPlantFeedback("GAGAL MENANAM: Tile atau bibit berubah sebelum tangan mencapai tanah.");
             FinishPlantingAction();
             yield break;
         }
 
         playerStatus?.TrySpendStamina(StaminaBalance.Current.Cost("plant"));
+        FarmActionEffects.Burst(FarmEffect.Plant,field.GridToWorld(gx,gz),radius:field.CellSize*.22f);
         playerStatus?.PulseActivity(PlayerMovementState.ToolAction);
         string cropName = selectedCrop.produceItem != null
             ? selectedCrop.produceItem.itemName
@@ -194,10 +186,16 @@ public class SeedTool : MonoBehaviour
         movement?.ReleaseMovementLock(this);
         playerStatus?.ReleaseActivity(this);
         actionBusy = false;
+        GetComponent<HeldItemPlacementSystem>()?.SetExternalActionSuppressed(this,false);
     }
 
-    void OnDisable()
+    void OnDisable() => CancelAction();
+
+    /// <summary>Stops planting before a pending hand contact and releases its action lock.</summary>
+    public void CancelAction()
     {
+        GetComponent<PlayerToolApproach>()?.Cancel(this);
+        StopAllCoroutines();
         FinishPlantingAction();
     }
 

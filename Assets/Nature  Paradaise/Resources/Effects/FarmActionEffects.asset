@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5498117c5924259479a7c5956929c393, type: 3}
+  m_Name: FarmActionEffects
+  m_EditorClassIdentifier: 
+  particleMaterial: {fileID: 2100000, guid: c3c28fad346125a459f278149e5bcbc8, type: 2}
+  density: 1
+  particleBudget: 384
+  sounds:
+  - effect: 0
+    clip: {fileID: 8300000, guid: 2a3949858b9297f489ed0ab54eddf77c, type: 3}
+    volume: 0.27
+  - effect: 1
+    clip: {fileID: 8300000, guid: 7d68256fd68adbc47892682f50b18eda, type: 3}
+    volume: 0.27
+  - effect: 2
+    clip: {fileID: 8300000, guid: 3bc83178928ae574caf298600e8766c9, type: 3}
+    volume: 0.27
+  - effect: 3
+    clip: {fileID: 8300000, guid: 6ccae25571f734e40a1bb552054302e8, type: 3}
+    volume: 0.27
+  - effect: 4
+    clip: {fileID: 8300000, guid: 3d53ad260f5fef64fa25000bb1e05f01, type: 3}
+    volume: 0.27
+  - effect: 5
+    clip: {fileID: 8300000, guid: 9b9d5105bac112941b0eccec1f1f96d3, type: 3}
+    volume: 0.27
+  - effect: 6
+    clip: {fileID: 8300000, guid: 8213e68ba297d7a45b740a4516949932, type: 3}
+    volume: 0.19
+  - effect: 7
+    clip: {fileID: 8300000, guid: 221f77b91918bbc40b5c3815f39700cb, type: 3}
+    volume: 0.27
+  - effect: 8
+    clip: {fileID: 8300000, guid: 13a57c7dfc99a5c4c908dcd4f90b5bbe, type: 3}
+    volume: 0.27
+  - effect: 9
+    clip: {fileID: 8300000, guid: 09b499f7bfdd83643852c45b9b648bd0, type: 3}
+    volume: 0.27
+  - effect: 10
+    clip: {fileID: 8300000, guid: f668ff72b94ef6846832f9028c113103, type: 3}
+    volume: 0.27
+  - effect: 11
+    clip: {fileID: 8300000, guid: 8a7795d7519beea4d9d06084388f857c, type: 3}
+    volume: 0.27
+  - effect: 12
+    clip: {fileID: 8300000, guid: 7829f67afb1bec54884905d66841c6c9, type: 3}
+    volume: 0.27
+  - effect: 13
+    clip: {fileID: 8300000, guid: de4684318bcedf64fb4c3eb769fc84f8, type: 3}
+    volume: 0.19
+  - effect: 14
+    clip: {fileID: 8300000, guid: cac5a8d6347924d419fb5b3a75378cef, type: 3}
+    volume: 0.27
+  - effect: 15
+    clip: {fileID: 8300000, guid: 312f4185235eff84ab95d0492e94840e, type: 3}
+    volume: 0.27
+  - effect: 16
+    clip: {fileID: 8300000, guid: db136adf653f454418cafb6297b4d788, type: 3}
+    volume: 0.27
+  - effect: 17
+    clip: {fileID: 8300000, guid: 75572ad9d715d0c47a020e22f8ba85b1, type: 3}
+    volume: 0.27
+  - effect: 18
+    clip: {fileID: 8300000, guid: bfb080798928d2b4fb0af7a2c4495a1f, type: 3}
+    volume: 0.27
+  - effect: 19
+    clip: {fileID: 8300000, guid: 5dfc7e37c40baae4cb89c6f76a46b42c, type: 3}
+    volume: 0.27

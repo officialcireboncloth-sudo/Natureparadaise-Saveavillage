@@ -66,6 +66,16 @@ public sealed class BarnInterior : MonoBehaviour
     static void ResetStatics() { Current=null; }
     public static void ResetVisit() { Current=null; }
 
+    /// <summary>Reconnects the saved Barn/Coop to its restored home before its interior layout is loaded.</summary>
+    public static bool RestoreVisit(string homeId,Vector3 exteriorReturn)
+    {
+        AnimalHusbandrySystem.Scan();
+        foreach(var portal in FindObjectsByType<BarnInterior>(FindObjectsInactive.Include,FindObjectsSortMode.None))
+            if(portal.home!=null && portal.home.Id==homeId)
+            {Current=portal;portal.returnPosition=exteriorReturn;return true;}
+        return false;
+    }
+
     public void ConfigureScene(AnimalHome targetHome,Transform exterior,BoxCollider barrier=null)
     {
         home=targetHome;

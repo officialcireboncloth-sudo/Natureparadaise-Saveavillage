@@ -125,11 +125,8 @@ public sealed class FishingPresentation : MonoBehaviour
         catchVisual=new GameObject("Fishing Catch Display").transform;
         if(item.worldPrefab != null)
         {
-            GameObject visual=Instantiate(item.worldPrefab,catchVisual,false);
-            foreach(Collider collider in visual.GetComponentsInChildren<Collider>()) collider.enabled=false;
-            foreach(Rigidbody body in visual.GetComponentsInChildren<Rigidbody>()) { body.isKinematic=true; body.detectCollisions=false; }
-            foreach(MonoBehaviour behaviour in visual.GetComponentsInChildren<MonoBehaviour>()) behaviour.enabled=false;
-            visual.transform.localScale=item.worldScale;
+            GameObject visual=HeldItemVisuals.Create(item,catchVisual,"Caught item model");
+            HeldItemVisuals.Fit(visual,item);
         }
         else if(item.category==ItemCategory.Fish)
         {
@@ -150,6 +147,7 @@ public sealed class FishingPresentation : MonoBehaviour
             Part(catchVisual,"Foot",PrimitiveType.Cube,Vector3.zero,new Vector3(0.35f,0.12f,0.19f),color);
             if(!item.Id.Contains("slipper")) Part(catchVisual,"Ankle",PrimitiveType.Cube,new Vector3(-0.12f,0.13f,0f),new Vector3(0.12f,0.22f,0.17f),color);
         }
+        foreach(var renderer in catchVisual.GetComponentsInChildren<Renderer>(true))renderer.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
         LateUpdate();
     }
     public void StyleBobber(GameObject bobber)
@@ -190,16 +188,7 @@ public sealed class FishingPresentation : MonoBehaviour
     public void HideCatch() { if(catchVisual!=null) Destroy(catchVisual.gameObject); catchVisual=null; foreach(var material in catchMaterials) if(material!=null) Destroy(material); catchMaterials.Clear(); }
     public void Splash(Vector3 position)
     {
-        GameObject splash=new("Fishing Landing Splash"); splash.transform.position=position;
-        ParticleSystem particles=splash.AddComponent<ParticleSystem>();
-        particles.Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);
-        var main=particles.main; main.loop=false; main.duration=0.3f; main.startLifetime=0.4f; main.startSpeed=1.4f; main.startSize=0.09f; main.startColor=new Color(0.75f,0.92f,1f,0.8f); main.gravityModifier=0.5f;
-        var emission=particles.emission; emission.rateOverTime=0; emission.SetBursts(new[]{new ParticleSystem.Burst(0f,14)});
-        var shape=particles.shape; shape.shapeType=ParticleSystemShapeType.Cone; shape.angle=45f; shape.radius=0.15f;
-        splash.transform.rotation=Quaternion.Euler(-90f,0f,0f);
-        var renderer=particles.GetComponent<ParticleSystemRenderer>(); if(rodCurve!=null) renderer.sharedMaterial=rodCurve.sharedMaterial;
-        else { Material splashMaterial=new(Shader.Find("Sprites/Default")); materials.Add(splashMaterial); renderer.sharedMaterial=splashMaterial; }
-        particles.Play(); Destroy(splash,1.2f);
+        FarmActionEffects.Burst(FarmEffect.FishCast,position);
     }
     void OnDestroy() { HideCatch(); if(rod!=null) Destroy(rod.gameObject); if(importedRodMesh!=null) Destroy(importedRodMesh); foreach(var material in materials) if(material!=null) Destroy(material); }
 }

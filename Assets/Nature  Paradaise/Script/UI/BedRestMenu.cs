@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -87,8 +85,13 @@ public sealed class BedRestMenu : MonoBehaviour
         switch (choice)
         {
             case 0: target.SleepWithoutSave(pose, stand); break;
-            case 1: target.SleepAndSave(pose, stand); break;
-            case 2: SaveManager.Instance?.LoadGame(); break;
+            case 1:
+                SaveSlotMenu.Show(SaveSlotMenuMode.Save, slot =>
+                {
+                    if (target != null) target.SleepAndSaveToSlot(slot, pose, stand);
+                });
+                break;
+            case 2: SaveManager.Instance?.RequestLoad(); break;
         }
     }
 
@@ -143,7 +146,8 @@ public sealed class BedRestMenu : MonoBehaviour
         string[] labels = { "Tidur Tanpa Save", "Tidur & Save Game", "Load Game", "Batal" };
         Sprite[] icons = { theme != null ? theme.sleepIcon : null, theme != null ? theme.sleepAndSaveIcon : null,
             theme != null ? theme.loadIcon : null, theme != null ? theme.backIcon : null };
-        bool validSave = TrySaveInfo(out string saveInfo);
+        bool validSave = SaveManager.SaveExists();
+        string saveInfo = validSave ? "Pilih Save Data Slot 1–4 saat Load" : "Belum ada save";
         for (int i = 0; i < buttons.Length; i++)
         {
             int choice = i;
@@ -170,25 +174,6 @@ public sealed class BedRestMenu : MonoBehaviour
         Label("Last Save", panel, saveInfo, 18, 28, 415, 358, 30, true).color = GameplayHUDStyle.Muted;
         Label("Key Hints", panel, "↑ ↓  Pilih     Enter  Konfirmasi     Esc  Kembali", 16, 20, 469, 374, 30, true);
         RefreshSelection();
-    }
-
-    static bool TrySaveInfo(out string info)
-    {
-        info = "Save terakhir: Belum ada save";
-        if (!SaveManager.SaveExists()) return false;
-        try
-        {
-            var data = JsonUtility.FromJson<SaveManager.SaveData>(File.ReadAllText(SaveManager.DefaultSavePath));
-            if (data == null || data.day < 1 || data.hour < 0 || data.hour > 23 || data.minute < 0 || data.minute > 59)
-                throw new InvalidDataException("Invalid save calendar");
-            info = $"Save terakhir: Hari {data.day} • {data.hour:00}:{data.minute:00}";
-            return true;
-        }
-        catch (Exception exception) when (exception is IOException || exception is ArgumentException || exception is UnauthorizedAccessException)
-        {
-            info = "Save terakhir: Tidak dapat dibaca";
-            return false;
-        }
     }
 
     static RectTransform Fixed(string name, Transform parent, float x, float y, float width, float height)

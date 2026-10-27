@@ -47,8 +47,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
 
     [Header("Animation Impact Timing")]
     [SerializeField, Min(0f)] float pullImpactDelay = 1.05f;
-    [SerializeField, Min(0f), Tooltip("Saat bilah animasi Sickle menyapu di depan player (detik).")]
-    float sickleImpactDelay = 0.85f;
+    [SerializeField, Tooltip("Shared timing, blade path and forward cutting fan.")]
+    SickleSweepProfile sickleSweepProfile;
     [SerializeField, Min(0f), Tooltip("Saat kepala palu mencapai bagian bawah ayunan Hammering Rock (detik).")]
     float hammerImpactDelay = 0.68f;
     [SerializeField, Min(0f)] float axeImpactDelay = 0.55f;
@@ -69,6 +69,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     float carriedFishSizeCm;
     GameObject carriedVisual;
     bool actionBusy;
+    SickleSweepAction sickleSweep;
+    readonly List<SickleCutTarget> sickleCandidates=new(32);
 
     int SickleLevel => status != null ? status.GetToolLevel(PlayerToolType.Sickle) : sickleLevel;
     int AxeLevel => status != null ? status.GetToolLevel(PlayerToolType.Axe) : axeLevel;
@@ -88,7 +90,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             if (axeLevel > 1) status.SetToolLevel(PlayerToolType.Axe, axeLevel);
         }
         inventory = GetComponent<Inventory>();
-        if (animator == null) animator = GetComponentInChildren<Animator>();
+        if (animator == null) animator = movement!=null?movement.CharacterAnimator:GetComponentInChildren<Animator>();
+        if(sickleSweepProfile==null)sickleSweepProfile=Resources.Load<SickleSweepProfile>("Profiles/Sickle Sweep");
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
         cameraFollow = Camera.main != null ? Camera.main.GetComponent<TopDownCameraFollow>() : null;
@@ -103,10 +106,13 @@ public sealed class PlayerGatheringTool : MonoBehaviour
     void OnDestroy()
     {
         if (hotbar != null) hotbar.SelectionChanged -= UpdateToolVisuals;
+        if(carriedVisual!=null)Destroy(carriedVisual.transform.parent.gameObject);
+        GetComponent<HeldItemPlacementSystem>()?.SetExternalActionSuppressed(this,false);
     }
 
     void Update()
     {
+        if(GetComponent<PlayerToolApproach>()?.IsActive==true)return;
         // Target scan diberi interval untuk menghindari pencarian collider setiap frame,
         // tetapi input tool tetap diperiksa setiap frame agar kontrol terasa responsif.
         if (Time.unscaledTime >= nextScan)
@@ -127,16 +133,15 @@ public sealed class PlayerGatheringTool : MonoBehaviour
 
         ShowTargetPrompt();
         if (movement != null && movement.IsMovementLocked) return;
-        Transform actionTarget = hotbar.SelectedTool == PlayerToolType.Axe ? treeTarget?.transform : target?.transform;
-        if (actionTarget != null && WorldInteractionPrompt.HasDisplayedPrompt &&
-            !WorldInteractionPrompt.IsDisplayedFor(this, actionTarget)) return;
+        if(!WorldInteractionPrompt.AllowsAction(this))return;
 
-        if (target != null && target.CanPull && PlayerInteractionTarget.PressPrompt(this, target.transform, pullOrStoreKey))
+        var shownTarget=WorldInteractionPrompt.TryGetDisplayedAnchor(this,out var shownAnchor)?shownAnchor.GetComponent<WorldGatherable>():target;
+        if (shownTarget != null && shownTarget.CanPull && PlayerInteractionTarget.PressPrompt(this, shownTarget.transform, pullOrStoreKey))
             PullTarget();
         else if (hotbar.IsUsePressed(PlayerToolType.Sickle, this))
             UseSickle();
-        else if (hotbar.SelectedTool == PlayerToolType.Hammer && target != null && target.CanHammer &&
-            PlayerInteractionTarget.PressPrompt(this, target.transform, pullOrStoreKey))
+        else if (hotbar.SelectedTool == PlayerToolType.Hammer && shownTarget != null && shownTarget.CanHammer &&
+            PlayerInteractionTarget.PressPrompt(this, shownTarget.transform, pullOrStoreKey))
             UseHammer();
         else if (hotbar.IsUsePressed(PlayerToolType.Hammer, this))
             UseHammer();
@@ -158,12 +163,15 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         {
             WorldGatherable candidate = all[i];
             if (candidate == null || !candidate.IsAvailable) continue;
+            if(hotbar.SelectedTool==PlayerToolType.Sickle&&!candidate.CanSickle||
+               hotbar.SelectedTool==PlayerToolType.Hammer&&!candidate.CanHammer)continue;
             Vector3 observer = transform.position + Vector3.up * 0.8f;
             Vector3 interactionPoint = candidate.GetInteractionPoint(observer);
             Vector3 delta = interactionPoint - observer;
             delta.y = 0f;
             float distance = delta.magnitude;
-            if (distance > interactionRange) continue;
+            float floorTolerance=hotbar.SelectedTool==PlayerToolType.Sickle?(sickleSweepProfile!=null?sickleSweepProfile.verticalTolerance:.8f):1.2f;
+            if (distance > interactionRange||Mathf.Abs(candidate.transform.position.y-transform.position.y)>floorTolerance) continue;
 
             // Jika player menyentuh collider, arah dinilai dari pivot sebagai fallback.
             Vector3 direction = delta;
@@ -197,8 +205,10 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             Vector3 delta = candidate.transform.position - transform.position;
             delta.y = 0f;
             float distance = delta.magnitude;
-            if (!PlayerInteractionTarget.Contains(transform, candidate.transform) || distance < 0.01f) continue;
+            float surface=PlayerInteractionTarget.SurfaceDistance(transform,candidate.transform);
+            if (surface>interactionRange||Mathf.Abs(candidate.transform.position.y-transform.position.y)>1.2f||distance < 0.01f) continue;
             float dot = Vector3.Dot(facing, delta / distance);
+            if(dot<minimumFacingDot)continue;
             float score = distance - dot * 0.5f;
             if (score < bestTreeScore) { bestTreeScore = score; bestTree = candidate; }
         }
@@ -247,79 +257,112 @@ public sealed class PlayerGatheringTool : MonoBehaviour
 
     void PullTarget()
     {
+        var pending=RequestedGatherable();
+        if(pending==null||!pending.CanPull)return;
+        PlayerToolApproach.For(this).Begin(this,()=>pending.GetInteractionPoint(transform.position+Vector3.up*.6f),.75f,()=>PullReached(pending),()=>pending!=null&&pending.isActiveAndEnabled&&pending.CanPull,pending.transform);
+    }
+    void PullReached(WorldGatherable pending)
+    {
         if (!SpendStamina(pullCost)) return;
-        FaceGatherable(target);
+        FaceGatherable(pending);
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(pullTrigger);
-        WorldGatherable pending = target;
         target = null;
         StartCoroutine(PullImpactRoutine(pending));
     }
 
     void UseSickle()
     {
+        SickleCutTarget chosen=default;bool found=false;
+        var requested=RequestedGatherable();
+        if(WorldInteractionPrompt.IsDisplayedFor(this)&&(requested==null||!requested.CanSickle))return;
+        if(requested!=null&&requested.CanSickle){chosen=new SickleCutTarget(requested,requested.transform.position,0);found=true;}
+        if(!found){
+            sickleCandidates.Clear();var search=new SickleSweepRegion(transform.position,transform.forward,interactionRange,360,sickleSweepProfile!=null?sickleSweepProfile.verticalTolerance:.8f);
+            foreach(var grass in WorldGatherable.Active)if(grass!=null&&grass.isActiveAndEnabled&&grass.CanSickle&&search.Contains(grass.transform.position,out float a))sickleCandidates.Add(new SickleCutTarget(grass,grass.transform.position,a));
+            FieldArea.CollectSickleTargets(search,sickleCandidates);TerrainDetailGrassManager.CollectSickleTargets(search,sickleCandidates);
+            float best=float.PositiveInfinity;Vector3 facing=movement!=null?movement.FacingDirection:transform.forward;
+            foreach(var candidate in sickleCandidates){var delta=candidate.Position-transform.position;delta.y=0;float dot=delta.sqrMagnitude>.001f?Vector3.Dot(facing,delta.normalized):1;if(dot<minimumFacingDot)continue;float score=delta.magnitude-dot*.5f;if(score>=best)continue;best=score;chosen=candidate;found=true;}
+        }
+        if(!found){SaveLoadFeedback.Instance?.ShowMessage("Tidak ada rumput atau tanaman mati yang bisa disabit");return;}
+        var captured=chosen;
+        PlayerToolApproach.For(this).Begin(this,()=>captured.Position,Mathf.Min(PlayerToolApproach.MaximumWorkDistance,SickleRadius()),()=>StartSickleSweep(captured),()=>captured.IsAvailable,captured.Anchor,false);
+    }
+    WorldGatherable RequestedGatherable()
+    {
+        if(WorldInteractionPrompt.IsDisplayedFor(this))return WorldInteractionPrompt.TryGetDisplayedAnchor(this,out var anchor)?anchor.GetComponent<WorldGatherable>():null;
+        RefreshTarget();return target;
+    }
+    float SickleRadius()
+    {
+        if(sickleSweepProfile==null)sickleSweepProfile=ScriptableObject.CreateInstance<SickleSweepProfile>();
+        return sickleSweepProfile.baseReach+Mathf.Max(0,SickleLevel-1)*sickleSweepProfile.extraReachPerLevel;
+    }
+    void StartSickleSweep(SickleCutTarget requested)
+    {
+        if(!requested.IsAvailable)return;
+        Vector3 facing=movement!=null?movement.FacingDirection:transform.forward;
+        var region=new SickleSweepRegion(transform.position,facing,SickleRadius(),sickleSweepProfile.angle,sickleSweepProfile.verticalTolerance);
+        if(!region.Contains(requested.Position,out _)){
+            movement?.FaceTowardsInteraction(requested.Position);facing=movement!=null?movement.FacingDirection:transform.forward;
+            region=new SickleSweepRegion(transform.position,facing,SickleRadius(),sickleSweepProfile.angle,sickleSweepProfile.verticalTolerance);
+            if(!region.Contains(requested.Position,out _))return;
+        }
         if (!SpendStamina(StaminaBalance.Current.Cost("sickle_wild_grass"))) return;
-        if (target != null && target.CanSickle)
-            FaceGatherable(target);
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(sickleTrigger);
-        Vector3 facing = movement != null ? movement.FacingDirection : transform.forward;
-        facing.y = 0f;
-        facing.Normalize();
-        float radius = 0.85f + SickleLevel * 0.35f;
-        Vector3 center = transform.position + facing * 1.35f;
-        GetComponent<PlayerHeldTools>()?.BeginWorkAction(PlayerToolType.Sickle,center,1.35f);
-        StartCoroutine(SickleImpactRoutine(center,radius));
+        BeginTimedAction();
+        if(sickleSweep==null)sickleSweep=GetComponent<SickleSweepAction>()??gameObject.AddComponent<SickleSweepAction>();
+        sickleSweep.Begin(this,sickleSweepProfile,region);
     }
 
-    IEnumerator SickleImpactRoutine(Vector3 center,float radius)
+    /// <summary>Plays the swish once as the physical blade enters its cutting phase.</summary>
+    public void PlaySickleSwish(Vector3 position)
     {
-        BeginTimedAction();
-        if(sickleImpactDelay>0f) yield return new WaitForSeconds(sickleImpactDelay);
         if (sickleSwish != null) GameAudio.PlayOneShot(audioSource, sickleSwish, GameAudioBus.Main);
-        if (grassParticles != null) grassParticles.Play();
-        int cut = 0;
-        IReadOnlyList<WorldGatherable> all = WorldGatherable.Active;
-        for (int i = 0; i < all.Count; i++)
-        {
-            WorldGatherable candidate = all[i];
-            if (candidate != null && candidate.CanSickle && Vector3.Distance(candidate.transform.position, center) <= radius && candidate.Cut(this))
-                cut++;
-        }
-        cut += FieldArea.CutCropsInRadius(center, radius);
-        cut += TerrainDetailGrassManager.CutAllInRadius(center, radius);
+        else FarmActionEffects.PlaySound(FarmEffect.Swing,position);
+    }
+
+    /// <summary>Releases the gathering action after its physical follow-through or cancellation.</summary>
+    public void FinishSickleSweep(int cut,bool feedback)
+    {
+        if(feedback)
         SaveLoadFeedback.Instance?.ShowMessage(cut > 0 ? $"Sabit memotong {cut} target" : "Tidak ada rumput di depan");
         if (target != null && !target.IsAvailable) target = null;
-        yield return new WaitForSeconds(Mathf.Max(0f,1.35f-sickleImpactDelay));
         EndTimedAction();
+        movement?.CancelToolAnimation();
     }
 
     void UseHammer()
     {
         // Input tool tidak boleh bergantung pada interval scan; player bisa berbalik dan
         // langsung memukul pada frame yang sama.
-        RefreshTarget();
-        if (target == null || !target.CanHammer)
+        var pending=RequestedGatherable();
+        if (pending == null || !pending.CanHammer)
         {
             SaveLoadFeedback.Instance?.ShowMessage("Tidak ada batu di depan");
             return;
         }
-        if (HammerLevel < target.MinimumHammerLevel)
+        if (HammerLevel < pending.MinimumHammerLevel)
         {
             SaveLoadFeedback.Instance?.ShowMessage("Level Hammer belum cukup");
             return;
         }
-        if (!SpendStamina(target.StaminaCostPerHit)) return;
-        FaceGatherable(target);
-        GetComponent<PlayerHeldTools>()?.BeginWorkAction(PlayerToolType.Hammer,target.GetInteractionPoint(transform.position+Vector3.up),.95f);
+        PlayerToolApproach.For(this).Begin(this,()=>pending.GetInteractionPoint(transform.position+Vector3.up*.6f),.8f,()=>HammerReached(pending),()=>pending!=null&&pending.isActiveAndEnabled&&pending.CanHammer,pending.transform);
+    }
+    void HammerReached(WorldGatherable pending)
+    {
+        if(HammerLevel<pending.MinimumHammerLevel||!SpendStamina(pending.StaminaCostPerHit))return;
+        FaceGatherable(pending);
+        GetComponent<PlayerHeldTools>()?.BeginWorkAction(PlayerToolType.Hammer,pending.GetInteractionPoint(transform.position+Vector3.up),.95f);
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(hammerTrigger);
-        WorldGatherable pending=target;
         StartCoroutine(HammerImpactRoutine(pending));
     }
 
     void UseAxe()
     {
+        if(WorldInteractionPrompt.TryGetDisplayedAnchor(this,out var anchor))treeTarget=anchor.GetComponent<WorldTree>();else RefreshTarget();
         if (treeTarget == null)
         {
             SaveLoadFeedback.Instance?.ShowMessage("Tidak ada pohon di depan");
@@ -330,14 +373,20 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             SaveLoadFeedback.Instance?.ShowMessage("Level Axe belum cukup");
             return;
         }
-        if (!SpendStamina(treeTarget.StaminaCostPerHit)) return;
-        movement?.FaceTowardsInteraction(treeTarget.transform.position);
-        var trunk=treeTarget.GetComponent<Collider>();
-        Vector3 hitPoint=trunk!=null?trunk.ClosestPoint(transform.position+Vector3.up*1.8f):treeTarget.transform.position+Vector3.up*1.8f;
+        var pending=treeTarget;
+        PlayerToolApproach.For(this).Begin(this,()=>{
+            var shape=pending.GetComponent<Collider>();return shape!=null?shape.ClosestPoint(transform.position+Vector3.up*.7f):pending.transform.position;
+        },.8f,()=>AxeReached(pending),()=>pending!=null&&pending.isActiveAndEnabled&&pending.IsAvailable,pending.transform);
+    }
+    void AxeReached(WorldTree pending)
+    {
+        if(AxeLevel<pending.MinimumAxeLevel||!SpendStamina(pending.StaminaCostPerHit))return;
+        movement?.FaceTowardsInteraction(pending.transform.position);
+        var trunk=pending.GetComponent<Collider>();
+        Vector3 hitPoint=trunk!=null?trunk.ClosestPoint(transform.position+Vector3.up*.7f):pending.transform.position+Vector3.up*.6f;
         GetComponent<PlayerHeldTools>()?.BeginWorkAction(PlayerToolType.Axe,hitPoint,.95f);
         status?.PulseActivity(PlayerMovementState.ToolAction);
         TriggerAnimation(axeTrigger);
-        WorldTree pending=treeTarget;
         StartCoroutine(AxeImpactRoutine(pending));
     }
 
@@ -372,8 +421,6 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if(hammerImpactDelay>0f) yield return new WaitForSeconds(hammerImpactDelay);
         if(pending!=null && pending.IsAvailable)
         {
-            if (hammerImpact != null) GameAudio.PlayOneShot(audioSource, hammerImpact, GameAudioBus.Main);
-            if (stoneParticles != null) stoneParticles.Play();
             pending.Hammer(this,HammerLevel);
             cameraFollow?.AddImpulse(0.09f,0.12f);
             if(target==pending && !pending.IsAvailable) target=null;
@@ -388,8 +435,9 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         if(axeImpactDelay>0f) yield return new WaitForSeconds(axeImpactDelay);
         if(pending!=null && pending.IsAvailable)
         {
-            if (axeImpact != null) GameAudio.PlayOneShot(audioSource, axeImpact, GameAudioBus.Main);
-            pending.Chop(AxeLevel);
+            var collider=pending.GetComponent<Collider>();
+            Vector3 point=collider!=null?collider.ClosestPoint(transform.position+Vector3.up*.75f):pending.transform.position+Vector3.up*.6f;
+            pending.Chop(AxeLevel,point);
             cameraFollow?.AddImpulse(0.07f,0.1f);
             if(treeTarget==pending && !pending.IsAvailable) treeTarget=null;
         }
@@ -409,8 +457,14 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         actionBusy=false;
     }
 
-    void OnDisable()
+    void OnDisable() => CancelAction();
+
+    /// <summary>Cancels pending sickle, hammer, axe and pickup contacts without dropping carried items.</summary>
+    public void CancelAction()
     {
+        GetComponent<PlayerToolApproach>()?.Cancel(this);
+        StopAllCoroutines();
+        if(sickleSweep!=null)sickleSweep.Cancel();
         movement?.ReleaseMovementLock(this);
         actionBusy = false;
     }
@@ -424,6 +478,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
 
     void TriggerAnimation(string trigger)
     {
+        if(movement!=null&&movement.CharacterAnimator!=null)animator=movement.CharacterAnimator;
         if (animator != null && !string.IsNullOrEmpty(trigger)) animator.SetTrigger(trigger);
     }
 
@@ -437,20 +492,13 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         carriedAmount = amount;
         carriedQualityStars = Mathf.Clamp(qualityStars, 0, 4);
         carriedFishSizeCm = Mathf.Max(0f, fishSizeCm);
-        carriedVisual = item.worldPrefab != null
-            ? Instantiate(item.worldPrefab)
-            : GameObject.CreatePrimitive(item.category == ItemCategory.Fish ? PrimitiveType.Sphere : PrimitiveType.Cube);
-        carriedVisual.name = $"Carried_{item.itemName}";
-        foreach (Collider collider in carriedVisual.GetComponentsInChildren<Collider>(true)) collider.enabled = false;
-        carriedVisual.transform.SetParent(transform, false);
-        carriedVisual.transform.localPosition = new Vector3(0f, 1.45f, 0.38f);
+        var anchor=new GameObject("GatheredItemAnchor").transform;anchor.SetParent(transform,false);HeldItemVisuals.NormalizeAnchor(anchor);
+        anchor.position=transform.position+Vector3.up*(PlayerDimensions.Height*.62f)+transform.forward*.38f;
+        carriedVisual = HeldItemVisuals.Create(item,anchor,$"Carried_{item.itemName}");
         carriedVisual.transform.localRotation = item.category == ItemCategory.Fish
             ? Quaternion.Euler(0f, 90f, 0f) : Quaternion.identity;
-        carriedVisual.transform.localScale = item.worldPrefab != null
-            ? item.worldScale
-            : item.category == ItemCategory.Fish
-                ? new Vector3(0.58f, 0.24f, 0.22f)
-                : new Vector3(0.35f, 0.22f, 0.35f);
+        HeldItemVisuals.Fit(carriedVisual,item);
+        GetComponent<HeldItemPlacementSystem>()?.SetExternalActionSuppressed(this,true);
         movement?.SetCarrying(true);
         UpdateToolVisuals(hotbar.SelectedTool);
         return true;
@@ -463,6 +511,7 @@ public sealed class PlayerGatheringTool : MonoBehaviour
             SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh");
             return;
         }
+        PlayerPickupNotification.ShowItem(inventory, carriedItem, carriedAmount);
         QuestEventHub.Publish(QuestObjectiveType.Collect, carriedItem.name, carriedAmount, carriedItem);
         ClearCarry();
     }
@@ -482,7 +531,8 @@ public sealed class PlayerGatheringTool : MonoBehaviour
         carriedAmount = 0;
         carriedQualityStars = 0;
         carriedFishSizeCm = 0f;
-        if (carriedVisual != null) Destroy(carriedVisual);
+        if (carriedVisual != null){carriedVisual.SetActive(false);Destroy(carriedVisual.transform.parent.gameObject);}
+        GetComponent<HeldItemPlacementSystem>()?.SetExternalActionSuppressed(this,false);
         movement?.SetCarrying(false);
         UpdateToolVisuals(hotbar.SelectedTool);
     }

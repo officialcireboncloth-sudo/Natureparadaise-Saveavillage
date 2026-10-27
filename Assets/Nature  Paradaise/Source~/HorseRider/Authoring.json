@@ -1,0 +1,47 @@
+{
+  "runtime_fbx": "C:\\GitHub\\Natureparadaise-Saveavillage\\ArtSource\\HorseRider\\Exports\\RiderHorseTransitions.fbx",
+  "source_fbx_sha256": "4faf49b493a5019c427b8ea08a52a0cdadd3503447f80c09ab2a39755bbec2a0",
+  "takes": [
+    {
+      "name": "Dismount Horse",
+      "range": [
+        1.0,
+        91.0
+      ]
+    },
+    {
+      "name": "Mount Horse",
+      "range": [
+        1.0,
+        76.0
+      ]
+    },
+    {
+      "name": "Riding Idle",
+      "range": [
+        1.0,
+        61.0
+      ]
+    },
+    {
+      "name": "Dismount Horse Right",
+      "range": [
+        1.0,
+        91.0
+      ]
+    },
+    {
+      "name": "Mount Horse Right",
+      "range": [
+        1.0,
+        76.0
+      ]
+    }
+  ],
+  "unity_horse_root_scale": 0.633059631,
+  "unity_rider_visual_scale": 1.33043254,
+  "saddle_surface_height": 1.044548,
+  "rider_pelvis_target_height": 1.094548,
+  "preview_coordinate_mapping": "Blender=(-UnityX,-UnityZ,UnityY)",
+  "notes": "Standing end matches Idle frame1; mount end and dismount start exactly match Riding Idle. Canonical dismount is left side; right-side takes are baked explicitly."
+}

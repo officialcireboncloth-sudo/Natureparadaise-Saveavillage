@@ -32,6 +32,7 @@ public class TimeManager : MonoBehaviour
     float timer;
     readonly HashSet<object> pauseOwners = new();
     bool manualPause;
+    int pauseGeneration;
 
     public bool IsPaused => manualPause || pauseOwners.Count > 0;
 
@@ -60,7 +61,7 @@ public class TimeManager : MonoBehaviour
 
         timer += Time.deltaTime;
         // While menjaga waktu tetap akurat apabila terjadi frame drop panjang.
-        while (timer >= SecondsPerGameTick)
+        while (!IsPaused && timer >= SecondsPerGameTick)
         {
             timer -= SecondsPerGameTick;
             AdvanceMinute();
@@ -92,8 +93,13 @@ public class TimeManager : MonoBehaviour
     public void AdvanceMinutes(int gameMinutes)
     {
         int ticks = Mathf.CeilToInt(Mathf.Max(0, gameMinutes) / 10f);
+        int pausesBeforeAction=pauseGeneration;
         for (int index = 0; index < ticks; index++)
+        {
             AdvanceMinute();
+            // A cooking UI can already own a pause. Stop only when a clock callback adds a new one (e.g. forced sleep).
+            if(IsPaused && pauseGeneration!=pausesBeforeAction)break;
+        }
         timer = 0f;
     }
 
@@ -124,7 +130,7 @@ public class TimeManager : MonoBehaviour
     public void AcquirePause(object owner)
     {
         if (owner != null)
-            pauseOwners.Add(owner);
+            if(pauseOwners.Add(owner))pauseGeneration++;
     }
 
     /// <summary>Melepas pause lock milik caller.</summary>
