@@ -94,9 +94,8 @@ public sealed class SaveSlotInfo
     {
         get
         {
-            string[] seasons = { "Musim Semi", "Musim Panas", "Musim Gugur", "Musim Dingin" };
-            int elapsed = Mathf.Max(0, day - 1);
-            return $"Hari {elapsed % 28 + 1} · {seasons[(elapsed / 28) % 4]} · {hour:00}:{minute:00}";
+            GameScheduleData.Date(day,out int year,out int season,out int date);
+            return $"Hari {date} · {GameScheduleData.SeasonName(season)} · Th. {year} · {hour:00}:{minute:00}";
         }
     }
 }

@@ -120,8 +120,8 @@ public sealed class WeatherForecastTVUI : MonoBehaviour
         string period=hour<11?"Pagi":hour<15?"Siang":hour<18?"Sore":"Malam";
         broadcast.text=$"Siaran {period} · {hour:00}:{minute:00}";
         var season=SeasonVisualController.ResolveSeasonForDay(day);
-        string seasonName=season switch{CropSeason.Spring=>"Musim Semi",CropSeason.Summer=>"Musim Panas",CropSeason.Autumn=>"Musim Gugur",_=>"Musim Dingin"};
-        date.text=$"Hari {day} · {seasonName}";
+        string seasonName=GameScheduleData.SeasonName(season);GameScheduleData.Date(day,out int year,out _,out int dateInMonth);
+        date.text=$"Hari {dateInMonth} · {seasonName} · Tahun {year}";
         var weather=WeatherSystem.Instance;
         currentName.text=todayName.text=weather!=null?WeatherSystem.GetShortName(weather.CurrentWeather):"Belum tersedia";
         tomorrowName.text=weather!=null?WeatherSystem.GetShortName(weather.TomorrowWeather):"Belum tersedia";

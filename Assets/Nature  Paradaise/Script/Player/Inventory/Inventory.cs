@@ -32,6 +32,7 @@ public class Inventory : MonoBehaviour
     public int Capacity => MainCapacity + HotbarSlotCount;
     public int BackpackLevel => backpackLevel;
     public bool HasStarterPitchfork { get; private set; }
+    public bool HasStarterMilker { get; private set; }
     /// <summary>Capacity used to validate an incoming save without resizing the live inventory.</summary>
     public int CapacityAtBackpackLevel(int level) => Mathf.Max(8,baseBagSlotCount)+GetBackpackBonus(level)+HotbarSlotCount;
 
@@ -77,6 +78,7 @@ public class Inventory : MonoBehaviour
         // sekali lagi setelah seluruh Awake selesai agar loadout game baru stabil.
         GrantStartingHotbarIfEmpty();
         RestoreStarterPitchfork(HasStarterPitchfork);
+        RestoreStarterMilker(HasStarterMilker);
         OnInventoryChanged?.Invoke();
     }
 
@@ -95,6 +97,22 @@ public class Inventory : MonoBehaviour
         // Mark before Add publishes inventory events; a full bag keeps the migration pending.
         HasStarterPitchfork = true;
         if (!Add(fork, 1)) HasStarterPitchfork = false;
+    }
+
+    /// <summary>Grants one starter Milker to new and legacy saves, respecting both storage chests and a full bag.</summary>
+    public void RestoreStarterMilker(bool alreadyGranted)
+    {
+        HasStarterMilker = alreadyGranted;
+        if (alreadyGranted || GetComponent<PlayerController>() == null) return;
+        var item = Resources.Load<ItemSO>("Items/Tools/Milker Tool");
+        if (item == null) return;
+        if (GetCount(item) > 0) { HasStarterMilker = true; return; }
+        foreach (var entry in ToolStorageService.Entries)
+            if (entry != null && entry.item == item && entry.count > 0) { HasStarterMilker = true; return; }
+        foreach (var entry in HouseStorageService.Entries)
+            if (entry != null && entry.item == item && entry.count > 0) { HasStarterMilker = true; return; }
+        HasStarterMilker = true;
+        if (!Add(item, 1)) HasStarterMilker = false;
     }
 
     /// <summary>

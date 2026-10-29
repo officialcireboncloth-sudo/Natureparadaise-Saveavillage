@@ -16,6 +16,12 @@ public sealed class DialogueTrigger : MonoBehaviour
 
     void Awake()
     {
+        if (speakerTargetId == "npc.mina.test")
+        {
+            MinaCharacter.Ensure(gameObject);
+            promptHeight = PlayerDimensions.Height + .2f;
+            promptText = "E: Bicara dengan Mina";
+        }
         if (playerInventory == null) playerInventory = FindFirstObjectByType<Inventory>();
     }
 

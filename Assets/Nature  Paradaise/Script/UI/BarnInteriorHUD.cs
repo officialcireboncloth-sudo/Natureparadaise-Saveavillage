@@ -16,6 +16,13 @@ public sealed class BarnInteriorHUD : MonoBehaviour
     TMP_Text title,level,feed,used,estimate,inputs,ready,machineState,compactFeed,toggleLabel;
     BarnHUDIcon housingIcon;
     MainMenuIcon stateDot;
+    RectTransform coopStrip,coopHeader,coopBadge;
+    TMP_Text coopTitle,coopLevel;
+    BarnHUDIcon coopIcon;
+    MainMenuIcon coopStateDot;
+    readonly RectTransform[] coopCells=new RectTransform[6];
+    readonly TMP_Text[] coopValues=new TMP_Text[6];
+    float coopWidth=-1;
     float nextRefresh;
     bool compactLayout,compactExpanded,desktopCollapsed;
     int hungry;
@@ -59,7 +66,70 @@ public sealed class BarnInteriorHUD : MonoBehaviour
         machineState=Row(details,"Status Mesin",360);machineState.fontSize=22;machineState.fontSizeMax=22;machineState.fontSizeMin=18;
         var dot=At("Machine Status Indicator",details,197,372,14,14);stateDot=dot.gameObject.AddComponent<MainMenuIcon>();stateDot.kind=MainMenuIcon.Kind.Coin;stateDot.raycastTarget=false;
         compactFeed=Label("Compact Feed",summary,24,100,304,28,21);
+        BuildCoopStrip();
         canvasObject.SetActive(false);
+    }
+    void BuildCoopStrip()
+    {
+        coopStrip=GameplayHUDStyle.Rect("Coop Overview Bar",safe,new Vector2(.5f,1),new Vector2(.5f,1));
+        coopStrip.pivot=new Vector2(.5f,1);
+        var surface=GameplayHUDStyle.Surface(coopStrip,new Color(.055f,.105f,.15f,.94f),18);
+        surface.raycastTarget=false;
+        surface.borderColor=new Color(.71f,.81f,.88f,.12f);surface.borderWidth=1;
+        coopHeader=At("Coop Identity",coopStrip,0,0,410,104);
+        coopIcon=At("White Poultry Silhouette",coopHeader,24,20,64,64).gameObject.AddComponent<BarnHUDIcon>();
+        coopIcon.symbol=BarnHUDIcon.Symbol.Poultry;coopIcon.color=Color.white;coopIcon.raycastTarget=false;
+        coopTitle=Label("Coop Name",coopHeader,106,28,218,48,26);coopTitle.fontStyle=FontStyles.Bold;
+        coopTitle.enableAutoSizing=true;coopTitle.fontSizeMin=18;coopTitle.fontSizeMax=26;
+        coopBadge=At("Level Badge",coopHeader,328,33,62,38);
+        GameplayHUDStyle.Surface(coopBadge,new Color(.16f,.24f,.31f,.95f),8).raycastTarget=false;
+        coopLevel=Label("Coop Level",coopBadge,0,0,62,38,20);coopLevel.alignment=TextAlignmentOptions.Center;coopLevel.fontStyle=FontStyles.Bold;
+        string[] captions={"PAKAN","TERPAKAI","STOK","BAHAN","HASIL","STATUS"};
+        for(int i=0;i<coopCells.Length;i++)
+        {
+            var cell=coopCells[i]=At(captions[i],coopStrip,410+i*160,0,160,104);
+            var line=At("Separator",cell,0,18,1,68).gameObject.AddComponent<Image>();
+            line.color=new Color(.65f,.75f,.82f,.24f);line.raycastTarget=false;
+            var caption=GameplayHUDStyle.Text("Caption",cell,captions[i],15,new Vector2(.06f,.57f),new Vector2(.94f,.85f));
+            caption.color=new Color(.67f,.77f,.85f);caption.alignment=TextAlignmentOptions.Center;
+            var value=coopValues[i]=GameplayHUDStyle.Text("Value",cell,"—",26,new Vector2(.08f,.17f),new Vector2(.92f,.60f));
+            value.color=Color.white;value.fontStyle=FontStyles.Bold;value.alignment=TextAlignmentOptions.Center;
+            value.enableAutoSizing=true;value.fontSizeMin=17;value.fontSizeMax=26;value.textWrappingMode=TextWrappingModes.NoWrap;
+            if(i==5)
+            {
+                value.rectTransform.anchorMin=new Vector2(.22f,.17f);value.fontSizeMax=24;
+                var dot=GameplayHUDStyle.Rect("Status Dot",cell,new Vector2(.12f,.385f),new Vector2(.12f,.385f));
+                dot.sizeDelta=new Vector2(13,13);coopStateDot=dot.gameObject.AddComponent<MainMenuIcon>();
+                coopStateDot.kind=MainMenuIcon.Kind.Coin;coopStateDot.raycastTarget=false;
+            }
+        }
+        coopStrip.gameObject.SetActive(false);
+    }
+    void RefreshCoopStrip()
+    {
+        coopTitle.text=title.text;coopLevel.text=level.text;
+        coopValues[0].text=feed.text;coopValues[1].text=used.text;coopValues[2].text=estimate.text;
+        coopValues[3].text=inputs.text;coopValues[4].text=ready.text;
+        coopValues[5].text=machineState.text=="Siap diambil"?"Siap":machineState.text=="Memproses"?"Proses":
+            machineState.text=="Menunggu"?"Tunggu":machineState.text=="Tidak ada"?"—":machineState.text;
+        coopStateDot.color=stateDot.color;coopValues[5].color=stateDot.color;
+    }
+    void AlignCoopStrip()
+    {
+        float width=Mathf.Min(1440,safe.rect.width-64);
+        coopStrip.sizeDelta=new Vector2(width,104);
+        coopStrip.anchoredPosition=new Vector2(0,-138);
+        if(Mathf.Abs(coopWidth-width)<.1f)return;
+        coopWidth=width;
+        float identity=Mathf.Clamp(width*.285f,340,410),cellWidth=(width-identity)/6;
+        coopHeader.sizeDelta=new Vector2(identity,104);
+        coopBadge.anchoredPosition=new Vector2(identity-82,-33);
+        ((RectTransform)coopTitle.transform.parent).sizeDelta=new Vector2(identity-194,48);
+        for(int i=0;i<coopCells.Length;i++)
+        {
+            coopCells[i].anchoredPosition=new Vector2(identity+i*cellWidth,0);
+            coopCells[i].sizeDelta=new Vector2(cellWidth,104);
+        }
     }
     static RectTransform At(string name,Transform parent,float x,float y,float width,float height)
     {
@@ -134,10 +204,15 @@ public sealed class BarnInteriorHUD : MonoBehaviour
         troughTitle=home.FeedSpace<=0?"Tempat pakan penuh":home.TotalFeed>0?"Tempat pakan terisi":"Tempat pakan kosong";
         troughInstruction=home.FeedSpace<=0?"Semua slot sudah terisi":$"Gunakan {FeedTypes.Label(home.RequiredFeedKind)}";
         troughDetail=$"Belum makan: {hungry}";
+        RefreshCoopStrip();
     }
     void Align()
     {
         if(summary==null||canvasObject==null||!canvasObject.activeInHierarchy)return;
+        // The wide poultry overview leaves the room clear; portrait phones retain the collapsible card.
+        bool wideCoop=shownHome!=null&&shownHome.Kind==AnimalHousingKind.Coop&&safe.rect.width>=900&&safe.rect.width>=safe.rect.height*1.35f;
+        coopStrip.gameObject.SetActive(wideCoop);summary.gameObject.SetActive(!wideCoop);
+        if(wideCoop){AlignCoopStrip();return;}
         compactLayout=canvas.pixelRect.width<1000||safe.rect.width<safe.rect.height*1.25f;
         bool expanded=compactLayout?compactExpanded:!desktopCollapsed;
         float width=Mathf.Min(352,Mathf.Max(300,safe.rect.width-48));

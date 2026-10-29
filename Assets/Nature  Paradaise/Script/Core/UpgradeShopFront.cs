@@ -31,7 +31,7 @@ public enum UpgradeShopKind { Blacksmith, Lumber }
  string notice="";
  int index;bool bound,cursorVisible;CursorLockMode cursorLock;
  Button boundHouseTab,boundBuildTab,boundUpgradeTab;
- void Awake(){if(uiRoot!=null)uiRoot.SetActive(false);Bind();}
+ void Awake(){if(uiRoot!=null)uiRoot.SetActive(false);Bind();if(kind==UpgradeShopKind.Lumber)LumberStoreOwner.Ensure(this);}
  void Resolve(){player=FindFirstObjectByType<PlayerController>();inventory=player?.GetComponent<Inventory>();status=player?.GetComponent<PlayerStatusSystem>();clock=TimeManager.Instance;}
  void Bind(){EnsureConstructionTabs();BindConstructionTabs();if(bound)return;bound=true;confirm?.onClick.AddListener(Confirm);close?.onClick.AddListener(Close);materialsTab?.onClick.AddListener(()=>{Close();materialShop?.Open();});if(kind!=UpgradeShopKind.Lumber)upgradeTab?.onClick.AddListener(()=>Select(0));for(int n=0;n<cards.Count;n++){int i=n;cards[n].onClick.AddListener(()=>Select(i));}}
  /// <summary>Repairs construction tabs on the active UI, including older scene overrides of the shop prefab.</summary>

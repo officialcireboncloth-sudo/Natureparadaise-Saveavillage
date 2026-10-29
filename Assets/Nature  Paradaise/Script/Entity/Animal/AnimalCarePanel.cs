@@ -67,8 +67,7 @@ public sealed class AnimalCarePanel : MonoBehaviour
     {
         var controller=Controller();if(controller==null)return;
         controller.TakeMilk();if(controller.IsCareBusy)Close();
-        else Feedback=Animal.Type==AnimalType.Sheep?"Produk belum siap atau Shears belum dipilih.":
-            Animal.Type is AnimalType.Cow or AnimalType.Goat?"Produk belum siap atau Milker belum dipilih.":"Produk belum siap.";
+        else Feedback=controller.ProductCollectionBlockReason;
     }
     public void Interact()
     {if(Animal!=null)Feedback=Animal.Interact()?"Interaksi harian selesai.":"Interaksi sudah dihitung hari ini.";}

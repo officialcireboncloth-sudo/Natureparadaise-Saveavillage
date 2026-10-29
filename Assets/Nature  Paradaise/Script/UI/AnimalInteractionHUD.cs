@@ -174,7 +174,8 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
         clockWeatherIcon.SetWeather(weather!=null?weather.CurrentWeather:(WeatherType?)null,night,
             weather!=null?weatherArtwork?.Icon(weather.CurrentWeather,night):null);
         clockWeatherLabel.text=weather!=null?WeatherSystem.GetShortName(weather.CurrentWeather):"Memuat...";
-        clockText.text=Season()+ (t!=null?$"\nHari ke-{t.day}\n{t.hour:00}:{t.minute:00}":"\nJam belum tersedia");
+        GameScheduleData.Date(t!=null?t.day:1,out _,out _,out int date);
+        clockText.text=Season()+ (t!=null?$"\nHari ke-{date}\n{t.hour:00}:{t.minute:00}":"\nJam belum tersedia");
         moneyText.text=(ScoreManager.Instance!=null?ScoreManager.Instance.points:0).ToString("N0",CultureInfo.GetCultureInfo("id-ID"))+" G";
     }
     void UpdateBubble(bool show)
@@ -231,6 +232,13 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
             DetailLine("DailyCare",()=> $"Perawatan hari ini\nMakan: {(animal.FedToday?"Selesai":"Belum")}  •  Gosok: {(animal.PetToday?"Selesai":"Belum")}"+(animal.Type==AnimalType.Cow?$"\nInteraksi: {(animal.InteractedToday?"Selesai":"Belum")}":""));
             if(animal.Type==AnimalType.Cow)DetailLine("CareRule",()=>"Lengkapi makan, gosok, dan interaksi harian untuk +1% heart. Perawatan tidak lengkap selama 7 hari berturut-turut mengurangi 5%.");
             DetailLine("Product",()=> $"Produk: {(animal.HasProductReady?"Siap diambil":"Belum siap")}\nNilai hewan: {animal.AnimalSellPrice:N0} G");
+            if(animal.Type is AnimalType.Cow or AnimalType.Goat)
+                DetailLine("MilkAvailability",()=>
+                {
+                    var controller=animal.GetComponent<AnimalController>();
+                    string reason=controller!=null?controller.ProductCollectionBlockReason:"Produk belum siap";
+                    return string.IsNullOrEmpty(reason)?"Perah susu: Siap":"Perah susu: "+reason;
+                });
             var routine=animal.GetComponent<AnimalRoutine>();
             DetailLine("HomeAssignment",()=>"Kandang: "+(routine?.Home?.Label??"Belum ditugaskan"));
             BuildRename(detail);
@@ -299,7 +307,7 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
     static string Species(AnimalType type)=>type switch{AnimalType.Cow=>"Sapi",AnimalType.Chicken=>"Ayam",AnimalType.Duck=>"Bebek",AnimalType.Goat=>"Kambing",AnimalType.Sheep=>"Domba",_=>"Hewan"};
     static string GrowthLabel(AnimalGrowthStage stage)=>stage switch
     {AnimalGrowthStage.Egg=>"Telur",AnimalGrowthStage.Pregnancy=>"Dalam kandungan",AnimalGrowthStage.Hatchling=>"Baru menetas",AnimalGrowthStage.Newborn=>"Baru lahir",AnimalGrowthStage.Baby=>"Anak",AnimalGrowthStage.Young=>"Muda",AnimalGrowthStage.Adolescent=>"Remaja",AnimalGrowthStage.Adult=>"Dewasa",_=>"Belum diketahui"};
-    static string Season()=>SeasonVisualController.CurrentSeason.ToString() switch{"Summer"=>"Musim Panas","Winter"=>"Musim Dingin","Autumn" or "Fall"=>"Musim Gugur",_=>"Musim Semi"};
+    static string Season()=>GameScheduleData.SeasonName(SeasonVisualController.CurrentSeason);
     static RectTransform Fixed(string name,Transform parent,Vector2 anchor,Vector2 position,Vector2 size)
     {var r=GameplayHUDStyle.Rect(name,parent,anchor,anchor);r.pivot=anchor;r.anchoredPosition=position;r.sizeDelta=size;return r;}
     void Surface(RectTransform r)

@@ -123,11 +123,13 @@ public sealed class WorldGatherable : MonoBehaviour
             minimumRespawnDays=Mathf.Max(1,balance.minimumRespawnDays);
             maximumRespawnDays=Mathf.Max(minimumRespawnDays,balance.maximumRespawnDays);
         }
+        ConfigureInteractionCollision();
     }
 
     void Awake()
     {
         interactionCollider = GetComponent<Collider>();
+        ConfigureInteractionCollision();
         if (visualRoot == null) visualRoot = transform;
         if (targetRenderers == null || targetRenderers.Length == 0)
             targetRenderers = GetComponentsInChildren<Renderer>(true);
@@ -139,6 +141,25 @@ public sealed class WorldGatherable : MonoBehaviour
         }
         if (kind == GatherableKind.Grass) NormalizeGrassDrops();
         currentDurability = Mathf.Max(1, maximumDurability);
+    }
+
+    void ConfigureInteractionCollision()
+    {
+        if(kind==GatherableKind.Rock)return;
+        interactionCollider ??= GetComponent<Collider>();
+        if(interactionCollider is MeshCollider mesh&&!mesh.convex)
+        {
+            // A simple trigger keeps legacy mesh-only grass targetable without convex mesh cooking.
+            var box=gameObject.AddComponent<BoxCollider>();
+            if(mesh.sharedMesh!=null){box.center=mesh.sharedMesh.bounds.center;box.size=mesh.sharedMesh.bounds.size;}
+            interactionCollider=box;
+        }
+        foreach(var collider in GetComponentsInChildren<Collider>(true))
+        {
+            if(collider.GetComponentInParent<WorldGatherable>()!=this)continue;
+            if(collider is MeshCollider visualMesh&&!visualMesh.convex)collider.enabled=false;
+            else collider.isTrigger=true;
+        }
     }
 
     void OnEnable()

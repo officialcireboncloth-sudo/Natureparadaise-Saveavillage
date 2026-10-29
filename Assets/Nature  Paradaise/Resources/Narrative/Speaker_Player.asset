@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 249228636c41403893403244b86b55ad, type: 3}
+  m_Name: Speaker_Player
+  m_EditorClassIdentifier: 
+  speakerId: player
+  displayName: Player
+  isPlayer: 1
+  portrait: {fileID: 8881618814415886752, guid: cc6532f7a77b78447bf8cf9f86037864, type: 3}
+  expressions:
+  - expression: 0
+    portrait: {fileID: 8881618814415886752, guid: cc6532f7a77b78447bf8cf9f86037864, type: 3}
+  - expression: 1
+    portrait: {fileID: 7582605918178582221, guid: cc6532f7a77b78447bf8cf9f86037864, type: 3}
+  - expression: 2
+    portrait: {fileID: 4992546817293137462, guid: cc6532f7a77b78447bf8cf9f86037864, type: 3}
+  - expression: 3
+    portrait: {fileID: 3316337289325165803, guid: cc6532f7a77b78447bf8cf9f86037864, type: 3}
+  - expression: 4
+    portrait: {fileID: -3058707035503470242, guid: cc6532f7a77b78447bf8cf9f86037864, type: 3}
+  - expression: 5
+    portrait: {fileID: -3625797766716127735, guid: cc6532f7a77b78447bf8cf9f86037864, type: 3}
+  roleDescription: 
+  nameColor: {r: 0.22, g: 0.12, b: 0.06, a: 1}

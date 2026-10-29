@@ -15,6 +15,34 @@ public static class MilkerToolSetup
     const string Root="Assets/Nature  Paradaise";
     public const string ItemPath=Root+"/Resources/Items/Tools/Milker Tool.asset";
     const string IconPath=Root+"/Textures/UI/Icons/Tools/icon_tool_milker.png";
+    public const float HeldLengthMetres=.34f;
+
+    /// <summary>Fits the baked grip mesh directly in world metres; never applies the player reference scale twice.</summary>
+    [MenuItem("Nature Paradise/Tools/Correct Milker Held Size")]
+    public static void CalibrateHeldSize()
+    {
+        if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Stop Play Mode before authoring tool assets.");
+        var catalog=Resources.Load<PlayerToolVisualCatalog>(PlayerToolVisualCatalog.ResourcePath);
+        var entry=catalog!=null?catalog.Find("Milker"):null;
+        if(entry?.prefab==null)throw new InvalidOperationException("Existing Milker model is missing.");
+        Bounds bounds=default;bool found=false;
+        foreach(var filter in entry.prefab.GetComponentsInChildren<MeshFilter>(true))
+        {
+            if(filter.sharedMesh==null)continue;
+            var matrix=entry.prefab.transform.worldToLocalMatrix*filter.transform.localToWorldMatrix;
+            foreach(var vertex in filter.sharedMesh.vertices)
+            {
+                var point=matrix.MultiplyPoint3x4(vertex);
+                if(!found){bounds=new Bounds(point,Vector3.zero);found=true;}else bounds.Encapsulate(point);
+            }
+        }
+        float longest=Mathf.Max(bounds.size.x,Mathf.Max(bounds.size.y,bounds.size.z));
+        if(!found||longest<.0001f)throw new InvalidOperationException("Milker mesh is empty.");
+        entry.scale=HeldLengthMetres/longest;EditorUtility.SetDirty(catalog);
+        var item=AssetDatabase.LoadAssetAtPath<ItemSO>(ItemPath);
+        if(item!=null){item.worldScale=Vector3.one*entry.scale;EditorUtility.SetDirty(item);}
+        AssetDatabase.SaveAssets();
+    }
     [MenuItem("Nature Paradise/Tools/Apply Milker Item and Matching Icon")]
     public static void Apply()
     {
@@ -22,6 +50,7 @@ public static class MilkerToolSetup
         var catalog=Resources.Load<PlayerToolVisualCatalog>(PlayerToolVisualCatalog.ResourcePath);
         var entry=catalog!=null?catalog.Find("Milker"):null;
         if(entry?.prefab==null)throw new InvalidOperationException("Existing Milker model is missing.");
+        CalibrateHeldSize();
         RenderIcon(entry.prefab);
         AssetDatabase.ImportAsset(IconPath,ImportAssetOptions.ForceSynchronousImport);
         var importer=(TextureImporter)AssetImporter.GetAtPath(IconPath);

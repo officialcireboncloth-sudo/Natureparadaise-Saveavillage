@@ -218,7 +218,8 @@ public class HUDManager : MonoBehaviour
 
         var t = TimeManager.Instance;
 
-        clockText.text = $"Hari {t.day}";
+        GameScheduleData.Date(t.day,out _,out _,out int date);
+        clockText.text = $"Hari {date}";
         if (seasonText != null) seasonText.text = GetSeasonLabel();
         if (timeOfDayText != null) timeOfDayText.text = $"{t.hour:00}:{t.minute:00}";
 
@@ -277,7 +278,8 @@ public class HUDManager : MonoBehaviour
         rect.localScale = Vector3.one;
     }
 
-    void SetDebugCluesEnabled(bool enabled, bool showFeedback)
+    /// <summary>Shared visibility control for testing clues and the unified debug menu.</summary>
+    public void SetDebugCluesEnabled(bool enabled, bool showFeedback)
     {
         showDebugClues = enabled;
         ApplyDebugClueVisibility();
@@ -313,11 +315,7 @@ public class HUDManager : MonoBehaviour
             $"{ScoreManager.Instance.points.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("id-ID"))} G";
     }
 
-    static string GetSeasonLabel() => SeasonVisualController.CurrentSeason.ToString() switch
-    {
-        "Spring" => "Musim Semi", "Summer" => "Musim Panas",
-        "Autumn" or "Fall" => "Musim Gugur", "Winter" => "Musim Dingin", _ => "Musim Semi"
-    };
+    static string GetSeasonLabel() => GameScheduleData.SeasonName(SeasonVisualController.CurrentSeason);
 
     // =====================================================
     // INVENTORY

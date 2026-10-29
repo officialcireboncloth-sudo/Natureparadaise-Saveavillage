@@ -14,8 +14,11 @@ public enum WeatherType
     Cyclone,
     Thunderstorm,
     Snow,
-    Blizzard
+    Blizzard,
+    // Append weather values to preserve numeric IDs in existing saves and authored assets.
+    Cloudy
 }
+public enum WeatherForecastMode { Automatic, Manual }
 
 [DisallowMultipleComponent]
 /// <summary>
@@ -25,6 +28,11 @@ public enum WeatherType
 public sealed class WeatherSystem : MonoBehaviour
 {
     public static WeatherSystem Instance { get; private set; }
+
+    [Header("Weather Selection")]
+    [Tooltip("Automatic mengikuti jadwal/peluang musim. Mengubah Current Weather di Inspector memilih Manual sampai Automatic dipilih kembali.")]
+    [SerializeField] WeatherForecastMode forecastMode;
+    [SerializeField,HideInInspector] WeatherType manualWeather;
 
     [Header("Forecast Seed")]
     [SerializeField] int worldWeatherSeed = 18427;
@@ -111,6 +119,19 @@ public sealed class WeatherSystem : MonoBehaviour
     public bool IsCommunityCleanupDay => currentWeatherDay == communityCleanupDay;
     public CropSeason CurrentSeason => SeasonVisualController.ResolveSeasonForDay(Mathf.Max(1, currentWeatherDay));
     public bool IsDebugWeatherOverrideActive => debugWeatherOverride;
+    public WeatherForecastMode ForecastMode => forecastMode;
+    /// <summary>Explains which input currently owns the forecast, so manual tests are not confused with CSV rules.</summary>
+    public string ForecastSource
+    {
+        get
+        {
+            if (forecastMode == WeatherForecastMode.Manual || debugWeatherOverride) return "Manual: Inspector / menu debug / save manual";
+            if (SeasonVisualController.IsDebugOverrideActive) return "Probabilitas musim debug; jadwal tanggal tidak dipakai";
+            var schedule = GameScheduleData.Load();
+            return schedule != null && schedule.TryWeather(Mathf.Max(1, currentWeatherDay), out _)
+                ? "CSV: WeatherSchedule (tanggal khusus)" : "CSV: WeatherProbabilities (Auto)";
+        }
+    }
     public bool TerrainCloudShadowEnabled => enableTerrainCloudShadow;
     public float TerrainCloudShadowOpacity => terrainCloudShadowOpacity;
     public float TerrainCloudNoiseWorldScale => terrainCloudNoiseWorldScale;
@@ -162,8 +183,8 @@ public sealed class WeatherSystem : MonoBehaviour
 
     void Start()
     {
-        int day = TimeManager.Instance != null ? TimeManager.Instance.day : 1;
-        EnsureForecastForDay(day);
+        if(forecastMode==WeatherForecastMode.Manual)SetDebugWeather(manualWeather);
+        else RefreshImportedWeatherRules();
         // EnsureForecastForDay sengaja return saat forecast save sudah valid. Efek visual
         // tetap wajib dibuat pada startup walaupun tipe cuacanya tidak berubah.
         if (activeEffectWeather != currentWeather ||
@@ -342,34 +363,53 @@ public sealed class WeatherSystem : MonoBehaviour
             return;
 
         currentWeatherDay = day;
-        currentWeather = GenerateWeather(day);
-        tomorrowWeather = GenerateWeather(day + 1);
+        currentWeather = debugWeatherOverride?debugWeather:GenerateWeather(day);
+        tomorrowWeather = debugWeatherOverride?debugWeather:GenerateWeather(day + 1);
         NotifyWeatherChanged();
     }
 
-    /// <summary>Mengembalikan forecast persis dari save agar ramalan tidak berubah setelah load.</summary>
+    /// <summary>Preserves manual testing saves; automatic saves follow the latest imported date/probability rules using their saved seed.</summary>
     public void RestoreForecast(int savedDay, int savedSeed, WeatherType savedCurrent, WeatherType savedTomorrow,
-        WeatherType savedPrevious = WeatherType.Sunny, int savedCleanupDay = -1)
+        WeatherType savedPrevious = WeatherType.Sunny, int savedCleanupDay = -1,bool savedManualOverride=false)
     {
-        debugWeatherOverride = false;
+        debugWeatherOverride = savedManualOverride;
+        forecastMode=savedManualOverride?WeatherForecastMode.Manual:WeatherForecastMode.Automatic;
+        manualWeather=debugWeather=ClampWeather(savedCurrent);
         worldWeatherSeed = savedSeed;
         currentWeatherDay = Mathf.Max(1, savedDay);
         currentWeather = ClampWeather(savedCurrent);
         tomorrowWeather = ClampWeather(savedTomorrow);
         previousWeather = ClampWeather(savedPrevious);
         communityCleanupDay = savedCleanupDay;
+        if (!savedManualOverride)
+        {
+            currentWeather = GenerateWeather(currentWeatherDay);
+            tomorrowWeather = GenerateWeather(currentWeatherDay + 1);
+        }
+        NotifyWeatherChanged();
+    }
+
+    /// <summary>Refreshes an automatic forecast after a validated CSV import, including the already-cached current day.</summary>
+    public void RefreshImportedWeatherRules()
+    {
+        if (forecastMode == WeatherForecastMode.Manual || debugWeatherOverride) return;
+        int day = TimeManager.Instance != null ? Mathf.Max(1, TimeManager.Instance.day) : Mathf.Max(1, currentWeatherDay);
+        currentWeatherDay = day;
+        currentWeather = GenerateWeather(day);
+        tomorrowWeather = GenerateWeather(day + 1);
         NotifyWeatherChanged();
     }
 
     /// <summary>Memaksa cuaca untuk pengujian sampai AUTO WEATHER dipilih.</summary>
     public void SetDebugWeather(WeatherType weather)
     {
+        forecastMode=WeatherForecastMode.Manual;
+        manualWeather=ClampWeather(weather);
         debugWeatherOverride = true;
         debugWeather = ClampWeather(weather);
         currentWeather = debugWeather;
         tomorrowWeather = debugWeather;
-        if (currentWeatherDay < 1)
-            currentWeatherDay = TimeManager.Instance != null ? Mathf.Max(1, TimeManager.Instance.day) : 1;
+        currentWeatherDay = TimeManager.Instance != null ? Mathf.Max(1, TimeManager.Instance.day) : Mathf.Max(1,currentWeatherDay);
         NotifyWeatherChanged();
         SaveLoadFeedback.Instance?.ShowMessage($"DEBUG WEATHER: {GetShortName(currentWeather)}");
     }
@@ -377,6 +417,7 @@ public sealed class WeatherSystem : MonoBehaviour
     /// <summary>Melepas override debug dan menghitung ulang cuaca berdasarkan season aktif.</summary>
     public void FollowSeasonWeather()
     {
+        forecastMode=WeatherForecastMode.Automatic;
         debugWeatherOverride = false;
         int day = TimeManager.Instance != null ? Mathf.Max(1, TimeManager.Instance.day) : Mathf.Max(1, currentWeatherDay);
         currentWeatherDay = day;
@@ -398,6 +439,8 @@ public sealed class WeatherSystem : MonoBehaviour
         {
             case WeatherType.PartlyCloudy:
                 sunMultiplier = 0.72f; ambientMultiplier = 0.9f; exposureMultiplier = 0.85f; tint = new Color(0.88f, 0.92f, 1f); break;
+            case WeatherType.Cloudy:
+                sunMultiplier = 0.55f; ambientMultiplier = 0.84f; exposureMultiplier = 0.74f; tint = new Color(0.80f, 0.85f, 0.92f); break;
             case WeatherType.Heatwave:
                 sunMultiplier = 1.18f; ambientMultiplier = 1.02f; exposureMultiplier = 1.08f; tint = new Color(1f, 0.88f, 0.7f); break;
             case WeatherType.Drizzle:
@@ -428,67 +471,7 @@ public sealed class WeatherSystem : MonoBehaviour
         int roll = random.Next(0, 100);
         CropSeason season = SeasonVisualController.ResolveSeasonForDay(day);
 
-        if (season == CropSeason.Spring)
-            return GenerateSpringWeather(roll);
-        if (season == CropSeason.Summer)
-            return GenerateSummerWeather(roll);
-        if (season == CropSeason.Autumn)
-            return GenerateAutumnWeather(roll);
-        return GenerateWinterWeather(roll);
-    }
-
-    /// <summary>
-    /// Spring / musim hujan: 40% gerimis, 27% cerah berawan, 17% cerah,
-    /// 10% hujan sedang, 4% hujan lebat, dan 2% panas. Tidak menghasilkan badai atau salju.
-    /// </summary>
-    static WeatherType GenerateSpringWeather(int roll)
-    {
-        if (roll < 40) return WeatherType.Drizzle;
-        if (roll < 67) return WeatherType.PartlyCloudy;
-        if (roll < 84) return WeatherType.Sunny;
-        if (roll < 94) return WeatherType.Rain;
-        if (roll < 98) return WeatherType.HeavyRain;
-        return WeatherType.Heatwave;
-    }
-
-    /// <summary>
-    /// Summer: total 60% hari cerah/panas, lalu 18% mendung, 8% gerimis,
-    /// 10% hujan sedang, dan 4% hujan lebat. Tidak menghasilkan badai atau salju.
-    /// </summary>
-    static WeatherType GenerateSummerWeather(int roll)
-    {
-        if (roll < 40) return WeatherType.Sunny;
-        if (roll < 60) return WeatherType.Heatwave;
-        if (roll < 78) return WeatherType.PartlyCloudy;
-        if (roll < 86) return WeatherType.Drizzle;
-        if (roll < 96) return WeatherType.Rain;
-        return WeatherType.HeavyRain;
-    }
-
-    /// <summary>
-    /// Fall: 45% cerah sejuk, 30% berawan, 20% hujan ringan-sedang, dan 5% hujan
-    /// lebat/badai. Tidak menghasilkan panas terik, topan, salju, atau badai salju.
-    /// </summary>
-    static WeatherType GenerateAutumnWeather(int roll)
-    {
-        if (roll < 45) return WeatherType.Sunny;
-        if (roll < 75) return WeatherType.PartlyCloudy;
-        if (roll < 85) return WeatherType.Drizzle;
-        if (roll < 95) return WeatherType.Rain;
-        if (roll < 99) return WeatherType.HeavyRain;
-        return WeatherType.WindRainStorm;
-    }
-
-    /// <summary>
-    /// Winter: salju ringan dan langit berawan menjadi cuaca utama. Hari cerah tetap
-    /// muncul dengan cahaya pucat, sedangkan badai salju hanya sesekali.
-    /// </summary>
-    static WeatherType GenerateWinterWeather(int roll)
-    {
-        if (roll < 45) return WeatherType.Snow;
-        if (roll < 75) return WeatherType.PartlyCloudy;
-        if (roll < 90) return WeatherType.Sunny;
-        return WeatherType.Blizzard;
+        return SeasonWeatherProfile.Evaluate(season,roll);
     }
 
     /// <summary>Kabut Spring murah berbasis RenderSettings; tidak membuat particle atau camera tambahan.</summary>
@@ -1096,12 +1079,13 @@ public sealed class WeatherSystem : MonoBehaviour
         return weather switch
         {
             WeatherType.Sunny => "Sunny / Cerah",
-            WeatherType.PartlyCloudy => "Partly Cloudy / Cerah Mendung",
-            WeatherType.Heatwave => "Heatwave / Panas Terik",
+            WeatherType.PartlyCloudy => "Partly Cloudy / Cerah Berawan",
+            WeatherType.Cloudy => "Cloudy / Mendung",
+            WeatherType.Heatwave => "Heatwave / Gelombang Panas",
             WeatherType.Drizzle => "Drizzle / Gerimis",
-            WeatherType.Rain => "Rainy / Hujan Sedang",
+            WeatherType.Rain => "Rain / Hujan",
             WeatherType.HeavyRain => "Heavy Rain / Hujan Lebat",
-            WeatherType.WindRainStorm => "Wind Rainstorm / Hujan Angin Badai",
+            WeatherType.WindRainStorm => "Wind Rainstorm / Badai Hujan dan Angin",
             WeatherType.Cyclone => "Cyclone / Angin Topan",
             WeatherType.Thunderstorm => "Thunderstorm / Badai Petir",
             WeatherType.Snow => "Snow / Hujan Salju",
@@ -1115,12 +1099,13 @@ public sealed class WeatherSystem : MonoBehaviour
         return weather switch
         {
             WeatherType.Sunny => "Cerah",
-            WeatherType.PartlyCloudy => "Cerah Mendung",
-            WeatherType.Heatwave => "Panas Terik",
+            WeatherType.PartlyCloudy => "Cerah Berawan",
+            WeatherType.Cloudy => "Mendung",
+            WeatherType.Heatwave => "Panas",
             WeatherType.Drizzle => "Gerimis",
-            WeatherType.Rain => "Hujan Sedang",
+            WeatherType.Rain => "Hujan",
             WeatherType.HeavyRain => "Hujan Lebat",
-            WeatherType.WindRainStorm => "Hujan Angin Badai",
+            WeatherType.WindRainStorm => "Badai Hujan",
             WeatherType.Cyclone => "Angin Topan",
             WeatherType.Thunderstorm => "Badai Petir",
             WeatherType.Snow => "Hujan Salju",
@@ -1135,6 +1120,7 @@ public sealed class WeatherSystem : MonoBehaviour
         {
             WeatherType.Sunny => "Langit cerah. Hari yang baik untuk farming dan eksplorasi.",
             WeatherType.PartlyCloudy => "Awan ringan akan menutupi sebagian langit.",
+            WeatherType.Cloudy => "Langit mendung tanpa hujan. Cahaya matahari akan lebih redup.",
             WeatherType.Heatwave => "Suhu diperkirakan sangat panas. Persiapkan stamina dengan baik.",
             WeatherType.Drizzle => "Gerimis ringan diperkirakan turun besok.",
             WeatherType.Rain => "Hujan diperkirakan turun sepanjang hari besok.",

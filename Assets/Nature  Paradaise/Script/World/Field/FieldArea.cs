@@ -48,7 +48,6 @@ public sealed class FieldArea : MonoBehaviour
     [SerializeField] SoilProfileSO soilProfile;
     [SerializeField] CropDataSO defaultCrop;
     [SerializeField] List<CropDataSO> cropCatalog = new List<CropDataSO>();
-    [SerializeField, Min(1)] int daysPerSeason = 28;
 
     [Header("Visual Templates")]
     [SerializeField] GameObject cropPrefab;
@@ -202,6 +201,7 @@ public sealed class FieldArea : MonoBehaviour
 
         if (fieldSurface == null)
             fieldSurface = transform.Find("FieldSurface");
+        if (fieldSurface != null)FieldGroundSurface.DisableVisualColliders(fieldSurface.gameObject);
 
         if (lodTarget == null)
         {
@@ -971,10 +971,7 @@ public sealed class FieldArea : MonoBehaviour
     {
         CropDataSO crop = tile.crop;
         bool watered = tile.waterSourcesToday != CropWaterSource.None;
-        CropSeason currentSeason = CropDataSO.GetSeasonForDay(
-            TimeManager.Instance != null ? TimeManager.Instance.day : 1,
-            daysPerSeason
-        );
+        CropSeason currentSeason = CropDataSO.GetSeasonForDay(TimeManager.Instance != null ? TimeManager.Instance.day : 1);
 
         tile.qualityCare ??= new CropQualityCare();
         CropQualityCare care = tile.qualityCare;
@@ -1237,6 +1234,7 @@ public sealed class FieldArea : MonoBehaviour
                 new Vector2((x + .5f) * cellSize - WorldSize.x * .5f, (z + .5f) * cellSize - WorldSize.y * .5f));
         }
         view.SetActive(true);
+        FieldGroundSurface.DisableVisualColliders(view);
         hoeViews[index] = view;
         UpdateSoilMaterial(index);
     }
@@ -1610,6 +1608,8 @@ public sealed class FieldArea : MonoBehaviour
 
         areaCollider.center = Vector3.zero;
         areaCollider.size = new Vector3(columns * cellSize, 0.2f, rows * cellSize);
+        // This volume identifies the farming grid; terrain/floors provide physical support.
+        areaCollider.isTrigger = true;
     }
 
     void InitializeBlendedGround()

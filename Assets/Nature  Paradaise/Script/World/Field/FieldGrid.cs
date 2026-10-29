@@ -35,6 +35,7 @@ public class FieldGrid : MonoBehaviour
     /*================ INIT ================*/
     void Awake()
     {
+        GetComponent<BoxCollider>().isTrigger = true;
         // FieldArea is the modular replacement. Keep this legacy component in
         // the scene for reference, but never let both systems run together.
         if (GetComponent<FieldArea>() != null)
@@ -89,7 +90,7 @@ public class FieldGrid : MonoBehaviour
 
         tiles[gx, gz].state = TileState.Hoed;
         if (hoeMarkPrefab)
-            Instantiate(hoeMarkPrefab, GridToWorld(gx, gz), Quaternion.identity, transform);
+            FieldGroundSurface.DisableVisualColliders(Instantiate(hoeMarkPrefab, GridToWorld(gx, gz), Quaternion.identity, transform));
         return true;
     }
 
@@ -101,6 +102,7 @@ public class FieldGrid : MonoBehaviour
 
         Vector3 pos = GridToWorld(gx, gz) + Vector3.up * 0.01f;
         GameObject g = Instantiate(cropPrefab, pos, Quaternion.identity, transform);
+        FieldGroundSurface.DisableVisualColliders(g);
         tiles[gx, gz].crop = g.GetComponent<CropInstance>();
         return true;
     }

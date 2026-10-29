@@ -4,7 +4,7 @@ Run in Blender: blender --background --python export_player.py.
 Horse reference objects and editor-only object movement are excluded.
 This exporter does not generate or change any pose in the saved master.
 """
-import bpy,json,sys
+import bpy,json,sys,runpy
 from pathlib import Path
 HERE=Path(__file__).resolve().parent if '__file__' in globals() and Path(__file__).is_file() else Path(bpy.data.filepath).resolve().parent
 ROOT=next(p for p in [HERE,*HERE.parents] if (p/'DEVELOPMENT.md').exists())
@@ -17,6 +17,13 @@ if bpy.data.filepath and Path(bpy.data.filepath).resolve()==MASTER.resolve() and
 bpy.ops.wm.open_mainfile(filepath=str(MASTER),load_ui=False)
 if bpy.context.object and bpy.context.object.mode!='OBJECT':bpy.ops.object.mode_set(mode='OBJECT')
 rig=bpy.data.objects['Armature'];mesh=bpy.data.objects['PlayerModel'];scene=bpy.context.scene
+# Split the approved source body's turn from local bone motion, so the capsule
+# can finish facing the horse without a snap when ordinary locomotion resumes.
+runtime=runpy.run_path(str(HERE/'prepare_horse_runtime.py'))
+runtime['prepare_horse_runtime'](rig,scene,HERE/'HorseTrajectory.json')
+# Source-only pose assets and manual blocking timelines are not runtime takes.
+for action in list(bpy.data.actions):
+ if action.get('horse_blocking_only',False) or action.get('source_reference_only',False):bpy.data.actions.remove(action)
 for a in bpy.data.actions:
  for c in list(a.fcurves):
   if not c.data_path.startswith('pose.bones['):a.fcurves.remove(c)

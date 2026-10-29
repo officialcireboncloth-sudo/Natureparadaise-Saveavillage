@@ -102,24 +102,62 @@ public static class NarrativeTestingSetupUtility
         return speaker;
     }
 
+    /// <summary>Updates only Mina's dialogue assets, preserving quest progress, GUIDs and the open scene.</summary>
+    [MenuItem("Nature Paradise/Narrative/Apply Mina Conversation Flow")]
+    public static void ApplyMinaConversations()
+    {
+        var speaker = AssetDatabase.LoadAssetAtPath<DialogueSpeakerSO>($"{ContentFolder}/Speaker_Mina.asset");
+        var quest = AssetDatabase.LoadAssetAtPath<QuestDefinitionSO>($"{ContentFolder}/Quest_WoodForMina.asset");
+        if (speaker == null || quest == null) throw new System.InvalidOperationException("Konten quest Mina belum tersedia.");
+        CreateIntroDialogue(speaker, quest);
+        CreateActiveDialogue(speaker);
+        CreateReadyDialogue(speaker, quest);
+        CreateCompletedDialogue(speaker);
+        AssetDatabase.SaveAssets();
+        Debug.Log("[MINA DIALOGUE] Percakapan pembuka, misi aktif, pelaporan, dan selesai sudah diterapkan; scene dan progress tidak diubah.");
+    }
+
+    static DialogueConversationSO MinaConversation(string suffix, DialogueSpeakerSO speaker)
+    {
+        var dialogue = LoadOrCreate<DialogueConversationSO>($"{ContentFolder}/Dialogue_Mina_{suffix}.asset");
+        dialogue.conversationId = "test.mina." + suffix.ToLowerInvariant();
+        dialogue.defaultSpeaker = speaker;
+        dialogue.counterpartSpeaker = speaker;
+        dialogue.playerSpeaker = AssetDatabase.LoadAssetAtPath<DialogueSpeakerSO>("Assets/Nature  Paradaise/Resources/Narrative/Speaker_Player.asset");
+        if (dialogue.playerSpeaker == null) throw new System.InvalidOperationException("Speaker_Player belum tersedia untuk balasan player.");
+        dialogue.entryNodeId = "start";
+        EditorUtility.SetDirty(dialogue);
+        return dialogue;
+    }
+
+    static DialogueNode MinaLine(string id, string text, string emotion, string next = null, DialogueSpeakerSO player = null) => new()
+    {
+        nodeId = id, text = text, emotion = emotion, nextNodeId = next, speakerOverride = player
+    };
+
     static DialogueConversationSO CreateIntroDialogue(DialogueSpeakerSO speaker, QuestDefinitionSO quest)
     {
-        DialogueConversationSO dialogue = LoadOrCreate<DialogueConversationSO>($"{ContentFolder}/Dialogue_Mina_Intro.asset");
-        dialogue.conversationId = "test.mina.intro";
-        dialogue.defaultSpeaker = speaker;
-        dialogue.entryNodeId = "start";
+        var dialogue = MinaConversation("Intro", speaker);
         dialogue.nodes = new List<DialogueNode>
         {
+            MinaLine("start", "Halo! Bagaimana kabar kebunmu hari ini?", "Happy", "player-greeting"),
+            MinaLine("player-greeting", "Masih banyak yang harus dirapikan, tapi aku mulai terbiasa.", "Happy", "encouragement", dialogue.playerSpeaker),
+            MinaLine("encouragement", "Pelan-pelan saja. Kebun yang bagus juga tumbuh sedikit demi sedikit.", "Happy", "player-question"),
+            MinaLine("player-question", "Kamu sendiri kelihatan sibuk. Sedang membuat apa?", "Thinking", "rack", dialogue.playerSpeaker),
+            MinaLine("rack", "Aku sedang memperbaiki rak bibit. Sayangnya, aku masih kekurangan 3 Wood.", "Thinking", "request"),
             new()
             {
-                nodeId = "start",
-                text = "Halo! Aku butuh 3 Wood. Pegang Axe dari hotbar, tebang pohon, lalu ambil kayu yang jatuh. Tracker di layar akan mencatat jumlahnya.",
-                emotion = "Friendly",
-                commands = new List<DialogueCommand>
+                nodeId = "request", text = "Kalau kamu sempat, boleh bantu mengumpulkannya?", emotion = "Neutral",
+                choices = new List<DialogueChoice>
                 {
-                    new() { type = DialogueCommandType.StartQuest, quest = quest }
+                    new() { text = "Tentu, aku bantu.", nextNodeId = "accepted-player", commands = new List<DialogueCommand>
+                        { new() { type = DialogueCommandType.StartQuest, quest = quest } } },
+                    new() { text = "Belum sekarang.", nextNodeId = "declined" }
                 }
-            }
+            },
+            MinaLine("accepted-player", "Baik, aku akan mencari kayunya.", "Happy", "accepted", dialogue.playerSpeaker),
+            MinaLine("accepted", "Terima kasih! Gunakan Axe untuk menebang pohon, lalu ambil kayu yang jatuh. Temui aku lagi setelah terkumpul 3 Wood.", "Happy"),
+            MinaLine("declined", "Tidak apa-apa. Mampir lagi kalau kamu sudah punya waktu.", "Neutral")
         };
         EditorUtility.SetDirty(dialogue);
         return dialogue;
@@ -127,13 +165,14 @@ public static class NarrativeTestingSetupUtility
 
     static DialogueConversationSO CreateActiveDialogue(DialogueSpeakerSO speaker)
     {
-        DialogueConversationSO dialogue = LoadOrCreate<DialogueConversationSO>($"{ContentFolder}/Dialogue_Mina_Active.asset");
-        dialogue.conversationId = "test.mina.active";
-        dialogue.defaultSpeaker = speaker;
-        dialogue.entryNodeId = "start";
+        var dialogue = MinaConversation("Active", speaker);
         dialogue.nodes = new List<DialogueNode>
         {
-            new() { nodeId = "start", text = "Cari pohon yang bisa ditebang, pegang Axe, lalu ambil 3 Wood yang jatuh. Tekan J kapan saja untuk melihat detail quest.", emotion = "Reminder" }
+            MinaLine("start", "Oh, kamu! Bagaimana pencarian kayunya?", "Happy", "progress"),
+            MinaLine("progress", "Masih aku kumpulkan. Ada saran tempat mencarinya?", "Thinking", "hint", dialogue.playerSpeaker),
+            MinaLine("hint", "Coba pohon yang bisa ditebang di sekitar kebun. Gunakan Axe, lalu ambil kayu yang jatuh sampai terkumpul 3 Wood.", "Thinking", "thanks"),
+            MinaLine("thanks", "Baik, nanti aku mampir lagi.", "Happy", "take-care", dialogue.playerSpeaker),
+            MinaLine("take-care", "Terima kasih sudah membantu. Jangan lupa istirahat juga, ya!", "Happy")
         };
         EditorUtility.SetDirty(dialogue);
         return dialogue;
@@ -141,27 +180,27 @@ public static class NarrativeTestingSetupUtility
 
     static DialogueConversationSO CreateReadyDialogue(DialogueSpeakerSO speaker, QuestDefinitionSO quest)
     {
-        DialogueConversationSO dialogue = LoadOrCreate<DialogueConversationSO>($"{ContentFolder}/Dialogue_Mina_Ready.asset");
-        dialogue.conversationId = "test.mina.ready";
-        dialogue.defaultSpeaker = speaker;
-        dialogue.entryNodeId = "start";
+        var dialogue = MinaConversation("Ready", speaker);
         dialogue.nodes = new List<DialogueNode>
         {
+            MinaLine("start", "Kamu sudah kembali! Bagaimana, kayunya sudah terkumpul?", "Happy", "report"),
+            MinaLine("report", "Sudah, 3 Wood seperti yang kamu minta.", "Happy", "turn-in", dialogue.playerSpeaker),
             new()
             {
-                nodeId = "start",
-                text = "Objective sudah selesai. Mau melaporkan quest sekarang?",
-                emotion = "Question",
+                nodeId = "turn-in", text = "Wah, terima kasih! Mau melaporkan hasilnya sekarang?", emotion = "Happy",
                 choices = new List<DialogueChoice>
                 {
                     new()
                     {
-                        text = "Selesaikan quest (+250 Gold)",
+                        text = "Ya, laporkan (+250 G).", nextNodeId = "reward",
                         commands = new List<DialogueCommand> { new() { type = DialogueCommandType.CompleteQuest, quest = quest } }
                     },
-                    new() { text = "Nanti dulu" }
+                    new() { text = "Nanti dulu.", nextNodeId = "later" }
                 }
-            }
+            },
+            MinaLine("reward", "Sekarang aku bisa menyelesaikan rak bibitnya. Ini 250 G untuk bantuanmu.", "Happy", "player-thanks"),
+            MinaLine("player-thanks", "Sama-sama, Mina. Semoga raknya cepat selesai!", "Happy", null, dialogue.playerSpeaker),
+            MinaLine("later", "Tentu. Aku ada di sini kalau kamu sudah siap.", "Neutral")
         };
         EditorUtility.SetDirty(dialogue);
         return dialogue;
@@ -169,13 +208,12 @@ public static class NarrativeTestingSetupUtility
 
     static DialogueConversationSO CreateCompletedDialogue(DialogueSpeakerSO speaker)
     {
-        DialogueConversationSO dialogue = LoadOrCreate<DialogueConversationSO>($"{ContentFolder}/Dialogue_Mina_Completed.asset");
-        dialogue.conversationId = "test.mina.completed";
-        dialogue.defaultSpeaker = speaker;
-        dialogue.entryNodeId = "start";
+        var dialogue = MinaConversation("Completed", speaker);
         dialogue.nodes = new List<DialogueNode>
         {
-            new() { nodeId = "start", text = "Tes selesai! Dialog Completed sekarang punya prioritas dan tidak tertimpa dialog quest sebelumnya.", emotion = "Happy" }
+            MinaLine("start", "Rak bibitnya sudah selesai. Bantuanmu kemarin sangat berarti!", "Happy", "player-reply"),
+            MinaLine("player-reply", "Senang bisa membantu. Pasti bibit-bibitmu sekarang lebih rapi.", "Happy", "farewell", dialogue.playerSpeaker),
+            MinaLine("farewell", "Iya! Mampir lagi kapan-kapan. Aku ingin dengar kabar kebunmu.", "Happy")
         };
         EditorUtility.SetDirty(dialogue);
         return dialogue;
@@ -207,15 +245,16 @@ public static class NarrativeTestingSetupUtility
         root.transform.position = basePosition + new Vector3(facing.x, 0f, facing.z).normalized * 2.2f;
 
         CapsuleCollider collider = root.AddComponent<CapsuleCollider>();
-        collider.center = new Vector3(0f, 1f, 0f);
-        collider.height = 2f;
-        collider.radius = 0.45f;
+        collider.center = Vector3.up * PlayerDimensions.Height * .5f;
+        collider.height = PlayerDimensions.Height;
+        collider.radius = PlayerDimensions.Radius;
 
-        GameObject gardenerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(GardenerPrefabPath);
+        GameObject gardenerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(NPCCharacterSetup.MinaPath);
+        if (gardenerPrefab == null) { NPCCharacterSetup.Apply(); gardenerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(NPCCharacterSetup.MinaPath); }
         if (gardenerPrefab != null)
         {
             GameObject visual = (GameObject)PrefabUtility.InstantiatePrefab(gardenerPrefab, root.transform);
-            visual.name = "Visual_Mina_ToonFarm";
+            visual.name = "Visual_Mina_Animated";
             visual.transform.localPosition = Vector3.zero;
             visual.transform.localRotation = Quaternion.identity;
         }
@@ -223,8 +262,8 @@ public static class NarrativeTestingSetupUtility
         DialogueTrigger trigger = root.AddComponent<DialogueTrigger>();
         SerializedObject serialized = new(trigger);
         serialized.FindProperty("speakerTargetId").stringValue = "npc.mina.test";
-        serialized.FindProperty("promptText").stringValue = "E: Bicara dengan Mina (Quest Test)";
-        serialized.FindProperty("promptHeight").floatValue = 2.25f;
+        serialized.FindProperty("promptText").stringValue = "E: Bicara dengan Mina";
+        serialized.FindProperty("promptHeight").floatValue = PlayerDimensions.Height + .2f;
         serialized.FindProperty("defaultConversation").objectReferenceValue = intro;
         SerializedProperty conditions = serialized.FindProperty("conditionalConversations");
         conditions.arraySize = 3;

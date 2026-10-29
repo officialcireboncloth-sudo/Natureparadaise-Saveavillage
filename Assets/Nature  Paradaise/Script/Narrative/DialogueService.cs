@@ -30,11 +30,34 @@ public sealed class DialogueService : MonoBehaviour
     readonly List<DialogueChoice> visibleChoices = new();
     DialogueConversationSO activeConversation;
     DialogueNode currentNode;
+    DialogueSpeakerSO defaultPlayerSpeaker;
 
     public DialogueConversationSO ActiveConversation => activeConversation;
     public DialogueNode CurrentNode => currentNode;
     public DialogueSpeakerSO CurrentSpeaker => currentNode?.speakerOverride != null
         ? currentNode.speakerOverride : activeConversation?.defaultSpeaker;
+    public DialogueSpeakerSO PlayerSpeaker => activeConversation?.playerSpeaker != null
+        ? activeConversation.playerSpeaker : (defaultPlayerSpeaker != null ? defaultPlayerSpeaker
+            : defaultPlayerSpeaker = Resources.Load<DialogueSpeakerSO>("Narrative/Speaker_Player"));
+    public bool IsPlayerSpeaking => IsPlayerSpeaker(CurrentSpeaker);
+    public DialogueSpeakerSO CounterpartSpeaker
+    {
+        get
+        {
+            if (CurrentSpeaker != null && !IsPlayerSpeaking) return CurrentSpeaker;
+            if (activeConversation == null) return null;
+            if (activeConversation.counterpartSpeaker != null && !IsPlayerSpeaker(activeConversation.counterpartSpeaker))
+                return activeConversation.counterpartSpeaker;
+            if (activeConversation.defaultSpeaker != null && !IsPlayerSpeaker(activeConversation.defaultSpeaker))
+                return activeConversation.defaultSpeaker;
+            if (activeConversation.nodes != null)
+                foreach (var node in activeConversation.nodes)
+                    if (node?.speakerOverride != null && !IsPlayerSpeaker(node.speakerOverride)) return node.speakerOverride;
+            return null;
+        }
+    }
+    public bool IsPlayerSpeaker(DialogueSpeakerSO speaker) => speaker != null &&
+        (speaker.isPlayer || speaker == PlayerSpeaker || string.Equals(speaker.speakerId, "player", StringComparison.OrdinalIgnoreCase));
     public IReadOnlyList<DialogueChoice> VisibleChoices => visibleChoices;
     public bool IsOpen => activeConversation != null && currentNode != null;
 

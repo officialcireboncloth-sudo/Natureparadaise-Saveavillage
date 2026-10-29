@@ -15,7 +15,7 @@ public sealed class GameplayPauseMenu : MonoBehaviour
     [SerializeField] bool allowEscapeInEditor;
     public static bool IsOpen { get; private set; }
     static int transitionFrame = -1;
-    public static bool BlocksGameplayInput => IsOpen || Time.frameCount == transitionFrame;
+    public static bool BlocksGameplayInput => IsOpen || TestingDebugMenu.IsOpen || Time.frameCount == transitionFrame;
     GameObject panel, overlay;
     RectTransform window, content;
     PlayerController player;
@@ -176,7 +176,7 @@ public sealed class GameplayPauseMenu : MonoBehaviour
         var left=Card("Player Summary",content,new(.01f,.06f),new(.48f,.83f));
         var status=player != null?player.GetComponent<PlayerStatusSystem>():FindFirstObjectByType<PlayerStatusSystem>();
         var sb=new StringBuilder("<b>Nature Paradise</b>\n\n");
-        if(clock!=null) sb.AppendLine($"Hari {clock.day}   •   {clock.hour:00}:{clock.minute:00}\n");
+        if(clock!=null){GameScheduleData.Date(clock.day,out int year,out int season,out int date);sb.AppendLine($"Hari {date} · {GameScheduleData.SeasonName(season)} · Tahun {year}   •   {clock.hour:00}:{clock.minute:00}\n");}
         if(status!=null) sb.AppendLine($"Health  {status.Health:0}/{status.MaxHealth:0}\nStamina  {status.Stamina:0}/{status.MaxStamina:0}\n");
         if(ScoreManager.Instance!=null) sb.AppendLine($"Uang  {ScoreManager.Instance.points:N0} G");
         Text(left,sb.ToString(),new(.06f,.12f),new(.94f,.92f),26);

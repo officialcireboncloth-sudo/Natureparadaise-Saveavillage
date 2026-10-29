@@ -69,10 +69,10 @@ MonoBehaviour:
     tool: 12
     prefab: {fileID: 2407376968218229630, guid: 5c9ab5cb152bbcf4f87698cdf999c304, type: 3}
     handPosition: {x: 0.010416668, y: 0, z: 0}
-    handEuler: {x: 0, y: 0, z: 180}
-    carryHandEuler: {x: 0, y: -90, z: 90}
-    scale: 0.41666675
-    workGrip: 0
+    handEuler: {x: 11.082103, y: 261.47562, z: 137.9992}
+    carryHandEuler: {x: 0, y: 0, z: 180}
+    scale: 0.75555557
+    workGrip: 1
     twoHandsDuringAction: 1
     twoHandsWhileCarrying: 0
     secondHandGrip: {x: 0, y: 0, z: 0.25}

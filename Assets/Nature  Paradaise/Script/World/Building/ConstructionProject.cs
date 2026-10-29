@@ -15,9 +15,14 @@ public sealed class ConstructionProject : MonoBehaviour
     List<Vector3> path;
     int waypoint;
     float nextPathAttempt, animationTime;
+    LumberStoreOwner builderOwner;
+    int registeredFrame;
+    public long QueueOrder => job?.queueOrder ?? 0;
+    public Transform Worker => visuals?.Worker;
+    public LumberStoreOwner BuilderOwner => builderOwner;
     public float Progress => job?.Progress ?? 0;
     public ConstructionWorkerPhase Phase => job?.phase ?? ConstructionWorkerPhase.Finished;
-    public string Status => job == null ? "" : job.pathBlocked ? "Jalur builder terhalang" :
+    public string Status => job == null ? "" : job.phase == ConstructionWorkerPhase.Queued ? "Menunggu tukang Lumber Store" : job.pathBlocked ? "Jalur builder terhalang" :
         job.phase == ConstructionWorkerPhase.Travelling ? "Builder menuju proyek" :
         job.phase == ConstructionWorkerPhase.Returning ? "Selesai · builder kembali" :
         job.phase == ConstructionWorkerPhase.Revealing ? "Bangunan selesai · merapikan proyek" :
@@ -67,6 +72,20 @@ public sealed class ConstructionProject : MonoBehaviour
         else project.visuals.SetStage(project.Progress);
         if(project.Phase == ConstructionWorkerPhase.Revealing)project.visuals.Reveal(project.RevealProgress);
         if(project.Phase == ConstructionWorkerPhase.Finished)project.visuals.Worker.gameObject.SetActive(false);
+        if(project.Phase != ConstructionWorkerPhase.Finished)
+        {
+            project.builderOwner=LumberStoreOwner.Find(project.job.departurePosition,project.job.builderStoreId);
+            if(project.builderOwner!=null)
+            {
+                project.job.builderStoreId=project.builderOwner.StoreId;
+                if(project.job.queueOrder==0)project.job.queueOrder=DateTime.UtcNow.Ticks;
+                if(project.job.phase!=ConstructionWorkerPhase.Queued)
+                { project.job.resumePhase=project.job.phase;project.job.phase=ConstructionWorkerPhase.Queued; }
+                project.registeredFrame=Time.frameCount;
+                project.visuals.Worker.gameObject.SetActive(false);
+                project.builderOwner.Register(project);
+            }
+        }
         return project;
     }
     public static ConstructionJobData MigrateLegacy(BuildingLevelDefinition target, int completionDay, Vector3 site)
@@ -88,6 +107,11 @@ public sealed class ConstructionProject : MonoBehaviour
             if(candidate < distance){nearest=front;distance=candidate;}
         }
         Vector3 origin=nearest != null ? (nearest.builderDeparturePoint != null ? nearest.builderDeparturePoint.position : nearest.transform.position+nearest.transform.forward*2.2f) : site+Vector3.back*8;
+        return GroundDeparture(origin);
+    }
+    /// <summary>Uses the same safe, ground-level home position for the idle owner and every departure/return.</summary>
+    public static Vector3 GroundDeparture(Vector3 origin)
+    {
         if(ConstructionWorkerPath.Ground(origin,out var ground))return ground;
         for(int radius=1;radius<=6;radius++)for(int direction=0;direction<8;direction++)
         {
@@ -121,13 +145,24 @@ public sealed class ConstructionProject : MonoBehaviour
     public void FinishVisuals()
     {
         if(job == null || job.phase == ConstructionWorkerPhase.Returning || job.phase == ConstructionWorkerPhase.Finished)return;
-        job.completedWorkHours=job.requiredWorkHours;job.phase=ConstructionWorkerPhase.Returning;
+        job.completedWorkHours=job.requiredWorkHours;
+        if(job.phase==ConstructionWorkerPhase.Queued)job.resumePhase=ConstructionWorkerPhase.Returning;
+        else job.phase=ConstructionWorkerPhase.Returning;
         path=null;nextPathAttempt=0;visuals?.HideSite();completed=null;
     }
     void Update()
     {
         if(job == null || visuals == null)return;
         job.CatchUp(ConstructionJobData.ClockHours);
+        if(job.phase==ConstructionWorkerPhase.Queued)
+        {
+            // Defer one frame so all restored orders register before the oldest order claims the owner.
+            if(Time.frameCount<=registeredFrame)return;
+            if(builderOwner!=null && !builderOwner.TryDispatch(this))
+            { visuals.UpdateBar(definition!=null?definition.displayName:"Proyek",Status,Progress);return; }
+            job.phase=job.resumePhase;job.lastClockHours=ConstructionJobData.ClockHours;
+            visuals.Worker.gameObject.SetActive(true);
+        }
         bool paused=TimeManager.Instance != null && TimeManager.Instance.IsPaused;
         bool walking=false,working=false;
         if(!paused)
@@ -138,11 +173,11 @@ public sealed class ConstructionProject : MonoBehaviour
                 bool returning=job.phase == ConstructionWorkerPhase.Returning;
                 Vector3 destination=returning ? job.departurePosition : job.workPosition;
                 walking=MoveWorker(destination);
-                if((visuals.Worker.position-destination).sqrMagnitude < .12f)
+                if((visuals.Worker.position-destination).sqrMagnitude < .0025f)
                 {
                     job.phase=returning ? ConstructionWorkerPhase.Finished : ConstructionWorkerPhase.Working;
                     job.lastClockHours=ConstructionJobData.ClockHours;job.pathBlocked=false;path=null;
-                    if(returning)visuals.Worker.gameObject.SetActive(false);
+                    if(returning){visuals.Worker.gameObject.SetActive(false);builderOwner?.Release(this);}
                 }
             }
             if(job.phase == ConstructionWorkerPhase.Working)
@@ -184,7 +219,7 @@ public sealed class ConstructionProject : MonoBehaviour
             job.pathBlocked=path == null;nextPathAttempt=Time.unscaledTime+4;
         }
         if(path == null)return false;
-        while(waypoint<path.Count && (visuals.Worker.position-path[waypoint]).sqrMagnitude<.08f)waypoint++;
+        while(waypoint<path.Count && (visuals.Worker.position-path[waypoint]).sqrMagnitude<(waypoint==path.Count-1?.0016f:.08f))waypoint++;
         if(waypoint>=path.Count){path=null;nextPathAttempt=0;return false;}
         Vector3 next=Vector3.MoveTowards(visuals.Worker.position,path[waypoint],Time.deltaTime*(settings != null ? settings.walkingSpeed : 2.4f));
         if(!ConstructionWorkerPath.Ground(next,out next) || !ConstructionWorkerPath.Segment(visuals.Worker.position,next))
@@ -194,6 +229,6 @@ public sealed class ConstructionProject : MonoBehaviour
         visuals.Worker.position=next;return true;
     }
     public void Cancel(){Clear();}
-    void Clear(){visuals?.Dispose();visuals=null;job=null;completed=null;path=null;nextPathAttempt=0;}
+    void Clear(){visuals?.Dispose();visuals=null;builderOwner?.Release(this);builderOwner=null;job=null;completed=null;path=null;nextPathAttempt=0;}
     void OnDestroy()=>Clear();
 }

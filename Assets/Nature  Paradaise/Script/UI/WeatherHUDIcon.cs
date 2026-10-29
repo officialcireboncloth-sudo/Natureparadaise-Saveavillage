@@ -69,6 +69,7 @@ public sealed class WeatherHUDIcon : MaskableGraphic
         {
             case WeatherType.Sunny: SunOrMoon(Vector2.zero,.26f); break;
             case WeatherType.PartlyCloudy: SunOrMoon(new(-.17f,.17f),.20f); DrawCloud(false); break;
+            case WeatherType.Cloudy: DrawCloud(true); break;
             case WeatherType.Heatwave:
                 ink=new(1f,.55f,.18f); Disc(new(0,.12f),.23f);
                 Rays(new(0,.12f),.29f,.39f);

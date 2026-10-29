@@ -61,6 +61,7 @@ public static class PlayerToolVisualSetup
         Add(catalog,"Shears",PlayerToolType.Shears,.32f,new Vector3(0f,.11f,-.15f),Quaternion.Euler(0f,90f,0f));
         Add(catalog,"Brush",PlayerToolType.None,.22f,new Vector3(0f,.44f,0f),Quaternion.identity,new Vector3(0f,0f,180f));
         Add(catalog,"Milker",PlayerToolType.Milker,.45f,new Vector3(-.26f,.54f,0f),Quaternion.identity,new Vector3(0f,0f,180f));
+        MilkerToolSetup.CalibrateHeldSize();
         // Mining currently uses Hammer; keep Pickaxe available as an Inspector alternative.
         Add(catalog,"Pickaxe",PlayerToolType.None,1.10f,new Vector3(-.36f,.34f,0f),Quaternion.Euler(0f,-90f,0f));
         EditorUtility.SetDirty(catalog);AssetDatabase.SaveAssets();Debug.Log("[HeldTools] Catalog + ten grip prefabs ready");

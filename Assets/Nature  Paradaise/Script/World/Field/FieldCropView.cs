@@ -19,6 +19,7 @@ public sealed class FieldCropView : MonoBehaviour
 
     void Awake()
     {
+        FieldGroundSurface.DisableVisualColliders(gameObject);
         baseRenderers = GetComponentsInChildren<Renderer>(true);
         propertyBlock = new MaterialPropertyBlock();
     }
@@ -72,6 +73,7 @@ public sealed class FieldCropView : MonoBehaviour
                     definition.GetStageRotation(stage)
                 );
                 stageVisual.transform.localScale = Vector3.one;
+                FieldGroundSurface.DisableVisualColliders(stageVisual);
             }
             activeStagePrefab = stagePrefab;
 

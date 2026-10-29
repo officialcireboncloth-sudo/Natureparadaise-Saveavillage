@@ -37,17 +37,32 @@ public sealed class BarnHUDIcon : MaskableGraphic
             Line(new(-.12f,-.20f),new(-.16f,-.39f),.045f);Line(new(.08f,-.20f),new(.11f,-.39f),.045f);
             Line(new(-.22f,-.40f),new(-.06f,-.40f),.04f);Line(new(.04f,-.40f),new(.19f,-.40f),.04f);return;
         }
-        Ellipse(new(-.07f,.02f),new(.30f,.18f));
-        Line(new(.13f,.01f),new(.24f,.22f),.18f);Ellipse(new(.28f,.21f),new(.14f,.11f));
-        Quad(new(.30f,.10f),new(.46f,.22f));
-        Triangle(new(.20f,.28f),new(.17f,.43f),new(.27f,.30f));
-        Triangle(new(.30f,.29f),new(.38f,.40f),new(.35f,.27f));
-        Triangle(new(.17f,.23f),new(.07f,.28f),new(.14f,.16f));
-        Line(new(-.26f,-.06f),new(-.29f,-.35f),.065f);Line(new(-.12f,-.08f),new(-.08f,-.35f),.06f);
-        Line(new(.09f,-.08f),new(.06f,-.35f),.065f);Line(new(.18f,-.06f),new(.26f,-.34f),.06f);
-        Line(new(-.35f,.10f),new(-.44f,-.04f),.035f);Line(new(-.44f,-.04f),new(-.43f,-.21f),.035f);
-        Ellipse(new(-.43f,-.23f),new(.028f,.055f));
+        // Front-facing bovine head: broad ears/muzzle and curved horns remain clear at small sizes.
+        Ellipse(new(0,.05f),new(.205f,.275f));
+        Ellipse(new(0,-.245f),new(.265f,.155f));
+        Ear(-1);Ear(1);Horn(-1);Horn(1);
     }
+    void Ear(float side)
+    {
+        Vector2 root=new(side*.16f,.20f),tip=new(side*.49f,.23f),bottom=new(side*.34f,.075f);
+        Triangle(root,tip,bottom);
+        Ellipse(new(side*.30f,.17f),new(.13f,.075f));
+    }
+    void Horn(float side)
+    {
+        Vector2 a=new(side*.145f,.27f),b=new(side*.30f,.26f),c=new(side*.40f,.36f),d=new(side*.34f,.49f);
+        const int segments=12;
+        for(int i=0;i<segments;i++)
+        {
+            float t=i/(float)segments,u=(i+1)/(float)segments;
+            Vector2 p=Curve(a,b,c,d,t),q=Curve(a,b,c,d,u),direction=(q-p).normalized;
+            Vector2 normal=new(-direction.y,direction.x);
+            Vector2 start=normal*Mathf.Lerp(.042f,.002f,t),end=normal*Mathf.Lerp(.042f,.002f,u);
+            Triangle(p-start,p+start,q+end);Triangle(p-start,q+end,q-end);
+        }
+    }
+    static Vector2 Curve(Vector2 a,Vector2 b,Vector2 c,Vector2 d,float t)
+    {float s=1-t;return s*s*s*a+3*s*s*t*b+3*s*t*t*c+t*t*t*d;}
     Vector3 Point(Vector2 p)=>rectTransform.rect.center+Vector2.Scale(p,rectTransform.rect.size);
     void Triangle(Vector2 a,Vector2 b,Vector2 c)
     {

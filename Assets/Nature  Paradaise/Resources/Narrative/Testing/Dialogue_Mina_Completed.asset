@@ -11,17 +11,34 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10240fb7eccb4dc5aa9192f4362b9b17, type: 3}
   m_Name: Dialogue_Mina_Completed
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   conversationId: test.mina.completed
   defaultSpeaker: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+  playerSpeaker: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+  counterpartSpeaker: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
   entryNodeId: start
   nodes:
   - nodeId: start
     speakerOverride: {fileID: 0}
-    text: Tes selesai! Dialog Completed sekarang punya prioritas dan tidak tertimpa
-      dialog quest sebelumnya.
-    localizationKey: 
+    text: Rak bibitnya sudah selesai. Bantuanmu kemarin sangat berarti!
+    localizationKey:
     emotion: Happy
-    nextNodeId: 
+    nextNodeId: player-reply
+    commands: []
+    choices: []
+  - nodeId: player-reply
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Senang bisa membantu. Pasti bibit-bibitmu sekarang lebih rapi.
+    localizationKey:
+    emotion: Happy
+    nextNodeId: farewell
+    commands: []
+    choices: []
+  - nodeId: farewell
+    speakerOverride: {fileID: 0}
+    text: Iya! Mampir lagi kapan-kapan. Aku ingin dengar kabar kebunmu.
+    localizationKey:
+    emotion: Happy
+    nextNodeId:
     commands: []
     choices: []

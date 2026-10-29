@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum AnimalFoodSource : byte
 {
@@ -10,6 +11,8 @@ public enum AnimalFoodSource : byte
     Grazing,
     AutoFeeder
 }
+
+public enum AnimalTestAction { Heal, MakeAdult, FillNeeds, ReadyProduct, MakeSick, MakeFemale, MakeMale, ClearProduct }
 
 [Serializable]
 public sealed class AnimalSceneStageVisual
@@ -36,6 +39,7 @@ public sealed class AnimalSaveData
     public int ageDays;
     public int ageSeasons;
     public int lastCalendarSeasonIndex;
+    public bool hasVariableSeasonCalendar;
     public int growthDays;
     public int prenatalDays;
     public bool hasBeenBorn;
@@ -69,6 +73,29 @@ public sealed class AnimalSaveData
 public sealed class AnimalGrowthSystem : MonoBehaviour
 {
     static readonly List<AnimalGrowthSystem> Registry = new();
+    static readonly List<AnimalGrowthSystem> SceneTemplates = new();
+    public static IReadOnlyList<AnimalGrowthSystem> OwnedAnimals => Registry;
+
+    // Scene examples are restoration templates, not free starting livestock. Quarantine before Start/render.
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    static void PrepareSceneLivestock()
+    {
+        SceneManager.sceneLoaded -= SuspendSceneLivestock;
+        SceneManager.sceneLoaded += SuspendSceneLivestock;
+        for(int i=0;i<SceneManager.sceneCount;i++)SuspendSceneLivestock(SceneManager.GetSceneAt(i),LoadSceneMode.Single);
+    }
+
+    static void SuspendSceneLivestock(Scene scene,LoadSceneMode mode)
+    {
+        SceneTemplates.RemoveAll(animal=>animal==null);
+        foreach(var root in scene.GetRootGameObjects())
+            foreach(var animal in root.GetComponentsInChildren<AnimalGrowthSystem>(true))
+            {
+                if(animal.runtimePurchased)continue;
+                if(!SceneTemplates.Contains(animal))SceneTemplates.Add(animal);
+                animal.gameObject.SetActive(false);
+            }
+    }
 
     [Header("Identity & Species")]
     [SerializeField] string animalId = "animal-cow-001";
@@ -290,6 +317,25 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         animalName = string.IsNullOrEmpty(value) ? Type.ToString() : value.Substring(0, Mathf.Min(24, value.Length));
     }
     public bool HasProductReady => productReady;
+    public bool ProducesMilk => Type is AnimalType.Cow or AnimalType.Goat;
+    /// <summary>Explains the first unmet milk production requirement using the same gates as normal production.</summary>
+    public string MilkProductionBlockReason
+    {
+        get
+        {
+            if (ProducesMilk && !IsFemale) return Type == AnimalType.Cow
+                ? "Sapi jantan tidak menghasilkan susu" : "Kambing jantan tidak menghasilkan susu";
+            if (productReady) return string.Empty;
+            if (!IsAdult) return "Belum dewasa";
+            if (health != AnimalHealthState.Healthy) return "Sedang sakit / pemulihan";
+            int interval = growthProfile != null ? growthProfile.productionIntervalDays : 1;
+            if (CurrentDay - lastProductionDay < Mathf.Max(1, interval)) return "Sudah diperah; tunggu jadwal produksi berikutnya";
+            if (!fedToday || fullness <= 0f) return "Belum makan; beri pakan hari ini";
+            if (happiness < 20f) return "Sedang stres; rawat hewan dulu";
+            if (!sheltered && !CanGrazeToday) return "Kembalikan ke kandang saat cuaca buruk";
+            return "Susu sedang diproduksi; tunggu sebentar";
+        }
+    }
     public int ProductQualityLevel => Mathf.Clamp(productQuality, 1, 5);
     public string ProductQualityLabel => Type == AnimalType.Cow ? MilkSizeForQuality(ProductQualityLevel) : AnimalCareCatalog.QualityName(ProductQualityLevel);
     public const int SheepWoolRegrowthDays = 12;
@@ -323,7 +369,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         {
             int currentDay = TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
             int interval = growthProfile != null ? growthProfile.productionIntervalDays : 1;
-            bool genderAllowsProduct = Type != AnimalType.Cow || IsFemale;
+            bool genderAllowsProduct = !ProducesMilk || IsFemale;
             if (Type == AnimalType.Sheep)
                 return IsSheepWoolReady && health == AnimalHealthState.Healthy && !productReady;
             return genderAllowsProduct && IsAdult && fedToday && happiness >= 20f && (sheltered || CanGrazeToday) && health == AnimalHealthState.Healthy &&
@@ -332,7 +378,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     }
 
     public string StatusSummary =>
-        $"{Type} | {GrowthStage} | Age {ageDays}d\n" +
+        $"{Type} | {GenderLabel} | {GrowthStage} | Age {ageDays}d\n" +
         $"Growth {growthDays}/{AdultGrowthDays} | Fed: {(fedToday ? $"Yes ({FoodSourceLabel})" : "No")}\n" +
         $"Health: {HealthSummary} | Happy {Mathf.RoundToInt(happiness)} | Heart {HeartPoints}/1000";
 
@@ -581,15 +627,18 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     public void SetProductReady(bool value)
     {
+        if (value && ProducesMilk && !IsFemale) return;
         if (value && !productReady)
         {
             if (!IsProductionEligible) return;
-            productQuality = Type == AnimalType.Cow
-                ? CowMilkQuality()
-                : heart.RollQuality(happiness, new System.Random(unchecked(StableHash(animalId) * 397 ^ CurrentDay)).NextDouble());
+            RollProductQuality();
         }
         productReady = value;
     }
+
+    void RollProductQuality() => productQuality = Type == AnimalType.Cow
+        ? CowMilkQuality()
+        : heart.RollQuality(happiness, new System.Random(unchecked(StableHash(animalId) * 397 ^ CurrentDay)).NextDouble());
 
     int CowMilkQuality()
     {
@@ -597,7 +646,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         return level <= 2 ? 1 : level;
     }
 
-    static int CalendarSeasonIndex(int day) => Mathf.Max(0, Mathf.Max(1, day) - 1) / 28;
+    static int CalendarSeasonIndex(int day) => GameScheduleData.SeasonIndex(day);
 
     int CurrentDay => TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
     public bool CanGrazeToday => WeatherSystem.Instance == null ||
@@ -626,7 +675,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         birthDay = currentDay - Mathf.Max(0, AdultGrowthDays - PurchasedYoungGrowthDays());
         growthDays = Mathf.Max(0, AdultGrowthDays - PurchasedYoungGrowthDays());
         ageDays = growthDays;
-        ageSeasons = Type == AnimalType.Cow ? 2 : Mathf.Max(0, ageDays / 28);
+        ageSeasons = Type == AnimalType.Cow ? 2 : Mathf.Max(0,CalendarSeasonIndex(currentDay)-CalendarSeasonIndex(currentDay-ageDays));
         lastCalendarSeasonIndex = CalendarSeasonIndex(currentDay);
         ApplyGrowthVisual(true);
         ApplyConditionVisual(true);
@@ -684,7 +733,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     {
         if(visualAnchor==null)Awake();
         InitializeBreeding(day);incubatorId=id;runtimePurchased=true;
-        if(!Registry.Contains(this))OnEnable();
+        if(isActiveAndEnabled&&!Registry.Contains(this))OnEnable();
     }
     public void HatchInIncubator(int day)
     {
@@ -999,6 +1048,71 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         SaveLoadFeedback.Instance?.ShowMessage($"DEBUG {Type}: {GrowthStage} ({growthDays}/{AdultGrowthDays})");
     }
 
+    /// <summary>Explicit testing controls; refreshes real health/growth visuals and production state without advancing the calendar.</summary>
+    public bool ApplyTestAction(AnimalTestAction action)
+    {
+        if (!PropertySite.DebugShortcutsEnabled || !gameObject.activeInHierarchy) return false;
+        if (IsInIncubator && action is AnimalTestAction.MakeAdult or AnimalTestAction.ReadyProduct) return false;
+        if (action == AnimalTestAction.ReadyProduct && ProducesMilk && !IsFemale) return false;
+        GetComponent<AnimalController>()?.CancelCareAction(false);
+        if (action is AnimalTestAction.MakeFemale or AnimalTestAction.MakeMale)
+        {
+            AnimalGender nextGender = action == AnimalTestAction.MakeFemale ? AnimalGender.Female : AnimalGender.Male;
+            if (gender != nextGender)
+            {
+                gender = nextGender;
+                if (ProducesMilk) MarkProductCollected();
+                GetComponent<AnimalController>()?.RestoreProduction(fullness);
+            }
+            return true;
+        }
+        if (action == AnimalTestAction.ClearProduct)
+        {
+            // Hold the unavailable state for the normal cooldown; the production timer
+            // must not immediately undo the OFF switch. No product is awarded.
+            MarkProductCollected();
+            GetComponent<AnimalController>()?.RestoreProduction(fullness);
+            ApplyGrowthVisual(true);
+            return true;
+        }
+        if (action is AnimalTestAction.Heal or AnimalTestAction.ReadyProduct)
+        {
+            healthProgress = new AnimalHealthProgress { lastDailyDay = CurrentDay };
+            SyncHealth();
+        }
+        if (action is AnimalTestAction.MakeAdult or AnimalTestAction.ReadyProduct)
+        {
+            hasBeenBorn = true;
+            growthDays = AdultGrowthDays;
+            ageDays = Mathf.Max(ageDays, growthDays);
+            if (Type == AnimalType.Cow) ageSeasons = Mathf.Max(ageSeasons, 4);
+        }
+        if (action is AnimalTestAction.FillNeeds or AnimalTestAction.ReadyProduct)
+        {
+            fullness = 100f; happiness = 100f; fedToday = true;
+            foodSource = AnimalFoodSource.HandFeed; lastFedDay = CurrentDay;
+        }
+        if (action == AnimalTestAction.MakeSick)
+        {
+            healthProgress = new AnimalHealthProgress { stage = AnimalIllnessStage.Severe, lastDailyDay = CurrentDay };
+            productReady = false; SyncHealth();
+        }
+        ApplyGrowthVisual(true);
+        ApplyConditionVisual(true);
+        if (action == AnimalTestAction.ReadyProduct)
+        {
+            lastProductionDay = CurrentDay - Mathf.Max(1, growthProfile != null ? growthProfile.productionIntervalDays : 1);
+            lastShearedDay = CurrentDay - SheepWoolRegrowthDays;
+            // Explicit debug override also works outdoors in rain. Normal production
+            // still enforces shelter, weather and cooldown; milk still requires a female.
+            RollProductQuality();
+            productReady = true;
+            GetComponent<AnimalController>()?.RestoreProduction(fullness);
+            return productReady;
+        }
+        return true;
+    }
+
     Material FindFallbackMaterial()
     {
         if (fallbackRenderers == null) return null;
@@ -1068,6 +1182,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         ageDays = ageDays,
         ageSeasons = ageSeasons,
         lastCalendarSeasonIndex = lastCalendarSeasonIndex,
+        hasVariableSeasonCalendar = true,
         growthDays = growthDays,
         prenatalDays = prenatalDays,
         hasBeenBorn = hasBeenBorn,
@@ -1110,7 +1225,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         ageSeasons = Mathf.Max(0, data.ageSeasons);
         if (Type == AnimalType.Cow && ageSeasons == 0 && data.growthDays > 0)
             ageSeasons = Mathf.Clamp(Mathf.CeilToInt(data.growthDays / Mathf.Max(1f, AdultGrowthDays) * 4f), 0, 4);
-        lastCalendarSeasonIndex = data.lastCalendarSeasonIndex >= 0
+        lastCalendarSeasonIndex = data.hasVariableSeasonCalendar && data.lastCalendarSeasonIndex >= 0
             ? data.lastCalendarSeasonIndex
             : CalendarSeasonIndex(CurrentDay);
         growthDays = Mathf.Clamp(data.growthDays, 0, AdultGrowthDays);
@@ -1130,7 +1245,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         pettedToday = data.pettedToday;
         interactedToday = data.interactedToday;
         sheltered = data.sheltered;
-        productReady = data.productReady;
+        productReady = data.productReady && (!ProducesMilk || IsFemale);
         lastProductionDay = data.lastProductionDay;
         // Save lama belum mempunyai field ini dan terbaca sebagai 0. Hari game dimulai
         // dari 1, jadi 0 aman dimigrasikan sebagai "belum pernah dicukur".
@@ -1164,26 +1279,32 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
                 byId[data[i].animalId] = data[i];
 
         HashSet<string> restoredIds = new();
-        int existingCount = Registry.Count;
-        for (int i = 0; i < existingCount; i++)
+        var existing = new List<AnimalGrowthSystem>(Registry);
+        foreach(var template in SceneTemplates)
+            if(template!=null&&!existing.Contains(template))existing.Add(template);
+        foreach(var animal in existing)
         {
-            if (Registry[i] == null)
+            if (animal == null)
                 continue;
-            if (!byId.TryGetValue(Registry[i].animalId, out AnimalSaveData saved))
+            if (!byId.TryGetValue(animal.animalId, out AnimalSaveData saved))
             {
-                if (Registry[i].runtimePurchased)
-                    Destroy(Registry[i].gameObject);
+                if(!animal.runtimePurchased&&!SceneTemplates.Contains(animal))SceneTemplates.Add(animal);
+                animal.gameObject.SetActive(false);
+                if (animal.runtimePurchased)Destroy(animal.gameObject);
                 continue;
             }
-            Registry[i].Restore(saved);
+            animal.Restore(saved);
+            animal.gameObject.SetActive(true);
             restoredIds.Add(saved.animalId);
         }
 
-        // Hewan hasil pembelian tidak ada di scene awal, sehingga dibuat kembali saat load.
+        // Missing legacy scene livestock also restore through the species catalog.
         ShopManager shop = ShopManager.AnimalService;
         for (int i = 0; i < data.Count; i++)
-            if (data[i] != null && data[i].runtimePurchased && !restoredIds.Contains(data[i].animalId))
-                shop?.RestoreAnimal(data[i]);
+            if (data[i] != null && !string.IsNullOrWhiteSpace(data[i].animalId) && !restoredIds.Contains(data[i].animalId))
+            {
+                if(shop?.RestoreAnimal(data[i])!=null)restoredIds.Add(data[i].animalId);
+            }
     }
 
     void OnValidate()

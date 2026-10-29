@@ -121,6 +121,7 @@ public sealed class DayNightCycle : MonoBehaviour
         {
             WeatherType.Sunny => 0.38f,
             WeatherType.PartlyCloudy => 0.78f,
+            WeatherType.Cloudy => 0.9f,
             WeatherType.Drizzle => 0.8f,
             WeatherType.Rain => 0.9f,
             WeatherType.HeavyRain or WeatherType.WindRainStorm or WeatherType.Cyclone or WeatherType.Thunderstorm => 1f,

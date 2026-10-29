@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10240fb7eccb4dc5aa9192f4362b9b17, type: 3}
+  m_Name: Dialogue_PortraitPreview
+  m_EditorClassIdentifier: 
+  conversationId: testing.portrait_expressions
+  defaultSpeaker: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+  playerSpeaker: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+  counterpartSpeaker: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+  entryNodeId: portrait-0
+  nodes:
+  - nodeId: portrait-0
+    speakerOverride: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+    text: Aku siap mendengarkan.
+    localizationKey: 
+    emotion: Neutral
+    nextNodeId: portrait-1
+    commands: []
+    choices: []
+  - nodeId: portrait-1
+    speakerOverride: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+    text: Senang bertemu denganmu!
+    localizationKey: 
+    emotion: Happy
+    nextNodeId: portrait-2
+    commands: []
+    choices: []
+  - nodeId: portrait-2
+    speakerOverride: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+    text: Hmm, sepertinya ada yang perlu kita perbaiki.
+    localizationKey: 
+    emotion: Annoyed
+    nextNodeId: portrait-3
+    commands: []
+    choices: []
+  - nodeId: portrait-3
+    speakerOverride: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+    text: Sayang sekali... semoga besok lebih baik.
+    localizationKey: 
+    emotion: Sad
+    nextNodeId: portrait-4
+    commands: []
+    choices: []
+  - nodeId: portrait-4
+    speakerOverride: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+    text: Wah! Aku tidak menyangka!
+    localizationKey: 
+    emotion: Surprised
+    nextNodeId: portrait-5
+    commands: []
+    choices: []
+  - nodeId: portrait-5
+    speakerOverride: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+    text: Sebentar, aku pikirkan dulu.
+    localizationKey: 
+    emotion: Thinking
+    nextNodeId: portrait-6
+    commands: []
+    choices: []
+  - nodeId: portrait-6
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Aku siap mendengarkan.
+    localizationKey: 
+    emotion: Neutral
+    nextNodeId: portrait-7
+    commands: []
+    choices: []
+  - nodeId: portrait-7
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Senang bertemu denganmu!
+    localizationKey: 
+    emotion: Happy
+    nextNodeId: portrait-8
+    commands: []
+    choices: []
+  - nodeId: portrait-8
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Hmm, sepertinya ada yang perlu kita perbaiki.
+    localizationKey: 
+    emotion: Annoyed
+    nextNodeId: portrait-9
+    commands: []
+    choices: []
+  - nodeId: portrait-9
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Sayang sekali... semoga besok lebih baik.
+    localizationKey: 
+    emotion: Sad
+    nextNodeId: portrait-10
+    commands: []
+    choices: []
+  - nodeId: portrait-10
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Wah! Aku tidak menyangka!
+    localizationKey: 
+    emotion: Surprised
+    nextNodeId: portrait-11
+    commands: []
+    choices: []
+  - nodeId: portrait-11
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Sebentar, aku pikirkan dulu.
+    localizationKey: 
+    emotion: Thinking
+    nextNodeId: 
+    commands: []
+    choices: []

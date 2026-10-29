@@ -21,20 +21,20 @@ MonoBehaviour:
     sellInventory: 0
     items: []
     animals:
-    - displayName: Chicken Egg
-      icon: {fileID: 21300000, guid: c12da3a2f7df41643ba93ff25fbb4406, type: 3}
-      animalType: 0
-      offerKind: 0
-      price: 500
-      requiredVillageLevel: 1
-      growthProfile: {fileID: 11400000, guid: ca02c022000000000000000000000002, type: 2}
-      animalPrefab: {fileID: 5737161228259277445, guid: 887baffc5664c2e49b13a56458bb948e, type: 3}
-      productItem: {fileID: 0}
-    - displayName: Young Chicken
+    - displayName: Anak Ayam
       icon: {fileID: 21300000, guid: 642a01d3acf3fe8469961f38061100e4, type: 3}
       animalType: 0
       offerKind: 1
       price: 1000
+      requiredVillageLevel: 1
+      growthProfile: {fileID: 11400000, guid: ca02c022000000000000000000000002, type: 2}
+      animalPrefab: {fileID: 5737161228259277445, guid: 887baffc5664c2e49b13a56458bb948e, type: 3}
+      productItem: {fileID: 0}
+    - displayName: Telur Ayam
+      icon: {fileID: 21300000, guid: c12da3a2f7df41643ba93ff25fbb4406, type: 3}
+      animalType: 0
+      offerKind: 0
+      price: 500
       requiredVillageLevel: 1
       growthProfile: {fileID: 11400000, guid: ca02c022000000000000000000000002, type: 2}
       animalPrefab: {fileID: 5737161228259277445, guid: 887baffc5664c2e49b13a56458bb948e, type: 3}

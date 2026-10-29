@@ -95,6 +95,7 @@ public sealed class DialogueNode
     [TextArea(2, 8)] public string text;
     [Tooltip("Kunci localization opsional; text tetap menjadi fallback.")]
     public string localizationKey;
+    [Tooltip("Preset portrait: Neutral, Happy, Annoyed, Sad, Surprised, Thinking. Alias Indonesia dan Friendly/Question/Reminder tetap didukung.")]
     public string emotion;
     public string nextNodeId;
     public List<DialogueCommand> commands = new();

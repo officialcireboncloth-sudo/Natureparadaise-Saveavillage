@@ -42,14 +42,12 @@ public sealed class SeasonVisualController : MonoBehaviour
     {
         if (Instance != null && Instance.debugOverride)
             return Instance.debugSeason;
-        int duration = Instance != null ? Instance.daysPerSeason : 28;
-        return CropDataSO.GetSeasonForDay(Mathf.Max(1, day), duration);
+        return CropDataSO.GetSeasonForDay(Mathf.Max(1, day));
     }
 
     /// <summary>Dipanggil setelah Save/Load mengganti hari tanpa menjalankan event pergantian hari.</summary>
     public static void RefreshFromCalendar() => Instance?.ApplyCurrent(true);
 
-    [SerializeField, Min(1)] int daysPerSeason = 28;
     [SerializeField] SeasonVisualProfile[] profiles = Array.Empty<SeasonVisualProfile>();
     [Header("Debug (Editor / Development Build)")]
     [SerializeField] KeyCode nextSeasonKey = KeyCode.PageUp;
@@ -59,10 +57,7 @@ public sealed class SeasonVisualController : MonoBehaviour
     Coroutine terrainApplyRoutine;
     bool debugOverride;
     CropSeason debugSeason;
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-    bool debugMenuOpen;
-    Rect debugWindow = new(0f, 0f, 560f, 650f);
-#endif
+
 
     void Awake()
     {
@@ -84,123 +79,32 @@ public sealed class SeasonVisualController : MonoBehaviour
     {
         TimeManager.OnDay -= HandleDayChanged;
         SceneManager.sceneLoaded -= HandleSceneLoaded;
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-        CloseDebugMenu();
-#endif
+
     }
 
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
     void Update()
     {
+        if (!TestingDebugMenu.Available) return;
         if (nextSeasonKey != KeyCode.None && GameplayInput.GetKeyDown(nextSeasonKey))
-        {
-            if (debugMenuOpen) CloseDebugMenu();
-            else OpenDebugMenu();
-        }
-        if (clearOverrideKey != KeyCode.None && GameplayInput.GetKeyDown(clearOverrideKey))
-        {
-            FollowCalendar();
-            CloseDebugMenu();
-        }
-        if (debugMenuOpen && GameplayInput.GetKeyDown(KeyCode.Escape)) CloseDebugMenu();
+            TestingDebugMenu.Instance?.Open(3);
+        if (clearOverrideKey != KeyCode.None && GameplayInput.GetKeyDown(clearOverrideKey)) FollowCalendar();
     }
 
-    void OnGUI()
+    /// <summary>Session-only season override shared by the unified testing menu and weather rules.</summary>
+    public void SetTestSeason(CropSeason season)
     {
-        if (GameplayPauseMenu.BlocksGameplayInput) return;
-        if (!debugMenuOpen) return;
-        debugWindow.width = Mathf.Min(560f, Screen.width - 24f);
-        debugWindow.height = Mathf.Min(650f, Screen.height - 24f);
-        debugWindow = GUI.Window(GetInstanceID(), debugWindow, DrawDebugMenu, "DEBUG SEASON MENU");
-    }
-
-    void DrawDebugMenu(int id)
-    {
-        int calendarDay = TimeManager.Instance != null ? TimeManager.Instance.day : 1;
-        CropSeason calendarSeason = CropDataSO.GetSeasonForDay(calendarDay, daysPerSeason);
-        GUILayout.Space(4f);
-        GUILayout.Label($"Aktif: {CurrentSeason} {(debugOverride ? "(DEBUG OVERRIDE)" : "(CALENDAR)")}");
-        GUILayout.Label($"Kalender: Day {calendarDay} — {calendarSeason}");
-        GUILayout.Space(8f);
-        if (GUILayout.Button("SPRING", GUILayout.Height(38f))) SelectDebugSeason(CropSeason.Spring);
-        if (GUILayout.Button("SUMMER", GUILayout.Height(38f))) SelectDebugSeason(CropSeason.Summer);
-        if (GUILayout.Button("AUTUMN / FALL", GUILayout.Height(38f))) SelectDebugSeason(CropSeason.Autumn);
-        if (GUILayout.Button("WINTER", GUILayout.Height(38f))) SelectDebugSeason(CropSeason.Winter);
-        GUILayout.Space(6f);
-        if (GUILayout.Button("FOLLOW CALENDAR", GUILayout.Height(34f))) FollowCalendar();
-
-        WeatherSystem weather = WeatherSystem.Instance;
-        GUILayout.Space(10f);
-        GUILayout.Label("WEATHER");
-        GUILayout.Label(weather != null
-            ? $"Aktif: {WeatherSystem.GetShortName(weather.CurrentWeather)} " +
-              $"{(weather.IsDebugWeatherOverrideActive ? "(DEBUG OVERRIDE)" : "(AUTO SEASON)")}"
-            : "WeatherSystem belum tersedia");
-        DrawWeatherRow(weather,
-            ("CERAH", WeatherType.Sunny),
-            ("MENDUNG", WeatherType.PartlyCloudy),
-            ("PANAS", WeatherType.Heatwave));
-        DrawWeatherRow(weather,
-            ("GERIMIS", WeatherType.Drizzle),
-            ("HUJAN", WeatherType.Rain),
-            ("HUJAN LEBAT", WeatherType.HeavyRain));
-        DrawWeatherRow(weather,
-            ("BADAI ANGIN", WeatherType.WindRainStorm),
-            ("TOPAN", WeatherType.Cyclone),
-            ("BADAI PETIR", WeatherType.Thunderstorm));
-        DrawWeatherRow(weather,
-            ("SALJU", WeatherType.Snow),
-            ("BADAI SALJU", WeatherType.Blizzard));
-        GUI.enabled = weather != null;
-        if (GUILayout.Button("AUTO WEATHER — IKUTI RULE MUSIM", GUILayout.Height(34f)))
-            weather.FollowSeasonWeather();
-        GUI.enabled = true;
-        GUILayout.Space(6f);
-        if (GUILayout.Button($"CLOSE [{nextSeasonKey} / Esc]", GUILayout.Height(30f))) CloseDebugMenu();
-        GUI.DragWindow(new Rect(0f, 0f, debugWindow.width, 26f));
-    }
-
-    static void DrawWeatherRow(WeatherSystem weather,
-        params (string label, WeatherType weather)[] options)
-    {
-        GUILayout.BeginHorizontal();
-        GUI.enabled = weather != null;
-        foreach ((string label, WeatherType value) in options)
-            if (GUILayout.Button(label, GUILayout.Height(34f))) weather.SetDebugWeather(value);
-        GUI.enabled = true;
-        GUILayout.EndHorizontal();
-    }
-
-    void OpenDebugMenu()
-    {
-        debugMenuOpen = true;
-        debugWindow.x = Mathf.Max(12f, (Screen.width - debugWindow.width) * 0.5f);
-        debugWindow.y = Mathf.Max(12f, (Screen.height - debugWindow.height) * 0.5f);
-        TimeManager.Instance?.AcquirePause(this);
-    }
-
-    void CloseDebugMenu()
-    {
-        if (!debugMenuOpen) return;
-        debugMenuOpen = false;
-        TimeManager.Instance?.ReleasePause(this);
-    }
-
-    void SelectDebugSeason(CropSeason season)
-    {
+        if (!TestingDebugMenu.Available) return;
         debugOverride = true;
         debugSeason = season;
         Apply(season, true);
-        SaveLoadFeedback.Instance?.ShowMessage($"DEBUG SEASON: {season}");
     }
 
-    void FollowCalendar()
+    /// <summary>Restores the current calendar season after a testing preview.</summary>
+    public void FollowCalendar()
     {
         debugOverride = false;
         ApplyCurrent(true);
-        SaveLoadFeedback.Instance?.ShowMessage($"SEASON: mengikuti kalender ({CurrentSeason})");
     }
-#endif
 
     void HandleDayChanged()
     {
@@ -209,9 +113,7 @@ public sealed class SeasonVisualController : MonoBehaviour
 
     void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-        CloseDebugMenu();
-#endif
+
         ApplyCurrent(true);
     }
 

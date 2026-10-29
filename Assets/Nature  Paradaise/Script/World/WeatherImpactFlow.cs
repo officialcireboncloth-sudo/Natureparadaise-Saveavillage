@@ -48,6 +48,7 @@ public readonly struct WeatherImpactSnapshot
         return weather switch
         {
             WeatherType.PartlyCloudy => New(weather, day, sun, ambient, exposure, tint, 0.001f, 0f, 0.1f, true, 1f, 1.05f, 1.05f),
+            WeatherType.Cloudy => New(weather, day, sun, ambient, exposure, tint, 0.002f, 0f, 0.15f, true, 1f, 1.05f, 1.05f),
             WeatherType.Heatwave => New(weather, day, sun, ambient, exposure, tint, 0f, 0f, 0.15f, true, 0.8f, 0.8f, 0.75f),
             WeatherType.Drizzle => New(weather, day, sun, ambient, exposure, tint, 0.0025f, 0.24f, 0.1f, true, 1f, 0.95f, 1.1f),
             WeatherType.Rain => New(weather, day, sun, ambient, exposure, tint, 0.006f, 0.55f, 0.25f, true, 1f, 0.8f, 1.2f),

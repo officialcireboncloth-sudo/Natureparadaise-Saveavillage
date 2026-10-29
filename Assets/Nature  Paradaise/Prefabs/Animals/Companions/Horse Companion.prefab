@@ -95,7 +95,7 @@ MonoBehaviour:
   adultHorseScale: 0.6330596
   mountPoint: {fileID: 4685302973471177832}
   mountLocalPosition: {x: 0, y: 1.65, z: 0}
-  riderSeatOffset: {x: 0, y: 0.05, z: 0}
+  riderSeatOffset: {x: -0, y: 0.15045202, z: -0.059999995}
   mountStartOffset: {x: -0.65, y: 0, z: 0}
   dismountEndOffset: {x: -0.65, y: 0, z: 0}
   mountMoveStartFrame: 0
@@ -114,8 +114,8 @@ MonoBehaviour:
   mountedCollisionSkin: 0.08
   mountedFallRecoveryDistance: 6
   mountedFallRecoveryDelay: 3
-  mountActionDuration: 2.2000003
-  dismountActionDuration: 2.4
+  mountActionDuration: 1.9583334
+  dismountActionDuration: 1.9583334
 --- !u!1 &6520685787498841775
 GameObject:
   m_ObjectHideFlags: 0

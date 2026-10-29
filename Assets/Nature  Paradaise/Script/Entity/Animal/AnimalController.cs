@@ -17,7 +17,7 @@ public class AnimalController : MonoBehaviour
     public bool IsBrushing => brushBusy;
     public float CareProgress => brushBusy ? brushProgress : productProgress;
     public float CareDuration => brushBusy ? Mathf.Max(.01f,brushActionDuration) : IsShearing ? ShearActionDuration :
-        growth != null && growth.Type == AnimalType.Cow ? Mathf.Max(.01f,milkingActionDuration) : Mathf.Max(.01f,productActionDuration);
+        RequiresMilker ? Mathf.Max(.01f,milkingActionDuration) : Mathf.Max(.01f,productActionDuration);
     public float CareSecondsRemaining => Mathf.Max(0,CareDuration * (1-CareProgress));
     public string CareActionLabel => brushBusy ? "Menggosok Hewan..." : IsShearing ? "Mencukur Bulu..." :
         growth != null && growth.Type == AnimalType.Cow ? "Memerah Susu" : "Mengambil Produk";
@@ -91,6 +91,7 @@ public class AnimalController : MonoBehaviour
     [SerializeField, Range(5f,10f)] float shearActionDuration = 5f;
     public float ShearActionDuration => Mathf.Clamp(shearActionDuration,5f,10f);
     public bool IsShearing => productCollectBusy && growth != null && growth.Type == AnimalType.Sheep;
+    public bool IsMachineMilking => productCollectBusy && RequiresMilker;
 
     [InspectorName("Use Held Care Item Key")]
     public KeyCode feedKey = KeyCode.F;
@@ -119,6 +120,8 @@ public class AnimalController : MonoBehaviour
     AnimalRoutine productLockedRoutine;
     SheepWoolVisual sheepWoolVisual;
     bool productCollectBusy;
+    System.Func<KeyCode,bool> careKeyInput;
+    System.Func<bool> milkerUseInput;
 
     ItemSO SelectedMedicine
     {
@@ -226,14 +229,16 @@ public class AnimalController : MonoBehaviour
 
         string displayName=LocalizedAnimalName(growth);
         string interactionPrompt=displayName;
+        bool milkSelected=RequiresMilker && HasMilkerSelected;
         List<string> actions=new();
+        if(milkSelected) actions.Add($"F / {milkKey}: Perah susu");
         if(growth!=null && !growth.PetToday) actions.Add($"{petKey}: Gosok");
         if(growth!=null && growth.Type==AnimalType.Cow)
             actions.Add(growth.InteractedToday ? $"{interactKey}: Interaksi (✓ hari ini)" : $"{interactKey}: Interaksi harian");
         if (carryable && animalCarry != null && !animalCarry.HasAnimal)
             actions.Add("E: Angkat");
         else if(pushable) actions.Add("E lalu WASD: Dorong");
-        if (IsProductReady)
+        if (IsProductReady && !milkSelected)
             actions.Add(growth!=null && growth.Type==AnimalType.Sheep
                 ? (SelectedItem!=null && SelectedItem.equippedTool==PlayerToolType.Shears
                     ? $"{milkKey}: Cukur bulu (5 Wool)"
@@ -252,8 +257,10 @@ public class AnimalController : MonoBehaviour
         if (selectedMedicine != null && growth != null && growth.CanReceiveMedicine)
             actions.Add($"{feedKey}: Beri obat");
         actions.Add("I: Detail");
+        if(milkSelected && !string.IsNullOrEmpty(ProductCollectionBlockReason))
+            interactionPrompt+=" · "+ProductCollectionBlockReason;
         interactionPrompt+="\n"+string.Join("   ",actions);
-        if(RequiresMilker && HasMilkerSelected && IsProductReady)
+        if(milkSelected)
             WorldInteractionPrompt.Request(this,transform,interactionPrompt,distance,1.75f,TakeMilk);
         else WorldInteractionPrompt.RequestClean(this,transform,interactionPrompt,distance,1.75f);
 
@@ -262,16 +269,24 @@ public class AnimalController : MonoBehaviour
 
     void HandleInput()
     {
+        careKeyInput ??= key=>PlayerInteractionTarget.PressPrompt(this,key);
+        milkerUseInput ??= ()=>playerInv.GetComponent<PlayerToolHotbar>()?.IsUsePressed(PlayerToolType.Milker,this)==true;
+        HandleCareInput(careKeyInput,milkerUseInput);
+    }
+
+    // Keep item routing independent from the input device; keyboard, touch and QA use the same care commands.
+    void HandleCareInput(System.Func<KeyCode,bool> pressed,System.Func<bool> useMilker)
+    {
         PlayerAnimalCarry animalCarry = playerInv.GetComponent<PlayerAnimalCarry>();
         if (growth != null && growth.HasBeenBorn && AnimalGrowthProfileSO.IsBird(growth.Type) &&
             animalCarry != null && !animalCarry.HasAnimal &&
-            PlayerInteractionTarget.PressPrompt(this, KeyCode.E))
+            pressed(KeyCode.E))
         {
             animalCarry.TryPickup(growth);
             return;
         }
         if(growth!=null && growth.HasBeenBorn && !AnimalGrowthProfileSO.IsBird(growth.Type) &&
-           PlayerInteractionTarget.PressPrompt(this, KeyCode.E))
+           pressed(KeyCode.E))
         {
             PlayerAnimalPush animalPush=playerInv.GetComponent<PlayerAnimalPush>();
             if(animalPush==null) animalPush=playerInv.gameObject.AddComponent<PlayerAnimalPush>();
@@ -279,14 +294,14 @@ public class AnimalController : MonoBehaviour
             return;
         }
 
-        if (PlayerInteractionTarget.PressPrompt(this, KeyCode.I))
+        if (pressed(KeyCode.I))
         {
             AnimalCarePanel.Show(growth, null, playerInv);
             return;
         }
 
         if (growth != null && growth.Type == AnimalType.Cow &&
-            PlayerInteractionTarget.PressPrompt(this, interactKey))
+            pressed(interactKey))
         {
             PlayerController controller = playerInv.GetComponent<PlayerController>();
             controller?.FaceTowardsInteraction(transform.position);
@@ -301,7 +316,11 @@ public class AnimalController : MonoBehaviour
         // FEED CABBAGE
         // =========================
 
-        if (PlayerInteractionTarget.PressPrompt(this, feedKey))
+        // F belongs to the selected item. Testing the feed key unconditionally consumed
+        // the same press before the selected Milker could handle it later in this method.
+        ItemSO careItem=SelectedItem;
+        bool usesCareItem=careItem!=null && (careItem.IsAnimalMedicine || careItem==favoriteTreatItem || FeedTypes.Kind(careItem)!=FeedKind.None);
+        if (usesCareItem && pressed(feedKey))
         {
             ItemSO selected = SelectedItem;
             if (selected != null && selected.IsAnimalMedicine)
@@ -316,16 +335,15 @@ public class AnimalController : MonoBehaviour
         // TAKE MILK
         // =========================
 
-        if (PlayerInteractionTarget.PressPrompt(this, milkKey) ||
-            RequiresMilker && HasMilkerSelected && playerInv.GetComponent<PlayerToolHotbar>()?.IsUsePressed(PlayerToolType.Milker,this)==true)
+        if (pressed(milkKey) || RequiresMilker && HasMilkerSelected && useMilker())
         {
             TakeMilk();
         }
 
         if (!brushBusy && !productCollectBusy && growth != null && growth.HasBeenBorn && !growth.PetToday &&
-            PlayerInteractionTarget.PressPrompt(this, petKey))
+            pressed(petKey))
             TryStartBrush();
-        if (HUDManager.DebugCluesEnabled && PlayerInteractionTarget.PressPrompt(this, debugNextStageKey))
+        if (HUDManager.DebugCluesEnabled && pressed(debugNextStageKey))
             growth?.DebugAdvanceToNextStage();
     }
 
@@ -433,30 +451,28 @@ public class AnimalController : MonoBehaviour
     bool CanCare(float cost) => playerInv==null || playerInv.GetComponent<PlayerStatusSystem>()==null || playerInv.GetComponent<PlayerStatusSystem>().CanSpendStamina(cost);
     void SpendCare(float cost) { playerInv?.GetComponent<PlayerStatusSystem>()?.TrySpendStamina(cost); }
 
+    /// <summary>One explanation shared by the selected-tool prompt, touch action and animal detail panel.</summary>
+    public string ProductCollectionBlockReason
+    {
+        get
+        {
+            if(RequiresMilker && !HasMilkerSelected) return "Pilih Milker di hotbar untuk memerah susu";
+            if(growth!=null && growth.Type==AnimalType.Sheep && (SelectedItem==null || SelectedItem.equippedTool!=PlayerToolType.Shears)) return "Pilih Shears untuk mencukur domba";
+            if(!IsProductReady) return RequiresMilker ? growth.MilkProductionBlockReason : "Produk belum siap";
+            if(milkItem==null) return "Produk hewan belum tersedia";
+            if(!CanCare(ProductStaminaCost)) return "Stamina tidak cukup";
+            int amount=Mathf.Max(1,growth!=null&&growth.Type==AnimalType.Sheep?shearingAmount:productAmount);
+            if(playerInv!=null && !playerInv.CanAdd(milkItem,amount,growth!=null?growth.ProductQualityLevel:1)) return "Tas penuh; kosongkan satu slot dulu";
+            return string.Empty;
+        }
+    }
+
     public void TakeMilk()
     {
         if (IsCareBusy || CurrentCareAction != null || playerInv == null || GameplayPauseMenu.BlocksGameplayInput) return;
-        if (!IsProductReady)
-        {
-            Debug.Log(
-                "[ANIMAL] Milk belum siap."
-            );
-            return;
-        }
-
-        if (milkItem == null)
-        {
-            Debug.LogWarning(
-                "[ANIMAL] Milk Item belum di-assign."
-            );
-            return;
-        }
-
-        if(!CanCare(ProductStaminaCost)) return;
-        if(RequiresMilker && !HasMilkerSelected)
-        {SaveLoadFeedback.Instance?.ShowMessage("Pilih Milker di hotbar untuk memerah susu.");return;}
-        if(growth!=null&&growth.Type==AnimalType.Sheep&&(SelectedItem==null||SelectedItem.equippedTool!=PlayerToolType.Shears))
-        {SaveLoadFeedback.Instance?.ShowMessage("Pilih Shears di hotbar untuk mencukur domba.");return;}
+        string blocked=ProductCollectionBlockReason;
+        if(!string.IsNullOrEmpty(blocked))
+        {GameplayInfoPanel.NotifyBesideTools(blocked);return;}
         if(!InCareReach()){QueueCareApproach(TakeMilk);return;}
         productCollectBusy=true;
         productProgress=0;
@@ -537,9 +553,16 @@ public class AnimalController : MonoBehaviour
                 productProgress=Mathf.Clamp01(elapsed/duration);
                 AlignPlayerForBrush(controller,false);
                 bool milk=growth!=null&&(growth.Type==AnimalType.Cow||growth.Type==AnimalType.Goat);
-                if((shearing||milk)&&CareContact(controller,shearing?"Shear Sheep":"Milking Animal",elapsed,ref lastStroke))
-                    FarmActionEffects.Burst(shearing?FarmEffect.Shear:FarmEffect.Milk,CarePoint(controller,!shearing),
+                if(shearing && CareContact(controller,"Shear Sheep",elapsed,ref lastStroke))
+                    FarmActionEffects.Burst(FarmEffect.Shear,CarePoint(controller,false),
                         controller!=null?controller.transform.forward:transform.forward,radius:.1f);
+                // The vacuum feeds a sealed canister. Sound starts only after cup
+                // attachment; open-bucket milk splashes would contradict this tool.
+                if(milk && productProgress>=.36f && productProgress<=.72f && lastStroke<0)
+                {
+                    FarmActionEffects.PlaySound(FarmEffect.Milk,CarePoint(controller,true));
+                    lastStroke=0;
+                }
             }
             yield return null;
         }

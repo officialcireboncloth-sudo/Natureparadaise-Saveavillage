@@ -240,10 +240,10 @@ public class CropDataSO : ScriptableObject
         return Mathf.Clamp(regrowStage < 0 ? fallback : regrowStage, 0, StageCount - 1);
     }
 
-    /// <summary>Musim diturunkan dari hari global dengan kalender 28 hari per musim.</summary>
+    /// <summary>Uses the shared four-month calendar. The legacy duration argument no longer overrides game dates.</summary>
     public static CropSeason GetSeasonForDay(int day, int daysPerSeason = 28)
     {
-        int seasonIndex = Mathf.FloorToInt((Mathf.Max(1, day) - 1) / (float)Mathf.Max(1, daysPerSeason)) % 4;
+        GameScheduleData.Date(day,out _,out int seasonIndex,out _);
         return seasonIndex switch
         {
             0 => CropSeason.Spring,

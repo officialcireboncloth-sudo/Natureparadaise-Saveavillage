@@ -386,7 +386,11 @@ public static class BalanceCsvDatabase
         public static List<Dictionary<string,string>> Read(string path,out string[] headers,out string error)
         {
             error=null; List<List<string>> records=new(); List<string> row=new(); StringBuilder field=new(); bool quoted=false;
-            string text=File.ReadAllText(path,Encoding.UTF8);
+            // Spreadsheet editors keep a writable handle open after Save. Allow that
+            // handle (and atomic file replacement) while reading the saved contents.
+            string text;
+            using(var stream=new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.ReadWrite|FileShare.Delete))
+            using(var reader=new StreamReader(stream,Encoding.UTF8,true)) text=reader.ReadToEnd();
             for(int i=0;i<text.Length;i++)
             {
                 char c=text[i];

@@ -364,6 +364,7 @@ public sealed class PersonalAnimal : MonoBehaviour
         Vector3 sideOffset=mountStartOffset;
         sideOffset.x=Mathf.Abs(sideOffset.x)*riderSideSign;
         PlacePlayerAtHorseOffset(player, sideOffset);
+        player.transform.rotation=RiderFacing(0,true);
         CacheMountedPlayerHips(player);
         Vector3 standingPoint = player.CharacterAnimator != null && riderTransitionProfile != null
             ? player.CharacterAnimator.transform.TransformPoint(riderTransitionProfile.standingHipModelLocal)
@@ -457,7 +458,7 @@ public sealed class PersonalAnimal : MonoBehaviour
         // karena itulah yang sebelumnya terlihat sebagai snap setelah klip selesai.
         Vector3 groundedPosition=player.transform.position;
         groundedPosition.y=riderTransitionEndRoot.y;
-        player.transform.SetPositionAndRotation(groundedPosition,riderTransitionRotation);
+        player.transform.SetPositionAndRotation(groundedPosition,RiderFacing(1,false));
         RestoreMountedPlayerColliders();
         mountedPlayerHips=null;
         mountedVerticalVelocity=0f;
@@ -539,15 +540,22 @@ public sealed class PersonalAnimal : MonoBehaviour
         bool mounting=riderTransition==RiderTransition.Mounting;
         if(HorseRiderTransitionProfile.TryPhase(mountedPlayer.CharacterAnimator,mounting,out float actual))riderTransitionPhase=actual;
         float phase=riderTransitionPhase;
-        Vector3 endHips=mounting?GetSeatWorldPosition():riderTransitionEndRoot+riderTransitionRotation*standingHipsLocalOffset;
+        Vector3 endHips=mounting?GetSeatWorldPosition():riderTransitionEndRoot+RiderFacing(1,false)*standingHipsLocalOffset;
         float horizontal=riderTransitionProfile!=null?riderTransitionProfile.Horizontal(phase,mounting):Mathf.SmoothStep(0,1,phase);
         float vertical=riderTransitionProfile!=null?riderTransitionProfile.Vertical(phase,mounting):Mathf.SmoothStep(0,1,phase);
         Vector3 desiredHips=Vector3.Lerp(riderTransitionStartHips,endHips,horizontal);
         desiredHips.y=Mathf.Lerp(riderTransitionStartHips.y,endHips.y,vertical)+(riderTransitionProfile!=null?riderTransitionProfile.Lift(phase,mounting):0);
-        mountedPlayer.transform.rotation=riderTransitionRotation;
+        if(riderTransitionProfile!=null)desiredHips+=riderTransitionRotation*Vector3.forward*riderTransitionProfile.ForwardOffset(phase,mounting);
+        mountedPlayer.transform.rotation=RiderFacing(phase,mounting);
         PreserveRiderScale();
         if(mountedPlayerHips!=null)mountedPlayer.transform.position+=desiredHips-mountedPlayerHips.position;
         else mountedPlayer.transform.position=desiredHips-Vector3.up*.9f;
+    }
+
+    Quaternion RiderFacing(float phase,bool mounting)
+    {
+        float yaw=riderTransitionProfile!=null?riderTransitionProfile.Yaw(phase,mounting):0;
+        return transform.rotation*Quaternion.Euler(0,yaw*(riderSideSign>0?-1:1),0);
     }
 
     IEnumerator WaitForRiderAnimation(bool mounting)

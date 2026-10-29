@@ -30,6 +30,7 @@ public sealed class PlayerHeldTools : MonoBehaviour
     HeldItemPlacementSystem placement;
     PlayerToolVisualCatalog.Entry shown;
     GameObject visual;
+    PortableMilkerVisual portableMilker;
     public GameObject ActiveVisual=>visual!=null && visual.activeSelf?visual:null;
     /// <summary>Particle origin follows the visible tool's authored spout or container rim.</summary>
     public Vector3 WorkPoint(PlayerToolType tool)
@@ -167,6 +168,11 @@ public sealed class PlayerHeldTools : MonoBehaviour
     }
     bool UsingWorkTool(PlayerToolVisualCatalog.Entry entry)
     {
+        if(entry.tool==PlayerToolType.Milker)
+        {
+            var care=AnimalController.CurrentCareAction;
+            return care!=null && care.CarePlayer==movement && care.IsMachineMilking;
+        }
         if(!entry.workGrip)return false;
         if(actionTool==entry.tool && Time.time<actionUntil)return true;
         if(rig==null || !rig.isActiveAndEnabled || rig.runtimeAnimatorController==null)return false;
@@ -183,6 +189,21 @@ public sealed class PlayerHeldTools : MonoBehaviour
     void PoseTool(Transform tool,PlayerToolVisualCatalog.Entry entry,bool usingTool,Vector3 target)
     {
         SnapToGrip(tool,entry,!usingTool);
+        if(entry.tool==PlayerToolType.Milker)
+        {
+            var care=AnimalController.CurrentCareAction;
+            float phase=usingTool && care!=null ? care.CareProgress : 0;
+            float workWeight=usingTool?Mathf.SmoothStep(0,1,Mathf.InverseLerp(.10f,.32f,phase)) *
+                (1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.73f,.98f,phase))):0;
+            tool.localRotation=Quaternion.Slerp(Quaternion.Euler(entry.carryHandEuler),Quaternion.Euler(entry.handEuler),workWeight);
+            if(portableMilker!=null)
+            {
+                Vector3 palm=leftHand!=null?leftHand.position+leftHand.rotation*leftPalmOffset:tool.position;
+                Quaternion cupUp=Quaternion.LookRotation(-transform.right,Vector3.up)*Quaternion.Euler(0,0,180);
+                portableMilker.Pose(palm,cupUp,phase,usingTool);
+            }
+            return;
+        }
         if(entry.tool==PlayerToolType.WateringCan)
         {
             if(usingTool)
@@ -341,8 +362,10 @@ public sealed class PlayerHeldTools : MonoBehaviour
         if(desired==shown){if(visual!=null)visual.SetActive(isActiveAndEnabled);return;}
         if(visual!=null){visual.SetActive(false);Destroy(visual);}
         visual=null;shown=desired;
+        portableMilker=null;
         if(desired==null)return;
         visual=Instantiate(desired.prefab,GripPoint,false);visual.name="HeldTool_"+desired.id;
+        portableMilker=visual.GetComponent<PortableMilkerVisual>();
         foreach(var collider in visual.GetComponentsInChildren<Collider>(true))collider.enabled=false;
     }
     void OnDisable(){if(visual!=null)visual.SetActive(false);}

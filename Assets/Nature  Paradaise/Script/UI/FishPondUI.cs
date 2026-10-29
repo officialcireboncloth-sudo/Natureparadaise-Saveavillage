@@ -172,7 +172,6 @@ public sealed class FishPondUI : MonoBehaviour
         ready=Button(panel,"Ambil Ikan Siap",.55f,.10f,.84f,.16f,()=>TakeReady());Button(panel,"Tutup",.86f,.10f,.985f,.16f,()=>Pond.ClosePanel());
         feedback=Text(panel,"",16,.025f,.095f,.535f,.128f);Text(panel,"A / D Pilih ikan   W / S Pilih bagian   E Masukkan   R Ambil   F Pakan   Esc Tutup",16,.13f,.015f,.97f,.055f);
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-        Button(panel,"Debug +1 hari",.025f,.06f,.24f,.09f,()=>{Pond.DebugAdvanceGrowth(false);Refresh();});Button(panel,"Debug naik ukuran",.25f,.06f,.49f,.09f,()=>{Pond.DebugAdvanceGrowth(true);Refresh();});
 #endif
     }
     static RectTransform Rect(Transform parent,string name,float x,float y,float xx,float yy)=>GameplayHUDStyle.Rect(name,parent,new(x,y),new(xx,yy));

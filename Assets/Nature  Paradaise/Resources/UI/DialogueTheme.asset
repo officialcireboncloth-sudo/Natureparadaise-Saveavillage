@@ -11,7 +11,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da52a2bf21bb46faa5893417b110e831, type: 3}
   m_Name: DialogueTheme
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   panel: {fileID: 0}
   relationshipIcon: {fileID: 0}
-
+  missingPortrait: {fileID: 0}
+  panelColor: {r: 0.97, g: 0.94, b: 0.86, a: 1}
+  textColor: {r: 0.19, g: 0.16, b: 0.12, a: 1}
+  accentColor: {r: 0.4, g: 0.48, b: 0.34, a: 1}
+  listenerBrightness: 0.68

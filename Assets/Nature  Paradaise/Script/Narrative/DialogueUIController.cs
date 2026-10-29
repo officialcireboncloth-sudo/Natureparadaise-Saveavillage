@@ -7,158 +7,272 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public sealed class DialogueUIController : MonoBehaviour
 {
-    // Keep serialized fields compatible with existing authored scenes/setup tools.
+    // Preserve old serialized slots so authored scene presenters upgrade in place.
     [SerializeField] GameObject panelRoot;
-    [SerializeField] TMP_Text speakerNameText,bodyText,emotionText;
+    [SerializeField] TMP_Text speakerNameText, bodyText, emotionText;
     [SerializeField] Image portraitImage;
     [SerializeField] Button continueButton;
     [SerializeField] RectTransform choicesRoot;
     [SerializeField] Button choiceButtonPrefab;
-    [SerializeField] KeyCode continueKey=KeyCode.E;
-    readonly List<Button> choicePool=new();
-    readonly List<GameObject> choiceMarkers=new();
+    [SerializeField] KeyCode continueKey = KeyCode.E;
+    readonly List<Button> choicePool = new();
+    readonly List<GameObject> choiceMarkers = new();
     DialogueService boundService;
     DialogueTheme theme;
-    GameObject runtimeCanvas;
-    TMP_Text roleText,hintText;
-    ScrollRect scroll;
-    RectTransform portraitFrame,bodyViewport;
-    ScrollRect bodyScroll;
-    TMP_Text confirmKeyText;
-    int openedFrame,focusedChoice;
+    GameObject runtimeCanvas, playerFallback, npcFallback;
+    CanvasScaler scaler;
+    TMP_Text roleText, hintText;
+    ScrollRect scroll, bodyScroll;
+    RectTransform safeArea, playerFrame, npcFrame, bodyViewport;
+    Image playerPortrait;
+    DialogueSpeakerSO lastCounterpart;
+    string playerEmotion, npcEmotion;
+    int openedFrame, focusedChoice, layoutWidth, layoutHeight;
+    Color Ink => theme != null ? theme.textColor : new(.19f, .16f, .12f, 1);
+    Color Sage => theme != null ? theme.accentColor : new(.40f, .48f, .34f, 1);
+
     public static void EnsurePresenter()
     {
-        var presenter=FindFirstObjectByType<DialogueUIController>();
-        if(presenter==null)presenter=new GameObject("Dialogue Presenter").AddComponent<DialogueUIController>();
-        presenter.Bind();presenter.Build();
+        var presenter = FindFirstObjectByType<DialogueUIController>();
+        if (presenter == null) presenter = new GameObject("Dialogue Presenter").AddComponent<DialogueUIController>();
+        presenter.Bind(); presenter.Build();
     }
-    void OnEnable()=>Bind();
-    void Start(){Bind();Build();Refresh();}
-    void OnDisable(){var service=boundService;Unbind();if(service!=null&&service.IsOpen)service.EndConversation();if(runtimeCanvas!=null)runtimeCanvas.SetActive(false);}
-    void OnDestroy(){if(runtimeCanvas!=null)Destroy(runtimeCanvas);}
+    void OnEnable() => Bind();
+    void Start() { Bind(); Build(); Refresh(); }
+    void OnDisable()
+    {
+        var service = boundService; Unbind();
+        if (service != null && service.IsOpen) service.EndConversation();
+        if (runtimeCanvas != null) runtimeCanvas.SetActive(false);
+    }
+    void OnDestroy() { if (runtimeCanvas != null) Destroy(runtimeCanvas); }
     void Update()
     {
-        if(boundService==null)Bind();
-        if(boundService==null||!boundService.IsOpen||Time.frameCount<=openedFrame)return;
+        if (boundService == null) Bind();
+        if (boundService == null || !boundService.IsOpen) return;
+        if (layoutWidth != Screen.width || layoutHeight != Screen.height) Refresh();
+        if (Time.frameCount <= openedFrame) return;
 #if UNITY_EDITOR
-        var focus=UnityEditor.EditorWindow.focusedWindow;if(focus==null||focus.GetType().Name!="GameView")return;
+        var focus = UnityEditor.EditorWindow.focusedWindow;
+        if (focus == null || focus.GetType().Name != "GameView") return;
 #else
-        if(!Application.isFocused)return;
+        if (!Application.isFocused) return;
 #endif
-        if(GameplayInput.ConsumedThisFrame)return;
-        if(Input.GetKeyDown(KeyCode.Escape)){boundService.EndConversation();GameplayInput.ConsumeCurrentFrame();return;}
-        if(Input.GetKeyDown(KeyCode.W)||Input.GetKeyDown(KeyCode.UpArrow))FocusChoice(focusedChoice-1);
-        if(Input.GetKeyDown(KeyCode.S)||Input.GetKeyDown(KeyCode.DownArrow))FocusChoice(focusedChoice+1);
-        if(Input.GetKeyDown(KeyCode.Return)||Input.GetKeyDown(KeyCode.KeypadEnter))Confirm();
-        else if(boundService.VisibleChoices.Count==0&&(Input.GetKeyDown(continueKey)||Input.GetKeyDown(KeyCode.Space)))Continue();
+        if (GameplayInput.ConsumedThisFrame) return;
+        if (Input.GetKeyDown(KeyCode.Escape)) { Close(); return; }
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) FocusChoice(focusedChoice - 1);
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) FocusChoice(focusedChoice + 1);
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) Confirm();
+        else if (boundService.VisibleChoices.Count == 0 && (Input.GetKeyDown(continueKey) || Input.GetKeyDown(KeyCode.Space))) Continue();
     }
     void Bind()
     {
-        var service=DialogueService.Instance;if(service==boundService)return;Unbind();boundService=service;if(service==null)return;
-        service.ConversationStarted+=HandleStarted;service.NodeChanged+=HandleNode;service.ConversationEnded+=Refresh;
+        var service = DialogueService.Instance;
+        if (service == boundService) return;
+        Unbind(); boundService = service;
+        if (service == null) return;
+        service.ConversationStarted += HandleStarted;
+        service.NodeChanged += HandleNode;
+        service.ConversationEnded += Refresh;
     }
-    void Unbind(){if(boundService==null)return;boundService.ConversationStarted-=HandleStarted;boundService.NodeChanged-=HandleNode;boundService.ConversationEnded-=Refresh;boundService=null;}
-    void HandleStarted(){openedFrame=Time.frameCount;focusedChoice=0;Refresh();}
-    void HandleNode(){focusedChoice=0;Refresh();}
-    public void Continue(){if(boundService!=null&&boundService.IsOpen&&boundService.VisibleChoices.Count==0){boundService.Continue();GameplayInput.ConsumeCurrentFrame();}}
-    public void Confirm(){if(boundService==null||!boundService.IsOpen)return;if(boundService.VisibleChoices.Count>0)Choose(focusedChoice);else Continue();}
-    public void Choose(int index){boundService?.SelectChoice(index);GameplayInput.ConsumeCurrentFrame();}
+    void Unbind()
+    {
+        if (boundService == null) return;
+        boundService.ConversationStarted -= HandleStarted;
+        boundService.NodeChanged -= HandleNode;
+        boundService.ConversationEnded -= Refresh;
+        boundService = null;
+    }
+    void HandleStarted()
+    {
+        openedFrame = Time.frameCount; focusedChoice = 0;
+        playerEmotion = npcEmotion = "Neutral"; lastCounterpart = null;
+        Refresh();
+    }
+    void HandleNode() { focusedChoice = 0; Refresh(); }
+    public void Continue()
+    {
+        if (boundService == null || !boundService.IsOpen || boundService.VisibleChoices.Count != 0) return;
+        boundService.Continue(); GameplayInput.ConsumeCurrentFrame();
+    }
+    public void Confirm()
+    {
+        if (boundService == null || !boundService.IsOpen) return;
+        if (boundService.VisibleChoices.Count > 0) Choose(focusedChoice); else Continue();
+    }
+    public void Choose(int index) { boundService?.SelectChoice(index); GameplayInput.ConsumeCurrentFrame(); }
+    public void Close() { boundService?.EndConversation(); GameplayInput.ConsumeCurrentFrame(); }
     public void FocusChoice(int index)
     {
-        int count=boundService?.VisibleChoices.Count??0;if(count==0)return;focusedChoice=(index%count+count)%count;
-        for(int i=0;i<choiceMarkers.Count;i++)choiceMarkers[i].SetActive(i==focusedChoice);
-        for(int i=0;i<choicePool.Count;i++)
+        int count = boundService?.VisibleChoices.Count ?? 0;
+        if (count == 0) return;
+        focusedChoice = (index % count + count) % count;
+        for (int i = 0; i < choiceMarkers.Count; i++) choiceMarkers[i].SetActive(i == focusedChoice);
+        for (int i = 0; i < choicePool.Count; i++)
         {
-            var surface=choicePool[i].targetGraphic as MainMenuRoundedImage;
-            if(surface!=null)surface.color=i==focusedChoice?new Color(.34f,.48f,.35f,1):GameplayHUDStyle.Card;
+            choicePool[i].targetGraphic.color = i == focusedChoice ? Sage : new Color(.88f, .88f, .79f, 1);
+            choicePool[i].GetComponentInChildren<TMP_Text>().color = i == focusedChoice ? Color.white : Ink;
         }
-        scroll.verticalNormalizedPosition=count<=1||choicesRoot.rect.height<=scroll.viewport.rect.height?1:1-(float)focusedChoice/(count-1);
+        Canvas.ForceUpdateCanvases();
+        scroll.verticalNormalizedPosition = count <= 1 || choicesRoot.rect.height <= scroll.viewport.rect.height ? 1 : 1 - (float)focusedChoice / (count - 1);
     }
     void Build()
     {
-        if(runtimeCanvas!=null){runtimeCanvas.SetActive(true);return;}
-        choicePool.Clear();choiceMarkers.Clear();
-        if(panelRoot!=null)panelRoot.SetActive(false);
-        theme=Resources.Load<DialogueTheme>("UI/DialogueTheme");
-        runtimeCanvas=new GameObject("Dialogue Canvas",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));
-        // A nested Canvas inherits its parent layout instead of sizing itself to the screen.
-        // Keep the presenter lifecycle on this component, but render from a scene-owned root.
-        var ownerScene=gameObject.scene;
-        if(ownerScene.IsValid()&&ownerScene.isLoaded&&runtimeCanvas.scene!=ownerScene)
-            UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(runtimeCanvas,ownerScene);
-        var canvas=runtimeCanvas.GetComponent<Canvas>();canvas.renderMode=RenderMode.ScreenSpaceOverlay;canvas.sortingOrder=470;canvas.overrideSorting=true;
-        var scaler=runtimeCanvas.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new(1920,1080);scaler.matchWidthOrHeight=.5f;
-        if(EventSystem.current==null)new GameObject("EventSystem_Dialogue",typeof(EventSystem),typeof(StandaloneInputModule));
-        var safe=Rect("Safe Area",runtimeCanvas.transform,0,0,1,1);safe.gameObject.AddComponent<SafeAreaFitter>();
-        panelRoot=Rect("Dialogue Panel",safe,.09f,.035f,.91f,.34f).gameObject;
-        if(theme?.panel!=null){var art=panelRoot.AddComponent<Image>();art.sprite=theme.panel;art.type=Image.Type.Sliced;}
-        else GameplayHUDStyle.Surface((RectTransform)panelRoot.transform,GameplayHUDStyle.Modal,16).raycastTarget=true;
-        var shadow=panelRoot.AddComponent<Shadow>();shadow.effectColor=new Color(0,0,0,.22f);shadow.effectDistance=new Vector2(0,-5);
-        GameplayHUDStyle.Surface(Rect("Header Accent",panelRoot.transform,.025f,.84f,.029f,.94f),GameplayHUDStyle.Accent,2);
-        portraitFrame=Rect("Portrait Frame",panelRoot.transform,.025f,.29f,.155f,.78f);
-        GameplayHUDStyle.Surface(portraitFrame,GameplayHUDStyle.Card,12);
-        portraitImage=Rect("NPC Portrait Image Slot",portraitFrame,.04f,.04f,.96f,.96f).gameObject.AddComponent<Image>();portraitImage.preserveAspect=true;portraitImage.raycastTarget=false;
-        speakerNameText=Text(panelRoot.transform,"",30,.042f,.80f,.43f,.965f);speakerNameText.fontStyle=FontStyles.Bold;
-        roleText=Text(panelRoot.transform,"",18,.042f,.735f,.63f,.815f);roleText.color=GameplayHUDStyle.Muted;
-        var relation=Rect("Relationship Image Slot",panelRoot.transform,.80f,.855f,.83f,.93f).gameObject.AddComponent<Image>();relation.sprite=theme?.relationshipIcon;relation.enabled=relation.sprite!=null;relation.preserveAspect=true;relation.raycastTarget=false;
-        emotionText=Text(panelRoot.transform,"",18,.84f,.84f,.975f,.95f);emotionText.alignment=TextAlignmentOptions.MidlineRight;emotionText.color=GameplayHUDStyle.Accent;
-        GameplayHUDStyle.Surface(Rect("Header Divider",panelRoot.transform,.025f,.715f,.975f,.718f),new Color(.7f,.77f,.7f,.12f),0);
-        bodyViewport=Rect("Dialogue Text Viewport",panelRoot.transform,.04f,.29f,.96f,.66f);bodyViewport.gameObject.AddComponent<RectMask2D>();
-        bodyViewport.gameObject.AddComponent<Image>().color=Color.clear;
-        bodyScroll=bodyViewport.gameObject.AddComponent<ScrollRect>();bodyScroll.horizontal=false;bodyScroll.viewport=bodyViewport;bodyScroll.movementType=ScrollRect.MovementType.Clamped;
-        bodyText=Text(bodyViewport,"",26,0,1,1,1);bodyText.rectTransform.pivot=new(.5f,1);bodyScroll.content=bodyText.rectTransform;
-        bodyText.enableAutoSizing=false;bodyText.alignment=TextAlignmentOptions.TopLeft;bodyText.textWrappingMode=TextWrappingModes.Normal;bodyText.overflowMode=TextOverflowModes.Overflow;bodyText.lineSpacing=8;
-        var viewport=Rect("Choices Viewport",panelRoot.transform,.67f,.28f,.975f,.67f);viewport.gameObject.AddComponent<RectMask2D>();viewport.gameObject.AddComponent<Image>().color=new(0,0,0,.01f);
-        scroll=viewport.gameObject.AddComponent<ScrollRect>();scroll.horizontal=false;scroll.viewport=viewport;scroll.movementType=ScrollRect.MovementType.Clamped;
-        choicesRoot=Rect("Choices",viewport,0,1,1,1);choicesRoot.pivot=new(.5f,1);scroll.content=choicesRoot;
-        var track=Rect("Answers Scrollbar",viewport,.985f,.04f,.997f,.96f);
-        GameplayHUDStyle.Surface(track,new Color(.7f,.77f,.7f,.10f),3);
-        var handle=Rect("Handle",track,0,0,1,1);var handleGraphic=GameplayHUDStyle.Surface(handle,GameplayHUDStyle.Accent,3);handleGraphic.raycastTarget=true;
-        var scrollbar=track.gameObject.AddComponent<Scrollbar>();scrollbar.handleRect=handle;scrollbar.targetGraphic=handleGraphic;scrollbar.direction=Scrollbar.Direction.BottomToTop;
-        scroll.verticalScrollbar=scrollbar;scroll.verticalScrollbarVisibility=ScrollRect.ScrollbarVisibility.AutoHide;
-        GameplayHUDStyle.Surface(Rect("Footer Divider",panelRoot.transform,.025f,.225f,.975f,.228f),new Color(.7f,.77f,.7f,.12f),0);
-        continueButton=Button(panelRoot.transform,"Lanjutkan  ›",.79f,.045f,.975f,.185f,Continue);
-        continueButton.targetGraphic.color=new Color(.27f,.39f,.28f,1);
-        hintText=Text(panelRoot.transform,"",18,.10f,.065f,.77f,.16f);hintText.color=GameplayHUDStyle.Muted;
-        var key=Rect("Confirm Key",panelRoot.transform,.025f,.065f,.09f,.165f);GameplayHUDStyle.Surface(key,GameplayHUDStyle.Card,5);
-        confirmKeyText=Text(key,"E",17,0,0,1,1);confirmKeyText.alignment=TextAlignmentOptions.Center;confirmKeyText.fontStyle=FontStyles.Bold;
-        panelRoot.SetActive(false);
+        if (runtimeCanvas != null) return;
+        choicePool.Clear(); choiceMarkers.Clear();
+        if (panelRoot != null) panelRoot.SetActive(false);
+        if (emotionText != null) emotionText.gameObject.SetActive(false);
+        theme = Resources.Load<DialogueTheme>("UI/DialogueTheme");
+        runtimeCanvas = new GameObject("Dialogue Canvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+        var ownerScene = gameObject.scene;
+        if (ownerScene.IsValid() && ownerScene.isLoaded && runtimeCanvas.scene != ownerScene)
+            UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(runtimeCanvas, ownerScene);
+        var canvas = runtimeCanvas.GetComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay; canvas.sortingOrder = 470; canvas.overrideSorting = true;
+        scaler = runtimeCanvas.GetComponent<CanvasScaler>();
+        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize; scaler.matchWidthOrHeight = .5f;
+        if (EventSystem.current == null) new GameObject("EventSystem_Dialogue", typeof(EventSystem), typeof(StandaloneInputModule));
+        var backdrop = Rect("Dialogue Backdrop", runtimeCanvas.transform, 0, 0, 1, 1).gameObject.AddComponent<Image>();
+        backdrop.color = new(.025f, .04f, .025f, .20f); backdrop.raycastTarget = true;
+        safeArea = Rect("Safe Area", runtimeCanvas.transform, 0, 0, 1, 1);
+        safeArea.gameObject.AddComponent<SafeAreaFitter>();
+        playerPortrait = Portrait("Player Portrait", out playerFrame, out playerFallback);
+        portraitImage = Portrait("NPC Portrait", out npcFrame, out npcFallback);
+        panelRoot = Rect("Dialogue Panel", safeArea, .035f, .035f, .965f, .34f).gameObject;
+        if (theme != null && theme.panel != null)
+        {
+            var art = panelRoot.AddComponent<Image>(); art.sprite = theme.panel; art.type = Image.Type.Sliced;
+        }
+        else
+        {
+            var art = GameplayHUDStyle.Surface((RectTransform)panelRoot.transform, theme != null ? theme.panelColor : new(.97f, .94f, .86f, 1), 24);
+            art.borderWidth = 3; art.borderColor = new(.55f, .60f, .45f, 1); art.raycastTarget = true;
+        }
+        var shadow = panelRoot.AddComponent<Shadow>(); shadow.effectColor = new(0, 0, 0, .18f); shadow.effectDistance = new(0, -4);
+        var tab = Rect("Speaker Name Tab", panelRoot.transform, .035f, .89f, .31f, 1.09f);
+        GameplayHUDStyle.Surface(tab, Sage, 24);
+        GameplayHUDStyle.Icon(tab, MainMenuIcon.Kind.Sprout, new(.94f, .94f, .84f, 1), new(.04f, .2f), new(.17f, .8f));
+        speakerNameText = Text(tab, "", 30, .21f, .08f, .95f, .92f); speakerNameText.color = Color.white; speakerNameText.fontStyle = FontStyles.Bold;
+        roleText = Text(panelRoot.transform, "", 18, .35f, .88f, .96f, 1); roleText.alignment = TextAlignmentOptions.MidlineRight;
+        bodyViewport = Rect("Dialogue Text Viewport", panelRoot.transform, .04f, .28f, .96f, .81f);
+        bodyViewport.gameObject.AddComponent<RectMask2D>(); bodyViewport.gameObject.AddComponent<Image>().color = Color.clear;
+        bodyScroll = bodyViewport.gameObject.AddComponent<ScrollRect>();
+        bodyScroll.horizontal = false; bodyScroll.viewport = bodyViewport; bodyScroll.movementType = ScrollRect.MovementType.Clamped;
+        bodyText = Text(bodyViewport, "", 28, 0, 1, 1, 1); bodyText.rectTransform.pivot = new(.5f, 1); bodyScroll.content = bodyText.rectTransform;
+        bodyText.enableAutoSizing = false; bodyText.alignment = TextAlignmentOptions.TopLeft;
+        bodyText.textWrappingMode = TextWrappingModes.Normal; bodyText.overflowMode = TextOverflowModes.Overflow; bodyText.lineSpacing = 7;
+        var viewport = Rect("Choices Viewport", panelRoot.transform, .66f, .27f, .965f, .82f);
+        viewport.gameObject.AddComponent<RectMask2D>(); viewport.gameObject.AddComponent<Image>().color = Color.clear;
+        scroll = viewport.gameObject.AddComponent<ScrollRect>(); scroll.horizontal = false; scroll.viewport = viewport; scroll.movementType = ScrollRect.MovementType.Clamped;
+        choicesRoot = Rect("Choices", viewport, 0, 1, 1, 1); choicesRoot.pivot = new(.5f, 1); scroll.content = choicesRoot;
+        continueButton = Button(panelRoot.transform, "Lanjut  >", .79f, .035f, .965f, .22f, Continue);
+        hintText = Text(panelRoot.transform, "", 18, .04f, .055f, .77f, .19f);
+        hintText.color = new(.37f, .41f, .31f, 1);
+        Button(safeArea, "Tutup", .88f, .92f, .97f, .985f, Close);
+        Layout(); runtimeCanvas.SetActive(false);
+    }
+    Image Portrait(string name, out RectTransform frame, out GameObject fallback)
+    {
+        frame = Rect(name + " Frame", safeArea, 0, 0, 1, 1);
+        var imageRect = Rect(name, frame, 0, 0, 1, 1);
+        imageRect.pivot = new(.5f, 0); imageRect.offsetMin = imageRect.offsetMax = Vector2.zero;
+        var image = imageRect.gameObject.AddComponent<Image>(); image.preserveAspect = true; image.raycastTarget = false;
+        fallback = Rect(name + " Fallback", frame, .2f, .05f, .8f, .85f).gameObject;
+        GameplayHUDStyle.Icon(fallback.transform, MainMenuIcon.Kind.People, new(.56f, .61f, .48f, 1), Vector2.zero, Vector2.one);
+        return image;
+    }
+    void Layout()
+    {
+        layoutWidth = Screen.width; layoutHeight = Screen.height;
+        bool narrow = Screen.height > Screen.width;
+        scaler.referenceResolution = Mathf.Min(Screen.width, Screen.height) <= 800 ? new(1280, 720) : new(1920, 1080);
+        float top = narrow ? .40f : .34f;
+        SetAnchors((RectTransform)panelRoot.transform, .035f, .035f, .965f, top);
+        SetAnchors(playerFrame, .035f, top - .012f, .46f, .92f);
+        SetAnchors(npcFrame, .54f, top - .012f, .965f, .92f);
     }
     void Refresh()
     {
-        Build();bool open=boundService!=null&&boundService.IsOpen;panelRoot.SetActive(open);
-        foreach(var button in choicePool)if(button!=null)button.gameObject.SetActive(false);if(!open)return;
-        var node=boundService.CurrentNode;var speaker=boundService.CurrentSpeaker;
-        speakerNameText.text=speaker!=null?speaker.displayName:"";roleText.text=speaker!=null?speaker.roleDescription:"";
-        bodyText.text=node.text;emotionText.text=node.emotion;portraitImage.sprite=speaker!=null?speaker.portrait:null;portraitImage.enabled=portraitImage.sprite!=null;
-        int count=boundService.VisibleChoices.Count;continueButton.gameObject.SetActive(count==0);choicesRoot.parent.gameObject.SetActive(count>0);
-        portraitFrame.gameObject.SetActive(portraitImage.enabled);
-        bodyViewport.anchorMin=new(portraitImage.enabled?.18f:.04f,.29f);bodyViewport.anchorMax=new(count>0?.635f:.96f,.66f);
+        Build();
+        bool open = boundService != null && boundService.IsOpen;
+        runtimeCanvas.SetActive(open);
+        foreach (var button in choicePool) if (button != null) button.gameObject.SetActive(false);
+        if (!open) return;
+        Layout();
+        var node = boundService.CurrentNode;
+        var speaker = boundService.CurrentSpeaker;
+        var npc = boundService.CounterpartSpeaker;
+        bool playerSpeaking = boundService.IsPlayerSpeaking;
+        if (npc != lastCounterpart) { npcEmotion = "Neutral"; lastCounterpart = npc; }
+        if (playerSpeaking) playerEmotion = node.emotion; else npcEmotion = node.emotion;
+        PaintPortrait(playerPortrait, playerFallback, boundService.PlayerSpeaker, playerEmotion, playerSpeaking);
+        PaintPortrait(portraitImage, npcFallback, npc, npcEmotion, !playerSpeaking);
+        npcFrame.gameObject.SetActive(npc != null);
+        speakerNameText.text = speaker != null ? speaker.displayName : "";
+        roleText.text = speaker != null ? speaker.roleDescription : "";
+        bodyText.text = node.text;
+        int count = boundService.VisibleChoices.Count;
+        continueButton.gameObject.SetActive(count == 0); choicesRoot.parent.gameObject.SetActive(count > 0);
+        bodyViewport.anchorMin = new(.04f, .28f); bodyViewport.anchorMax = new(count > 0 ? .63f : .96f, .81f);
+        hintText.text = Application.isMobilePlatform ? (count > 0 ? "Pilih jawaban" : "Ketuk Lanjut untuk meneruskan")
+            : (count > 0 ? "W / S  Pilih    Enter  Konfirmasi    Esc  Tutup" : "E / Enter  Lanjut    Esc  Tutup");
         Canvas.ForceUpdateCanvases();
-        bodyText.rectTransform.sizeDelta=new(0,Mathf.Max(bodyViewport.rect.height,bodyText.GetPreferredValues(node.text,bodyViewport.rect.width,0).y));
-        bodyScroll.verticalNormalizedPosition=1;
-        confirmKeyText.text=count>0?"W / S":"E / Enter";
-        hintText.text=count>0?$"{count} jawaban     Enter  Konfirmasi     Esc  Tutup":"Lanjutkan percakapan     ·     Esc  Tutup";
-        choicesRoot.sizeDelta=new(0,count*62);
-        for(int i=0;i<count;i++)
+        float rowHeight = Mathf.Min(76, scroll.viewport.rect.height / Mathf.Max(1, Mathf.Min(count, 2)));
+        choicesRoot.sizeDelta = new(0, count * rowHeight);
+        for (int i = 0; i < count; i++)
         {
-            if(i>=choicePool.Count)
+            if (i >= choicePool.Count)
             {
-                int index=i;var button=Button(choicesRoot,"",0,1,1,1,()=>Choose(index));var rect=(RectTransform)button.transform;rect.offsetMin=new(0,-(i+1)*62+5);rect.offsetMax=new(0,-i*62-5);
-                Text(rect,"",21,.08f,.08f,.95f,.92f);var marker=Rect("Focused Answer",rect,.025f,.20f,.033f,.80f).gameObject;var image=marker.AddComponent<Image>();image.color=GameplayHUDStyle.Accent;image.raycastTarget=false;
-                choicePool.Add(button);choiceMarkers.Add(marker);
+                int index = i;
+                var button = Button(choicesRoot, "", 0, 1, 1, 1, () => Choose(index));
+                var rect = (RectTransform)button.transform;
+                Text(rect, "", 22, .08f, .06f, .95f, .94f);
+                var marker = Rect("Focused Answer", rect, .025f, .20f, .033f, .80f).gameObject;
+                var image = marker.AddComponent<Image>(); image.color = Color.white; image.raycastTarget = false;
+                choicePool.Add(button); choiceMarkers.Add(marker);
             }
-            choicePool[i].GetComponentInChildren<TMP_Text>().text=boundService.VisibleChoices[i].text;choicePool[i].gameObject.SetActive(true);
+            choicePool[i].GetComponentInChildren<TMP_Text>().text = boundService.VisibleChoices[i].text;
+            var choiceRect = (RectTransform)choicePool[i].transform;
+            choiceRect.offsetMin = new(0, -(i + 1) * rowHeight + 5); choiceRect.offsetMax = new(0, -i * rowHeight - 5);
+            choicePool[i].gameObject.SetActive(true);
         }
-        FocusChoice(focusedChoice);
+        RefreshBody(); FocusChoice(focusedChoice);
     }
-    static RectTransform Rect(string name,Transform parent,float x1,float y1,float x2,float y2)=>GameplayHUDStyle.Rect(name,parent,new(x1,y1),new(x2,y2));
-    static TMP_Text Text(Transform parent,string value,float size,float x1,float y1,float x2,float y2)=>GameplayHUDStyle.Text("Text",parent,value,size,new(x1,y1),new(x2,y2));
-    static Button Button(Transform parent,string label,float x1,float y1,float x2,float y2,UnityEngine.Events.UnityAction action)
+    void PaintPortrait(Image image, GameObject fallback, DialogueSpeakerSO speaker, string emotion, bool active)
     {
-        var rect=Rect("Answer Button",parent,x1,y1,x2,y2);var graphic=GameplayHUDStyle.Surface(rect,GameplayHUDStyle.Card,10);graphic.raycastTarget=true;var button=rect.gameObject.AddComponent<Button>();button.targetGraphic=graphic;
-        var colors=button.colors;colors.normalColor=Color.white;colors.selectedColor=Color.white;colors.highlightedColor=new(1.12f,1.12f,1.12f,1);colors.pressedColor=new(.82f,.82f,.82f,1);colors.fadeDuration=.12f;button.colors=colors;button.navigation=new Navigation{mode=Navigation.Mode.None};rect.gameObject.AddComponent<MainMenuButtonAudio>();button.onClick.AddListener(action);
-        if(!string.IsNullOrEmpty(label)){var text=Text(rect,label,23,.06f,.05f,.95f,.95f);text.alignment=TextAlignmentOptions.Center;}return button;
+        image.sprite = speaker != null ? speaker.GetPortrait(emotion) : null;
+        if (image.sprite == null && theme != null) image.sprite = theme.missingPortrait;
+        image.enabled = image.sprite != null; fallback.SetActive(!image.enabled);
+        float brightness = active ? 1 : (theme != null ? theme.listenerBrightness : .68f);
+        image.color = new(brightness, brightness, brightness, 1);
+    }
+    void RefreshBody()
+    {
+        if (bodyText == null || boundService == null || !boundService.IsOpen) return;
+        Canvas.ForceUpdateCanvases();
+        bodyText.rectTransform.sizeDelta = new(0, Mathf.Max(bodyViewport.rect.height, bodyText.GetPreferredValues(bodyText.text, bodyViewport.rect.width, 0).y));
+        bodyScroll.verticalNormalizedPosition = 1;
+    }
+    static void SetAnchors(RectTransform rect, float x1, float y1, float x2, float y2)
+    {
+        rect.anchorMin = new(x1, y1); rect.anchorMax = new(x2, y2); rect.offsetMin = rect.offsetMax = Vector2.zero;
+    }
+    static RectTransform Rect(string name, Transform parent, float x1, float y1, float x2, float y2) => GameplayHUDStyle.Rect(name, parent, new(x1, y1), new(x2, y2));
+    TMP_Text Text(Transform parent, string value, float size, float x1, float y1, float x2, float y2)
+    {
+        var text = GameplayHUDStyle.Text("Text", parent, value, size, new(x1, y1), new(x2, y2)); text.color = Ink; return text;
+    }
+    Button Button(Transform parent, string label, float x1, float y1, float x2, float y2, UnityEngine.Events.UnityAction action)
+    {
+        var rect = Rect("Dialogue Button", parent, x1, y1, x2, y2);
+        var graphic = GameplayHUDStyle.Surface(rect, Sage, 14); graphic.raycastTarget = true;
+        var button = rect.gameObject.AddComponent<Button>(); button.targetGraphic = graphic;
+        var colors = button.colors; colors.normalColor = Color.white; colors.selectedColor = Color.white;
+        colors.highlightedColor = new(1.1f, 1.1f, 1.1f, 1); colors.pressedColor = new(.82f, .82f, .82f, 1); colors.fadeDuration = .12f; button.colors = colors;
+        button.navigation = new Navigation { mode = Navigation.Mode.None };
+        rect.gameObject.AddComponent<MainMenuButtonAudio>(); button.onClick.AddListener(action);
+        if (!string.IsNullOrEmpty(label)) { var text = Text(rect, label, 25, .06f, .05f, .95f, .95f); text.color = Color.white; text.alignment = TextAlignmentOptions.Center; }
+        return button;
     }
 }
 

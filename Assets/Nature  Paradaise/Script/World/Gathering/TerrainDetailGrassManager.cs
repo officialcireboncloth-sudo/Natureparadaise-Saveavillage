@@ -80,7 +80,6 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
     [SerializeField, Range(0.05f, 1f)] float mediumDensity = 0.65f;
     [SerializeField] bool useWeatherModifier = true;
     [SerializeField] bool useSeasonModifier = true;
-    [SerializeField, Min(1)] int daysPerSeason = 28;
     [SerializeField] bool allowNeighbourSpreadBoost = true;
     [SerializeField, Range(0f, 1f)] float neighbourSpreadChance = 0.08f;
 
@@ -493,7 +492,7 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
         }
         if (useSeasonModifier)
         {
-            value *= CropDataSO.GetSeasonForDay(day, daysPerSeason) switch
+            value *= CropDataSO.GetSeasonForDay(day) switch
             {
                 CropSeason.Spring => 1.25f,
                 CropSeason.Autumn => 0.75f,
@@ -649,6 +648,5 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
         regrowDays = Mathf.Max(1, regrowDays);
         smallStageDay = Mathf.Clamp(smallStageDay, 1, regrowDays);
         mediumStageDay = Mathf.Clamp(mediumStageDay, smallStageDay, regrowDays);
-        daysPerSeason = Mathf.Max(1, daysPerSeason);
     }
 }

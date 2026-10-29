@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Camera))]
@@ -16,6 +17,8 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     [SerializeField, Range(35f, 75f)] float pitch = 55f;
     [SerializeField, Range(-180f, 180f)] float yaw;
     [SerializeField, Min(1f)] float distance = 15f;
+    [Tooltip("Ruang aman di atas terrain untuk bidang depan kamera saat zoom. Tidak mengubah ukuran atau sudut pandang.")]
+    [SerializeField, Min(.25f)] float terrainClipClearance = 2f;
 
     [Header("Player Zoom")]
     [SerializeField] bool allowPlayerZoom = true;
@@ -42,6 +45,12 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     int cachedScreenHeight = -1;
     float baseOrthographicSize;
     float sceneOrthographicSize;
+    float sceneFarClipPlane;
+    float nextGroundProbeTime, sampledSize, sampledAspect;
+    Vector3 sampledFocus;
+    float highestGround, lowestGround;
+    bool hasGroundProbe;
+    int sampledTerrainScene=int.MinValue;
     float pinchAccumulator;
     int zoomIndex;
     float impulseRemaining;
@@ -61,6 +70,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     {
         cachedCamera = GetComponent<Camera>();
         sceneOrthographicSize = Mathf.Max(0.01f, cachedCamera.orthographicSize);
+        sceneFarClipPlane = cachedCamera.farClipPlane;
         EnsureZoomLevels();
         zoomIndex = PlayerPrefs.HasKey(ZoomPreferenceKey)
             ? Mathf.Clamp(PlayerPrefs.GetInt(ZoomPreferenceKey), 0, zoomLevels.Length - 1)
@@ -75,7 +85,10 @@ public sealed class TopDownCameraFollow : MonoBehaviour
         // Mengembalikan nilai scene agar Enter Play Mode tanpa domain reload tidak meninggalkan
         // ukuran hasil adaptasi di Inspector setelah Play dihentikan.
         if (cachedCamera != null && sceneOrthographicSize > 0f)
+        {
             cachedCamera.orthographicSize = sceneOrthographicSize;
+            if(sceneFarClipPlane>0f)cachedCamera.farClipPlane=sceneFarClipPlane;
+        }
     }
 
     void OnEnable()
@@ -138,6 +151,15 @@ public sealed class TopDownCameraFollow : MonoBehaviour
 
         Vector3 desiredPosition = GetDesiredPosition();
 
+        // Retreat along the view ray immediately when zoom widens. Orthographic screen framing
+        // is unchanged, and smoothing cannot expose the sea underneath clipped foreground terrain.
+        float retreat=Vector3.Dot(transform.position-desiredPosition,transform.forward);
+        if(retreat>0f)
+        {
+            transform.position-=transform.forward*retreat;
+            followVelocity-=transform.forward*Vector3.Dot(followVelocity,transform.forward);
+        }
+
         if (smoothTime <= 0f)
         {
             transform.position = desiredPosition;
@@ -161,6 +183,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     public void SetTarget(Transform newTarget, bool snapImmediately = true)
     {
         target = newTarget;
+        hasGroundProbe = false;
         followVelocity = Vector3.zero;
 
         if (snapImmediately && target != null)
@@ -173,6 +196,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
         pitch=Mathf.Clamp(nextPitch,35f,75f);
         yaw=Mathf.Repeat(nextYaw+180f,360f)-180f;
         distance=Mathf.Max(1f,nextDistance);
+        hasGroundProbe=false;
         ApplyFixedRotation();
         followVelocity=Vector3.zero;
         if(snapImmediately && target!=null) transform.position=GetDesiredPosition();
@@ -221,7 +245,46 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     Vector3 GetDesiredPosition()
     {
         Vector3 focusPoint = target.position + focusOffset;
-        return focusPoint - transform.forward * distance;
+        return focusPoint - transform.forward * SafeFollowDistance(focusPoint);
+    }
+
+    float SafeFollowDistance(Vector3 focus)
+    {
+        float size=cachedCamera.orthographicSize,aspect=cachedCamera.aspect;
+        float sine=Mathf.Max(.1f,Mathf.Sin(pitch*Mathf.Deg2Rad));
+        float cosine=Mathf.Cos(pitch*Mathf.Deg2Rad);
+        var transition=SceneTransitionManager.Instance;
+        bool interiorTerrain=transition!=null&&transition.IsInsideInterior;
+        int terrainScene=interiorTerrain
+            ? SceneManager.GetSceneByName(transition.CurrentInteriorSceneName).handle : -1;
+        if(!hasGroundProbe||Time.unscaledTime>=nextGroundProbeTime||
+            terrainScene!=sampledTerrainScene||(focus-sampledFocus).sqrMagnitude>=1f||!Mathf.Approximately(size,sampledSize)||!Mathf.Approximately(aspect,sampledAspect))
+        {
+            // Cache nine terrain samples between zoom/movement changes and the .15-second refresh.
+            var terrains=Terrain.activeTerrains;highestGround=lowestGround=focus.y;
+            Vector3 forward=Vector3.ProjectOnPlane(transform.forward,Vector3.up).normalized;
+            for(int x=-1;x<=1;x++)for(int z=-1;z<=1;z++)
+            {
+                Vector3 point=focus+transform.right*(x*size*aspect)+forward*(z*size/sine);
+                foreach(var terrain in terrains)
+                {
+                    // Additive rooms may be below the world. Outdoor terrain must not push their camera above the room.
+                    if(interiorTerrain&&terrain.gameObject.scene.handle!=terrainScene)continue;
+                    if(terrain.terrainData==null)continue;
+                    Vector3 local=point-terrain.transform.position,extent=terrain.terrainData.size;
+                    if(local.x<0||local.z<0||local.x>extent.x||local.z>extent.z)continue;
+                    float height=terrain.SampleHeight(point)+terrain.transform.position.y;
+                    highestGround=Mathf.Max(highestGround,height);lowestGround=Mathf.Min(lowestGround,height);
+                }
+            }
+            sampledFocus=focus;sampledSize=size;sampledAspect=aspect;nextGroundProbeTime=Time.unscaledTime+.15f;hasGroundProbe=true;
+            sampledTerrainScene=terrainScene;
+        }
+        float safeDistance=Mathf.Max(distance,cachedCamera.nearClipPlane+
+            (highestGround-focus.y+size*cosine+terrainClipClearance)/sine);
+        float farthestGround=safeDistance+(size*cosine+Mathf.Max(0,focus.y-lowestGround))/sine+5f;
+        cachedCamera.farClipPlane=Mathf.Max(sceneFarClipPlane>0?sceneFarClipPlane:cachedCamera.farClipPlane,farthestGround);
+        return safeDistance;
     }
 
     void ApplyFixedRotation()
@@ -260,6 +323,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
         cachedCamera.orthographicSize = adaptSizeToNarrowScreens
             ? Mathf.Min(adjustedSize, Mathf.Max(baseOrthographicSize, maximumOrthographicSize))
             : adjustedSize;
+        hasGroundProbe=false;
     }
 
     void EnsureZoomLevels()
@@ -296,6 +360,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
 
         cachedCamera = GetComponent<Camera>();
         cachedCamera.orthographic = true;
+        hasGroundProbe=false;
         ApplyFixedRotation();
 
         if (!Application.isPlaying && target != null)

@@ -11,32 +11,74 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10240fb7eccb4dc5aa9192f4362b9b17, type: 3}
   m_Name: Dialogue_Mina_Ready
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   conversationId: test.mina.ready
   defaultSpeaker: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+  playerSpeaker: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+  counterpartSpeaker: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
   entryNodeId: start
   nodes:
   - nodeId: start
     speakerOverride: {fileID: 0}
-    text: Objective sudah selesai. Mau melaporkan quest sekarang?
-    localizationKey: 
-    emotion: Question
-    nextNodeId: 
+    text: Kamu sudah kembali! Bagaimana, kayunya sudah terkumpul?
+    localizationKey:
+    emotion: Happy
+    nextNodeId: report
+    commands: []
+    choices: []
+  - nodeId: report
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Sudah, 3 Wood seperti yang kamu minta.
+    localizationKey:
+    emotion: Happy
+    nextNodeId: turn-in
+    commands: []
+    choices: []
+  - nodeId: turn-in
+    speakerOverride: {fileID: 0}
+    text: Wah, terima kasih! Mau melaporkan hasilnya sekarang?
+    localizationKey:
+    emotion: Happy
+    nextNodeId:
     commands: []
     choices:
-    - text: Selesaikan quest (+250 Gold)
-      nextNodeId: 
+    - text: Ya, laporkan (+250 G).
+      nextNodeId: reward
       conditions: []
       commands:
       - type: 3
-        flagId: 
+        flagId:
         flagValue: 1
         quest: {fileID: 11400000, guid: dc0e2178f504d0540afbb481f00ef789, type: 2}
-        objectiveId: 
+        objectiveId:
         amount: 1
         item: {fileID: 0}
         goldAmount: 0
-    - text: Nanti dulu
-      nextNodeId: 
+    - text: Nanti dulu.
+      nextNodeId: later
       conditions: []
       commands: []
+  - nodeId: reward
+    speakerOverride: {fileID: 0}
+    text: Sekarang aku bisa menyelesaikan rak bibitnya. Ini 250 G untuk bantuanmu.
+    localizationKey:
+    emotion: Happy
+    nextNodeId: player-thanks
+    commands: []
+    choices: []
+  - nodeId: player-thanks
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Sama-sama, Mina. Semoga raknya cepat selesai!
+    localizationKey:
+    emotion: Happy
+    nextNodeId:
+    commands: []
+    choices: []
+  - nodeId: later
+    speakerOverride: {fileID: 0}
+    text: Tentu. Aku ada di sini kalau kamu sudah siap.
+    localizationKey:
+    emotion: Neutral
+    nextNodeId:
+    commands: []
+    choices: []

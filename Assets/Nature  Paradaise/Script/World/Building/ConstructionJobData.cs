@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 // Append only: the first four values are already stored in player saves.
-public enum ConstructionWorkerPhase { Travelling, Working, Returning, Finished, Revealing }
+public enum ConstructionWorkerPhase { Travelling, Working, Returning, Finished, Revealing, Queued }
 
 [Serializable]
 public sealed class ConstructionJobData
@@ -17,12 +17,16 @@ public sealed class ConstructionJobData
     public int workStarts = 8, workEnds = 17;
     public bool pathBlocked;
     public float revealElapsed;
+    public string builderStoreId;
+    public long queueOrder;
+    public ConstructionWorkerPhase resumePhase;
     public float Progress => requiredWorkHours <= 0 ? 1 : Mathf.Clamp01((float)(completedWorkHours / requiredWorkHours));
 
     /// <summary>Rejects empty JSON jobs and stale work phases on completed buildings; preserves a builder returning home.</summary>
     public bool ShouldRestoreFor(BuildingConstructionState state) => requiredWorkHours > 0 &&
         (state == BuildingConstructionState.UnderConstruction ||
-         state == BuildingConstructionState.Completed && phase == ConstructionWorkerPhase.Returning);
+         state == BuildingConstructionState.Completed && (phase == ConstructionWorkerPhase.Returning ||
+             phase == ConstructionWorkerPhase.Queued && resumePhase == ConstructionWorkerPhase.Returning));
 
     public static double ClockHours => TimeManager.Instance != null
         ? (TimeManager.Instance.day - 1) * 24d + TimeManager.Instance.CurrentTimeHours : 8d;

@@ -7,6 +7,13 @@ public sealed class HorseRiderTransitionProfile : ScriptableObject
     public AnimationClip mount, mountRight, dismount, dismountRight, ridingIdle;
     public Vector3 standingHipModelLocal = new(-.001346609f,.52547705f,.002305094f);
     [Min(1f)] public float actionTimeout=8;
+    [Header("Authored body turn and forward movement")]
+    [Tooltip("Body yaw was separated from local bone motion during Blender export.")]
+    public bool authoredBodyYaw;
+    public AnimationCurve mountYaw=AnimationCurve.Linear(0,80,1,0);
+    public AnimationCurve dismountYaw=AnimationCurve.Linear(0,0,1,80);
+    public AnimationCurve mountForwardOffset=AnimationCurve.Linear(0,0,1,0);
+    public AnimationCurve dismountForwardOffset=AnimationCurve.Linear(0,0,1,0);
     [Header("Mount: stirrup, body rise, crossing, settle")]
     [Min(0)] public float mountLift=.255f;
     public AnimationCurve mountHorizontal=Curve(0,0,.12f,.10f,.24f,.24f,.42f,.65f,.58f,.72f,.72f,.91f,.88f,1,1,1);
@@ -20,6 +27,10 @@ public sealed class HorseRiderTransitionProfile : ScriptableObject
     public float Horizontal(float phase,bool mounting)=>(mounting?mountHorizontal:dismountHorizontal).Evaluate(phase);
     public float Vertical(float phase,bool mounting)=>(mounting?mountVertical:dismountVertical).Evaluate(phase);
     public float Lift(float phase,bool mounting)=>(mounting?mountLiftShape:dismountLiftShape).Evaluate(phase)*(mounting?mountLift:dismountLift);
+    /// <summary>Left-side body facing in degrees; the right-side take uses its opposite.</summary>
+    public float Yaw(float phase,bool mounting)=>authoredBodyYaw?(mounting?mountYaw:dismountYaw).Evaluate(phase):0;
+    /// <summary>Small forward/backward arc relative to the interpolation between safe endpoints.</summary>
+    public float ForwardOffset(float phase,bool mounting)=>authoredBodyYaw?(mounting?mountForwardOffset:dismountForwardOffset).Evaluate(phase):0;
     /// <summary>Zero-slope keys reproduce the smooth pose-to-pose world trajectory authored in Blender.</summary>
     public static AnimationCurve Curve(params float[] values)
     {

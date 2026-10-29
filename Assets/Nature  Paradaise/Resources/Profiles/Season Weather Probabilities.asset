@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee5fcd798a01b7d4c9430d5059aa2bf6, type: 3}
+  m_Name: Season Weather Probabilities
+  m_EditorClassIdentifier: 
+  seasons:
+  - season: 1
+    probabilities:
+    - weather: 4
+      percent: 50
+    - weather: 0
+      percent: 30
+    - weather: 3
+      percent: 20
+  - season: 2
+    probabilities:
+    - weather: 3
+      percent: 10
+    - weather: 4
+      percent: 15
+    - weather: 2
+      percent: 75
+  - season: 4
+    probabilities:
+    - weather: 4
+      percent: 10
+    - weather: 3
+      percent: 5
+    - weather: 0
+      percent: 34
+    - weather: 11
+      percent: 50
+    - weather: 6
+      percent: 1
+  - season: 8
+    probabilities:
+    - weather: 9
+      percent: 60
+    - weather: 0
+      percent: 38
+    - weather: 10
+      percent: 2

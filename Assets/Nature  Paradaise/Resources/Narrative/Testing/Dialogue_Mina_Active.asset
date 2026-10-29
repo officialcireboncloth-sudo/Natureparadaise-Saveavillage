@@ -11,17 +11,51 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10240fb7eccb4dc5aa9192f4362b9b17, type: 3}
   m_Name: Dialogue_Mina_Active
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   conversationId: test.mina.active
   defaultSpeaker: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+  playerSpeaker: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+  counterpartSpeaker: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
   entryNodeId: start
   nodes:
   - nodeId: start
     speakerOverride: {fileID: 0}
-    text: Cari pohon yang bisa ditebang, pegang Axe, lalu ambil 3 Wood yang jatuh.
-      Tekan J kapan saja untuk melihat detail quest.
-    localizationKey: 
-    emotion: Reminder
-    nextNodeId: 
+    text: Oh, kamu! Bagaimana pencarian kayunya?
+    localizationKey:
+    emotion: Happy
+    nextNodeId: progress
+    commands: []
+    choices: []
+  - nodeId: progress
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Masih aku kumpulkan. Ada saran tempat mencarinya?
+    localizationKey:
+    emotion: Thinking
+    nextNodeId: hint
+    commands: []
+    choices: []
+  - nodeId: hint
+    speakerOverride: {fileID: 0}
+    text: Coba pohon yang bisa ditebang di sekitar kebun. Gunakan Axe, lalu ambil
+      kayu yang jatuh sampai terkumpul 3 Wood.
+    localizationKey:
+    emotion: Thinking
+    nextNodeId: thanks
+    commands: []
+    choices: []
+  - nodeId: thanks
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Baik, nanti aku mampir lagi.
+    localizationKey:
+    emotion: Happy
+    nextNodeId: take-care
+    commands: []
+    choices: []
+  - nodeId: take-care
+    speakerOverride: {fileID: 0}
+    text: Terima kasih sudah membantu. Jangan lupa istirahat juga, ya!
+    localizationKey:
+    emotion: Happy
+    nextNodeId:
     commands: []
     choices: []

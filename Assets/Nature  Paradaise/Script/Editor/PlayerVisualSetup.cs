@@ -429,7 +429,8 @@ public static class PlayerVisualSetup
         EnsureActionState(stateMachine,"Pick Up Waist","PickUpWaist",clips.pickUpWaist,1.25f,true);
         EnsureActionState(stateMachine,"Knock Out","KnockOut",clips.knockOut,1f,false);
         EnsureActionState(stateMachine,"Wake Up","WakeUp",clips.wakeUpFromKnockOut,4f,true);
-        EnsureActionState(stateMachine,"Milking Animal","Milking",clips.milkingAnimal,2f,true);
+        var milking=EnsureActionState(stateMachine,"Milking Animal","Milking",clips.milkingAnimal,1f,true);
+        foreach(var exit in milking.transitions) if(exit.hasExitTime) { exit.exitTime=1f; exit.duration=.06f; }
         EnsurePushingState(stateMachine,clips.pushingObject);
         EnsureActionState(stateMachine,"Watering Plant","Watering",clips.wateringPlant,2f,true);
         EnsureActionState(stateMachine,"Hoeing","Hoeing",clips.hoeing,1f,true);

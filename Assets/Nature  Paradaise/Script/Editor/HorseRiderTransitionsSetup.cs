@@ -57,7 +57,9 @@ public static class HorseRiderTransitionsSetup
             var old=serialized.FindProperty("mountPoint").objectReferenceValue as Transform;
             var spine=horse.GetComponentsInChildren<Transform>(true).Single(x=>x.name=="Def_Spine");
             var anchor=spine.Find("SaddleSeatAnchor");if(anchor==null){anchor=new GameObject("SaddleSeatAnchor").transform;anchor.SetParent(spine,false);anchor.SetPositionAndRotation(old!=null?old.position:horse.transform.TransformPoint(new Vector3(0,1.65f,0)),horse.transform.rotation);}
-            serialized.FindProperty("mountActionDuration").floatValue=profile.mount.length/2.5f;serialized.FindProperty("dismountActionDuration").floatValue=profile.dismount.length/2.5f;
+            serialized.FindProperty("mountActionDuration").floatValue=profile.mount.length/1.6f;serialized.FindProperty("dismountActionDuration").floatValue=profile.dismount.length/1.6f;
+            var trajectory=ReadTrajectory();
+            if(trajectory.version>=2)serialized.FindProperty("riderSeatOffset").vector3Value=trajectory.seatedHipOffset;
             serialized.FindProperty("mountPoint").objectReferenceValue=anchor;serialized.FindProperty("riderTransitionProfile").objectReferenceValue=profile;serialized.ApplyModifiedPropertiesWithoutUndo();
             var legacy=horse.transform.Find("MountPoint");if(legacy!=null&&legacy!=anchor)UnityEngine.Object.DestroyImmediate(legacy.gameObject);
             PrefabUtility.SaveAsPrefabAsset(horse,path);
@@ -65,11 +67,12 @@ public static class HorseRiderTransitionsSetup
         finally{PrefabUtility.UnloadPrefabContents(horse);}
         AssetDatabase.SaveAssets();Debug.Log("HORSE_RIDER_TRANSITIONS_APPLIED five takes + saddle anchor; no scene edited");
     }
-    [Serializable] sealed class Point { public float phase,horizontal,vertical,lift; }
-    [Serializable] sealed class Trajectory { public Point[] mount,dismount; }
+    [Serializable] sealed class Point { public float phase,horizontal,vertical,lift,forward,yaw; }
+    [Serializable] sealed class Trajectory { public int version;public Vector3 seatedHipOffset;public Point[] mount,dismount; }
+    static Trajectory ReadTrajectory()=>JsonUtility.FromJson<Trajectory>(System.IO.File.ReadAllText(Root+"/Source~/Player/HorseTrajectory.json"));
     static void ApplyAuthoredTrajectory(HorseRiderTransitionProfile profile)
     {
-        var data=JsonUtility.FromJson<Trajectory>(System.IO.File.ReadAllText(Root+"/Source~/Player/HorseTrajectory.json"));
+        var data=ReadTrajectory();
         AnimationCurve Curve(Point[] points,Func<Point,float> value)
         {
             var curve=new AnimationCurve(points.Select(p=>new Keyframe(p.phase,value(p))).ToArray());
@@ -79,6 +82,12 @@ public static class HorseRiderTransitionsSetup
         profile.mountHorizontal=Curve(data.mount,p=>p.horizontal);profile.mountVertical=Curve(data.mount,p=>p.vertical);profile.mountLiftShape=Curve(data.mount,p=>p.lift);
         profile.dismountHorizontal=Curve(data.dismount,p=>p.horizontal);profile.dismountVertical=Curve(data.dismount,p=>p.vertical);profile.dismountLiftShape=Curve(data.dismount,p=>p.lift);
         profile.mountLift=1;profile.dismountLift=1;
+        profile.authoredBodyYaw=data.version>=2;
+        if(profile.authoredBodyYaw)
+        {
+            profile.mountYaw=Curve(data.mount,p=>p.yaw);profile.dismountYaw=Curve(data.dismount,p=>p.yaw);
+            profile.mountForwardOffset=Curve(data.mount,p=>p.forward);profile.dismountForwardOffset=Curve(data.dismount,p=>p.forward);
+        }
     }
     static void CalibrateStandingSoles()
     {
@@ -124,7 +133,7 @@ public static class HorseRiderTransitionsSetup
         foreach(bool mounting in new[]{true,false})foreach(bool right in new[]{false,true})
         {
             string name=(mounting?"Mount Horse":"Dismount Horse")+(right?" Right":"");var state=State(name);
-            state.motion=mounting?(right?profile.mountRight:profile.mount):(right?profile.dismountRight:profile.dismount);state.speed=2.5f;
+            state.motion=mounting?(right?profile.mountRight:profile.mount):(right?profile.dismountRight:profile.dismount);state.speed=1.6f;
             state.mirrorParameterActive=false;state.mirror=false;
             foreach(var exit in state.transitions.ToArray())state.RemoveTransition(exit);
             if(!mounting){var exit=state.AddTransition(State("Locomotion"));exit.hasExitTime=true;exit.exitTime=1;exit.hasFixedDuration=true;exit.duration=.08f;}

@@ -77,7 +77,8 @@ public enum FishingWeatherMask
     Thunderstorm = 1 << (int)WeatherType.Thunderstorm,
     Snow = 1 << (int)WeatherType.Snow,
     Blizzard = 1 << (int)WeatherType.Blizzard,
-    All = (1 << 11) - 1
+    Cloudy = 1 << (int)WeatherType.Cloudy,
+    All = (1 << 12) - 1
 }
 
 [CreateAssetMenu(menuName = "Game/Fishing/Fish Definition")]
@@ -156,13 +157,15 @@ public sealed class FishDefinitionSO : ScriptableObject
     public bool IsAvailable(FishingWaterType waterType, int day, int hour, WeatherType currentWeather, int rodLevel)
     {
         FishingWaterMask location = (FishingWaterMask)(1 << (int)waterType);
-        CropSeason season = CropDataSO.GetSeasonForDay(Mathf.Max(1, day), 28);
+        CropSeason season = CropDataSO.GetSeasonForDay(Mathf.Max(1, day));
         bool timeAllowed = startHour <= endHour
             ? hour >= startHour && hour < endHour
             : hour >= startHour || hour < endHour;
         return item != null && item.category == ItemCategory.Fish &&
                (waterTypes & location) != 0 && (seasons & season) != 0 &&
-               (weather & (FishingWeatherMask)(1 << (int)currentWeather)) != 0 &&
+               // Existing cloudy-day fish retain their availability with the new overcast weather.
+               ((weather & (FishingWeatherMask)(1 << (int)currentWeather)) != 0 ||
+                currentWeather == WeatherType.Cloudy && (weather & FishingWeatherMask.PartlyCloudy) != 0) &&
                timeAllowed && rodLevel >= requiredRodLevel;
     }
 

@@ -11,25 +11,99 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10240fb7eccb4dc5aa9192f4362b9b17, type: 3}
   m_Name: Dialogue_Mina_Intro
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   conversationId: test.mina.intro
   defaultSpeaker: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
+  playerSpeaker: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+  counterpartSpeaker: {fileID: 11400000, guid: fc657ef91c63d1242a73b0cefd9f3bb4, type: 2}
   entryNodeId: start
   nodes:
   - nodeId: start
     speakerOverride: {fileID: 0}
-    text: Halo! Aku butuh 3 Wood. Pegang Axe dari hotbar, tebang pohon, lalu ambil
-      kayu yang jatuh. Tracker di layar akan mencatat jumlahnya.
-    localizationKey: 
-    emotion: Friendly
-    nextNodeId: 
-    commands:
-    - type: 2
-      flagId: 
-      flagValue: 1
-      quest: {fileID: 11400000, guid: dc0e2178f504d0540afbb481f00ef789, type: 2}
-      objectiveId: 
-      amount: 1
-      item: {fileID: 0}
-      goldAmount: 0
+    text: Halo! Bagaimana kabar kebunmu hari ini?
+    localizationKey:
+    emotion: Happy
+    nextNodeId: player-greeting
+    commands: []
+    choices: []
+  - nodeId: player-greeting
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Masih banyak yang harus dirapikan, tapi aku mulai terbiasa.
+    localizationKey:
+    emotion: Happy
+    nextNodeId: encouragement
+    commands: []
+    choices: []
+  - nodeId: encouragement
+    speakerOverride: {fileID: 0}
+    text: Pelan-pelan saja. Kebun yang bagus juga tumbuh sedikit demi sedikit.
+    localizationKey:
+    emotion: Happy
+    nextNodeId: player-question
+    commands: []
+    choices: []
+  - nodeId: player-question
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Kamu sendiri kelihatan sibuk. Sedang membuat apa?
+    localizationKey:
+    emotion: Thinking
+    nextNodeId: rack
+    commands: []
+    choices: []
+  - nodeId: rack
+    speakerOverride: {fileID: 0}
+    text: Aku sedang memperbaiki rak bibit. Sayangnya, aku masih kekurangan 3 Wood.
+    localizationKey:
+    emotion: Thinking
+    nextNodeId: request
+    commands: []
+    choices: []
+  - nodeId: request
+    speakerOverride: {fileID: 0}
+    text: Kalau kamu sempat, boleh bantu mengumpulkannya?
+    localizationKey:
+    emotion: Neutral
+    nextNodeId:
+    commands: []
+    choices:
+    - text: Tentu, aku bantu.
+      nextNodeId: accepted-player
+      conditions: []
+      commands:
+      - type: 2
+        flagId:
+        flagValue: 1
+        quest: {fileID: 11400000, guid: dc0e2178f504d0540afbb481f00ef789, type: 2}
+        objectiveId:
+        amount: 1
+        item: {fileID: 0}
+        goldAmount: 0
+    - text: Belum sekarang.
+      nextNodeId: declined
+      conditions: []
+      commands: []
+  - nodeId: accepted-player
+    speakerOverride: {fileID: 11400000, guid: fb7fb0570a3d5b142a14b2f38025bf75, type: 2}
+    text: Baik, aku akan mencari kayunya.
+    localizationKey:
+    emotion: Happy
+    nextNodeId: accepted
+    commands: []
+    choices: []
+  - nodeId: accepted
+    speakerOverride: {fileID: 0}
+    text: Terima kasih! Gunakan Axe untuk menebang pohon, lalu ambil kayu yang jatuh.
+      Temui aku lagi setelah terkumpul 3 Wood.
+    localizationKey:
+    emotion: Happy
+    nextNodeId:
+    commands: []
+    choices: []
+  - nodeId: declined
+    speakerOverride: {fileID: 0}
+    text: Tidak apa-apa. Mampir lagi kalau kamu sudah punya waktu.
+    localizationKey:
+    emotion: Neutral
+    nextNodeId:
+    commands: []
     choices: []

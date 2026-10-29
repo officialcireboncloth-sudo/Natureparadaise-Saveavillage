@@ -14,5 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerId: npc.mina.test
   displayName: Mina
-  portrait: {fileID: 0}
+  isPlayer: 0
+  portrait: {fileID: 8266057451311152654, guid: c89526fab71898b4d820b9088e7a3d91, type: 3}
+  expressions:
+  - expression: 0
+    portrait: {fileID: 8266057451311152654, guid: c89526fab71898b4d820b9088e7a3d91, type: 3}
+  - expression: 1
+    portrait: {fileID: 6241829540177853731, guid: c89526fab71898b4d820b9088e7a3d91, type: 3}
+  - expression: 2
+    portrait: {fileID: -1656845389185012836, guid: c89526fab71898b4d820b9088e7a3d91, type: 3}
+  - expression: 3
+    portrait: {fileID: 7492315844456213088, guid: c89526fab71898b4d820b9088e7a3d91, type: 3}
+  - expression: 4
+    portrait: {fileID: 4555917697117599736, guid: c89526fab71898b4d820b9088e7a3d91, type: 3}
+  - expression: 5
+    portrait: {fileID: 7537332003620675712, guid: c89526fab71898b4d820b9088e7a3d91, type: 3}
+  roleDescription: 
   nameColor: {r: 1, g: 0.72, b: 0.28, a: 1}

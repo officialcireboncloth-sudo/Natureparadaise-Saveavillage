@@ -13,9 +13,9 @@ public static class ScheduleCafeCsvDatabase
     public const string SchedulePath="Assets/Nature  Paradaise/Resources/Game Schedules.asset";
     public const string CafePath="Assets/Nature  Paradaise/Resources/Cafe Catalog.asset";
     public static string LastReport="";
+    const int CalendarRows=GameScheduleData.AuthoredDays;
     static readonly CultureInfo Inv=CultureInfo.InvariantCulture;
     static readonly string[] DateColumns={"absolute_day","year","season","day","weekday","note"};
-    static readonly string[] WeatherColumns={"absolute_day","weather"};
     static readonly string[] EventColumns={"event_id","year","season","day","type","title","description","location","start_hour","end_hour","image_guid","icon_guid"};
     static readonly string[] CategoryColumns={"category_id","title","icon_guid"};
     static readonly string[] MenuColumns={"offer_id","category_id","item_id","price","quality","maximum_quantity","enabled","allow_dine_in","allow_takeaway","image_guid"};
@@ -28,7 +28,8 @@ public static class ScheduleCafeCsvDatabase
         if(schedule==null)
         {
             schedule=ScriptableObject.CreateInstance<GameScheduleData>();
-            for(int absolute=1;absolute<=1120;absolute++){GameScheduleData.Date(absolute,out int year,out int season,out int day);schedule.dates.Add(new(){absoluteDay=absolute,year=year,season=season,day=day,weekday=(absolute-1)%7});schedule.weather.Add(new(){absoluteDay=absolute});}
+            for(int absolute=1;absolute<=CalendarRows;absolute++){GameScheduleData.Date(absolute,out int year,out int season,out int day);schedule.dates.Add(new(){absoluteDay=absolute,year=year,season=season,day=day,weekday=(absolute-1)%7});schedule.weather.Add(new(){absoluteDay=absolute});}
+            schedule.calendarVersion=2;
             AssetDatabase.CreateAsset(schedule,SchedulePath);
         }
         if(AssetDatabase.LoadAssetAtPath<CafeCatalog>(CafePath)==null)
@@ -44,14 +45,21 @@ public static class ScheduleCafeCsvDatabase
     {
         RequireEdit();EnsureAssets();Directory.CreateDirectory(Root);
         var d=AssetDatabase.LoadAssetAtPath<GameScheduleData>(SchedulePath);var c=AssetDatabase.LoadAssetAtPath<CafeCatalog>(CafePath);
-        Write("CalendarDates",DateColumns,d.dates.Select(x=>new[]{S(x.absoluteDay),S(x.year),S(x.season),S(x.day),S(x.weekday),x.note??""}));
-        Write("WeatherSchedule",WeatherColumns,d.weather.Select(x=>new[]{S(x.absoluteDay),x.useOverride?x.weather.ToString():"Auto"}));
+        ExportCalendar(d);
+        WeatherCsvDatabase.Export();
         Write("FestivalSchedule",EventColumns,d.events.Select(x=>new[]{x.id,S(x.year),S(x.season),S(x.day),x.kind.ToString(),x.title,x.description,x.location,S(x.startHour),S(x.endHour),Guid(x.illustration),Guid(x.icon)}));
         Write("CafeCategories",CategoryColumns,c.categories.Select(x=>new[]{x.id,x.title,Guid(x.icon)}));
         Write("CafeMenu",MenuColumns,c.menu.Select(x=>new[]{x.id,x.categoryId,x.item!=null?x.item.Id:"",S(x.price),S(x.quality),S(x.maximumQuantity),S(x.enabled),S(x.allowDineIn),S(x.allowTakeaway),Guid(x.illustration)}));
         LastReport="Export kalender 10 tahun, cuaca, acara dan kategori/menu cafe selesai.";AssetDatabase.Refresh();Debug.Log("[DATA CSV] "+LastReport);
     }
     static void Write(string name,string[] columns,IEnumerable<string[]> rows)=>BalanceCsvDatabase.Csv.Write(Root+"/"+name+".csv",columns,rows);
+    /// <summary>Keeps legacy calendar keys while adding readable four-month and weekday labels.</summary>
+    public static void ExportCalendar(GameScheduleData data)
+    {
+        string[] days={"Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"};
+        Write("CalendarDates",new[]{"absolute_day","year","month","season","day","weekday","note"},
+            data.dates.OrderBy(x=>x.absoluteDay).Select(x=>new[]{S(x.absoluteDay),S(x.year),S(x.season+1),GameScheduleData.SeasonEnglishName(x.season),S(x.day),days[x.weekday],x.note??""}));
+    }
     static void RequireEdit(){if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Keluar Play Mode dahulu.");}
     static List<Dictionary<string,string>> Read(string name,string[] columns)
     {
@@ -87,20 +95,20 @@ public static class ScheduleCafeCsvDatabase
             EditorUtility.CopySerialized(old,next);EditorUtility.CopySerialized(oldCafe,cafe);
             var seen=new HashSet<string>();
             next.dates=Parse("CalendarDates",DateColumns,r=>
-            {int abs=I(r,"absolute_day",1,1120);if(!seen.Add(S(abs)))throw new InvalidDataException("absolute_day duplikat: "+abs);GameScheduleData.Date(abs,out int y,out int s,out int d);
-                int ry=I(r,"year",1,10),rs=I(r,"season",0,3),rd=I(r,"day",1,28),rw=I(r,"weekday",0,6);
-                if(ry!=y||rs!=s||rd!=d||rw!=(abs-1)%7)throw new InvalidDataException("Tanggal tidak cocok dengan kalender game (28 hari/musim). Edit hanya note.");
+            {int abs=I(r,"absolute_day",1,CalendarRows);if(!seen.Add(S(abs)))throw new InvalidDataException("absolute_day duplikat: "+abs);GameScheduleData.Date(abs,out int y,out int s,out int d);
+                bool named=r.ContainsKey("month");int ry=I(r,"year",1,10),rs=named?I(r,"month",1,4)-1:I(r,"season",0,3),rd=I(r,"day",1,GameScheduleData.DaysInSeason(rs));
+                if(named)WeatherCsvDatabase.CheckSeason(r,rs+1);
+                int rw=named?Array.FindIndex(new[]{"Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu"},name=>name.Equals(r["weekday"],StringComparison.OrdinalIgnoreCase)):I(r,"weekday",0,6);
+                if(ry!=y||rs!=s||rd!=d||rw!=(abs-1)%7)throw new InvalidDataException("Tanggal tidak cocok dengan kalender 31/28/31/30. Edit hanya note.");
                 return new CalendarDateRecord{absoluteDay=abs,year=y,season=s,day=d,weekday=rw,note=r["note"]};});
-            if(next.dates.Count!=1120)throw new InvalidDataException("CalendarDates wajib memuat 1120 tanggal tahun 1–10.");
-            seen=new();next.weather=Parse("WeatherSchedule",WeatherColumns,r=>
-            {int abs=I(r,"absolute_day",1,1120);if(!seen.Add(S(abs)))throw new InvalidDataException("absolute_day duplikat: "+abs);string value=r["weather"].Trim();bool auto=value.Equals("Auto",StringComparison.OrdinalIgnoreCase);
-                WeatherType w=default;if(!auto&&(!Enum.TryParse(value,true,out w)||!Enum.IsDefined(typeof(WeatherType),w)))throw new InvalidDataException("WeatherType tidak dikenal: "+value);
-                return new WeatherDateRecord{absoluteDay=abs,useOverride=!auto,weather=w};});
-            if(next.weather.Count!=1120)throw new InvalidDataException("WeatherSchedule wajib memuat 1120 tanggal; gunakan Auto untuk generator.");
+            if(next.dates.Count!=CalendarRows)throw new InvalidDataException($"CalendarDates wajib memuat {CalendarRows} tanggal tahun 1–10.");
+            next.calendarVersion=2;
+            next.weather=WeatherCsvDatabase.ReadSchedule();
+            WeatherCsvDatabase.ReadProbabilities();
             seen=new();next.events=Parse("FestivalSchedule",EventColumns,r=>
             {string id=Id(r,"event_id",seen);if(!Enum.TryParse(r["type"],true,out CalendarEventKind kind)||!Enum.IsDefined(typeof(CalendarEventKind),kind))throw new InvalidDataException("type: Festival/Birthday/SeasonDay.");
                 if(string.IsNullOrWhiteSpace(r["title"]))throw new InvalidDataException("title wajib diisi.");float start=F(r,"start_hour"),end=F(r,"end_hour");if(start>end)throw new InvalidDataException("start_hour > end_hour.");var prior=old.events.FirstOrDefault(e=>e.id==id);
-                return new CalendarEventRecord{id=id,year=I(r,"year",0,10),season=I(r,"season",0,3),day=I(r,"day",1,28),kind=kind,title=r["title"],description=r["description"],location=r["location"],startHour=start,endHour=end,illustration=Sprite(r,"image_guid",prior?.illustration),icon=Sprite(r,"icon_guid",prior?.icon)};});
+                int eventSeason=I(r,"season",0,3);return new CalendarEventRecord{id=id,year=I(r,"year",0,10),season=eventSeason,day=I(r,"day",1,GameScheduleData.DaysInSeason(eventSeason)),kind=kind,title=r["title"],description=r["description"],location=r["location"],startHour=start,endHour=end,illustration=Sprite(r,"image_guid",prior?.illustration),icon=Sprite(r,"icon_guid",prior?.icon)};});
             seen=new();cafe.categories=Parse("CafeCategories",CategoryColumns,r=>{string id=Id(r,"category_id",seen);if(string.IsNullOrWhiteSpace(r["title"]))throw new InvalidDataException("title wajib diisi.");return new CafeCategory{id=id,title=r["title"],icon=Sprite(r,"icon_guid",oldCafe.categories.FirstOrDefault(e=>e.id==id)?.icon)};});
             var categories=new HashSet<string>(cafe.categories.Select(c=>c.id));
             var items=AssetDatabase.FindAssets("t:ItemSO").Select(AssetDatabase.GUIDToAssetPath).Select(AssetDatabase.LoadAssetAtPath<ItemSO>).Where(i=>i!=null).GroupBy(i=>i.Id).ToDictionary(g=>g.Key,g=>g.ToList());
@@ -134,6 +142,7 @@ public static class ScheduleCafeCsvDatabase
             Undo.IncrementCurrentGroup();int group=Undo.GetCurrentGroup();
             try{Undo.RecordObjects(new UnityEngine.Object[]{schedule,target},"Import schedule and cafe CSV");EditorUtility.CopySerialized(next,schedule);EditorUtility.CopySerialized(cafe,target);EditorUtility.SetDirty(schedule);EditorUtility.SetDirty(target);AssetDatabase.SaveAssets();Undo.CollapseUndoOperations(group);}
             catch{Undo.RevertAllDownToGroup(group);AssetDatabase.SaveAssets();throw;}
+            WeatherCsvDatabase.Import();
             LastReport="Import selesai. Backup: "+backup;Debug.Log("[DATA CSV] "+LastReport);
         }
         finally{UnityEngine.Object.DestroyImmediate(next);UnityEngine.Object.DestroyImmediate(cafe);}

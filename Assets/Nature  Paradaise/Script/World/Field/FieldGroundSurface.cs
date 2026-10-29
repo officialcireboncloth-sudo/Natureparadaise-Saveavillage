@@ -4,6 +4,12 @@ using UnityEngine.Rendering;
 /// <summary>Terrain-conforming ground geometry; only visuals change, never terrain/save data.</summary>
 public static class FieldGroundSurface
 {
+    /// <summary>Soil/crop artwork never supplies a step or obstacle; gameplay targets use the field grid.</summary>
+    public static void DisableVisualColliders(GameObject visual)
+    {
+        foreach(var collider in visual.GetComponentsInChildren<Collider>(true))collider.enabled=false;
+    }
+
     public static Terrain TerrainAt(Vector3 position)
     {
         foreach (var terrain in Terrain.activeTerrains)

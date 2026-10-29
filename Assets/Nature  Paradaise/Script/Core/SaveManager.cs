@@ -77,6 +77,7 @@ public class SaveManager : MonoBehaviour
         public bool hasPlayerLocation;
         public PlayerLocationSaveData savedPlayerLocation;
         public bool hasStarterPitchfork;
+        public bool hasStarterMilker;
 
         // -------------------------
         // TIME
@@ -92,6 +93,7 @@ public class SaveManager : MonoBehaviour
 
         // WEATHER (hasWeather menjaga kompatibilitas save lama)
         public bool hasWeather;
+        public bool weatherManualOverride;
         public int weatherSeed;
         public int weatherDay;
         public WeatherType currentWeather;
@@ -368,6 +370,7 @@ public class SaveManager : MonoBehaviour
         data.savedPlayerLocation=SceneTransitionManager.Instance!=null?SceneTransitionManager.Instance.CaptureLocation(player):
             new PlayerLocationSaveData{worldPosition=player.position,worldEuler=player.eulerAngles};
         data.hasStarterPitchfork=playerInv.HasStarterPitchfork;
+        data.hasStarterMilker=playerInv.HasStarterMilker;
 
         // -------------------------
         // TIME
@@ -385,6 +388,7 @@ public class SaveManager : MonoBehaviour
         if (WeatherSystem.Instance != null)
         {
             data.hasWeather = true;
+            data.weatherManualOverride = WeatherSystem.Instance.IsDebugWeatherOverrideActive;
             data.weatherSeed = WeatherSystem.Instance.WorldWeatherSeed;
             data.weatherDay = WeatherSystem.Instance.CurrentWeatherDay;
             data.currentWeather = WeatherSystem.Instance.CurrentWeather;
@@ -743,7 +747,8 @@ public class SaveManager : MonoBehaviour
                     data.currentWeather,
                     data.tomorrowWeather,
                     data.previousWeather,
-                    data.weatherCleanupDay
+                    data.weatherCleanupDay,
+                    data.weatherManualOverride
                 );
             }
             else
@@ -809,6 +814,7 @@ public class SaveManager : MonoBehaviour
         HouseStorageService.SortForHouseLevel();
         KitchenService.Restore(data.kitchen);
         playerInv.RestoreStarterPitchfork(data.hasStarterPitchfork);
+        playerInv.RestoreStarterMilker(data.hasStarterMilker);
         AquariumService.Restore(data.aquariums);
         FishCollectionService.Restore(data.fishCollection);
 

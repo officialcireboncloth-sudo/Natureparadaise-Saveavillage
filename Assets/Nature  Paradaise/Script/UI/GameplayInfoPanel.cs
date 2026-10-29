@@ -13,7 +13,7 @@ public sealed class GameplayInfoPanel : MonoBehaviour
         public Inventory inventory; public ItemSO item; public long amount;
         public string message; public float age, duration; public Sprite icon;
     }
-    sealed class Row { public RectTransform root; public Image icon; public TMP_Text text; public CanvasGroup group; }
+    sealed class Row { public RectTransform root; public Image icon; public TMP_Text text; public CanvasGroup group; public MainMenuRoundedImage background; public Material plainTextMaterial; }
     sealed class Hint { public Object owner; public string text; public int frame, priority; public float distance; public bool allowSuppression; }
     static GameplayInfoPanel instance;
     static readonly Regex SizeTags = new(@"</?size[^>]*>", RegexOptions.IgnoreCase);
@@ -37,6 +37,7 @@ public sealed class GameplayInfoPanel : MonoBehaviour
     int interactionFrame = -10;
     float interactionHeight = 54;
     const float Duration = 2.5f, Fade = .5f, Width = 640;
+    static readonly Color PickupPaper = new(.87f,.91f,.70f,.96f), PickupInk = new(.14f,.18f,.10f,1f);
 
     public static RectTransform ActionRoot => Ensure().actionRoot;
     /// <summary>Shared subtle text outline for the background-free bottom HUD, including touch prompts.</summary>
@@ -117,13 +118,15 @@ public sealed class GameplayInfoPanel : MonoBehaviour
         hintText.rectTransform.offsetMin=new Vector2(16,8);hintText.rectTransform.offsetMax=new Vector2(-16,-8);hintText.textWrappingMode=TextWrappingModes.Normal;
         for(int i=0;i<3;i++)
         {
-            var rect=GameplayHUDStyle.Rect("Notification "+(i+1),dock,new Vector2(0,0),new Vector2(1,0));rect.pivot=new Vector2(.5f,0);rect.sizeDelta=new Vector2(0,44);
-            var iconRect=GameplayHUDStyle.Rect("Item Icon",rect,new Vector2(0,.5f),new Vector2(0,.5f));iconRect.sizeDelta=new Vector2(32,32);iconRect.anchoredPosition=new Vector2(30,0);
+            var rect=GameplayHUDStyle.Rect("Notification "+(i+1),dock,new Vector2(.5f,0),new Vector2(.5f,0));rect.pivot=new Vector2(.5f,0);rect.sizeDelta=new Vector2(320,44);
+            var background=GameplayHUDStyle.Surface(rect,PickupPaper,22);background.enabled=false;
+            var iconRect=GameplayHUDStyle.Rect("Item Icon",rect,new Vector2(0,.5f),new Vector2(0,.5f));iconRect.sizeDelta=new Vector2(36,36);iconRect.anchoredPosition=new Vector2(32,0);
             var icon=iconRect.gameObject.AddComponent<Image>();icon.preserveAspect=true;icon.raycastTarget=false;
-            var text=GameplayHUDStyle.Text("Notification",rect,"",21,Vector2.zero,Vector2.one);text.color=Color.white;text.textWrappingMode=TextWrappingModes.Normal;
+            var text=GameplayHUDStyle.Text("Notification",rect,"",24,Vector2.zero,Vector2.one);text.color=Color.white;text.textWrappingMode=TextWrappingModes.Normal;
+            var plainTextMaterial=text.fontSharedMaterial;
             text.alignment=TextAlignmentOptions.Center;StyleMinimalText(text);
             var group=rect.gameObject.AddComponent<CanvasGroup>();group.interactable=false;group.blocksRaycasts=false;
-            rows.Add(new Row{root=rect,icon=icon,text=text,group=group});rect.gameObject.SetActive(false);
+            rows.Add(new Row{root=rect,icon=icon,text=text,group=group,background=background,plainTextMaterial=plainTextMaterial});rect.gameObject.SetActive(false);
         }
         dock.gameObject.SetActive(false);
         sideDock=GameplayHUDStyle.Rect("Beside Tools Notice",safe,Vector2.zero,Vector2.zero);
@@ -179,13 +182,21 @@ public sealed class GameplayInfoPanel : MonoBehaviour
         {
             bool visible=i<active.Count;var row=rows[i];row.root.gameObject.SetActive(visible);if(!visible)continue;
             var notice=active[i];row.root.anchoredPosition=new Vector2(0,actionHeight+(hasAction?4:0)+i*48);
+            bool pickup=notice.item!=null;
+            row.background.enabled=pickup;
+            row.text.color=pickup?PickupInk:Color.white;
+            row.text.fontSharedMaterial=pickup?row.plainTextMaterial:minimalTextMaterial;
+            row.text.fontSizeMax=pickup?24:21;row.text.fontSizeMin=pickup?20:18;
+            row.text.alignment=pickup?TextAlignmentOptions.MidlineLeft:TextAlignmentOptions.Center;
+            row.text.textWrappingMode=pickup?TextWrappingModes.NoWrap:TextWrappingModes.Normal;
             row.icon.sprite=notice.icon;row.icon.enabled=notice.icon!=null;
-            row.text.text=notice.item!=null?(notice.icon==null?notice.item.itemName+" ":"")+$"<b>x{notice.amount}</b>":notice.message;
-            float labelWidth=Mathf.Min(width-80,row.text.GetPreferredValues(row.text.text,width-80,0).x+4);
-            float start=(width-labelWidth-40)*.5f;
-            row.icon.rectTransform.anchoredPosition=new Vector2(start+16,0);
-            row.text.rectTransform.offsetMin=new Vector2(notice.icon!=null?start+40:16,4);
-            row.text.rectTransform.offsetMax=new Vector2(notice.icon!=null?-(width-start-40-labelWidth):-16,-4);
+            row.text.text=pickup?$"{notice.item.itemName} <b>×{notice.amount}</b>":notice.message;
+            float padding=notice.icon!=null?60:16;
+            float pickupWidth=Mathf.Clamp(row.text.GetPreferredValues(row.text.text,width-padding-16,0).x+padding+16,Mathf.Min(280,width),Mathf.Min(400,width));
+            row.root.sizeDelta=new Vector2(pickup?pickupWidth:width,44);
+            row.icon.rectTransform.anchoredPosition=new Vector2(32,0);
+            row.text.rectTransform.offsetMin=new Vector2(padding,4);
+            row.text.rectTransform.offsetMax=new Vector2(-16,-4);
             row.group.alpha=Mathf.Clamp01((notice.duration-notice.age)/Fade);
         }
         float height=actionHeight+active.Count*48+(hasAction&&active.Count>0?4:0);
