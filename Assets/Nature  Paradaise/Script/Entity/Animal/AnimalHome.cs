@@ -13,6 +13,7 @@ public sealed class AnimalHomeSaveData
     public int currentAnimals;
     public int reservedSlots;
     public int feedPortionsReserved;
+    public List<int> occupiedFeedingSlots;
     public bool hasBellState;
     public bool animalsOutside;
     public List<string> animalIds = new();
@@ -39,6 +40,18 @@ public sealed class AnimalHome : MonoBehaviour
     [SerializeField] bool forceAutoFeeder;
     [SerializeField, Min(1)] int autoFeederStartingLevel = 3;
     AnimalBellStation runtimeBellStation;
+    readonly List<int> occupiedFeedingSlots=new();
+    /// <summary>Preserves individually filled slots; legacy aggregate saves fill in their original order.</summary>
+    public IReadOnlyList<int> ReconcileFeedingSlots(int slotCount)
+    {
+        for(int i=occupiedFeedingSlots.Count-1;i>=0;i--)
+            if(occupiedFeedingSlots[i]<0||occupiedFeedingSlots[i]>=slotCount||occupiedFeedingSlots.IndexOf(occupiedFeedingSlots[i])!=i)occupiedFeedingSlots.RemoveAt(i);
+        while(occupiedFeedingSlots.Count>TotalFeed)occupiedFeedingSlots.RemoveAt(0);
+        for(int i=0;occupiedFeedingSlots.Count<TotalFeed&&i<slotCount;i++)if(!occupiedFeedingSlots.Contains(i))occupiedFeedingSlots.Add(i);
+        return occupiedFeedingSlots;
+    }
+    /// <summary>Records the chosen empty destination after the inventory transfer has succeeded.</summary>
+    public void RecordFilledFeedingSlot(int index){if(!occupiedFeedingSlots.Contains(index))occupiedFeedingSlots.Add(index);}
     public string Id => site != null ? site.SiteId : homeId;
     public AnimalHousingKind Kind => site != null ? site.ActiveDefinition?.HousingKind ?? AnimalHousingKind.None : kind;
     public int Capacity => site != null ? site.ActiveDefinition?.GetLevel(site.CurrentLevel)?.capacity ?? 0 : capacity;
@@ -354,9 +367,13 @@ public sealed class AnimalHome : MonoBehaviour
         target.fodderStock = source.fodderStock;
         target.grassStock = source.grassStock;
         target.feedPortionsReserved = source.feedPortionsReserved;
+        target.occupiedFeedingSlots.Clear();
+        target.occupiedFeedingSlots.AddRange(source.ReconcileFeedingSlots(source.FeedingSlotCapacity));
+        target.ReconcileFeedingSlots(target.FeedingSlotCapacity);
         source.fodderStock = 0;
         source.grassStock = 0;
         source.feedPortionsReserved = 0;
+        source.occupiedFeedingSlots.Clear();
         foreach (AnimalRoutine routine in AnimalRoutine.Active)
             if (routine != null && routine.HomeId == sourceId) routine.RelocateHome(target.Id);
     }
@@ -370,7 +387,8 @@ public sealed class AnimalHome : MonoBehaviour
                 level=home.site!=null ? home.site.CurrentLevel : 1, maxCapacity=home.Capacity,
                 currentAnimals=home.AnimalCount, reservedSlots=home.ReservedSlots,
                 feedPortionsReserved=home.feedPortionsReserved,
-                hasBellState=true, animalsOutside=home.animalsOutside };
+                hasBellState=true, animalsOutside=home.animalsOutside,
+                occupiedFeedingSlots=new List<int>(home.ReconcileFeedingSlots(home.FeedingSlotCapacity)) };
             foreach(var resident in home.Residents) if(resident.Animal!=null)
             { saved.animalIds.Add(resident.Animal.AnimalId); saved.animalTypes.Add(resident.Animal.Type); }
             result.Add(saved);
@@ -389,6 +407,9 @@ public sealed class AnimalHome : MonoBehaviour
             home.feedPortionsReserved = Mathf.Clamp(saved?.feedPortionsReserved ?? 0,0,home.TotalFeed);
             home.bellStateInitialized = saved?.hasBellState ?? false;
             home.animalsOutside = saved?.animalsOutside ?? false;
+            home.occupiedFeedingSlots.Clear();
+            if(saved?.occupiedFeedingSlots!=null)home.occupiedFeedingSlots.AddRange(saved.occupiedFeedingSlots);
+            home.ReconcileFeedingSlots(home.FeedingSlotCapacity);
         }
     }
 }

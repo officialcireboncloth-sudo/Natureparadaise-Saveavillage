@@ -17,6 +17,12 @@ public static class FishPondPlacementValidation
     const string Key="PondA.PlacementRegression";
     static double started;static bool done;
     static FishPondPlacementValidation(){EditorApplication.playModeStateChanged+=State;EditorApplication.update+=Tick;}
+    public static void RunBatch()
+    {
+        if(!Application.dataPath.Replace('\\','/').Contains("/HandoffAudit-2026-10-23/CleanClone/"))throw new InvalidOperationException("Fixture only");
+        EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+        SessionState.SetBool(Key+".Batch",true);Start();
+    }
     [MenuItem("Nature Paradise/Fish Pond/Validate Placement Regression",false,123)]
     public static void Start()
     {
@@ -48,6 +54,7 @@ public static class FishPondPlacementValidation
         if(!SessionState.GetBool(Key,false)||!EditorApplication.isPlaying||done||EditorApplication.timeSinceStartup-started<1.5)return;
         done=true;var report=new StringBuilder("FISH POND PLACEMENT REGRESSION\n");
         void Check(bool okay,string label){if(!okay)throw new InvalidOperationException(label);report.AppendLine("PASS "+label);}
+        bool passed=false;
         try
         {
             var field=Object.FindFirstObjectByType<FieldArea>();var player=Object.FindFirstObjectByType<Inventory>();
@@ -63,50 +70,52 @@ public static class FishPondPlacementValidation
             Check(Object.FindObjectsByType<FishPond>(FindObjectsSortMode.None).Length==0,"No interactable pond exists during preview");
             Check(FishPondService.Capture().Count==records && FeedMaker.CaptureAll().Count==makers,"Preview Awake/OnEnable creates no pond/maker persistent records");
             Check(preview.GetComponentsInChildren<Collider>(true).All(c=>!c.enabled),"Preview cannot block its own placement");
-            Check(!(bool)Get(site,"previewLocationValid") && ((string)Get(site,"previewLocationReason")).Contains("resource"),"Wild grass blocks installation with a readable reason");
+            Check(definition.placementArea==BuildingPlacementArea.OutsideField,"Pond catalog requires outside farmland");
+            Check(!(bool)Get(site,"previewLocationValid"),"Pond preview inside cultivated field is rejected");
             foreach(var grass in field.GetComponentsInChildren<WorldGatherable>())grass.gameObject.SetActive(false);
             Physics.SyncTransforms();
             Set(site,"previewLocationValid",(bool)Call(site,"ValidatePreviewLocation",definition));
-            Check((bool)Get(site,"previewLocationValid"),"Lv1 installs on a clear centre of the actual field grid");
+            Check(!(bool)Get(site,"previewLocationValid")&&((string)Get(site,"previewLocationReason")).Contains("luar ladang"),"Clearing field resources does not permit building on farmland");
             object[] args={definition,field,0,0};Call(site,"FieldFootprint",args);
             Check((int)args[2]<13 && (int)args[3]<13,"Lv1 footprint smaller than old maximum-Lv3 reservation");
             Quaternion rotation=(Quaternion)Get(site,"previewPlacementRotation");Vector2 size=FishPondExterior.PlacementSizeMeters(1);
             Check((int)args[2]*2+.001f>=Mathf.Abs((rotation*Vector3.right).x)*size.x+Mathf.Abs((rotation*Vector3.forward).x)*size.y,"Rotated footprint covers full physical width");
             site.CancelPreview();player.transform.position=field.GridToWorld(7,0)-Vector3.forward*4;
             site.BeginBuildSelection(catalog.IndexOf(definition),1,true);
-            Check(!(bool)Get(site,"previewLocationValid") && ((string)Get(site,"previewLocationReason")).Contains("tapak"),"Edge location rejected with explicit whole-footprint explanation");
+            Set(site,"previewPlacementPosition",field.GridToWorld(0,7)-Vector3.right*.5f);
+            Set(site,"previewLocationValid",(bool)Call(site,"ValidatePreviewLocation",definition));
+            Check(!(bool)Get(site,"previewLocationValid"),"Pond footprint touching field edge is rejected");
             Check(!site.ConfirmPreview(true) && site.IsEmpty,"Invalid C confirm cannot create a pond");site.CancelPreview();
             var tiles=(FieldTileData[])Get(field,"tiles");for(int i=0;i<tiles.Length;i++)tiles[i].state=TileState.Hoed;
             tiles[0].surfaceWetness=.6f;
             Check(field.TryPlaceBuilding(0,0,1,1,"audit.rollback",false,out Action undoReservation),"Reservation can be rolled back when payment fails");
             undoReservation();
             Check(tiles[0].state==TileState.Hoed && tiles[0].surfaceWetness==.6f && tiles[0].buildingId==null,"Rollback preserves cultivated and wet soil");
-            player.transform.position=centre-Vector3.forward*4;site.BeginBuildSelection(catalog.IndexOf(definition),1,true);
-            Check((bool)Get(site,"previewLocationValid"),"Bare hoed soil can host a building");
+            Vector3 outside=centre+Vector3.right*50;
+            player.transform.position=outside-Vector3.forward*4;site.BeginBuildSelection(catalog.IndexOf(definition),1,true);
+            Set(site,"previewPlacementPosition",outside);Set(site,"previewLocationValid",(bool)Call(site,"ValidatePreviewLocation",definition));
+            Check((bool)Get(site,"previewLocationValid"),"Clear ground outside field permits free pond placement");
+            var blocker=new GameObject("Pond placement blocker",typeof(BoxCollider),typeof(BuildingPlacementBlocker));blocker.transform.position=outside+Vector3.up;Physics.SyncTransforms();
+            Check(!(bool)Call(site,"ValidatePreviewLocation",definition),"Outside placement still rejects physical blockers");blocker.SetActive(false);Object.Destroy(blocker);Physics.SyncTransforms();
             Check(site.ConfirmPreview(true),"Actual C/Confirm path builds Lv1");
             Check(site.CurrentLevel==1 && site.GetComponentsInChildren<FishPond>().Length==1,"Exactly one usable pond appears after confirmed completion");
             int cells=tiles.Count(t=>t.state==TileState.Building && t.buildingId==site.SiteId);
-            Check(cells>0,"Placed pond reserves field cells");
+            Check(cells==0&&tiles[0].state==TileState.Hoed&&tiles[0].surfaceWetness==.6f,"Outside pond preserves cultivated field and reserves no planting cells");
             Check(site.BeginUpgradePreview(),"Actual upgrade preview starts");
-            Check((bool)Get(site,"previewLocationValid"),"Upgrade accepts its own reserved cells");
-            var targetArgs=new object[]{definition,field,0,0};Call(site,"FieldFootprint",targetArgs);
-            int sx=7-(int)targetArgs[2]/2,sz=7-(int)targetArgs[3]/2;
-            int cropIndex=-1;
-            for(int z=sz;z<sz+(int)targetArgs[3];z++)for(int x=sx;x<sx+(int)targetArgs[2];x++)
-            {int i=z*field.Columns+x;if(tiles[i].state!=TileState.Building)cropIndex=i;}
-            Check(cropIndex>=0,"Lv2 requests additional cells");tiles[cropIndex].state=TileState.Planted;
-            bool valid=(bool)Call(site,"ValidatePreviewLocation",definition);Set(site,"previewLocationValid",valid);
-            Check(!valid && !site.ConfirmPreview(true),"Upgrade blocked by crop in expansion ring");
-            Check(tiles[cropIndex].state==TileState.Planted && site.CurrentLevel==1,"Blocked upgrade preserves crop and existing pond");
-            tiles[cropIndex].state=TileState.Hoed;valid=(bool)Call(site,"ValidatePreviewLocation",definition);Set(site,"previewLocationValid",valid);
-            Check(valid && site.ConfirmPreview(true),"Clear expansion ring permits Lv2 upgrade");
-            Check(site.CurrentLevel==2 && tiles.Count(t=>t.state==TileState.Building && t.buildingId==site.SiteId)>cells,"Lv2 footprint actually expands");
-            Check(site.BeginUpgradePreview() && (bool)Get(site,"previewLocationValid") && site.ConfirmPreview(true),"Lv3 upgrade fits and reserves its expanded area");
+            Check((bool)Get(site,"previewLocationValid")&&site.ConfirmPreview(true),"Lv2 upgrade works outside field without planting-cell reservation");
+            Check(site.CurrentLevel==2&&tiles.All(t=>t.state!=TileState.Building),"Lv2 preserves all field cells");
+            Check(site.BeginUpgradePreview() && (bool)Get(site,"previewLocationValid") && site.ConfirmPreview(true),"Lv3 upgrade fits outside field");
             Check(site.CurrentLevel==3 && site.GetComponentsInChildren<FishPond>().Length==1,"Only final completed Lv3 pond is interactable");
             report.AppendLine("PLACEMENT PASS");
+            passed=true;
         }
         catch(Exception e){report.AppendLine("PLACEMENT FAIL: "+e);Debug.LogException(e);}
-        finally{Directory.CreateDirectory(FishPondApprovedExteriorSetup.Output);File.WriteAllText(FishPondApprovedExteriorSetup.Output+"/UnityPlacementAudit.txt",report.ToString());EditorApplication.isPlaying=false;}
+        finally
+        {
+            Directory.CreateDirectory(FishPondApprovedExteriorSetup.Output);File.WriteAllText(FishPondApprovedExteriorSetup.Output+"/UnityPlacementAudit.txt",report.ToString());
+            if(SessionState.GetBool(Key+".Batch",false)){SessionState.SetBool(Key,false);SessionState.SetBool(Key+".Batch",false);EditorApplication.Exit(passed?0:1);}
+            else EditorApplication.isPlaying=false;
+        }
     }
 }
 #endif

@@ -137,8 +137,9 @@ public sealed class WeatherSystem : MonoBehaviour
     public float TerrainCloudNoiseWorldScale => terrainCloudNoiseWorldScale;
     public Vector2 TerrainCloudDriftSpeed => terrainCloudDriftSpeed;
     public float HeavyRainOutdoorStaminaPerHour => heavyRainOutdoorStaminaPerHour;
-    // Thunder retains its sound/gameplay behaviour without flashing the scene lighting.
-    public float CurrentLightningFlash => 0f;
+    float lightningPulse;
+    StormWindPresentation stormWind;
+    public float CurrentLightningFlash => lightningPulse;
     float nextLightningCheckTime;
     int lightningResolvedDay = -1;
     float nextThunderTime = -1f;
@@ -172,6 +173,7 @@ public sealed class WeatherSystem : MonoBehaviour
                 effectFollowTarget = player.transform;
         }
         EnsureThunderAudioSource();
+        stormWind=gameObject.AddComponent<StormWindPresentation>();
     }
 
     void OnEnable()
@@ -194,6 +196,7 @@ public sealed class WeatherSystem : MonoBehaviour
 
     void OnDisable()
     {
+        stormWind?.Clear();lightningPulse=0;
         TimeManager.OnBeforeDayChange -= HandleBeforeDayChanged;
         TimeManager.OnDay -= HandleDayChanged;
         SeasonVisualController.SeasonChanged -= HandleSeasonChanged;
@@ -210,6 +213,7 @@ public sealed class WeatherSystem : MonoBehaviour
         FollowWeatherEffect();
         UpdateLightningHazard();
         UpdateThunderstormLightning();
+        stormWind?.Tick(currentWeather,IsPlayerOutdoors(),Time.deltaTime);
 
         if (!enableDebugKeys || !HUDManager.DebugCluesEnabled)
             return;
@@ -301,12 +305,15 @@ public sealed class WeatherSystem : MonoBehaviour
     {
         if (currentWeather != WeatherType.Thunderstorm || !IsPlayerOutdoors())
         {
+            lightningPulse=0;
             nextThunderTime = -1f;
             return;
         }
 
         if (TimeManager.Instance != null && TimeManager.Instance.IsPaused)
-            return;
+        { lightningPulse=0; return; }
+        lightningPulse=Mathf.MoveTowards(lightningPulse,0,Time.deltaTime*2.5f);
+        if(GameplayUISettings.Current.rainEffects==0)lightningPulse=0;
 
         if (nextThunderTime < 0f)
         {
@@ -318,6 +325,7 @@ public sealed class WeatherSystem : MonoBehaviour
             return;
 
         PlayThunderSound();
+        lightningPulse=GameplayUISettings.Current.rainEffects==0?0:GameplayUISettings.Current.rainEffects==1?.35f:.7f;
         ScheduleNextThunder(false);
     }
 
@@ -347,6 +355,11 @@ public sealed class WeatherSystem : MonoBehaviour
 
     void EnsureThunderAudioSource()
     {
+        if(thunderClips==null||thunderClips.Length==0)
+        {
+            var fallback=Resources.Load<AudioClip>("Audio/Weather/Thunder");
+            if(fallback!=null)thunderClips=new[]{fallback};
+        }
         if (thunderAudioSource != null)
             return;
         thunderAudioSource = gameObject.AddComponent<AudioSource>();
@@ -442,7 +455,7 @@ public sealed class WeatherSystem : MonoBehaviour
             case WeatherType.Cloudy:
                 sunMultiplier = 0.55f; ambientMultiplier = 0.84f; exposureMultiplier = 0.74f; tint = new Color(0.80f, 0.85f, 0.92f); break;
             case WeatherType.Heatwave:
-                sunMultiplier = 1.18f; ambientMultiplier = 1.02f; exposureMultiplier = 1.08f; tint = new Color(1f, 0.88f, 0.7f); break;
+                sunMultiplier = 1.06f; ambientMultiplier = 1f; exposureMultiplier = 1.02f; tint = new Color(1f, 0.98f, 0.94f); break;
             case WeatherType.Drizzle:
                 sunMultiplier = 0.66f; ambientMultiplier = 0.88f; exposureMultiplier = 0.8f; tint = new Color(0.82f, 0.87f, 0.94f); break;
             case WeatherType.Rain:
@@ -491,6 +504,7 @@ public sealed class WeatherSystem : MonoBehaviour
 
     void NotifyWeatherChanged()
     {
+        lightningPulse=0;
         nextThunderTime = -1f;
         ApplySurfaceWetness(IsPlayerOutdoors());
         WeatherImpactFlow.Publish(WeatherImpactSnapshot.Create(this));

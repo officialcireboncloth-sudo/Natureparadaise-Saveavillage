@@ -1,0 +1,18 @@
+COZY MARKET PROPS — MarketStand
+PASS Existing shared Cozy atlas material resolves
+PASS Explicit export coordinate frame available
+PASS Front and right remain unmirrored in Unity
+PASS MarketStand_Body_LOD0: native bounds match Blender metres
+PASS MarketStand_Body_LOD0: triangle count retained
+PASS MarketStand_Body_LOD0: one atlas slot and valid UVs
+PASS MarketStand_Body_LOD1: native bounds match Blender metres
+PASS MarketStand_Body_LOD1: triangle count retained
+PASS MarketStand_Body_LOD1: one atlas slot and valid UVs
+PASS Gameplay settings, identity, inventory and stock untouched
+PASS Root placement and scale unchanged
+PASS One LOD owner; no nested duplicate registration
+PASS Only intended near/far meshes remain
+PASS Every renderer uses the compiled shared Cozy shader/atlas
+PASS Distance LOD lowers geometry cost
+PASS Compact world dimensions retained: (2.78, 2.23, 1.63)
+CHECKS 16; COZY_PROP_APPLY_PASS

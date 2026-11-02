@@ -11,6 +11,7 @@ public static class ConstructionWorkerPath
     static bool Obstacle(Collider c, float groundY)
     {
         if (c == null || c.isTrigger || c is TerrainCollider || c.bounds.max.y < groundY + .18f) return false;
+        if (c.GetComponentInParent<ConstructionWorkerBody>() != null) return false;
         if (c.GetComponentInParent<PlayerController>() != null || c.GetComponentInParent<AnimalController>() != null) return false;
         // Field base meshes and decorative plants are not walls. Tall solids remain obstacles.
         if (c.GetComponentInParent<FieldArea>() != null && c.bounds.size.y < .25f) return false;
@@ -24,7 +25,7 @@ public static class ConstructionWorkerPath
         for (int i = 0; i < count; i++)
         {
             var h = hits[i];
-            if (h.normal.y < .7f || h.collider.GetComponentInParent<PlayerController>() != null ||
+            if (h.normal.y < .7f || h.collider.GetComponentInParent<ConstructionWorkerBody>() != null || h.collider.GetComponentInParent<PlayerController>() != null ||
                 h.collider.GetComponentInParent<AnimalController>() != null) continue;
             // Prefer ground at the expected elevation, not a roof or the top of a seller.
             float difference = Mathf.Abs(h.point.y - point.y);

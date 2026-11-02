@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-/// <summary>Two bounded particle batches, sampled surface impacts and no per-drop physics.</summary>
+/// <summary>Bounded drop, splash and gust batches, sampled surface impacts and no per-drop physics.</summary>
 [DisallowMultipleComponent]
 public sealed class SoftRainEffect : MonoBehaviour
 {
     struct Impact { public Vector3 point, normal; public float time, alpha; }
     readonly Impact[] impacts = new Impact[256];
     readonly RaycastHit[] surfaceHits = new RaycastHit[16];
-    ParticleSystem drops, splashes;
+    ParticleSystem drops, splashes, gusts;
+    float gustDebt;
     RainVisualProfile profile;
     int nextImpact;
     float strength, emissionDebt, probeDebt, elapsed;
@@ -25,6 +26,9 @@ public sealed class SoftRainEffect : MonoBehaviour
         profile = visuals;
         drops = CreateBatch("Short water drops", profile.dropMaterial, true);
         splashes = CreateBatch("Small surface splashes", profile.splashMaterial, false);
+        gusts = CreateBatch("Soft directional wind gusts", profile.dropMaterial, true);
+        var gustMain=gusts.main;gustMain.maxParticles=Application.isMobilePlatform?24:48;
+        gusts.GetComponent<ParticleSystemRenderer>().lengthScale=12;
     }
 
     ParticleSystem CreateBatch(string label, Material material, bool falling)
@@ -77,8 +81,10 @@ public sealed class SoftRainEffect : MonoBehaviour
         int mode = Mathf.Clamp(GameplayUISettings.Current.rainEffects, 0, 2);
         if (mode == 0) { Clear(); return; }
         float density = profile.Density(weather, mode, Application.isMobilePlatform);
+        float wind=RainVisualProfile.WindStrength(weather);
+        gustDebt=wind>=.5f?Mathf.Min(2,gustDebt+wind*12*density*dt):0;
         strength = Mathf.MoveTowards(strength, profile.Rate(weather) * density,
-            profile.stormRate * dt / Mathf.Max(.5f, profile.transitionSeconds));
+            Mathf.Max(profile.stormRate,profile.cycloneRate) * dt / Mathf.Max(.5f, profile.transitionSeconds));
         ProcessImpacts();
         emissionDebt = Mathf.Min(emissionDebt + strength * dt, 24);
         probeDebt = Mathf.Min(probeDebt + profile.surfaceProbesPerSecond * dt, 4);
@@ -101,7 +107,15 @@ public sealed class SoftRainEffect : MonoBehaviour
             }
             if (nearest < 0) continue;
             RaycastHit surface = surfaceHits[nearest];
-            int cluster = Mathf.Min(5, Mathf.FloorToInt(emissionDebt));
+            if(gustDebt>=1)
+            {
+                gustDebt-=1;
+                var tint=profile.waterTint;tint.a=mode==1?.10f:.16f;
+                gusts.Emit(new ParticleSystem.EmitParams{position=surface.point+Vector3.up*Range(.35f,1.3f),
+                    velocity=RainVisualProfile.WindDirection*(3+wind*3),startLifetime=.65f,
+                    startSize=.08f,startColor=(Color32)tint},1);
+            }
+            int cluster = Mathf.Min(8, Mathf.FloorToInt(emissionDebt));
             for (int j = 0; j < cluster; j++)
             {
                 emissionDebt -= 1;
@@ -165,7 +179,7 @@ public sealed class SoftRainEffect : MonoBehaviour
 
     void Clear()
     {
-        drops?.Clear(); splashes?.Clear();
+        drops?.Clear(); splashes?.Clear(); gusts?.Clear();gustDebt=0;
         System.Array.Clear(impacts, 0, impacts.Length);
         strength = emissionDebt = probeDebt = 0;
     }

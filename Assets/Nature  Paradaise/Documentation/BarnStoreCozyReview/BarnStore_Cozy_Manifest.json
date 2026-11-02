@@ -1,0 +1,71 @@
+{
+  "status": "BUILT",
+  "scope": "Barn Store only; player barn untouched",
+  "chickensInNests": 0,
+  "sourceModules": 1728,
+  "doorHingeUnity": [
+    0,
+    0,
+    0
+  ],
+  "lods": [
+    {
+      "name": "BarnStore_Cozy_LOD0",
+      "triangles": 29242,
+      "vertices": 16792,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyFoliage_01",
+        "NP_CozyGlow_01"
+      ],
+      "boundsMin": [
+        -4.975000381469727,
+        -4.21999979019165,
+        -0.05000007897615433
+      ],
+      "boundsMax": [
+        5.071770191192627,
+        3.515000343322754,
+        6.001999855041504
+      ]
+    },
+    {
+      "name": "BarnStore_Cozy_LOD1",
+      "triangles": 9424,
+      "vertices": 4916,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyGlow_01"
+      ],
+      "boundsMin": [
+        -4.975000381469727,
+        -3.865000009536743,
+        -0.05000007897615433
+      ],
+      "boundsMax": [
+        4.974999904632568,
+        3.515000343322754,
+        5.37000036239624
+      ]
+    },
+    {
+      "name": "BarnStore_Cozy_LOD2",
+      "triangles": 4045,
+      "vertices": 2865,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyGlow_01"
+      ],
+      "boundsMin": [
+        -4.9640913009643555,
+        -3.865000009536743,
+        -0.03958343341946602
+      ],
+      "boundsMax": [
+        4.965769290924072,
+        3.515000343322754,
+        5.369999885559082
+      ]
+    }
+  ]
+}

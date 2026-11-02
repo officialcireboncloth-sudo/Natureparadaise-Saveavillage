@@ -10,6 +10,7 @@ public sealed class AnimalManureDropData
     public string id, animalId, homeId, sceneName;
     public bool poultry, anchored;
     public int indoorSlot;
+    public int createdDay;
     public Vector3 position;
 }
 [Serializable]
@@ -17,21 +18,25 @@ public sealed class AnimalManureTimerData
 {
     public string animalId;
     public double nextHour;
+    public int scheduledDay;
+    public int lastProducedDay=-1;
+    public int attemptedDay=-1;
 }
 [Serializable]
 public sealed class AnimalManureSaveData
 {
+    public int version;
     public List<AnimalManureDropData> drops = new();
     public List<AnimalManureTimerData> timers = new();
 }
 
-/// <summary>Persistent piles and per-animal game-calendar timers, including unvisited barns.</summary>
+/// <summary>One random daily opportunity and at most one outstanding pile per animal, including unvisited barns.</summary>
 [DefaultExecutionOrder(-250)]
 public sealed class AnimalManureSystem : MonoBehaviour
 {
     public static AnimalManureSystem Instance { get; private set; }
     readonly List<AnimalManureDropData> drops = new();
-    readonly Dictionary<string,double> timers = new();
+    readonly Dictionary<string,AnimalManureTimerData> timers = new();
     readonly Dictionary<string,GameObject> visuals = new();
     AnimalManureSettings settings;
     Inventory playerInventory;
@@ -58,13 +63,36 @@ public sealed class AnimalManureSystem : MonoBehaviour
     }
     void OnDisable()
     {
-        StopAllCoroutines();collectingPlayer?.ReleaseMovementLock(this);
+        StopAllCoroutines();EndCollection();
         collectingPlayer=null;collecting=false;
     }
     void OnDestroy(){if(Instance==this)Instance=null;}
-    public double NextDropHour(string animalId)=>timers.TryGetValue(animalId,out var hour)?hour:0;
-    double NextInterval() => UnityEngine.Random.Range(settings!=null?settings.minimumHours:3f,
-        settings!=null?Mathf.Max(settings.minimumHours,settings.maximumHours):6f);
+    public double NextDropHour(string animalId)=>timers.TryGetValue(animalId,out var timer)?timer.nextHour:0;
+    AnimalManureTimerData Schedule(string id)
+    {
+        int today=TimeManager.Instance.day;
+        if(!timers.TryGetValue(id,out var timer))
+            timers[id]=timer=new AnimalManureTimerData{animalId=id};
+        if(timer.scheduledDay!=today)
+        {
+            float earliest=Mathf.Clamp(settings!=null?settings.dailyEarliestHour:6f,0,23.98f);
+            float latest=Mathf.Clamp(settings!=null?settings.dailyLatestHour:22f,earliest,23.99f);
+            // Newly purchased animals get a remaining-day opportunity; skipped days never catch up.
+            earliest=Mathf.Min(23.98f,Mathf.Max(earliest,TimeManager.Instance.CurrentTimeHours));
+            latest=Mathf.Max(earliest,latest);
+            timer.nextHour=(today-1)*24d+UnityEngine.Random.Range(earliest,latest);
+            timer.scheduledDay=today;
+        }
+        return timer;
+    }
+    bool IsDue(string id,double now)
+    {
+        var timer=Schedule(id);int today=TimeManager.Instance.day;
+        if(timer.attemptedDay==today||timer.lastProducedDay==today||now<timer.nextHour)return false;
+        timer.attemptedDay=today;return true;
+    }
+    bool CanProduce(string id)=>!string.IsNullOrEmpty(id)&&TimeManager.Instance!=null&&
+        Schedule(id).lastProducedDay!=TimeManager.Instance.day&&!drops.Exists(d=>d.animalId==id);
     void Update()
     {
         var clock=TimeManager.Instance;
@@ -89,7 +117,9 @@ public sealed class AnimalManureSystem : MonoBehaviour
         float radius=settings!=null?settings.pickupRadius:2.4f;
         if(target==null || distance>radius) return;
         bool hasFork=HasPitchfork(playerInventory);
-        WorldInteractionPrompt.Request(this,target.transform,hasFork?"[E] Ambil Kotoran":"Pilih Garpu untuk mengambil kotoran",distance,.65f);
+        string id=nearest.id;
+        WorldInteractionPrompt.Request(this,target.transform,hasFork?"E: Serok kotoran · 1 detik → Compost x1":"Pilih Garpu untuk menyerok kotoran",distance,.65f,
+            hasFork?()=>TryCollect(id,playerInventory):null);
         if(hasFork && PlayerInteractionTarget.PressPrompt(this, target.transform, KeyCode.E))
             TryCollect(nearest.id,playerInventory);
     }
@@ -99,19 +129,16 @@ public sealed class AnimalManureSystem : MonoBehaviour
         double now=Now;
         foreach(var animal in AnimalGrowthSystem.ActiveAnimals)
         {
-            if(animal==null || !animal.HasBeenBorn || string.IsNullOrEmpty(animal.AnimalId))continue;
-            if(!timers.TryGetValue(animal.AnimalId,out double next))
-            {timers[animal.AnimalId]=now+NextInterval();continue;}
-            if(now<next)continue;
-            // Sleeping or loading never catches up by spawning many piles in one frame.
-            timers[animal.AnimalId]=now+NextInterval();
-            int count=0;foreach(var drop in drops)if(drop.animalId==animal.AnimalId)count++;
-            if(count<(settings!=null?settings.maximumPilesPerAnimal:6))SpawnDrop(animal);
+            if(animal==null || !animal.HasBeenBorn || animal.IsInIncubator || string.IsNullOrEmpty(animal.AnimalId))continue;
+            if(IsDue(animal.AnimalId,now))SpawnDrop(animal);
         }
+        foreach(var horse in PersonalAnimal.Active)
+            if(horse!=null&&horse.Species==CompanionSpecies.Horse&&horse.IsTamed&&IsDue("companion:"+horse.Id,now))
+                SpawnHorseDrop(horse);
     }
     public AnimalManureDropData SpawnDrop(AnimalGrowthSystem animal)
     {
-        if(animal==null || !animal.HasBeenBorn)return null;
+        if(animal==null || !animal.HasBeenBorn || animal.IsInIncubator || !CanProduce(animal.AnimalId))return null;
         var routine=animal.GetComponent<AnimalRoutine>();
         bool indoors=routine!=null && routine.IsHoused && routine.Home!=null;
         var jitter=UnityEngine.Random.insideUnitCircle*.6f;
@@ -120,7 +147,25 @@ public sealed class AnimalManureSystem : MonoBehaviour
             homeId=indoors?routine.HomeId:null,indoorSlot=indoors?Mathf.Max(0,routine.Home.Residents.IndexOf(routine)):0,
             position=indoors?new Vector3(jitter.x,0,jitter.y):animal.transform.position-animal.transform.forward*.8f+new Vector3(jitter.x,0,jitter.y)};
         if(!indoors && AnimalWalkingPath.Ground(drop.position,animal.transform,null,out var ground,true))drop.position=ground;
-        drops.Add(drop);return drop;
+        RegisterDrop(drop);return drop;
+    }
+    AnimalManureDropData SpawnHorseDrop(PersonalAnimal horse)
+    {
+        string id="companion:"+horse.Id;if(!CanProduce(id))return null;
+        var jitter=UnityEngine.Random.insideUnitCircle*.6f;
+        Vector3 point=horse.transform.position-horse.transform.forward*.8f+new Vector3(jitter.x,0,jitter.y);
+        if(AnimalWalkingPath.Ground(point,horse.transform,null,out var ground,true))point=ground;
+        // Companion objects live in DontDestroyOnLoad, but their piles belong to the outdoor world.
+        string scene=horse.gameObject.scene.name;
+        if(scene=="DontDestroyOnLoad")scene=horse.Capture().homeScene;
+        var drop=new AnimalManureDropData{id=Guid.NewGuid().ToString("N"),animalId=id,sceneName=scene,position=point};
+        RegisterDrop(drop);return drop;
+    }
+    void RegisterDrop(AnimalManureDropData drop)
+    {
+        drop.createdDay=TimeManager.Instance.day;
+        var timer=Schedule(drop.animalId);timer.lastProducedDay=drop.createdDay;timer.attemptedDay=drop.createdDay;
+        drops.Add(drop);
     }
     public void RefreshVisuals()
     {
@@ -181,13 +226,13 @@ public sealed class AnimalManureSystem : MonoBehaviour
     }
     public bool TryCollect(string id,Inventory inventory)
     {
-        if(collecting || !HasPitchfork(inventory) || Time.timeScale<=0 ||
+        if(!isActiveAndEnabled || collecting || !HasPitchfork(inventory) || Time.timeScale<=0 || WorldInteractionPrompt.IsSuppressed || GameplayPauseMenu.BlocksGameplayInput ||
            (TimeManager.Instance!=null && TimeManager.Instance.IsPaused))return false;
         var player=inventory.GetComponent<PlayerController>();
         var drop=drops.Find(d=>d.id==id);
         if(player==null || player.IsMovementLocked || drop==null || !visuals.TryGetValue(id,out var visual) ||
            visual==null || !visual.activeSelf || Vector3.Distance(player.transform.position,visual.transform.position)>(settings!=null?settings.pickupRadius:2.4f))return false;
-        ItemSO item=Resources.Load<ItemSO>(drop.poultry?"Items/Materials/Poultry Manure":"Items/Materials/Livestock Manure");
+        ItemSO item=Resources.Load<ItemSO>("Items/Materials/Compost");
         if(!StaminaBalance.Can(inventory,"clean_manure")) return false;
         if(item==null || !inventory.CanAdd(item,1))
         {SaveLoadFeedback.Instance?.ShowMessage("Inventory penuh; kotoran tetap di tanah.");return false;}
@@ -195,51 +240,69 @@ public sealed class AnimalManureSystem : MonoBehaviour
               return PlayerToolApproach.For(player).Begin(this,()=>visual.transform.position,.8f,()=>TryCollect(id,inventory),
                   ()=>isActiveAndEnabled&&visual!=null&&visual.activeInHierarchy&&drops.Contains(drop)&&HasPitchfork(inventory),visual.transform);
         player.FaceTowardsInteraction(visual.transform.position);player.AcquireMovementLock(this);player.PlayScoopManureAnimation();
-        player.GetComponent<PlayerHeldTools>()?.BeginWorkAction(PlayerToolType.Pitchfork,visual.transform.position,settings!=null?settings.pickupAnimationSeconds:1.1f);
+        player.GetComponent<PlayerHeldTools>()?.BeginWorkAction(PlayerToolType.Pitchfork,visual.transform.position,AnimalManureSettings.CollectionSeconds);
         collectingPlayer=player;collecting=true;
         StartCoroutine(FinishCollection(drop,inventory,item,visual));return true;
     }
     IEnumerator FinishCollection(AnimalManureDropData drop,Inventory inventory,ItemSO item,GameObject visual)
     {
-        float duration=settings!=null?settings.pickupAnimationSeconds:1.1f;
-        // The existing scoop clip runs at 2x: hand contact is near 0.45 real seconds.
-        float contact=Mathf.Min(.45f,duration);
-        yield return new WaitForSeconds(contact);
-        if(inventory!=null && HasPitchfork(inventory) && visual!=null && visual.activeInHierarchy &&
-           StaminaBalance.Can(inventory,"clean_manure") && inventory.Add(item,1))
+        yield return new WaitForSeconds(AnimalManureSettings.CollectionSeconds);
+        if(inventory!=null && HasPitchfork(inventory) && visual!=null && visual.activeInHierarchy && drops.Contains(drop) &&
+           !WorldInteractionPrompt.IsSuppressed && !GameplayPauseMenu.BlocksGameplayInput &&
+           StaminaBalance.Can(inventory,"clean_manure") && inventory.CanAdd(item,1))
         {
-            StaminaBalance.Spend(inventory,"clean_manure");
-            FarmActionEffects.Burst(FarmEffect.Hoe,visual.transform.position,radius:.15f);
-            drops.Remove(drop);visuals.Remove(drop.id);Destroy(visual);
-            PlayerPickupNotification.ShowItem(inventory,item,1);
+            // Remove before InventoryChanged can save the world: the item and pile must never both persist.
+            int index=drops.IndexOf(drop);drops.RemoveAt(index);visuals.Remove(drop.id);visual.SetActive(false);
+            if(inventory.Add(item,1))
+            {
+                StaminaBalance.Spend(inventory,"clean_manure");
+                FarmActionEffects.Burst(FarmEffect.Hoe,visual.transform.position,radius:.15f);
+                Destroy(visual);GameplayInfoPanel.NotifyBesideTools("Compost x1");
+            }
+            else{drops.Insert(index,drop);visuals[drop.id]=visual;visual.SetActive(true);}
         }
-        if(duration>contact)yield return new WaitForSeconds(duration-contact);
-        collectingPlayer?.ReleaseMovementLock(this);collectingPlayer=null;collecting=false;
+        else if(inventory!=null&&!inventory.CanAdd(item,1))GameplayInfoPanel.NotifyBesideTools("Inventory penuh; kotoran tetap di tanah.");
+        EndCollection();
+    }
+    void EndCollection()
+    {
+        collectingPlayer?.ReleaseMovementLock(this);collectingPlayer?.GetComponent<PlayerHeldTools>()?.EndWorkAction();
+        collectingPlayer=null;collecting=false;
     }
     /// <summary>Putting the fork away cancels uncommitted cleaning and releases only its movement lock.</summary>
     public void CancelCollection(PlayerController player)
     {
         if(!collecting || collectingPlayer!=player)return;
-        StopAllCoroutines();collectingPlayer?.ReleaseMovementLock(this);collectingPlayer?.GetComponent<PlayerHeldTools>()?.EndWorkAction();
-        collectingPlayer=null;collecting=false;
+        StopAllCoroutines();EndCollection();
     }
     public static AnimalManureSaveData Capture()
     {
-        var system=Ensure();var data=new AnimalManureSaveData();
+        var system=Ensure();var data=new AnimalManureSaveData{version=2};
         foreach(var drop in system.drops)data.drops.Add(JsonUtility.FromJson<AnimalManureDropData>(JsonUtility.ToJson(drop)));
-        foreach(var timer in system.timers)data.timers.Add(new AnimalManureTimerData{animalId=timer.Key,nextHour=timer.Value});
+        foreach(var timer in system.timers.Values)data.timers.Add(JsonUtility.FromJson<AnimalManureTimerData>(JsonUtility.ToJson(timer)));
         return data;
     }
     public static void Restore(AnimalManureSaveData data)
     {
-        var system=Ensure();system.StopAllCoroutines();system.collectingPlayer?.ReleaseMovementLock(system);
-        system.collectingPlayer=null;system.collecting=false;
+        var system=Ensure();system.StopAllCoroutines();system.EndCollection();
         foreach(var visual in system.visuals.Values)if(visual!=null)Destroy(visual);
         system.visuals.Clear();system.drops.Clear();system.timers.Clear();
         if(data?.drops!=null)foreach(var drop in data.drops)
             if(drop!=null && !string.IsNullOrEmpty(drop.id) && !system.drops.Exists(d=>d.id==drop.id))system.drops.Add(drop);
         if(data?.timers!=null)foreach(var timer in data.timers)
-            if(timer!=null && !string.IsNullOrEmpty(timer.animalId) && !double.IsNaN(timer.nextHour)&&!double.IsInfinity(timer.nextHour))system.timers[timer.animalId]=timer.nextHour;
+            if(timer!=null && !string.IsNullOrEmpty(timer.animalId) && !double.IsNaN(timer.nextHour)&&!double.IsInfinity(timer.nextHour))
+            {
+                var restored=JsonUtility.FromJson<AnimalManureTimerData>(JsonUtility.ToJson(timer));
+                // Legacy interval timers have no daily quota. Conservatively skip their current day.
+                if(data.version<2){restored.scheduledDay=0;restored.lastProducedDay=TimeManager.Instance!=null?TimeManager.Instance.day:1;restored.attemptedDay=restored.lastProducedDay;}
+                system.timers[timer.animalId]=restored;
+            }
+        if(TimeManager.Instance!=null)foreach(var drop in system.drops)
+            if(!string.IsNullOrEmpty(drop.animalId))
+            {
+                var timer=system.Schedule(drop.animalId);
+                timer.lastProducedDay=Mathf.Max(timer.lastProducedDay,drop.createdDay>0?drop.createdDay:TimeManager.Instance.day);
+            }
         system.RefreshVisuals();
     }
 }

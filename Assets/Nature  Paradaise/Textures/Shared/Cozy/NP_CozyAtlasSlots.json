@@ -1,0 +1,807 @@
+{
+  "version": 1,
+  "date": "2026-10-31",
+  "colorSize": [
+    2048,
+    2048
+  ],
+  "normalSize": [
+    1024,
+    1024
+  ],
+  "foliageSize": [
+    1024,
+    1024
+  ],
+  "paddingPixels": 8,
+  "normalConvention": "Tangent +Y; native GIMP independent neutral height, GEGL scale 12",
+  "slots": [
+    {
+      "name": "WoodHoney",
+      "pixelRectTopLeft": [
+        0,
+        0,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.00390625,
+        0.76953125,
+        0.24609375,
+        0.99609375
+      ],
+      "source": "imagegen surface master"
+    },
+    {
+      "name": "WoodDark",
+      "pixelRectTopLeft": [
+        512,
+        0,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.25390625,
+        0.76953125,
+        0.49609375,
+        0.99609375
+      ],
+      "source": "imagegen surface master"
+    },
+    {
+      "name": "WoodCream",
+      "pixelRectTopLeft": [
+        1024,
+        0,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.50390625,
+        0.76953125,
+        0.74609375,
+        0.99609375
+      ],
+      "source": "imagegen surface master"
+    },
+    {
+      "name": "WoodFloor",
+      "pixelRectTopLeft": [
+        1536,
+        0,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.75390625,
+        0.76953125,
+        0.99609375,
+        0.99609375
+      ],
+      "source": "imagegen surface master"
+    },
+    {
+      "name": "RoofOlive",
+      "pixelRectTopLeft": [
+        0,
+        480,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.00390625,
+        0.53515625,
+        0.24609375,
+        0.76171875
+      ],
+      "source": "imagegen surface master",
+      "pattern": "Four staggered rows of rectangular shingles, native GIMP edit",
+      "singleTileUv": [
+        0.0634765625,
+        0.7080078125,
+        0.1240234375,
+        0.7646484375
+      ],
+      "singleTileUvs": [
+        [
+          0.0009765625,
+          0.7080078125,
+          0.0615234375,
+          0.7646484375
+        ],
+        [
+          0.0634765625,
+          0.7080078125,
+          0.1240234375,
+          0.7646484375
+        ],
+        [
+          0.1259765625,
+          0.7080078125,
+          0.1865234375,
+          0.7646484375
+        ],
+        [
+          0.1884765625,
+          0.7080078125,
+          0.2490234375,
+          0.7646484375
+        ],
+        [
+          0.0009765625,
+          0.5908203125,
+          0.0615234375,
+          0.6474609375
+        ],
+        [
+          0.0634765625,
+          0.5908203125,
+          0.1240234375,
+          0.6474609375
+        ],
+        [
+          0.1259765625,
+          0.5908203125,
+          0.1865234375,
+          0.6474609375
+        ],
+        [
+          0.1884765625,
+          0.5908203125,
+          0.2490234375,
+          0.6474609375
+        ]
+      ]
+    },
+    {
+      "name": "RoofSlate",
+      "pixelRectTopLeft": [
+        512,
+        480,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.25390625,
+        0.53515625,
+        0.49609375,
+        0.76171875
+      ],
+      "source": "imagegen surface master",
+      "pattern": "Rectangular staggered slate shingles, native GIMP edit",
+      "singleTileUvs": [
+        [
+          0.2509765625,
+          0.7080078125,
+          0.3115234375,
+          0.7646484375
+        ],
+        [
+          0.3134765625,
+          0.7080078125,
+          0.3740234375,
+          0.7646484375
+        ],
+        [
+          0.3759765625,
+          0.7080078125,
+          0.4365234375,
+          0.7646484375
+        ],
+        [
+          0.4384765625,
+          0.7080078125,
+          0.4990234375,
+          0.7646484375
+        ],
+        [
+          0.2509765625,
+          0.5908203125,
+          0.3115234375,
+          0.6474609375
+        ],
+        [
+          0.3134765625,
+          0.5908203125,
+          0.3740234375,
+          0.6474609375
+        ],
+        [
+          0.3759765625,
+          0.5908203125,
+          0.4365234375,
+          0.6474609375
+        ],
+        [
+          0.4384765625,
+          0.5908203125,
+          0.4990234375,
+          0.6474609375
+        ]
+      ]
+    },
+    {
+      "name": "RoofRed",
+      "pixelRectTopLeft": [
+        1024,
+        480,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.50390625,
+        0.53515625,
+        0.74609375,
+        0.76171875
+      ],
+      "source": "imagegen surface master"
+    },
+    {
+      "name": "Plaster",
+      "pixelRectTopLeft": [
+        1536,
+        480,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.75390625,
+        0.53515625,
+        0.99609375,
+        0.76171875
+      ],
+      "source": "imagegen surface master"
+    },
+    {
+      "name": "StoneWarm",
+      "pixelRectTopLeft": [
+        0,
+        960,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.00390625,
+        0.30078125,
+        0.24609375,
+        0.52734375
+      ],
+      "source": "imagegen surface master"
+    },
+    {
+      "name": "StoneGray",
+      "pixelRectTopLeft": [
+        512,
+        960,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.25390625,
+        0.30078125,
+        0.49609375,
+        0.52734375
+      ],
+      "source": "imagegen surface master"
+    },
+    {
+      "name": "Brick",
+      "pixelRectTopLeft": [
+        1024,
+        960,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.50390625,
+        0.30078125,
+        0.74609375,
+        0.52734375
+      ],
+      "source": "imagegen surface master"
+    },
+    {
+      "name": "Terracotta",
+      "pixelRectTopLeft": [
+        1536,
+        960,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.75390625,
+        0.30078125,
+        0.99609375,
+        0.52734375
+      ],
+      "source": "imagegen surface master"
+    },
+    {
+      "name": "Iron",
+      "pixelRectTopLeft": [
+        0,
+        1440,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.00390625,
+        0.06640625,
+        0.24609375,
+        0.29296875
+      ],
+      "source": "imagegen surface master"
+    },
+    {
+      "name": "Aluminium",
+      "pixelRectTopLeft": [
+        512,
+        1440,
+        512,
+        480
+      ],
+      "uvSafe": [
+        0.25390625,
+        0.06640625,
+        0.49609375,
+        0.29296875
+      ],
+      "source": "imagegen surface master"
+    },
+    {
+      "name": "FabricSage",
+      "pixelRectTopLeft": [
+        1024,
+        1440,
+        256,
+        240
+      ],
+      "uvSafe": [
+        0.50390625,
+        0.18359375,
+        0.62109375,
+        0.29296875
+      ],
+      "source": "imagegen surface master quadrant"
+    },
+    {
+      "name": "FabricCream",
+      "pixelRectTopLeft": [
+        1280,
+        1440,
+        256,
+        240
+      ],
+      "uvSafe": [
+        0.62890625,
+        0.18359375,
+        0.74609375,
+        0.29296875
+      ],
+      "source": "imagegen surface master quadrant"
+    },
+    {
+      "name": "FabricRed",
+      "pixelRectTopLeft": [
+        1024,
+        1680,
+        256,
+        240
+      ],
+      "uvSafe": [
+        0.50390625,
+        0.06640625,
+        0.62109375,
+        0.17578125
+      ],
+      "source": "imagegen surface master quadrant"
+    },
+    {
+      "name": "Burlap",
+      "pixelRectTopLeft": [
+        1280,
+        1680,
+        256,
+        240
+      ],
+      "uvSafe": [
+        0.62890625,
+        0.06640625,
+        0.74609375,
+        0.17578125
+      ],
+      "source": "imagegen surface master quadrant"
+    },
+    {
+      "name": "Rope",
+      "pixelRectTopLeft": [
+        1536,
+        1440,
+        256,
+        240
+      ],
+      "uvSafe": [
+        0.75390625,
+        0.18359375,
+        0.87109375,
+        0.29296875
+      ],
+      "source": "imagegen surface master quadrant"
+    },
+    {
+      "name": "Wicker",
+      "pixelRectTopLeft": [
+        1792,
+        1440,
+        256,
+        240
+      ],
+      "uvSafe": [
+        0.87890625,
+        0.18359375,
+        0.99609375,
+        0.29296875
+      ],
+      "source": "imagegen surface master quadrant"
+    },
+    {
+      "name": "Hay",
+      "pixelRectTopLeft": [
+        1536,
+        1680,
+        256,
+        240
+      ],
+      "uvSafe": [
+        0.75390625,
+        0.06640625,
+        0.87109375,
+        0.17578125
+      ],
+      "source": "imagegen surface master quadrant"
+    },
+    {
+      "name": "Grain",
+      "pixelRectTopLeft": [
+        1792,
+        1680,
+        256,
+        240
+      ],
+      "uvSafe": [
+        0.87890625,
+        0.06640625,
+        0.99609375,
+        0.17578125
+      ],
+      "source": "imagegen surface master quadrant"
+    },
+    {
+      "name": "EndGrain",
+      "pixelRectTopLeft": [
+        0,
+        1920,
+        256,
+        128
+      ],
+      "uvSafe": [
+        0.00390625,
+        0.00390625,
+        0.12109375,
+        0.05859375
+      ],
+      "source": "imagegen detail master"
+    },
+    {
+      "name": "Earth",
+      "pixelRectTopLeft": [
+        256,
+        1920,
+        256,
+        128
+      ],
+      "uvSafe": [
+        0.12890625,
+        0.00390625,
+        0.24609375,
+        0.05859375
+      ],
+      "source": "imagegen detail master"
+    },
+    {
+      "name": "WoodRed",
+      "pixelRectTopLeft": [
+        512,
+        1920,
+        256,
+        128
+      ],
+      "uvSafe": [
+        0.25390625,
+        0.00390625,
+        0.37109375,
+        0.05859375
+      ],
+      "source": "imagegen detail master"
+    },
+    {
+      "name": "Paving",
+      "pixelRectTopLeft": [
+        768,
+        1920,
+        256,
+        128
+      ],
+      "uvSafe": [
+        0.37890625,
+        0.00390625,
+        0.49609375,
+        0.05859375
+      ],
+      "source": "imagegen detail master"
+    },
+    {
+      "name": "GlowWarm",
+      "pixelRectTopLeft": [
+        1024,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.50390625,
+        0.00390625,
+        0.52734375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "RoofTrim",
+      "pixelRectTopLeft": [
+        1088,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.53515625,
+        0.00390625,
+        0.55859375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "LeafGreen",
+      "pixelRectTopLeft": [
+        1152,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.56640625,
+        0.00390625,
+        0.58984375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "FlowerWhite",
+      "pixelRectTopLeft": [
+        1216,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.59765625,
+        0.00390625,
+        0.62109375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "FlowerGold",
+      "pixelRectTopLeft": [
+        1280,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.62890625,
+        0.00390625,
+        0.65234375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "Paper",
+      "pixelRectTopLeft": [
+        1344,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.66015625,
+        0.00390625,
+        0.68359375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "Ceramic",
+      "pixelRectTopLeft": [
+        1408,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.69140625,
+        0.00390625,
+        0.71484375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "WaterBlue",
+      "pixelRectTopLeft": [
+        1472,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.72265625,
+        0.00390625,
+        0.74609375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "FoodOrange",
+      "pixelRectTopLeft": [
+        1536,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.75390625,
+        0.00390625,
+        0.77734375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "FoodRed",
+      "pixelRectTopLeft": [
+        1600,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.78515625,
+        0.00390625,
+        0.80859375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "FoodPurple",
+      "pixelRectTopLeft": [
+        1664,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.81640625,
+        0.00390625,
+        0.83984375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "PaintCream",
+      "pixelRectTopLeft": [
+        1728,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.84765625,
+        0.00390625,
+        0.87109375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "PaintRed",
+      "pixelRectTopLeft": [
+        1792,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.87890625,
+        0.00390625,
+        0.90234375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "GlassBlue",
+      "pixelRectTopLeft": [
+        1856,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.91015625,
+        0.00390625,
+        0.93359375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "MetalHighlight",
+      "pixelRectTopLeft": [
+        1920,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.94140625,
+        0.00390625,
+        0.96484375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    },
+    {
+      "name": "SoilDark",
+      "pixelRectTopLeft": [
+        1984,
+        1920,
+        64,
+        128
+      ],
+      "uvSafe": [
+        0.97265625,
+        0.00390625,
+        0.99609375,
+        0.05859375
+      ],
+      "source": "shared colour palette"
+    }
+  ],
+  "foliageGrid": [
+    4,
+    4
+  ],
+  "authoring": "Built-in imagegen original surfaces and foliage; native GIMP modular packing, palette, height and normal",
+  "legacyAtlasModified": false,
+  "revision": "2026-11-01 rectangular slate slot; house olive slot preserved"
+}

@@ -49,7 +49,7 @@ public static class ConstructionSiteSafetyValidation
             Check(panels.Length>0,"Tarp panels spawned");
             Check(panels.All(p=>p.GetComponentInChildren<Renderer>().bounds.max.y<=1.81f),"8m-tall structure gets <=1.8m tarp, not roof-height walls");
             Check(owner.GetComponentsInChildren<Transform>().Count(t=>t.name=="ConstructionExit_AlwaysOpen")==2,"Two opposing exits always open");
-            var walls=owner.GetComponentsInChildren<BoxCollider>();
+            var walls=owner.GetComponentsInChildren<BoxCollider>().Where(c=>c.name=="ConstructionWallBarrier").ToArray();
             Check(walls.Length>=4&&walls.All(c=>c.enabled&&!c.isTrigger),"Solid perimeter spans enabled when no actor overlaps them");
             Check(walls.All(c=>c.size.z<=.3f),"Only thin wall colliders; no full-volume prison collider");
             Physics.SyncTransforms();actor.Move(Vector3.forward*8);
@@ -69,13 +69,13 @@ public static class ConstructionSiteSafetyValidation
             var secondOrigin=origin+Vector3.right*40;var second=InScene("Overlapping player fixture",secondOrigin);
             var clipped=Actor(secondOrigin+Vector3.right*(4+profile.siteClearance));Physics.SyncTransforms();
             overlapping=new ConstructionSitePresentation(second.transform,second.transform,new Bounds(secondOrigin+Vector3.up*4,new Vector3(8,8,10)),secondOrigin+Vector3.back*8,null,profile);
-            var deferred=second.GetComponentsInChildren<BoxCollider>().Where(c=>!c.enabled).ToArray();
+            var deferred=second.GetComponentsInChildren<BoxCollider>().Where(c=>c.name=="ConstructionWallBarrier"&&!c.enabled).ToArray();
             Check(deferred.Length>0,"A wall spawned on the player stays non-solid instead of trapping/pushing them");
             clipped.transform.position=secondOrigin+Vector3.right*8;var position=clipped.transform.position;
             overlapping.Tick(false,false);
             Check(deferred.All(c=>c.enabled),"Deferred wall becomes solid once the player clears it");
             Check(clipped.transform.position==position,"Safety handling never teleports or ejects player");
-            overlapping.Reveal(.2f);Check(second.GetComponentsInChildren<BoxCollider>().Length==0,"Tarp collision disables with screens during completion reveal");
+            overlapping.Reveal(.2f);Check(!second.GetComponentsInChildren<BoxCollider>().Any(c=>c.name=="ConstructionWallBarrier"),"Tarp collision disables with screens during completion reveal");
             first.Dispose();Check(walls.All(c=>!c.enabled),"Cancel/dispose disables barriers immediately");first=null;
             report.AppendLine("AUDIT_PASS checks="+count+"; native capsule moves and particles, not full Play Mode. No save/completion APIs invoked.");
         }

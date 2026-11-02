@@ -85,6 +85,7 @@ public sealed class BarnInterior : MonoBehaviour
         ResolveInteriorDestination();
         if(roomRoot!=null) roomRoot.gameObject.SetActive(false);
         DisableLegacyRoomChildren();
+        RefreshExteriorAccess();
     }
 
     public bool Enter()
@@ -156,7 +157,7 @@ public sealed class BarnInterior : MonoBehaviour
     /// Menempelkan marker interaksi pada pintu model Barn aktif dan menyelaraskan collider
     /// blocker dengan bounds bangunan. Tidak membuat object runtime baru.
     /// </summary>
-    void RefreshExteriorAccess()
+    public void RefreshExteriorAccess()
     {
         if(home==null || home.site==null)
         {

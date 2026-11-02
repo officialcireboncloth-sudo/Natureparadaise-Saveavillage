@@ -1,0 +1,14 @@
+NATIVE POULTRY PREVIEW
+PASS Shader and texture render correctly: NP_CozySurfaces_01
+PASS Shader and texture render correctly: NP_CozyFoliage_01
+PASS Shader and texture render correctly: NP_CozyGlow_01
+PASS Shop door hinge remains separately editable without moving body
+PASS ChickenStore: authored night lamp has no shadow map
+PASS ChickenStore: authored night lamp has no shadow map
+PASS ChickenStore: authored night lamp has no shadow map
+PASS ChickenStore: authored night lamp has no shadow map
+PASS ChickenStore: authored night lamp has no shadow map
+PASS CompanionCoop: authored night lamp has no shadow map
+PASS Existing yard inherits both reworked module prefabs
+PASS Old nested weather vane leaves no orphaned override in the yard
+CHECKS 12; PREVIEW_PASS

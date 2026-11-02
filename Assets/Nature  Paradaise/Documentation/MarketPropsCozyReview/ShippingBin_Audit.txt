@@ -1,0 +1,28 @@
+COZY MARKET PROPS — ShippingBin
+PASS Existing shared Cozy atlas material resolves
+PASS Explicit export coordinate frame available
+PASS Front and right remain unmirrored in Unity
+PASS ShippingBin_Body_LOD0: native bounds match Blender metres
+PASS ShippingBin_Body_LOD0: triangle count retained
+PASS ShippingBin_Body_LOD0: one atlas slot and valid UVs
+PASS ShippingBin_Body_LOD1: native bounds match Blender metres
+PASS ShippingBin_Body_LOD1: triangle count retained
+PASS ShippingBin_Body_LOD1: one atlas slot and valid UVs
+PASS ShippingBin_Lid_LOD0: native bounds match Blender metres
+PASS ShippingBin_Lid_LOD0: triangle count retained
+PASS ShippingBin_Lid_LOD0: one atlas slot and valid UVs
+PASS ShippingBin_Lid_LOD1: native bounds match Blender metres
+PASS ShippingBin_Lid_LOD1: triangle count retained
+PASS ShippingBin_Lid_LOD1: one atlas slot and valid UVs
+PASS Gameplay settings, identity, inventory and stock untouched
+PASS Root placement and scale unchanged
+PASS One LOD owner; no nested duplicate registration
+PASS Only intended near/far meshes remain
+PASS Every renderer uses the compiled shared Cozy shader/atlas
+PASS Distance LOD lowers geometry cost
+PASS Compact world dimensions retained: (1.76, 0.97, 1.09)
+PASS Lid opens 72 degrees about the rear hinge
+PASS Open lid clears the chest interior
+PASS Opening lid leaves body stationary
+PASS Lid closes to rest without positional drift
+CHECKS 26; COZY_PROP_APPLY_PASS

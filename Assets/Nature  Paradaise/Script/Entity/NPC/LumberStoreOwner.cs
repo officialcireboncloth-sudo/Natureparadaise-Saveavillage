@@ -54,6 +54,7 @@ public sealed class LumberStoreOwner : MonoBehaviour
         idleVisual.localScale = new Vector3(settings.workerScale / Mathf.Max(.001f, Mathf.Abs(parentScale.x)),
             settings.workerScale / Mathf.Max(.001f, Mathf.Abs(parentScale.y)), settings.workerScale / Mathf.Max(.001f, Mathf.Abs(parentScale.z)));
         var model = ConstructionProjectVisuals.VisualClone(settings.workerPrefab, idleVisual);
+        ConstructionWorkerBody.AddTo(idleVisual);
         var animator = model.GetComponentInChildren<Animator>();
         if (animator != null && animator.avatar != null && animator.avatar.isHuman && animator.avatar.isValid && settings.humanoidActions != null)
             idleMotion = new HumanoidActionPlayer(animator, settings.humanoidActions);

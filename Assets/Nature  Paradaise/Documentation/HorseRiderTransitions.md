@@ -1,5 +1,7 @@
 # Horse mounting, saddle alignment and dismounting
 
+Mounted controls: WASD walks at 1.25 times the player's authored Walk Speed (default 1.5 m/s versus 1.2 m/s). Hold either Shift to run at the existing mounted speed (prefab 8 m/s); releasing Shift decelerates back to walking rather than toggling run. Space keeps the existing jump height, gravity, cooldown, collision and landing. Joystick and the held mobile sprint button use the same movement step. Walking maps to the existing horse Walk animation, and open gameplay menus block mounted movement input.
+
 Source~/Player/Player_Farming.blend contains the native player/control rig, 47 runtime Actions, 14 historical pose snapshots and four sparse editable BLOCK timelines (65 Actions total). The approved anatomical mount and dismount are implemented explicitly for both sides. Side follows the horse, not the camera.
 
 The five live clips come from mesh/Dummy/PlayerDummy/Player.fbx: Mount Horse, Mount Horse Right, Dismount Horse, Dismount Horse Right and Riding Idle. Older animation-only FBX and storyboard sources are historical, not live dependencies.

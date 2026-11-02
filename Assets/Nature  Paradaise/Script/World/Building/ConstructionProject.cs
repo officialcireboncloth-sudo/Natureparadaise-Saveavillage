@@ -68,7 +68,9 @@ public sealed class ConstructionProject : MonoBehaviour
         project.visuals=new ConstructionProjectVisuals(owner.transform,anchor,bounds,project.job.workPosition,target,finalVisual,renovation,project.settings,layout);
         project.visuals.Worker.SetPositionAndRotation(project.job.workerPosition,project.job.workerRotation);
         project.job.CatchUp(ConstructionJobData.ClockHours);
-        if(project.Phase == ConstructionWorkerPhase.Returning || project.Phase == ConstructionWorkerPhase.Finished)project.visuals.HideSite();
+        if(project.Phase == ConstructionWorkerPhase.Returning || project.Phase == ConstructionWorkerPhase.Finished ||
+            project.Phase == ConstructionWorkerPhase.Queued && project.job.resumePhase == ConstructionWorkerPhase.Returning)
+            project.visuals.HideSite();
         else project.visuals.SetStage(project.Progress);
         if(project.Phase == ConstructionWorkerPhase.Revealing)project.visuals.Reveal(project.RevealProgress);
         if(project.Phase == ConstructionWorkerPhase.Finished)project.visuals.Worker.gameObject.SetActive(false);
@@ -86,6 +88,8 @@ public sealed class ConstructionProject : MonoBehaviour
                 project.builderOwner.Register(project);
             }
         }
+        if (project.Phase != ConstructionWorkerPhase.Returning && project.Phase != ConstructionWorkerPhase.Finished)
+            project.visuals.UpdateBar(building != null ? building.displayName : "Proyek", project.Status, project.Progress);
         return project;
     }
     public static ConstructionJobData MigrateLegacy(BuildingLevelDefinition target, int completionDay, Vector3 site)

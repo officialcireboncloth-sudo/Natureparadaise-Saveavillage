@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>One safe-area information dock above tools: current action plus three queued, fading notifications.</summary>
+/// <summary>Safe-area action dock above tools, with item results along the left edge and three queued, fading notices.</summary>
 [DefaultExecutionOrder(12000)]
 public sealed class GameplayInfoPanel : MonoBehaviour
 {
@@ -25,7 +25,7 @@ public sealed class GameplayInfoPanel : MonoBehaviour
     readonly HashSet<RectTransform> tools = new();
     readonly Vector3[] corners = new Vector3[4];
     Canvas canvas;
-    RectTransform safe, dock, actionRoot, sideDock;
+    RectTransform safe, dock, actionRoot, sideDock, pickupDock;
     TMP_Text hintText, sideText;
     CanvasGroup sideGroup;
     Notice sideNotice;
@@ -116,6 +116,8 @@ public sealed class GameplayInfoPanel : MonoBehaviour
         hintText=GameplayHUDStyle.Text("Tool or Activity",actionRoot,"",22,Vector2.zero,Vector2.one);hintText.color=Color.white;hintText.alignment=TextAlignmentOptions.Center;
         StyleMinimalText(hintText);
         hintText.rectTransform.offsetMin=new Vector2(16,8);hintText.rectTransform.offsetMax=new Vector2(-16,-8);hintText.textWrappingMode=TextWrappingModes.Normal;
+        pickupDock=GameplayHUDStyle.Rect("Left Item Results",safe,Vector2.zero,Vector2.zero);
+        pickupDock.pivot=Vector2.zero;pickupDock.gameObject.SetActive(false);
         for(int i=0;i<3;i++)
         {
             var rect=GameplayHUDStyle.Rect("Notification "+(i+1),dock,new Vector2(.5f,0),new Vector2(.5f,0));rect.pivot=new Vector2(.5f,0);rect.sizeDelta=new Vector2(320,44);
@@ -155,7 +157,7 @@ public sealed class GameplayInfoPanel : MonoBehaviour
         }
         foreach(var key in staleHints)hints.Remove(key);
         bool hidden=GameplayPauseMenu.IsOpen||WorldInteractionPrompt.IsSuppressed&&selected==null;
-        if(hidden){dock.gameObject.SetActive(false);sideDock.gameObject.SetActive(false);return;}
+        if(hidden){dock.gameObject.SetActive(false);sideDock.gameObject.SetActive(false);pickupDock.gameObject.SetActive(false);return;}
         if(sideNotice!=null)
         {
             sideNotice.age+=Time.unscaledDeltaTime;
@@ -178,11 +180,17 @@ public sealed class GameplayInfoPanel : MonoBehaviour
         float width=Mathf.Max(160,Mathf.Min(Width,safe.rect.width-32));
         float actionHeight=interaction?interactionHeight:selected!=null?Mathf.Clamp(hintText.GetPreferredValues(selected.text,width-32,0).y+18,48,112):0;
         actionRoot.sizeDelta=new Vector2(0,actionHeight);actionRoot.gameObject.SetActive(hasAction);
+        int itemRows=0, messageRows=0;
         for(int i=0;i<rows.Count;i++)
         {
             bool visible=i<active.Count;var row=rows[i];row.root.gameObject.SetActive(visible);if(!visible)continue;
-            var notice=active[i];row.root.anchoredPosition=new Vector2(0,actionHeight+(hasAction?4:0)+i*48);
+            var notice=active[i];
             bool pickup=notice.item!=null;
+            var parent=pickup?pickupDock:dock;
+            if(row.root.parent!=parent)row.root.SetParent(parent,false);
+            row.root.anchorMin=row.root.anchorMax=pickup?new Vector2(0,1):new Vector2(.5f,0);
+            row.root.pivot=pickup?new Vector2(0,1):new Vector2(.5f,0);
+            row.root.anchoredPosition=pickup?new Vector2(0,-itemRows++*48):new Vector2(0,actionHeight+(hasAction?4:0)+messageRows++*48);
             row.background.enabled=pickup;
             row.text.color=pickup?PickupInk:Color.white;
             row.text.fontSharedMaterial=pickup?row.plainTextMaterial:minimalTextMaterial;
@@ -199,10 +207,13 @@ public sealed class GameplayInfoPanel : MonoBehaviour
             row.text.rectTransform.offsetMax=new Vector2(-16,-4);
             row.group.alpha=Mathf.Clamp01((notice.duration-notice.age)/Fade);
         }
-        float height=actionHeight+active.Count*48+(hasAction&&active.Count>0?4:0);
+        float height=actionHeight+messageRows*48+(hasAction&&messageRows>0?4:0);
         dock.sizeDelta=new Vector2(width,Mathf.Max(44,height));
         dock.anchoredPosition=new Vector2(0,ToolsTop()+12);
-        dock.gameObject.SetActive(hasAction||active.Count>0);
+        dock.gameObject.SetActive(hasAction||messageRows>0);
+        pickupDock.sizeDelta=new Vector2(Mathf.Min(400,width),itemRows*48);
+        pickupDock.gameObject.SetActive(itemRows>0);
+        AlignPickupResults();
         AlignSideNotice();
     }
     float ToolsTop()
@@ -267,7 +278,18 @@ public sealed class GameplayInfoPanel : MonoBehaviour
     void AlignToTools()
     {
         if(dock!=null&&dock.gameObject.activeInHierarchy)dock.anchoredPosition=new Vector2(0,ToolsTop()+12);
+        AlignPickupResults();
         AlignSideNotice();
+    }
+    void AlignPickupResults()
+    {
+        if(pickupDock==null||!pickupDock.gameObject.activeInHierarchy)return;
+        float height=pickupDock.sizeDelta.y;
+        float y=Mathf.Max(16,safe.rect.height*.42f-height*.5f);
+        Rect area=new(20,y,pickupDock.sizeDelta.x,height);
+        // Wide mobile toolbars can reach the left edge; keep the stack above them.
+        if(TryGetToolsBounds(out var bounds)&&area.Overlaps(bounds))y=bounds.yMax+16;
+        pickupDock.anchoredPosition=new Vector2(20,Mathf.Clamp(y,16,Mathf.Max(16,safe.rect.height-height-16)));
     }
     void OnDestroy(){Canvas.willRenderCanvases-=AlignToTools;if(minimalTextMaterial!=null)Destroy(minimalTextMaterial);if(instance==this)instance=null;}
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]static void Reset()=>instance=null;

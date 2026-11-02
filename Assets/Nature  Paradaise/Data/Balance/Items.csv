@@ -43,6 +43,7 @@ item.hammer_tool,Assets/Nature  Paradaise/Resources/Items/Tools/Hammer Tool.asse
 item.hoe_tool,Assets/Nature  Paradaise/Resources/Items/Tools/Hoe Tool.asset,Hoe,Tool,0,0,1,FALSE,FALSE,FALSE,FALSE,Hoe,None,None,1,0,1,FALSE,FALSE,0,FALSE,NotFood,0,0,0,,None,None,0,1,1,1,0,1,Auto
 item.lake_bass,Assets/Nature  Paradaise/Resources/Items/Fish/Lake Bass.asset,Lake Bass,Fish,0,120,16,FALSE,FALSE,FALSE,FALSE,None,None,None,1,0,1,TRUE,FALSE,0,FALSE,NotFood,0,0,0,,Fish,None,0,1,1,1,0,1,Auto
 item.leaf_compost,Assets/Nature  Paradaise/Resources/Items/Materials/Leaf Compost.asset,Leaf Compost,Material,0,0,99,FALSE,FALSE,FALSE,FALSE,None,None,None,1,0,1,TRUE,FALSE,0,FALSE,NotFood,0,0,0,,None,None,0,1,1,1,0,1,Auto
+item.compost,Assets/Nature  Paradaise/Resources/Items/Materials/Compost.asset,Compost,Material,0,0,99,FALSE,FALSE,FALSE,FALSE,None,None,None,1,0,1,TRUE,FALSE,0,FALSE,NotFood,0,0,0,,None,None,0,1,1,1,0,1,Auto
 item.livestock_manure,Assets/Nature  Paradaise/Resources/Items/Materials/Livestock Manure.asset,Kotoran Hewan,Material,0,0,99,FALSE,FALSE,FALSE,FALSE,None,None,None,1,0,1,TRUE,FALSE,0,FALSE,NotFood,0,0,0,,None,None,0,1,1,1,0,1,Auto
 item.mackerel,Assets/Nature  Paradaise/Resources/Items/Fish/Mackerel.asset,Mackerel,Fish,0,120,16,FALSE,FALSE,FALSE,FALSE,None,None,None,1,0,1,TRUE,FALSE,0,FALSE,NotFood,0,0,0,,Fish,None,0,1,1,1,0,1,Auto
 item.mango_fruit,Assets/Nature  Paradaise/Resources/Trees/Mango Fruit.asset,Mango,Food,0,100,16,FALSE,FALSE,FALSE,FALSE,None,None,None,1,0,1,TRUE,FALSE,0,FALSE,Raw,0,0,0,,Fruit,None,0,1,1,1,0,1,Auto

@@ -20,3 +20,9 @@ Animator menggunakan parameter `Speed`, `Grounded`, `Sprint`, `Carry`, `Jump`, d
 Player visual 3.6 → 1.5 m. Semua alat memakai faktor yang sama (41.67% dari ukuran awal), bukan target ukuran per alat. Proporsi visual awal dipertahankan, termasuk offset genggaman. Collider height 1.5, radius 0.24, center Y 0.75; PlayerDimensions menjaga ukuran runtime dan setup. Restart Play untuk mengambil perubahan.
 
 WorldScaleAudit.md/JSON mempertahankan baseline sebelum revisi. Proporsi bangunan, hewan, terrain dan kamera kemudian disesuaikan pada WorldScaleAudit.md / Documentation/WorldProportions-2026-10-15/README.md. Rebuild alat memakai ukuran desain awal × PlayerDimensions.ReferenceScale.
+
+## Loncatan player — revisi 30 Oktober 2026
+
+Jump Height player dibatasi 0,35 m, termasuk instance scene lama yang masih menyimpan 1,15 m. Nilai pada Map, Gameplay Preview, TestingScene dan FishingTestScene sudah disamakan. CharacterController tidak melakukan auto-step saat takeoff/di udara; step normal kembali setelah mendarat. Keyboard dan tombol Jump mobile memakai jalur yang sama. Jarak forward jump tetap memakai preset sebelumnya. Loncatan kuda 1,35 m tidak berubah.
+
+Uji native pada 30/60 FPS mencakup lompat diam/maju, migrasi nilai lama, landing, serta sprint-jump berulang melawan pagar rel produksi dan penghalang setinggi 0,60 m: player tertahan dan tidak naik/menyeberang pagar. Bukti lokal: ArtSource/PlayerFenceJumpRevision.

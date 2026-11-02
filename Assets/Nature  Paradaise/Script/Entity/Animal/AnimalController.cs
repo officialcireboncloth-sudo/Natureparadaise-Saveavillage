@@ -80,8 +80,8 @@ public class AnimalController : MonoBehaviour
 
     [Header("Interaction")]
     public float interactionRadius = 2f;
-    [SerializeField, HideInInspector] float brushImpactDelay = 4.25f;
-    [SerializeField, Min(0f)] float brushActionDuration = 5f;
+    [SerializeField, HideInInspector] float brushImpactDelay = 1.7f;
+    [SerializeField, Range(.1f,2f)] float brushActionDuration = 2f;
     [SerializeField, Min(0f)] float brushStandPadding = 0.12f;
     [SerializeField, HideInInspector] float productImpactDelay = 1.1f;
     [SerializeField, Min(0f)] float productActionDuration = 2.2f;
@@ -139,6 +139,8 @@ public class AnimalController : MonoBehaviour
 
     void Awake()
     {
+        // Migrate scene/prefab instances that still serialize the former five-second action.
+        brushActionDuration=Mathf.Clamp(brushActionDuration,.1f,2f);
         // P bentrok dengan Place Item pada save/prefab lama. R dipakai kontekstual untuk Rawat/Elus.
         if(petKey==KeyCode.P) petKey=KeyCode.R;
         // Scene prototipe lama pernah menghubungkan debug text Cow ke label milik NPCSeller.
@@ -806,8 +808,8 @@ public class AnimalController : MonoBehaviour
     void OnValidate()
     {
         if(petKey==KeyCode.P) petKey=KeyCode.R;
-        brushImpactDelay=Mathf.Max(0f,brushImpactDelay);
-        brushActionDuration=Mathf.Max(brushImpactDelay,brushActionDuration);
+        brushActionDuration=Mathf.Clamp(brushActionDuration,.1f,2f);
+        brushImpactDelay=Mathf.Clamp(brushImpactDelay,0f,brushActionDuration);
         brushStandPadding=Mathf.Max(0f,brushStandPadding);
         productImpactDelay=Mathf.Max(0f,productImpactDelay);
         productActionDuration=Mathf.Max(productImpactDelay,productActionDuration);

@@ -28,7 +28,7 @@ public sealed class DayNightCycle : MonoBehaviour
     [SerializeField] Color sunsetAmbient = new(0.42f, 0.25f, 0.22f, 1f);
     [SerializeField] Color nightAmbient = new(0.09f, 0.12f, 0.2f, 1f);
     [SerializeField, Range(0f, 2f)] float dayReflectionIntensity = 1f;
-    [SerializeField, Range(0f, 2f)] float nightReflectionIntensity = 0.32f;
+    [SerializeField, Range(0f, 2f)] float nightReflectionIntensity = 0.08f;
     [SerializeField, Range(0.05f, 1f)] float nightSkyExposure = 0.3f;
 
     float weatherSunMultiplier = 1f;
@@ -65,6 +65,7 @@ public sealed class DayNightCycle : MonoBehaviour
             sunriseColor = Color.Lerp(noonColor, new Color(1f, .75f, .5f), .35f);
             dayAmbient = gardenLighting.ambientSky;
             dayReflectionIntensity = gardenLighting.reflectionIntensity;
+            nightReflectionIntensity = gardenLighting.nightReflectionIntensity;
             if (gardenLighting.updateAmbientProbe)
             {
                 nightAmbient = gardenLighting.stylizedNightAmbient;
@@ -82,10 +83,14 @@ public sealed class DayNightCycle : MonoBehaviour
         if (sun != null)
         {
             RenderSettings.sun = sun;
+            // Time/weather palettes already specify the final colour. A second 5000 K
+            // filter makes cream plaster and wood excessively yellow.
+            sun.useColorTemperature = false;
             // Bersihkan cookie eksperimen lama; shadow terrain ditangani overlay noise di bawah.
             sun.cookie = null;
         }
         EnsureTerrainCloudShadow();
+        if (GetComponent<OutdoorNightLighting>() == null) gameObject.AddComponent<OutdoorNightLighting>();
     }
 
     void OnEnable()
@@ -221,21 +226,20 @@ public sealed class DayNightCycle : MonoBehaviour
         cloudShadowWeight = Mathf.Lerp(cloudShadowWeight, targetCloudShadowWeight, blend);
 
         BlendSeasonLighting(blend);
-        float sunrise = seasonSunrise, sunset = seasonSunset;
+        bool softPalette = gardenLighting != null && gardenLighting.useTimeOfDayPalette;
+        float sunrise = softPalette ? gardenLighting.dawnHour : seasonSunrise;
+        float sunset = softPalette ? gardenLighting.duskHour : seasonSunset;
         float dayProgress = Mathf.Repeat(hour, 24f) / 24f;
         float solarAngle = dayProgress * 360f - 90f;
         float dayPhase = Mathf.InverseLerp(sunrise, sunset, hour);
         float sunHeight = hour >= sunrise && hour <= sunset
             ? Mathf.Sin(dayPhase * Mathf.PI)
             : -0.2f;
-        float dawnBlend = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(sunrise - 0.45f, sunrise + 0.6f, hour));
-        float duskBlend = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(sunset - 0.6f, sunset + 0.45f, hour));
-        float daylight = Mathf.Clamp01(dawnBlend * duskBlend);
+        float daylight = GetDaylightWeight(hour, sunrise, sunset);
         Color seasonalLightTint = Color.Lerp(seasonNightTint, seasonSunTint, daylight);
         float noonWeight = Mathf.Clamp01(sunHeight);
-        bool softPalette = gardenLighting != null && gardenLighting.useTimeOfDayPalette;
         float noonPeak = softPalette ? GetNoonPeakWeight(hour) : 0f;
-        float morningWeight = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(sunrise + 1f, sunrise + 4f, hour));
+        float morningWeight = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(8f, 10f, hour));
         float eveningWeight = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(sunset - 3f, sunset - .25f, hour));
 
         // Pada malam hari sumber directional beralih ke sisi bulan. Tanpa rotasi lawan ini,
@@ -299,7 +303,10 @@ public sealed class DayNightCycle : MonoBehaviour
         }
         if (gardenLighting != null)
             sun.shadowStrength *= Mathf.Lerp(1, seasonShadowMultiplier, daylight);
-        sun.color = Color.Lerp(softPalette ? gardenLighting.moonColor : moonColor, horizonToNoon, daylight) * weatherTint *
+        // Heat is a daytime warmth, never a yellow filter over the moon or night fill.
+        Color effectiveWeatherTint = Color.Lerp(Color.white, weatherTint,
+            weather != null && weather.CurrentWeather == WeatherType.Heatwave ? daylight : 1f);
+        sun.color = Color.Lerp(softPalette ? gardenLighting.moonColor : moonColor, horizonToNoon, daylight) * effectiveWeatherTint *
                     seasonalLightTint;
 
         float dawnTwilight = 1f - Mathf.Clamp01(Mathf.Abs(hour - sunrise) / 1.1f);
@@ -309,7 +316,7 @@ public sealed class DayNightCycle : MonoBehaviour
         float cloudAmbientMultiplier = Mathf.Lerp(1f, 0.92f, cloudShadowWeight);
         Color seasonalFillTint = Color.Lerp(seasonNightTint, seasonAmbientTint, daylight) *
             Mathf.Lerp(seasonNightAmbientMultiplier, seasonAmbientMultiplier, daylight);
-        Color ambient = Color.Lerp(nightAmbient, daylightAmbient, daylight) * weatherTint * weatherAmbientMultiplier *
+        Color ambient = Color.Lerp(nightAmbient, daylightAmbient, daylight) * effectiveWeatherTint * weatherAmbientMultiplier *
                         seasonalFillTint * cloudAmbientMultiplier;
         // Cuaca ekstrem masih meredupkan malam, tetapi tidak boleh menghapus seluruh informasi visual.
         float nightVisibility = Mathf.Lerp(0.68f, 1f, Mathf.Clamp01(weatherAmbientMultiplier));
@@ -323,7 +330,7 @@ public sealed class DayNightCycle : MonoBehaviour
         if (gardenLighting != null)
         {
             // Preserve demo's separate sky/equator/ground fill at noon, fading to the original night lighting.
-            Color fillTint = weatherTint * weatherAmbientMultiplier * seasonalFillTint * cloudAmbientMultiplier;
+            Color fillTint = effectiveWeatherTint * weatherAmbientMultiplier * seasonalFillTint * cloudAmbientMultiplier;
             RenderSettings.ambientEquatorColor = Color.Lerp(nightAmbient * .7f,
                 Color.Lerp(gardenLighting.ambientEquator, sunsetAmbient * .7f, twilight) * fillTint, daylight);
             RenderSettings.ambientGroundColor = Color.Lerp(nightAmbient * .45f,
@@ -334,7 +341,7 @@ public sealed class DayNightCycle : MonoBehaviour
         {
             // Broad afternoon warmth begins three hours before sunset instead of a dark dusk spike.
             // Independent fill colours keep every period bright without exposing the night like daytime.
-            Color fillTint = weatherTint * weatherAmbientMultiplier * seasonalFillTint * cloudAmbientMultiplier;
+            Color fillTint = effectiveWeatherTint * weatherAmbientMultiplier * seasonalFillTint * cloudAmbientMultiplier;
             Color sky = Color.Lerp(gardenLighting.ambientSky, gardenLighting.morningSky, morningWeight);
             Color equator = Color.Lerp(gardenLighting.ambientEquator, gardenLighting.morningEquator, morningWeight);
             Color ground = Color.Lerp(gardenLighting.ambientGround, gardenLighting.morningGround, morningWeight);
@@ -355,6 +362,15 @@ public sealed class DayNightCycle : MonoBehaviour
         RenderSettings.ambientGroundColor = MaxColor(RenderSettings.ambientGroundColor, nightVisibilityFloor * .45f * (1 - daylight));
         ambient = RenderSettings.ambientSkyColor;
         RenderSettings.reflectionIntensity = Mathf.Lerp(nightReflectionIntensity, dayReflectionIntensity, daylight);
+        float lightning=WeatherSystem.Instance!=null?WeatherSystem.Instance.CurrentLightningFlash:0;
+        if(lightning>0)
+        {
+            sun.intensity+=lightning*1.8f;
+            sun.color=Color.Lerp(sun.color,new Color(.85f,.91f,1),lightning);
+            RenderSettings.ambientSkyColor+=new Color(.24f,.28f,.34f)*lightning;
+            RenderSettings.ambientEquatorColor+=new Color(.19f,.22f,.28f)*lightning;
+            RenderSettings.ambientGroundColor+=new Color(.12f,.15f,.19f)*lightning;
+        }
         UpdateAmbientProbe();
         float morningFog = WeatherSystem.Instance != null
             ? WeatherSystem.Instance.GetSeasonalMorningFogDensity(hour)
@@ -363,7 +379,8 @@ public sealed class DayNightCycle : MonoBehaviour
         RenderSettings.fog = resolvedFogDensity > 0.0001f;
         RenderSettings.fogMode = FogMode.ExponentialSquared;
         RenderSettings.fogDensity = resolvedFogDensity;
-        RenderSettings.fogColor = Color.Lerp(ambient, weatherTint * 0.65f, 0.35f);
+        Color fogSky = Color.Lerp(nightAmbient, effectiveWeatherTint * .65f, daylight);
+        RenderSettings.fogColor = Color.Lerp(ambient, fogSky, .35f);
 
         Material skybox = RenderSettings.skybox;
         if (skybox != null && skybox.HasProperty("_Exposure"))
@@ -401,6 +418,14 @@ public sealed class DayNightCycle : MonoBehaviour
     // A broad, smooth peak centred at 12:00. Returns zero outside 09:30..14:30.
     public static float GetNoonPeakWeight(float hour) =>
         1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(Mathf.Abs(hour - 12f) / 2.5f));
+
+    public static float GetDaylightWeight(float hour, float sunrise = 5f, float sunset = 18f)
+    {
+        hour = Mathf.Repeat(hour, 24f);
+        float dawn = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(sunrise - .45f, sunrise + .6f, hour));
+        float dusk = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(sunset - .6f, sunset + .45f, hour));
+        return dawn * dusk;
+    }
 
     void UpdateAmbientProbe()
     {

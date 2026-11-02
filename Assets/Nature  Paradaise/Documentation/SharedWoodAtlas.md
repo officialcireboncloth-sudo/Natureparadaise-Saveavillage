@@ -1,6 +1,10 @@
 # Shared wood atlas and manure fork
 
-The Toon Farm Pack `TFP_Spading_Fork_01A` is now fitted to the player's hand as `Prefabs/Player/Tools/Held_Pitchfork.prefab`. Select Garpu (Pitchfork) in the inventory, approach a manure pile and use its interaction. The existing Scoop Manure animation drives the body; both hands grip the shaft and the tines aim toward the pile around contact. The pile remains until contact (0.45 seconds), then one item is added and a short soil-debris/sound effect plays. Putting the fork away before contact cancels the pickup. A full inventory leaves the pile intact. Existing manure save IDs and drop data are retained.
+The Toon Farm Pack `TFP_Spading_Fork_01A` is fitted to the player's hand as `Prefabs/Player/Tools/Held_Pitchfork.prefab`. Select Garpu (Pitchfork), approach a pile and press E or tap the action prompt. The editable Scoop Manure clip is played over one second; both hands grip the shaft and the tines reach the pile. After the full second, exactly one pile disappears and one Compost enters the inventory, with a `Compost x1` notice at the bottom right. Putting the fork away before completion cancels without reward; a full inventory leaves the pile intact. Repeated input cannot collect the same pile twice. Existing manure item IDs remain valid for old inventory saves.
+
+Livestock (cow, sheep, goat, chicken and duck) and owned horses receive one random daily opportunity between 06:00–22:00. Each animal can produce at most once per game day and cannot create another pile while its previous pile remains. The pile stays at its saved position across days, room changes and Save/Load. Missed days never generate a catch-up batch. Daily schedules and produced-day quotas are saved; legacy interval schedules skip production for the loaded day to avoid duplication. Legacy piles are preserved and block new production until cleaned.
+
+The new `item.compost` material also works in the fertilizer processor through `compost.soil`, `compost.booster.basic`, and `compost.booster.organic`. These preserve the corresponding legacy recipe costs/times while accepting the unified cleanup reward. Legacy manure recipes and in-progress recipe IDs remain available for old stock and saves.
 
 ## Reusable material
 

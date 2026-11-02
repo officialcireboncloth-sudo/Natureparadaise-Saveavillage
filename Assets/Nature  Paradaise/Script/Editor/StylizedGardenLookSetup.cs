@@ -25,9 +25,12 @@ public static class StylizedGardenLookSetup
         lighting.minimumDayElevation = 28f;
         lighting.sunnyCloudStrength = .25f;
         lighting.updateAmbientProbe = true;
-        lighting.stylizedNightAmbient = new Color(.55f, .68f, .86f);
-        lighting.stylizedMoonIntensity = .7f;
+        lighting.stylizedNightAmbient = new Color(.26f, .34f, .49f);
+        lighting.stylizedMoonIntensity = .18f;
+        lighting.nightReflectionIntensity = .08f;
         lighting.useTimeOfDayPalette = true;
+        lighting.dawnHour = 5f;
+        lighting.duskHour = 18f;
         lighting.morningSun = new Color(1f, .98f, .9f);
         lighting.morningSky = new Color(.88f, .89f, .82f);
         lighting.morningEquator = new Color(.8f, .81f, .75f);
@@ -37,7 +40,7 @@ public static class StylizedGardenLookSetup
         lighting.eveningEquator = new Color(.82f, .65f, .52f);
         lighting.eveningGround = new Color(.58f, .45f, .34f);
         lighting.moonColor = new Color(.57f, .75f, 1f);
-        lighting.nightShadowStrength = .4f;
+        lighting.nightShadowStrength = .35f;
         lighting.noonSunMultiplier = 1.55f;
         lighting.noonElevation = 82f;
         lighting.noonBloomIntensity = .42f;

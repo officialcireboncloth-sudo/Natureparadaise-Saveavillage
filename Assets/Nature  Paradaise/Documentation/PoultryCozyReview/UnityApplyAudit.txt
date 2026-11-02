@@ -1,0 +1,63 @@
+COZY POULTRY SHOP + COMPANION — NATIVE UNITY
+PASS Three existing shared cozy materials resolve
+PASS ChickenStore_Cozy: no static chicken occupants
+PASS ChickenStore_Cozy_LOD0: one mesh per exported LOD or door
+PASS ChickenStore_Cozy_LOD0: metre scale and facade +Z
+PASS ChickenStore_Cozy_LOD0: native mesh count 25694
+PASS ChickenStore_Cozy_LOD0: normalized shared-atlas UVs
+PASS ChickenStore_Cozy_LOD0: every submesh uses existing shared materials
+PASS ChickenStore_Cozy_LOD1: one mesh per exported LOD or door
+PASS ChickenStore_Cozy_LOD1: metre scale and facade +Z
+PASS ChickenStore_Cozy_LOD1: native mesh count 8252
+PASS ChickenStore_Cozy_LOD1: normalized shared-atlas UVs
+PASS ChickenStore_Cozy_LOD1: every submesh uses existing shared materials
+PASS ChickenStore_Cozy_LOD2: one mesh per exported LOD or door
+PASS ChickenStore_Cozy_LOD2: metre scale and facade +Z
+PASS ChickenStore_Cozy_LOD2: native mesh count 3762
+PASS ChickenStore_Cozy_LOD2: normalized shared-atlas UVs
+PASS ChickenStore_Cozy_LOD2: every submesh uses existing shared materials
+PASS ChickenStore_Cozy_Door: one mesh per exported LOD or door
+PASS ChickenStore_Cozy_Door: metre scale and facade +Z
+PASS ChickenStore_Cozy_Door: native mesh count 568
+PASS ChickenStore_Cozy_Door: normalized shared-atlas UVs
+PASS ChickenStore_Cozy_Door: every submesh uses existing shared materials
+PASS ChickenCoop_Companion_Cozy: no static chicken occupants
+PASS ChickenCoop_Companion_Cozy_LOD0: one mesh per exported LOD or door
+PASS ChickenCoop_Companion_Cozy_LOD0: metre scale and facade +Z
+PASS ChickenCoop_Companion_Cozy_LOD0: native mesh count 8576
+PASS ChickenCoop_Companion_Cozy_LOD0: normalized shared-atlas UVs
+PASS ChickenCoop_Companion_Cozy_LOD0: every submesh uses existing shared materials
+PASS ChickenCoop_Companion_Cozy_LOD1: one mesh per exported LOD or door
+PASS ChickenCoop_Companion_Cozy_LOD1: metre scale and facade +Z
+PASS ChickenCoop_Companion_Cozy_LOD1: native mesh count 3988
+PASS ChickenCoop_Companion_Cozy_LOD1: normalized shared-atlas UVs
+PASS ChickenCoop_Companion_Cozy_LOD1: every submesh uses existing shared materials
+PASS ChickenCoop_Companion_Cozy_LOD2: one mesh per exported LOD or door
+PASS ChickenCoop_Companion_Cozy_LOD2: metre scale and facade +Z
+PASS ChickenCoop_Companion_Cozy_LOD2: native mesh count 1852
+PASS ChickenCoop_Companion_Cozy_LOD2: normalized shared-atlas UVs
+PASS ChickenCoop_Companion_Cozy_LOD2: every submesh uses existing shared materials
+PASS Obsolete optional weather vane removed, no double ornament
+PASS ChickenStore_Mobile_A: existing Geometry target located
+PASS ChickenStore_Mobile_A: original root scale and placement retained
+PASS ChickenStore_Mobile_A: original body collider retained
+PASS ChickenStore_Mobile_A: decorative yard remains empty of animal actors
+PASS ChickenCoop_Mobile_A: existing Geometry target located
+PASS ChickenCoop_Mobile_A: original root scale and placement retained
+PASS ChickenCoop_Mobile_A: original body collider retained
+PASS ChickenCoop_Mobile_A: decorative yard remains empty of animal actors
+PASS Player-build coop definition, costs and capacities unchanged
+PASS All player-build coop exterior prefabs unchanged
+PASS Shader and texture render correctly: NP_CozySurfaces_01
+PASS Shader and texture render correctly: NP_CozyFoliage_01
+PASS Shader and texture render correctly: NP_CozyGlow_01
+PASS Shop door hinge remains separately editable without moving body
+PASS ChickenStore: authored night lamp has no shadow map
+PASS ChickenStore: authored night lamp has no shadow map
+PASS ChickenStore: authored night lamp has no shadow map
+PASS ChickenStore: authored night lamp has no shadow map
+PASS ChickenStore: authored night lamp has no shadow map
+PASS CompanionCoop: authored night lamp has no shadow map
+PASS Existing yard inherits both reworked module prefabs
+PASS Old nested weather vane leaves no orphaned override in the yard
+CHECKS 61; POULTRY_APPLY_PASS

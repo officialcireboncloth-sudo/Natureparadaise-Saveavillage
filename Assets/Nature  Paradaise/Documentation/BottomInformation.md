@@ -1,6 +1,6 @@
 # Bottom gameplay information dock
 
-All transient gameplay feedback uses GameplayInfoPanel: one fixed dark translucent panel with white text above the visible tools, inside the screen safe area. It contains the current action/activity and up to three notification rows. The dock measures the actual tools rectangle across canvas scales before rendering, so it clears the hotbar when resolution or safe-area layout changes.
+GameplayInfoPanel keeps action hints and generic gameplay feedback above the visible tools, inside the screen safe area. Item receipts, including Hammer Stone and Axe Wood, appear in a fixed stack along the left edge: pale rounded bars, item icon, name and quantity. Both areas measure the actual tools rectangle across canvas scales so they clear the hotbar when resolution or safe-area layout changes. The shared queue still permits at most three notifications in total; moving item receipts does not duplicate them.
 
 ## Routed sources
 

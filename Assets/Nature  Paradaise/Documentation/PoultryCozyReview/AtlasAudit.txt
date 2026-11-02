@@ -1,0 +1,17 @@
+PASS NP_CozySurfaces_01_BaseColor.png keeps resolution
+PASS NP_CozySurfaces_01_BaseColor.png changes slate slot only; olive house/wood/stone preserved
+PASS NP_CozySurfaces_01_BaseColor.png contains actual slate correction
+PASS NP_CozySurfaces_01_Normal.png keeps resolution
+PASS NP_CozySurfaces_01_Normal.png changes slate slot only; olive house/wood/stone preserved
+PASS NP_CozySurfaces_01_Normal.png contains actual slate correction
+PASS 42 existing shared slots; no new texture sheet
+PASS WoodHoney smoothness alpha 0.122 is physically authored, not opaque alpha 1
+PASS FabricRed smoothness alpha 0.122 is physically authored, not opaque alpha 1
+PASS RoofSlate smoothness alpha 0.122 is physically authored, not opaque alpha 1
+PASS Iron smoothness alpha 0.22 is physically authored, not opaque alpha 1
+PASS Aluminium smoothness alpha 0.451 is physically authored, not opaque alpha 1
+PASS ChickenStore_Cozy has decreasing actual LOD geometry
+PASS ChickenStore_Cozy has no authored chicken occupants
+PASS ChickenCoop_Companion_Cozy has decreasing actual LOD geometry
+PASS ChickenCoop_Companion_Cozy has no authored chicken occupants
+CHECKS 16; ATLAS_PASS

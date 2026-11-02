@@ -25,8 +25,10 @@ MonoBehaviour:
   minimumDropWidthPixels: 2.6
   drizzleRate: 55
   rainRate: 85
-  heavyRate: 115
-  stormRate: 145
+  heavyRate: 160
+  stormRate: 185
+  cycloneRate: 220
+  thunderRate: 195
   desktopDropLimit: 256
   desktopSplashLimit: 96
   mobileDropLimit: 160

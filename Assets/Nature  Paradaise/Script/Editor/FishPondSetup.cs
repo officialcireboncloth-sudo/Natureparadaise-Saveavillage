@@ -126,7 +126,7 @@ public static class FishPondSetup
             definition.displayName = "Fish Pond";
             definition.category = BuildingCategory.Production;
         }
-        definition.placementArea = BuildingPlacementArea.FieldOnly;
+        definition.placementArea = BuildingPlacementArea.OutsideField;
         if (!created)
         {
             for (int index = 0; index < definition.levels.Count && index < prefabs.Length; index++)

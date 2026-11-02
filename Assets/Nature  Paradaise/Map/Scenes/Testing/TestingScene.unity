@@ -2474,8 +2474,8 @@ MonoBehaviour:
   productAmount: 1
   shearingAmount: 5
   interactionRadius: 2
-  brushImpactDelay: 4.25
-  brushActionDuration: 5
+  brushImpactDelay: 1.7
+  brushActionDuration: 2
   brushStandPadding: 0.12
   productImpactDelay: 1.1
   productActionDuration: 2.2
@@ -4141,7 +4141,7 @@ MonoBehaviour:
   rotationSpeed: 720
   cameraRelativeMovement: 1
   movementCamera: {fileID: 0}
-  jumpHeight: 1.15
+  jumpHeight: 0.35
   gravity: -25
   groundedForce: 2
   jumpStaminaCost: 0.1

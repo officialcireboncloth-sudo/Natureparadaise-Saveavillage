@@ -69,7 +69,7 @@ ia tidak mematikan sistem Soft Rain yang baru. Scene tidak perlu disimpan ulang.
 
 Gerimis memakai tetesan lebih transparan dan sedikit. Hujan sedang/lebat meningkatkan
 jumlah tetesan secara bertahap; badai memakai arah miring yang stabil tanpa noise
-berputar, kamera goyang atau flash lighting. Lebar tetesan default 0.045m, panjang
+berputar atau kamera goyang. Thunderstorm kini memakai satu kilat lingkungan singkat, dengan jeda antarkilat yang sudah ada; Ringan mengurangi intensitas kilat dan Mati menonaktifkannya. Lebar tetesan default 0.045m, panjang
 sekitar 0.225m, tinggi jatuh maksimum 3m, dengan warna air abu kebiruan yang lembut.
 Tetes dekat kamera dibuang/fade dan opacity dikurangi di atas karakter. Percikan
 berupa cincin pendek 0.18–0.30 detik, dengan posisi hasil probe permukaan. Di air,
@@ -79,7 +79,7 @@ Sampling memakai maksimal 32 probe permukaan per detik, empat per frame, dan has
 probe dibagi dalam kelompok tetesan kecil. Tidak ada collision/noise per partikel,
 texture baru, material per tetes, atau game object per tetes. Area distribusi mengikuti
 viewport kamera; jumlah tidak meningkat mengikuti luas seluruh map. Batas mobile
-160 tetes + 64 percikan; desktop 256 + 96. Ringan memakai 55% kepadatan Normal,
+160 tetes + 64 percikan + 24 hembusan; desktop 256 + 96 + 48. Ringan memakai 55% kepadatan Normal,
 dan mobile memakai pengali 80% lagi. Batas adalah kapasitas, bukan jumlah wajib tampil.
 
 Intensitas emisi memudar selama sekitar 1.2 detik ketika cuaca berubah. Masuk interior,
@@ -97,10 +97,10 @@ atau `RefreshFromCalendar` dipanggil setelah load. Pencahayaan matahari, ambient
 bayangan dan exposure langit diinterpolasi secara halus; pergantian musim tidak
 membuat material atlas baru atau menambah lampu / volume / texture per musim.
 
-| Musim | Suasana cahaya | Terbit–terbenam | Pengali matahari | Pengali kekuatan bayangan |
+| Musim | Suasana cahaya | Jam profil lama (mode non-stylized) | Pengali matahari | Pengali kekuatan bayangan |
 | --- | --- | --- | --- | --- |
 | Semi | Lembut, segar, fill netral sedikit sejuk | 05:45–18:15 | 1.00 | 0.90 |
-| Panas | Lebih terang, hangat ringan, siang lebih panjang | 05:15–19:15 | 1.08 | 1.00 |
+| Panas | Lebih terang, hangat ringan | 05:15–19:15 | 1.08 | 1.00 |
 | Gugur | Keemasan, fill hangat, matahari lebih rendah | 06:00–17:45 | 0.92 | 0.88 |
 | Dingin | Sejuk, fill biru lembut, bayangan lebih ringan | 06:30–17:15 | 0.87 | 0.80 |
 
@@ -114,6 +114,38 @@ Malam memakai `nightTint`, `nightSunMultiplier`, `nightAmbientMultiplier` dan
 bulan. Batas ambient malam juga tetap berlaku pada palet waktu stylized, termasuk
 saat badai. Modifier cuaca tetap dikombinasikan dengan preset musim; gerimis/hujan
 dan badai tidak memakai pencahayaan cerah musim panas secara paksa.
+
+### Revisi cozy lighting — 30 Oktober 2026
+
+Palet stylized aktif menggunakan batas waktu yang sama untuk keempat musim:
+pagi 05:00–10:00, siang 10:00–15:00, sore 15:00–18:00, dan malam 18:00–05:00.
+`Garden Lighting.dawnHour/duskHour` mengatur transisi ini; tabel jam profil lama
+di atas hanya dipakai apabila palet stylized dinonaktifkan. Warna musim, ketinggian
+matahari, kekuatan bayangan, dan modifier cuaca tetap berlaku.
+
+- Moon intensity dari 0.7 menjadi 0.18, ambient malam `(0.26, 0.34, 0.49)`,
+  shadow malam 0.35, reflection malam 0.08. Kabut malam mengikuti ambient malam,
+  sehingga hujan/badai tidak membuat lapisan kabut terlihat seperti siang.
+- Shader Meadow tetap memakai ramp siang, tetapi tidak lagi mempertahankan
+  kecerahan objek/rumput yang terlalu tinggi saat energi cahaya rendah.
+- Heatwave: sun multiplier 1.06, ambient 1, sky exposure 1.02, tint
+  `(1, 0.98, 0.94)`. Warmth cuaca panas hanya berlaku pada siang; cahaya bulan
+  tidak diberi filter kuning. Probabilitas/jadwal CSV tidak diubah.
+- GardenWorldLook mengurangi exposure malam 0.3 EV dari grading siang dan
+  menaikkan threshold bloom malam ke 1.3, agar sumber lampu lebih menonjol.
+- OutdoorNightLighting terpasang otomatis bersama DayNightCycle. Lampu lokal
+  outdoor yang sudah ada mengikuti waktu; rumah, toko, dan kandang mendapat
+  lampu hangat dekat pintu. Penemuan bangunan baru/hasil Load setiap 2 detik;
+  lampu mengikuti transform pintu. Jarak aktif 40 m, maksimal 4 lampu terdekat
+  di mobile / 8 di desktop. Lampu pintu baru tanpa shadow map; lampu interior
+  tidak ikut dimatikan/diubah. Sistem tidak mengubah material atlas bersama.
+
+Referensi arah visual: [galeri resmi Harvest Moon: Home Sweet Home](https://www.nintendo.com/us/store/products/harvest-moon-home-sweet-home-special-edition-switch/).
+Nilai Nature Paradise merupakan tuning proyek sendiri, bukan nilai resmi game tersebut.
+Preview native dan hasil validasi tersimpan lokal di `ArtSource/CozyLightingRevision`.
+Pengujian mencakup render URP, transisi per menit selama 24 jam, 4 musim × 12 jenis
+cuaca, lampu malam/mobile budget, petir, serta keluar-masuk interior. FPS perangkat
+mobile fisik belum diukur.
 
 Interior tetap menggunakan fill interior yang sudah ada; preset outdoor tidak
 mengubah pencahayaan rumah. Profil musim dan Garden Lighting dapat diedit tanpa

@@ -35,6 +35,21 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
     Transform requestedAnchor, displayedAnchor;
     int displayedFrame = -1;
     System.Action requestedAction, displayedAction;
+    Object heldOwner;
+    bool pointerActionPerformed;
+    /// <summary>Touch hold follows the same displayed interaction owner across its successive slot anchors.</summary>
+    public static bool IsHeldFor(Object owner)=>IsDisplayedFor(owner)&&instance.heldOwner==owner;
+    internal static void SetPointerHeld(bool held)
+    {
+        if(instance==null)return;
+        if(held)instance.pointerActionPerformed=false;
+        instance.heldOwner=held?instance.displayedOwner:null;
+    }
+    /// <summary>A continuous touch action must not execute again when Button sends its release click.</summary>
+    public static void MarkHeldActionPerformed(Object owner)
+    {
+        if(IsHeldFor(owner))instance.pointerActionPerformed=true;
+    }
 
     /// <summary>
     /// Input in Update belongs to the prompt presented by the preceding LateUpdate,
@@ -135,6 +150,8 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
     /// <summary>Touch/click executes the same visible target; its callback rechecks live range.</summary>
     public static bool InvokeDisplayedAction()
     {
+        if(instance!=null&&instance.pointerActionPerformed)
+        {instance.pointerActionPerformed=false;return false;}
         if(instance==null||!HasDisplayedPrompt||instance.displayedAction==null||
            GameplayPauseMenu.BlocksGameplayInput||GameplayInput.ConsumedThisFrame)return false;
         var action=instance.displayedAction;
@@ -252,6 +269,8 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         displayedAnchor = requestedAnchor;
         displayedFrame = Time.frameCount;
         displayedAction=requestedAction;
+        if(heldOwner!=null&&heldOwner!=displayedOwner)
+        {heldOwner=null;pointerActionPerformed=true;}
     }
 
     void BuildUI()
@@ -259,6 +278,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         panelRect=GameplayHUDStyle.Rect("Interaction",GameplayInfoPanel.ActionRoot,Vector2.zero,Vector2.one);
         panelBackground=panelRect.gameObject.AddComponent<Image>();panelBackground.color=Color.clear;panelBackground.canvasRenderer.cullTransparentMesh=false;panelBackground.raycastTarget=false;
         var button=panelRect.gameObject.AddComponent<Button>();button.targetGraphic=panelBackground;button.onClick.AddListener(()=>InvokeDisplayedAction());
+        panelRect.gameObject.AddComponent<WorldPromptHoldInput>();
         promptText=GameplayHUDStyle.Text("Action",panelRect,"",22,Vector2.zero,Vector2.one);
         GameplayInfoPanel.StyleMinimalText(promptText);
         promptText.color=Color.white;promptText.fontStyle=FontStyles.Bold;promptText.alignment=TextAlignmentOptions.Center;
@@ -272,4 +292,11 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         var events=new GameObject("World Interaction EventSystem",typeof(EventSystem),typeof(StandaloneInputModule));
         events.transform.SetParent(transform,false);
     }
+}
+
+sealed class WorldPromptHoldInput : MonoBehaviour,IPointerDownHandler,IPointerUpHandler
+{
+    public void OnPointerDown(PointerEventData e){if(e.button==PointerEventData.InputButton.Left)WorldInteractionPrompt.SetPointerHeld(true);}
+    public void OnPointerUp(PointerEventData e)=>WorldInteractionPrompt.SetPointerHeld(false);
+    void OnDisable()=>WorldInteractionPrompt.SetPointerHeld(false);
 }

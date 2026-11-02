@@ -19,10 +19,14 @@ public sealed class GardenLightingProfile : ScriptableObject
     [Range(3, 45)] public float minimumDayElevation = 3;
     [Range(0, 1)] public float sunnyCloudStrength = 1;
     public bool updateAmbientProbe;
-    public Color stylizedNightAmbient = new(.25f, .32f, .46f);
-    public float stylizedMoonIntensity = .22f;
+    public Color stylizedNightAmbient = new(.26f, .34f, .49f);
+    public float stylizedMoonIntensity = .18f;
+    [Range(0, 1)] public float nightReflectionIntensity = .08f;
     [Header("Soft time-of-day palette")]
     public bool useTimeOfDayPalette;
+    [Tooltip("Clock boundaries for the four lighting periods; season still adjusts colour and solar elevation.")]
+    public float dawnHour = 5f;
+    public float duskHour = 18f;
     public Color morningSun = new(1f, .98f, .9f);
     public Color morningSky = new(.88f, .89f, .82f);
     public Color morningEquator = new(.8f, .81f, .75f);

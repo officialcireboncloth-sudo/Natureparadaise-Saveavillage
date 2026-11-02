@@ -17,6 +17,8 @@ Menu menghentikan simulasi dan input gameplay selama terbuka. Tombol yang membuk
 
 Daftar mengikuti data dan komponen aktif yang sudah tersedia. Kolam, toko, aktivitas interior, dan preview rumah muncul dalam konteks scene yang sesuai. Sistem gameplay aslinya tetap memeriksa syarat, kapasitas dan lokasi. Tidak ada hewan contoh scene yang diaktifkan sebagai hewan gratis.
 
+Bangun gratis Barn/Coop tetap mengikuti proses tukang dan hari kerja. Setelah selesai, PropertySite langsung mendaftarkan AnimalHome serta pintu interior sebelum autosave, tanpa menunggu pemindaian berkala. Load bangunan yang sudah selesai juga memperbaiki komponen kandang yang belum tersimpan; tidak perlu demolish atau membangun ulang. Titik interaksi mengikuti Entrance pada exterior aktif. Pemindai husbandry bertahan ketika scene interior ditutup.
+
 ## Bekal Milker
 
 Player mendapatkan satu Milker saat Start. Hotbar delapan slot tetap sama; alat masuk ke slot tas kosong. Save lama yang belum memiliki Milker juga mendapatkannya setelah inventory dan kedua peti dipulihkan. Item di tas, tool chest, atau house storage dihitung agar tidak duplikat. Tas penuh tidak ditimpa; pemberian tetap pending untuk pemulihan berikutnya. Flag `hasStarterMilker` disimpan bersama data save.
@@ -47,6 +49,12 @@ Ukuran Milker dikalibrasi langsung dari mesh ke ukuran dunia **0,34 m**. Perinta
 
 ## Petak pakan Barn sesuai kapasitas
 
-Prefab Barn memakai satu kompartemen visual dan satu feed-fill unik untuk setiap slot sistem: Lv.1 **4 (2+2)**, Lv.2 **8 (3+2+3)**, Lv.3 **14 (4+3+3+4)**, Lv.4 **20 (4+4+4+4+4)**. Urutan isi dari depan ke belakang, lalu kiri ke kanan untuk posisi depan yang sama. Posisi player hanya menentukan jangkauan, bukan tujuan pengisian. Kapasitas gameplay dan data save tetap mengikuti Barn Building; Coop menggunakan kapasitasnya sendiri.
+Prefab Barn memakai satu kompartemen visual dan satu feed-fill unik untuk setiap slot sistem: Lv.1 **4 (2+2)**, Lv.2 **8 (3+2+3)**, Lv.3 **14 (4+3+3+4)**, Lv.4 **20 (4+4+4+4+4)**. Tujuan pengisian mengikuti slot di depan player. Kapasitas gameplay tetap mengikuti Barn Building; Coop menggunakan kapasitasnya sendiri.
 
 Penyusunan ulang mengikuti kapasitas katalog lewat **Nature Paradise → Art → Match Barn Troughs to Feed Capacity**. Penerapan revisi art interior juga menjalankan langkah ini. Wadah memakai atlas kayu bersama dan feed-fill lama, tanpa tekstur baru. Mesh petak dibagikan antarlevel.
+
+### Pemberian pakan manual dan beruntun
+
+Pilih Pakan Hewan untuk Barn atau Pakan Unggas untuk Coop. Indikator hijau transparan menunjukkan slot kosong yang dituju; merah berarti slot terisi, jenis pakan salah, atau arah tidak valid. Tekan **F** untuk menaruh satu pakan. **Tahan F sambil berjalan/berbelok** untuk mengisi slot kosong berikutnya di arah gerak. Diam tidak menghabiskan stok, melepas F atau stok habis langsung menghentikan pengisian. Di mobile, tap petunjuk aksi untuk satu pakan, atau tahan sambil menggerakkan joystick untuk pengisian beruntun.
+
+Pakan masuk ke slot wadah yang sudah ada, bukan ke lantai bebas. Slot terisi tidak ditimpa dan inventory hanya berkurang setelah berhasil. Posisi slot ikut disimpan saat Save/Load dan keluar-masuk kandang. Save lama yang belum mempunyai posisi per slot tetap dibaca dengan urutan slot lama. Konsumsi pakan harian dan kapasitas per level tetap mengikuti sistem kandang.

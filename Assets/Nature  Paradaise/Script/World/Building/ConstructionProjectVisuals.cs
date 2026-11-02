@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>Visual-only construction scenery and capsule builder. Never enables unfinished building gameplay.</summary>
+/// <summary>Construction scenery with explicit prop/worker collision. Never enables unfinished building gameplay.</summary>
 public sealed class ConstructionProjectVisuals
 {
     readonly ConstructionWorkerSettings settings;
@@ -18,6 +18,8 @@ public sealed class ConstructionProjectVisuals
     Transform worker, hammerPivot, leftLeg, rightLeg, body;
     Animator animator;
     PlayerController infoPlayer;
+    ConstructionSiteStatus statusCard;
+    bool siteHidden;
 
 
     readonly Vector3 sitePosition;
@@ -52,6 +54,7 @@ public sealed class ConstructionProjectVisuals
         skin = Material(profile?.workerSkin, new Color(.91f,.76f,.56f));
         hat = Material(profile?.workerHat, new Color(.77f,.55f,.22f));
         BuildWorker();
+        ConstructionWorkerBody.AddTo(worker);
     }
     Material Material(Material assigned, Color color)
     {
@@ -132,6 +135,16 @@ public sealed class ConstructionProjectVisuals
     }
     public void UpdateBar(string name,string label,float progress)
     {
+        if (!siteHidden)
+        {
+            if (statusCard == null)
+            {
+                var go = new GameObject("ConstructionStatus", typeof(RectTransform)); go.transform.SetParent(root, false);
+                statusCard = go.AddComponent<ConstructionSiteStatus>();
+                statusCard.Configure(workPosition + Vector3.up * Mathf.Max(2.25f, settings != null ? settings.barHeight : 0), settings);
+            }
+            statusCard.SetStatus(name, level != null ? level.level : 1, label, progress);
+        }
         if(infoPlayer==null)infoPlayer=Object.FindFirstObjectByType<PlayerController>();
         if(infoPlayer==null)return;
         float distance=Vector3.Distance(infoPlayer.transform.position,workPosition);
@@ -199,10 +212,12 @@ public sealed class ConstructionProjectVisuals
             Part(bench,"WorkBenchTop",PrimitiveType.Cube,new Vector3(0,.92f,0),new Vector3(1.4f,.12f,.55f),wood);
             Part(bench,"WorkingPlank",PrimitiveType.Cube,new Vector3(0,1.04f,0),new Vector3(.65f,.10f,.3f),wood);
             for(int x=-1;x<=1;x+=2)Part(bench,"WorkBenchLeg",PrimitiveType.Cube,new Vector3(x*.5f,.43f,0),new Vector3(.12f,.86f,.22f),wood);
+            bench.gameObject.AddComponent<BoxCollider>().size = new Vector3(1.4f, 1.09f, .55f);
+            bench.GetComponent<BoxCollider>().center = new Vector3(0, .545f, 0);
         }
     }
     public void Reveal(float progress){SetStage(1);presentation?.Reveal(progress);}
-    public void HideSite(){presentation?.Hide();if(stageRoot!=null)stageRoot.SetActive(false);}
+    public void HideSite(){siteHidden=true;statusCard?.Hide();presentation?.Hide();if(stageRoot!=null)stageRoot.SetActive(false);}
     public static void DestroyRuntime(Object value){if(value==null)return;if(Application.isPlaying)Object.Destroy(value);else Object.DestroyImmediate(value);}
-    public void Dispose(){humanoidMotion?.Dispose();presentation?.Dispose();if(root!=null){root.gameObject.SetActive(false);DestroyRuntime(root.gameObject);}foreach(var material in ownedMaterials)DestroyRuntime(material);}
+    public void Dispose(){humanoidMotion?.Dispose();presentation?.Dispose();if(statusCard!=null){statusCard.Hide();DestroyRuntime(statusCard.gameObject);}if(root!=null){root.gameObject.SetActive(false);DestroyRuntime(root.gameObject);}foreach(var material in ownedMaterials)DestroyRuntime(material);}
 }

@@ -920,7 +920,7 @@ MonoBehaviour:
   rotationSpeed: 720
   cameraRelativeMovement: 1
   movementCamera: {fileID: 0}
-  jumpHeight: 1.15
+  jumpHeight: 0.35
   gravity: -25
   groundedForce: 2
   jumpStaminaCost: 0.1

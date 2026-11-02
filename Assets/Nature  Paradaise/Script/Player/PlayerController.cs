@@ -39,7 +39,9 @@ public sealed class PlayerController : MonoBehaviour
     [SerializeField] Camera movementCamera;
 
     [Header("Jump & Ground")]
-    [SerializeField, Min(0.1f)] float jumpHeight = 1.15f;
+    const float MaximumJumpHeight = .35f;
+    [SerializeField, Range(.1f, MaximumJumpHeight), Tooltip("Loncatan kecil, maksimum 35 cm agar pagar tetap menjadi penghalang.")]
+    float jumpHeight = MaximumJumpHeight;
     [SerializeField] float gravity = -25f;
     [SerializeField, Min(0f)] float groundedForce = 2f;
     [SerializeField, Min(0f)] float jumpStaminaCost = 0.1f;
@@ -164,6 +166,10 @@ public sealed class PlayerController : MonoBehaviour
     public MovementMode CurrentMode { get; private set; }
     public Vector3 PlanarVelocity => planarVelocity;
     public float CurrentSpeed => planarVelocity.magnitude;
+    /// <summary>Authored walking pace before carrying/fatigue, used to calibrate mounted walking.</summary>
+    public float WalkingSpeed => walkSpeed;
+    /// <summary>Held sprint input shared by the player and horse, including the mobile sprint button.</summary>
+    public bool IsSprintInputHeld => GameplayInput.GetKey(sprintKey) || GameplayInput.GetKey(KeyCode.RightShift) || mobileSprintHeld;
     /// <summary>Uses the same walk speed, carry and fatigue modifiers for automatic approach.</summary>
     public float InteractionWalkSpeed=>walkSpeed*FatigueMovementMultiplier*(isCarrying?carrySpeedMultiplier:1f);
     public bool IsGrounded => characterController != null && characterController.enabled && characterController.isGrounded;
@@ -176,6 +182,8 @@ public sealed class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        // Also handles scene instances that still serialize the former 1.15 m jump.
+        jumpHeight=Mathf.Clamp(jumpHeight,.1f,MaximumJumpHeight);
         // Upgrade serialized scenes from the previous 3.6 m movement preset once.
         // A versioned preset also handles scenes already open when the scripts reload.
         if(locomotionTuningVersion<1)
@@ -290,6 +298,8 @@ public sealed class PlayerController : MonoBehaviour
         }
 
         verticalVelocity += gravity * Time.deltaTime;
+        // Auto-stepping while airborne can lift the capsule onto a fence edge.
+        characterController.stepOffset=groundedBeforeMove&&verticalVelocity<=0&&!standingJumpPending?PlayerDimensions.StepOffset:0;
         Vector3 previousPosition=transform.position;
         CollisionFlags collision = characterController.Move((planarVelocity + Vector3.up * verticalVelocity) * Time.deltaTime);
         // Animate distance actually travelled, including walls/steps, rather than requested input speed.
@@ -410,7 +420,7 @@ public sealed class PlayerController : MonoBehaviour
             verticalVelocity = CalculateJumpVelocity();
     }
 
-    float CalculateJumpVelocity() => Mathf.Sqrt(jumpHeight * -2f * gravity);
+    float CalculateJumpVelocity() => Mathf.Sqrt(Mathf.Clamp(jumpHeight,.1f,MaximumJumpHeight) * -2f * gravity);
 
     float CalculateForwardJumpSpeed()
     {
@@ -781,6 +791,7 @@ public sealed class PlayerController : MonoBehaviour
         runSpeed = Mathf.Max(walkSpeed, runSpeed);
         sprintSpeed = Mathf.Max(runSpeed, sprintSpeed);
         gravity = Mathf.Min(-0.1f, gravity);
+        jumpHeight=Mathf.Clamp(jumpHeight,.1f,MaximumJumpHeight);
         forwardJumpDistance = Mathf.Max(0f, forwardJumpDistance);
         standingJumpTakeoffDelay = Mathf.Max(0f, standingJumpTakeoffDelay);
     }

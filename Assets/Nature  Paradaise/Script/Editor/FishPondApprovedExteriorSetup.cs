@@ -251,13 +251,12 @@ public static class FishPondApprovedExteriorSetup
 
     static void ConfigureFootprint(BuildingDefinitionSO definition,UnityEngine.SceneManagement.Scene map)
     {
-        // FieldOnly dimensions are grid cells, while the approved site dimensions are metres.
-        var field=map.GetRootGameObjects().SelectMany(o=>o.GetComponentsInChildren<FieldArea>(true)).FirstOrDefault();
-        float cell=field!=null?field.CellSize:1;
+        // Outside-field footprints use world metres, independent of the farm cell size.
+        definition.placementArea=BuildingPlacementArea.OutsideField;
         var size=FishPondExterior.PlacementSizeMeters(3);
-        definition.footprintWidth=Mathf.CeilToInt(size.x/cell);definition.footprintDepth=Mathf.CeilToInt(size.y/cell);
+        definition.footprintWidth=Mathf.CeilToInt(size.x);definition.footprintDepth=Mathf.CeilToInt(size.y);
         EditorUtility.SetDirty(definition);
-        report.AppendLine($"Largest compact site: {definition.footprintWidth}x{definition.footprintDepth} field cells of {cell} m ({size.x}x{size.y} m).");
+        report.AppendLine($"Largest compact site outside farmland: {definition.footprintWidth}x{definition.footprintDepth} metres ({size.x}x{size.y} m).");
     }
 
     [MenuItem("Nature Paradise/Fish Pond/Refresh Water Review",false,121)]

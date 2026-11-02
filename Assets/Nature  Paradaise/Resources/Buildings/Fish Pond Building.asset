@@ -17,10 +17,10 @@ MonoBehaviour:
   icon: {fileID: 0}
   category: 3
   animalHousing: 0
-  footprintWidth: 10
-  footprintDepth: 8
+  footprintWidth: 8
+  footprintDepth: 7
   defaultPlacementYaw: 37.352005
-  placementArea: 1
+  placementArea: 0
   canRelocate: 1
   canDemolish: 1
   levels:

@@ -1,0 +1,90 @@
+{
+  "status": "BUILT",
+  "scope": "Shop and companion coop only; player-build coop untouched",
+  "chickensInNests": 0,
+  "sourceModules": 1018,
+  "doorHingeUnity": [
+    0.050000000000000044,
+    0.26,
+    3.27
+  ],
+  "lods": [
+    {
+      "name": "ChickenStore_Cozy_LOD0",
+      "triangles": 25694,
+      "vertices": 14440,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyFoliage_01",
+        "NP_CozyGlow_01"
+      ],
+      "boundsMin": [
+        -4.614705562591553,
+        -4.572500228881836,
+        0.0
+      ],
+      "boundsMax": [
+        4.500000476837158,
+        3.56000018119812,
+        5.945000648498535
+      ]
+    },
+    {
+      "name": "ChickenStore_Cozy_LOD1",
+      "triangles": 8252,
+      "vertices": 4286,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyGlow_01"
+      ],
+      "boundsMin": [
+        -4.500000476837158,
+        -4.320000171661377,
+        0.0
+      ],
+      "boundsMax": [
+        4.500000476837158,
+        3.56000018119812,
+        5.945000648498535
+      ]
+    },
+    {
+      "name": "ChickenStore_Cozy_LOD2",
+      "triangles": 3762,
+      "vertices": 2820,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyGlow_01"
+      ],
+      "boundsMin": [
+        -4.5,
+        -4.320000171661377,
+        0.0
+      ],
+      "boundsMax": [
+        4.5,
+        3.56000018119812,
+        5.944999694824219
+      ]
+    },
+    {
+      "name": "ChickenStore_Cozy_Door",
+      "triangles": 568,
+      "vertices": 304,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyGlow_01"
+      ],
+      "boundsMin": [
+        -4.842877388000488e-08,
+        -0.21000003814697266,
+        0.004999995231628418
+      ],
+      "boundsMax": [
+        1.2000000476837158,
+        0.04999995231628418,
+        2.455000162124634
+      ]
+    }
+  ]
+}

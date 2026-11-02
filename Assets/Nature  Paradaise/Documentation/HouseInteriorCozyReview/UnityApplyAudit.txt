@@ -1,0 +1,57 @@
+COZY HOUSE INTERIOR LV1 — NATIVE UNITY
+PASS Existing three shared atlas materials resolve
+PASS InteriorCozy_Architecture: one grouped runtime mesh
+PASS InteriorCozy_Furniture: one grouped runtime mesh
+PASS InteriorCozy_Bed: one grouped runtime mesh
+PASS InteriorCozy_SaveBook: one grouped runtime mesh
+PASS InteriorCozy_Radio: one grouped runtime mesh
+PASS InteriorCozy_Chest: one grouped runtime mesh
+PASS Existing bed, save, weather radio, storage and calendar retained
+PASS Architecture: unmirrored metre coordinates match Blender
+PASS Architecture: exact native triangle count
+PASS Architecture: normalized shared atlas UVs
+PASS Architecture: shared materials only
+PASS Furniture: unmirrored metre coordinates match Blender
+PASS Furniture: exact native triangle count
+PASS Furniture: normalized shared atlas UVs
+PASS Furniture: shared materials only
+PASS Bed: unmirrored metre coordinates match Blender
+PASS Bed: exact native triangle count
+PASS Bed: normalized shared atlas UVs
+PASS Bed: shared materials only
+PASS SaveBook: unmirrored metre coordinates match Blender
+PASS SaveBook: exact native triangle count
+PASS SaveBook: normalized shared atlas UVs
+PASS SaveBook: shared materials only
+PASS Radio: unmirrored metre coordinates match Blender
+PASS Radio: exact native triangle count
+PASS Radio: normalized shared atlas UVs
+PASS Radio: shared materials only
+PASS Chest: unmirrored metre coordinates match Blender
+PASS Chest: exact native triangle count
+PASS Chest: normalized shared atlas UVs
+PASS Chest: shared materials only
+PASS Bed/sleep/wake, save, radio, storage and entry/exit anchors preserved
+PASS PlayerBed settings and sleep references unchanged
+PASS Existing gameplay camera lens and tilt retained; framing widened for the full room
+PASS Calendar modal UI bindings retained and closed
+PASS House levels 2–5 unchanged
+PASS House interior scene and its existing prefab bindings unchanged
+PASS Player capsule clear at entry/wake/central/bedside: (2.60, 0.09, 0.95)
+PASS Player capsule clear at entry/wake/central/bedside: (1.04, 0.09, 1.85)
+PASS Player capsule clear at entry/wake/central/bedside: (2.60, 0.09, 2.60)
+PASS Player capsule clear at entry/wake/central/bedside: (2.10, 0.09, 3.40)
+PASS Readable bed mesh resolves the real mattress surface: 0.7032024
+PASS Bed interaction still works from its empty side
+PASS Calendar can be selected from the left of the radio shelf
+PASS Radio retains its own nearest interaction from the front
+PASS Interior mesh budget under 22k triangles
+PASS Six grouped mesh renderers, no duplicated old artwork
+PASS Shader and atlas resolve: NP_CozySurfaces_01
+PASS Shader and atlas resolve: NP_CozyFoliage_01
+PASS Shader and atlas resolve: NP_CozyGlow_01
+PASS Window light dims in rain
+PASS Night uses subdued blue window light
+PASS Actual HouseInterior scene resolves the updated Lv1 prefab
+PASS Scene instance uses the updated full-room camera framing
+CHECKS 55; INTERIOR_COZY_APPLY_PASS

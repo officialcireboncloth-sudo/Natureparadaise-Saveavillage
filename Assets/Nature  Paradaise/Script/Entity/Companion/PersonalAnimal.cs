@@ -83,7 +83,9 @@ public sealed class PersonalAnimal : MonoBehaviour
     [SerializeField, HideInInspector, Range(0,90)] int dismountMoveStartFrame = 0;
     [Tooltip("Frame source FBX saat posisi horizontal player sudah berada di sisi horse.")]
     [SerializeField, HideInInspector, Range(0,90)] int dismountGroundFrame = 30;
+    [Tooltip("Kecepatan lari saat Shift ditahan; kecepatan jalan dihitung dari Walk Speed player.")]
     [SerializeField, Min(1f)] float mountedSpeed = 7f;
+    [SerializeField, Range(1.05f, 1.5f)] float mountedWalkSpeedMultiplier = 1.25f;
     [SerializeField, Min(0.1f)] float mountedAcceleration = 10f;
     [SerializeField, Min(0.1f)] float mountedDeceleration = 14f;
     [SerializeField, Min(0.1f)] float riderSeatFollowSharpness = 22f;
@@ -394,7 +396,7 @@ public sealed class PersonalAnimal : MonoBehaviour
         SetHorseAnimationMirror(mountedPlayer,false);
         SnapRiderToSeat();
         mountTransitionBusy=false;
-        SaveLoadFeedback.Instance?.ShowMessage($"Mounted {DisplayName} — WASD bergerak, Space lompat, E turun");
+        SaveLoadFeedback.Instance?.ShowMessage($"Mounted {DisplayName} — WASD jalan, Shift lari, Space lompat, E turun");
     }
 
     void AttachRiderToSeat()
@@ -785,13 +787,16 @@ public sealed class PersonalAnimal : MonoBehaviour
     {
         WorldInteractionPrompt.RequestClean(this, transform, "E: Turun dari " + DisplayName, 0f, 1.8f);
         if (PlayerInteractionTarget.PressPrompt(this, KeyCode.E)) { Dismount(); return; }
-        Vector2 input = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        Transform cameraTransform = Camera.main != null ? Camera.main.transform : null;
-        Vector3 forward = cameraTransform != null ? cameraTransform.forward : Vector3.forward;
-        Vector3 right = cameraTransform != null ? cameraTransform.right : Vector3.right;
-        forward.y = right.y = 0f; forward.Normalize(); right.Normalize();
-        input = Vector2.ClampMagnitude(input, 1f);
-        Vector3 direction = (forward * input.y + right * input.x);
+        bool blocked=GameplayInput.BlocksMovement;
+        UpdateMountedMovement(blocked?Vector3.zero:mountedPlayer.ReadWorldMovementDirection(),
+            !blocked&&mountedPlayer.IsSprintInputHeld,GameplayInput.GetKeyDown(KeyCode.Space));
+    }
+
+    // Keyboard and touch share the same movement/jump step; Shift is held, never toggled.
+    void UpdateMountedMovement(Vector3 direction, bool running, bool jumpPressed)
+    {
+        direction.y=0;direction=Vector3.ClampMagnitude(direction,1f);
+        float inputMagnitude=direction.magnitude;
         if (direction.sqrMagnitude > 0.0001f)
         {
             direction.Normalize();
@@ -799,7 +804,9 @@ public sealed class PersonalAnimal : MonoBehaviour
             mountedMoveDirection = direction;
         }
 
-        float targetSpeed = mountedSpeed * input.magnitude;
+        float walkSpeed=Mathf.Max(.1f,mountedPlayer.WalkingSpeed)*Mathf.Clamp(mountedWalkSpeedMultiplier,1.05f,1.5f);
+        float runSpeed=Mathf.Max(walkSpeed+.1f,mountedSpeed);
+        float targetSpeed = (running?runSpeed:walkSpeed) * inputMagnitude;
         float speedChange = targetSpeed > mountedCurrentSpeed ? mountedAcceleration : mountedDeceleration;
         mountedCurrentSpeed = Mathf.MoveTowards(mountedCurrentSpeed, targetSpeed, speedChange * Time.deltaTime);
         if (mountedMoveDirection.sqrMagnitude < 0.0001f)
@@ -822,7 +829,7 @@ public sealed class PersonalAnimal : MonoBehaviour
             horizontalTarget.y = transform.position.y;
         }
 
-        if (mountedGrounded && GameplayInput.GetKeyDown(KeyCode.Space) && Time.time >= nextMountedJumpTime)
+        if (mountedGrounded && jumpPressed && Time.time >= nextMountedJumpTime)
         {
             mountedVerticalVelocity = Mathf.Sqrt(2f * mountedGravity * mountedJumpHeight);
             mountedGrounded = false;
@@ -858,7 +865,11 @@ public sealed class PersonalAnimal : MonoBehaviour
         if (!mountedGrounded && jumpController != null)
             ApplyController(jumpController);
         else
-            ApplyLocomotion(Mathf.Clamp01(mountedCurrentSpeed / Mathf.Max(0.01f, mountedSpeed)));
+            // The existing tree's Walk clip is at .28; using speed/runSpeed here
+            // would blend slow walking with Idle and visibly slide the feet.
+            ApplyLocomotion(mountedCurrentSpeed<=walkSpeed
+                ?.28f*Mathf.Clamp01(mountedCurrentSpeed/walkSpeed)
+                :Mathf.Lerp(.28f,1f,Mathf.InverseLerp(walkSpeed,runSpeed,mountedCurrentSpeed)));
     }
 
     void ScheduleSafeArrival(Vector3 destination)

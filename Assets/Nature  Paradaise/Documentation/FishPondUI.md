@@ -1,5 +1,7 @@
 # UI Kolam Ikan
 
+Kolam dibangun melalui Lumber Store atau debug F12 dengan penempatan bebas **di luar ladang**. Seluruh tapak harus berada di luar area tanam dan bebas dari bangunan, pohon, batu, atau penghalang lain. Preview yang menyentuh ladang ditolak. Ukuran tapak memakai meter dunia, bukan ukuran petak ladang. Kolam lama tetap disimpan di posisinya; perubahan aturan tidak menghapus kolam atau ikan yang sudah ada.
+
 Interaksi kolam membuka panel uGUI di kanan sesuai referensi: ikan di tas, isi kolam, detail ikan terpilih, dan pakan. Artwork kosong dapat diisi lewat **Nature Paradise/UI/Fish Pond/Select Image Slots**, yang memilih `Resources/UI/FishPondTheme.asset`. Ikan memakai `ItemSO.icon` bila tersedia; placeholder dan dekorasi memiliki slot Sprite. Screenshot tidak dipotong menjadi aset.
 
 - Klik ikan atau A/D untuk memilih; W/S berpindah antara pilihan tas dan kolam.

@@ -30,6 +30,7 @@ Shader "Nature Paradise/Meadow Vegetation"
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        float4 _NP_StormWind;
         CBUFFER_START(UnityPerMaterial)
             float4 _TextureSample_ST;
             float _WindStrength, _WindSpeed;
@@ -69,6 +70,8 @@ Shader "Nature Paradise/Meadow Vegetation"
             float phase = _Time.y * _WindSpeed + origin.x * .71 + origin.z * .93;
             float heightWeight = saturate(bendPosition.y * 2);
             bendPosition.xz += float2(sin(phase), cos(phase * .83)) * _WindStrength * heightWeight * heightWeight;
+            float3 windOS=TransformWorldToObjectDir(_NP_StormWind.xyz,false);
+            bendPosition.xz+=windOS.xz*_NP_StormWind.w*(.04+.045*sin(phase*1.3))*heightWeight*heightWeight;
             VertexPositionInputs p = GetVertexPositionInputs(bendPosition);
             o.positionCS = p.positionCS; o.positionWS = p.positionWS;
             o.normalWS = TransformObjectToWorldNormal(input.normalOS);
@@ -104,6 +107,10 @@ Shader "Nature Paradise/Meadow Vegetation"
             half3 ambient = max(SampleSH(n),half3(.001h,.001h,.001h));
             half3 fillTint = ambient / max(max(ambient.r,ambient.g),ambient.b);
             half energy = clamp(.45h + brightness * .4h,.45h,1.25h);
+            // Preserve the authored daylight ramp, but let moonlit props/grass dim with the world.
+            // The former .45 floor alone kept them nearly as bright at midnight as at noon.
+            half lowLight = saturate((brightness + dot(ambient,half3(.2126h,.7152h,.0722h)) * .35h) / .6h);
+            energy *= lerp(.52h,1.0h,lowLight);
             half lit = smoothstep(_ShadeThreshold-_ShadeSoftness,_ShadeThreshold+_ShadeSoftness,dot(n,sun.direction)*.5h+.5h);
             half formStrength = lerp(_ShadeStrength,_SkinShadowStrength,mask);
             half castStrength = lerp(_CastShadowStrength,_SkinShadowStrength,mask);

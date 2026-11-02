@@ -67,15 +67,12 @@ public class FarmingTool : MonoBehaviour
     float hoeImpactDelay = 0.72f;
     [SerializeField, Min(0f)] float pickupImpactDelay = 0.72f;
     [SerializeField, Min(0f)] float pickupActionDuration = 1.45f;
-    [SerializeField, Min(0f)] float cameraShakeStrength = 0.07f;
-    [SerializeField, Min(0f)] float cameraShakeDuration = 0.1f;
     [SerializeField] bool controllerRumble = true;
 
     PlayerToolHotbar hotbar;
     SeedTool seedTool;
     InventoryHotbarUI inventoryHotbar;
     PlayerController movement;
-    TopDownCameraFollow cameraFollow;
     WateringCanSystem wateringCan;
     FieldArea currentField;
     int currentX = -1;
@@ -117,7 +114,6 @@ public class FarmingTool : MonoBehaviour
             audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
-        cameraFollow = Camera.main != null ? Camera.main.GetComponent<TopDownCameraFollow>() : null;
         hasUseToolTrigger = HasAnimatorParameter(useToolTrigger, AnimatorControllerParameterType.Trigger);
     }
 
@@ -809,9 +805,6 @@ public class FarmingTool : MonoBehaviour
     {
         if (hoeSound != null)
             GameAudio.PlayOneShot(audioSource, hoeSound, GameAudioBus.Main);
-        if (cameraFollow == null && Camera.main != null)
-            cameraFollow = Camera.main.GetComponent<TopDownCameraFollow>();
-        cameraFollow?.AddImpulse(cameraShakeStrength, cameraShakeDuration);
         if (controllerRumble && Gamepad.current != null)
             StartCoroutine(ControllerRumbleRoutine());
     }

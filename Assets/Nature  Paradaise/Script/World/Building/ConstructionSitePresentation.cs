@@ -57,8 +57,9 @@ public sealed class ConstructionSitePresentation
         Bench=Spawn(profile?.workBench,"BuilderWorkBench",work+rotation*Vector3.forward*(.67f*scale),rotation,Vector3.one*scale,site);
         if(Bench != null)
         {
-            Spawn(profile?.lumberStack,"LumberStack",work+rotation*new Vector3(-1.15f*scale,0,.5f*scale),rotation,Vector3.one*scale,site);
-            Spawn(profile?.toolCrate,"ToolCrate",work+rotation*new Vector3(1.05f*scale,0,.4f*scale),rotation,Vector3.one*scale,site);
+            AddPropBarrier(Bench);
+            AddPropBarrier(Spawn(profile?.lumberStack,"LumberStack",work+rotation*new Vector3(-1.15f*scale,0,.5f*scale),rotation,Vector3.one*scale,site));
+            AddPropBarrier(Spawn(profile?.toolCrate,"ToolCrate",work+rotation*new Vector3(1.05f*scale,0,.4f*scale),rotation,Vector3.one*scale,site));
             Board=Spawn(profile?.workingBoard,"WorkingBoard",work+rotation*new Vector3(0,1.04f*scale,.67f*scale),rotation,Vector3.one*scale,site);
         }
         BuildDust(w,d,work,rotation);
@@ -69,6 +70,26 @@ public sealed class ConstructionSitePresentation
         if(prefab==null)return null;
         var t=ConstructionProjectVisuals.VisualClone(prefab,parent).transform;t.name=name;
         t.SetPositionAndRotation(position,rotation);t.localScale=scale;return t;
+    }
+    void AddPropBarrier(Transform prop)
+    {
+        if (prop == null) return;
+        var local = new Bounds(); bool found = false;
+        foreach (var renderer in prop.GetComponentsInChildren<Renderer>())
+        {
+            if (renderer is ParticleSystemRenderer) continue;
+            var b = renderer.localBounds;
+            for (int x = -1; x <= 1; x += 2) for (int y = -1; y <= 1; y += 2) for (int z = -1; z <= 1; z += 2)
+            {
+                var p = prop.InverseTransformPoint(renderer.transform.TransformPoint(b.center + Vector3.Scale(b.extents, new Vector3(x, y, z))));
+                if (!found) { local = new Bounds(p, Vector3.zero); found = true; } else local.Encapsulate(p);
+            }
+        }
+        if (!found) return;
+        // A full ground-to-table body prevents walking through the legs or stepping onto the tabletop.
+        var min = local.min; min.y = Mathf.Min(0, min.y); local.SetMinMax(min, local.max);
+        var box = prop.gameObject.AddComponent<BoxCollider>(); box.center = local.center; box.size = local.size;
+        box.enabled = false; pendingBarriers.Add(box);
     }
     void BuildSide(Vector3 center,Quaternion rotation,float length,float height,bool exit)
     {
@@ -336,7 +357,7 @@ public sealed class ConstructionSitePresentation
     public void Dispose()
     {
         RestoreOriginals();
-        if(screens!=null)foreach(var collider in screens.GetComponentsInChildren<Collider>(true))collider.enabled=false;
+        if(site!=null)foreach(var collider in site.GetComponentsInChildren<Collider>(true))collider.enabled=false;
         pendingBarriers.Clear();
         foreach(var m in materials)if(m!=null)ConstructionProjectVisuals.DestroyRuntime(m);
         foreach(var mesh in groundedMeshes)if(mesh!=null)ConstructionProjectVisuals.DestroyRuntime(mesh);

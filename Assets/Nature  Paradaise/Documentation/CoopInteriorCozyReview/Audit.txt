@@ -1,0 +1,133 @@
+COZY COOP LV1 — NATIVE UNITY
+PASS Existing shared atlas materials resolve
+PASS Existing shared transparent incubator glass resolves
+PASS Floor: one grouped mesh
+PASS Architecture: one grouped mesh
+PASS SetDressing: one grouped mesh
+PASS Machine: one grouped mesh
+PASS IncubatorBody: one grouped mesh
+PASS Cover: one grouped mesh
+PASS Egg: one grouped mesh
+PASS Trough: one grouped mesh
+PASS Fill1: one grouped mesh
+PASS Fill2: one grouped mesh
+PASS Fill3: one grouped mesh
+PASS Fill4: one grouped mesh
+PASS Fill5: one grouped mesh
+PASS Fill6: one grouped mesh
+PASS Existing functional incubator retained
+PASS Lv1 has exactly six independent feed portions
+PASS Feed count matches building catalog
+PASS Floor: canonical metres and correct orientation (error 1.423061E-06, actual (-5.09, -0.20, -0.08) / (5.09, 0.00, 8.08), expected (-5.09, -0.20, -0.08) / (5.09, 0.00, 8.08))
+PASS Floor: native triangle count
+PASS Floor: padded shared atlas UVs
+PASS Floor: existing atlas materials only
+PASS Architecture: canonical metres and correct orientation (error 1.958273E-06, actual (-5.14, 0.00, -0.14) / (5.14, 3.42, 8.13), expected (-5.14, 0.00, -0.14) / (5.14, 3.42, 8.13))
+PASS Architecture: native triangle count
+PASS Architecture: padded shared atlas UVs
+PASS Architecture: existing atlas materials only
+PASS SetDressing: canonical metres and correct orientation (error 1.349592E-06, actual (-4.99, -0.03, 0.25) / (4.98, 1.08, 7.85), expected (-4.99, -0.03, 0.25) / (4.98, 1.08, 7.85))
+PASS SetDressing: native triangle count
+PASS SetDressing: padded shared atlas UVs
+PASS SetDressing: existing atlas materials only
+PASS Machine: canonical metres and correct orientation (error 2.001751E-06, actual (-3.15, 0.00, 6.17) / (-1.85, 1.46, 7.35), expected (-3.15, 0.00, 6.17) / (-1.85, 1.46, 7.35))
+PASS Machine: native triangle count
+PASS Machine: padded shared atlas UVs
+PASS Machine: existing atlas materials only
+PASS IncubatorBody: canonical metres and correct orientation (error 2.224469E-06, actual (2.99, 0.00, 6.48) / (4.01, 1.06, 7.40), expected (2.99, 0.00, 6.48) / (4.01, 1.06, 7.41))
+PASS IncubatorBody: native triangle count
+PASS IncubatorBody: padded shared atlas UVs
+PASS IncubatorBody: existing atlas materials only
+PASS Cover: canonical metres and correct orientation (error 2.870294E-06, actual (3.02, 1.03, 6.47) / (3.98, 1.58, 7.43), expected (3.02, 1.03, 6.47) / (3.98, 1.58, 7.43))
+PASS Cover: native triangle count
+PASS Cover: padded shared atlas UVs
+PASS Cover: existing atlas materials only
+PASS Egg: canonical metres and correct orientation (error 2.870294E-06, actual (3.40, 1.06, 6.84) / (3.60, 1.31, 7.05), expected (3.40, 1.06, 6.85) / (3.60, 1.31, 7.06))
+PASS Egg: native triangle count
+PASS Egg: padded shared atlas UVs
+PASS Egg: existing atlas materials only
+PASS Trough: canonical metres and correct orientation (error 6.701511E-07, actual (-1.56, 0.00, 1.87) / (1.56, 0.44, 2.53), expected (-1.56, 0.00, 1.87) / (1.56, 0.44, 2.53))
+PASS Trough: native triangle count
+PASS Trough: padded shared atlas UVs
+PASS Trough: existing atlas materials only
+PASS Fill1: canonical metres and correct orientation (error 8.930751E-07, actual (-1.48, 0.24, 2.00) / (-1.03, 0.39, 2.41), expected (-1.48, 0.24, 2.00) / (-1.03, 0.39, 2.41))
+PASS Fill1: native triangle count
+PASS Fill1: padded shared atlas UVs
+PASS Fill1: existing atlas materials only
+PASS Fill2: canonical metres and correct orientation (error 8.503799E-07, actual (-0.97, 0.24, 2.00) / (-0.52, 0.39, 2.41), expected (-0.98, 0.24, 2.00) / (-0.53, 0.39, 2.41))
+PASS Fill2: native triangle count
+PASS Fill2: padded shared atlas UVs
+PASS Fill2: existing atlas materials only
+PASS Fill3: canonical metres and correct orientation (error 7.360792E-07, actual (-0.47, 0.24, 2.00) / (-0.02, 0.39, 2.41), expected (-0.48, 0.24, 2.00) / (-0.03, 0.39, 2.41))
+PASS Fill3: native triangle count
+PASS Fill3: padded shared atlas UVs
+PASS Fill3: existing atlas materials only
+PASS Fill4: canonical metres and correct orientation (error 7.204812E-07, actual (0.03, 0.24, 2.00) / (0.48, 0.39, 2.41), expected (0.03, 0.24, 2.00) / (0.48, 0.39, 2.41))
+PASS Fill4: native triangle count
+PASS Fill4: padded shared atlas UVs
+PASS Fill4: existing atlas materials only
+PASS Fill5: canonical metres and correct orientation (error 7.884751E-07, actual (0.53, 0.24, 2.00) / (0.98, 0.39, 2.41), expected (0.53, 0.24, 2.00) / (0.98, 0.39, 2.41))
+PASS Fill5: native triangle count
+PASS Fill5: padded shared atlas UVs
+PASS Fill5: existing atlas materials only
+PASS Fill6: canonical metres and correct orientation (error 7.986414E-07, actual (1.03, 0.24, 2.00) / (1.48, 0.39, 2.41), expected (1.03, 0.24, 2.00) / (1.48, 0.39, 2.41))
+PASS Fill6: native triangle count
+PASS Fill6: padded shared atlas UVs
+PASS Fill6: existing atlas materials only
+PASS Animal, machine, incubation/release anchors and root scale unchanged
+PASS Existing feed slot object IDs retained
+PASS Existing fill renderer references retained for save/consumption
+PASS Incubation duration, interaction and placement bindings unchanged
+PASS Original prefab GUID retained
+PASS Levels 2–4 and capacity catalog unchanged
+PASS Coop scene left unchanged
+PASS Player/animal capsule clear at (0.00, 0.00, 0.95)
+PASS Player/animal capsule clear at (0.00, 0.00, 3.50)
+PASS Player/animal capsule clear at (0.00, 0.00, 6.00)
+PASS Player/animal capsule clear at (-2.70, 0.00, 5.90)
+PASS Player/animal capsule clear at (3.50, 0.00, 6.00)
+PASS Player/animal capsule clear at (3.50, 0.00, 6.22)
+PASS Player/animal capsule clear at (3.50, 0.00, 5.70)
+PASS Player/animal capsule clear at (-1.25, 0.05, 3.10)
+PASS Player/animal capsule clear at (-0.25, 0.05, 3.10)
+PASS Player/animal capsule clear at (-0.75, 0.05, 4.90)
+PASS Player/animal capsule clear at (0.25, 0.05, 3.10)
+PASS Player/animal capsule clear at (1.25, 0.05, 3.10)
+PASS Player/animal capsule clear at (0.75, 0.05, 4.90)
+PASS Six separate physical portions in one continuous feeder
+PASS All portions share one physical trough access collider
+PASS Fourteen grouped renderers; old artwork removed
+PASS Lv1 geometry stays below 26k triangles including all grain and egg
+PASS Stock 0 shows exactly 0 portions
+PASS Stock 1 shows exactly 1 portions
+PASS Stock 2 shows exactly 2 portions
+PASS Stock 3 shows exactly 3 portions
+PASS Stock 4 shows exactly 4 portions
+PASS Stock 5 shows exactly 5 portions
+PASS Stock 6 shows exactly 6 portions
+PASS Consumption hides only emptied portions
+PASS Front/back feeding access at -1,1.4
+PASS Front/back feeding access at 1,1.4
+PASS Front/back feeding access at -1,3
+PASS Front/back feeding access at 1,3
+PASS Side feeding access at -2.2
+PASS Side feeding access at 2.2
+PASS Single egg incubation is empty by default; three-day duration retained
+PASS Incubator reachable from the original player stand point
+PASS Egg is centred on the real nest anchor
+PASS Atlas shader compiles: NP_CozySurfaces_01
+PASS Atlas shader compiles: NP_CozyFoliage_01
+PASS Atlas shader compiles: NP_CozyGlow_01
+PASS Atlas shader compiles: CoopIncubatorGlass
+PASS Atlas shader compiles: NP_CozyCoopEarth
+PASS Domed cover opens above the nest around its rear hinge
+PASS Open dome clears the solid rear wall (mesh max Z 7.841463)
+PASS Domed cover returns exactly to its closed pose
+PASS Interior window daylight responds to heavy rain
+PASS Night switches to low moonlight
+PASS Actual Coop scene resolves new Lv1 art
+PASS All four upgrade layouts still bound
+PASS Actual scene review did not rewrite the scene
+PASS Existing Barn daylight retains its original strength
+PASS Barn prefab remains unchanged
+CHECKS 131; COOP_COZY_APPLY_PASS

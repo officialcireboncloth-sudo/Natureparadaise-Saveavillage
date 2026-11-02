@@ -212,7 +212,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             PlayerToolType.CropBooster => "F: gunakan crop booster",
             PlayerToolType.Shears => "Dekati domba lalu G: cukur bulu",
             PlayerToolType.Milker => "Dekati sapi/kambing lalu F / G: perah susu",
-            PlayerToolType.Pitchfork => "Dekati kotoran hewan lalu E: ambil kotoran",
+            PlayerToolType.Pitchfork => "E / tap: serok kotoran · 1 detik → Compost x1",
             _ when item != null && item.IsAnimalMedicine => "Dekati hewan sakit lalu tekan F: Give Medicine",
             _ when item != null && item.IsFishingBait =>
                 fishingSystem != null && fishingSystem.EquippedBait == item

@@ -81,3 +81,28 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012c, type: 2}
       amount: 5
+  - id: compost.soil
+    output: {fileID: 11400000, guid: d1a10000000000000000000000000001, type: 2}
+    outputCount: 1
+    productionHours: 2
+    ingredients:
+    - item: {fileID: 11400000, guid: 678fd352d3fe4b80a581a9b5c88eb390, type: 2}
+      amount: 3
+  - id: compost.booster.basic
+    output: {fileID: 11400000, guid: cb002000000000000000000000000020, type: 2}
+    outputCount: 5
+    productionHours: 2
+    ingredients:
+    - item: {fileID: 11400000, guid: 678fd352d3fe4b80a581a9b5c88eb390, type: 2}
+      amount: 5
+    - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012e, type: 2}
+      amount: 3
+  - id: compost.booster.organic
+    output: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000ca, type: 2}
+    outputCount: 5
+    productionHours: 4
+    ingredients:
+    - item: {fileID: 11400000, guid: 678fd352d3fe4b80a581a9b5c88eb390, type: 2}
+      amount: 5
+    - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012f, type: 2}
+      amount: 5

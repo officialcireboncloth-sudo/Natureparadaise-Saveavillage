@@ -1,0 +1,37 @@
+{
+  "kind": "MarketStand",
+  "meshes": [
+    {
+      "name": "MarketStand_Body_LOD0",
+      "triangles": 17423,
+      "min": [
+        -1.739308476448059,
+        0.0,
+        -1.0964949131011963
+      ],
+      "max": [
+        1.739308476448059,
+        2.7875430583953857,
+        0.9464949369430542
+      ]
+    },
+    {
+      "name": "MarketStand_Body_LOD1",
+      "triangles": 8363,
+      "min": [
+        -1.7350080013275146,
+        0.0029370656702667475,
+        -1.0965903997421265
+      ],
+      "max": [
+        1.7350081205368042,
+        2.7875823974609375,
+        0.946590006351471
+      ]
+    }
+  ],
+  "hingeUnity": null,
+  "openAngle": null,
+  "sharedMaterial": "NP_CozySurfaces_01",
+  "sourceProduce": "Original Toon Farm Pack meshes retained"
+}

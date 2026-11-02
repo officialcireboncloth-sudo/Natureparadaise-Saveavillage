@@ -1,0 +1,46 @@
+COZY HOUSE LEVEL 1 — Native Unity apply
+PASS Imported texture is available: NP_CozySurfaces_01_BaseColor.png
+PASS Imported texture is available: NP_CozySurfaces_01_Normal.png
+PASS Imported texture is available: NP_CozySurfaces_01_SurfaceMask.png
+PASS Imported texture is available: NP_CozyFoliage_01_BaseColor.png
+PASS LOD0: one runtime mesh, no studio/modules exported
+Imported slots: NP_CozySurfaces_01 @ Assets/Nature  Paradaise/Material/Shared/NP_CozySurfaces_01.mat, NP_CozyGlow_01 @ Assets/Nature  Paradaise/Material/Shared/NP_CozyGlow_01.mat, NP_CozyFoliage_01 @ Assets/Nature  Paradaise/Material/Shared/NP_CozyFoliage_01.mat
+PASS LOD0: all materials use shared cozy atlases
+PASS LOD0: grounded, facade +Z, existing steps at z=3.7; Center: (0.02, 4.64, -2.21), Extents: (5.36, 4.65, 5.91)
+PASS LOD0: complete normalized atlas UVs
+LOD0 triangles=12905 materials=3
+PASS LOD1: one runtime mesh, no studio/modules exported
+Imported slots: NP_CozySurfaces_01 @ Assets/Nature  Paradaise/Material/Shared/NP_CozySurfaces_01.mat, NP_CozyGlow_01 @ Assets/Nature  Paradaise/Material/Shared/NP_CozyGlow_01.mat
+PASS LOD1: all materials use shared cozy atlases
+PASS LOD1: grounded, facade +Z, existing steps at z=3.7; Center: (0.00, 4.64, -2.21), Extents: (5.15, 4.65, 5.91)
+PASS LOD1: complete normalized atlas UVs
+LOD1 triangles=6085 materials=2
+PASS LOD2: one runtime mesh, no studio/modules exported
+Imported slots: NP_CozySurfaces_01 @ Assets/Nature  Paradaise/Material/Shared/NP_CozySurfaces_01.mat, NP_CozyGlow_01 @ Assets/Nature  Paradaise/Material/Shared/NP_CozyGlow_01.mat
+PASS LOD2: all materials use shared cozy atlases
+PASS LOD2: grounded, facade +Z, existing steps at z=3.7; Center: (0.00, 4.64, -2.21), Extents: (5.14, 4.64, 5.91)
+PASS LOD2: complete normalized atlas UVs
+LOD2 triangles=2259 materials=2
+PASS LOD budgets and decreasing geometry
+PASS Texture resolves after model imports: NP_CozySurfaces_01
+PASS Texture resolves after model imports: NP_CozyFoliage_01
+PASS Texture resolves after model imports: NP_CozyGlow_01
+PASS Shared normal and surface mask remain connected
+PASS Existing prefab has three LOD renderer slots
+PASS Door, exit spawn and actual Unity house scale preserved
+PASS Body/porch/stair collision and portal volume preserved
+PASS LOD0: roof skin covers 200 probes including both staggered end edges; misses=0
+PASS LOD1: roof skin covers 200 probes including both staggered end edges; misses=0
+PASS LOD2: roof skin covers 200 probes including both staggered end edges; misses=0
+PASS Player on the actual scaled stair trigger can enter
+PASS Back of the house cannot trigger front door
+PASS Compiled shared material NP_CozySurfaces_01
+PASS Runtime material keeps its texture: NP_CozySurfaces_01
+PASS Compiled shared material NP_CozyGlow_01
+PASS Runtime material keeps its texture: NP_CozyGlow_01
+PASS Compiled shared material NP_CozyFoliage_01
+PASS Runtime material keeps its texture: NP_CozyFoliage_01
+PASS Modeled lantern has an authored night-light anchor without shadow-map cost
+PASS Existing house definition still resolves to the reworked prefab
+PASS Higher upgrade levels keep their existing models
+CHECKS 38; APPLY_PASS

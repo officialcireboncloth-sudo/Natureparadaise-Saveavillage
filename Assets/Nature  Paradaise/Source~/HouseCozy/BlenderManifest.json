@@ -1,0 +1,160 @@
+{
+  "status": "BUILT",
+  "units": "Blender Z up; front -Y; Unity front +Z after import normalization",
+  "source": "C:\\GitHub\\Natureparadaise-Saveavillage\\Assets\\Nature  Paradaise\\Source~\\HouseCozy\\House_Cozy_Master.blend",
+  "sourceModules": 838,
+  "lods": [
+    {
+      "lod": 0,
+      "triangles": 12905,
+      "vertices": 9621,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyFoliage_01",
+        "NP_CozyGlow_01"
+      ],
+      "boundsMin": [
+        -5.371162414550781,
+        -3.6999998092651367,
+        0.0
+      ],
+      "boundsMax": [
+        5.34095573425293,
+        8.120000839233398,
+        9.289999961853027
+      ]
+    },
+    {
+      "lod": 1,
+      "triangles": 6085,
+      "vertices": 4585,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyGlow_01"
+      ],
+      "boundsMin": [
+        -5.15000057220459,
+        -3.6999998092651367,
+        0.0
+      ],
+      "boundsMax": [
+        5.15000057220459,
+        8.120000839233398,
+        9.289999961853027
+      ]
+    },
+    {
+      "lod": 2,
+      "triangles": 2259,
+      "vertices": 2638,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyGlow_01"
+      ],
+      "boundsMin": [
+        -5.137692451477051,
+        -3.6999998092651367,
+        0.0
+      ],
+      "boundsMax": [
+        5.137692928314209,
+        8.119998931884766,
+        9.281667709350586
+      ]
+    }
+  ],
+  "atlasShared": true,
+  "roofPattern": "Rectangular staggered shingles; one complete tile per physical slab",
+  "masonryUV": [
+    {
+      "object": "Cube",
+      "slot": "StoneWarm",
+      "repeatMetres": [
+        2.6,
+        1.35
+      ],
+      "polygons": 116
+    },
+    {
+      "object": "Cube",
+      "slot": "Paving",
+      "repeatMetres": [
+        2.4,
+        1.2
+      ],
+      "polygons": 38
+    },
+    {
+      "object": "Cube",
+      "slot": "Paving",
+      "repeatMetres": [
+        2.4,
+        1.2
+      ],
+      "polygons": 44
+    },
+    {
+      "object": "Cube",
+      "slot": "Paving",
+      "repeatMetres": [
+        2.4,
+        1.2
+      ],
+      "polygons": 34
+    },
+    {
+      "object": "Cube",
+      "slot": "Paving",
+      "repeatMetres": [
+        2.4,
+        1.2
+      ],
+      "polygons": 42
+    },
+    {
+      "object": "Cube",
+      "slot": "StoneWarm",
+      "repeatMetres": [
+        2.6,
+        1.35
+      ],
+      "polygons": 26
+    },
+    {
+      "object": "Cube",
+      "slot": "StoneWarm",
+      "repeatMetres": [
+        2.6,
+        1.35
+      ],
+      "polygons": 26
+    },
+    {
+      "object": "Cube",
+      "slot": "Brick",
+      "repeatMetres": [
+        1.8,
+        1.6
+      ],
+      "polygons": 40
+    },
+    {
+      "object": "Cube",
+      "slot": "StoneWarm",
+      "repeatMetres": [
+        2.6,
+        1.35
+      ],
+      "polygons": 36
+    },
+    {
+      "object": "Cube",
+      "slot": "StoneWarm",
+      "repeatMetres": [
+        2.6,
+        1.35
+      ],
+      "polygons": 32
+    }
+  ]
+}

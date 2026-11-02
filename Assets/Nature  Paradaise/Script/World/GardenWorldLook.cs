@@ -42,6 +42,10 @@ public sealed class GardenWorldLook : MonoBehaviour
             bloom.intensity.Override(Mathf.Lerp(baseBloom, profile.noonBloomIntensity, peak));
             bloom.threshold.Override(Mathf.Lerp(baseThreshold, profile.noonBloomThreshold, peak));
         }
-        if (grade != null) grade.postExposure.Override(baseExposure + profile.noonExposureBoost * peak);
+        float night = TimeManager.Instance != null ? 1f - DayNightCycle.GetDaylightWeight(
+            TimeManager.Instance.CurrentTimeHours, profile.dawnHour, profile.duskHour) : 0;
+        // Modest night grading leaves local warm lamps visible, without boosting the entire landscape.
+        if (bloom != null) bloom.threshold.Override(Mathf.Lerp(bloom.threshold.value, 1.3f, night));
+        if (grade != null) grade.postExposure.Override(baseExposure + profile.noonExposureBoost * peak - .3f * night);
     }
 }

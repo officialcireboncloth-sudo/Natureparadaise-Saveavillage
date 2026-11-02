@@ -103,6 +103,7 @@ MonoBehaviour:
   dismountMoveStartFrame: 0
   dismountGroundFrame: 30
   mountedSpeed: 8
+  mountedWalkSpeedMultiplier: 1.25
   mountedAcceleration: 10
   mountedDeceleration: 14
   riderSeatFollowSharpness: 22

@@ -40,6 +40,13 @@ public static class BarnFeedingCapacitySetup
             var binding=root.GetComponent<BarnInteriorLayout>();
             var slots=binding.FeedingSlots.ToArray();
             if(slots.Length!=capacity||slots.Any(t=>t==null))throw new InvalidOperationException("Logical Barn slots differ from catalog at Lv."+level);
+            // Cozy cells are authored metal basins. Keep them when the legacy wood-trough menu is used.
+            if(root.transform.Find("CozyVisuals")!=null)
+            {
+                if(binding.FeedFills.Length!=capacity||binding.FeedFills.Distinct().Count()!=capacity)
+                    throw new InvalidOperationException("Cozy Barn requires one authored fill per catalog slot.");
+                return;
+            }
             var troughs=Enumerable.Range(0,binding.FeedingRoot.childCount).Select(i=>binding.FeedingRoot.GetChild(i))
                 .Where(t=>t.Find("TroughCollider")!=null).OrderBy(t=>t.localPosition.x).ToArray();
             if(troughs.Length==0||capacity<troughs.Length)throw new InvalidOperationException("Barn trough layout has no usable rows.");

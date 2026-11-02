@@ -462,7 +462,8 @@ public static class PlayerVisualSetup
         EnsureActionState(stateMachine,"Yawn","Yawn",clips.yawn,1.5f,true);
         AddParameter(controller,"ShearingActive",AnimatorControllerParameterType.Bool);
         AddParameter(controller,"ScoopManure",AnimatorControllerParameterType.Trigger);
-        EnsureActionState(stateMachine,"Scoop Manure","ScoopManure",clips.scoopManure,2f,true);
+        EnsureActionState(stateMachine,"Scoop Manure","ScoopManure",clips.scoopManure,
+            clips.scoopManure!=null?clips.scoopManure.length/AnimalManureSettings.CollectionSeconds:1f,true);
         AnimatorState shear=EnsureActionState(stateMachine,"Shear Sheep","ShearSheep",clips.shearSheep,1f,true);
         foreach(var exit in shear.transitions)
         {

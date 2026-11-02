@@ -28,6 +28,16 @@ public sealed class WorldTree : MonoBehaviour
     static readonly List<WorldTree> Registry = new();
     public static IReadOnlyList<WorldTree> Active => Registry;
 
+    /// <summary>Bends only the standing artwork; harvesting/fall animation owns its pose while transitioning.</summary>
+    public void ApplyWeatherWind(Vector3 direction,float strength,float time)
+    {
+        if(transitioning||state!=TreeGrowthState.Standing||standingVisual==null||standingVisual==transform)return;
+        Vector3 axis=Vector3.Cross(Vector3.up,direction);
+        if(standingVisual.parent!=null)axis=standingVisual.parent.InverseTransformDirection(axis);
+        float angle=strength*6f*(.75f+.25f*Mathf.Sin(time*1.8f+transform.position.x*.31f));
+        standingVisual.localRotation=Quaternion.AngleAxis(angle,axis)*standingRestRotation;
+    }
+
     [Header("Identity")]
     [SerializeField] string treeId = "tree-01";
     [Header("Growth / Fruit")]

@@ -22,6 +22,10 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     readonly List<Transform> feedingSlots = new();
     readonly List<Renderer> feedFillRenderers = new();
     readonly HashSet<int> occupiedFeedSlots = new();
+    GameObject feedPreview;
+    Material feedPreviewMaterial;
+    Mesh feedPreviewMesh;
+    float nextFeedTime;
     readonly List<Collider> troughAccessColliders = new();
     readonly List<Renderer> troughAccessRenderers = new();
     Transform feedMakerPoint;
@@ -48,6 +52,8 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
     }
     void OnDestroy()
     {
+        if(feedPreviewMaterial!=null)Destroy(feedPreviewMaterial);
+        if(feedPreviewMesh!=null)Destroy(feedPreviewMesh);
         if(cameraOverridden && cameraFollow!=null)
             cameraFollow.SetFraming(previousCameraPitch,previousCameraYaw,previousCameraDistance,true);
         if(Instance==this) Instance=null;
@@ -238,18 +244,8 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
 
     void RefreshFeedVisual(AnimalHome home)
     {
-        int filled=home!=null ? home.TotalFeed : 0;
-        occupiedFeedSlots.RemoveWhere(index=>index<0 || index>=feedingSlots.Count ||
-            feedingSlots[index]==null || !feedingSlots[index].gameObject.activeInHierarchy);
-        while(occupiedFeedSlots.Count>filled)
-        {
-            int remove=-1;
-            foreach(int index in occupiedFeedSlots) if(index>remove) remove=index;
-            if(remove<0) break;
-            occupiedFeedSlots.Remove(remove);
-        }
-        for(int i=0;occupiedFeedSlots.Count<filled && i<feedingSlots.Count;i++)
-            if(feedingSlots[i]!=null && feedingSlots[i].gameObject.activeSelf) occupiedFeedSlots.Add(i);
+        occupiedFeedSlots.Clear();
+        if(home!=null)foreach(int index in home.ReconcileFeedingSlots(feedingSlots.Count))occupiedFeedSlots.Add(index);
         // A compartment can display several logical portions. Accumulate first so
         // a later empty portion cannot hide the renderer of an earlier full one.
         if(authoredLayout!=null)
@@ -359,7 +355,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
         return ClosestTroughAccess(actor.position,out float distance)!=null && distance<=troughInteractionRadius;
     }
 
-    /// <summary>Transfers one selected feed unit into the first empty portion; inventory changes only on success.</summary>
+    /// <summary>Transfers one unit into the slot aimed at by the player; inventory changes only on success.</summary>
     public bool TryDepositSelectedFeed(Inventory source,int inventorySlot)
     {
         AnimalHome home=BarnInterior.Current!=null ? BarnInterior.Current.home : null;
@@ -374,12 +370,14 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
             GameplayInfoPanel.NotifyBesideTools(FeedTypes.WrongTypeMessage);
             return false;
         }
-        int destination=FirstEmptyFeedingSlot();
+        int destination=AimedFeedingSlot(actor);
         if(home.FeedSpace<=0 || destination<0)
         {
-            GameplayInfoPanel.NotifyBesideTools("Tempat pakan sudah penuh");
+            GameplayInfoPanel.NotifyBesideTools(home.FeedSpace<=0?"Tempat pakan sudah penuh":"Arahkan ke slot tempat pakan");
             return false;
         }
+        if(occupiedFeedSlots.Contains(destination)){GameplayInfoPanel.NotifyBesideTools("Slot pakan sudah terisi");return false;}
+        if(Time.unscaledTime<nextFeedTime)return false;
         if(stack?.item==null || stack.count<=0 || !home.AcceptsFeedItem(stack.item))
         {
             GameplayInfoPanel.Notify($"Pilih {FeedTypes.Label(home.RequiredFeedKind)} dari hotbar.");
@@ -392,6 +390,9 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
             return false;
         }
         occupiedFeedSlots.Add(destination);
+        home.RecordFilledFeedingSlot(destination);
+        WorldInteractionPrompt.MarkHeldActionPerformed(this);
+        nextFeedTime=Time.unscaledTime+.25f;
         RefreshFeedVisual(home);
         Transform target=feedingSlots[destination];
         actor.PlayHandOverAnimation();
@@ -463,6 +464,7 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
 
     void Update()
     {
+        if(feedPreview!=null)feedPreview.SetActive(false);
         if(player==null) player=FindFirstObjectByType<PlayerController>();
         if(player==null || BarnInterior.Current==null || BarnInterior.Current.home==null) return;
         AnimalHome home=BarnInterior.Current.home;
@@ -510,15 +512,73 @@ public sealed class BarnInteriorSceneController : MonoBehaviour
                     : holdingFeed
                         ? $"F: Masukkan 1 {heldStack.DisplayName}"
                         : $"F: Isi Pakan — pilih {FeedTypes.Label(home.RequiredFeedKind)}";
-            WorldInteractionPrompt.Request(this,trough,
+            int aimed=carryingFeed?AimedFeedingSlot(player):-1;
+            Transform promptTarget=aimed>=0?feedingSlots[aimed]:trough;
+            if(carryingFeed&&!player.IsMovementLocked&&!GameplayInput.BlocksMovement&&!WorldInteractionPrompt.IsSuppressed)
+                ShowFeedPreview(aimed,home,heldStack?.item);
+            if(carryingFeed)action=home.FeedSpace<=0?"F: Tempat pakan sudah penuh":
+                !holdingFeed?"F: Jenis pakan tidak sesuai":
+                aimed<0?"F: Arahkan ke slot tempat pakan":
+                occupiedFeedSlots.Contains(aimed)?"F: Slot pakan sudah terisi":
+                "F: Taruh 1 pakan | Tahan F + berjalan: isi berurutan";
+            WorldInteractionPrompt.Request(this,promptTarget,
                 $"{action}\nTempat Pakan: {home.TotalFeed}/{home.FeedingSlotCapacity}",
                 troughDistance,1.15f,DepositSelectedFeed);
-            if(PlayerInteractionTarget.PressPrompt(this, trough, KeyCode.F))
-                DepositSelectedFeed();
+            bool pressed=PlayerInteractionTarget.PressPrompt(this,promptTarget,KeyCode.F);
+            bool held=GameplayInput.GetKey(KeyCode.F)||WorldInteractionPrompt.IsHeldFor(this);
+            HandleFeedingInput(pressed,held,promptTarget);
             return;
         }
         HandleExitInteraction(float.PositiveInfinity);
     }
+
+    void HandleFeedingInput(bool pressed,bool held,Transform promptTarget)
+    {
+        if(pressed){DepositSelectedFeed();return;}
+        if(!held||player==null||player.CurrentSpeed<=.05f||GameplayInput.BlocksMovement||
+            !WorldInteractionPrompt.IsDisplayedFor(this,promptTarget))return;
+        AnimalHome home=BarnInterior.Current!=null?BarnInterior.Current.home:null;
+        var stack=player.GetComponent<InventoryHotbarUI>()?.SelectedStack;
+        int aimed=AimedFeedingSlot(player);
+        if(home!=null&&stack?.item!=null&&stack.count>0&&home.AcceptsFeedItem(stack.item)&&
+            aimed>=0&&!occupiedFeedSlots.Contains(aimed))DepositSelectedFeed();
+    }
+
+    int AimedFeedingSlot(PlayerController actor)
+    {
+        if(actor==null)return -1;
+        Vector3 facing=actor.FacingDirection;facing.y=0;
+        if(facing.sqrMagnitude<.01f)facing=actor.transform.forward;
+        facing.Normalize();Vector3 aim=actor.transform.position+facing*.75f;
+        int best=-1;float score=float.PositiveInfinity;
+        for(int i=0;i<feedingSlots.Count;i++)
+        {
+            var slot=feedingSlots[i];if(slot==null||!slot.gameObject.activeInHierarchy)continue;
+            Vector3 delta=slot.position-actor.transform.position;delta.y=0;
+            if(Mathf.Abs(slot.position.y-actor.transform.position.y)>2f||delta.magnitude>troughInteractionRadius||
+                Vector3.Dot(delta.normalized,facing)<.15f)continue;
+            Vector3 toAim=slot.position-aim;toAim.y=0;
+            if(toAim.sqrMagnitude<score){score=toAim.sqrMagnitude;best=i;}
+        }
+        return best;
+    }
+    void ShowFeedPreview(int slot,AnimalHome home,ItemSO item)
+    {
+        if(feedPreview==null)
+        {
+            feedPreview=new GameObject("Feed Slot Target",typeof(MeshFilter),typeof(MeshRenderer));feedPreview.transform.SetParent(transform,false);
+            feedPreviewMesh=new Mesh{name="Feed target square"};feedPreviewMesh.vertices=new[]{new Vector3(-.38f,0,-.38f),new Vector3(.38f,0,-.38f),new Vector3(.38f,0,.38f),new Vector3(-.38f,0,.38f)};feedPreviewMesh.triangles=new[]{0,2,1,0,3,2};feedPreviewMesh.RecalculateNormals();
+            feedPreview.GetComponent<MeshFilter>().sharedMesh=feedPreviewMesh;
+            feedPreviewMaterial=new Material(Shader.Find("Universal Render Pipeline/Unlit")){name="Feed slot translucent target",renderQueue=3000};
+            feedPreviewMaterial.SetFloat("_Surface",1);feedPreviewMaterial.SetFloat("_ZWrite",0);feedPreviewMaterial.SetFloat("_SrcBlend",5);feedPreviewMaterial.SetFloat("_DstBlend",10);feedPreviewMaterial.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+            var renderer=feedPreview.GetComponent<MeshRenderer>();renderer.sharedMaterial=feedPreviewMaterial;renderer.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;renderer.receiveShadows=false;
+        }
+        bool valid=slot>=0&&home.AcceptsFeedItem(item)&&home.FeedSpace>0&&!occupiedFeedSlots.Contains(slot);
+        feedPreviewMaterial.SetColor("_BaseColor",valid?new Color(.2f,.95f,.3f,.34f):new Color(1,.15f,.12f,.34f));
+        Vector3 point=slot>=0?feedingSlots[slot].position:player.transform.position+player.FacingDirection*.75f;
+        feedPreview.transform.position=point+Vector3.up*.035f;feedPreview.SetActive(true);
+    }
+    void OnDisable(){if(feedPreview!=null)feedPreview.SetActive(false);}
 
     bool HandleExitInteraction(float competingDistance)
     {

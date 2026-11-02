@@ -1129,11 +1129,10 @@ public sealed class PropertySite : MonoBehaviour
             if (definition.placementArea == BuildingPlacementArea.Anywhere &&
                 OverlapsAnyFieldArea(definition, previewPlacementPosition, previewPlacementRotation))
                 return false;
-            // Bangunan OutsideField menjaga area tanam tetap kosong. Anywhere, seperti
-            // Fish Pond, boleh diletakkan di field atau area dunia lain yang valid.
+            // OutsideField keeps the whole footprint clear of the crop field, including ponds.
             if (definition.placementArea == BuildingPlacementArea.OutsideField &&
                 OverlapsAnyFieldArea(definition, previewPlacementPosition, previewPlacementRotation))
-                return false;
+            { previewLocationReason = "Tapak harus berada di luar ladang"; return false; }
             return !HasPhysicalPlacementBlocker(
                 definition,
                 1f,
@@ -1407,6 +1406,9 @@ public sealed class PropertySite : MonoBehaviour
                 Debug.LogWarning($"[BUILDING] Prefab final {activeDefinition.displayName} tidak valid. {exception.Message}");
             }
         }
+        // Free builds, normal builds and restored completed sites share this lifecycle.
+        // Register before the construction callback can autosave or the player reaches the door.
+        if(state==BuildingConstructionState.Completed)AnimalHusbandrySystem.EnsureHousing(this);
     }
 
     /// <summary>

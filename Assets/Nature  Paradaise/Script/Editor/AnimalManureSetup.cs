@@ -16,10 +16,16 @@ static class AnimalManureSetup
         var clips=AssetDatabase.LoadAssetAtPath<PlayerAnimationSetSO>("Assets/Nature  Paradaise/Player/Animations/Player Animation Set.asset");
         if(controller==null || clips==null || clips.scoopManure==null)return;
         var machine=controller.layers[0].stateMachine;
-        // Existing authored state is left editable; PlayerVisualSetup also creates it on rebuild.
-        if(machine.states.Any(s=>s.state.name=="Scoop Manure"))return;
+        // Keep authored keys editable; only fit playback speed to the one-second action.
+        var existing=machine.states.FirstOrDefault(s=>s.state.name=="Scoop Manure").state;
+        float speed=clips.scoopManure.length/AnimalManureSettings.CollectionSeconds;
+        if(existing!=null)
+        {
+            if(Mathf.Approximately(existing.speed,speed))return;
+            existing.speed=speed;EditorUtility.SetDirty(controller);AssetDatabase.SaveAssetIfDirty(controller);return;
+        }
         if(!controller.parameters.Any(p=>p.name=="ScoopManure"))controller.AddParameter("ScoopManure",AnimatorControllerParameterType.Trigger);
-        var state=machine.AddState("Scoop Manure");state.motion=clips.scoopManure;state.speed=2f;
+        var state=machine.AddState("Scoop Manure");state.motion=clips.scoopManure;state.speed=speed;
         var enter=machine.AddAnyStateTransition(state);enter.hasExitTime=false;enter.duration=.06f;enter.canTransitionToSelf=false;
         enter.AddCondition(AnimatorConditionMode.If,0,"ScoopManure");
         var locomotion=machine.states.First(s=>s.state.name=="Locomotion").state;

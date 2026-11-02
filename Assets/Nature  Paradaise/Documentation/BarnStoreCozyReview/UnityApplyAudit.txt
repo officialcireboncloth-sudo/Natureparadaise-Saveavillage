@@ -1,0 +1,34 @@
+BARN STORE COZY — NATIVE UNITY
+PASS Three existing shared cozy materials resolve
+PASS BarnStore_Cozy_LOD0: one exported mesh
+PASS BarnStore_Cozy_LOD0: metre scale and facade +Z
+PASS BarnStore_Cozy_LOD0: native triangle count 29242
+PASS BarnStore_Cozy_LOD0: all UVs stay within shared atlas
+PASS BarnStore_Cozy_LOD0: shared material remapping
+PASS BarnStore_Cozy_LOD1: one exported mesh
+PASS BarnStore_Cozy_LOD1: metre scale and facade +Z
+PASS BarnStore_Cozy_LOD1: native triangle count 9424
+PASS BarnStore_Cozy_LOD1: all UVs stay within shared atlas
+PASS BarnStore_Cozy_LOD1: shared material remapping
+PASS BarnStore_Cozy_LOD2: one exported mesh
+PASS BarnStore_Cozy_LOD2: metre scale and facade +Z
+PASS BarnStore_Cozy_LOD2: native triangle count 4045
+PASS BarnStore_Cozy_LOD2: all UVs stay within shared atlas
+PASS BarnStore_Cozy_LOD2: shared material remapping
+PASS LOD geometry decreases with distance
+PASS Existing Barn Store Geometry target located
+PASS Root scale and placement retained
+PASS Existing body, wing, rear-wall and post colliders retained
+PASS Closed right flank has a matching solid wall collider
+PASS One renderer per LOD; no duplicated old building
+PASS Farm group and fence layout unchanged
+PASS All player barn exteriors unchanged
+PASS Right feed display remains physically open from the front
+PASS Front door approach is clear of the building collider
+PASS Right outside flank is closed to player movement
+PASS Shader and texture resolve: NP_CozySurfaces_01
+PASS Shader and texture resolve: NP_CozyFoliage_01
+PASS Shader and texture resolve: NP_CozyGlow_01
+PASS Authored night lamp uses existing scheduler without shadow-map cost
+PASS Authored night lamp uses existing scheduler without shadow-map cost
+CHECKS 32; BARN_STORE_APPLY_PASS

@@ -6,9 +6,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b07fbb12fc54a149a336e05553561c8, type: 3}
   m_Name: AnimalManureSettings
   m_EditorClassIdentifier:
-  minimumHours: 3
-  maximumHours: 6
-  maximumPilesPerAnimal: 6
+  dailyEarliestHour: 6
+  dailyLatestHour: 22
   pickupRadius: 2.4
-  pickupAnimationSeconds: 1.1
   manurePrefab: {fileID: 7173337176436072320, guid: bbaed26c19da42d2b1194f9cb4e7d640, type: 3}

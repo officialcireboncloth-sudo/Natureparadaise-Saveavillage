@@ -239,7 +239,10 @@ public sealed class PlayerHouseController : MonoBehaviour
         // House progression agar House Lv.2+ tidak kembali mengunci Refrigerator.
         int progressionLevel = currentLevel >= 2 ? currentLevel - 1 : 0;
         refrigeratorLevel = Mathf.Clamp(Mathf.Max(data.refrigeratorLevel, progressionLevel), 0, 4);
-        if (data.constructionJob != null && houseDefinition?.GetLevel(pendingLevel > 0 ? pendingLevel : currentLevel) != null)
+        // Unity JSON can deserialize a saved null job as an empty object. A completed
+        // house must not dispatch a builder or rebuild screens from that placeholder.
+        if (data.constructionJob != null && data.constructionJob.ShouldRestoreFor(state) &&
+            houseDefinition?.GetLevel(pendingLevel > 0 ? pendingLevel : currentLevel) != null)
             StartWorker(houseDefinition.GetLevel(pendingLevel > 0 ? pendingLevel : currentLevel), data.constructionJob);
         else if (IsUnderConstruction && houseDefinition?.GetLevel(pendingLevel) != null && CurrentDay < completionDay)
             StartWorker(houseDefinition.GetLevel(pendingLevel), LegacyJob());

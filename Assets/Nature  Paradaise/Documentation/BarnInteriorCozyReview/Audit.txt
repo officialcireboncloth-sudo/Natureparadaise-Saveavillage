@@ -1,0 +1,90 @@
+COZY BARN LV1 — NATIVE UNITY
+PASS Existing shared atlas materials resolve
+PASS Architecture: one grouped mesh
+PASS SetDressing: one grouped mesh
+PASS Machine: one grouped mesh
+PASS Trough1: one grouped mesh
+PASS Fill1_1: one grouped mesh
+PASS Fill1_2: one grouped mesh
+PASS Trough2: one grouped mesh
+PASS Fill2_1: one grouped mesh
+PASS Fill2_2: one grouped mesh
+PASS Lv1 has exactly four independent feed portions
+PASS Feed count matches building catalog
+PASS Architecture: canonical metres and correct orientation
+PASS Architecture: native triangle count
+PASS Architecture: padded shared atlas UVs
+PASS Architecture: existing atlas materials only
+PASS SetDressing: canonical metres and correct orientation
+PASS SetDressing: native triangle count
+PASS SetDressing: padded shared atlas UVs
+PASS SetDressing: existing atlas materials only
+PASS Machine: canonical metres and correct orientation
+PASS Machine: native triangle count
+PASS Machine: padded shared atlas UVs
+PASS Machine: existing atlas materials only
+PASS Trough1: canonical metres and correct orientation
+PASS Trough1: native triangle count
+PASS Trough1: padded shared atlas UVs
+PASS Trough1: existing atlas materials only
+PASS Fill1_1: canonical metres and correct orientation
+PASS Fill1_1: native triangle count
+PASS Fill1_1: padded shared atlas UVs
+PASS Fill1_1: existing atlas materials only
+PASS Fill1_2: canonical metres and correct orientation
+PASS Fill1_2: native triangle count
+PASS Fill1_2: padded shared atlas UVs
+PASS Fill1_2: existing atlas materials only
+PASS Trough2: canonical metres and correct orientation
+PASS Trough2: native triangle count
+PASS Trough2: padded shared atlas UVs
+PASS Trough2: existing atlas materials only
+PASS Fill2_1: canonical metres and correct orientation
+PASS Fill2_1: native triangle count
+PASS Fill2_1: padded shared atlas UVs
+PASS Fill2_1: existing atlas materials only
+PASS Fill2_2: canonical metres and correct orientation
+PASS Fill2_2: native triangle count
+PASS Fill2_2: padded shared atlas UVs
+PASS Fill2_2: existing atlas materials only
+PASS Feed, animal, machine anchors and root scale unchanged
+PASS Existing feed slot object IDs retained
+PASS Existing fill renderer references retained for save/consumption
+PASS Original prefab GUID retained
+PASS Levels 2–4 and capacity catalog unchanged
+PASS Barn scene left unchanged
+PASS Player/animal capsule clear at (0.00, 0.00, 1.70)
+PASS Player/animal capsule clear at (0.00, 0.00, 4.50)
+PASS Player/animal capsule clear at (0.00, 0.00, 7.00)
+PASS Player/animal capsule clear at (-3.60, 0.00, 4.50)
+PASS Player/animal capsule clear at (3.60, 0.00, 4.50)
+PASS Player/animal capsule clear at (-3.85, 0.05, 3.50)
+PASS Player/animal capsule clear at (0.00, 0.05, 3.50)
+PASS Player/animal capsule clear at (3.85, 0.05, 3.50)
+PASS Player/animal capsule clear at (-3.85, 0.05, 5.50)
+PASS Four separate physical portions; no decorative extra slots
+PASS Nine grouped renderers; old artwork removed
+PASS Lv1 geometry stays below 34k triangles including all hay portions
+PASS Stock 0 shows exactly 0 portions
+PASS Stock 1 shows exactly 1 portions
+PASS Stock 2 shows exactly 2 portions
+PASS Stock 3 shows exactly 3 portions
+PASS Stock 4 shows exactly 4 portions
+PASS Consumption hides only emptied portions
+PASS Front/back feeding access at -2.3,3.1
+PASS Front/back feeding access at 2.3,3.1
+PASS Front/back feeding access at -2.3,5.9
+PASS Front/back feeding access at 2.3,5.9
+PASS Side feeding access at -3.3
+PASS Side feeding access at -1.3
+PASS Side feeding access at 1.3
+PASS Side feeding access at 3.3
+PASS Atlas shader compiles: NP_CozySurfaces_01
+PASS Atlas shader compiles: NP_CozyFoliage_01
+PASS Atlas shader compiles: NP_CozyGlow_01
+PASS Interior window daylight responds to heavy rain
+PASS Night switches to low moonlight
+PASS Actual Barn scene resolves new Lv1 art
+PASS All four upgrade layouts still bound
+PASS Actual scene review did not rewrite the scene
+CHECKS 88; BARN_COZY_APPLY_PASS

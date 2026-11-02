@@ -1,0 +1,318 @@
+{
+  "status": "BUILT",
+  "level": 1,
+  "capacity": 4,
+  "roomWidth": 12,
+  "roomDepth": 10,
+  "layoutScale": 1.4,
+  "modules": [
+    {
+      "name": "BarnCozy_Architecture",
+      "module": "Architecture",
+      "triangles": 8580,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyGlow_01"
+      ],
+      "min": [
+        -6.144999980926514,
+        -0.20999999344348907,
+        -0.13000011444091797
+      ],
+      "max": [
+        6.144999980926514,
+        3.5250000953674316,
+        10.130000114440918
+      ]
+    },
+    {
+      "name": "BarnCozy_SetDressing",
+      "module": "SetDressing",
+      "triangles": 16922,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyFoliage_01"
+      ],
+      "min": [
+        -6.047722339630127,
+        -0.04200001060962677,
+        0.14371013641357422
+      ],
+      "max": [
+        6.096953868865967,
+        1.9589999914169312,
+        9.872457504272461
+      ]
+    },
+    {
+      "name": "BarnCozy_Machine",
+      "module": "Machine",
+      "triangles": 3048,
+      "materials": [
+        "NP_CozySurfaces_01"
+      ],
+      "min": [
+        -0.6328493356704712,
+        -1.4901161193847656e-07,
+        7.5625
+      ],
+      "max": [
+        1.0499995946884155,
+        1.9706910848617554,
+        9.231891632080078
+      ]
+    },
+    {
+      "name": "BarnCozy_Trough1",
+      "module": "Trough1",
+      "triangles": 616,
+      "materials": [
+        "NP_CozySurfaces_01"
+      ],
+      "min": [
+        -2.7925000190734863,
+        0.0,
+        3.257499933242798
+      ],
+      "max": [
+        -1.8075000047683716,
+        0.675000011920929,
+        5.742499828338623
+      ]
+    },
+    {
+      "name": "BarnCozy_Fill1_1",
+      "module": "Fill1_1",
+      "triangles": 404,
+      "materials": [
+        "NP_CozySurfaces_01"
+      ],
+      "min": [
+        -2.6499998569488525,
+        0.4050000011920929,
+        3.3860857486724854
+      ],
+      "max": [
+        -1.8943760395050049,
+        0.5638329386711121,
+        4.412400245666504
+      ]
+    },
+    {
+      "name": "BarnCozy_Fill1_2",
+      "module": "Fill1_2",
+      "triangles": 404,
+      "materials": [
+        "NP_CozySurfaces_01"
+      ],
+      "min": [
+        -2.669612407684326,
+        0.4050000011920929,
+        4.589736461639404
+      ],
+      "max": [
+        -1.91305673122406,
+        0.5639843940734863,
+        5.599999904632568
+      ]
+    },
+    {
+      "name": "BarnCozy_Trough2",
+      "module": "Trough2",
+      "triangles": 616,
+      "materials": [
+        "NP_CozySurfaces_01"
+      ],
+      "min": [
+        1.8075000047683716,
+        0.0,
+        3.257499933242798
+      ],
+      "max": [
+        2.7925000190734863,
+        0.675000011920929,
+        5.742499828338623
+      ]
+    },
+    {
+      "name": "BarnCozy_Fill2_1",
+      "module": "Fill2_1",
+      "triangles": 404,
+      "materials": [
+        "NP_CozySurfaces_01"
+      ],
+      "min": [
+        1.9128823280334473,
+        0.4050000011920929,
+        3.3783767223358154
+      ],
+      "max": [
+        2.6831705570220947,
+        0.5638110041618347,
+        4.400000095367432
+      ]
+    },
+    {
+      "name": "BarnCozy_Fill2_2",
+      "module": "Fill2_2",
+      "triangles": 404,
+      "materials": [
+        "NP_CozySurfaces_01"
+      ],
+      "min": [
+        1.9265241622924805,
+        0.4050000011920929,
+        4.583378791809082
+      ],
+      "max": [
+        2.693308115005493,
+        0.5639880895614624,
+        5.599999904632568
+      ]
+    }
+  ],
+  "colliders": [
+    {
+      "name": "Water basin",
+      "center": [
+        -3.85,
+        0.34,
+        8.9
+      ],
+      "size": [
+        2.23,
+        0.69,
+        0.93
+      ]
+    },
+    {
+      "name": "Barrel",
+      "center": [
+        -5.35,
+        0.4,
+        9.25
+      ],
+      "size": [
+        0.76,
+        0.8,
+        0.76
+      ]
+    },
+    {
+      "name": "Barrel",
+      "center": [
+        -5.35,
+        0.4,
+        8.2
+      ],
+      "size": [
+        0.76,
+        0.8,
+        0.76
+      ]
+    },
+    {
+      "name": "Hay stack",
+      "center": [
+        -1.75,
+        0.98,
+        8.95
+      ],
+      "size": [
+        1.85,
+        1.96,
+        0.73
+      ]
+    },
+    {
+      "name": "Hay stack",
+      "center": [
+        3.85,
+        0.98,
+        9.05
+      ],
+      "size": [
+        1.85,
+        1.96,
+        0.73
+      ]
+    },
+    {
+      "name": "Sack",
+      "center": [
+        5.17,
+        0.51,
+        9.1
+      ],
+      "size": [
+        0.72,
+        1.04,
+        0.57
+      ]
+    },
+    {
+      "name": "Sack",
+      "center": [
+        5.18,
+        0.51,
+        8.2
+      ],
+      "size": [
+        0.72,
+        1.04,
+        0.57
+      ]
+    },
+    {
+      "name": "Supply crate",
+      "center": [
+        1.75,
+        0.31,
+        9.1
+      ],
+      "size": [
+        0.88,
+        0.62,
+        0.73
+      ]
+    },
+    {
+      "name": "Machine",
+      "center": [
+        0,
+        0.92,
+        8.75
+      ],
+      "size": [
+        1.15,
+        1.85,
+        0.99
+      ]
+    },
+    {
+      "name": "Machine output crate",
+      "center": [
+        0,
+        0.22,
+        7.89
+      ],
+      "size": [
+        0.83,
+        0.44,
+        0.69
+      ]
+    }
+  ],
+  "triangles": 31398,
+  "expansion": {
+    "capacities": [
+      4,
+      8,
+      14,
+      20
+    ],
+    "wallBayMetres": 2,
+    "troughCellMetres": 1.2,
+    "equipmentScale": "constant; extend room and add cells"
+  }
+}

@@ -22,8 +22,10 @@ public sealed class RainVisualProfile : ScriptableObject
     [Header("Maximum emission per second (Normal)")]
     [Range(10, 80)] public int drizzleRate = 55;
     [Range(30, 140)] public int rainRate = 85;
-    [Range(50, 180)] public int heavyRate = 115;
-    [Range(60, 220)] public int stormRate = 145;
+    [Range(50, 220)] public int heavyRate = 160;
+    [Range(60, 260)] public int stormRate = 185;
+    [Range(60, 280)] public int cycloneRate = 220;
+    [Range(60, 260)] public int thunderRate = 195;
     [Header("Hard particle limits")]
     [Range(32, 400)] public int desktopDropLimit = 256;
     [Range(16, 160)] public int desktopSplashLimit = 96;
@@ -46,15 +48,26 @@ public sealed class RainVisualProfile : ScriptableObject
         WeatherType.Drizzle => drizzleRate,
         WeatherType.Rain => rainRate,
         WeatherType.HeavyRain => heavyRate,
-        WeatherType.WindRainStorm or WeatherType.Cyclone or WeatherType.Thunderstorm => stormRate,
+        WeatherType.WindRainStorm => stormRate,
+        WeatherType.Cyclone => cycloneRate,
+        WeatherType.Thunderstorm => thunderRate,
         _ => 0
     };
 
     public Vector3 Velocity(WeatherType weather) => (weather switch
     {
-        WeatherType.WindRainStorm => new Vector3(.24f, -1, .04f),
-        WeatherType.Cyclone => new Vector3(.32f, -1, .09f),
-        WeatherType.Thunderstorm => new Vector3(.16f, -1, 0),
+        WeatherType.HeavyRain => new Vector3(.16f, -1, .04f),
+        WeatherType.WindRainStorm => new Vector3(.55f, -1, .14f),
+        WeatherType.Cyclone => new Vector3(.95f, -1, .24f),
+        WeatherType.Thunderstorm => new Vector3(.65f, -1, .17f),
         _ => Vector3.down
     }).normalized * fallSpeed;
+
+    /// <summary>One wind direction/strength shared by rain, gusts and vegetation.</summary>
+    public static float WindStrength(WeatherType weather) => weather switch
+    {
+        WeatherType.HeavyRain => .18f, WeatherType.WindRainStorm => .65f,
+        WeatherType.Cyclone => 1f, WeatherType.Thunderstorm => .8f, _ => 0f
+    };
+    public static Vector3 WindDirection => new Vector3(1,0,.25f).normalized;
 }

@@ -20,9 +20,9 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.76, g: 0.86, b: 1, a: 1}
-  m_AmbientEquatorColor: {r: 0.48, g: 0.56, b: 0.66, a: 1}
-  m_AmbientGroundColor: {r: 0.28, g: 0.32, b: 0.24, a: 1}
+  m_AmbientSkyColor: {r: 0.76, g: 0.81, b: 0.88, a: 1}
+  m_AmbientEquatorColor: {r: 0.53, g: 0.55, b: 0.57, a: 1}
+  m_AmbientGroundColor: {r: 0.35, g: 0.32, b: 0.28, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
@@ -3806,8 +3806,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 1, g: 0.97, b: 0.88, a: 1}
-  m_Intensity: 1.5
+  m_Color: {r: 1, g: 0.98, b: 0.94, a: 1}
+  m_Intensity: 1.15
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3816,7 +3816,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 0.8
+    m_Strength: 0.72
     m_Bias: 0.025
     m_NormalBias: 0.15
     m_NearPlane: 0.2
@@ -3851,7 +3851,7 @@ Light:
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ColorTemperature: 5000
-  m_UseColorTemperature: 1
+  m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
@@ -3992,7 +3992,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7603777314482798999, guid: 468728557271d484e95ab7294dade61e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 7603777314482798999, guid: 468728557271d484e95ab7294dade61e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6214,8 +6214,8 @@ MonoBehaviour:
   productAmount: 1
   shearingAmount: 5
   interactionRadius: 2
-  brushImpactDelay: 4.25
-  brushActionDuration: 5
+  brushImpactDelay: 1.7
+  brushActionDuration: 2
   brushStandPadding: 0.12
   productImpactDelay: 1.1
   productActionDuration: 2.2
@@ -6863,11 +6863,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   padding: 0.4
---- !u!95 &823282615 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5833662685792640249, guid: 62b58045597702144bce200eb1ad3185, type: 3}
-  m_PrefabInstance: {fileID: 1610896751}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &826931600 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9021434638111100865, guid: 21b42ddab21708b478ea885dae79d4fe, type: 3}
@@ -10609,7 +10604,7 @@ MonoBehaviour:
   rotationSpeed: 720
   cameraRelativeMovement: 1
   movementCamera: {fileID: 0}
-  jumpHeight: 1.15
+  jumpHeight: 0.35
   gravity: -25
   groundedForce: 2
   jumpStaminaCost: 0.1
@@ -10621,7 +10616,7 @@ MonoBehaviour:
   sprintKey: 304
   walkKey: 308
   jumpKey: 32
-  animator: {fileID: 823282615}
+  animator: {fileID: 0}
   speedParameter: Speed
   groundedParameter: Grounded
   sprintParameter: Sprint
@@ -10733,8 +10728,6 @@ MonoBehaviour:
   hoeImpactDelay: 0.72
   pickupImpactDelay: 0.72
   pickupActionDuration: 1.45
-  cameraShakeStrength: 0.07
-  cameraShakeDuration: 0.1
   controllerRumble: 1
 --- !u!114 &1314698856
 MonoBehaviour:
