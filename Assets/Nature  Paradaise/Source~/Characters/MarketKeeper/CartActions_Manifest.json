@@ -1,0 +1,51 @@
+[
+  {
+    "action": "Cart_Grip",
+    "frames": [
+      0,
+      6,
+      12,
+      18,
+      24,
+      30
+    ],
+    "interpolation": "BEZIER AUTO_CLAMPED",
+    "durationSeconds": 1
+  },
+  {
+    "action": "Cart_Pull",
+    "frames": [
+      0,
+      3,
+      6,
+      9,
+      12,
+      15,
+      18,
+      21,
+      24,
+      27,
+      30
+    ],
+    "interpolation": "BEZIER AUTO_CLAMPED",
+    "durationSeconds": 1
+  },
+  {
+    "action": "Cart_Push",
+    "frames": [
+      0,
+      3,
+      6,
+      9,
+      12,
+      15,
+      18,
+      21,
+      24,
+      27,
+      30
+    ],
+    "interpolation": "BEZIER AUTO_CLAMPED",
+    "durationSeconds": 1
+  }
+]

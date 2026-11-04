@@ -24,6 +24,8 @@ public static class CoopApprovedExteriorSetup
     [MenuItem("Nature Paradise/Coop/Apply Approved Coop A Exterior", false, 105)]
     public static void Apply()
     {
+        if(File.Exists(Root+"/Source~/CoopExteriorCozy/CoopExterior_Cozy_Manifest.json"))
+        {CoopExteriorCozySetup.Apply();return;}
         if (EditorApplication.isPlayingOrWillChangePlaymode)
             throw new InvalidOperationException("Stop Play Mode before applying coop assets.");
         Directory.CreateDirectory(Models);

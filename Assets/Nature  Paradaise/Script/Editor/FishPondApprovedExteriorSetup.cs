@@ -55,6 +55,7 @@ public static class FishPondApprovedExteriorSetup
     [MenuItem("Nature Paradise/Fish Pond/Apply Approved Pond A",false,120)]
     public static void Apply()
     {
+        if(File.Exists(Root+"/Source~/FishPondCozy/FishPond_Cozy_Manifest.json")){FishPondCozySetup.Apply();return;}
         if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Stop Play Mode before applying pond assets.");
         report=new StringBuilder("FISH POND A UNITY APPLY\n");
         spec=JObject.Parse(File.ReadAllText("ArtSource/FishPond_A/References/FishPond_A_Approved.json"));

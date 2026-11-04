@@ -1,0 +1,22 @@
+COZY POND NATIVE PLAY
+PASS No production save writer
+PASS All three levels instantiate
+PASS Existing Tilapia item resolves
+PASS Lv1: fish in valid water
+PASS Lv1: feed maker initialized
+PASS Lv1: pond UI opens
+PASS Lv1: deposit fish
+PASS Lv1: withdraw fish
+PASS Lv2: fish in valid water
+PASS Lv2: feed maker initialized
+PASS Lv2: pond UI opens
+PASS Lv2: deposit fish
+PASS Lv2: withdraw fish
+PASS Lv3: fish in valid water
+PASS Lv3: feed maker initialized
+PASS Lv3: pond UI opens
+PASS Lv3: deposit fish
+PASS Lv3: withdraw fish
+PASS Replacing Lv1 visual and restoring records retains fish
+PASS Feed survives restore
+POND_COZY_PLAY_PASS checks=20

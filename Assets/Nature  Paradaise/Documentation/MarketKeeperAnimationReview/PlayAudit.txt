@@ -1,0 +1,16 @@
+KEEPER PLAY
+PASS No save writer
+PASS Keeper starts Idle
+PASS Existing Mina still starts Idle
+PASS Unassigned future action fails safely
+PASS Moving keeper selects Walk
+PASS Test actually translates keeper
+PASS Stopping returns to Idle
+PASS Temporary test clip plays through custom action API
+PASS Idle does not overwrite custom action
+PASS Completed custom action returns to Idle
+PASS Action can restart
+PASS Explicit resume releases action override
+PASS Mina remains unchanged by keeper action
+PASS Test clip never written to real action library
+KEEPER_ANIMATION_PLAY_PASS checks=14

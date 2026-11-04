@@ -107,6 +107,7 @@ public sealed class PlayerController : MonoBehaviour
     Vector3 planarVelocity;
     Vector3 forwardJumpVelocity;
     float verticalVelocity;
+    float worldYieldUntil;
     float staminaTimer;
     bool mobileSprintHeld;
     bool jumpRequested;
@@ -269,7 +270,8 @@ public sealed class PlayerController : MonoBehaviour
 
         if (movementCamera == null) movementCamera = Camera.main;
 
-        Vector2 input = IsMovementLocked ? Vector2.zero : ReadMovementInput();
+        bool yieldingToWorld=Time.time<worldYieldUntil;
+        Vector2 input = IsMovementLocked || yieldingToWorld ? Vector2.zero : ReadMovementInput();
         Vector3 direction = ToCameraRelativeDirection(input);
         bool groundedBeforeMove = characterController.isGrounded;
         if (groundedBeforeMove && verticalVelocity < 0f)
@@ -277,7 +279,7 @@ public sealed class PlayerController : MonoBehaviour
 
         UpdatePendingStandingJump(groundedBeforeMove);
 
-        if (!IsMovementLocked && (GameplayInput.GetKeyDown(jumpKey) || jumpRequested))
+        if (!IsMovementLocked && !yieldingToWorld && (GameplayInput.GetKeyDown(jumpKey) || jumpRequested))
             TryJump(groundedBeforeMove, direction);
         jumpRequested = false;
 
@@ -652,6 +654,21 @@ public sealed class PlayerController : MonoBehaviour
         var mode = planarVelocity.sqrMagnitude > .001f ? MovementMode.Walk : MovementMode.Idle;
         SetMovementMode(mode);
         UpdateAnimator(characterController.isGrounded||groundedFromGravity, mode);
+    }
+    /// <summary>Small physical sidestep for a moving world object; walls still constrain the capsule.</summary>
+    public bool MoveAsideForWorldObject(Vector3 displacement)
+    {
+        if(characterController==null||!characterController.enabled||!gameObject.activeInHierarchy||IsMovementLocked)return false;
+        displacement.y=0;displacement=Vector3.ClampMagnitude(displacement,.3f);
+        if(displacement.sqrMagnitude<.000001f)return false;
+        var before=transform.position;float step=characterController.stepOffset;characterController.stepOffset=0;
+        characterController.Move(displacement);characterController.stepOffset=step;
+        var actual=transform.position-before;actual.y=0;
+        if(actual.sqrMagnitude<.000001f)return false;
+        worldYieldUntil=Time.time+.16f;
+        planarVelocity=Time.deltaTime>0?actual/Time.deltaTime:Vector3.zero;
+        SetMovementMode(MovementMode.Walk);UpdateAnimator(characterController.isGrounded||groundedFromGravity,MovementMode.Walk);
+        return true;
     }
     public void PlayBrushAnimalAnimation() => PlayTrigger(brushAnimalTrigger, hasBrushAnimalTrigger);
     public void SetBrushingAnimation(bool active)

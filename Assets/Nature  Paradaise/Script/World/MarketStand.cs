@@ -70,7 +70,7 @@ public sealed class MarketStand : MonoBehaviour
     [Header("Buyer Simulation")]
     [SerializeField, Range(0f, 1f)] float baseHourlyBuyerChance = 0.24f;
     [SerializeField, Range(0f, 0.25f)] float chancePerVillageLevel = 0.06f;
-    [SerializeField, Range(0, 23)] int marketOpenHour = 8;
+    [SerializeField, Range(0, 23)] int marketOpenHour = 6;
     [SerializeField, Range(0, 23)] int marketCloseHour = 20;
     [SerializeField, Min(1)] int maximumItemsPerSale = 3;
 
@@ -81,14 +81,22 @@ public sealed class MarketStand : MonoBehaviour
     bool panelOpen;
     MarketStandUI marketUI; bool previousCursorVisible; CursorLockMode previousCursorLock;
     string feedback = string.Empty;
+    MarketCartSchedule cartSchedule;
 
     public static bool IsAnyOpen => Active.Any(s=>s!=null&&s.panelOpen);
     public Inventory PlayerInventory => playerInventory;
     public int ListingCapacity => listingCapacity;
     public string Feedback => feedback;
-    public string OpeningHoursLabel => $"{(TimeManager.Instance!=null&&TimeManager.Instance.hour>=marketOpenHour&&TimeManager.Instance.hour<marketCloseHour?"Pasar buka":"Pasar tutup")}  •  {marketOpenHour:00}:00–{marketCloseHour:00}:00";
+    public static bool IsTradingWeather(WeatherType weather) => weather == WeatherType.Sunny ||
+        weather == WeatherType.PartlyCloudy || weather == WeatherType.Cloudy || weather == WeatherType.Heatwave;
+    public bool IsScheduledOpen => (TimeManager.Instance == null ||
+        TimeManager.Instance.hour >= marketOpenHour && TimeManager.Instance.hour < marketCloseHour) &&
+        (WeatherSystem.Instance == null || IsTradingWeather(WeatherSystem.Instance.CurrentWeather));
+    public bool CanTrade => IsScheduledOpen && (cartSchedule == null || cartSchedule.IsParked) &&
+        (SaveManager.Instance == null || !SaveManager.Instance.IsLoading);
+    public string OpeningHoursLabel => $"{(CanTrade ? "Pasar buka" : IsScheduledOpen ? "Gerobak sedang datang" : "Pasar tutup")}  •  {marketOpenHour:00}:00–{marketCloseHour:00}:00";
     public bool CanDepositFromSlot(int slotIndex)
-    {var stack=playerInventory!=null?playerInventory.GetSlot(slotIndex):null;return stack?.item!=null&&stack.count>0&&stack.item.CanSellAtMarket&&(listings.Count<listingCapacity||FindCompatible(stack.item,stack.qualityStars,stack.fishSizeCm)!=null);}
+    {var stack=playerInventory!=null?playerInventory.GetSlot(slotIndex):null;return CanTrade&&stack?.item!=null&&stack.count>0&&stack.item.CanSellAtMarket&&(listings.Count<listingCapacity||FindCompatible(stack.item,stack.qualityStars,stack.fishSizeCm)!=null);}
     public string StandId => standId;
     public IReadOnlyList<MarketStandListing> Listings => listings;
     public int LifetimeRevenue => lifetimeRevenue;
@@ -119,6 +127,7 @@ public sealed class MarketStand : MonoBehaviour
         }
         ResolveInventory();
         NormalizeListings();
+        cartSchedule = GetComponent<MarketCartSchedule>() ?? gameObject.AddComponent<MarketCartSchedule>();
 
 
         if (lastProcessedAbsoluteHour < 0)
@@ -129,20 +138,21 @@ public sealed class MarketStand : MonoBehaviour
     {
         if (!Active.Contains(this))
             Active.Add(this);
-        TimeManager.OnHour += ProcessElapsedSales;
     }
 
     void Start() => ProcessElapsedSales();
 
     void OnDisable()
     {
-        TimeManager.OnHour -= ProcessElapsedSales;
         Active.Remove(this);
         ClosePanel();
     }
 
     void Update()
     {
+        // Run after the clock/weather events have both settled, including sleep/day changes.
+        ProcessElapsedSales();
+        if (!CanTrade) { ClosePanel(); return; }
         ResolveInventory();
         if (playerInventory == null)
             return;
@@ -174,6 +184,7 @@ public sealed class MarketStand : MonoBehaviour
 
     public bool TryDepositFromSlot(int slotIndex, int amount)
     {
+        if (!CanTrade) { feedback = OpeningHoursLabel; return false; }
         ResolveInventory();
         ItemStack stack = playerInventory != null ? playerInventory.GetSlot(slotIndex) : null;
         if (stack == null || stack.item == null || stack.count <= 0 || amount <= 0 || !stack.item.CanSellAtMarket)
@@ -216,6 +227,7 @@ public sealed class MarketStand : MonoBehaviour
 
     public bool TryWithdraw(int listingIndex, int amount)
     {
+        if (!CanTrade) { feedback = OpeningHoursLabel; return false; }
         ResolveInventory();
         if (playerInventory == null || listingIndex < 0 || listingIndex >= listings.Count || amount <= 0)
             return false;
@@ -248,13 +260,13 @@ public sealed class MarketStand : MonoBehaviour
         if (lastProcessedAbsoluteHour < 0 || lastProcessedAbsoluteHour > now)
             lastProcessedAbsoluteHour = now;
 
-        int first = lastProcessedAbsoluteHour + 1;
-        for (int absoluteHour = first; absoluteHour <= now; absoluteHour++)
-        {
-            int hourOfDay = absoluteHour % 24;
-            if (hourOfDay >= marketOpenHour && hourOfDay < marketCloseHour)
-                SimulateBuyer(absoluteHour == now);
-        }
+        if (now == lastProcessedAbsoluteHour) return;
+        lastProcessedAbsoluteHour = now;
+        // No weather history exists in a stand save. Never replay missed hours using
+        // today's weather (or pay out while loading, closed, or still travelling).
+        if (!CanTrade || WeatherSystem.Instance != null &&
+            WeatherSystem.Instance.CurrentWeatherDay != TimeManager.Instance.day) return;
+        SimulateBuyer(true);
 
         // Semua listing yang mencapai batas tujuh hari diselesaikan pada tick yang sama.
         // Dengan begitu beberapa stack yang dipasang bersamaan tidak melewati deadline.
@@ -305,6 +317,7 @@ public sealed class MarketStand : MonoBehaviour
 
     public void OpenPanel()
     {
+        if (!CanTrade) return;
         if (ShopFront.IsAnyOpen) return;
         if (panelOpen)
             return;
@@ -398,7 +411,9 @@ void ResolveInventory()
         lastProcessedAbsoluteHour = data != null ? data.lastProcessedAbsoluteHour : CurrentAbsoluteHour;
         lifetimeRevenue = Mathf.Max(0, data?.lifetimeRevenue ?? 0);
         NormalizeListings();
-        ProcessElapsedSales();
+        // A load restores exactly the recorded stock/revenue, without offline sales.
+        lastProcessedAbsoluteHour = CurrentAbsoluteHour;
+        cartSchedule?.RestorePresentation();
     }
 
     public static List<MarketStandSaveData> CaptureAll() =>

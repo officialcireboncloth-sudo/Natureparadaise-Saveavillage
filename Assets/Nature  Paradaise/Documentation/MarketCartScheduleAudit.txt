@@ -1,0 +1,74 @@
+MARKET CART SCHEDULE NATIVE UNITY AUDIT
+PASS Gameplay prefab GUID retained with serialized travel settings
+PASS Real Map market exists
+PASS Map stall placement retained and scale normalized
+PASS Real Map clear exit found at zoom 5
+PASS Arrival/exit stays in upper screen hemisphere at zoom 5
+PASS Full cart/keeper outside gameplay frustum at zoom 5
+PASS Real Map route avoids house, bin and fences at zoom 5
+PASS Exit remains on usable terrain at zoom 5
+ROUTE zoom=5 home=(401.42, 18.45, 613.30) exit=(398.32, 18.48, 601.71) length=12.00004
+PASS Real Map clear exit found at zoom 8
+PASS Arrival/exit stays in upper screen hemisphere at zoom 8
+PASS Full cart/keeper outside gameplay frustum at zoom 8
+PASS Real Map route avoids house, bin and fences at zoom 8
+PASS Exit remains on usable terrain at zoom 8
+ROUTE zoom=8 home=(401.42, 18.45, 613.30) exit=(396.76, 18.48, 595.91) length=18.00001
+PASS Real Map clear exit found at zoom 12
+PASS Arrival/exit stays in upper screen hemisphere at zoom 12
+PASS Full cart/keeper outside gameplay frustum at zoom 12
+PASS Real Map route avoids house, bin and fences at zoom 12
+PASS Exit remains on usable terrain at zoom 12
+ROUTE zoom=12 home=(401.42, 18.45, 613.30) exit=(395.21, 18.48, 590.11) length=23.99999
+PASS Test never accesses a production save writer
+PASS Faster 1.8m/s travel is applied on actual prefab
+PASS 05:50 cart/keeper hidden and trading closed
+PASS No invisible cart/keeper collisions while absent
+PASS Weather policy: Sunny
+PASS Weather policy: PartlyCloudy
+PASS Weather policy: Heatwave
+PASS Weather policy: Drizzle
+PASS Weather policy: Rain
+PASS Weather policy: HeavyRain
+PASS Weather policy: WindRainStorm
+PASS Weather policy: Cyclone
+PASS Weather policy: Thunderstorm
+PASS Weather policy: Snow
+PASS Weather policy: Blizzard
+PASS Weather policy: Cloudy
+PASS 06:00 arrives visibly but cannot trade on the move
+PASS Arrival appears fully beyond camera edge
+PASS Cart and parented keeper travel toward stall
+PASS Keeper uses authored Cart_Push while cart travels
+PASS Arrival parks exactly at original location
+PASS Keeper returns to shared Idle at stall
+PASS UI hours reflect 06:00–20:00
+PASS Open-market deposit preserves original listing flow
+PASS Open-market withdrawal works
+PASS Trading UI holds clock pause
+PASS Drizzle closes UI, releases pause, blocks trading
+PASS Closed deposit/withdraw cannot mutate inventory/stock
+PASS Rain/drizzle starts departure rather than onscreen disappearance (Departing)
+PASS Departure hide occurs beyond camera (full bounds)
+PASS Cart completes offscreen departure
+PASS Absent market remains in save capture with stock
+PASS Seven-day guarantee never sells during rain/drizzle
+PASS 20:00 is closed even when sunny
+PASS 05:50 stays closed
+PASS 19:50 remains scheduled open
+PASS Load restores parked open cart without offline sale or stock loss
+PASS 20:00 starts timed departure
+PASS Reopening while leaving reverses journey safely
+PASS Heatwave permits arrival and trading
+PASS Overdue stock sells only on an open parked market hour
+PASS Repeated same-hour updates cannot duplicate payout
+PASS Following/zooming player still completes graceful fade after 18m
+PASS Cart hides after tracking camera finally loses sight
+PASS Rain save restores hidden cart and exact stored listings/revenue
+PASS Travel preserves save identity and home transform
+PASS Mendung restored during opening hours can trade
+PASS Game pause freezes cart movement
+PASS Departure resumes after pause released
+PASS Cart waits for an actor crossing its initial sweep volume
+PASS Cart resumes after actor clears route
+MARKET_SCHEDULE_PASS checks=69

@@ -1,0 +1,31 @@
+MARKET CART PLAYER CLEARANCE — NATIVE UNITY
+PASS No production save access
+PASS Actual player CharacterController is active
+SIDE startX=-0.25 final=(-1.62, 0.00, 1.20)
+PASS Player cannot hold cart at lateral offset -0.25
+PASS Nearest available side selected at -0.25
+PASS No lift/teleport onto cart at -0.25
+PASS No persistent movement lock at -0.25
+SIDE startX=0 final=(1.71, 0.00, 1.20)
+PASS Player cannot hold cart at lateral offset 0
+PASS Nearest available side selected at 0
+PASS No lift/teleport onto cart at 0
+PASS No persistent movement lock at 0
+SIDE startX=0.25 final=(1.74, 0.00, 1.20)
+PASS Player cannot hold cart at lateral offset 0.25
+PASS Nearest available side selected at 0.25
+PASS No lift/teleport onto cart at 0.25
+PASS No persistent movement lock at 0.25
+PASS Backwards pull also clears the player beside the keeper
+PASS Right side blocked: player yields left instead
+PASS Player never crosses the side wall
+PASS Left side blocked: player yields right instead
+PASS Both sides blocked: player stays safely between walls
+PASS Boxed-in player triggers graceful cart fade instead of permanent blockage
+PASS Blocked-side fallback completes disappearance
+PASS Parked stand does not push nearby player
+PASS Animal/NPC still blocks solid route
+PASS Animal is not forcibly shoved or faded by player-only logic
+PASS Movement input works again after sidestep grace period
+PASS Testing override clears normally
+MARKET_CART_CLEARANCE_PASS checks=26

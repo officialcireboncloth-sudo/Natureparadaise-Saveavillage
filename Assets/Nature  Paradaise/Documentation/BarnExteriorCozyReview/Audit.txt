@@ -1,0 +1,157 @@
+COZY PLAYER BARN EXTERIOR
+PASS Generated cow emblem atlas is mobile-sized 512 x 256
+PASS Generated emblem preserves transparent exterior and opaque cow
+PASS Five shared materials resolve including generated cow decal
+PASS LOD0: export axes present
+PASS LOD0: unmirrored right and front axes
+PASS LOD0: native mesh matches Blender bounds
+PASS LOD0: triangulation retained
+PASS LOD0: complete atlas UVs
+PASS LOD0: no generated per-object material
+PASS LOD0: 18 roof samples closed and outward-facing, including both eaves
+PASS LOD1: export axes present
+PASS LOD1: unmirrored right and front axes
+PASS LOD1: native mesh matches Blender bounds
+PASS LOD1: triangulation retained
+PASS LOD1: complete atlas UVs
+PASS LOD1: no generated per-object material
+PASS LOD1: 18 roof samples closed and outward-facing, including both eaves
+PASS LOD2: export axes present
+PASS LOD2: unmirrored right and front axes
+PASS LOD2: native mesh matches Blender bounds
+PASS LOD2: triangulation retained
+PASS LOD2: complete atlas UVs
+PASS LOD2: no generated per-object material
+PASS LOD2: 18 roof samples closed and outward-facing, including both eaves
+PASS Decreasing LODs and far mesh below 6000 triangles
+PASS Lv1: existing exterior authoring
+PASS Lv1: modeled bell and interaction markers retained
+PASS Lv1: authored metre scale and site offset preserved
+PASS Lv1: existing doorway position and rotation retained
+PASS Lv1: existing collider component identities retained
+PASS Lv1: bell and entrance interaction zones separated
+PASS Lv1: bell approach outside solid building
+PASS Lv1: approach anchor outside body collision
+PASS Lv1: existing prefab GUID and root ID retained
+PASS Lv2: existing exterior authoring
+PASS Lv2: modeled bell and interaction markers retained
+PASS Lv2: authored metre scale and site offset preserved
+PASS Lv2: existing doorway position and rotation retained
+PASS Lv2: existing collider component identities retained
+PASS Lv2: bell and entrance interaction zones separated
+PASS Lv2: bell approach outside solid building
+PASS Lv2: approach anchor outside body collision
+PASS Lv2: existing prefab GUID and root ID retained
+PASS Lv3: existing exterior authoring
+PASS Lv3: modeled bell and interaction markers retained
+PASS Lv3: authored metre scale and site offset preserved
+PASS Lv3: existing doorway position and rotation retained
+PASS Lv3: existing collider component identities retained
+PASS Lv3: bell and entrance interaction zones separated
+PASS Lv3: bell approach outside solid building
+PASS Lv3: approach anchor outside body collision
+PASS Lv3: existing prefab GUID and root ID retained
+PASS Lv4: existing exterior authoring
+PASS Lv4: modeled bell and interaction markers retained
+PASS Lv4: authored metre scale and site offset preserved
+PASS Lv4: existing doorway position and rotation retained
+PASS Lv4: existing collider component identities retained
+PASS Lv4: bell and entrance interaction zones separated
+PASS Lv4: bell approach outside solid building
+PASS Lv4: approach anchor outside body collision
+PASS Lv4: existing prefab GUID and root ID retained
+PASS Lv5: existing exterior authoring
+PASS Lv5: modeled bell and interaction markers retained
+PASS Lv5: authored metre scale and site offset preserved
+PASS Lv5: existing doorway position and rotation retained
+PASS Lv5: existing collider component identities retained
+PASS Lv5: bell and entrance interaction zones separated
+PASS Lv5: bell approach outside solid building
+PASS Lv5: approach anchor outside body collision
+PASS Lv5: existing prefab GUID and root ID retained
+PASS Catalog costs, duration, footprint, capacities and GUID bindings unchanged
+PASS Cozy shader has no reported compilation errors
+PASS Review has no production SaveManager
+PASS Authored bell still rings with a visible modeled mesh
+PASS Player capsule can reach the preserved door approach
+PASS Restore Lv1 yaw 0: new art resolves through saved building ID
+PASS Restore Lv1 yaw 0: animal kind, capacity and doorway resolve
+PASS Restore Lv1 yaw 0: door approach clear of body and legacy blockers
+PASS Restore Lv1 yaw 0: correct interior scene
+PASS Restore Lv1 yaw 37: new art resolves through saved building ID
+PASS Restore Lv1 yaw 37: animal kind, capacity and doorway resolve
+PASS Restore Lv1 yaw 37: door approach clear of body and legacy blockers
+PASS Restore Lv1 yaw 37: correct interior scene
+PASS Restore Lv1 yaw 90: new art resolves through saved building ID
+PASS Restore Lv1 yaw 90: animal kind, capacity and doorway resolve
+PASS Restore Lv1 yaw 90: door approach clear of body and legacy blockers
+PASS Restore Lv1 yaw 90: correct interior scene
+PASS Restore Lv1 yaw 180: new art resolves through saved building ID
+PASS Restore Lv1 yaw 180: animal kind, capacity and doorway resolve
+PASS Restore Lv1 yaw 180: door approach clear of body and legacy blockers
+PASS Restore Lv1 yaw 180: correct interior scene
+PASS Restore Lv1 yaw 270: new art resolves through saved building ID
+PASS Restore Lv1 yaw 270: animal kind, capacity and doorway resolve
+PASS Restore Lv1 yaw 270: door approach clear of body and legacy blockers
+PASS Restore Lv1 yaw 270: correct interior scene
+PASS Restore Lv2 yaw 0: new art resolves through saved building ID
+PASS Restore Lv2 yaw 0: animal kind, capacity and doorway resolve
+PASS Restore Lv2 yaw 0: door approach clear of body and legacy blockers
+PASS Restore Lv2 yaw 0: correct interior scene
+PASS Restore Lv2 yaw 37: new art resolves through saved building ID
+PASS Restore Lv2 yaw 37: animal kind, capacity and doorway resolve
+PASS Restore Lv2 yaw 37: door approach clear of body and legacy blockers
+PASS Restore Lv2 yaw 37: correct interior scene
+PASS Restore Lv2 yaw 90: new art resolves through saved building ID
+PASS Restore Lv2 yaw 90: animal kind, capacity and doorway resolve
+PASS Restore Lv2 yaw 90: door approach clear of body and legacy blockers
+PASS Restore Lv2 yaw 90: correct interior scene
+PASS Restore Lv2 yaw 180: new art resolves through saved building ID
+PASS Restore Lv2 yaw 180: animal kind, capacity and doorway resolve
+PASS Restore Lv2 yaw 180: door approach clear of body and legacy blockers
+PASS Restore Lv2 yaw 180: correct interior scene
+PASS Restore Lv2 yaw 270: new art resolves through saved building ID
+PASS Restore Lv2 yaw 270: animal kind, capacity and doorway resolve
+PASS Restore Lv2 yaw 270: door approach clear of body and legacy blockers
+PASS Restore Lv2 yaw 270: correct interior scene
+PASS Restore Lv3 yaw 0: new art resolves through saved building ID
+PASS Restore Lv3 yaw 0: animal kind, capacity and doorway resolve
+PASS Restore Lv3 yaw 0: door approach clear of body and legacy blockers
+PASS Restore Lv3 yaw 0: correct interior scene
+PASS Restore Lv3 yaw 37: new art resolves through saved building ID
+PASS Restore Lv3 yaw 37: animal kind, capacity and doorway resolve
+PASS Restore Lv3 yaw 37: door approach clear of body and legacy blockers
+PASS Restore Lv3 yaw 37: correct interior scene
+PASS Restore Lv3 yaw 90: new art resolves through saved building ID
+PASS Restore Lv3 yaw 90: animal kind, capacity and doorway resolve
+PASS Restore Lv3 yaw 90: door approach clear of body and legacy blockers
+PASS Restore Lv3 yaw 90: correct interior scene
+PASS Restore Lv3 yaw 180: new art resolves through saved building ID
+PASS Restore Lv3 yaw 180: animal kind, capacity and doorway resolve
+PASS Restore Lv3 yaw 180: door approach clear of body and legacy blockers
+PASS Restore Lv3 yaw 180: correct interior scene
+PASS Restore Lv3 yaw 270: new art resolves through saved building ID
+PASS Restore Lv3 yaw 270: animal kind, capacity and doorway resolve
+PASS Restore Lv3 yaw 270: door approach clear of body and legacy blockers
+PASS Restore Lv3 yaw 270: correct interior scene
+PASS Restore Lv4 yaw 0: new art resolves through saved building ID
+PASS Restore Lv4 yaw 0: animal kind, capacity and doorway resolve
+PASS Restore Lv4 yaw 0: door approach clear of body and legacy blockers
+PASS Restore Lv4 yaw 0: correct interior scene
+PASS Restore Lv4 yaw 37: new art resolves through saved building ID
+PASS Restore Lv4 yaw 37: animal kind, capacity and doorway resolve
+PASS Restore Lv4 yaw 37: door approach clear of body and legacy blockers
+PASS Restore Lv4 yaw 37: correct interior scene
+PASS Restore Lv4 yaw 90: new art resolves through saved building ID
+PASS Restore Lv4 yaw 90: animal kind, capacity and doorway resolve
+PASS Restore Lv4 yaw 90: door approach clear of body and legacy blockers
+PASS Restore Lv4 yaw 90: correct interior scene
+PASS Restore Lv4 yaw 180: new art resolves through saved building ID
+PASS Restore Lv4 yaw 180: animal kind, capacity and doorway resolve
+PASS Restore Lv4 yaw 180: door approach clear of body and legacy blockers
+PASS Restore Lv4 yaw 180: correct interior scene
+PASS Restore Lv4 yaw 270: new art resolves through saved building ID
+PASS Restore Lv4 yaw 270: animal kind, capacity and doorway resolve
+PASS Restore Lv4 yaw 270: door approach clear of body and legacy blockers
+PASS Restore Lv4 yaw 270: correct interior scene
+BARN_EXTERIOR_COZY_PASS checks=155; isolated native editor import, prefab and render verification; no production save/scene writes.

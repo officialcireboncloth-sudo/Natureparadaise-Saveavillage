@@ -1,0 +1,50 @@
+MARKET CART DEBUG NATIVE UNITY
+PASS No production save writer
+PASS Existing F12 debug menu bootstraps
+PASS Dedicated category preserves existing eight category indices
+PASS Nonempty stock prepared · state=Open trading=True slot=0
+PASS Opening category pauses gameplay
+PASS Mouse/touch controls built
+PASS Debug button enabled: Preview fade-out di tempat · 1 detik
+PASS Preview closes menu and releases only its locks
+PASS Fade test starts at home despite open business hours
+PASS Fade reaches half visibility after half a second
+PASS Actual renderer receives per-cart fade
+PASS Shared materials/colors remain unchanged
+PASS No collision during disappearing preview
+PASS Preview ends fully hidden
+PASS Original materials restored: MarketCart_WheelLeft_LOD0
+PASS Original materials restored: MarketCart_WheelLeft_LOD1
+PASS Original materials restored: MarketCart_WheelLeft_LOD2
+PASS Original materials restored: MarketCart_WheelRight_LOD0
+PASS Original materials restored: MarketCart_WheelRight_LOD1
+PASS Original materials restored: MarketCart_WheelRight_LOD2
+PASS Original materials restored: MarketCart_Cart_LOD0
+PASS Original materials restored: MarketCart_Produce_LOD0
+PASS Original materials restored: MarketCart_Glass_LOD0
+PASS Original materials restored: MarketCart_Cart_LOD1
+PASS Original materials restored: MarketCart_Produce_LOD1
+PASS Original materials restored: MarketCart_Glass_LOD1
+PASS Original materials restored: MarketCart_Cart_LOD2
+PASS Original materials restored: MarketCart_Produce_LOD2
+PASS Original materials restored: MarketCart_Glass_LOD2
+PASS Original materials restored: MarketKeeper_Body
+PASS Debug button enabled: Tampilkan ulang di posisi stand
+PASS Show again restores full visibility
+PASS Debug button enabled: Tes pergi / tutup · raih, tarik, dorong keluar kamera
+PASS Departure test overrides open hours without allowing transactions
+PASS Departure test reaches offscreen fade and hidden state
+PASS Test leaves clock and weather unchanged
+PASS Fade/departure leave actual stock untouched
+PASS Repeated preview/cancel releases temporary keeper materials
+PASS Debug button enabled: Sembunyikan langsung
+PASS Immediate hide test
+PASS Debug button enabled: Kembali ke jadwal normal
+PASS Normal schedule resumes with no lingering override
+PASS Debug button enabled: Tes datang dari atas layar
+PASS Debug arrival begins above the stand, never below
+PASS Arriving cart faces toward the stall
+PASS Upper arrival parks successfully
+PASS Save load cancels debug/fade override
+PASS Fade shader compiles natively
+MARKET_CART_DEBUG_PASS checks=48

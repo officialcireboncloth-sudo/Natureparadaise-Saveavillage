@@ -1,0 +1,2175 @@
+{
+  "kind": "MarketCart",
+  "meshes": [
+    {
+      "name": "MarketCart_Cart_LOD0",
+      "group": "Cart",
+      "lod": 0,
+      "material": "NP_CozySurfaces_01",
+      "triangles": 14126,
+      "min": [
+        -0.9749999046325684,
+        0.17625004053115845,
+        -1.684584617614746
+      ],
+      "max": [
+        0.9749999642372131,
+        1.59975004196167,
+        0.6393750905990601
+      ]
+    },
+    {
+      "name": "MarketCart_WheelLeft_LOD0",
+      "group": "WheelLeft",
+      "lod": 0,
+      "material": "NP_CozySurfaces_01",
+      "triangles": 1520,
+      "min": [
+        -0.9652499556541443,
+        0.005250000394880772,
+        -0.4559999704360962
+      ],
+      "max": [
+        -0.8062500357627869,
+        0.8422499895095825,
+        0.38100001215934753
+      ]
+    },
+    {
+      "name": "MarketCart_WheelRight_LOD0",
+      "group": "WheelRight",
+      "lod": 0,
+      "material": "NP_CozySurfaces_01",
+      "triangles": 1520,
+      "min": [
+        0.8062500357627869,
+        0.005250000394880772,
+        -0.4559999704360962
+      ],
+      "max": [
+        0.9652499556541443,
+        0.8422499895095825,
+        0.38100001215934753
+      ]
+    },
+    {
+      "name": "MarketCart_Produce_LOD0",
+      "group": "Produce",
+      "lod": 0,
+      "material": "MarketCart_ToonpackProduce",
+      "triangles": 6235,
+      "min": [
+        -0.7126927375793457,
+        0.26999998092651367,
+        -0.4582440257072449
+      ],
+      "max": [
+        0.8067293167114258,
+        1.4627819061279297,
+        0.5049866437911987
+      ]
+    },
+    {
+      "name": "MarketCart_Glass_LOD0",
+      "group": "Glass",
+      "lod": 0,
+      "material": "MarketCart_Glass",
+      "triangles": 10,
+      "min": [
+        -0.75,
+        0.8925000429153442,
+        -0.4987500309944153
+      ],
+      "max": [
+        0.38999998569488525,
+        1.5787500143051147,
+        0.0037499999161809683
+      ]
+    },
+    {
+      "name": "MarketCart_Cart_LOD1",
+      "group": "Cart",
+      "lod": 1,
+      "material": "NP_CozySurfaces_01",
+      "triangles": 8102,
+      "min": [
+        -0.9749999046325684,
+        0.17625004053115845,
+        -1.684584617614746
+      ],
+      "max": [
+        0.9749999642372131,
+        1.59975004196167,
+        0.6393750905990601
+      ]
+    },
+    {
+      "name": "MarketCart_WheelLeft_LOD1",
+      "group": "WheelLeft",
+      "lod": 1,
+      "material": "NP_CozySurfaces_01",
+      "triangles": 942,
+      "min": [
+        -0.9652499556541443,
+        0.005250000394880772,
+        -0.4559999704360962
+      ],
+      "max": [
+        -0.8062500357627869,
+        0.8422499895095825,
+        0.38100001215934753
+      ]
+    },
+    {
+      "name": "MarketCart_WheelRight_LOD1",
+      "group": "WheelRight",
+      "lod": 1,
+      "material": "NP_CozySurfaces_01",
+      "triangles": 942,
+      "min": [
+        0.8062500357627869,
+        0.005250000394880772,
+        -0.4559999704360962
+      ],
+      "max": [
+        0.9652499556541443,
+        0.8422499895095825,
+        0.38100001215934753
+      ]
+    },
+    {
+      "name": "MarketCart_Produce_LOD1",
+      "group": "Produce",
+      "lod": 1,
+      "material": "MarketCart_ToonpackProduce",
+      "triangles": 3865,
+      "min": [
+        -0.7136859893798828,
+        0.2689721882343292,
+        -0.4582440257072449
+      ],
+      "max": [
+        0.8055624961853027,
+        1.4627819061279297,
+        0.5049866437911987
+      ]
+    },
+    {
+      "name": "MarketCart_Glass_LOD1",
+      "group": "Glass",
+      "lod": 1,
+      "material": "MarketCart_Glass",
+      "triangles": 10,
+      "min": [
+        -0.75,
+        0.8925000429153442,
+        -0.4987500309944153
+      ],
+      "max": [
+        0.38999998569488525,
+        1.5787500143051147,
+        0.0037499999161809683
+      ]
+    },
+    {
+      "name": "MarketCart_Cart_LOD2",
+      "group": "Cart",
+      "lod": 2,
+      "material": "NP_CozySurfaces_01",
+      "triangles": 2834,
+      "min": [
+        -0.9749999046325684,
+        0.18062502145767212,
+        -1.684373378753662
+      ],
+      "max": [
+        0.9750000238418579,
+        1.5972501039505005,
+        0.635758101940155
+      ]
+    },
+    {
+      "name": "MarketCart_WheelLeft_LOD2",
+      "group": "WheelLeft",
+      "lod": 2,
+      "material": "NP_CozySurfaces_01",
+      "triangles": 384,
+      "min": [
+        -0.9652499556541443,
+        0.004958484787493944,
+        -0.4553716480731964
+      ],
+      "max": [
+        -0.8062500357627869,
+        0.8416216969490051,
+        0.384190171957016
+      ]
+    },
+    {
+      "name": "MarketCart_WheelRight_LOD2",
+      "group": "WheelRight",
+      "lod": 2,
+      "material": "NP_CozySurfaces_01",
+      "triangles": 384,
+      "min": [
+        0.8062500357627869,
+        0.004958484787493944,
+        -0.4553716480731964
+      ],
+      "max": [
+        0.9652499556541443,
+        0.8416216969490051,
+        0.384190171957016
+      ]
+    },
+    {
+      "name": "MarketCart_Produce_LOD2",
+      "group": "Produce",
+      "lod": 2,
+      "material": "MarketCart_ToonpackProduce",
+      "triangles": 1995,
+      "min": [
+        -0.7128259539604187,
+        0.2689721882343292,
+        -0.4552079439163208
+      ],
+      "max": [
+        0.8055624961853027,
+        1.4674779176712036,
+        0.5021988153457642
+      ]
+    },
+    {
+      "name": "MarketCart_Glass_LOD2",
+      "group": "Glass",
+      "lod": 2,
+      "material": "MarketCart_Glass",
+      "triangles": 10,
+      "min": [
+        -0.75,
+        0.8925000429153442,
+        -0.4987500309944153
+      ],
+      "max": [
+        0.38999998569488525,
+        1.5787500143051147,
+        0.0037499999161809683
+      ]
+    }
+  ],
+  "sourceProduce": [
+    "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_01A.prefab",
+    "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Orange_01A.prefab",
+    "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_01A.prefab",
+    "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_01A.prefab",
+    "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Carrot_01A.prefab",
+    "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Eggplant_03A.prefab",
+    "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Salad_01A.prefab",
+    "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cauliflower_01A.prefab",
+    "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Leek_01A.prefab",
+    "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_01B.prefab",
+    "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Potato_02A.prefab",
+    "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Potato_01A.prefab"
+  ],
+  "produceInstances": [
+    {
+      "id": "Banana_01A",
+      "position": [
+        -0.39,
+        1.65,
+        -0.46
+      ],
+      "size": 0.32,
+      "rotation": [
+        -4,
+        5,
+        -22
+      ],
+      "triangles": 60
+    },
+    {
+      "id": "Banana_01A",
+      "position": [
+        -0.27,
+        1.65,
+        -0.43
+      ],
+      "size": 0.34,
+      "rotation": [
+        3,
+        -5,
+        2
+      ],
+      "triangles": 60
+    },
+    {
+      "id": "Banana_01A",
+      "position": [
+        -0.15,
+        1.65,
+        -0.38
+      ],
+      "size": 0.31,
+      "rotation": [
+        -3,
+        7,
+        21
+      ],
+      "triangles": 60
+    },
+    {
+      "id": "Banana_01A",
+      "position": [
+        -0.36,
+        1.688,
+        -0.29
+      ],
+      "size": 0.33,
+      "rotation": [
+        4,
+        -4,
+        -9
+      ],
+      "triangles": 60
+    },
+    {
+      "id": "Banana_01A",
+      "position": [
+        -0.23,
+        1.685,
+        -0.27
+      ],
+      "size": 0.32,
+      "rotation": [
+        -5,
+        2,
+        14
+      ],
+      "triangles": 60
+    },
+    {
+      "id": "Orange_01A",
+      "position": [
+        0.1,
+        1.65,
+        -0.46
+      ],
+      "size": 0.18,
+      "rotation": [
+        7,
+        -5,
+        17
+      ],
+      "triangles": 82
+    },
+    {
+      "id": "Orange_01A",
+      "position": [
+        0.28,
+        1.65,
+        -0.49
+      ],
+      "size": 0.185,
+      "rotation": [
+        -6,
+        8,
+        61
+      ],
+      "triangles": 82
+    },
+    {
+      "id": "Orange_01A",
+      "position": [
+        0.42,
+        1.65,
+        -0.37
+      ],
+      "size": 0.175,
+      "rotation": [
+        4,
+        9,
+        113
+      ],
+      "triangles": 82
+    },
+    {
+      "id": "Orange_01A",
+      "position": [
+        0.2,
+        1.65,
+        -0.27
+      ],
+      "size": 0.19,
+      "rotation": [
+        -8,
+        -4,
+        202
+      ],
+      "triangles": 82
+    },
+    {
+      "id": "Orange_01A",
+      "position": [
+        0.23,
+        1.775,
+        -0.4
+      ],
+      "size": 0.18,
+      "rotation": [
+        11,
+        7,
+        48
+      ],
+      "triangles": 82
+    },
+    {
+      "id": "Orange_01A",
+      "position": [
+        0.35,
+        1.765,
+        -0.29
+      ],
+      "size": 0.17,
+      "rotation": [
+        -9,
+        4,
+        157
+      ],
+      "triangles": 82
+    },
+    {
+      "id": "Pomegranate_01A",
+      "position": [
+        0.62,
+        1.65,
+        -0.46
+      ],
+      "size": 0.17,
+      "rotation": [
+        8,
+        -6,
+        24
+      ],
+      "triangles": 124
+    },
+    {
+      "id": "Pomegranate_01A",
+      "position": [
+        0.81,
+        1.65,
+        -0.44
+      ],
+      "size": 0.18,
+      "rotation": [
+        -5,
+        9,
+        81
+      ],
+      "triangles": 124
+    },
+    {
+      "id": "Pomegranate_01A",
+      "position": [
+        0.65,
+        1.65,
+        -0.26
+      ],
+      "size": 0.175,
+      "rotation": [
+        6,
+        11,
+        152
+      ],
+      "triangles": 124
+    },
+    {
+      "id": "Pomegranate_01A",
+      "position": [
+        0.83,
+        1.65,
+        -0.25
+      ],
+      "size": 0.16,
+      "rotation": [
+        -9,
+        -7,
+        223
+      ],
+      "triangles": 124
+    },
+    {
+      "id": "Pomegranate_01A",
+      "position": [
+        0.72,
+        1.765,
+        -0.37
+      ],
+      "size": 0.17,
+      "rotation": [
+        12,
+        -4,
+        63
+      ],
+      "triangles": 124
+    },
+    {
+      "id": "Pomegranate_01A",
+      "position": [
+        0.82,
+        1.755,
+        -0.32
+      ],
+      "size": 0.16,
+      "rotation": [
+        -7,
+        13,
+        192
+      ],
+      "triangles": 124
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        -0.38,
+        1.2,
+        -0.46
+      ],
+      "size": 0.18,
+      "rotation": [
+        5,
+        -8,
+        13
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        -0.18,
+        1.2,
+        -0.44
+      ],
+      "size": 0.19,
+      "rotation": [
+        -6,
+        7,
+        64
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        -0.33,
+        1.2,
+        -0.26
+      ],
+      "size": 0.175,
+      "rotation": [
+        9,
+        4,
+        142
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        -0.12,
+        1.2,
+        -0.27
+      ],
+      "size": 0.18,
+      "rotation": [
+        -8,
+        -3,
+        238
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        -0.25,
+        1.325,
+        -0.36
+      ],
+      "size": 0.18,
+      "rotation": [
+        7,
+        11,
+        304
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Carrot_01A",
+      "position": [
+        0.08,
+        1.2,
+        -0.35
+      ],
+      "size": 0.3,
+      "rotation": [
+        84,
+        5,
+        -17
+      ],
+      "triangles": 71
+    },
+    {
+      "id": "Carrot_01A",
+      "position": [
+        0.17,
+        1.205,
+        -0.35
+      ],
+      "size": 0.32,
+      "rotation": [
+        88,
+        -4,
+        -4
+      ],
+      "triangles": 71
+    },
+    {
+      "id": "Carrot_01A",
+      "position": [
+        0.27,
+        1.2,
+        -0.33
+      ],
+      "size": 0.29,
+      "rotation": [
+        81,
+        7,
+        12
+      ],
+      "triangles": 71
+    },
+    {
+      "id": "Carrot_01A",
+      "position": [
+        0.34,
+        1.227,
+        -0.34
+      ],
+      "size": 0.31,
+      "rotation": [
+        86,
+        -3,
+        23
+      ],
+      "triangles": 71
+    },
+    {
+      "id": "Eggplant_03A",
+      "position": [
+        0.6,
+        1.2,
+        -0.37
+      ],
+      "size": 0.29,
+      "rotation": [
+        3,
+        -6,
+        -12
+      ],
+      "triangles": 112
+    },
+    {
+      "id": "Eggplant_03A",
+      "position": [
+        0.75,
+        1.2,
+        -0.39
+      ],
+      "size": 0.31,
+      "rotation": [
+        -4,
+        8,
+        7
+      ],
+      "triangles": 112
+    },
+    {
+      "id": "Eggplant_03A",
+      "position": [
+        0.86,
+        1.225,
+        -0.34
+      ],
+      "size": 0.28,
+      "rotation": [
+        5,
+        -5,
+        21
+      ],
+      "triangles": 112
+    },
+    {
+      "id": "Salad_01A",
+      "position": [
+        -0.72,
+        1.185,
+        0.22
+      ],
+      "size": 0.31,
+      "rotation": [
+        -9,
+        4,
+        -18
+      ],
+      "triangles": 336
+    },
+    {
+      "id": "Cauliflower_01A",
+      "position": [
+        -0.68,
+        1.29,
+        0.26
+      ],
+      "size": 0.35,
+      "rotation": [
+        4,
+        -7,
+        -16
+      ],
+      "triangles": 161
+    },
+    {
+      "id": "Salad_01A",
+      "position": [
+        -0.88,
+        1.19,
+        0.17
+      ],
+      "size": 0.43,
+      "rotation": [
+        -6,
+        8,
+        37
+      ],
+      "triangles": 336
+    },
+    {
+      "id": "Leek_01A",
+      "position": [
+        -0.82,
+        1.19,
+        0.31
+      ],
+      "size": 0.48,
+      "rotation": [
+        9,
+        -12,
+        -19
+      ],
+      "triangles": 104
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        -0.24,
+        1.185,
+        0.41
+      ],
+      "size": 0.17,
+      "rotation": [
+        7,
+        -5,
+        18
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        -0.065,
+        1.185,
+        0.39
+      ],
+      "size": 0.16,
+      "rotation": [
+        -6,
+        9,
+        74
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        0.105,
+        1.185,
+        0.43
+      ],
+      "size": 0.17,
+      "rotation": [
+        5,
+        7,
+        147
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        -0.17,
+        1.185,
+        0.58
+      ],
+      "size": 0.165,
+      "rotation": [
+        -9,
+        -3,
+        211
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        0.03,
+        1.185,
+        0.59
+      ],
+      "size": 0.175,
+      "rotation": [
+        6,
+        -8,
+        272
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        -0.22,
+        1.285,
+        0.43
+      ],
+      "size": 0.17,
+      "rotation": [
+        -7,
+        12,
+        323
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        -0.045,
+        1.29,
+        0.415
+      ],
+      "size": 0.165,
+      "rotation": [
+        11,
+        5,
+        48
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        0.115,
+        1.285,
+        0.47
+      ],
+      "size": 0.155,
+      "rotation": [
+        -8,
+        9,
+        177
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Tomato_01A",
+      "position": [
+        -0.08,
+        1.3,
+        0.575
+      ],
+      "size": 0.16,
+      "rotation": [
+        7,
+        -11,
+        253
+      ],
+      "triangles": 89
+    },
+    {
+      "id": "Pear_01B",
+      "position": [
+        0.52,
+        1.185,
+        0.4
+      ],
+      "size": 0.24,
+      "rotation": [
+        10,
+        -8,
+        16
+      ],
+      "triangles": 102
+    },
+    {
+      "id": "Pear_01B",
+      "position": [
+        0.69,
+        1.185,
+        0.38
+      ],
+      "size": 0.23,
+      "rotation": [
+        -12,
+        5,
+        83
+      ],
+      "triangles": 102
+    },
+    {
+      "id": "Pear_01B",
+      "position": [
+        0.8,
+        1.185,
+        0.49
+      ],
+      "size": 0.25,
+      "rotation": [
+        9,
+        11,
+        154
+      ],
+      "triangles": 102
+    },
+    {
+      "id": "Pear_01B",
+      "position": [
+        0.63,
+        1.185,
+        0.55
+      ],
+      "size": 0.225,
+      "rotation": [
+        -6,
+        -9,
+        227
+      ],
+      "triangles": 102
+    },
+    {
+      "id": "Pear_01B",
+      "position": [
+        0.63,
+        1.33,
+        0.44
+      ],
+      "size": 0.23,
+      "rotation": [
+        14,
+        -8,
+        308
+      ],
+      "triangles": 102
+    },
+    {
+      "id": "Pear_01B",
+      "position": [
+        0.72,
+        1.32,
+        0.53
+      ],
+      "size": 0.22,
+      "rotation": [
+        -11,
+        7,
+        41
+      ],
+      "triangles": 102
+    },
+    {
+      "id": "Potato_02A",
+      "position": [
+        -0.6,
+        0.36,
+        0.12
+      ],
+      "size": 0.155,
+      "rotation": [
+        11,
+        -9,
+        17
+      ],
+      "triangles": 82
+    },
+    {
+      "id": "Potato_02A",
+      "position": [
+        -0.41,
+        0.36,
+        0.105
+      ],
+      "size": 0.163,
+      "rotation": [
+        7,
+        -4,
+        70
+      ],
+      "triangles": 82
+    },
+    {
+      "id": "Potato_02A",
+      "position": [
+        -0.22,
+        0.36,
+        0.14
+      ],
+      "size": 0.17099999999999999,
+      "rotation": [
+        3,
+        1,
+        123
+      ],
+      "triangles": 82
+    },
+    {
+      "id": "Potato_02A",
+      "position": [
+        -0.58,
+        0.36,
+        0.32
+      ],
+      "size": 0.155,
+      "rotation": [
+        -1,
+        6,
+        176
+      ],
+      "triangles": 82
+    },
+    {
+      "id": "Potato_02A",
+      "position": [
+        -0.39,
+        0.36,
+        0.33
+      ],
+      "size": 0.163,
+      "rotation": [
+        -5,
+        11,
+        229
+      ],
+      "triangles": 82
+    },
+    {
+      "id": "Potato_02A",
+      "position": [
+        -0.2,
+        0.36,
+        0.31
+      ],
+      "size": 0.17099999999999999,
+      "rotation": [
+        -9,
+        16,
+        282
+      ],
+      "triangles": 82
+    },
+    {
+      "id": "Potato_01A",
+      "position": [
+        -0.53,
+        0.425,
+        0.19
+      ],
+      "size": 0.16,
+      "rotation": [
+        -8,
+        12,
+        26
+      ],
+      "triangles": 88
+    },
+    {
+      "id": "Potato_01A",
+      "position": [
+        -0.34,
+        0.433,
+        0.17
+      ],
+      "size": 0.167,
+      "rotation": [
+        -4,
+        9,
+        93
+      ],
+      "triangles": 88
+    },
+    {
+      "id": "Potato_01A",
+      "position": [
+        -0.16,
+        0.425,
+        0.23
+      ],
+      "size": 0.17400000000000002,
+      "rotation": [
+        0,
+        6,
+        160
+      ],
+      "triangles": 88
+    },
+    {
+      "id": "Potato_01A",
+      "position": [
+        -0.49,
+        0.433,
+        0.36
+      ],
+      "size": 0.16,
+      "rotation": [
+        4,
+        3,
+        227
+      ],
+      "triangles": 88
+    },
+    {
+      "id": "Potato_01A",
+      "position": [
+        -0.29,
+        0.425,
+        0.35
+      ],
+      "size": 0.167,
+      "rotation": [
+        8,
+        0,
+        294
+      ],
+      "triangles": 88
+    },
+    {
+      "id": "Potato_01A",
+      "position": [
+        -0.59,
+        0.5,
+        0.22
+      ],
+      "size": 0.165,
+      "rotation": [
+        12,
+        -8,
+        38
+      ],
+      "triangles": 88
+    },
+    {
+      "id": "Potato_01A",
+      "position": [
+        -0.4,
+        0.512,
+        0.2
+      ],
+      "size": 0.171,
+      "rotation": [
+        9,
+        -3,
+        89
+      ],
+      "triangles": 88
+    },
+    {
+      "id": "Potato_01A",
+      "position": [
+        -0.22,
+        0.5,
+        0.28
+      ],
+      "size": 0.17700000000000002,
+      "rotation": [
+        6,
+        2,
+        140
+      ],
+      "triangles": 88
+    },
+    {
+      "id": "Potato_01A",
+      "position": [
+        -0.45,
+        0.512,
+        0.36
+      ],
+      "size": 0.165,
+      "rotation": [
+        3,
+        7,
+        191
+      ],
+      "triangles": 88
+    }
+  ],
+  "woodUV": [
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.5299999713897705,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.5299999713897705,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.5299999713897705,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.5299999713897705,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.5299999713897705,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.5299999713897705,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.5299999713897705,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.5299999713897705,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 2.240000009536743,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 2.240000009536743,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.6100000143051147,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.6100000143051147,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.8899999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.8899999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.8899999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.8899999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.2999999523162842,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.2999999523162842,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.2999999523162842,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.2999999523162842,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.2999999523162842,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.2999999523162842,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.2999999523162842,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.399999976158142,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.399999976158142,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.399999976158142,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 1.399999976158142,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.6399999856948853,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 1.9800000190734863,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 1.9800000190734863,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Honey wooden wheel rim",
+      "longAxis": 2,
+      "lengthMetres": 1.014000028371811,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Outer rim bevel highlight",
+      "longAxis": 1,
+      "lengthMetres": 0.9980000257492065,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3880000114440918,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3880000114440918,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Turned wooden wheel hub",
+      "longAxis": 2,
+      "lengthMetres": 0.20200002193450928,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Honey wooden wheel rim.001",
+      "longAxis": 2,
+      "lengthMetres": 1.014000028371811,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Outer rim bevel highlight.001",
+      "longAxis": 1,
+      "lengthMetres": 0.9980000257492065,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3880000114440918,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3880000114440918,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.3879999816417694,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Turned wooden wheel hub.001",
+      "longAxis": 2,
+      "lengthMetres": 0.20200002193450928,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Long push shaft",
+      "longAxis": 1,
+      "lengthMetres": 1.6287664771080017,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Turned hand grip",
+      "longAxis": 1,
+      "lengthMetres": 0.37132132053375244,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Hand grip carved collar",
+      "longAxis": 2,
+      "lengthMetres": 0.12820053100585938,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Hand grip carved collar.001",
+      "longAxis": 2,
+      "lengthMetres": 0.12820076942443848,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Hand grip carved collar.002",
+      "longAxis": 2,
+      "lengthMetres": 0.12820076942443848,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Hand grip carved collar.003",
+      "longAxis": 2,
+      "lengthMetres": 0.12820076942443848,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.8026829957962036,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Long push shaft.001",
+      "longAxis": 1,
+      "lengthMetres": 1.6287664771080017,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Turned hand grip.001",
+      "longAxis": 1,
+      "lengthMetres": 0.37132132053375244,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Hand grip carved collar.004",
+      "longAxis": 2,
+      "lengthMetres": 0.12820053100585938,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Hand grip carved collar.005",
+      "longAxis": 2,
+      "lengthMetres": 0.12820076942443848,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Hand grip carved collar.006",
+      "longAxis": 2,
+      "lengthMetres": 0.12820076942443848,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Hand grip carved collar.007",
+      "longAxis": 2,
+      "lengthMetres": 0.12820076942443848,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.8026829957962036,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 1.7000000476837158,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.9449999928474426,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.9449999928474426,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.9449999928474426,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.9449999928474426,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 1.5750000476837158,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 1.5750000476837158,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.6700000166893005,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.6700000166893005,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 1.5750000476837158,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 1.5750000476837158,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.6700000166893005,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.6700000166893005,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 1.5750000476837158,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 1.5750000476837158,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.6700000166893005,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.6700000166893005,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.625,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.625,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.625,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.625,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.625,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.625,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.625,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.625,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.625,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.625,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.875,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cylinder",
+      "longAxis": 1,
+      "lengthMetres": 0.06400000303983688,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 0.6700000166893005,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 0.6700000166893005,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.5,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.5,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 0.6700000166893005,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 0.6700000166893005,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.5,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.5,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 0.6700000166893005,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 0.6700000166893005,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.5,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 1,
+      "lengthMetres": 0.5,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.30000001192092896,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.30000001192092896,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.30000001192092896,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 2,
+      "lengthMetres": 0.30000001192092896,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    },
+    {
+      "object": "Cube",
+      "longAxis": 0,
+      "lengthMetres": 0.6499999761581421,
+      "grain": "V along timber; physical crop; end-grain on caps"
+    }
+  ],
+  "glassPanels": 5,
+  "wheelSpokes": 10,
+  "wheels": 2,
+  "displayBaskets": 4,
+  "cabinetShelves": 2,
+  "keeperAnchor": [
+    0.0,
+    0.0,
+    -1.7399999999999998
+  ],
+  "frontAnchor": [
+    0.0,
+    0.0,
+    0.7875000000000001
+  ],
+  "gripAnchors": [
+    [
+      -0.35025,
+      0.9525,
+      -1.59
+    ],
+    [
+      0.35025,
+      0.9525,
+      -1.59
+    ]
+  ],
+  "wheelPivots": [
+    [
+      -0.8699999999999999,
+      0.42374999999999996,
+      -0.037500000000000006
+    ],
+    [
+      0.8699999999999999,
+      0.42374999999999996,
+      -0.037500000000000006
+    ]
+  ],
+  "colliders": [
+    {
+      "name": "Body",
+      "center": [
+        0.0,
+        0.48750000000000004,
+        0.0
+      ],
+      "size": [
+        1.53,
+        0.72,
+        1.0499999999999998
+      ]
+    },
+    {
+      "name": "WheelLeft",
+      "center": [
+        -0.8699999999999999,
+        0.42374999999999996,
+        -0.037500000000000006
+      ],
+      "size": [
+        0.135,
+        0.8370000000000001,
+        0.8370000000000001
+      ]
+    },
+    {
+      "name": "WheelRight",
+      "center": [
+        0.8699999999999999,
+        0.42374999999999996,
+        -0.037500000000000006
+      ],
+      "size": [
+        0.135,
+        0.8370000000000001,
+        0.8370000000000001
+      ]
+    },
+    {
+      "name": "HandleLeft",
+      "center": [
+        -0.35025,
+        0.8175000000000001,
+        -1.03125
+      ],
+      "size": [
+        0.0975,
+        0.0975,
+        1.3125
+      ],
+      "rotation": [
+        12.6,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "HandleRight",
+      "center": [
+        0.35025,
+        0.8175000000000001,
+        -1.03125
+      ],
+      "size": [
+        0.0975,
+        0.0975,
+        1.3125
+      ],
+      "rotation": [
+        12.6,
+        0,
+        0
+      ]
+    }
+  ],
+  "scale": 1,
+  "designScale": 0.75
+}

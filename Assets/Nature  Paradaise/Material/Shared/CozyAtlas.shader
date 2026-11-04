@@ -4,6 +4,7 @@ Shader "Nature Paradise/Cozy Atlas"
     {
         [MainTexture] _BaseMap("Atlas Colour", 2D) = "white" {}
         [MainColor] _BaseColor("Tint", Color) = (1,1,1,1)
+        [HideInInspector] _PresentationFade("Presentation Visibility", Range(0,1)) = 1
         [Normal] _BumpMap("Atlas Normal", 2D) = "bump" {}
         _BumpScale("Normal Relief", Range(0,1.5)) = 0.55
         _MetallicGlossMap("Atlas Metal (R), Smoothness (A)", 2D) = "black" {}
@@ -28,6 +29,7 @@ Shader "Nature Paradise/Cozy Atlas"
             float4 _BaseMap_ST;
             half4 _BaseColor;
             half _BumpScale, _Smoothness, _Wrap, _Saturation, _AmbientStrength, _Cutoff;
+            half _PresentationFade;
         CBUFFER_END
         TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
         TEXTURE2D(_BumpMap); SAMPLER(sampler_BumpMap);
@@ -72,6 +74,12 @@ Shader "Nature Paradise/Cozy Atlas"
         }
         half4 Atlas(Varyings input)
         {
+            // Per-cart property block; shared atlas materials remain fully visible by default.
+            if (_PresentationFade < 1)
+            {
+                float noise = frac(52.9829189 * frac(dot(floor(input.positionCS.xy),float2(.06711056,.00583715))));
+                clip(_PresentationFade - max(.0001,noise));
+            }
             half4 c = SAMPLE_TEXTURE2D(_BaseMap,sampler_BaseMap,input.uv) * _BaseColor;
             #if defined(_ALPHATEST_ON)
                 clip(c.a-_Cutoff);

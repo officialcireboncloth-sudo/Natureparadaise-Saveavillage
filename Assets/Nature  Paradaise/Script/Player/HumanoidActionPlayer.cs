@@ -50,6 +50,11 @@ public sealed class HumanoidActionPlayer : IDisposable
         if(next==target)return;
         target=next;clips[target].SetTime(0);
     }
+    public bool Restart(string id)
+    {
+        if(!indices.TryGetValue(id,out int index))return false;
+        Play(id);clips[index].SetTime(0);return true;
+    }
     public void Evaluate(float delta,float walkSpeed=1)
     {
         delta=Mathf.Clamp(delta,0,.1f);
@@ -58,11 +63,14 @@ public sealed class HumanoidActionPlayer : IDisposable
         for(int i=0;i<clips.Count;i++)
         {
             weights[i]=Mathf.Lerp(weights[i],i==target?1:0,blend);total+=weights[i];
-            float speed=entries[i].speed*(entries[i].id=="Walk"?walkSpeed:1);
+            float speed=entries[i].speed*(entries[i].id=="Walk"||entries[i].id=="Cart_Push"||entries[i].id=="Cart_Pull"?walkSpeed:1);
             clips[i].SetSpeed(speed);
             double length=Math.Max(.001,entries[i].clip.length);
             double t=clips[i].GetTime();
-            if(entries[i].loop&&t>=length)clips[i].SetTime(t%length);
+            // Cart clips are imported with native loop time. Resetting their playable time
+            // at the seam shifts the sample by one step and causes a visible foot hitch.
+            bool nativeCartLoop=entries[i].id=="Cart_Push"||entries[i].id=="Cart_Pull";
+            if(entries[i].loop&&t>=length&&!nativeCartLoop)clips[i].SetTime(t%length);
             else if(!entries[i].loop&&t>=length)clips[i].SetTime(length);
         }
         for(int i=0;i<clips.Count;i++)mixer.SetInputWeight(i,weights[i]/Mathf.Max(.0001f,total));

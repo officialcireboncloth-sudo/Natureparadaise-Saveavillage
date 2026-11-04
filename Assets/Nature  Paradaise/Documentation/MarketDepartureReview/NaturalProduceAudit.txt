@@ -1,0 +1,70 @@
+COZY MARKET CART
+PASS Existing shared cozy atlas remains assigned
+PASS Original Toonpack atlas resolves
+PASS Unmirrored front and right match Blender
+PASS MarketCart_Cart_LOD0: metre bounds match
+PASS MarketCart_Cart_LOD0: triangles match export
+PASS MarketCart_Cart_LOD0: one material and finite UVs
+PASS MarketCart_WheelLeft_LOD0: metre bounds match
+PASS MarketCart_WheelLeft_LOD0: triangles match export
+PASS MarketCart_WheelLeft_LOD0: one material and finite UVs
+PASS MarketCart_WheelRight_LOD0: metre bounds match
+PASS MarketCart_WheelRight_LOD0: triangles match export
+PASS MarketCart_WheelRight_LOD0: one material and finite UVs
+PASS MarketCart_Produce_LOD0: metre bounds match
+PASS MarketCart_Produce_LOD0: triangles match export
+PASS MarketCart_Produce_LOD0: one material and finite UVs
+PASS MarketCart_Glass_LOD0: metre bounds match
+PASS MarketCart_Glass_LOD0: triangles match export
+PASS MarketCart_Glass_LOD0: one material and finite UVs
+PASS MarketCart_Cart_LOD1: metre bounds match
+PASS MarketCart_Cart_LOD1: triangles match export
+PASS MarketCart_Cart_LOD1: one material and finite UVs
+PASS MarketCart_WheelLeft_LOD1: metre bounds match
+PASS MarketCart_WheelLeft_LOD1: triangles match export
+PASS MarketCart_WheelLeft_LOD1: one material and finite UVs
+PASS MarketCart_WheelRight_LOD1: metre bounds match
+PASS MarketCart_WheelRight_LOD1: triangles match export
+PASS MarketCart_WheelRight_LOD1: one material and finite UVs
+PASS MarketCart_Produce_LOD1: metre bounds match
+PASS MarketCart_Produce_LOD1: triangles match export
+PASS MarketCart_Produce_LOD1: one material and finite UVs
+PASS MarketCart_Glass_LOD1: metre bounds match
+PASS MarketCart_Glass_LOD1: triangles match export
+PASS MarketCart_Glass_LOD1: one material and finite UVs
+PASS MarketCart_Cart_LOD2: metre bounds match
+PASS MarketCart_Cart_LOD2: triangles match export
+PASS MarketCart_Cart_LOD2: one material and finite UVs
+PASS MarketCart_WheelLeft_LOD2: metre bounds match
+PASS MarketCart_WheelLeft_LOD2: triangles match export
+PASS MarketCart_WheelLeft_LOD2: one material and finite UVs
+PASS MarketCart_WheelRight_LOD2: metre bounds match
+PASS MarketCart_WheelRight_LOD2: triangles match export
+PASS MarketCart_WheelRight_LOD2: one material and finite UVs
+PASS MarketCart_Produce_LOD2: metre bounds match
+PASS MarketCart_Produce_LOD2: triangles match export
+PASS MarketCart_Produce_LOD2: one material and finite UVs
+PASS MarketCart_Glass_LOD2: metre bounds match
+PASS MarketCart_Glass_LOD2: triangles match export
+PASS MarketCart_Glass_LOD2: one material and finite UVs
+PASS Stand identity, listings, prices, hours and gameplay settings unchanged
+PASS Gameplay root placement and scale unchanged
+PASS Existing gameplay prefab GUID preserved
+PASS Protected unchanged: Assets/Nature  Paradaise/Prefabs/World/ShippingBin.prefab
+PASS Protected unchanged: Assets/Nature  Paradaise/Map/Scenes/World/Map.unity
+PASS Protected unchanged: Assets/Nature  Paradaise/Textures/Shared/Cozy/NP_CozySurfaces_01_BaseColor.png
+PASS Three LODs with separate rolling wheels and shared atlas materials
+PASS Five cart colliders; no mesh collider
+PASS Separate keeper and interaction anchors
+PASS No negative transform scales
+PASS All material shaders compile
+PASS Glass transparent and depth writes disabled
+PASS Compact cart world dimensions: (1.95, 1.59, 2.32)
+PASS LOD 1 reduces geometry
+PASS LOD 2 reduces geometry
+PASS MarketCart_Cart_LOD0: every triangle stays inside a padded atlas swatch
+PASS MarketCart_Cart_LOD1: every triangle stays inside a padded atlas swatch
+PASS MarketCart_Cart_LOD2: every triangle stays inside a padded atlas swatch
+PASS Actual Map resolves the new cart through existing prefab binding
+PASS Map scene not rewritten
+MARKET_CART_APPLY_PASS checks=68

@@ -1,0 +1,4 @@
+PASS Cart_Grip: sparse smooth source keys [0.0, 6.0, 12.0, 18.0, 24.0, 30.0]
+PASS Cart_Pull: sparse smooth source keys [0.0, 3.0, 6.0, 9.0, 12.0, 15.0, 18.0, 21.0, 24.0, 27.0, 30.0], loop seam checked
+PASS Cart_Push: sparse smooth source keys [0.0, 3.0, 6.0, 9.0, 12.0, 15.0, 18.0, 21.0, 24.0, 27.0, 30.0], loop seam checked
+PASS original keeper mesh, 65-bone rig and 1024 texture retained; cart reference in same file

@@ -91,6 +91,9 @@ def canopy_point(q,t,rear=False):
  return (q*half,y,z-.035*(1-q*q)*math.sin(math.pi*t))
 
 def market():
+ if (A/'Source~/MarketCart/MarketCart_Manifest.json').exists():
+  import runpy
+  return runpy.run_path(str(A/'Source~/MarketCart/build_market_cart.py'),run_name='__main__')
  collections=begin('MarketStand');global old_pixels;old_pixels={}
  for c in collections:
   for obj in list(c.objects):

@@ -1,0 +1,70 @@
+COZY FISH POND LV1
+PASS Timbers have metre-based grain UV records
+PASS Pond surface atlas uses mobile 1024/512 sizes
+PASS Pond teal water retains Toonpack shader and normal texture
+PASS Separate water uses existing Toonpack shader
+PASS Import 0: front and handedness correct
+PASS Import 0: triangle count retained
+PASS Import 0: Blender bounds retained
+PASS Import 0: complete UVs
+PASS Import 0: shared materials resolve
+PASS LOD0: every surface triangle stays inside a single padded atlas slot
+PASS LOD0: UVs inside atlas
+PASS Import 1: front and handedness correct
+PASS Import 1: triangle count retained
+PASS Import 1: Blender bounds retained
+PASS Import 1: complete UVs
+PASS Import 1: shared materials resolve
+PASS LOD1: every surface triangle stays inside a single padded atlas slot
+PASS LOD1: UVs inside atlas
+PASS Import 2: front and handedness correct
+PASS Import 2: triangle count retained
+PASS Import 2: Blender bounds retained
+PASS Import 2: complete UVs
+PASS Import 2: shared materials resolve
+PASS LOD2: every surface triangle stays inside a single padded atlas slot
+PASS LOD2: UVs inside atlas
+PASS Import 3: front and handedness correct
+PASS Import 3: triangle count retained
+PASS Import 3: Blender bounds retained
+PASS Import 3: complete UVs
+PASS Import 3: shared materials resolve
+PASS Water is flat with upward facing normals, independent UVs
+PASS Three decreasing LODs; far mesh below 4000 triangles
+PASS All solid geometry fits the existing compact placement envelope
+PASS Existing compact .4 root scale retained
+PASS Persistent pond identity retained
+PASS Existing feed machine component retained
+PASS One shared water mesh follows all three LODs
+PASS Fish spawn 0 within water, clear of deck
+PASS Fish spawn 1 within water, clear of deck
+PASS Fish spawn 2 within water, clear of deck
+PASS Fish spawn 3 within water, clear of deck
+PASS Fish spawn 4 within water, clear of deck
+PASS Fish spawn 5 within water, clear of deck
+PASS Fish spawn 6 within water, clear of deck
+PASS Fish spawn 7 within water, clear of deck
+PASS Fish spawn 8 within water, clear of deck
+PASS Fish spawn 9 within water, clear of deck
+PASS Fish spawn 10 within water, clear of deck
+PASS Fish spawn 11 within water, clear of deck
+PASS Fish spawn 12 within water, clear of deck
+PASS Fish spawn 13 within water, clear of deck
+PASS Fish spawn 14 within water, clear of deck
+PASS Fish spawn 15 within water, clear of deck
+PASS Fish spawn 16 within water, clear of deck
+PASS Fish spawn 17 within water, clear of deck
+PASS Water is a render surface, no water collision
+PASS Existing prefab GUID and root file ID retained
+PASS Protected catalog/higher levels/water unchanged: Fish Pond Building.asset
+PASS Protected catalog/higher levels/water unchanged: FishPond_Lv2.prefab
+PASS Protected catalog/higher levels/water unchanged: FishPond_Lv3.prefab
+PASS Protected catalog/higher levels/water unchanged: FishPondWater.mat
+PASS Isolated review has no SaveManager
+PASS Textured pebble bed faces up underneath the transparent water
+PASS Walkable deck/stair surface at 1.65
+PASS Walkable deck/stair surface at 3.2
+PASS Walkable deck/stair surface at 3.52
+PASS Walkable deck/stair surface at 3.84
+PASS Actual player capsule climbs three stairs and reaches dock interaction
+FISH_POND_COZY_PASS checks=68

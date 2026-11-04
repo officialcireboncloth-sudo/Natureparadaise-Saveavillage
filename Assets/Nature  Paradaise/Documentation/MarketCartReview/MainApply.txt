@@ -1,0 +1,29 @@
+PASS 27 cart asset/metadata files identical to the native-tested fixture.
+PASS 70 protected atlas, shipping bin, Map, character and prefab identity files unchanged.
+Material/World/MarketStand/MarketCart_Glass.mat
+Material/World/MarketStand/MarketCart_Glass.mat.meta
+Material/World/MarketStand/MarketCart_Produce.mat
+Material/World/MarketStand/MarketCart_Produce.mat.meta
+Material/World/MarketStand.meta
+Documentation/MarketCartReview/Audit.txt
+Documentation/MarketCartReview/Audit.txt.meta
+Documentation/MarketCartReview/MarketCart_Front.png
+Documentation/MarketCartReview/MarketCart_Front.png.meta
+Documentation/MarketCartReview/MarketCart_LOD1.png
+Documentation/MarketCartReview/MarketCart_LOD1.png.meta
+Documentation/MarketCartReview/MarketCart_LOD2.png
+Documentation/MarketCartReview/MarketCart_LOD2.png.meta
+Documentation/MarketCartReview/MarketCart_Rear.png
+Documentation/MarketCartReview/MarketCart_Rear.png.meta
+Documentation/MarketCartReview/MarketCart_ThreeQuarter.png
+Documentation/MarketCartReview/MarketCart_ThreeQuarter.png.meta
+Documentation/MarketCartReview/MarketCart_Top.png
+Documentation/MarketCartReview/MarketCart_Top.png.meta
+Documentation/MarketCartReview.meta
+mesh/World/MarketStand/MarketStand_A.fbx
+mesh/World/MarketStand/MarketStand_A.fbx.meta
+mesh/World/MarketStand/MarketCart_Runtime.asset
+mesh/World/MarketStand/MarketCart_Runtime.asset.meta
+Prefabs/World/MarketStand.prefab
+Prefabs/World/MarketStand/MarketStandVisual.prefab
+Script/Editor/MarketCartCozySetup.cs.meta

@@ -1,0 +1,34 @@
+LUMBER OWNER INTERACTION — NATIVE UNITY
+PASS No production save writer in test
+PASS Real Lumber owner and dedicated model created
+PASS Shop target follows actual idle model
+PASS Lumber label follows grounded character rather than old pivot
+Map pivot=(426.57, 18.48, 634.67) grounded owner=(434.77, 18.48, 633.56) separation=8.270561
+PASS Fixture reproduces model farther than old interaction radius
+PASS Construction departure shares grounded owner home
+PASS Project departure lookup uses same owner anchor
+PASS Character can be approached from (0.00, 0.00, 1.00)
+PASS One Lumber prompt uses visible character anchor from (0.00, 0.00, 1.00)
+PASS Character can be approached from (0.00, 0.00, -1.00)
+PASS One Lumber prompt uses visible character anchor from (0.00, 0.00, -1.00)
+PASS Character can be approached from (-1.00, 0.00, 0.00)
+PASS One Lumber prompt uses visible character anchor from (-1.00, 0.00, 0.00)
+PASS Character can be approached from (1.00, 0.00, 0.00)
+PASS One Lumber prompt uses visible character anchor from (1.00, 0.00, 0.00)
+PASS Empty old pivot no longer opens an invisible shop
+PASS Mouse/touch action reaches visible Lumber service
+PASS Touch opens actual scene-overridden Lumber UI
+PASS Open UI owns time and movement locks
+PASS Build and Upgrade structure services remain present
+PASS Close releases all UI locks
+PASS PC prompt callback uses same character target and UI
+PASS Stale callback rejects player outside current range
+PASS Locked player cannot start shop interaction
+PASS Construction dispatch hides idle owner without duplication
+PASS Away owner retains active grounded order point
+PASS Store remains identifiable and displays owner-away status
+PASS Queued orders can still be placed while builder is away
+PASS Builder return restores character interaction
+PASS Return restores label and preserves saved builder store identity
+PASS Idle owner remains a solid body
+LUMBER_OWNER_INTERACTION_PASS checks=31

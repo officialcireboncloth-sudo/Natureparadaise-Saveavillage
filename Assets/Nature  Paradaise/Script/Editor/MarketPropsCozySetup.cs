@@ -35,6 +35,7 @@ public static class MarketPropsCozySetup
     }
     public static void Apply(string kind)
     {
+        if(kind=="MarketStand" && File.Exists(Root+"/Source~/MarketCart/MarketCart_Manifest.json")){MarketCartCozySetup.Apply();return;}
         if(EditorApplication.isPlayingOrWillChangePlaymode)throw new InvalidOperationException("Apply in Edit Mode.");
         report=new StringBuilder("COZY MARKET PROPS — "+kind+"\n");checks=0;Directory.CreateDirectory(Output);
         string model=Root+"/mesh/World/"+kind+"/"+kind+"_A.fbx";
@@ -168,7 +169,7 @@ public static class MarketPropsCozySetup
         {
             Apply("MarketStand");Apply("ShippingBin");
             var path=Root+"/Map/Scenes/World/Map.unity";var before=File.ReadAllText(path);EditorSceneManager.OpenScene(path,OpenSceneMode.Single);
-            Check(Object.FindObjectsByType<MarketStand>(FindObjectsInactive.Include,FindObjectsSortMode.None).Any(s=>s.GetComponentsInChildren<MeshFilter>(true).Any(f=>f.sharedMesh!=null&&f.sharedMesh.name=="MarketStand_Body_LOD0")),"Actual Map stand resolves the new art");
+            Check(Object.FindObjectsByType<MarketStand>(FindObjectsInactive.Include,FindObjectsSortMode.None).Any(s=>s.GetComponentsInChildren<MeshFilter>(true).Any(f=>f.sharedMesh!=null&&(f.sharedMesh.name=="MarketStand_Body_LOD0"||f.sharedMesh.name=="MarketCart_Cart_LOD0"))),"Actual Map stand resolves the new art");
             Check(Object.FindObjectsByType<ShippingBin>(FindObjectsInactive.Include,FindObjectsSortMode.None).Any(s=>s.GetComponentsInChildren<MeshFilter>(true).Any(f=>f.sharedMesh!=null&&f.sharedMesh.name=="ShippingBin_Body_LOD0")),"Actual Map shipping bin resolves the new art");
             Check(File.ReadAllText(path)==before,"Map scene was not rewritten");File.WriteAllText(Output+"/SceneBindings_Audit.txt",report+"SCENE_BINDINGS_PASS\n");
             if(File.Exists(Output+"/Error.txt"))File.Delete(Output+"/Error.txt");EditorApplication.Exit(0);

@@ -110,7 +110,7 @@ public sealed class ConstructionProject : MonoBehaviour
             float candidate=(front.transform.position-site).sqrMagnitude;
             if(candidate < distance){nearest=front;distance=candidate;}
         }
-        Vector3 origin=nearest != null ? (nearest.builderDeparturePoint != null ? nearest.builderDeparturePoint.position : nearest.transform.position+nearest.transform.forward*2.2f) : site+Vector3.back*8;
+        Vector3 origin=nearest != null ? LumberStoreOwner.Ensure(nearest).Departure : site+Vector3.back*8;
         return GroundDeparture(origin);
     }
     /// <summary>Uses the same safe, ground-level home position for the idle owner and every departure/return.</summary>

@@ -53,6 +53,11 @@ public static class MarketStandSetupUtility
 
     static GameObject CreateOrUpdatePrefab()
     {
+        if(File.Exists("Assets/Nature  Paradaise/Source~/MarketCart/MarketCart_Manifest.json") && File.Exists(MarketStandPrefabPath))
+        {
+            MarketCartCozySetup.Apply();
+            return AssetDatabase.LoadAssetAtPath<GameObject>(MarketStandPrefabPath);
+        }
         GameObject visual = AssetDatabase.LoadAssetAtPath<GameObject>(VisualPrefabPath);
         if (visual == null)
             throw new FileNotFoundException("Visual Toon Farm Market Stand tidak ditemukan.", VisualPrefabPath);

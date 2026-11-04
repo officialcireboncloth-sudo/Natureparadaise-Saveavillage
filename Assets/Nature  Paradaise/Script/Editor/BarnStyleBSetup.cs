@@ -28,6 +28,8 @@ public static class BarnStyleBSetup
     [MenuItem("Nature Paradise/Barn/Apply Barn B Wood and Roof")]
     public static void Apply()
     {
+        if (File.Exists(Root + "/Source~/BarnExteriorCozy/BarnExterior_Cozy_Manifest.json"))
+        { BarnExteriorCozySetup.Apply(); return; }
         if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play Mode before applying Barn B.");
         Directory.CreateDirectory(Models); Directory.CreateDirectory(Output);
         report = new StringBuilder("BARN B UNITY APPLY\n");

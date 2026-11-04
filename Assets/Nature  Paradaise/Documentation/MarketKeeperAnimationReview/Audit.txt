@@ -1,0 +1,236 @@
+MARKET KEEPER HUMANOID
+PASS Reusable keeper prefab exists
+PASS Idle and Walk reference the same shared player clips
+PASS Future custom action slot reserved without a fake clip
+PASS Own Humanoid Avatar valid
+PASS Hips mapped
+PASS Head mapped
+PASS LeftHand mapped
+PASS RightHand mapped
+PASS LeftFoot mapped
+PASS RightFoot mapped
+PASS NPC clip player owns motion; no Animator controller or root motion
+PASS One skinned mesh
+PASS No player input component on keeper
+PASS Keeper collider matches player height
+PASS NPC clip player disables player animation events
+Measured idle bounds Center: (0.01, 0.75, 0.03), Extents: (0.29, 0.75, 0.20)
+Renderer MarketKeeper_Body scale=(151.52, 151.52, 151.52) bounds=Center: (0.01, 0.69, 0.01), Extents: (0.73, 0.88, 0.34) rawMesh=Center: (0.00, 0.00, 0.00), Extents: (0.00, 0.00, 0.00)
+PASS Evaluated idle height is 1.5m
+PASS Feet rest near floor
+PASS Idle lowers arms from bind pose
+PASS Idle frame 0: finite, compact skin bounds
+PASS Idle frame 1: finite, compact skin bounds
+PASS Idle frame 1: no hand flip
+PASS Idle frame 2: finite, compact skin bounds
+PASS Idle frame 2: no hand flip
+PASS Idle frame 3: finite, compact skin bounds
+PASS Idle frame 3: no hand flip
+PASS Idle frame 4: finite, compact skin bounds
+PASS Idle frame 4: no hand flip
+PASS Idle frame 5: finite, compact skin bounds
+PASS Idle frame 5: no hand flip
+PASS Idle frame 6: finite, compact skin bounds
+PASS Idle frame 6: no hand flip
+PASS Idle frame 7: finite, compact skin bounds
+PASS Idle frame 7: no hand flip
+PASS Idle frame 8: finite, compact skin bounds
+PASS Idle frame 8: no hand flip
+PASS Idle frame 9: finite, compact skin bounds
+PASS Idle frame 9: no hand flip
+PASS Idle frame 10: finite, compact skin bounds
+PASS Idle frame 10: no hand flip
+PASS Idle frame 11: finite, compact skin bounds
+PASS Idle frame 11: no hand flip
+PASS Idle frame 12: finite, compact skin bounds
+PASS Idle frame 12: no hand flip
+PASS Idle frame 13: finite, compact skin bounds
+PASS Idle frame 13: no hand flip
+PASS Idle frame 14: finite, compact skin bounds
+PASS Idle frame 14: no hand flip
+PASS Idle frame 15: finite, compact skin bounds
+PASS Idle frame 15: no hand flip
+PASS Idle frame 16: finite, compact skin bounds
+PASS Idle frame 16: no hand flip
+PASS Idle frame 17: finite, compact skin bounds
+PASS Idle frame 17: no hand flip
+PASS Idle frame 18: finite, compact skin bounds
+PASS Idle frame 18: no hand flip
+PASS Idle frame 19: finite, compact skin bounds
+PASS Idle frame 19: no hand flip
+PASS Idle frame 20: finite, compact skin bounds
+PASS Idle frame 20: no hand flip
+PASS Idle frame 21: finite, compact skin bounds
+PASS Idle frame 21: no hand flip
+PASS Idle frame 22: finite, compact skin bounds
+PASS Idle frame 22: no hand flip
+PASS Idle frame 23: finite, compact skin bounds
+PASS Idle frame 23: no hand flip
+PASS Idle frame 24: finite, compact skin bounds
+PASS Idle frame 24: no hand flip
+PASS Idle frame 25: finite, compact skin bounds
+PASS Idle frame 25: no hand flip
+PASS Idle frame 26: finite, compact skin bounds
+PASS Idle frame 26: no hand flip
+PASS Idle frame 27: finite, compact skin bounds
+PASS Idle frame 27: no hand flip
+PASS Idle frame 28: finite, compact skin bounds
+PASS Idle frame 28: no hand flip
+PASS Idle frame 29: finite, compact skin bounds
+PASS Idle frame 29: no hand flip
+PASS Idle frame 30: finite, compact skin bounds
+PASS Idle frame 30: no hand flip
+PASS Idle frame 31: finite, compact skin bounds
+PASS Idle frame 31: no hand flip
+PASS Idle frame 32: finite, compact skin bounds
+PASS Idle frame 32: no hand flip
+PASS Idle frame 33: finite, compact skin bounds
+PASS Idle frame 33: no hand flip
+PASS Idle frame 34: finite, compact skin bounds
+PASS Idle frame 34: no hand flip
+PASS Idle frame 35: finite, compact skin bounds
+PASS Idle frame 35: no hand flip
+PASS Idle frame 36: finite, compact skin bounds
+PASS Idle frame 36: no hand flip
+PASS Idle frame 37: finite, compact skin bounds
+PASS Idle frame 37: no hand flip
+PASS Idle frame 38: finite, compact skin bounds
+PASS Idle frame 38: no hand flip
+PASS Idle frame 39: finite, compact skin bounds
+PASS Idle frame 39: no hand flip
+PASS Idle frame 40: finite, compact skin bounds
+PASS Idle frame 40: no hand flip
+PASS Idle frame 41: finite, compact skin bounds
+PASS Idle frame 41: no hand flip
+PASS Idle frame 42: finite, compact skin bounds
+PASS Idle frame 42: no hand flip
+PASS Idle frame 43: finite, compact skin bounds
+PASS Idle frame 43: no hand flip
+PASS Idle frame 44: finite, compact skin bounds
+PASS Idle frame 44: no hand flip
+PASS Idle frame 45: finite, compact skin bounds
+PASS Idle frame 45: no hand flip
+PASS Idle frame 46: finite, compact skin bounds
+PASS Idle frame 46: no hand flip
+PASS Idle frame 47: finite, compact skin bounds
+PASS Idle frame 47: no hand flip
+PASS Idle frame 48: finite, compact skin bounds
+PASS Idle frame 48: no hand flip
+PASS Idle frame 49: finite, compact skin bounds
+PASS Idle frame 49: no hand flip
+Idle clip=Idle length=9.933333 footRange=(0.02, 0.00, 0.00)
+PASS Idle retarget actually animates bones
+PASS Idle root remains in place
+PASS Walk frame 0: finite, compact skin bounds
+PASS Walk frame 1: finite, compact skin bounds
+PASS Walk frame 1: no hand flip
+PASS Walk frame 2: finite, compact skin bounds
+PASS Walk frame 2: no hand flip
+PASS Walk frame 3: finite, compact skin bounds
+PASS Walk frame 3: no hand flip
+PASS Walk frame 4: finite, compact skin bounds
+PASS Walk frame 4: no hand flip
+PASS Walk frame 5: finite, compact skin bounds
+PASS Walk frame 5: no hand flip
+PASS Walk frame 6: finite, compact skin bounds
+PASS Walk frame 6: no hand flip
+PASS Walk frame 7: finite, compact skin bounds
+PASS Walk frame 7: no hand flip
+PASS Walk frame 8: finite, compact skin bounds
+PASS Walk frame 8: no hand flip
+PASS Walk frame 9: finite, compact skin bounds
+PASS Walk frame 9: no hand flip
+PASS Walk frame 10: finite, compact skin bounds
+PASS Walk frame 10: no hand flip
+PASS Walk frame 11: finite, compact skin bounds
+PASS Walk frame 11: no hand flip
+PASS Walk frame 12: finite, compact skin bounds
+PASS Walk frame 12: no hand flip
+PASS Walk frame 13: finite, compact skin bounds
+PASS Walk frame 13: no hand flip
+PASS Walk frame 14: finite, compact skin bounds
+PASS Walk frame 14: no hand flip
+PASS Walk frame 15: finite, compact skin bounds
+PASS Walk frame 15: no hand flip
+PASS Walk frame 16: finite, compact skin bounds
+PASS Walk frame 16: no hand flip
+PASS Walk frame 17: finite, compact skin bounds
+PASS Walk frame 17: no hand flip
+PASS Walk frame 18: finite, compact skin bounds
+PASS Walk frame 18: no hand flip
+PASS Walk frame 19: finite, compact skin bounds
+PASS Walk frame 19: no hand flip
+PASS Walk frame 20: finite, compact skin bounds
+PASS Walk frame 20: no hand flip
+PASS Walk frame 21: finite, compact skin bounds
+PASS Walk frame 21: no hand flip
+PASS Walk frame 22: finite, compact skin bounds
+PASS Walk frame 22: no hand flip
+PASS Walk frame 23: finite, compact skin bounds
+PASS Walk frame 23: no hand flip
+PASS Walk frame 24: finite, compact skin bounds
+PASS Walk frame 24: no hand flip
+PASS Walk frame 25: finite, compact skin bounds
+PASS Walk frame 25: no hand flip
+PASS Walk frame 26: finite, compact skin bounds
+PASS Walk frame 26: no hand flip
+PASS Walk frame 27: finite, compact skin bounds
+PASS Walk frame 27: no hand flip
+PASS Walk frame 28: finite, compact skin bounds
+PASS Walk frame 28: no hand flip
+PASS Walk frame 29: finite, compact skin bounds
+PASS Walk frame 29: no hand flip
+PASS Walk frame 30: finite, compact skin bounds
+PASS Walk frame 30: no hand flip
+PASS Walk frame 31: finite, compact skin bounds
+PASS Walk frame 31: no hand flip
+PASS Walk frame 32: finite, compact skin bounds
+PASS Walk frame 32: no hand flip
+PASS Walk frame 33: finite, compact skin bounds
+PASS Walk frame 33: no hand flip
+PASS Walk frame 34: finite, compact skin bounds
+PASS Walk frame 34: no hand flip
+PASS Walk frame 35: finite, compact skin bounds
+PASS Walk frame 35: no hand flip
+PASS Walk frame 36: finite, compact skin bounds
+PASS Walk frame 36: no hand flip
+PASS Walk frame 37: finite, compact skin bounds
+PASS Walk frame 37: no hand flip
+PASS Walk frame 38: finite, compact skin bounds
+PASS Walk frame 38: no hand flip
+PASS Walk frame 39: finite, compact skin bounds
+PASS Walk frame 39: no hand flip
+PASS Walk frame 40: finite, compact skin bounds
+PASS Walk frame 40: no hand flip
+PASS Walk frame 41: finite, compact skin bounds
+PASS Walk frame 41: no hand flip
+PASS Walk frame 42: finite, compact skin bounds
+PASS Walk frame 42: no hand flip
+PASS Walk frame 43: finite, compact skin bounds
+PASS Walk frame 43: no hand flip
+PASS Walk frame 44: finite, compact skin bounds
+PASS Walk frame 44: no hand flip
+PASS Walk frame 45: finite, compact skin bounds
+PASS Walk frame 45: no hand flip
+PASS Walk frame 46: finite, compact skin bounds
+PASS Walk frame 46: no hand flip
+PASS Walk frame 47: finite, compact skin bounds
+PASS Walk frame 47: no hand flip
+PASS Walk frame 48: finite, compact skin bounds
+PASS Walk frame 48: no hand flip
+PASS Walk frame 49: finite, compact skin bounds
+PASS Walk frame 49: no hand flip
+Walk clip=Walking length=1 footRange=(0.02, 0.09, 0.46)
+PASS Walk retarget actually animates bones
+PASS Walk produces a real leg stride
+PASS Walk root remains in place
+PASS Exactly one keeper on cart
+PASS Keeper uses dedicated cart anchor
+PASS Keeper skin stays at normal scale behind cart
+PASS Keeper capsule clears body and push shafts
+PASS Protected unchanged: Assets/Nature  Paradaise/mesh/Character/MarketKeeper/MarketKeeper.fbx
+PASS Protected unchanged: Assets/Nature  Paradaise/mesh/Character/MarketKeeper/Textures/MarketKeeper_BaseColor.jpg
+PASS Protected unchanged: Assets/Nature  Paradaise/Resources/Characters/Mina.prefab
+PASS Protected unchanged: Assets/Nature  Paradaise/Player/Animations/Shared/Builder Humanoid Actions.asset
+PASS Protected unchanged: Assets/Nature  Paradaise/Map/Scenes/World/Map.unity
+KEEPER_ANIMATION_APPLY_PASS checks=230

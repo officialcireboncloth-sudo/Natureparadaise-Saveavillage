@@ -1,0 +1,202 @@
+{
+  "version": 3,
+  "date": "2026-11-04",
+  "colorSize": [
+    1024,
+    1024
+  ],
+  "normalSize": [
+    512,
+    512
+  ],
+  "maskSize": [
+    512,
+    512
+  ],
+  "paddingPixels": 8,
+  "slots": [
+    {
+      "name": "PondRock",
+      "pixelRectTopLeft": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.5078125,
+        0.4921875,
+        0.9921875
+      ]
+    },
+    {
+      "name": "PondRockMoss",
+      "pixelRectTopLeft": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.5078125,
+        0.9921875,
+        0.9921875
+      ]
+    },
+    {
+      "name": "PondWood",
+      "pixelRectTopLeft": [
+        0,
+        512,
+        512,
+        448
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.0703125,
+        0.4921875,
+        0.4921875
+      ]
+    },
+    {
+      "name": "PondPebbles",
+      "pixelRectTopLeft": [
+        512,
+        512,
+        512,
+        448
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.0703125,
+        0.9921875,
+        0.4921875
+      ]
+    },
+    {
+      "name": "PondIron",
+      "pixelRectTopLeft": [
+        0,
+        960,
+        128,
+        64
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.0078125,
+        0.1171875,
+        0.0546875
+      ]
+    },
+    {
+      "name": "PondBrass",
+      "pixelRectTopLeft": [
+        128,
+        960,
+        128,
+        64
+      ],
+      "uvSafe": [
+        0.1328125,
+        0.0078125,
+        0.2421875,
+        0.0546875
+      ]
+    },
+    {
+      "name": "PondTeal",
+      "pixelRectTopLeft": [
+        256,
+        960,
+        128,
+        64
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.0078125,
+        0.3671875,
+        0.0546875
+      ]
+    },
+    {
+      "name": "PondDark",
+      "pixelRectTopLeft": [
+        384,
+        960,
+        128,
+        64
+      ],
+      "uvSafe": [
+        0.3828125,
+        0.0078125,
+        0.4921875,
+        0.0546875
+      ]
+    },
+    {
+      "name": "PondBurlap",
+      "pixelRectTopLeft": [
+        512,
+        960,
+        128,
+        64
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.0078125,
+        0.6171875,
+        0.0546875
+      ]
+    },
+    {
+      "name": "PondEnd",
+      "pixelRectTopLeft": [
+        640,
+        960,
+        128,
+        64
+      ],
+      "uvSafe": [
+        0.6328125,
+        0.0078125,
+        0.7421875,
+        0.0546875
+      ]
+    },
+    {
+      "name": "PondRope",
+      "pixelRectTopLeft": [
+        768,
+        960,
+        128,
+        64
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.0078125,
+        0.8671875,
+        0.0546875
+      ]
+    },
+    {
+      "name": "PondLeaf",
+      "pixelRectTopLeft": [
+        896,
+        960,
+        128,
+        64
+      ],
+      "uvSafe": [
+        0.8828125,
+        0.0078125,
+        0.9921875,
+        0.0546875
+      ]
+    }
+  ],
+  "woodGrainDirection": "Horizontal U; UV sized to individual timber, not stretched across face",
+  "legacyAtlasModified": false,
+  "source": "Built-in imagegen four material quadrants, native GIMP packing and independent relief"
+}

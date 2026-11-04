@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>One visible owner per Lumber Store. Paid projects share his availability, including the trip home.</summary>
@@ -10,12 +11,19 @@ public sealed class LumberStoreOwner : MonoBehaviour
     Transform idleVisual;
     HumanoidActionPlayer idleMotion;
     UpgradeShopFront front;
+    Transform serviceAnchor;
+    TMP_Text storeLabel;
+    string storeLabelTitle;
     public bool IsAway => activeOrder != null;
     public ConstructionProject ActiveOrder => activeOrder;
     public int WaitingOrders => orders.Count - (activeOrder != null ? 1 : 0);
     public Transform IdleVisual => idleVisual;
+    /// <summary>The grounded service location also remains available for queued orders while the owner is away.</summary>
+    public Transform InteractionAnchor => idleVisual != null && idleVisual.gameObject.activeInHierarchy
+        ? idleVisual : serviceAnchor != null ? serviceAnchor : transform;
     public string StoreId => gameObject.scene.path + ":" + Hierarchy(transform);
-    public Vector3 Departure => front != null && front.builderDeparturePoint != null
+    public Vector3 Departure => serviceAnchor != null ? serviceAnchor.position : AuthoredDeparture;
+    Vector3 AuthoredDeparture => front != null && front.builderDeparturePoint != null
         ? front.builderDeparturePoint.position : transform.position + transform.forward * 2.2f;
 
     static string Hierarchy(Transform value) => value.parent != null ? Hierarchy(value.parent) + "/" + value.name : value.name;
@@ -45,9 +53,13 @@ public sealed class LumberStoreOwner : MonoBehaviour
         if (settings == null || settings.workerPrefab == null) return;
         var placeholder = transform.Find("Seller_Capsule_Editable");
         if (placeholder != null) placeholder.gameObject.SetActive(false);
+        // Resolve once: fallback ground search can move several metres away from the shop pivot.
+        Vector3 point = ConstructionProject.GroundDeparture(AuthoredDeparture);
+        serviceAnchor = new GameObject("Lumber_ServiceAnchor_Runtime").transform;
+        serviceAnchor.SetParent(transform, false);
+        serviceAnchor.SetPositionAndRotation(point, transform.rotation);
         idleVisual = new GameObject("Lumber_Owner_AtStore_Runtime").transform;
         idleVisual.SetParent(transform, false);
-        Vector3 point = ConstructionProject.GroundDeparture(Departure);
         idleVisual.SetPositionAndRotation(point, transform.rotation);
         // Match the exact model, metre scale and Avatar used by dispatched workers, even under scaled shops.
         Vector3 parentScale = transform.lossyScale;
@@ -58,6 +70,9 @@ public sealed class LumberStoreOwner : MonoBehaviour
         var animator = model.GetComponentInChildren<Animator>();
         if (animator != null && animator.avatar != null && animator.avatar.isHuman && animator.avatar.isValid && settings.humanoidActions != null)
             idleMotion = new HumanoidActionPlayer(animator, settings.humanoidActions);
+        storeLabel = transform.Find("StoreLabel_Editable")?.GetComponent<TMP_Text>();
+        if (storeLabel != null) storeLabelTitle = storeLabel.text;
+        RefreshStoreLabel();
     }
     public void Register(ConstructionProject project)
     {
@@ -72,6 +87,7 @@ public sealed class LumberStoreOwner : MonoBehaviour
         if (orders.Count == 0 || orders[0] != project) return false;
         activeOrder = project;
         if (idleVisual != null) idleVisual.gameObject.SetActive(false);
+        RefreshStoreLabel();
         return true;
     }
     public void Release(ConstructionProject project)
@@ -80,10 +96,20 @@ public sealed class LumberStoreOwner : MonoBehaviour
         if (activeOrder != project) return;
         activeOrder = null;
         if (idleVisual != null) idleVisual.gameObject.SetActive(true);
+        RefreshStoreLabel();
     }
     void Update()
     {
         if (!IsAway) idleMotion?.Evaluate(TimeManager.Instance != null && TimeManager.Instance.IsPaused ? 0 : Time.deltaTime);
+        RefreshStoreLabel();
+    }
+    void RefreshStoreLabel()
+    {
+        if (storeLabel == null) return;
+        storeLabel.transform.position = InteractionAnchor.position + Vector3.up * 2.15f;
+        string title = string.IsNullOrWhiteSpace(storeLabelTitle) ? "LUMBER STORE" : storeLabelTitle;
+        string text = IsAway ? title + "\n<size=55%>Tukang sedang mengerjakan pesanan</size>" : title;
+        if (storeLabel.text != text) storeLabel.text = text;
     }
     void OnDestroy() { idleMotion?.Dispose(); }
 }

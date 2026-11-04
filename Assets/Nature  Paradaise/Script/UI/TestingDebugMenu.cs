@@ -14,7 +14,7 @@ public sealed class TestingDebugMenu : MonoBehaviour
     public static TestingDebugMenu Instance { get; private set; }
     public static bool IsOpen => Instance != null && Instance.open;
     public static bool Available => PropertySite.DebugShortcutsEnabled;
-    public static readonly string[] Categories = { "Player", "Item & Tools", "Hewan", "Waktu & Cuaca", "Kebun & Kolam", "Bangunan", "Progres & Aktivitas", "Save / Load" };
+    public static readonly string[] Categories = { "Player", "Item & Tools", "Hewan", "Waktu & Cuaca", "Kebun & Kolam", "Bangunan", "Progres & Aktivitas", "Save / Load", "Gerobak Pasar" };
     GameObject canvasObject, overlay, launcher;
     RectTransform rows;
     TMP_Text heading, feedback;
@@ -110,8 +110,8 @@ public sealed class TestingDebugMenu : MonoBehaviour
         Label(panel, "Pilih kategori. Perubahan gameplay ikut tersimpan jika kamu menyimpan game.", new(.025f,.85f), new(.97f,.90f), 16);
         for (int i=0;i<Categories.Length;i++)
         {
-            int page=i; float top=.825f-i*.092f;
-            tabs.Add(ButtonAt(panel, Categories[i], new(.02f,top-.08f), new(.255f,top), () => SelectCategory(page)));
+            int page=i; float step=.735f/Categories.Length;float top=.825f-i*step;
+            tabs.Add(ButtonAt(panel, Categories[i], new(.02f,top-step+.008f), new(.255f,top), () => SelectCategory(page)));
         }
         var viewport=GameplayHUDStyle.Rect("Action Viewport",panel,new(.275f,.115f),new(.98f,.83f));
         viewport.gameObject.AddComponent<Image>().color=new(.1f,.15f,.18f,1); viewport.gameObject.AddComponent<RectMask2D>();
@@ -165,6 +165,7 @@ public sealed class TestingDebugMenu : MonoBehaviour
             case 0: PlayerPage();break; case 1: ItemsPage();break; case 2: AnimalsPage();break;
             case 3: WorldPage();break; case 4: FarmPage();break; case 5: BuildingsPage();break;
             case 6: ProgressPage();break; case 7: SavesPage();break;
+            case 8: MarketCartPage();break;
         }
         Canvas.ForceUpdateCanvases(); scroll.verticalNormalizedPosition=1;
     }
@@ -361,5 +362,22 @@ public sealed class TestingDebugMenu : MonoBehaviour
         var saves=SaveManager.Instance;
         Launch("Simpan · pilih Slot 1–4",()=>saves.RequestSave(),saves!=null);
         Launch("Load · pilih save data",()=>saves.RequestLoad(),saves!=null);
+    }
+    void MarketCartPage()
+    {
+        Note("Tes tampilan dan animasi gerobak. Jam, cuaca dan stok tidak diubah. Tombol tes menutup menu agar animasi terlihat. Override tes hilang saat Load / mulai sesi baru.",92);
+        var carts=FindObjectsByType<MarketCartSchedule>(FindObjectsSortMode.None);
+        if(carts.Length==0){Note("Gerobak tidak tersedia di scene ini. Kembali ke luar rumah / Map untuk mengetes.");return;}
+        foreach(var cart in carts)
+        {
+            var c=cart;Note(c.name+" · "+c.DebugStatus,64);
+            Launch("Tes datang dari atas layar",c.DebugArrive);
+            Launch("Tes pergi / tutup · raih, tarik, dorong keluar kamera",c.DebugDepart);
+            Note("Gerobak bergerak lebih cepat. Jika terus diikuti, fade dimulai sekitar 18 m dari tempat jualan.",64);
+            Launch("Preview fade-out di tempat · 1 detik",c.DebugPreviewFade);
+            Launch("Tampilkan ulang di posisi stand",c.DebugShowAtHome);
+            Launch("Sembunyikan langsung",c.DebugHide);
+            Launch("Kembali ke jadwal normal",c.DebugUseSchedule);
+        }
     }
 }

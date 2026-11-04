@@ -1,0 +1,677 @@
+[
+  {
+    "id": "Apple",
+    "name": "Apel",
+    "category": "Buah",
+    "prefabCount": 30,
+    "wholeVariants": 4,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_03A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_04A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Box_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Box_Large_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Box_Large_01D.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Box_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Box_Small_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Box_Small_01D.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Crate_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Crate_Large_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Crate_Large_01D.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Crate_Large_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Crate_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Crate_Small_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Crate_Small_01D.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Crate_Small_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Half_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Half_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Half_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Half_01D.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Stack_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Stack_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Stack_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Apple_Stack_01D.prefab"
+    ]
+  },
+  {
+    "id": "Banana",
+    "name": "Pisang",
+    "category": "Buah",
+    "prefabCount": 20,
+    "wholeVariants": 3,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Box_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Box_Large_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Box_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Box_Small_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Crate_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Crate_Large_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Crate_Large_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Crate_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Crate_Small_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Crate_Small_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Stack_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Stack_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Banana_Stack_01C.prefab"
+    ]
+  },
+  {
+    "id": "Berries",
+    "name": "Beri",
+    "category": "Buah",
+    "prefabCount": 2,
+    "wholeVariants": 0,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Berries_Crate_Small_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Berries_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Berries_Crate_Small_01B.prefab"
+    ]
+  },
+  {
+    "id": "Cantaloupe",
+    "name": "Melon jingga",
+    "category": "Buah",
+    "prefabCount": 3,
+    "wholeVariants": 2,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cantaloupe_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cantaloupe_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cantaloupe_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cantaloupe_Half_01A.prefab"
+    ]
+  },
+  {
+    "id": "Coconut",
+    "name": "Kelapa",
+    "category": "Buah",
+    "prefabCount": 7,
+    "wholeVariants": 1,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Coconut_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Coconut_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Coconut_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Coconut_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Coconut_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Coconut_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Coconut_Open_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Coconut_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Grapefruit",
+    "name": "Grapefruit",
+    "category": "Buah",
+    "prefabCount": 6,
+    "wholeVariants": 1,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Grapefruit_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Grapefruit_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Grapefruit_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Grapefruit_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Grapefruit_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Grapefruit_Half_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Grapefruit_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Orange",
+    "name": "Jeruk",
+    "category": "Buah",
+    "prefabCount": 7,
+    "wholeVariants": 1,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Orange_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Orange_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Orange_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Orange_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Orange_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Orange_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Orange_Half_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Orange_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Papaya",
+    "name": "Pepaya",
+    "category": "Buah",
+    "prefabCount": 2,
+    "wholeVariants": 1,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Papaya_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Papaya_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Papaya_Half_01A.prefab"
+    ]
+  },
+  {
+    "id": "Pear",
+    "name": "Pir",
+    "category": "Buah",
+    "prefabCount": 14,
+    "wholeVariants": 2,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_Box_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_Box_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_Crate_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_Crate_Large_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_Crate_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_Crate_Small_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_Stack_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pear_Stack_01B.prefab"
+    ]
+  },
+  {
+    "id": "Pineapple",
+    "name": "Nanas",
+    "category": "Buah",
+    "prefabCount": 1,
+    "wholeVariants": 1,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pineapple_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pineapple_01A.prefab"
+    ]
+  },
+  {
+    "id": "Pomegranate",
+    "name": "Delima",
+    "category": "Buah",
+    "prefabCount": 14,
+    "wholeVariants": 2,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_Box_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_Box_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_Crate_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_Crate_Large_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_Crate_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_Crate_Small_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_Stack_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pomegranate_Stack_01B.prefab"
+    ]
+  },
+  {
+    "id": "Watermelon",
+    "name": "Semangka",
+    "category": "Buah",
+    "prefabCount": 8,
+    "wholeVariants": 6,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Watermelon_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Watermelon_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Watermelon_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Watermelon_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Watermelon_02B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Watermelon_03A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Watermelon_03B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Watermelon_Half_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Watermelon_Slice_01A.prefab"
+    ]
+  },
+  {
+    "id": "Asparagus",
+    "name": "Asparagus",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 3,
+    "wholeVariants": 1,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Asparagus_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Asparagus_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Asparagus_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Asparagus_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Bell_Pepper",
+    "name": "Paprika",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 23,
+    "wholeVariants": 3,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Box_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Box_Large_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Box_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Box_Small_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Crate_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Crate_Large_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Crate_Large_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Crate_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Crate_Small_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Crate_Small_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Half_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Half_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Half_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Stack_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Stack_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Bell_Pepper_Stack_01C.prefab"
+    ]
+  },
+  {
+    "id": "Cabbage",
+    "name": "Kubis",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 1,
+    "wholeVariants": 1,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cabbage_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cabbage_01A.prefab"
+    ]
+  },
+  {
+    "id": "Carrot",
+    "name": "Wortel",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 9,
+    "wholeVariants": 3,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Carrot_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Carrot_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Carrot_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Carrot_03A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Carrot_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Carrot_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Carrot_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Carrot_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Carrot_Slice_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Carrot_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Cauliflower",
+    "name": "Kembang kol",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 2,
+    "wholeVariants": 2,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cauliflower_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cauliflower_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cauliflower_01B.prefab"
+    ]
+  },
+  {
+    "id": "Cherry_Tomato",
+    "name": "Tomat ceri",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 22,
+    "wholeVariants": 10,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_02B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_03A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_03B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_04A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_04B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_05A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_05B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_Box_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_Box_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_Crate_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_Crate_Large_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_Crate_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_Crate_Small_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_Stack_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cherry_Tomato_Stack_01B.prefab"
+    ]
+  },
+  {
+    "id": "Cucumber",
+    "name": "Mentimun",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 8,
+    "wholeVariants": 1,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cucumber_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cucumber_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cucumber_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cucumber_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cucumber_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cucumber_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cucumber_Half_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cucumber_Slice_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Cucumber_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Ear_Corn",
+    "name": "Jagung",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 5,
+    "wholeVariants": 4,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Ear_Corn_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Ear_Corn_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Ear_Corn_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Ear_Corn_03A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Ear_Corn_03B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Ear_Corn_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Eggplant",
+    "name": "Terong",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 10,
+    "wholeVariants": 3,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Eggplant_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Eggplant_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Eggplant_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Eggplant_03A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Eggplant_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Eggplant_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Eggplant_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Eggplant_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Eggplant_Half_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Eggplant_Slice_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Eggplant_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Garlic",
+    "name": "Bawang putih",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 8,
+    "wholeVariants": 1,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Garlic_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Garlic_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Garlic_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Garlic_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Garlic_Clove_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Garlic_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Garlic_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Garlic_Half_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Garlic_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Hot_Pepper",
+    "name": "Cabai",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 2,
+    "wholeVariants": 2,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Hot_Pepper_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Hot_Pepper_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Hot_Pepper_01B.prefab"
+    ]
+  },
+  {
+    "id": "Leek",
+    "name": "Leek",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 7,
+    "wholeVariants": 3,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Leek_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Leek_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Leek_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Leek_03A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Leek_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Leek_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Leek_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Leek_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Onion",
+    "name": "Bawang bombai",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 17,
+    "wholeVariants": 3,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Box_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Box_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Crate_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Crate_Large_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Crate_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Crate_Small_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Half_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Half_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Stack_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Stack_01B.prefab"
+    ]
+  },
+  {
+    "id": "Onion_Spring",
+    "name": "Daun bawang",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 6,
+    "wholeVariants": 2,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Spring_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Spring_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Spring_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Spring_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Spring_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Spring_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Onion_Spring_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Pepper",
+    "name": "Pepper (varian pack)",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 20,
+    "wholeVariants": 3,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Box_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Box_Large_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Box_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Box_Small_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Crate_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Crate_Large_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Crate_Large_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Crate_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Crate_Small_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Crate_Small_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Stack_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Stack_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pepper_Stack_01C.prefab"
+    ]
+  },
+  {
+    "id": "Potato",
+    "name": "Kentang",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 7,
+    "wholeVariants": 2,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Potato_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Potato_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Potato_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Potato_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Potato_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Potato_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Potato_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Potato_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Pumpkin",
+    "name": "Labu",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 5,
+    "wholeVariants": 4,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pumpkin_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pumpkin_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pumpkin_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pumpkin_02B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pumpkin_02C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Pumpkin_Half_01A.prefab"
+    ]
+  },
+  {
+    "id": "Radish",
+    "name": "Lobak",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 1,
+    "wholeVariants": 1,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Radish_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Radish_01A.prefab"
+    ]
+  },
+  {
+    "id": "Salad",
+    "name": "Salad (nama aset pack)",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 1,
+    "wholeVariants": 1,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Salad_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Salad_01A.prefab"
+    ]
+  },
+  {
+    "id": "Spinach_Pile",
+    "name": "Bayam",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 1,
+    "wholeVariants": 1,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Spinach_Pile_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Spinach_Pile_01A.prefab"
+    ]
+  },
+  {
+    "id": "Sweet_Potato",
+    "name": "Ubi",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 7,
+    "wholeVariants": 2,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Sweet_Potato_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Sweet_Potato_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Sweet_Potato_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Sweet_Potato_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Sweet_Potato_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Sweet_Potato_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Sweet_Potato_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Sweet_Potato_Stack_01A.prefab"
+    ]
+  },
+  {
+    "id": "Tomato",
+    "name": "Tomat",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 26,
+    "wholeVariants": 6,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_02A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_02B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_02C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Box_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Box_Large_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Box_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Box_Small_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Crate_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Crate_Large_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Crate_Large_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Crate_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Crate_Small_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Crate_Small_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Half_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Half_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Half_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Stack_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Stack_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Tomato_Stack_01C.prefab"
+    ]
+  },
+  {
+    "id": "Zucchini",
+    "name": "Zukini",
+    "category": "Sayuran dan bahan kebun",
+    "prefabCount": 20,
+    "wholeVariants": 3,
+    "example": "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_01A.prefab",
+    "prefabs": [
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Box_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Box_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Box_Large_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Box_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Box_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Box_Small_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Crate_Large_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Crate_Large_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Crate_Large_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Crate_Large_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Crate_Small_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Crate_Small_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Crate_Small_01C.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Crate_Small_Mixed_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Stack_01A.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Stack_01B.prefab",
+      "Assets/Nature  Paradaise/Pack/Toon Series/Toon Farm Pack/Prefabs/Props/Produce/TFP_Zucchini_Stack_01C.prefab"
+    ]
+  }
+]

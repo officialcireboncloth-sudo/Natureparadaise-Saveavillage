@@ -1,0 +1,94 @@
+{
+  "status": "SOURCE_EXPORTED",
+  "reference": "CoopExterior_Target.png right panel",
+  "scope": "Player-built Coop exterior, shared visual across existing level scales",
+  "entranceUnity": [
+    1.25,
+    0,
+    4.65
+  ],
+  "doorCenterUnity": [
+    1.25,
+    1.66,
+    3.69
+  ],
+  "lanternUnity": [
+    1.25,
+    2.98,
+    4.02
+  ],
+  "lods": [
+    {
+      "name": "CoopExterior_Cozy_LOD0",
+      "triangles": 28348,
+      "vertices": 15536,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyFoliage_01",
+        "NP_CozyGlow_01",
+        "NP_CozySurfaces_02",
+        "NP_CozyWire_02"
+      ],
+      "min": [
+        -4.034999847412109,
+        0.0,
+        -4.474999904632568
+      ],
+      "max": [
+        3.7499136924743652,
+        5.914999961853027,
+        6.187304973602295
+      ]
+    },
+    {
+      "name": "CoopExterior_Cozy_LOD1",
+      "triangles": 13852,
+      "vertices": 7786,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyFoliage_01",
+        "NP_CozyGlow_01",
+        "NP_CozySurfaces_02",
+        "NP_CozyWire_02"
+      ],
+      "min": [
+        -4.034999847412109,
+        0.0,
+        -4.474999904632568
+      ],
+      "max": [
+        3.7499136924743652,
+        5.914999961853027,
+        5.238499641418457
+      ]
+    },
+    {
+      "name": "CoopExterior_Cozy_LOD2",
+      "triangles": 3572,
+      "vertices": 2155,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyGlow_01",
+        "NP_CozySurfaces_02"
+      ],
+      "min": [
+        -4.028077125549316,
+        0.0,
+        -4.474999904632568
+      ],
+      "max": [
+        3.7499136924743652,
+        5.914999961853027,
+        5.2336249351501465
+      ]
+    }
+  ],
+  "sourceModules": 675,
+  "decorativeEggs": 6,
+  "liveAnimals": 0,
+  "atlasPages": [
+    "NP_CozySurfaces_01",
+    "NP_CozySurfaces_02"
+  ],
+  "legacyAtlasModified": false
+}

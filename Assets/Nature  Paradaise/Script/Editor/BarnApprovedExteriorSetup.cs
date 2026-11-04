@@ -25,6 +25,8 @@ public static class BarnApprovedExteriorSetup
     [MenuItem("Nature Paradise/Barn/Apply Approved Barn A Exterior", false, 105)]
     public static void Apply()
     {
+        if (File.Exists(Root + "/Source~/BarnExteriorCozy/BarnExterior_Cozy_Manifest.json"))
+        { BarnExteriorCozySetup.Apply(); return; }
         if (EditorApplication.isPlayingOrWillChangePlaymode)
             throw new InvalidOperationException("Stop Play Mode before applying barn assets.");
         Directory.CreateDirectory(Models);

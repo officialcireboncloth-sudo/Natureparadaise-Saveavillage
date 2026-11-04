@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "colorSize": [
+    512,
+    256
+  ],
+  "slots": [
+    {
+      "name": "Cow",
+      "uvSafe": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "sourceSize": [
+        1536,
+        1024
+      ],
+      "packedRect": [
+        64,
+        0,
+        384,
+        256
+      ]
+    }
+  ],
+  "source": "Built-in imagegen; native GIMP resize/packing; original alpha preserved"
+}

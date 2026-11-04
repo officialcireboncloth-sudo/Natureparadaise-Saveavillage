@@ -1,0 +1,530 @@
+{
+  "status": "SOURCE_EXPORTED",
+  "level": 1,
+  "worldScale": 0.4,
+  "reference": "FishPond_Target.png",
+  "lods": [
+    {
+      "name": "FishPond_Cozy_LOD0",
+      "triangles": 14142,
+      "vertices": 7523,
+      "materials": [
+        "NP_CozyFoliage_01",
+        "NP_CozySurfaces_03"
+      ],
+      "min": [
+        -5.70141077041626,
+        -0.09544968605041504,
+        -3.1155788898468018
+      ],
+      "max": [
+        6.517486095428467,
+        3.619999885559082,
+        4.034999847412109
+      ]
+    },
+    {
+      "name": "FishPond_Cozy_LOD1",
+      "triangles": 8184,
+      "vertices": 4315,
+      "materials": [
+        "NP_CozySurfaces_03"
+      ],
+      "min": [
+        -5.600054740905762,
+        0.0,
+        -3.1155788898468018
+      ],
+      "max": [
+        6.517486095428467,
+        3.619999885559082,
+        4.029375076293945
+      ]
+    },
+    {
+      "name": "FishPond_Cozy_LOD2",
+      "triangles": 3640,
+      "vertices": 2043,
+      "materials": [
+        "NP_CozySurfaces_03"
+      ],
+      "min": [
+        -5.592803001403809,
+        0.004999918397516012,
+        -3.1155788898468018
+      ],
+      "max": [
+        6.517486095428467,
+        3.6110000610351562,
+        4.029375076293945
+      ]
+    }
+  ],
+  "water": {
+    "name": "FishPond_Cozy_Water",
+    "triangles": 24,
+    "vertices": 25,
+    "materials": [
+      "TFP_Water_1A"
+    ],
+    "min": [
+      -4.900000095367432,
+      0.6499999761581421,
+      -2.4000000953674316
+    ],
+    "max": [
+      1.899999976158142,
+      0.6499999761581421,
+      2.4000000953674316
+    ]
+  },
+  "waterPolygon": [
+    [
+      1.9,
+      2.05
+    ],
+    [
+      1.8828697807033035,
+      2.1581559480312316
+    ],
+    [
+      1.8331559480312314,
+      2.2557248383023656
+    ],
+    [
+      1.7557248383023654,
+      2.3331559480312314
+    ],
+    [
+      1.6581559480312313,
+      2.3828697807033037
+    ],
+    [
+      1.5499999999999998,
+      2.4
+    ],
+    [
+      -4.55,
+      2.4
+    ],
+    [
+      -4.658155948031231,
+      2.3828697807033037
+    ],
+    [
+      -4.755724838302365,
+      2.3331559480312314
+    ],
+    [
+      -4.833155948031232,
+      2.2557248383023656
+    ],
+    [
+      -4.882869780703303,
+      2.1581559480312316
+    ],
+    [
+      -4.8999999999999995,
+      2.05
+    ],
+    [
+      -4.8999999999999995,
+      -2.05
+    ],
+    [
+      -4.882869780703303,
+      -2.1581559480312316
+    ],
+    [
+      -4.833155948031232,
+      -2.255724838302365
+    ],
+    [
+      -4.755724838302365,
+      -2.3331559480312314
+    ],
+    [
+      -4.658155948031231,
+      -2.3828697807033037
+    ],
+    [
+      -4.55,
+      -2.4
+    ],
+    [
+      1.5499999999999998,
+      -2.4
+    ],
+    [
+      1.6581559480312313,
+      -2.3828697807033037
+    ],
+    [
+      1.7557248383023654,
+      -2.3331559480312314
+    ],
+    [
+      1.8331559480312314,
+      -2.2557248383023656
+    ],
+    [
+      1.8828697807033035,
+      -2.1581559480312316
+    ],
+    [
+      1.9,
+      -2.05
+    ]
+  ],
+  "dockMinimum": [
+    -1.25,
+    0.25
+  ],
+  "dockMaximum": [
+    2.35,
+    3.05
+  ],
+  "stations": {
+    "pond": [
+      0.55,
+      0.96,
+      2.17
+    ],
+    "approach": [
+      0.55,
+      0,
+      4.23
+    ],
+    "maker": [
+      4.23,
+      1.0,
+      2.22
+    ],
+    "feeding": [
+      6.08,
+      2.24,
+      0.6799999999999999
+    ],
+    "inlet": [
+      -3.26,
+      0.86,
+      -1.63
+    ],
+    "splash": [
+      -3.26,
+      0.66,
+      -1.63
+    ]
+  },
+  "waterHeight": 0.65,
+  "swimHeight": 0.44,
+  "sourceModules": 208,
+  "atlasPages": [
+    "NP_CozySurfaces_03",
+    "NP_CozyFoliage_01"
+  ],
+  "capacity": 50,
+  "placeholderWater": true,
+  "woodUV": [
+    {
+      "object": "Cube",
+      "lengthMetres": 0.9599999785423279,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.9599999785423279,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.9599999785423279,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.9599999785423279,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.0,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.0,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.5999999046325684,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.5999999046325684,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.5999999046325684,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.5999999046325684,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.5999999046325684,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.5999999046325684,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.5999999046325684,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.5999999046325684,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.5999999046325684,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 1.059999942779541,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.23000000417232513,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.4000000953674316,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.4000000953674316,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 1.059999942779541,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.23000000417232513,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 2.1500000953674316,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 2.3299999237060547,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 2.1500000953674316,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 2.3299999237060547,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 2.1500000953674316,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 2.3299999237060547,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.7900000214576721,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 1.0,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.38999998569488525,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.38999998569488525,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.38999998569488525,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.38999998569488525,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 1.0,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 1.0,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.6600000262260437,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.6600000262260437,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 1.0,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 1.0,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.6600000262260437,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.6600000262260437,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 1.0,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 1.0,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.6600000262260437,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.6600000262260437,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.8100000023841858,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Coopered wood barrel",
+      "lengthMetres": 0.7200002670288086,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 3.2200000286102295,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.36000001430511475,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    },
+    {
+      "object": "Cube",
+      "lengthMetres": 0.4000000059604645,
+      "grainDirection": "longest face dimension maps to texture U",
+      "crossGrainMetres": 1.45
+    }
+  ]
+}

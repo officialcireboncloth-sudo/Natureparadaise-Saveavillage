@@ -1,0 +1,94 @@
+{
+  "status": "SOURCE_EXPORTED",
+  "reference": "BarnExterior_Target.png right panel",
+  "scope": "Player-built Barn exterior, shared visual across existing level scales",
+  "entranceUnity": [
+    0,
+    0,
+    3.15
+  ],
+  "doorCenterUnity": [
+    0,
+    1.63,
+    2.9
+  ],
+  "lanternUnity": [
+    -2.02,
+    2.5,
+    3.13
+  ],
+  "lods": [
+    {
+      "name": "BarnExterior_Cozy_LOD0",
+      "triangles": 26644,
+      "vertices": 14706,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyFoliage_01",
+        "NP_CozyGlow_01",
+        "NP_CozySurfaces_02",
+        "NP_CozyEmblems_01"
+      ],
+      "min": [
+        -4.12923002243042,
+        0.0,
+        -3.0625
+      ],
+      "max": [
+        4.12923002243042,
+        5.715000152587891,
+        3.805000066757202
+      ]
+    },
+    {
+      "name": "BarnExterior_Cozy_LOD1",
+      "triangles": 13274,
+      "vertices": 7601,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyGlow_01",
+        "NP_CozySurfaces_02",
+        "NP_CozyEmblems_01"
+      ],
+      "min": [
+        -4.12923002243042,
+        0.0,
+        -3.0625
+      ],
+      "max": [
+        4.12923002243042,
+        5.715259552001953,
+        3.805000066757202
+      ]
+    },
+    {
+      "name": "BarnExterior_Cozy_LOD2",
+      "triangles": 4084,
+      "vertices": 2535,
+      "materials": [
+        "NP_CozySurfaces_01",
+        "NP_CozyGlow_01",
+        "NP_CozySurfaces_02",
+        "NP_CozyEmblems_01"
+      ],
+      "min": [
+        -4.12923002243042,
+        0.0,
+        -3.0560386180877686
+      ],
+      "max": [
+        4.12923002243042,
+        5.715259552001953,
+        3.805000066757202
+      ]
+    }
+  ],
+  "sourceModules": 662,
+  "decorativeEggs": 0,
+  "liveAnimals": 0,
+  "atlasPages": [
+    "NP_CozySurfaces_01",
+    "NP_CozySurfaces_02"
+  ],
+  "legacyAtlasModified": false
+}

@@ -1,0 +1,15 @@
+MARKET CART NATIVE PLAY
+PASS No production save writer
+PASS Cart gameplay component instantiates
+PASS Existing save identity retained
+PASS Runtime scale is 1 metre convention
+PASS Existing sellable item resolves
+PASS Deposit reaches existing market listings
+PASS Withdraw returns stock to inventory
+PASS Existing save capture includes cart stock
+PASS Restore retains stock and identity
+PASS Existing market UI opens
+PASS UI closes and releases input
+PASS Cart, wheels and shafts block movement
+PASS Approach from front reaches solid cart
+MARKET_CART_PLAY_PASS checks=13
