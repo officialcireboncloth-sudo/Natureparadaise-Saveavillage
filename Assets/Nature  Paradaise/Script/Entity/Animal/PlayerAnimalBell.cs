@@ -227,7 +227,11 @@ public sealed class AnimalBellStation : MonoBehaviour
         if(visual==null)return;
         visual.gameObject.SetActive(true);
         Transform building=home.site!=null?home.site.BuildingAnchor:home.transform;
-        transform.SetPositionAndRotation(home.Entry-building.right*5f,building.rotation);
+        Vector3 entry=building.InverseTransformPoint(home.Entry);
+        float unit=1f/Mathf.Max(.01f,building.lossyScale.x);
+        Vector3 approach=entry+new Vector3(-1.45f*unit,0,.35f*unit);
+        visual.PlaceOnPost(building,approach,approach+building.InverseTransformVector(building.forward*.65f),
+            (home.Kind==AnimalHousingKind.Coop?.56f:.68f)*unit);
     }
 
     void Update()

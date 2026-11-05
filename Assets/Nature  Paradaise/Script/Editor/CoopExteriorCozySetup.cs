@@ -100,7 +100,7 @@ public static class CoopExteriorCozySetup
                 var entrance=authored.Entrance;var ep=entrance.localPosition;var er=entrance.localRotation;var scale=root.transform.localScale;
                 var colliders=root.GetComponentsInChildren<Collider>(true);var colliderData=colliders.Select(c=>EditorJsonUtility.ToJson(c)).ToArray();
                 var model=authored.ModelRoot;var mp=model.localPosition;var ms=model.localScale;
-                foreach(Transform t in model.Cast<Transform>().ToArray())Object.DestroyImmediate(t.gameObject);
+                foreach(Transform t in model.Cast<Transform>().ToArray())if(authored.Bell==null||t!=authored.Bell.transform)Object.DestroyImmediate(t.gameObject);
                 model.localRotation=Quaternion.identity; // new runtime vertices explicitly use Unity +Z front
                 var group=model.GetComponent<LODGroup>()??model.gameObject.AddComponent<LODGroup>();var lods=new LOD[3];
                 for(int lod=0;lod<3;lod++)
@@ -114,6 +114,7 @@ public static class CoopExteriorCozySetup
                 Check(entrance.localPosition==ep&&entrance.localRotation==er,"Lv"+level+": existing doorway position and rotation retained");
                 Check(colliders.Select(c=>EditorJsonUtility.ToJson(c)).SequenceEqual(colliderData),"Lv"+level+": body/nest collision data untouched");
                 Check(!authored.BuildingCollision.bounds.Contains(entrance.position+Vector3.up),"Lv"+level+": approach anchor outside body collision");
+                HousingBellSetup.Configure(authored,true);
                 var saved=PrefabUtility.SaveAsPrefabAsset(root,path);AssetDatabase.TryGetGUIDAndLocalFileIdentifier(saved,out string afterGuid,out long afterId);
                 Check(guid==afterGuid&&id==afterId,"Lv"+level+": existing prefab GUID and root ID retained");
             }

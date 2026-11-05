@@ -24,8 +24,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412253746606390510}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 3.0199997, y: 0, z: -3.0999997}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.00000004371139}
+  m_LocalPosition: {x: 2.5499995, y: 0.00000016106404, z: -3.565881}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -110,8 +110,8 @@ Transform:
   m_GameObject: {fileID: 1595919798239481262}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  m_LocalPosition: {x: -1.33, y: 0, z: -1.65}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.7626537, y: -0.00000011920929, z: 2.4182456}
+  m_LocalScale: {x: 0.740136, y: 0.740136, z: 0.740136}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7699461016877990340}
@@ -128,11 +128,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1595919798239481262}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ccccc130e18f444896b2edfc8fec238, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   swingPivot: {fileID: 7699461016877990340}
   promptAnchor: {fileID: 3557367410309346265}
   approach: {fileID: 1214626585085564232}
@@ -345,7 +345,7 @@ Transform:
   m_GameObject: {fileID: 2733041562962336467}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5500004, y: 1.6799998, z: -3.0999997}
+  m_LocalPosition: {x: 2.5500002, y: 1.7300001, z: -3.1000001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -543,7 +543,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5733314471447173699
 Transform:
   m_ObjectHideFlags: 0
@@ -856,8 +856,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e71803d811443e1ab7b0e5c886c2213, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   modelRoot: {fileID: 2774952305782625352}
   buildingCollision: {fileID: 6434409308724883958}
   entrance: {fileID: 746594972302130263}
@@ -963,7 +963,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2794019899648758151
 Transform:
   m_ObjectHideFlags: 0

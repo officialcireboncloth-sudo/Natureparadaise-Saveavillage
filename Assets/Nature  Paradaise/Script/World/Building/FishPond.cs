@@ -254,7 +254,19 @@ public sealed class FishPond : MonoBehaviour
     FishPondExterior exterior;
     bool panelOpen;
     string feedback = string.Empty;
-    WorldDebugStatusLabel combinedDebugLabel;
+    public FeedMaker FeedMachine => feedMaker;
+    public Vector3 OverviewPoint => exterior!=null&&exterior.InteractionPoint!=null ? exterior.InteractionPoint.position : transform.position;
+    public static FishPond NearestOverview(Vector3 position,float range)
+    {
+        FishPond nearest=null;float best=range*range;
+        foreach(var pond in ActivePonds)
+        {
+            if(pond==null||!pond.isActiveAndEnabled)continue;
+            Vector3 delta=pond.OverviewPoint-position;delta.y=0;
+            if(delta.sqrMagnitude>=best)continue;best=delta.sqrMagnitude;nearest=pond;
+        }
+        return nearest;
+    }
 
     public Inventory PlayerInventory => inventory;
     public IReadOnlyList<FishPondFishData> Fish => record?.fish;
@@ -287,6 +299,7 @@ public sealed class FishPond : MonoBehaviour
         if(!ActivePonds.Contains(this))ActivePonds.Add(this);
         FishPondService.Changed += HandleChanged;
         ResolveRecord(); RebuildVisuals();
+        FishPondHUD.Ensure();
     }
 
     void OnDisable()
@@ -317,7 +330,6 @@ public sealed class FishPond : MonoBehaviour
     void Update()
     {
         AnimateFish(); ResolvePlayer();
-        RefreshFeedDebugLabel();
         if (inventory == null || feedRoutine!=null) return;
         if (panelOpen)
         {
@@ -384,8 +396,8 @@ public sealed class FishPond : MonoBehaviour
         if (!PlayerInteractionTarget.ContainsPickup(inventory.transform, pondTarget, interactionRadius)) return;
         float distance = Vector3.Distance(inventory.transform.position, pondTarget.position);
         WorldInteractionPrompt.Request(this, pondTarget,
-            $"{interactKey}: Fish Pond Lv.{Level} — {FishCount}/{Capacity} | {PondFeedStatus()}",
-            distance, 1.2f);
+            $"{interactKey}: Kelola Kolam",
+            distance, 1.2f,OpenPanel);
         if (PlayerInteractionTarget.PressPrompt(this, pondTarget, interactKey)) OpenPanel();
     }
 
@@ -730,8 +742,8 @@ public sealed class FishPond : MonoBehaviour
         feedMaker.SetWorldDebugVisible(false);
         Transform oldFeedLabel = feedingPoint.Find("FishFeed_DebugLabel");
         if (oldFeedLabel != null) oldFeedLabel.gameObject.SetActive(false);
-        combinedDebugLabel = WorldDebugStatusLabel.GetOrCreate(transform, "FishPond_DebugLabel", new Vector3(0f, 2.35f, 0f));
-        combinedDebugLabel?.SetColor(new Color(0.3f, 0.95f, 1f, 1f));
+        Transform oldPondLabel=transform.Find("FishPond_DebugLabel");
+        if(oldPondLabel!=null)oldPondLabel.gameObject.SetActive(false);
     }
 
     string FeedRemainingText()
@@ -743,38 +755,6 @@ public sealed class FishPond : MonoBehaviour
             24 * 60 - (TimeManager.Instance.hour * 60 + TimeManager.Instance.minute);
         int totalMinutes = Mathf.Max(0, untilReset) + Mathf.Max(0, fullDays - 1) * 24 * 60;
         return $"Habis sekitar {GameTimeDebugText.FormatMinutes(totalMinutes)} ({fullDays} hari pakan)";
-    }
-
-    void RefreshFeedDebugLabel()
-    {
-        if (combinedDebugLabel == null)
-            combinedDebugLabel = WorldDebugStatusLabel.GetOrCreate(transform, "FishPond_DebugLabel", new Vector3(0f, 2.35f, 0f));
-        combinedDebugLabel?.SetColor(new Color(0.3f, 0.95f, 1f, 1f));
-        feedMaker?.SetWorldDebugVisible(false);
-        Transform oldFeedLabel = feedingPoint != null ? feedingPoint.Find("FishFeed_DebugLabel") : null;
-        if (oldFeedLabel != null) oldFeedLabel.gameObject.SetActive(false);
-
-        combinedDebugLabel.gameObject.SetActive(!panelOpen);
-        string makerStatus = feedMaker != null ? feedMaker.FishFeedCompactDebugStatus : "EMPTY";
-        int feedPercent = FeedCapacity > 0 ? Mathf.RoundToInt(FeedStock * 100f / FeedCapacity) : 0;
-        string feedStatus = FeedStock <= 0
-            ? "EMPTY"
-            : $"ADA {FeedStock}/{FeedCapacity} ({feedPercent}%) | Habis {FeedEstimateShort()}";
-        string pondStatus = FishCount <= 0 ? $"EMPTY 0/{Capacity}" : $"ADA {FishCount}/{Capacity}";
-        int sickCount = record?.fish?.Count(fish => fish != null && fish.sick) ?? 0;
-        int highestHunger = record?.fish?.Count > 0
-            ? record.fish.Max(fish => fish != null ? fish.daysWithoutFood : 0)
-            : 0;
-        string healthStatus = FishCount <= 0 ? "-" : sickCount > 0
-            ? $"SICK {sickCount} | No Feed maks {highestHunger}/{FishPondService.StarvationDeathDays}"
-            : highestHunger > 0
-                ? $"Hungry {highestHunger}/{FishPondService.StarvationDeathDays}"
-                : "Healthy";
-        combinedDebugLabel?.SetText($"FISH POND Lv.{Level}\n"+
-            $"Feed Maker: {makerStatus}\n"+
-            $"Tempat Makan: {feedStatus}\n"+
-            $"Kolam: {pondStatus}\n"+
-            $"Health: {healthStatus}");
     }
 
     string FeedEstimateShort()

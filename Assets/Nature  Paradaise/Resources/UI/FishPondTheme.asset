@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6d3d4face4254a3db91826535896210b, type: 3}
   m_Name: FishPondTheme
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   panel: {fileID: 0}
   headerFish: {fileID: 0}
   bagIcon: {fileID: 0}
@@ -22,3 +22,8 @@ MonoBehaviour:
   fishPlaceholder: {fileID: 0}
   waterIcon: {fileID: 0}
   leafDecoration: {fileID: 0}
+  overviewFish: {fileID: 21300000, guid: 196c344140b44e72ad365bcd000c4745, type: 3}
+  overviewMachine: {fileID: 21300000, guid: 3d4c003c703f4682b7a2ce6c2f648eca, type: 3}
+  overviewFeed: {fileID: 21300000, guid: 6cca8301229e4ee1a65a133c1fbf07b6, type: 3}
+  overviewHealth: {fileID: 21300000, guid: 31c6b4df642a45dfbb3eec12c40de7a2, type: 3}
+  overviewIconMaterial: {fileID: 2100000, guid: e5229c50872ceed4bb1e9c0cdf7f416d, type: 2}

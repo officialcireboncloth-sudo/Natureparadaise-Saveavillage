@@ -98,9 +98,7 @@ public static class BarnExteriorCozySetup
                 var bell=authored.Bell;Check(bell!=null&&bell.SwingPivot!=null&&bell.Approach!=null&&bell.PromptAnchor!=null,"Lv"+level+": modeled bell and interaction markers retained");
                 foreach(Transform t in model.Cast<Transform>().ToArray())if(t!=bell.transform)Object.DestroyImmediate(t.gameObject);
                 model.localRotation=Quaternion.identity;
-                bell.transform.localPosition=new Vector3(-1.33f,0,-1.65f);bell.transform.localRotation=Quaternion.Euler(0,180,0);
-                bell.Approach.position=model.TransformPoint(new Vector3(-4.35f,0,1.45f));bell.Approach.rotation=model.rotation*Quaternion.Euler(0,90,0);
-                bell.PromptAnchor.position=model.TransformPoint(new Vector3(-3.88f,1.68f,1.45f));
+                HousingBellSetup.Configure(authored,false);
                 // Align the retained collider component with the new closed, centered shell.
                 authored.BuildingCollision.center=mp+Vector3.Scale(new Vector3(0,1.62f,0),ms);
                 authored.BuildingCollision.size=Vector3.Scale(new Vector3(7.12f,3.24f,5.52f),ms);

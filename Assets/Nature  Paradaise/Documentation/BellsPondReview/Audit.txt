@@ -1,0 +1,100 @@
+BARN/COOP BELLS AND POND OVERVIEW — NATIVE UNITY
+PASS Barn1 has authored shared bell and approach
+PASS Barn1 bell visible in front on viewer-right of door
+PASS Barn1 standalone timber post visible
+PASS Barn1 post grounded and height stays modest across upgrades
+PASS Barn1 narrow post and small base
+PASS Barn1 bell and rope remain small
+PASS Barn1 bell approach outside wall
+PASS Barn1 door and bell approaches separated
+PASS Barn2 has authored shared bell and approach
+PASS Barn2 bell visible in front on viewer-right of door
+PASS Barn2 standalone timber post visible
+PASS Barn2 post grounded and height stays modest across upgrades
+PASS Barn2 narrow post and small base
+PASS Barn2 bell and rope remain small
+PASS Barn2 bell approach outside wall
+PASS Barn2 door and bell approaches separated
+PASS Barn3 has authored shared bell and approach
+PASS Barn3 bell visible in front on viewer-right of door
+PASS Barn3 standalone timber post visible
+PASS Barn3 post grounded and height stays modest across upgrades
+PASS Barn3 narrow post and small base
+PASS Barn3 bell and rope remain small
+PASS Barn3 bell approach outside wall
+PASS Barn3 door and bell approaches separated
+PASS Barn4 has authored shared bell and approach
+PASS Barn4 bell visible in front on viewer-right of door
+PASS Barn4 standalone timber post visible
+PASS Barn4 post grounded and height stays modest across upgrades
+PASS Barn4 narrow post and small base
+PASS Barn4 bell and rope remain small
+PASS Barn4 bell approach outside wall
+PASS Barn4 door and bell approaches separated
+PASS Barn5 has authored shared bell and approach
+PASS Barn5 bell visible in front on viewer-right of door
+PASS Barn5 standalone timber post visible
+PASS Barn5 post grounded and height stays modest across upgrades
+PASS Barn5 narrow post and small base
+PASS Barn5 bell and rope remain small
+PASS Barn5 bell approach outside wall
+PASS Barn5 door and bell approaches separated
+PASS Coop1 has authored shared bell and approach
+PASS Coop1 bell visible in front on viewer-right of door
+PASS Coop1 standalone timber post visible
+PASS Coop1 post grounded and height stays modest across upgrades
+PASS Coop1 narrow post and small base
+PASS Coop1 bell and rope remain small
+PASS Coop1 bell approach outside wall
+PASS Coop1 door and bell approaches separated
+PASS Coop2 has authored shared bell and approach
+PASS Coop2 bell visible in front on viewer-right of door
+PASS Coop2 standalone timber post visible
+PASS Coop2 post grounded and height stays modest across upgrades
+PASS Coop2 narrow post and small base
+PASS Coop2 bell and rope remain small
+PASS Coop2 bell approach outside wall
+PASS Coop2 door and bell approaches separated
+PASS Coop3 has authored shared bell and approach
+PASS Coop3 bell visible in front on viewer-right of door
+PASS Coop3 standalone timber post visible
+PASS Coop3 post grounded and height stays modest across upgrades
+PASS Coop3 narrow post and small base
+PASS Coop3 bell and rope remain small
+PASS Coop3 bell approach outside wall
+PASS Coop3 door and bell approaches separated
+PASS Coop4 has authored shared bell and approach
+PASS Coop4 bell visible in front on viewer-right of door
+PASS Coop4 standalone timber post visible
+PASS Coop4 post grounded and height stays modest across upgrades
+PASS Coop4 narrow post and small base
+PASS Coop4 bell and rope remain small
+PASS Coop4 bell approach outside wall
+PASS Coop4 door and bell approaches separated
+PASS Coop5 has authored shared bell and approach
+PASS Coop5 bell visible in front on viewer-right of door
+PASS Coop5 standalone timber post visible
+PASS Coop5 post grounded and height stays modest across upgrades
+PASS Coop5 narrow post and small base
+PASS Coop5 bell and rope remain small
+PASS Coop5 bell approach outside wall
+PASS Coop5 door and bell approaches separated
+PASS No production save writer in test scene
+PASS One pond overview auto-installed
+PASS Four genuine PNG sprite icons imported at 128 square
+PASS Overview uses PNG Images instead of procedural vector placeholders
+PASS Header and all four rows have the linked silhouette sprites
+PASS Mobile silhouette UI shader compiles cleanly
+PASS Legacy giant debug label disabled at startup
+PASS No world-space pond/machine debug text visible
+PASS Overview appears only near pond
+PASS Empty pond footer uses real fish count
+PASS Displayed capacity follows system, not reference mockup
+PASS Depositing fish updates overview from existing service
+PASS Health/feed show stored sick fish and real stock
+PASS Rendering overview leaves pond save data untouched
+PASS Manage pond modal still works and hides overview
+PASS Closing management restores overview and time scale
+PASS Overview hides when player leaves pond
+PASS Removing pond leaves no orphan panel
+BELLS_POND_PASS checks=98
