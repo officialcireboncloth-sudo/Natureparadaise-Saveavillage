@@ -14,7 +14,7 @@ public sealed class TestingDebugMenu : MonoBehaviour
     public static TestingDebugMenu Instance { get; private set; }
     public static bool IsOpen => Instance != null && Instance.open;
     public static bool Available => PropertySite.DebugShortcutsEnabled;
-    public static readonly string[] Categories = { "Player", "Item & Tools", "Hewan", "Waktu & Cuaca", "Kebun & Kolam", "Bangunan", "Progres & Aktivitas", "Save / Load", "Gerobak Pasar" };
+    public static readonly string[] Categories = { "Player", "Item & Tools", "Hewan", "Waktu & Cuaca", "Kebun & Kolam", "Bangunan", "Progres & Aktivitas", "Save / Load", "Gerobak Pasar", "Kesuburan Tanah" };
     GameObject canvasObject, overlay, launcher;
     RectTransform rows;
     TMP_Text heading, feedback;
@@ -166,6 +166,7 @@ public sealed class TestingDebugMenu : MonoBehaviour
             case 3: WorldPage();break; case 4: FarmPage();break; case 5: BuildingsPage();break;
             case 6: ProgressPage();break; case 7: SavesPage();break;
             case 8: MarketCartPage();break;
+            case 9: SoilPage();break;
         }
         Canvas.ForceUpdateCanvases(); scroll.verticalNormalizedPosition=1;
     }
@@ -293,6 +294,44 @@ public sealed class TestingDebugMenu : MonoBehaviour
             Action(p.name+" · Naik ukuran",()=>p.DebugAdvanceGrowth(true));
             Launch(p.name+" · Buka panel kolam",p.OpenPanel);
         }
+    }
+    void SoilPage()
+    {
+        Note("Satu nilai kesuburan per Field ID. Terra memulihkan ke 80; proses mengunci field dan membutuhkan field kosong. Pupuk tanaman tetap terpisah.", 80);
+        if (!FieldArea.ValidateSoilIdentities(out var issue)) { Note(issue, 80); return; }
+        var fields = new List<FieldArea>();
+        SoilScannerService.GetFields(fields);
+        if (fields.Count == 0) Note("Belum ada field bernomor. Isi Field Number di Inspector FieldArea.");
+        var restorers = Resources.LoadAll<ItemSO>("Items/Farming/Terra");
+        foreach (var restorer in restorers)
+        {
+            var item = restorer;
+            Action("Tambah " + item.itemName + " x1 ke tas", () =>
+            { feedback.text = inventory != null && inventory.Add(item, 1) ? item.itemName + " x1" : "Tas penuh"; });
+        }
+        foreach (var field in fields)
+        {
+            var f = field;
+            var soil = f.SoilSnapshot;
+            Note($"{soil.DisplayName} · {f.Columns}×{f.Rows} tile · {soil.Fertility}/80 · {soil.ConditionName}\n" +
+                (soil.IsRestoring ? $"Dalam Penyuburan · {soil.RemainingDays} hari" : $"Aktif · kontribusi kualitas {soil.QualityContributionPercent}%"), 80);
+            foreach (int value in new[] { 10, 25, 60, 80 })
+            {
+                int target = value;
+                Action($"{soil.DisplayName} · Kesuburan {target}/80", () =>
+                { f.DebugSetFieldFertility(target); RefreshPage(); }, !soil.IsRestoring);
+            }
+            foreach (var restorer in restorers)
+            {
+                var item = restorer;
+                Action($"{soil.DisplayName} · Gunakan {item.itemName} ({item.soilRestorationDays} hari)", () =>
+                {
+                    if (SoilScannerService.TryUse(f.FieldNumber, inventory, item, out var problem)) RefreshPage();
+                    else feedback.text = problem;
+                }, !soil.IsRestoring);
+            }
+        }
+        Note("Untuk menguji durasi, gunakan Waktu & Cuaca → Hari berikutnya atau tidur. Timer mengikuti hari game, bukan waktu nyata.", 80);
     }
     void ApplyNearby(bool fertilizer)
     {

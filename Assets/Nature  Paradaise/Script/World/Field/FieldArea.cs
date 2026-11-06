@@ -9,7 +9,7 @@ using UnityEngine;
 /// Pemilik grid farming modular dengan ukuran manual. Mengelola data tile, simulasi batch,
 /// visual tanah/tanaman, interaksi fitur eksternal, serta save/load tanpa Update per tile.
 /// </summary>
-public sealed class FieldArea : MonoBehaviour
+public sealed partial class FieldArea : MonoBehaviour
 {
     static readonly List<FieldArea> ActiveAreasInternal = new List<FieldArea>();
     static CropDataSO[] runtimeCrops;
@@ -83,6 +83,7 @@ public sealed class FieldArea : MonoBehaviour
     readonly Stack<FieldCropView> cropPool = new Stack<FieldCropView>();
     Transform visualRoot;
     float nextLodCheckTime;
+    readonly HashSet<object> scannerVisibilityOwners = new();
     MaterialPropertyBlock soilVisualProperties;
     Material blendedFieldMaterial, blendedTileMaterial;
     Mesh blendedFieldMesh;
@@ -94,7 +95,8 @@ public sealed class FieldArea : MonoBehaviour
     static readonly int FertilizedProperty = Shader.PropertyToID("_Fertilized");
     static readonly int SmoothnessProperty = Shader.PropertyToID("_Smoothness");
 
-    public string FieldId => fieldId;
+    // Keep the original field's save key; duplicated numbered fields get distinct keys.
+    public string FieldId => fieldNumber > 1 ? "field-" + fieldNumber : fieldId;
     public int Columns => columns;
     public int Rows => rows;
     public float CellSize => cellSize;
@@ -142,6 +144,7 @@ public sealed class FieldArea : MonoBehaviour
     void Awake()
     {
         Register();
+        InitializeFieldSoil();
         ResolveReferences();
         InitializeData();
         EnsureVisualRoot();
@@ -181,9 +184,21 @@ public sealed class FieldArea : MonoBehaviour
             return;
 
         nextLodCheckTime = Time.unscaledTime + lodCheckInterval;
-        bool shouldShow = (lodTarget.position - transform.position).sqrMagnitude <= visualDistance * visualDistance;
+        bool shouldShow = scannerVisibilityOwners.Count > 0 ||
+            (lodTarget.position - transform.position).sqrMagnitude <= visualDistance * visualDistance;
         if (visualRoot != null && visualRoot.gameObject.activeSelf != shouldShow)
             visualRoot.gameObject.SetActive(shouldShow);
+    }
+
+    // A scan must include crops on distant fields even when normal player-distance LOD hides them.
+    public void SetScannerVisibility(object owner, bool visible)
+    {
+        if (owner == null) return;
+        if (visible) scannerVisibilityOwners.Add(owner); else scannerVisibilityOwners.Remove(owner);
+        bool show = scannerVisibilityOwners.Count > 0 || lodTarget == null ||
+            (lodTarget.position - transform.position).sqrMagnitude <= visualDistance * visualDistance;
+        if (visualRoot != null) visualRoot.gameObject.SetActive(show);
+        nextLodCheckTime = 0;
     }
 
     void Register()
@@ -282,14 +297,14 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Memeriksa batas grid, occupancy, crop, dan aturan tile sebelum hoe.</summary>
     public bool CanHoe(int x, int z)
     {
-        return !FarmPlacement.Occupied(this, x, z) && TryGetIndex(x, z, out int index) && tiles[index].state == TileState.Empty;
+        return !IsSoilLocked && !FarmPlacement.Occupied(this, x, z) && TryGetIndex(x, z, out int index) && tiles[index].state == TileState.Empty;
     }
 
-    public bool CanPlaceFarmItem(int x, int z) => allowCrops &&
+    public bool CanPlaceFarmItem(int x, int z) => !IsSoilLocked && allowCrops &&
         !FarmPlacement.Occupied(this, x, z) && TryGetIndex(x, z, out int index) &&
         (tiles[index].state == TileState.Empty || tiles[index].state == TileState.Hoed);
 
-    public bool CanReceiveSprinkler(int x, int z) => allowCrops &&
+    public bool CanReceiveSprinkler(int x, int z) => !IsSoilLocked && allowCrops &&
         !FarmPlacement.Occupied(this, x, z) && TryGetIndex(x, z, out int index) &&
         (tiles[index].state == TileState.Empty || tiles[index].state == TileState.Hoed || tiles[index].state == TileState.Planted);
 
@@ -303,9 +318,9 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Validasi bersama untuk preview bibit dan transaksi penanaman.</summary>
     public bool CanPlant(int x, int z, CropDataSO crop)
     {
-        return allowCrops && crop != null && !FarmPlacement.Occupied(this, x, z) &&
+        return !IsSoilLocked && allowCrops && crop != null && !FarmPlacement.Occupied(this, x, z) &&
             TryGetIndex(x, z, out int index) && tiles[index].state == TileState.Hoed &&
-            tiles[index].soilDurability > 0;
+            (UsesFieldSoil || tiles[index].soilDurability > 0);
     }
 
     /// <summary>Menanam crop pada tile hoed yang kosong.</summary>
@@ -358,6 +373,7 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Menambah moisture satu tile; nilai negatif memakai default SoilProfile.</summary>
     public bool TryWater(int x, int z, int amount = -1)
     {
+        if (IsSoilLocked) return false;
         if (WorldTree.WaterAt(GridToWorld(x, z), cellSize * 0.45f)) return true;
         if (!IsEditableSoilTile(x, z, out int index))
             return false;
@@ -371,6 +387,8 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Memulihkan durability tanah tanpa menggantikan air atau booster kualitas.</summary>
     public bool TryFertilize(int x, int z, int fertilizerLevel = 1, int restoreAmount = 0)
     {
+        // Whole-field soil is restored only by Terra. Crop boosters remain independent.
+        if (UsesFieldSoil) return false;
         if (!IsEditableSoilTile(x, z, out int index))
             return false;
 
@@ -392,6 +410,7 @@ public sealed class FieldArea : MonoBehaviour
 
     public bool CanFertilize(int x, int z)
     {
+        if (UsesFieldSoil) return false;
         if (!IsEditableSoilTile(x, z, out int index))
             return false;
         if (tiles[index].state != TileState.Hoed && !tiles[index].HasCrop)
@@ -403,6 +422,7 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Menerapkan satu booster kualitas per hari pada tanaman yang masih tumbuh.</summary>
     public bool TryApplyCropBooster(int x, int z, int level)
     {
+        if (IsSoilLocked) return false;
         if (!TryGetIndex(x, z, out int index) || !tiles[index].HasCrop || level < 1 || level > 5)
             return false;
         FieldTileData tile = tiles[index];
@@ -432,6 +452,7 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>API sprinkler: menyiram seluruh tile dalam radius dunia dan menandai sumber air.</summary>
     public int ApplySprinkler(Vector3 worldCenter, float radius, int moistureAmount = 35)
     {
+        if (IsSoilLocked) return 0;
         int watered = 0;
         float radiusSquared = Mathf.Max(0f, radius) * Mathf.Max(0f, radius);
         for (int i = 0; i < activeTileIndices.Count; i++)
@@ -454,7 +475,7 @@ public sealed class FieldArea : MonoBehaviour
     {
         chance = Mathf.Clamp01(chance);
         if (protectedFromWeather || chance <= 0f || tiles == null) return 0;
-        System.Random random = new(unchecked(seed ^ StableFieldHash(fieldId)));
+        System.Random random = new(unchecked(seed ^ StableFieldHash(FieldId)));
         int lost = 0;
         for (int index = 0; index < tiles.Length; index++)
         {
@@ -502,6 +523,7 @@ public sealed class FieldArea : MonoBehaviour
 
     bool IsEditableSoilTile(int x, int z, out int index)
     {
+        if (IsSoilLocked) { index = -1; return false; }
         if (!TryGetIndex(x, z, out index))
             return false;
 
@@ -512,6 +534,7 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Menerapkan efek modular ke seluruh tile aktif secara batch.</summary>
     public void ApplyAreaEffect(FieldEffect effect)
     {
+        if (IsSoilLocked) return;
         for (int i = 0; i < activeTileIndices.Count; i++)
         {
             int index = activeTileIndices[i];
@@ -524,6 +547,7 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Menerapkan satu efek modular pada koordinat tile tertentu.</summary>
     public bool TryApplyEffect(int x, int z, FieldEffect effect)
     {
+        if (IsSoilLocked) return false;
         if (!TryGetIndex(x, z, out int index))
             return false;
 
@@ -535,6 +559,7 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Menghapus crop karena dimakan hewan atau fitur eksternal.</summary>
     public bool TryConsumeCrop(int x, int z)
     {
+        if (IsSoilLocked) return false;
         if (!TryGetIndex(x, z, out int index) || !tiles[index].HasCrop)
             return false;
 
@@ -561,6 +586,7 @@ public sealed class FieldArea : MonoBehaviour
     public bool TryHarvest(int x, int z, Inventory inventory, out CropGrade grade)
     {
         grade = CropGrade.D;
+        if (IsSoilLocked) return false;
         if (inventory == null || !TryGetIndex(x, z, out int index))
             return false;
 
@@ -578,7 +604,7 @@ public sealed class FieldArea : MonoBehaviour
         PlayerPickupNotification.ShowItem(inventory, item, amount);
 
         CropHarvestResult result = new CropHarvestResult(
-            fieldId,
+            FieldId,
             new Vector2Int(x, z),
             item,
             amount,
@@ -638,6 +664,7 @@ public sealed class FieldArea : MonoBehaviour
     public bool ValidateBuildingFootprint(int startX, int startZ, int width, int depth, string existingBuildingId, out string reason)
     {
         reason = string.Empty;
+        if (IsSoilLocked) { reason = "Field sedang dalam penyuburan"; return false; }
         if (!allowBuildings || width < 1 || depth < 1)
         { reason = "Area ini tidak mengizinkan bangunan"; return false; }
 
@@ -737,7 +764,13 @@ public sealed class FieldArea : MonoBehaviour
             return false;
         }
 
-        snapshot = new FieldTileSnapshot(tiles[index]);
+        FieldTileData data = tiles[index];
+        if (UsesFieldSoil)
+        {
+            data.soilDurability = (byte)SoilSnapshot.Fertility;
+            data.soilQuality = DurabilityToQuality(data.soilDurability, FieldSoilState.MaximumFertility);
+        }
+        snapshot = new FieldTileSnapshot(data);
         return true;
     }
 
@@ -795,6 +828,7 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Runs the existing dead-crop removal transaction at the blade's contact time.</summary>
     public bool TryCutDeadCrop(int x,int z)
     {
+        if (IsSoilLocked) return false;
         if(!TryGetIndex(x,z,out int index))return false;
         var tile=tiles[index];if(tile.state!=TileState.Planted||tile.crop==null||tile.cropState!=CropLifecycleState.Dead)return false;
         tile.state = TileState.Empty;
@@ -881,7 +915,7 @@ public sealed class FieldArea : MonoBehaviour
 
     void HandleCurrentWeatherChanged(WeatherType weather)
     {
-        if (protectedFromWeather) return;
+        if (protectedFromWeather || IsSoilLocked) return;
         int rainAmount = WeatherSystem.GetRainMoistureAmount(weather);
         if (rainAmount <= 0)
             return;
@@ -903,6 +937,11 @@ public sealed class FieldArea : MonoBehaviour
 
     void HandleDayChanged()
     {
+        if (UsesFieldSoil)
+        {
+            AdvanceFieldSoilToDay(TimeManager.Instance != null ? TimeManager.Instance.day + 1 : fieldSoil.lastProcessedDay + 1);
+            if (IsSoilLocked) return;
+        }
         FarmPlacement.WaterField(this);
         // Hanya activeTileIndices yang diproses. Tile kosong tidak ikut loop harian agar field
         // besar tetap murah di perangkat mobile dan tidak membutuhkan Update per tanaman.
@@ -921,7 +960,8 @@ public sealed class FieldArea : MonoBehaviour
             if (tile.HasCrop)
             {
                 tile.soilRestDays = 0;
-                tile.soilDurability = (byte)Mathf.Max(0, tile.soilDurability - durabilityLoss);
+                tile.soilDurability = UsesFieldSoil ? (byte)fieldSoil.fertility
+                    : (byte)Mathf.Max(0, tile.soilDurability - durabilityLoss);
                 tile.soilQuality = DurabilityToQuality(tile.soilDurability, maximumDurability);
                 ProcessCropDay(ref tile);
                 changed = true;
@@ -932,7 +972,7 @@ public sealed class FieldArea : MonoBehaviour
                 if (fertilityRecovery > 0)
                     tile.fertility = AddClamped(tile.fertility, fertilityRecovery);
 
-                if (tile.soilDurability < maximumDurability)
+                if (!UsesFieldSoil && tile.soilDurability < maximumDurability)
                 {
                     tile.soilRestDays = (byte)Mathf.Min(byte.MaxValue, tile.soilRestDays + 1);
                     if (tile.soilRestDays >= restDaysPerRecovery)
@@ -1044,7 +1084,7 @@ public sealed class FieldArea : MonoBehaviour
             return;
         }
 
-        if (tile.soilDurability <= 0)
+        if (!UsesFieldSoil && tile.soilDurability <= 0)
         {
             tile.cropState = CropLifecycleState.Withered;
             tile.cropHealth = AddClamped(tile.cropHealth, -crop.healthLossWhenDry);
@@ -1114,6 +1154,12 @@ public sealed class FieldArea : MonoBehaviour
     {
         tile.qualityCare ??= new CropQualityCare();
         int today = TimeManager.Instance != null ? TimeManager.Instance.day : 1;
+        if (UsesFieldSoil)
+        {
+            var soil = SoilSnapshot;
+            return (CropGrade)(tile.qualityCare.RollStars(tile.crop,
+                soil.Condition == FieldSoilCondition.Good, today, soil.QualityContributionPercent / 100f) - 1);
+        }
         return (CropGrade)(tile.qualityCare.RollStars(tile.crop, tile.soilDurability >= 49, today) - 1);
     }
 
@@ -1340,9 +1386,11 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Membuat snapshot serializable seluruh tile field.</summary>
     public FieldSaveData CaptureSaveData()
     {
+        InitializeFieldSoil();
         FieldSaveData data = new FieldSaveData
         {
-            fieldId = fieldId,
+            fieldId = FieldId,
+            soil = UsesFieldSoil ? fieldSoil.Copy() : null,
             columns = columns,
             rows = rows
         };
@@ -1402,10 +1450,11 @@ public sealed class FieldArea : MonoBehaviour
     /// <summary>Memulihkan grid dan membangun ulang visual dari save data.</summary>
     public void RestoreSaveData(FieldSaveData data)
     {
-        if (data == null || data.tiles == null || !string.Equals(data.fieldId, fieldId, StringComparison.Ordinal))
+        if (data == null || data.tiles == null || !string.Equals(data.fieldId, FieldId, StringComparison.Ordinal))
             return;
 
         ResetRuntimeData();
+        RestoreFieldSoil(data);
         if (data.tiles == null)
             return;
 
@@ -1532,6 +1581,8 @@ public sealed class FieldArea : MonoBehaviour
 
     public static List<FieldSaveData> CaptureAll()
     {
+        if (!ValidateSoilIdentities(out string identityProblem))
+            throw new InvalidOperationException(identityProblem);
         List<FieldSaveData> result = new List<FieldSaveData>(ActiveAreasInternal.Count);
         for (int i = 0; i < ActiveAreasInternal.Count; i++)
         {
@@ -1546,6 +1597,11 @@ public sealed class FieldArea : MonoBehaviour
     {
         if (data == null)
             return;
+        if (!ValidateSoilIdentities(out string identityProblem))
+        {
+            Debug.LogError(identityProblem);
+            return;
+        }
 
         for (int areaIndex = 0; areaIndex < ActiveAreasInternal.Count; areaIndex++)
         {
@@ -1553,13 +1609,23 @@ public sealed class FieldArea : MonoBehaviour
             if (area == null)
                 continue;
 
+            bool restored = false;
             for (int saveIndex = 0; saveIndex < data.Count; saveIndex++)
             {
-                if (data[saveIndex] != null && data[saveIndex].fieldId == area.fieldId)
+                if (data[saveIndex] != null && data[saveIndex].fieldId == area.FieldId)
                 {
                     area.RestoreSaveData(data[saveIndex]);
+                    restored = true;
                     break;
                 }
+            }
+            // A field added after an old save starts fresh, never inherits another loaded slot.
+            if (!restored && area.UsesFieldSoil)
+            {
+                area.ResetRuntimeData();
+                area.fieldSoil = null;
+                area.InitializeFieldSoil();
+                area.SoilChanged?.Invoke(area);
             }
         }
     }
@@ -1665,6 +1731,7 @@ public sealed class FieldArea : MonoBehaviour
 #if UNITY_EDITOR
     void OnValidate()
     {
+        fieldNumber = Mathf.Max(0, fieldNumber);
         columns = Mathf.Max(1, columns);
         rows = Mathf.Max(1, rows);
         cellSize = Mathf.Max(0.25f, cellSize);

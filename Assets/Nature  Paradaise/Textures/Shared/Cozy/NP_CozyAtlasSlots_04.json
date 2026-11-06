@@ -1,0 +1,166 @@
+{
+  "version": 4,
+  "date": "2026-11-06",
+  "colorSize": [
+    512,
+    512
+  ],
+  "paddingPixels": 8,
+  "authoring": "Native GIMP 3 painted editable layers; additive machine page",
+  "existingAtlasPagesModified": false,
+  "slots": [
+    {
+      "name": "EnamelTeal",
+      "pixelRectTopLeft": [
+        0,
+        0,
+        256,
+        128
+      ],
+      "uvSafe": [
+        0.015625,
+        0.765625,
+        0.484375,
+        0.984375
+      ],
+      "metallic": 0.12,
+      "smoothness": 0.28
+    },
+    {
+      "name": "EnamelSage",
+      "pixelRectTopLeft": [
+        0,
+        128,
+        256,
+        128
+      ],
+      "uvSafe": [
+        0.015625,
+        0.515625,
+        0.484375,
+        0.734375
+      ],
+      "metallic": 0.1,
+      "smoothness": 0.26
+    },
+    {
+      "name": "Copper",
+      "pixelRectTopLeft": [
+        256,
+        0,
+        128,
+        256
+      ],
+      "uvSafe": [
+        0.515625,
+        0.515625,
+        0.734375,
+        0.984375
+      ],
+      "metallic": 0.65,
+      "smoothness": 0.36
+    },
+    {
+      "name": "Rubber",
+      "pixelRectTopLeft": [
+        384,
+        0,
+        128,
+        256
+      ],
+      "uvSafe": [
+        0.765625,
+        0.515625,
+        0.984375,
+        0.984375
+      ],
+      "metallic": 0,
+      "smoothness": 0.16
+    },
+    {
+      "name": "Screen",
+      "pixelRectTopLeft": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.015625,
+        0.015625,
+        0.484375,
+        0.484375
+      ],
+      "metallic": 0,
+      "smoothness": 0.22
+    },
+    {
+      "name": "Signal",
+      "pixelRectTopLeft": [
+        256,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.515625,
+        0.265625,
+        0.734375,
+        0.484375
+      ],
+      "metallic": 0,
+      "smoothness": 0.28
+    },
+    {
+      "name": "LabelCream",
+      "pixelRectTopLeft": [
+        384,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.765625,
+        0.265625,
+        0.984375,
+        0.484375
+      ],
+      "metallic": 0,
+      "smoothness": 0.14
+    },
+    {
+      "name": "Soil",
+      "pixelRectTopLeft": [
+        256,
+        384,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.515625,
+        0.015625,
+        0.734375,
+        0.234375
+      ],
+      "metallic": 0,
+      "smoothness": 0.1
+    },
+    {
+      "name": "Leaf",
+      "pixelRectTopLeft": [
+        384,
+        384,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.765625,
+        0.015625,
+        0.984375,
+        0.234375
+      ],
+      "metallic": 0,
+      "smoothness": 0.12
+    }
+  ]
+}

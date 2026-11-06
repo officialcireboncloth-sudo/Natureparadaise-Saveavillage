@@ -185,6 +185,7 @@ public readonly struct CropHarvestResult
 public class FieldSaveData
 {
     public string fieldId;
+    public FieldSoilState soil;
     public int columns;
     public int rows;
     public List<FieldTileSaveData> tiles = new List<FieldTileSaveData>();

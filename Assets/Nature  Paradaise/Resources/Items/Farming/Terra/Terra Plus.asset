@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Terra Plus
+  itemId: item.terra_plus
+  itemName: Terra Plus
+  inventoryDescription: "Pulihkan kesuburan satu field ke 80 dalam 20 hari game melalui Pemindai Tanah. Field harus kosong dan terkunci selama proses."
+  buyPrice: 0
+  sellPrice: 0
+  category: 3
+  isNotSellable: 1
+  maxStack: 16
+  equippedTool: 0
+  soilRestorationDays: 20
+  canDropToWorld: 0
+  canPlaceInWorld: 0
+

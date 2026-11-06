@@ -15,7 +15,7 @@ public sealed class GameplayPauseMenu : MonoBehaviour
     [SerializeField] bool allowEscapeInEditor;
     public static bool IsOpen { get; private set; }
     static int transitionFrame = -1;
-    public static bool BlocksGameplayInput => IsOpen || TestingDebugMenu.IsOpen || Time.frameCount == transitionFrame;
+    public static bool BlocksGameplayInput => IsOpen || TestingDebugMenu.IsOpen || SoilScannerUI.Instance != null || Time.frameCount == transitionFrame;
     GameObject panel, overlay;
     RectTransform window, content;
     PlayerController player;

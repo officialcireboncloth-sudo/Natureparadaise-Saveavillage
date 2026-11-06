@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public sealed class MainMenuIcon : MaskableGraphic
 {
     public enum Kind { Play, Sprout, Settings, People, Exit, Chevron, Globe, Monitor, Info, Heart, Energy, Sun, Coin, Drop,
-        Horse, Dog, Cat, Footsteps, Hand, Home, Saddle, Close }
+        Horse, Dog, Cat, Footsteps, Hand, Home, Saddle, Close, Leaf }
     public Kind kind;
     VertexHelper mesh;
 
@@ -15,6 +15,9 @@ public sealed class MainMenuIcon : MaskableGraphic
         vh.Clear(); mesh = vh;
         switch (kind)
         {
+            case Kind.Leaf:
+                Leaf(new(-.32f,-.30f),new(.42f,.40f));
+                Line(new(-.39f,-.38f),new(.27f,.25f),.025f);break;
             case Kind.Horse:
                 Line(new(-.26f,.08f),new(.10f,.08f),.27f);
                 Line(new(.10f,.08f),new(.21f,.32f),.17f);

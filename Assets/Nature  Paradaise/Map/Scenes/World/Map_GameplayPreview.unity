@@ -522,7 +522,7 @@ Transform:
   m_GameObject: {fileID: 177992648}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.5343415, z: -0, w: 0.8452687}
-  m_LocalPosition: {x: 383.9, y: 903.0, z: 801}
+  m_LocalPosition: {x: 383.9, y: 903, z: 801}
   m_LocalScale: {x: 4.2, y: 4.2, z: 8.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -865,7 +865,7 @@ Transform:
   m_GameObject: {fileID: 217519021}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071067, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 2.4300006, y: 0.68999976, z: 2.4000012}
+  m_LocalPosition: {x: 2.4300005, y: 0.68999976, z: 2.4000013}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1816,6 +1816,7 @@ MonoBehaviour:
   pitch: 55
   yaw: 0
   distance: 15
+  terrainClipClearance: 2
   allowPlayerZoom: 1
   zoomLevels:
   - 5
@@ -2071,7 +2072,7 @@ Transform:
   m_GameObject: {fileID: 354850867}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.38000042, y: 0.71999988, z: 2.4000012}
+  m_LocalPosition: {x: 1.3800005, y: 0.7199999, z: 2.4000013}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2502,6 +2503,7 @@ MonoBehaviour:
   leafParticles: {fileID: 0}
   rockParticles: {fileID: 0}
   promptHeight: 1.1
+  staminaSize: 0
 --- !u!1001 &462223255
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2776,7 +2778,7 @@ Transform:
   m_GameObject: {fileID: 482193996}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.29651186, z: -0, w: 0.95502925}
-  m_LocalPosition: {x: 521.4, y: 903.0, z: 545.6}
+  m_LocalPosition: {x: 521.4, y: 903, z: 545.6}
   m_LocalScale: {x: 4.2, y: 4.2, z: 8.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3765,7 +3767,7 @@ Transform:
   m_GameObject: {fileID: 681587420}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9758703, z: -0, w: 0.21835127}
-  m_LocalPosition: {x: 947, y: 903.8000000000001, z: -130.8}
+  m_LocalPosition: {x: 947, y: 903.8, z: -130.8}
   m_LocalScale: {x: 4.2, y: 4.2, z: 8.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3900,11 +3902,6 @@ MonoBehaviour:
   showDuration: 0.75
   fadeInDuration: 0.15
   fadeOutDuration: 0.25
-  panelSize: {x: 560, y: 72}
-  topCenterOffset: {x: 1360, y: -250}
-  maximumFontSize: 20
-  panelColor: {r: 0.035, g: 0.045, b: 0.055, a: 0.9}
-  panelSprite: {fileID: 0}
 --- !u!114 &686063926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4104,6 +4101,7 @@ MonoBehaviour:
   growthDays: 28
   prenatalDays: 0
   hasBeenBorn: 1
+  incubatorId:
   fullness: 50
   dailyFullnessLoss: 35
   fedToday: 0
@@ -4470,7 +4468,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -4508,7 +4506,6 @@ MonoBehaviour:
   defaultCrop: {fileID: 11400000, guid: 7751a3af0eb44fcbab91f74acff8d35a, type: 2}
   cropCatalog:
   - {fileID: 11400000, guid: 7751a3af0eb44fcbab91f74acff8d35a, type: 2}
-  daysPerSeason: 28
   cropPrefab: {fileID: 6814720032189593984, guid: d2d786714c7046047a4c2ee516714d71, type: 3}
   hoeMarkPrefab: {fileID: 247595403}
   soilVisualProfile: {fileID: 0}
@@ -4523,6 +4520,8 @@ MonoBehaviour:
   lodCheckInterval: 0.25
   lodTarget: {fileID: 1314698852}
   showCabbageGrowthDebug: 1
+  fieldNumber: 1
+  fieldSoilRules: {fileID: 11400000, guid: 9d2db1a37f144819b377127a656aa036, type: 2}
 --- !u!1 &801829203
 GameObject:
   m_ObjectHideFlags: 0
@@ -4656,6 +4655,7 @@ MonoBehaviour:
   leafParticles: {fileID: 0}
   rockParticles: {fileID: 0}
   promptHeight: 1.1
+  staminaSize: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -5453,6 +5453,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7ad6f8d07d546779ad4d5029c465403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forecastMode: 0
+  manualWeather: 0
   worldWeatherSeed: 18427
   currentWeather: 0
   tomorrowWeather: 0
@@ -5483,6 +5485,7 @@ MonoBehaviour:
   snowParticlePrefab: {fileID: 0}
   blizzardParticlePrefab: {fileID: 0}
   effectFollowTarget: {fileID: 1314698852}
+  rainVisualProfile: {fileID: 0}
   enableRainVisuals: 0
   rainVisualDensity: 0.65
   rainOpacity: 0.5
@@ -6452,7 +6455,7 @@ Transform:
   m_GameObject: {fileID: 1259435309}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.29651186, z: -0, w: 0.95502925}
-  m_LocalPosition: {x: 534.2, y: 903.0, z: 565.3}
+  m_LocalPosition: {x: 534.2, y: 903, z: 565.3}
   m_LocalScale: {x: 4.2, y: 4.2, z: 8.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6654,6 +6657,8 @@ MonoBehaviour:
   progressBackgroundSprite: {fileID: 0}
   healthFillSprite: {fileID: 0}
   staminaFillSprite: {fileID: 0}
+  weatherArtwork: {fileID: 0}
+  goldIcon: {fileID: 0}
   statusEffectIcons: []
   showDebugClues: 0
   debugCluesToggleKey: 290
@@ -7094,12 +7099,8 @@ MonoBehaviour:
   dirtParticles: {fileID: 0}
   actionLockDuration: 0.28
   hoeImpactDelay: 0.72
-  wateringImpactDelay: 0.68
-  wateringActionDuration: 1.35
   pickupImpactDelay: 0.72
   pickupActionDuration: 1.45
-  cameraShakeStrength: 0.07
-  cameraShakeDuration: 0.1
   controllerRumble: 1
 --- !u!114 &1314698856
 MonoBehaviour:
@@ -7182,6 +7183,8 @@ MonoBehaviour:
     level: 1
   - tool: 11
     level: 1
+  - tool: 12
+    level: 1
   buffSlotCount: 6
   buffSlots:
   - effectId: 
@@ -7248,6 +7251,10 @@ MonoBehaviour:
   wakeHour: 6
   bedYawnAnimationTime: 1.65
   bedWakeAnimationTime: 2
+  bedSitSeconds: 0.8
+  sleepFadeOutSeconds: 0.75
+  sleepBlackSeconds: 0.35
+  sleepFadeInSeconds: 0.8
   forcedSleepHour: 3
   faintDelay: 1.25
   faintHealthRecovery: 0.5
@@ -7985,6 +7992,7 @@ MonoBehaviour:
   leafParticles: {fileID: 0}
   rockParticles: {fileID: 0}
   promptHeight: 1.1
+  staminaSize: 0
 --- !u!1 &1488178069
 GameObject:
   m_ObjectHideFlags: 0
@@ -8425,7 +8433,7 @@ Transform:
   m_GameObject: {fileID: 1548029172}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.5343415, z: -0, w: 0.8452687}
-  m_LocalPosition: {x: 343.3, y: 903.0, z: 776.6}
+  m_LocalPosition: {x: 343.3, y: 903, z: 776.6}
   m_LocalScale: {x: 4.2, y: 4.2, z: 8.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8787,6 +8795,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589863381}
   m_CullTransparentMesh: 1
+--- !u!1001 &1645926149
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1465166178970741943, guid: d8caf63555acfe34897ae1c0de894633, type: 3}
+      propertyPath: m_Name
+      value: Pemindai Tanah - Dummy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811740719674286182, guid: d8caf63555acfe34897ae1c0de894633, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -58.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811740719674286182, guid: d8caf63555acfe34897ae1c0de894633, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13.476724
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811740719674286182, guid: d8caf63555acfe34897ae1c0de894633, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811740719674286182, guid: d8caf63555acfe34897ae1c0de894633, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811740719674286182, guid: d8caf63555acfe34897ae1c0de894633, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811740719674286182, guid: d8caf63555acfe34897ae1c0de894633, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811740719674286182, guid: d8caf63555acfe34897ae1c0de894633, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811740719674286182, guid: d8caf63555acfe34897ae1c0de894633, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811740719674286182, guid: d8caf63555acfe34897ae1c0de894633, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811740719674286182, guid: d8caf63555acfe34897ae1c0de894633, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d8caf63555acfe34897ae1c0de894633, type: 3}
 --- !u!1001 &1657614955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8891,7 +8956,7 @@ Transform:
   m_GameObject: {fileID: 1663450093}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.5343415, z: -0, w: 0.8452687}
-  m_LocalPosition: {x: 368.8, y: 903.0, z: 789.3}
+  m_LocalPosition: {x: 368.8, y: 903, z: 789.3}
   m_LocalScale: {x: 4.2, y: 4.2, z: 8.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8999,7 +9064,7 @@ Transform:
   m_GameObject: {fileID: 1704668843}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.6971471, z: -0, w: 0.71692824}
-  m_LocalPosition: {x: 798, y: 903.8000000000001, z: -116}
+  m_LocalPosition: {x: 798, y: 903.8, z: -116}
   m_LocalScale: {x: 4.2, y: 4.2, z: 8.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13075,3 +13140,4 @@ SceneRoots:
   - {fileID: 910000000000000032}
   - {fileID: 910000000000000042}
   - {fileID: 910000000000000052}
+  - {fileID: 1645926149}

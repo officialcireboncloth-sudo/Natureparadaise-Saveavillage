@@ -18,6 +18,9 @@ public sealed class CropQualityCare
     public CropQualityCare Copy() => (CropQualityCare)MemberwiseClone();
 
     public int RollStars(CropDataSO crop, bool fertile, int today)
+        => RollStars(crop, fertile, today, 0f);
+
+    public int RollStars(CropDataSO crop, bool fertile, int today, float soilContribution)
     {
         if (roll < 0f) roll = UnityEngine.Random.value;
         bool dailyWater = days > 0 && wateredDays == days;
@@ -35,7 +38,9 @@ public sealed class CropQualityCare
             if (!allowed) continue;
             float weight = crop.qualityWeights != null && index < crop.qualityWeights.Length
                 ? Mathf.Max(0f, crop.qualityWeights[index]) : 1f;
-            eligible[index] = weight * (1f + index * bestBooster * 0.2f);
+            // Soil biases eligible quality weights; water, fertilizer and care gates still apply.
+            eligible[index] = weight * (1f + index * bestBooster * 0.2f) *
+                (1f + index * Mathf.Clamp01(soilContribution));
             total += eligible[index];
         }
         float target = Mathf.Clamp01(roll) * total;

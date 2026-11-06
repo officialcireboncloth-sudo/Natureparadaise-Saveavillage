@@ -123,6 +123,11 @@ public class ItemSO : ScriptableObject
 
     [Min(0)] public int soilRestoreAmount;
 
+    [Header("Terra / Whole Field Restoration")]
+    [Tooltip("Hari game untuk memulihkan satu Field ke 80 melalui scanner. 0 = bukan penyubur Terra.")]
+    [Min(0)] public int soilRestorationDays;
+    public bool IsSoilRestorer => soilRestorationDays > 0;
+
     [Header("Crop Quality Booster")]
     [Range(1, 5)] public int cropBoosterLevel = 1;
     // Field legacy dipertahankan untuk kompatibilitas asset, tidak memengaruhi growth.

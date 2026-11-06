@@ -430,6 +430,11 @@ public class FarmingTool : MonoBehaviour
         if (currentField == null)
             return;
 
+        if (currentField.IsSoilLocked)
+        { ShowFeedback("Field sedang dalam penyuburan"); return; }
+        if (!watering && currentField.UsesFieldSoil)
+        { ShowFeedback("Gunakan Terra melalui Pemindai Tanah untuk menyuburkan field"); return; }
+
         if (watering && currentField.TryGetSnapshot(currentX, currentZ, out FieldTileSnapshot waterTarget) &&
             waterTarget.WateredToday)
         {

@@ -283,6 +283,8 @@ public class SaveManager : MonoBehaviour
 
     bool SaveSnapshot(int slot)
     {
+        if (!FieldArea.ValidateSoilIdentities(out string fieldProblem))
+        { SaveLoadFeedback.Instance?.ShowMessage(fieldProblem); Debug.LogWarning("[SAVE] " + fieldProblem); return false; }
         string targetPath = SaveSlots.GetPath(slot);
         if(IsLoading || SceneTransitionManager.Instance!=null && SceneTransitionManager.Instance.IsTransitioning)
         {SaveLoadFeedback.Instance?.ShowMessage("Tunggu perpindahan lokasi selesai sebelum menyimpan.");return false;}
@@ -1156,6 +1158,7 @@ public class SaveManager : MonoBehaviour
 
     bool ValidateWorldItems(SaveData data,out string problem)
     {
+        if (!FieldArea.ValidateSoilIdentities(out problem)) return false;
         problem=null;
         if(data.fields!=null)foreach(var saved in data.fields)
             foreach(var field in FieldArea.ActiveAreas)
