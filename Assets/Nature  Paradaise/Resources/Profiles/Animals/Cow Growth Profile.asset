@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier:
   animalType: 4
   salePrice:
-    baseSellPrice: 1000
+    baseSellPrice: 4000
     bonusPerHeart: 0.1
   incubationOrPregnancyDays: 14
   bornToAdultDays: 56
@@ -63,3 +63,7 @@ MonoBehaviour:
     animatorController: {fileID: 0}
     voiceClip: {fileID: 0}
   conditionVisualSlots: []
+  variantId: animal.cow_dairy
+  productionEnabled: 1
+  purchaseSex: 1
+  sellOnlyAsAdult: 1

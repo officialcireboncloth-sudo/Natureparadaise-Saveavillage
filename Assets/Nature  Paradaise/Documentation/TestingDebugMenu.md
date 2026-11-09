@@ -10,7 +10,7 @@ Menu menghentikan simulasi dan input gameplay selama terbuka. Tombol yang membuk
 | Item & Tools | Semua ItemSO di Resources/Items; pencarian nama/ID, filter kategori, halaman, jumlah 1/10/99, ikon item asli |
 | Hewan | Pilih hewan milik player; lihat/ubah Betina atau Jantan; susu/produk siap atau belum siap; sembuhkan, dewasa, kenyang/bahagia, sakit untuk tes obat; aksi massal sembuh/dewasa; akses toko hewan; perintah companion dan kedekatan |
 | Waktu & Cuaca | Jam, next day dengan reset harian normal, preview empat musim, semua jenis cuaca, kembali otomatis mengikuti kalender |
-| Kebun & Kolam | Siram/pupuk sekitar player (5 × 5 petak), pertumbuhan ikan +1 hari/naik ukuran, buka kolam |
+| Kebun & Kolam | Toko bibit, naik satu fase / siap panen sesuai tanaman pada tile, siram/pupuk sekitar player (5 x 5 petak), pertumbuhan ikan +1 hari/naik ukuran, buka kolam |
 | Bangunan | Preview bangun gratis dari katalog, preview upgrade gratis, relokasi, preview level interior rumah saat berada di dalam rumah |
 | Progres & Aktivitas | Level desa, bypass requirement sesi, debug clues, toko/upgrade dan panel aktivitas yang tersedia di scene, mulai quest |
 | Save / Load | Pemilih slot yang sudah ada; autosave tetap terpisah |
@@ -18,6 +18,16 @@ Menu menghentikan simulasi dan input gameplay selama terbuka. Tombol yang membuk
 Daftar mengikuti data dan komponen aktif yang sudah tersedia. Kolam, toko, aktivitas interior, dan preview rumah muncul dalam konteks scene yang sesuai. Sistem gameplay aslinya tetap memeriksa syarat, kapasitas dan lokasi. Tidak ada hewan contoh scene yang diaktifkan sebagai hewan gratis.
 
 Bangun gratis Barn/Coop tetap mengikuti proses tukang dan hari kerja. Setelah selesai, PropertySite langsung mendaftarkan AnimalHome serta pintu interior sebelum autosave, tanpa menunggu pemindaian berkala. Load bangunan yang sudah selesai juga memperbaiki komponen kandang yang belum tersimpan; tidak perlu demolish atau membangun ulang. Titik interaksi mengikuti Entrance pada exterior aktif. Pemindai husbandry bertahan ketika scene interior ditutup.
+
+## Skip fase tanaman
+
+Di **F12 → Kebun & Kolam**, gunakan **Target fase** untuk berganti antara **Tile player**, **Sekitar player (5 x 5)**, dan **Seluruh field ini**. Target awal adalah area sekitar player. Berdiri di dalam field; pilihan satu tile memakai petak tempat player berdiri. Toko bibit juga dapat dibuka dari halaman ini jika tokonya aktif di scene.
+
+- **Naik 1 fase** mengikuti jenis tanaman dan fase saat ini di setiap tile. Kebun campuran dan tanaman dengan jumlah fase berbeda memakai jadwal masing-masing.
+- **Siap panen** langsung mengubah model dan status menjadi fase akhir yang benar-benar dapat dipanen. Tutup menu lalu panen seperti biasa.
+- Tile kosong, bangunan, tanaman yang sudah siap panen, layu atau mati dilewati. Field yang sedang dikunci pemulihan tanah tidak diubah.
+- Kalender, air, pupuk, riwayat kualitas dan inventory tidak ditambah atau dikonsumsi. Tanaman regrow memakai timer regrow; tidak mengulang umur pertumbuhan pertama.
+- Perubahan fase ikut tersimpan lewat Save/Load biasa. Tombol tidak memanen atau menyimpan otomatis; kualitas tetap berdasarkan perawatan yang benar-benar tercatat.
 
 ## Bekal Milker
 

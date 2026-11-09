@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bf30472b7f17324b983093b0cdfad72, type: 3}
+  m_Name: Cucumber Crop
+  m_EditorClassIdentifier: 
+  cropId: crop.cucumber
+  seedItem: {fileID: 11400000, guid: 8775936a41da4992a7ae0c3965f6b85e, type: 2}
+  produceItem: {fileID: 11400000, guid: 280c45bb770f4d66876190a700f17947, type: 2}
+  mutationProduceItem: {fileID: 11400000, guid: afb608cf728b493db8db170b64b53afe, type: 2}
+  allowedSeasons: -1
+  outOfSeasonBehavior: 0
+  idealMoistureMin: 35
+  idealMoistureMax: 80
+  minimumFertility: 35
+  dailyFertilityUse: 3
+  soilDepletionOnHarvest: 4
+  mutationChance: 0.01
+  fiveStarDoubleYieldChance: 0.2
+  baseYield: 1
+  windVulnerability: 1
+  dryDaysBeforeWither: 3
+  dryDaysBeforeDeath: 5
+  wateredDaysToRecover: 2
+  healthLossWhenDry: 10
+  daysUntilFirstHarvest: 5
+  regrowsAfterHarvest: 0
+  regrowDays: 3
+  regrowStage: -1
+  qualityWeights:
+  - 50
+  - 30
+  - 14
+  - 5
+  - 1
+  minimumBoosterForStars: 0000000001000000020000000300000003000000
+  harvestGraceDays: 0
+  maximumBoosterPercent: 50
+  soilWeight: 0.35
+  moistureWeight: 0.25
+  fertilityWeight: 0.25
+  healthWeight: 0.15
+  visualStages:
+  - stageName: Seed
+    startsOnDay: 0
+    modelPrefab: {fileID: 100, guid: aa5ea2aef74d411c945def9d5cde1265, type: 3}
+    scale: {x: 0.932654, y: 0.932654, z: 0.932654}
+    localOffset: {x: 0.006008, y: 0, z: -0.00079}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Sprout
+    startsOnDay: 1
+    modelPrefab: {fileID: 100, guid: 7665393046494e1396480865d9a5e893, type: 3}
+    scale: {x: 0.932654, y: 0.932654, z: 0.932654}
+    localOffset: {x: 0.000247, y: 0, z: 6.2e-05}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Young
+    startsOnDay: 2
+    modelPrefab: {fileID: 100, guid: 29f53f92d17740b6a43d3ae83c8924af, type: 3}
+    scale: {x: 0.932654, y: 0.932654, z: 0.932654}
+    localOffset: {x: 0.005037, y: 0.001926, z: 0.020776}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Flowering
+    startsOnDay: 3
+    modelPrefab: {fileID: 100, guid: 685185e8250448b2a7ab2f159fee9d51, type: 3}
+    scale: {x: 0.932654, y: 0.932654, z: 0.932654}
+    localOffset: {x: 0.00475, y: 0.001926, z: 0.055474}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Harvest Ready
+    startsOnDay: 4
+    modelPrefab: {fileID: 100, guid: 3bb8bdede7a14064bc17c53bee9930a1, type: 3}
+    scale: {x: 0.932654, y: 0.932654, z: 0.932654}
+    localOffset: {x: 0.00475, y: 0.001926, z: 0.081835}
+    localEulerAngles: {x: 0, y: 0, z: 0}

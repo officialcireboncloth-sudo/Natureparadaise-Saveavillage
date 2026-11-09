@@ -33,6 +33,7 @@ public sealed class AnimalSaveData
     public bool housed;
     public bool returningHome;
     public AnimalType animalType;
+    public string variantId;
     public AnimalGender gender;
     public AnimalBirthSource birthSource;
     public int birthDay;
@@ -235,14 +236,16 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     public int HeartLevel => Mathf.Clamp(HeartPoints / 100, 0, 10);
     public int CowHeartLevel => Mathf.Clamp(HeartPoints / 200, 0, 5);
     public int CowCarePercent => Mathf.Clamp(HeartPoints / 10, 0, 100);
-    public string AnimalName => string.IsNullOrWhiteSpace(animalName) ? Type.ToString() : animalName;
+    public string AnimalName => string.IsNullOrWhiteSpace(animalName) ? AnimalRosterCatalog.Load()?.Find(VariantId)?.displayName??Type.ToString() : animalName;
     public bool PetToday => pettedToday;
     public bool GrazedToday => heart != null && heart.grazingDay == CurrentDay;
     public bool HasBeenBorn => hasBeenBorn;
     AnimalSalePriceSettings SalePriceSettings => !overrideSalePrice && growthProfile != null && growthProfile.salePrice != null
         ? growthProfile.salePrice : (localSalePrice ??= new AnimalSalePriceSettings());
     public float AnimalValueMultiplier => SalePriceSettings.Multiplier(HeartLevel);
-    public int AnimalSellPrice => SalePriceSettings.Calculate(HeartLevel);
+    public string VariantId=>growthProfile!=null?growthProfile.variantId:null;
+    public bool ProducesProducts=>growthProfile==null||growthProfile.productionEnabled;
+    public int AnimalSellPrice => growthProfile!=null&&growthProfile.sellOnlyAsAdult&&!IsAdult?0:SalePriceSettings.Calculate(HeartLevel);
     public string InfoSummary => Type == AnimalType.Cow ? CowInfoSummary : Type == AnimalType.Sheep ? SheepInfoSummary :
         $"{AnimalName} — {Type}\nHeart: {HeartLevel}/10 | Happiness: {(happiness >= 70 ? "Happy" : happiness >= 35 ? "Calm" : "Stressed")}\n" +
         $"Health: {HealthSummary} | Fed: {(fedToday ? $"Yes ({FoodSourceLabel})" : "No")} | Pet: {(pettedToday ? "Yes" : "No")}\n" +
@@ -317,7 +320,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         animalName = string.IsNullOrEmpty(value) ? Type.ToString() : value.Substring(0, Mathf.Min(24, value.Length));
     }
     public bool HasProductReady => productReady;
-    public bool ProducesMilk => Type is AnimalType.Cow or AnimalType.Goat;
+    public bool ProducesMilk => ProducesProducts&&Type is AnimalType.Cow or AnimalType.Goat;
     /// <summary>Explains the first unmet milk production requirement using the same gates as normal production.</summary>
     public string MilkProductionBlockReason
     {
@@ -367,9 +370,10 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
     {
         get
         {
+            if(!ProducesProducts)return false;
             int currentDay = TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
             int interval = growthProfile != null ? growthProfile.productionIntervalDays : 1;
-            bool genderAllowsProduct = !ProducesMilk || IsFemale;
+            bool genderAllowsProduct = !ProducesMilk&&!AnimalGrowthProfileSO.IsBird(Type)||IsFemale;
             if (Type == AnimalType.Sheep)
                 return IsSheepWoolReady && health == AnimalHealthState.Healthy && !productReady;
             return genderAllowsProduct && IsAdult && fedToday && happiness >= 20f && (sheltered || CanGrazeToday) && health == AnimalHealthState.Healthy &&
@@ -627,7 +631,8 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
 
     public void SetProductReady(bool value)
     {
-        if (value && ProducesMilk && !IsFemale) return;
+        if(value&&!ProducesProducts)return;
+        if (value && (ProducesMilk||AnimalGrowthProfileSO.IsBird(Type)) && !IsFemale) return;
         if (value && !productReady)
         {
             if (!IsProductionEligible) return;
@@ -703,6 +708,8 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         ageSeasons = 0;
         lastCalendarSeasonIndex = CalendarSeasonIndex(currentDay);
         gender = UnityEngine.Random.value < 0.5f ? AnimalGender.Female : AnimalGender.Male;
+        if(profile!=null&&offerKind==AnimalShopOfferKind.Young&&profile.purchaseSex!=AnimalSexPolicy.Any)
+            gender=profile.purchaseSex==AnimalSexPolicy.Male?AnimalGender.Male:AnimalGender.Female;
         productReady = false;
         lastProductionDay = -1000;
         lastShearedDay = -1;
@@ -1176,6 +1183,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         housed = GetComponent<AnimalRoutine>()?.IsHoused ?? false,
         returningHome = GetComponent<AnimalRoutine>()?.Returning ?? false,
         animalType = Type,
+        variantId = VariantId,
         gender = gender,
         birthSource = birthSource,
         birthDay = birthDay,
@@ -1218,6 +1226,11 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         heart.Add(0);
         productQuality = Mathf.Clamp(data.productQuality, 1, 5);
         animalType = data.animalType;
+        if(!string.IsNullOrEmpty(data.variantId))
+        {
+            var variant=AnimalRosterCatalog.Load()?.Find(data.variantId);
+            if(variant?.growthProfile!=null&&variant.hasRuntimeType&&variant.runtimeType==data.animalType)growthProfile=variant.growthProfile;
+        }
         gender = data.gender;
         birthSource = data.birthSource;
         birthDay = data.birthDay;
@@ -1245,7 +1258,7 @@ public sealed class AnimalGrowthSystem : MonoBehaviour
         pettedToday = data.pettedToday;
         interactedToday = data.interactedToday;
         sheltered = data.sheltered;
-        productReady = data.productReady && (!ProducesMilk || IsFemale);
+        productReady = data.productReady && ProducesProducts && (!(ProducesMilk||AnimalGrowthProfileSO.IsBird(Type)) || IsFemale);
         lastProductionDay = data.lastProductionDay;
         // Save lama belum mempunyai field ini dan terbaca sebagai 0. Hari game dimulai
         // dari 1, jadi 0 aman dimigrasikan sebagai "belum pernah dicukur".

@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AnimalType { Chicken, Duck, Goat, Sheep, Cow }
+public enum AnimalType { Chicken, Duck, Goat, Sheep, Cow, Pig }
 public enum AnimalGender { Female, Male }
+public enum AnimalSexPolicy { Any, Female, Male }
 public enum AnimalBirthSource { HatchedOnFarm, BornOnFarm, PurchasedYoung, PurchasedEgg }
 public enum AnimalGrowthStage { Egg, Pregnancy, Hatchling, Newborn, Baby, Young, Adolescent, Adult }
 public enum AnimalHealthState { Healthy, Sick }
@@ -83,6 +84,10 @@ public sealed class AnimalConditionVisualSlot
 public sealed class AnimalGrowthProfileSO : ScriptableObject
 {
     public AnimalType animalType = AnimalType.Cow;
+    public string variantId;
+    public bool productionEnabled=true;
+    public AnimalSexPolicy purchaseSex;
+    public bool sellOnlyAsAdult;
     [Header("Locomotion")]
     [Min(0.1f), Tooltip("Pengali kecepatan jalan dan tempo langkah. 0.5 = setengah kecepatan dasar AnimalRoutine.")]
     public float walkingSpeedMultiplier = 1f;

@@ -18,81 +18,62 @@ MonoBehaviour:
   upgradeWood: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
   upgradeStone: {fileID: 11400000, guid: d82ba6b18f854458ae7ebac78d3556c2, type: 2}
   recipes:
-  - id: grass
-    input: {fileID: 11400000, guid: a33f7b52dbbf45b18c8796d0dfe5a91a, type: 2}
+  - id: livestock-balanced
+    ingredients:
+    - item: {fileID: 11400000, guid: a33f7b52dbbf45b18c8796d0dfe5a91a, type: 2}
+      amount: 10
+      displayName: Rumput
+      anySmallFish: 0
+    - item: {fileID: 11400000, guid: d1060000000040008000000000000011, type: 2}
+      amount: 2
+      displayName: Jagung
+      anySmallFish: 0
+    - item: {fileID: 11400000, guid: eeef94032bbf4e35b7dce923971852b4, type: 2}
+      amount: 1
+      displayName: Konsentrat
+      anySmallFish: 0
+    input: {fileID: 0}
     mixedInputs: []
-    inputCount: 5
-    outputCount: 5
+    inputCount: 13
+    outputCount: 10
     hours: 4
     producesFishFeed: 0
     producesPoultryFeed: 0
-  - id: corn
-    input: {fileID: 11400000, guid: d1060000000040008000000000000011, type: 2}
+  - id: poultry-balanced
+    ingredients:
+    - item: {fileID: 11400000, guid: d1060000000040008000000000000011, type: 2}
+      amount: 5
+      displayName: Jagung
+      anySmallFish: 0
+    - item: {fileID: 11400000, guid: 39562df63ed742c1a5415fc3aee20817, type: 2}
+      amount: 1
+      displayName: Kedelai
+      anySmallFish: 0
+    - item: {fileID: 11400000, guid: c66a9195a1b945f7911c3e2c9f84ab11, type: 2}
+      amount: 1
+      displayName: Keong danau
+      anySmallFish: 0
+    input: {fileID: 0}
     mixedInputs: []
-    inputCount: 3
-    outputCount: 5
+    inputCount: 7
+    outputCount: 10
     hours: 4
     producesFishFeed: 0
-    producesPoultryFeed: 0
-  - id: wheat
-    input: {fileID: 11400000, guid: d1060000000040008000000000000012, type: 2}
+    producesPoultryFeed: 1
+  - id: fish-small-bread
+    ingredients:
+    - item: {fileID: 11400000, guid: 6f71da47e3f64ab7f541fbf78beefa47, type: 2}
+      amount: 5
+      displayName: Ikan kecil
+      anySmallFish: 1
+    - item: {fileID: 11400000, guid: 7247414a117e439a859292a25f953c47, type: 2}
+      amount: 1
+      displayName: Roti
+      anySmallFish: 0
+    input: {fileID: 0}
     mixedInputs: []
-    inputCount: 3
-    outputCount: 5
-    hours: 4
-    producesFishFeed: 0
-    producesPoultryFeed: 0
-  - id: crop-cabbage
-    input: {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
-    mixedInputs:
-    - {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
-    - {fileID: 11400000, guid: d1060000000040008000000000000011, type: 2}
-    - {fileID: 11400000, guid: d1060000000040008000000000000012, type: 2}
-    inputCount: 3
-    outputCount: 4
-    hours: 4
-    producesFishFeed: 0
-    producesPoultryFeed: 0
-  - id: fish-feed-grass
-    input: {fileID: 11400000, guid: a33f7b52dbbf45b18c8796d0dfe5a91a, type: 2}
-    mixedInputs: []
-    inputCount: 5
-    outputCount: 5
+    inputCount: 6
+    outputCount: 10
     hours: 4
     producesFishFeed: 1
     producesPoultryFeed: 0
-  - id: poultry-grass
-    input: {fileID: 11400000, guid: a33f7b52dbbf45b18c8796d0dfe5a91a, type: 2}
-    mixedInputs: []
-    inputCount: 5
-    outputCount: 5
-    hours: 4
-    producesFishFeed: 0
-    producesPoultryFeed: 1
-  - id: poultry-corn
-    input: {fileID: 11400000, guid: d1060000000040008000000000000011, type: 2}
-    mixedInputs: []
-    inputCount: 3
-    outputCount: 5
-    hours: 4
-    producesFishFeed: 0
-    producesPoultryFeed: 1
-  - id: poultry-wheat
-    input: {fileID: 11400000, guid: d1060000000040008000000000000012, type: 2}
-    mixedInputs: []
-    inputCount: 3
-    outputCount: 5
-    hours: 4
-    producesFishFeed: 0
-    producesPoultryFeed: 1
-  - id: poultry-crop-cabbage
-    input: {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
-    mixedInputs:
-    - {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
-    - {fileID: 11400000, guid: d1060000000040008000000000000011, type: 2}
-    - {fileID: 11400000, guid: d1060000000040008000000000000012, type: 2}
-    inputCount: 3
-    outputCount: 4
-    hours: 4
-    producesFishFeed: 0
-    producesPoultryFeed: 1

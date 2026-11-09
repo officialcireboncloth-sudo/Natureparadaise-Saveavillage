@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Mango Fruit Mutation
+  itemId: item.mango_fruit_mutation
+  itemName: Mango Mutasi
+  buyPrice: 0
+  sellPrice: 100
+  category: 2
+  maxStack: 16
+  equippedTool: 0
+  foodPreparation: 1
+  canDropToWorld: 1
+  worldScale: {x: 0.25, y: 0.25, z: 0.25}
+  refrigeratorCategory: 2
+  isMutatedCrop: 1
+  mutationSourceItem: {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000075, type: 2}
+  inventoryDescription: Mutasi langka dari panen pohon bintang 5. Harga jual 3x buah normal bintang yang sama.

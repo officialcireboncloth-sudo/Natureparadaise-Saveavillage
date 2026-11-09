@@ -123,6 +123,7 @@ public class ShopManager : MonoBehaviour
             else if (offer != null && offer.animalType == AnimalType.Sheep && sheepPrefab != null)
                 offer.animalPrefab = sheepPrefab;
         }
+        AnimalRosterCatalog.Load()?.ApplyOffers(animalOffers);
     }
 
     static AnimalShopOffer CreateDefaultOffer(
@@ -219,6 +220,8 @@ public class ShopManager : MonoBehaviour
         if(catalog!=null&&!catalog.Contains(offer))return false;
         if (offer == null || offer.price < 0 || ScoreManager.Instance == null)
             return false;
+        var sourceEntry=AnimalRosterCatalog.Load()?.Find(offer.growthProfile!=null?offer.growthProfile.variantId:null);
+        if(offer.offerKind==AnimalShopOfferKind.Young&&sourceEntry!=null&&!sourceEntry.hasBuyPrice)return false;
         AnimalHusbandrySystem.Scan();
         AnimalHome home = AnimalHome.FindVacancy(offer.animalType);
         if (home == null)
@@ -354,6 +357,8 @@ public class ShopManager : MonoBehaviour
             return null;
         }
 
+        if(offer.animalType==AnimalType.Pig&&offer.animalPrefab!=null)
+            return CreateGroundedLivestockObject(offer.animalPrefab,AnimalType.Pig,position);
         return offer.animalPrefab != null
             ? Instantiate(offer.animalPrefab, position, Quaternion.identity)
             : CreateDummyAnimalObject(offer.animalType, position);
@@ -456,6 +461,8 @@ public class ShopManager : MonoBehaviour
             candidate != null && candidate.animalType == data.animalType &&
             ((data.birthSource == AnimalBirthSource.PurchasedEgg && candidate.offerKind == AnimalShopOfferKind.Egg) ||
              (data.birthSource != AnimalBirthSource.PurchasedEgg && candidate.offerKind == AnimalShopOfferKind.Young)));
+        var variant=AnimalRosterCatalog.Load()?.Find(data.variantId);
+        if(variant!=null&&variant.hasRuntimeType&&variant.runtimeType==data.animalType&&variant.growthProfile!=null)offer=variant.RestoreOffer();
         offer ??= CreateDefaultOffer(data.animalType.ToString(), data.animalType, AnimalShopOfferKind.Young, 0);
         if (data.animalType == AnimalType.Cow && offer.productItem == null) offer.productItem = milkItem;
 
@@ -463,6 +470,7 @@ public class ShopManager : MonoBehaviour
         growth?.PrepareRestoreProfile(data.animalType, offer.growthProfile??(data.animalType==AnimalType.Chicken?
             Resources.Load<AnimalGrowthProfileSO>("Profiles/Animals/Chicken Growth Profile"):null));
         growth?.Restore(data);
+        growth?.GetComponent<AnimalController>()?.ApplyCareDefaults();
         return growth;
     }
 
@@ -561,9 +569,21 @@ public class ShopManager : MonoBehaviour
     // GENERIC SELL
     // =====================================================
 
+    /// <summary>Quote the same last matching stack that Inventory.Remove consumes first.</summary>
+    public int GetSellUnitPrice(ItemSO item)
+    {
+        if(item==null||!item.CanSellAtMarket||playerInv==null)return 0;
+        for(int i=playerInv.slots.Count-1;i>=0;i--)
+        {
+            var stack=playerInv.slots[i];
+            if(stack!=null&&stack.item==item&&stack.count>0)return item.GetMarketSellPrice(stack.qualityStars,stack.fishSizeCm);
+        }
+        return item.GetMarketSellPrice();
+    }
+
     bool Sell(ItemSO item, int amount)
     {
-        if (item == null || amount <= 0 || item.sellPrice <= 0 || item.IsFertilizer)
+        if (item == null || amount <= 0 || !item.CanSellAtMarket || item.IsFertilizer)
             return false;
 
         if (playerInv == null)
@@ -585,7 +605,16 @@ public class ShopManager : MonoBehaviour
             return false;
         }
 
-        int totalPrice = item.sellPrice * amount;
+        long quoted=0;int remaining=amount;
+        for(int i=playerInv.slots.Count-1;i>=0&&remaining>0;i--)
+        {
+            var stack=playerInv.slots[i];if(stack==null||stack.item!=item||stack.count<=0)continue;
+            int count=Mathf.Min(remaining,stack.count),price=item.GetMarketSellPrice(stack.qualityStars,stack.fishSizeCm);
+            if(price<=0)return false;
+            quoted+=(long)price*count;remaining-=count;
+        }
+        if(quoted>int.MaxValue||remaining>0)return false;
+        int totalPrice=(int)quoted;
 
         // Hapus item dari inventory
         if (!playerInv.Remove(item, amount))

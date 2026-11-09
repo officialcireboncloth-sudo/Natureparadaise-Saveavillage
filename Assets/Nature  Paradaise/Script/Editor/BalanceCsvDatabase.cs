@@ -30,7 +30,8 @@ public static class BalanceCsvDatabase
     static readonly string[] ItemExportColumns = ItemColumns.Concat(new[]
     {
         "refrigerator_category", "bait_level", "bait_bite_speed_bonus", "bait_uncommon_multiplier",
-        "bait_rare_multiplier", "bait_legendary_multiplier", "bait_junk_reduction", "required_fishing_level", "storage_destination"
+        "bait_rare_multiplier", "bait_legendary_multiplier", "bait_junk_reduction", "required_fishing_level", "storage_destination",
+        "crop_booster_duration_days", "is_mutated_crop", "sell_prices_by_stars", "mutation_source_item_id"
     }).ToArray();
 
     static readonly string[] CropColumns =
@@ -42,6 +43,9 @@ public static class BalanceCsvDatabase
         "quality_weights","minimum_booster_for_stars","harvest_grace_days","soil_weight","moisture_weight",
         "fertility_weight","health_weight"
     };
+
+    static readonly string[] CropExportColumns = CropColumns.Concat(new[]
+        {"mutation_produce_item_id", "mutation_chance", "five_star_double_yield_chance"}).ToArray();
 
     sealed class ItemRow
     {
@@ -62,6 +66,11 @@ public static class BalanceCsvDatabase
         public FishingBaitLevel baitLevel;
         public float baitBiteSpeedBonus, baitUncommonMultiplier=1f, baitRareMultiplier=1f, baitLegendaryMultiplier=1f, baitJunkReduction;
         public int requiredFishingLevel=1;
+        public bool hasBoosterDuration, hasMutationFlag, isMutatedCrop;
+        public int boosterDurationDays=1;
+        public int[] starPrices;
+        public bool hasStarPrices, hasMutationSource;
+        public string mutationSourceId;
     }
 
     sealed class CropRow
@@ -75,6 +84,9 @@ public static class BalanceCsvDatabase
         public float[] qualityWeights;
         public int[] minimumBoosters;
         public float windVulnerability, soilWeight, moistureWeight, fertilityWeight, healthWeight;
+        public bool hasMutationItem, hasMutationChance, hasDoubleChance;
+        public string mutationItemId;
+        public float mutationChance, doubleChance;
     }
 
     [MenuItem("Nature Paradise/Data CSV/Export Items and Crops")]
@@ -94,7 +106,9 @@ public static class BalanceCsvDatabase
             F(item.healthRestore), F(item.staminaRestore), F(item.hungerRestore), item.seedCrop != null ? item.seedCrop.cropId : string.Empty,
             item.refrigeratorCategory.ToString(), item.fishingBaitLevel.ToString(), F(item.baitBiteSpeedBonus),
             F(item.baitUncommonWeightMultiplier), F(item.baitRareWeightMultiplier), F(item.baitLegendaryWeightMultiplier),
-            F(item.baitJunkReduction), I(item.requiredFishingLevel), item.storageDestination.ToString()
+            F(item.baitJunkReduction), I(item.requiredFishingLevel), item.storageDestination.ToString(),
+            I(item.cropBoosterDurationDays), B(item.isMutatedCrop),
+            item.sellPricesByStars != null ? Join(item.sellPricesByStars) : "", Id(item.mutationSourceItem)
         });
         Csv.Write(ItemsPath, ItemExportColumns, itemRows);
 
@@ -105,10 +119,11 @@ public static class BalanceCsvDatabase
             I(crop.soilDepletionOnHarvest), I(crop.baseYield), F(crop.windVulnerability), I(crop.dryDaysBeforeWither), I(crop.dryDaysBeforeDeath), I(crop.wateredDaysToRecover),
             I(crop.healthLossWhenDry), I(crop.daysUntilFirstHarvest), B(crop.regrowsAfterHarvest), I(crop.regrowDays), I(crop.regrowStage),
             Join(crop.qualityWeights), Join(crop.minimumBoosterForStars), I(crop.harvestGraceDays), F(crop.soilWeight), F(crop.moistureWeight),
-            F(crop.fertilityWeight), F(crop.healthWeight)
+            F(crop.fertilityWeight), F(crop.healthWeight), Id(crop.mutationProduceItem), F(crop.mutationChance), F(crop.fiveStarDoubleYieldChance)
         });
-        Csv.Write(CropsPath, CropColumns, cropRows);
-        AssetDatabase.SaveAssets();
+        Csv.Write(CropsPath, CropExportColumns, cropRows);
+        foreach(var item in items) AssetDatabase.SaveAssetIfDirty(item);
+        foreach(var crop in crops) AssetDatabase.SaveAssetIfDirty(crop);
         AssetDatabase.Refresh();
         Debug.Log($"[DATA CSV] Export selesai: {items.Count} item dan {crops.Count} crop di {Root}.");
     }
@@ -182,6 +197,7 @@ public static class BalanceCsvDatabase
         {
             ItemSO item = items[row.id];
             item.seedCrop = string.IsNullOrWhiteSpace(row.seedCropId) ? null : crops[row.seedCropId];
+            if(row.hasMutationSource)item.mutationSourceItem=string.IsNullOrWhiteSpace(row.mutationSourceId)?null:items[row.mutationSourceId];
             EditorUtility.SetDirty(item);
         }
 
@@ -207,6 +223,9 @@ public static class BalanceCsvDatabase
         item.animalMedicineLevel=row.medicine; item.fertilizerLevel=row.fertilizer;
         item.requiredVillageLevel=row.requiredVillageLevel; item.soilRestoreAmount=row.soilRestoreAmount;
         item.cropBoosterLevel=row.cropBoosterLevel; item.canDropToWorld=row.drop; item.canPlaceInWorld=row.place;
+        if(row.hasBoosterDuration)item.cropBoosterDurationDays=row.boosterDurationDays;
+        if(row.hasMutationFlag)item.isMutatedCrop=row.isMutatedCrop;
+        if(row.hasStarPrices)item.sellPricesByStars=row.starPrices;
         item.sprinklerLevel=row.sprinklerLevel; item.isEdible=row.edible; item.foodPreparation=row.foodPreparation;
         item.healthRestore=row.healthRestore; item.staminaRestore=row.staminaRestore; item.hungerRestore=row.hungerRestore;
         if(row.hasRefrigeratorCategory) item.refrigeratorCategory=row.refrigeratorCategory;
@@ -235,6 +254,9 @@ public static class BalanceCsvDatabase
         crop.qualityWeights=row.qualityWeights; crop.minimumBoosterForStars=row.minimumBoosters;
         crop.harvestGraceDays=row.graceDays; crop.soilWeight=row.soilWeight; crop.moistureWeight=row.moistureWeight;
         crop.fertilityWeight=row.fertilityWeight; crop.healthWeight=row.healthWeight;
+        if(row.hasMutationItem)crop.mutationProduceItem=string.IsNullOrWhiteSpace(row.mutationItemId)?null:items[row.mutationItemId];
+        if(row.hasMutationChance)crop.mutationChance=row.mutationChance;
+        if(row.hasDoubleChance)crop.fiveStarDoubleYieldChance=row.doubleChance;
     }
 
     static bool TryRead(out List<ItemRow> items, out List<CropRow> crops, out List<string> errors)
@@ -258,8 +280,19 @@ public static class BalanceCsvDatabase
             if(source.TryGetValue("storage_destination",out string destination)&&!string.IsNullOrWhiteSpace(destination))
             {row.hasStorageDestination=true;row.storageDestination=E(source,"storage_destination",HomeStorageDestination.Auto,label,errors);}
             row.buyPrice=N(source,"buy_price",0,int.MaxValue,label,errors); row.sellPrice=N(source,"sell_price",0,int.MaxValue,label,errors);
+            if(source.TryGetValue("sell_prices_by_stars",out string prices))
+            {
+                row.hasStarPrices=true;
+                row.starPrices=string.IsNullOrWhiteSpace(prices)?Array.Empty<int>():Ints(source,"sell_prices_by_stars",5,label,errors);
+                if(row.starPrices.Any(p=>p<0))errors.Add($"{label}: harga per bintang tidak boleh negatif.");
+            }
+            row.hasMutationSource=source.TryGetValue("mutation_source_item_id",out row.mutationSourceId);
             row.maxStack=N(source,"max_stack",1,9999,label,errors); row.requiredVillageLevel=N(source,"required_village_level",1,999,label,errors);
             row.soilRestoreAmount=N(source,"soil_restore_amount",0,100000,label,errors); row.cropBoosterLevel=N(source,"crop_booster_level",1,5,label,errors);
+            if(source.TryGetValue("crop_booster_duration_days",out string duration)&&!string.IsNullOrWhiteSpace(duration))
+            {row.hasBoosterDuration=true;row.boosterDurationDays=N(source,"crop_booster_duration_days",1,3650,label,errors);}
+            if(source.TryGetValue("is_mutated_crop",out string mutation)&&!string.IsNullOrWhiteSpace(mutation))
+            {row.hasMutationFlag=true;row.isMutatedCrop=Bool(source,"is_mutated_crop",label,errors);}
             row.sprinklerLevel=N(source,"sprinkler_level",0,5,label,errors);
             row.animalProduct=Bool(source,"is_animal_product",label,errors); row.keyItem=Bool(source,"is_key_item",label,errors);
             row.notSellable=Bool(source,"is_not_sellable",label,errors); row.confirmSale=Bool(source,"requires_sell_confirmation",label,errors);
@@ -304,6 +337,11 @@ public static class BalanceCsvDatabase
             row.dryDays=N(source,"dry_days_before_wither",1,100000,label,errors); row.deathDays=N(source,"dry_days_before_death",2,100000,label,errors); row.recoveryDays=N(source,"watered_days_to_recover",1,100000,label,errors);
             if(row.deathDays<=row.dryDays) errors.Add($"{label}: dry_days_before_death harus lebih besar dari dry_days_before_wither.");
             row.dryHealthLoss=N(source,"health_loss_when_dry",0,100,label,errors); row.harvestDays=N(source,"days_until_first_harvest",1,100000,label,errors);
+            row.hasMutationItem=source.TryGetValue("mutation_produce_item_id",out row.mutationItemId);
+            if(source.TryGetValue("mutation_chance",out string chance)&&!string.IsNullOrWhiteSpace(chance))
+            {row.hasMutationChance=true;row.mutationChance=R(source,"mutation_chance",0,1,label,errors);}
+            if(source.TryGetValue("five_star_double_yield_chance",out string doubleChance)&&!string.IsNullOrWhiteSpace(doubleChance))
+            {row.hasDoubleChance=true;row.doubleChance=R(source,"five_star_double_yield_chance",0,1,label,errors);}
             row.regrows=Bool(source,"regrows_after_harvest",label,errors); row.regrowDays=N(source,"regrow_days",1,100000,label,errors);
             row.regrowStage=N(source,"regrow_stage",-1,1000,label,errors); row.graceDays=N(source,"harvest_grace_days",0,100000,label,errors);
             row.qualityWeights=Floats(source,"quality_weights",5,label,errors); row.minimumBoosters=Ints(source,"minimum_booster_for_stars",5,label,errors);
@@ -313,8 +351,12 @@ public static class BalanceCsvDatabase
             crops.Add(row);
         }
         foreach(ItemRow row in items) if(!string.IsNullOrWhiteSpace(row.seedCropId)&&!cropIds.Contains(row.seedCropId)) errors.Add($"Item '{row.id}': seed_crop_id '{row.seedCropId}' tidak ditemukan.");
+        foreach(ItemRow row in items) if(!string.IsNullOrWhiteSpace(row.mutationSourceId)&&
+            (!itemIds.Contains(row.mutationSourceId)||string.Equals(row.id,row.mutationSourceId,StringComparison.OrdinalIgnoreCase)))
+            errors.Add($"Item '{row.id}': mutation_source_item_id harus menunjuk item normal lain yang tersedia.");
         foreach(CropRow row in crops)
         {
+            if(!string.IsNullOrWhiteSpace(row.mutationItemId)&&!itemIds.Contains(row.mutationItemId))errors.Add($"Crop '{row.id}': mutation_produce_item_id tidak ditemukan.");
             if(!string.IsNullOrWhiteSpace(row.seedItemId)&&!itemIds.Contains(row.seedItemId)) errors.Add($"Crop '{row.id}': seed_item_id '{row.seedItemId}' tidak ditemukan.");
             if(!string.IsNullOrWhiteSpace(row.produceItemId)&&!itemIds.Contains(row.produceItemId)) errors.Add($"Crop '{row.id}': produce_item_id '{row.produceItemId}' tidak ditemukan.");
         }
@@ -377,44 +419,8 @@ public static class BalanceCsvDatabase
 
     internal static class Csv
     {
-        public static void Write(string path,string[] headers,IEnumerable<string[]> rows)
-        {
-            StringBuilder text=new(); text.AppendLine(string.Join(",",headers.Select(Escape)));
-            foreach(string[] row in rows) text.AppendLine(string.Join(",",row.Select(Escape)));
-            File.WriteAllText(path,text.ToString(),new UTF8Encoding(true));
-        }
-        public static List<Dictionary<string,string>> Read(string path,out string[] headers,out string error)
-        {
-            error=null; List<List<string>> records=new(); List<string> row=new(); StringBuilder field=new(); bool quoted=false;
-            // Spreadsheet editors keep a writable handle open after Save. Allow that
-            // handle (and atomic file replacement) while reading the saved contents.
-            string text;
-            using(var stream=new FileStream(path,FileMode.Open,FileAccess.Read,FileShare.ReadWrite|FileShare.Delete))
-            using(var reader=new StreamReader(stream,Encoding.UTF8,true)) text=reader.ReadToEnd();
-            for(int i=0;i<text.Length;i++)
-            {
-                char c=text[i];
-                if(quoted){if(c=='"'&&i+1<text.Length&&text[i+1]=='"'){field.Append('"');i++;}else if(c=='"')quoted=false;else field.Append(c);}
-                else if(c=='"')quoted=true;
-                else if(c==','){row.Add(field.ToString());field.Clear();}
-                else if(c=='\n'){row.Add(field.ToString().TrimEnd('\r'));field.Clear();if(row.Any(value=>!string.IsNullOrWhiteSpace(value)))records.Add(row);row=new();}
-                else field.Append(c);
-            }
-            if(quoted){headers=Array.Empty<string>();error="Tanda kutip CSV tidak ditutup.";return new();}
-            if(field.Length>0||row.Count>0){row.Add(field.ToString().TrimEnd('\r'));records.Add(row);}
-            if(records.Count==0){headers=Array.Empty<string>();error="File kosong.";return new();}
-            headers=records[0].Select(value=>value.Trim().TrimStart('\uFEFF')).ToArray();
-            var result=new List<Dictionary<string,string>>();
-            for(int index=1;index<records.Count;index++)
-            {
-                if(records[index].Count!=headers.Length){error=$"Baris {index+1} memiliki {records[index].Count} kolom, seharusnya {headers.Length}.";return new();}
-                var values=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
-                for(int column=0;column<headers.Length;column++)values[headers[column]]=records[index][column];
-                result.Add(values);
-            }
-            return result;
-        }
-        static string Escape(string value){value??=string.Empty;return value.IndexOfAny(new[]{',','"','\r','\n'})>=0?'"'+value.Replace("\"","\"\"")+'"':value;}
+        public static void Write(string path,string[] headers,IEnumerable<string[]> rows)=>BalanceCsvFormat.Write(path,headers,rows);
+        public static List<Dictionary<string,string>> Read(string path,out string[] headers,out string error)=>BalanceCsvFormat.Read(path,out headers,out error);
     }
 }
 #endif

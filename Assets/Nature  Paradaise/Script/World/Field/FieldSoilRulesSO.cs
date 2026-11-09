@@ -19,12 +19,7 @@ public sealed class FieldSoilRulesSO : ScriptableObject
     public FieldSoilCondition GetCondition(int value) => value >= Mathf.Clamp(goodStartsAt, Mathf.Clamp(mediumStartsAt, 1, 79) + 1, 80)
         ? FieldSoilCondition.Good : value >= Mathf.Clamp(mediumStartsAt, 1, 79)
             ? FieldSoilCondition.Medium : FieldSoilCondition.Poor;
-    public int GetQualityContribution(int value) => Mathf.Clamp(GetCondition(value) switch
-    {
-        FieldSoilCondition.Good => goodContribution,
-        FieldSoilCondition.Medium => mediumContribution,
-        _ => poorContribution
-    }, 0, 100);
+    public float GetQualityContribution(int value) => Mathf.Clamp(value, 0, 80) / 80f * 40f;
 
     void OnValidate()
     {

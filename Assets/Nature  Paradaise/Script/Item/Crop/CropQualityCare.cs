@@ -1,7 +1,6 @@
 using System;
-using UnityEngine;
 
-/// <summary>Riwayat satu siklus panen; data lama tanpa riwayat dimulai konservatif.</summary>
+/// <summary>Exact daily care ledger; only presentation rounds the 40/40/20 contributions.</summary>
 [Serializable]
 public sealed class CropQualityCare
 {
@@ -15,42 +14,69 @@ public sealed class CropQualityCare
     public bool pestDamage;
     public int readyDay = -1;
     public float roll = -1f;
+    public float mutationRoll=-1f, doubleYieldRoll=-1f;
+    public bool harvestRollsReady;
+    public int qualityVersion, targetGrowthDays;
+    public long soilFertilityTotal;
+    public int fertilizerDaysRemaining;
+    public int lastSampleDay = -1;
     public CropQualityCare Copy() => (CropQualityCare)MemberwiseClone();
+    public bool FertilizerActive => boosterToday > 0;
+    public int ActiveDaysRemaining => FertilizerActive ? Math.Max(1, fertilizerDaysRemaining) : 0;
+    public int DenominatorDays => Math.Max(1, Math.Max(targetGrowthDays, days));
+    public double FertilizerPercent => 40d * Math.Min(days, Math.Max(0, boostedDays)) / DenominatorDays;
+    public double SoilPercent => 40d * Math.Min(80L * days, Math.Max(0, soilFertilityTotal)) / (80L * DenominatorDays);
+    public double WaterPercent => 20d * Math.Min(days, Math.Max(0, wateredDays)) / DenominatorDays;
+    public double QualityPercent => Math.Min(100d, FertilizerPercent + SoilPercent + WaterPercent);
+    public bool IsPerfect => qualityVersion > 0 && days >= Math.Max(1, targetGrowthDays) &&
+        wateredDays == days && boostedDays == days && soilFertilityTotal == 80L * days;
+
+    public bool ApplyFertilizer(int level, int durationDays)
+    {
+        if (FertilizerActive || level < 1 || durationDays < 1) return false;
+        boosterToday = level; fertilizerDaysRemaining = durationDays; return true;
+    }
+    public void RecordDay(bool watered, int soilFertility, int expectedDays, int calendarDay)
+    {
+        if (lastSampleDay == calendarDay) return;
+        lastSampleDay = calendarDay; qualityVersion = 1;
+        if (targetGrowthDays <= 0) targetGrowthDays = Math.Max(1, expectedDays);
+        days++;
+        if (watered) wateredDays++;
+        if (FertilizerActive)
+        {
+            boostedDays++;
+            minimumBooster = Math.Min(minimumBooster, boosterToday);
+            bestBooster = Math.Max(bestBooster, boosterToday);
+        }
+        // Unrecorded soil history in old saves remains zero, never invented perfect care.
+        soilFertilityTotal += Math.Max(0, Math.Min(80, soilFertility));
+    }
+    public void FinishDay()
+    {
+        fertilizerDaysRemaining = Math.Max(0, ActiveDaysRemaining - 1);
+        if (fertilizerDaysRemaining == 0) boosterToday = 0;
+    }
+    public int Stars
+    {
+        get
+        {
+            if (IsPerfect) return 5;
+            long numerator = Math.Min(days, Math.Max(0, boostedDays)) * 3200L +
+                Math.Min(80L * days, Math.Max(0, soilFertilityTotal)) * 40L +
+                Math.Min(days, Math.Max(0, wateredDays)) * 1600L;
+            long denominator = 80L * DenominatorDays;
+            return numerator < 40L * denominator ? 1 : numerator < 60L * denominator ? 2 :
+                numerator < 80L * denominator ? 3 : 4;
+        }
+    }
 
     public int RollStars(CropDataSO crop, bool fertile, int today)
         => RollStars(crop, fertile, today, 0f);
 
     public int RollStars(CropDataSO crop, bool fertile, int today, float soilContribution)
     {
-        if (roll < 0f) roll = UnityEngine.Random.value;
-        bool dailyWater = days > 0 && wateredDays == days;
-        bool dailyBooster = days > 0 && boostedDays == days;
-        bool onTime = readyDay >= 0 && today <= readyDay + crop.harvestGraceDays;
-        float total = 0f;
-        float[] eligible = new float[5];
-        for (int index = 0; index < 5; index++)
-        {
-            int requirement = crop.minimumBoosterForStars != null && index < crop.minimumBoosterForStars.Length
-                ? crop.minimumBoosterForStars[index] : index == 0 ? 0 : index == 1 ? 1 : index == 2 ? 2 : 3;
-            bool allowed = index == 0 || (correctSeason && dailyWater && bestBooster >= requirement &&
-                (index < 2 || (dailyBooster && minimumBooster >= requirement && !pestDamage)) &&
-                (index < 3 || (onTime && fertile)));
-            if (!allowed) continue;
-            float weight = crop.qualityWeights != null && index < crop.qualityWeights.Length
-                ? Mathf.Max(0f, crop.qualityWeights[index]) : 1f;
-            // Soil biases eligible quality weights; water, fertilizer and care gates still apply.
-            eligible[index] = weight * (1f + index * bestBooster * 0.2f) *
-                (1f + index * Mathf.Clamp01(soilContribution));
-            total += eligible[index];
-        }
-        float target = Mathf.Clamp01(roll) * total;
-        if (total <= 0f) return 1;
-        for (int index = 0; index < 5; index++)
-        {
-            if (eligible[index] <= 0f) continue;
-            target -= eligible[index];
-            if (target <= 0f) return index + 1;
-        }
-        return 1;
+        if (targetGrowthDays <= 0 && crop != null) targetGrowthDays = Math.Max(1, (int)Math.Ceiling(crop.TotalGrowthDays));
+        return Stars;
     }
 }

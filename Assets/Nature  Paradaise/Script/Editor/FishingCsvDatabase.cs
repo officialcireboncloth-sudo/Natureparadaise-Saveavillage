@@ -26,8 +26,7 @@ public static class FishingCsvDatabase
     public static void Export()
     {
         Directory.CreateDirectory(Path.GetDirectoryName(CsvPath) ?? "Assets");
-        StringBuilder csv = new();
-        csv.AppendLine(string.Join(",", Columns));
+        var csvRows = new List<string[]>();
         foreach (FishDefinitionSO fish in LoadFish().OrderBy(candidate => candidate.fishId, StringComparer.Ordinal))
         {
             string path = AssetDatabase.GetAssetPath(fish);
@@ -40,9 +39,9 @@ public static class FishingCsvDatabase
                 F(fish.pondMediumSizeCm),F(fish.pondLargeSizeCm),F(fish.pondJumboSizeCm),
                 fish.pondSmallGrowthDays.ToString(),fish.pondMediumGrowthDays.ToString(),fish.pondLargeGrowthDays.ToString(),F(fish.minimumCastPower)
             };
-            csv.AppendLine(string.Join(",", values.Select(Escape)));
+            csvRows.Add(values);
         }
-        File.WriteAllText(CsvPath, csv.ToString(), new UTF8Encoding(false));
+        BalanceCsvDatabase.Csv.Write(CsvPath, Columns, csvRows);
         AssetDatabase.Refresh();
         Debug.Log($"[FISH CSV] Export selesai: {LoadFish().Length} ikan ke {CsvPath}");
     }

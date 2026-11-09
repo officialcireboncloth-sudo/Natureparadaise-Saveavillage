@@ -1,5 +1,7 @@
 # Balance Data CSV
 
+Standar bersama: [FORMAT_CSV.md](FORMAT_CSV.md). Semua kelompok memakai alur **Export > Edit CSV > Periksa > Import** pada **Nature Paradise > Data CSV > Balance CSV Panel**. Hewan memakai `Animals.csv` untuk daftar/harga dan `Settings/Animals.csv` untuk angka lanjutan.
+
 Mulai dari [PANDUAN.md](PANDUAN.md): cara kerja untuk designer, arti HP/quantity/drop,
 deskripsi tugas per kategori dan batas masing-masing importer.
 Panel Unity: **Nature Paradise > Data CSV > Balance CSV Panel**.

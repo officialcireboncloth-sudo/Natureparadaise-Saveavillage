@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Seed
   itemId: item.seed
   m_EditorClassIdentifier: 
-  itemName: Cabbage Seed
-  icon: {fileID: 0}
+  itemName: Benih Kubis
+  icon: {fileID: 21300000, guid: f90b34394bf34418a6559cb7285af656, type: 3}
   buyPrice: 5
   sellPrice: 0
   category: 1
@@ -26,3 +26,5 @@ MonoBehaviour:
   healthRestore: 0
   staminaRestore: 0
   hungerRestore: 0
+  inventoryIllustration: {fileID: 21300000, guid: f90b34394bf34418a6559cb7285af656, type: 3}
+  inventoryDescription: Benih Kubis. Tanam di petak yang sudah dicangkul dan rawat dengan menyiramnya.

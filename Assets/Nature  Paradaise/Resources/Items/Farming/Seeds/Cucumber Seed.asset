@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Cucumber Seed
+  itemId: item.cucumber_seed
+  m_EditorClassIdentifier: 
+  itemName: Benih Timun
+  icon: {fileID: 21300000, guid: c84842d0c58e42de9ecda55b69fc2ca5, type: 3}
+  buyPrice: 5
+  sellPrice: 0
+  category: 1
+  maxStack: 16
+  equippedTool: 2
+  seedCrop: {fileID: 11400000, guid: d0353ea184c34ff780dd3e4f3404cd6a, type: 2}
+  isEdible: 0
+  foodPreparation: 0
+  healthRestore: 0
+  staminaRestore: 0
+  hungerRestore: 0
+  inventoryIllustration: {fileID: 21300000, guid: c84842d0c58e42de9ecda55b69fc2ca5, type: 3}
+  inventoryDescription: Benih Timun. Tanam di petak yang sudah dicangkul dan rawat dengan menyiramnya.

@@ -18,7 +18,7 @@ public static class SoilScannerSetup
     }
     static Material Material(string name,Color color)
     {
-        string path=Root+"/Materials/SoilScanner/"+name+".mat";
+        string path=Root+"/Material/SoilScanner/"+name+".mat";
         var material=AssetDatabase.LoadAssetAtPath<Material>(path);
         if(material==null)
         {
@@ -32,7 +32,7 @@ public static class SoilScannerSetup
     public static GameObject BuildDummy()
     {
         if (SoilScannerArtSetup.IsAvailable) return SoilScannerArtSetup.Apply();
-        Folder(Root+"/Prefabs/Soil");Folder(Root+"/Materials/SoilScanner");
+        Folder(Root+"/Prefabs/Soil");Folder(Root+"/Material/SoilScanner");
         var teal=Material("Scanner Teal",new(.16f,.35f,.37f));
         var cream=Material("Scanner Cream",new(.76f,.71f,.59f));
         var dark=Material("Scanner Screen",new(.045f,.11f,.13f));

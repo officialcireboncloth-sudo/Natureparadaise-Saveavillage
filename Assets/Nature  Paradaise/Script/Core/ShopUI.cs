@@ -318,7 +318,7 @@ public class ShopUI : MonoBehaviour
         // Catalog dan slot legacy dapat menunjuk item yang sama.
         if (visibleProducts.Exists(product => product.Item == item && product.Selling == selling)) return;
         if (item != null && visibleProducts.Count < 25)
-            visibleProducts.Add(new ShopProduct(item, selling));
+            visibleProducts.Add(new ShopProduct(item, selling, selling ? shop.GetSellUnitPrice(item) : item.buyPrice));
     }
 
     void AddAnimalProduct(AnimalShopOffer offer)
@@ -557,15 +557,16 @@ public class ShopUI : MonoBehaviour
         public readonly bool Selling;
         public string DisplayName => Item != null ? Item.itemName : Animal?.displayName ?? string.Empty;
         public Sprite Icon => Item != null ? Item.icon : Animal?.icon;
-        public int Price => Item != null ? (Selling ? Item.sellPrice : Item.buyPrice) : Animal?.price ?? 0;
+        public int Price { get; }
         public int RequiredVillageLevel => Item != null ? Item.requiredVillageLevel : Animal?.requiredVillageLevel ?? 1;
         public bool IsValid => Item != null || Animal != null;
 
-        public ShopProduct(ItemSO item, bool selling)
+        public ShopProduct(ItemSO item, bool selling, int price)
         {
             Item = item;
             Animal = null;
             Selling = selling;
+            Price = price;
         }
 
         public ShopProduct(AnimalShopOffer animal)
@@ -573,6 +574,7 @@ public class ShopUI : MonoBehaviour
             Item = null;
             Animal = animal;
             Selling = false;
+            Price = animal?.price ?? 0;
         }
     }
 

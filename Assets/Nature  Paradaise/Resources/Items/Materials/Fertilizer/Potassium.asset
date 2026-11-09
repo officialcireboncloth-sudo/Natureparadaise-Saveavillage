@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Potassium
+  m_EditorClassIdentifier: 
+  itemId: item.potassium
+  itemName: Kalium (K)
+  icon: {fileID: 21300000, guid: 94e7e7c842764d1dbb2a940ffa24b6a8, type: 3}
+  inventoryIllustration: {fileID: 0}
+  inventoryDescription: Nutrisi yang membantu pembentukan dan kualitas hasil panen. Bahan pembuatan Pupuk Premium.
+  buyPrice: 100
+  sellPrice: 0
+  category: 3
+  feedKind: 0
+  isAnimalProduct: 0
+  isKeyItem: 0
+  isNotSellable: 0
+  requiresSellConfirmation: 0
+  maxStack: 99
+  equippedTool: 0
+  animalMedicineLevel: 0
+  seedCrop: {fileID: 0}
+  fertilizerLevel: 0
+  requiredVillageLevel: 1
+  soilRestoreAmount: 0
+  soilRestorationDays: 0
+  cropBoosterLevel: 1
+  cropBoosterDurationDays: 1
+  isMutatedCrop: 0
+  cropBoosterPercent: 0
+  canDropToWorld: 1
+  canPlaceInWorld: 0
+  worldPrefab: {fileID: 0}
+  worldScale: {x: 0.4, y: 0.4, z: 0.4}
+  sprinklerLevel: 0
+  treeDefinition: {fileID: 0}
+  isEdible: 0
+  foodPreparation: 0
+  healthRestore: 0
+  staminaRestore: 0
+  hungerRestore: 0
+  refrigeratorCategory: 0
+  storageDestination: 0
+  increasesStaminaTier: 0
+  fishingBaitLevel: 0
+  baitBiteSpeedBonus: 0
+  baitUncommonWeightMultiplier: 1
+  baitRareWeightMultiplier: 1
+  baitLegendaryWeightMultiplier: 1
+  baitJunkReduction: 0
+  requiredFishingLevel: 1

@@ -13,6 +13,7 @@ public sealed class PersonalAnimalSaveData
 {
     public string companionId;
     public string displayName;
+    public string economyId;
     public CompanionSpecies species;
     public CompanionCommand command;
     public bool tamed;
@@ -35,6 +36,13 @@ public sealed class PersonalAnimal : MonoBehaviour
     [SerializeField] string companionId;
     [SerializeField] string displayName = "Companion";
     [SerializeField] CompanionSpecies species = CompanionSpecies.Dog;
+    [Tooltip("ID Animal Roster, mis. animal.husky_companion. Kosong memakai default Dog/Cat/Horse.")]
+    [SerializeField] string economyId;
+    public AnimalRosterEntry Economy=>AnimalRosterCatalog.Load()?.Find(!string.IsNullOrEmpty(economyId)?economyId:
+        species==CompanionSpecies.Horse?"animal.horse_riding":species==CompanionSpecies.Cat?"animal.cat_house":
+        species==CompanionSpecies.Dog?"animal.dog_guard":null);
+    public int ListedBuyPrice=>Economy?.hasBuyPrice==true?Economy.buyPrice:-1;
+    public int ListedAdultSellPrice=>Economy?.hasAdultSellPrice==true?Economy.adultSellPrice:-1;
     [SerializeField] bool tamed = true;
     [SerializeField] bool activeCompanion = true;
     [SerializeField, Range(0, 1000)] int heartPoints;
@@ -1016,6 +1024,7 @@ public sealed class PersonalAnimal : MonoBehaviour
     public PersonalAnimalSaveData Capture() => new()
     {
         companionId = companionId, displayName = displayName, species = species, command = command,
+        economyId=economyId,
         tamed = tamed, activeCompanion = activeCompanion, heartPoints = heartPoints,
         homeScene = homeScene, homeX = homePosition.x, homeY = homePosition.y, homeZ = homePosition.z,
         x = transform.position.x, y = transform.position.y, z = transform.position.z
@@ -1025,6 +1034,7 @@ public sealed class PersonalAnimal : MonoBehaviour
     {
         if (data == null) return;
         displayName = data.displayName; species = data.species; command = data.command; tamed = data.tamed;
+        if(!string.IsNullOrEmpty(data.economyId))economyId=data.economyId;
         activeCompanion = data.activeCompanion; heartPoints = Mathf.Clamp(data.heartPoints, 0, 1000);
         homeScene = data.homeScene; homePosition = new Vector3(data.homeX, data.homeY, data.homeZ);
         transform.position = new Vector3(data.x, data.y, data.z); path = null; nextPathTime = 0f;

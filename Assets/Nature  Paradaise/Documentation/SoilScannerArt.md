@@ -7,11 +7,12 @@ socket dan kabel melengkung. Sisi belakang memiliki hatch, ventilasi dan pelat s
 
 ## Sumber yang dapat diedit
 
-- `Source~/SoilScanner/SoilScanner_Cozy_Master.blend`: 65 bagian bernama, ukuran meter,
+- `ArtSource/SoilScanner/Blender/SoilScanner_Cozy_Master.blend`: 65 bagian bernama, ukuran meter,
   material atlas dengan gambar packed, collection studio terpisah dari model.
-- `Source~/SoilScanner/NP_CozySurfaces_04_BaseColor.xcf`: layer enamel, rubber, copper,
+- `ArtSource/SoilScanner/Textures/NP_CozySurfaces_04_BaseColor.xcf`: layer enamel, rubber, copper,
   grafik layar dan palet baru yang dilukis dengan native GIMP 3.
 - XCF normal dan surface mask ada di folder sumber yang sama.
+- Kedua script pembuat aset berada di `ArtSource/SoilScanner/Scripts/`.
 - Script `paint_scanner_gimp.py` dijalankan melalui GIMP `python-fu-eval`;
   set `__file__` ke path script saat memakai `exec` dari batch.
 - Script `build_scanner_blender.py` dijalankan Blender 4.5 dengan `--background --python`.
@@ -45,7 +46,27 @@ serta belakang. Native Unity berhasil membuat mesh, mencocokkan jumlah segitiga,
 UV dan bounds, mempertahankan GUID prefab serta collider/anchor dan memeriksa
 shader tanpa compile error. Instance Map diperiksa langsung di Scene View.
 Scene di disk dan atlas 01 sama dengan hash sebelum pemasangan.
-Preview dan laporan lokal: `ArtSource/SoilScanner/Review/`.
+Preview: `ArtSource/SoilScanner/Previews/`. Laporan lokal: `ArtSource/SoilScanner/Review/`.
+
+## Penataan folder sumber dan material
+
+Sumber mentah dipusatkan di `ArtSource/SoilScanner/` mengikuti susunan aset lain:
+`Blender/`, `Textures/`, `Scripts/` dan `Previews/`. Master Blender, manifest, XCF
+dan script yang sebelumnya ada di `Assets/Nature  Paradaise/Source~/SoilScanner/`
+dipindahkan ke sini. Salinan identik di `outputs/SoilScanner/` sudah disatukan.
+Pengecualian Git hanya membuka subfolder sumber tersebut, sementara log, profil
+aplikasi dan backup tetap diabaikan. Gambar atlas di Blender sudah packed.
+
+Folder material utama tetap `Assets/Nature  Paradaise/Material/`.
+Empat material dummy scanner lama dipindahkan dari `Materials/SoilScanner/`
+ke `Material/SoilScanner/` bersama file `.meta`, sehingga GUID tetap sama.
+Folder `Materials/` yang kosong dihapus. Builder dummy juga memakai path baru.
+Scanner baru tetap menggunakan material atlas di `Material/Shared/`.
+
+Ini penataan file: jumlah material dan shader runtime tidak berubah, tidak
+menambah draw call atau mengubah kualitas grafis/FPS. Path string harus diperbarui
+seperti pada builder, sedangkan referensi Unity yang berbasis GUID tetap valid.
+Tidak ada material berbeda yang digabung atau dihapus karena nama mirip.
 
 Layar pada model merupakan ilustrasi statis referensi. UI pemindai interaktif
 tetap memakai SoilScannerMachine/SoilScannerUI yang sudah tersedia. Performa

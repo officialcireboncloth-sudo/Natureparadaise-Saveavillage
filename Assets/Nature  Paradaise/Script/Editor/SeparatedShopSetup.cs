@@ -48,11 +48,17 @@ public static class SeparatedShopSetup
    var ayam=Tab(c,"Ayam");var bebek=Tab(c,"Bebek");var ternak=Tab(c,"Ternak");var care=AnimalCareCatalog.Load();Tab(c,"Perlengkapan",items.Where(i=>i.IsAnimalMedicine||AnimalTool(i)||i==care?.fodder||i==care?.treat||i.itemName=="Fish Feed"));
    var offers=source?.animalOffers?.Where(a=>a!=null).ToList()??new List<AnimalShopOffer>();
    if(offers.Count==0){foreach(var type in new[]{AnimalType.Chicken,AnimalType.Duck,AnimalType.Cow,AnimalType.Goat,AnimalType.Sheep}){offers.Add(new AnimalShopOffer{animalType=type,displayName="Young "+type,offerKind=AnimalShopOfferKind.Young,price=type==AnimalType.Cow?5000:type==AnimalType.Goat?3000:type==AnimalType.Sheep?3500:type==AnimalType.Duck?1400:1000,productItem=care?.Product(type)});if(AnimalGrowthProfileSO.IsBird(type))offers.Add(new AnimalShopOffer{animalType=type,displayName=type+" Egg",offerKind=AnimalShopOfferKind.Egg,price=type==AnimalType.Chicken?500:700,productItem=care?.Product(type)});}}
+   AnimalRosterCatalog.Load()?.ApplyOffers(offers);
    foreach(var offer in offers)(offer.animalType==AnimalType.Chicken?ayam:offer.animalType==AnimalType.Duck?bebek:ternak).animals.Add(offer);
   }
   else
   {
-   Tab(c,"Makanan",items.Where(i=>i.category==ItemCategory.Food&&i.refrigeratorCategory!=RefrigeratorCategory.Drink));Tab(c,"Minuman",items.Where(i=>i.refrigeratorCategory==RefrigeratorCategory.Drink));Tab(c,"Bahan",items.Where(i=>i.category==ItemCategory.Material&&i.buyPrice>0&&i!=AnimalCareCatalog.Load()?.fodder&&i!=AnimalCareCatalog.Load()?.treat));Tab(c,"Umpan",items.Where(i=>i.IsFishingBait));Tab(c,"Jual").sellInventory=true;
+   bool Chemical(ItemSO item)=>item.Id is "item.calcium" or "item.phosphate" or "item.urea" or "item.potassium";
+   Tab(c,"Makanan",items.Where(i=>i.category==ItemCategory.Food&&i.refrigeratorCategory!=RefrigeratorCategory.Drink));
+   Tab(c,"Minuman",items.Where(i=>i.refrigeratorCategory==RefrigeratorCategory.Drink));
+   Tab(c,"Bahan",items.Where(i=>i.category==ItemCategory.Material&&i.buyPrice>0&&!Chemical(i)&&i!=AnimalCareCatalog.Load()?.fodder&&i!=AnimalCareCatalog.Load()?.treat));
+   Tab(c,"Perlengkapan Pertanian",items.Where(Chemical));
+   Tab(c,"Umpan",items.Where(i=>i.IsFishingBait));Tab(c,"Jual").sellInventory=true;
 
   }
   foreach(var item in c.tabs.SelectMany(t=>t.items).Where(i=>i.buyPrice<=0).Distinct())c.priceOverrides.Add(new ShopPriceOverride{item=item,price=Mathf.Max(100,item.sellPrice*3)});

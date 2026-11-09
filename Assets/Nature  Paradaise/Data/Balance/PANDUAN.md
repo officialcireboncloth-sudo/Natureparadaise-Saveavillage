@@ -1,5 +1,7 @@
 # Panduan data CSV untuk designer
 
+Standar bersama: [FORMAT_CSV.md](FORMAT_CSV.md). Semua kelompok memakai alur **Export > Edit CSV > Periksa > Import** pada **Nature Paradise > Data CSV > Balance CSV Panel**. Hewan memakai `Animals.csv` untuk daftar/harga dan `Settings/Animals.csv` untuk angka lanjutan.
+
 CSV adalah tabel untuk mengedit angka balancing tanpa mengubah kode. Unity tetap menjalankan data asset; perubahan spreadsheet baru masuk game setelah Import. Buka **Nature Paradise > Data CSV > Balance CSV Panel**.
 
 ## Mulai dari sini
@@ -22,7 +24,7 @@ Settings menyimpan satu setting per baris. asset_guid + object_id + setting menu
 | Tugas | Deskripsi / apa yang diedit | Status jalur CSV |
 |---|---|---|
 | Master item | Nama, kategori, harga beli/jual, stack maksimum, pemulihan HP/stamina/hunger, syarat unlock, relasi bibit | Items.csv; exporter/importer yang sudah ada |
-| Hewan | Durasi tumbuh, interval produksi, harga jual, aturan penyakit, pakan; jumlah susu/produk dan wool pada prefab AnimalController | Settings/Animals.csv; harga beli hewan di Shops.csv |
+| Hewan | Daftar varian, harga beli/jual/produk; angka lanjutan pertumbuhan dan perawatan | Animals.csv untuk daftar/harga; Settings/Animals.csv untuk durasi/care |
 | Weather schedule 1–10 years | Tahun, bulan 1–4, musim, tanggal, cuaca; Auto mengikuti peluang musim | Schedules/WeatherSchedule.csv, 1200 tanggal; otomatis diimpor saat Unity Refresh |
 | Peluang cuaca 4 bulan | Persentase tiap jenis cuaca per musim; total setiap baris 100% | Schedules/WeatherProbabilities.csv; lihat Schedules/PANDUAN_CUACA.md |
 | Festival schedule 1 year | ID acara, tanggal, jam, lokasi, judul/deskripsi; year 0 berulang setiap tahun | Schedules/FestivalSchedule.csv; tampil di kalender, bukan sistem minigame/hadiah festival |

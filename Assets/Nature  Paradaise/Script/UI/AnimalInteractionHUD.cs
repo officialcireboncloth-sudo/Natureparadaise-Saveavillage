@@ -231,8 +231,9 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
             DetailLine("Health",()=> $"Kesehatan: {(animal.IllnessStage==AnimalIllnessStage.Healthy?"Sehat":Mood(animal))}\nKenyang: {animal.Fullness:0} / 100  •  Mood: {animal.Happiness:0} / 100\nTanpa makan: {animal.HungryDays} / 3 hari\nPertumbuhan: {GrowthLabel(animal.GrowthStage)}");
             DetailLine("DailyCare",()=> $"Perawatan hari ini\nMakan: {(animal.FedToday?"Selesai":"Belum")}  •  Gosok: {(animal.PetToday?"Selesai":"Belum")}"+(animal.Type==AnimalType.Cow?$"\nInteraksi: {(animal.InteractedToday?"Selesai":"Belum")}":""));
             if(animal.Type==AnimalType.Cow)DetailLine("CareRule",()=>"Lengkapi makan, gosok, dan interaksi harian untuk +1% heart. Perawatan tidak lengkap selama 7 hari berturut-turut mengurangi 5%.");
-            DetailLine("Product",()=> $"Produk: {(animal.HasProductReady?"Siap diambil":"Belum siap")}\nNilai hewan: {animal.AnimalSellPrice:N0} G");
-            if(animal.Type is AnimalType.Cow or AnimalType.Goat)
+            DetailLine("Product",()=> (animal.ProducesProducts?$"Produk: {(animal.HasProductReady?"Siap diambil":"Belum siap")}":"Tidak menghasilkan produk")+
+                (animal.AnimalSellPrice>0?$"\nNilai hewan: {animal.AnimalSellPrice:N0} G":!animal.IsAdult?"\nNilai jual tersedia setelah dewasa":"\nHarga jual belum ditetapkan"));
+            if(animal.ProducesProducts&&animal.Type is AnimalType.Cow or AnimalType.Goat)
                 DetailLine("MilkAvailability",()=>
                 {
                     var controller=animal.GetComponent<AnimalController>();
@@ -248,8 +249,8 @@ public sealed class AnimalInteractionHUD : MonoBehaviour
             if(animal.Type==AnimalType.Cow)DetailButtonRow("Interaksi Harian",detail.Interact,()=>!animal.InteractedToday);
             DetailButtonRow("Beri Treat",detail.Treat,()=>animal.CanReceiveTreat);
             DetailButtonRow("Beri Obat",detail.Medicine,()=>animal.CanReceiveMedicine);
-            DetailButtonRow(animal.Type==AnimalType.Cow?"Memerah Susu":animal.Type==AnimalType.Sheep?"Cukur — 5 Wool":"Ambil Produk",detail.Collect,()=>animal.HasProductReady);
-            if(animal.Type==AnimalType.Sheep)DetailLine("Shearing",()=> $"{animal.SheepShearingSummary}\nPilih Shears pada hotbar sebelum mencukur. Wol tumbuh kembali dalam {AnimalGrowthSystem.SheepWoolRegrowthDays} hari.");
+            if(animal.ProducesProducts)DetailButtonRow(animal.Type==AnimalType.Cow?"Memerah Susu":animal.Type==AnimalType.Sheep?"Cukur - 5 Wool":"Ambil Produk",detail.Collect,()=>animal.HasProductReady);
+            if(animal.ProducesProducts&&animal.Type==AnimalType.Sheep)DetailLine("Shearing",()=> $"{animal.SheepShearingSummary}\nPilih Shears pada hotbar sebelum mencukur. Wol tumbuh kembali dalam {AnimalGrowthSystem.SheepWoolRegrowthDays} hari.");
             DetailButtonRow(AnimalGrowthProfileSO.IsBird(animal.Type)?"Mulai Inkubasi":"Mulai Breeding",detail.Breed,()=>animal.IsAdult);
             if(routine!=null)foreach(var candidate in AnimalHome.Active)
             {

@@ -21,15 +21,15 @@ MonoBehaviour:
     sellInventory: 0
     items: []
     animals:
-    - displayName: Anak Ayam
+    - displayName: Anak Ayam Petelur
       icon: {fileID: 21300000, guid: 642a01d3acf3fe8469961f38061100e4, type: 3}
       animalType: 0
       offerKind: 1
-      price: 1000
+      price: 1200
       requiredVillageLevel: 1
       growthProfile: {fileID: 11400000, guid: ca02c022000000000000000000000002, type: 2}
       animalPrefab: {fileID: 5737161228259277445, guid: 887baffc5664c2e49b13a56458bb948e, type: 3}
-      productItem: {fileID: 0}
+      productItem: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000001, type: 2}
     - displayName: Telur Ayam
       icon: {fileID: 21300000, guid: c12da3a2f7df41643ba93ff25fbb4406, type: 3}
       animalType: 0
@@ -53,47 +53,56 @@ MonoBehaviour:
       growthProfile: {fileID: 0}
       animalPrefab: {fileID: 0}
       productItem: {fileID: 0}
-    - displayName: Young Duck
+    - displayName: Anak Bebek Petelur
       icon: {fileID: 21300000, guid: 758ce4ec3c716de47aee9d8582178128, type: 3}
       animalType: 1
       offerKind: 1
-      price: 1400
+      price: 1600
       requiredVillageLevel: 1
-      growthProfile: {fileID: 0}
+      growthProfile: {fileID: 11400000, guid: 0feba9a7ff3153d48435d13833e7c474, type: 2}
       animalPrefab: {fileID: 0}
-      productItem: {fileID: 0}
+      productItem: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000002, type: 2}
   - title: Ternak
     background: {fileID: 0}
     sellInventory: 0
     items: []
     animals:
-    - displayName: Young Goat
+    - displayName: Anak Kambing Perah
       icon: {fileID: 21300000, guid: d92fb7b147e22694cbd4ec45fe5cb1d5, type: 3}
       animalType: 2
       offerKind: 1
-      price: 3000
+      price: 4000
       requiredVillageLevel: 1
-      growthProfile: {fileID: 0}
+      growthProfile: {fileID: 11400000, guid: c53dd16cef0c5ee28be1ce3833cc1d02, type: 2}
       animalPrefab: {fileID: 6138874550457800520, guid: 5a26e7474e19d3b49bee8f52b38c6dba, type: 3}
-      productItem: {fileID: 0}
-    - displayName: Young Sheep
+      productItem: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000003, type: 2}
+    - displayName: Anak Domba Wol
       icon: {fileID: 21300000, guid: 24d90990e70bb8f48a44e84b02597065, type: 3}
       animalType: 3
       offerKind: 1
-      price: 3500
+      price: 4800
       requiredVillageLevel: 1
-      growthProfile: {fileID: 0}
+      growthProfile: {fileID: 11400000, guid: 6e2f394bbd675a7fbce65874347087f0, type: 2}
       animalPrefab: {fileID: 3255867418874246156, guid: 39e6eba51095af7488a501108040e7a7, type: 3}
       productItem: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000004, type: 2}
-    - displayName: Young Cow
+    - displayName: Anak Sapi Perah
       icon: {fileID: 21300000, guid: cbd0ff5ca37aa094989bc8552778ca82, type: 3}
       animalType: 4
       offerKind: 1
-      price: 5000
+      price: 6400
       requiredVillageLevel: 1
       growthProfile: {fileID: 11400000, guid: ca01c011000000000000000000000001, type: 2}
       animalPrefab: {fileID: 3192596076704916411, guid: 9c4cc366c277c934d90642903ee7416a, type: 3}
       productItem: {fileID: 11400000, guid: a3ff5e12700285547907d72e6ca5b7a7, type: 2}
+    - displayName: Anak Babi Ternak
+      icon: {fileID: 0}
+      animalType: 5
+      offerKind: 1
+      price: 4800
+      requiredVillageLevel: 1
+      growthProfile: {fileID: 11400000, guid: 7e2a0c7f6aa15234b61d3fc57b56d3ac, type: 2}
+      animalPrefab: {fileID: 1369942611831455936, guid: a1c3b039c590d724ca643590a24edcc8, type: 3}
+      productItem: {fileID: 0}
   - title: Perlengkapan
     background: {fileID: 0}
     sellInventory: 0

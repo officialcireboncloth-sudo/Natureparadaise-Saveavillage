@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public enum TreeLifeStage { Seed, Sprout, Sapling, Young, Growing, Mature }
+public enum TreeLifeStage { Seed, Sprout, Sapling, Young, Growing, Mature, FruitGrowing, HarvestReady }
 public enum TreeFruitStage { Dormant, Flowering, Growing, Ready }
 
 [Serializable]
@@ -18,10 +18,17 @@ public sealed class TreeStageVisual
 public sealed class TreeDefinition : ScriptableObject
 {
     public string treeType;
-    [Min(1)] public int matureDays = 56;
+    [Min(1)] public int matureDays = 60;
     public bool wildTree;
     public ItemSO woodItem;
     public ItemSO fruitItem;
+    public bool useFruitCare;
+    public ItemSO mutationFruitItem;
+    [Range(0f,1f)] public float fruitMutationChance=.01f;
+    public int[] fruitAmountsByStars={5,7,10,15,20};
+    public bool UsesFruitCare=>useFruitCare&&!wildTree&&fruitItem!=null;
+    public int HarvestAmount(int stars)=>UsesFruitCare&&fruitAmountsByStars!=null&&fruitAmountsByStars.Length==5
+        ?Mathf.Max(1,fruitAmountsByStars[Mathf.Clamp(stars,1,5)-1]):Mathf.Max(1,fruitAmount);
     public CropSeason fruitSeasons = CropSeason.All;
     [Min(1)] public int floweringDays = 2;
     [Min(1)] public int fruitGrowthDays = 3;
@@ -35,9 +42,16 @@ public sealed class TreeDefinition : ScriptableObject
     [Min(1f)] public float seasonalGrowthMultiplier = 1.15f;
     public TreeStageVisual[] stages;
 
-    public int StageIndex(float progress)
+    public int StageIndex(float progress,TreeFruitStage fruit=TreeFruitStage.Dormant)
     {
         if (stages == null || stages.Length == 0) return -1;
+        if(UsesFruitCare)
+        {
+            if(fruit==TreeFruitStage.Ready)return Math.Min(4,stages.Length-1);
+            if(fruit==TreeFruitStage.Growing)return Math.Min(3,stages.Length-1);
+            if(stages.Length>1&&progress<stages[1].fromGrowthDay)return 0;
+            return stages.Length>2&&progress>=stages[2].fromGrowthDay?2:Math.Min(1,stages.Length-1);
+        }
         int best = 0;
         for (int i = 0; i < stages.Length; i++)
         {
@@ -49,6 +63,12 @@ public sealed class TreeDefinition : ScriptableObject
             if (stages[i].fromGrowthDay <= progress && stages[i].fromGrowthDay >= stages[best].fromGrowthDay) best = i;
         }
         return best;
+    }
+    public Vector3 VisualScale(float growth,TreeFruitStage fruit)
+    {
+        int index=StageIndex(growth,fruit);if(index<0)return Vector3.one;
+        float multiplier=UsesFruitCare&&index==2?.45f+.55f*Mathf.Clamp01((growth-stages[2].fromGrowthDay)/Mathf.Max(1,matureDays-stages[2].fromGrowthDay)):1;
+        return stages[index].scale*multiplier;
     }
 }
 
@@ -65,7 +85,11 @@ public sealed class TreeProgress
     public int health = 100;
     public int fruitProgress;
     public TreeFruitStage fruitStage;
-    public TreeProgress Copy() => (TreeProgress)MemberwiseClone();
+    public FruitTreeCare care;
+    // A legacy tree cannot receive perfect credit for growth that predates the ledger.
+    public FruitTreeCare Care=>care??=new FruitTreeCare
+    {version=growth>0?1:0,days=Mathf.CeilToInt(Mathf.Max(0,growth)),minimumSoil=growth>0?0:100};
+    public TreeProgress Copy(){var copy=(TreeProgress)MemberwiseClone();copy.care=care?.Copy();return copy;}
     public bool Mature(TreeDefinition definition) => growth >= definition.matureDays;
 
     public static TreeProgress Create(TreeDefinition definition, int day, bool mature) => new()
@@ -76,11 +100,29 @@ public sealed class TreeProgress
         growth = mature && definition != null ? definition.matureDays : 0
     };
 
-    public void Advance(TreeDefinition definition, int day, WeatherType weather, bool sprinkler, float damageRoll)
+    public void Advance(TreeDefinition definition, int day, WeatherType weather, bool sprinkler, float damageRoll,int soilFertility=0)
     {
         if (definition == null || day <= lastProcessedDay) return;
         lastProcessedDay = day;
         age = Mathf.Max(0, day - plantedDay + 1);
+        if(definition.UsesFruitCare)
+        {
+            // Old saves with forming/ready fruit already describe mature trees.
+            if(fruitStage!=TreeFruitStage.Dormant)growth=Mathf.Max(growth,definition.matureDays);
+            bool matureBefore=Mature(definition);
+            bool season=(definition.fruitSeasons&CropDataSO.GetSeasonForDay(day))!=0;
+            bool active=!matureBefore||season&&fruitStage!=TreeFruitStage.Ready;
+            if(active)Care.RecordDay(soilFertility,day);
+            Care.FinishDay();
+            if(!matureBefore)
+            {growth=Mathf.Min(definition.matureDays,growth+1);return;}
+            if(!season){fruitProgress=0;fruitStage=TreeFruitStage.Dormant;return;}
+            if(fruitStage==TreeFruitStage.Ready)return;
+            fruitProgress++;
+            fruitStage=fruitProgress>=definition.floweringDays+definition.fruitGrowthDays?TreeFruitStage.Ready:
+                fruitProgress>=definition.floweringDays?TreeFruitStage.Growing:TreeFruitStage.Flowering;
+            return;
+        }
         bool watered = wateredDay == day || WeatherSystem.IsRainWeather(weather) || sprinkler || definition.wildTree;
         dryDays = watered ? 0 : dryDays + 1;
         bool mature = Mature(definition);

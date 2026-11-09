@@ -1,0 +1,29 @@
+﻿source_no,animal_id,display_name,species,purpose,buy_price,adult_sell_price,benefit,product_item_id,product_sell_price,runtime_type,profile_path
+1,animal.cow_dairy,Sapi Perah,Cow,Product,6400,4000,Menghasilkan susu,item.milk,400,4,Assets/Nature  Paradaise/Resources/Profiles/Animals/Cow Growth Profile.asset
+2,animal.cow_meat,Sapi Pedaging,Cow,Meat,,,Dibesarkan untuk dijual,,,4,Assets/Nature  Paradaise/Resources/Profiles/Animals/Variants/cow_meat.asset
+3,animal.cow_breeding,Sapi Jantan,Cow,Breeding,,,Perkembangbiakan,,,4,Assets/Nature  Paradaise/Resources/Profiles/Animals/Variants/cow_breeding.asset
+4,animal.chicken_layer,Ayam Petelur,Chicken,Product,1200,750,Menghasilkan telur,item.egg,100,0,Assets/Nature  Paradaise/Resources/Profiles/Animals/Chicken Growth Profile.asset
+5,animal.chicken_meat,Ayam Pedaging,Chicken,Meat,,,Dibesarkan untuk dijual,,,0,Assets/Nature  Paradaise/Resources/Profiles/Animals/Variants/chicken_meat.asset
+6,animal.chicken_rooster,Ayam Jago,Chicken,Breeding,,,Perkembangbiakan,,,0,Assets/Nature  Paradaise/Resources/Profiles/Animals/Variants/chicken_rooster.asset
+7,animal.goat_dairy,Kambing Perah,Goat,Product,4000,2500,Menghasilkan susu kambing,item.goat_milk,300,2,Assets/Nature  Paradaise/Resources/Profiles/Animals/Goat Growth Profile.asset
+8,animal.goat_meat,Kambing Pedaging,Goat,Meat,,,Dibesarkan untuk dijual,,,2,Assets/Nature  Paradaise/Resources/Profiles/Animals/Variants/goat_meat.asset
+9,animal.goat_breeding,Kambing Jantan,Goat,Breeding,,,Perkembangbiakan,,,2,Assets/Nature  Paradaise/Resources/Profiles/Animals/Variants/goat_breeding.asset
+10,animal.sheep_wool,Domba Wol,Sheep,Product,4800,3000,Menghasilkan wol,item.wool,650,3,Assets/Nature  Paradaise/Resources/Profiles/Animals/Sheep Growth Profile.asset
+11,animal.sheep_meat,Domba Pedaging,Sheep,Meat,,,Dibesarkan untuk dijual,,,3,Assets/Nature  Paradaise/Resources/Profiles/Animals/Variants/sheep_meat.asset
+12,animal.sheep_breeding,Domba Jantan,Sheep,Breeding,,,Perkembangbiakan,,,3,Assets/Nature  Paradaise/Resources/Profiles/Animals/Variants/sheep_breeding.asset
+13,animal.pig_meat,Babi Ternak,Pig,Meat,4800,9000,Dibesarkan untuk dijual,,,5,Assets/Nature  Paradaise/Resources/Profiles/Animals/Pig Growth Profile.asset
+14,animal.pig_breeding,Babi Jantan,Pig,Breeding,,,Perkembangbiakan,,,5,Assets/Nature  Paradaise/Resources/Profiles/Animals/Variants/pig_breeding.asset
+15,animal.duck_layer,Bebek Petelur,Duck,Product,1600,1000,Menghasilkan telur bebek,item.duck_egg,150,1,Assets/Nature  Paradaise/Resources/Profiles/Animals/Duck Growth Profile.asset
+16,animal.duck_meat,Bebek Pedaging,Duck,Meat,,,Dibesarkan untuk dijual,,,1,Assets/Nature  Paradaise/Resources/Profiles/Animals/Variants/duck_meat.asset
+17,animal.duck_breeding,Bebek Jantan,Duck,Breeding,,,Perkembangbiakan,,,1,Assets/Nature  Paradaise/Resources/Profiles/Animals/Variants/duck_breeding.asset
+18,animal.goose_layer,Angsa Petelur,Goose,Product,,,Menghasilkan telur angsa,item.goose_egg,,,
+19,animal.goose_meat,Angsa Pedaging,Goose,Meat,,,Dibesarkan untuk dijual,,,,
+20,animal.goose_breeding,Angsa Jantan,Goose,Breeding,,,Perkembangbiakan,,,,
+21,animal.horse_riding,Kuda Tunggangan,Horse,Riding,12000,7500,Transportasi pemain,,,,
+22,animal.horse_hauling,Kuda Angkut,Horse,Hauling,,,Membawa barang,,,,
+23,animal.alpaca_fiber,Alpaka Serat,Alpaca,Product,9600,6000,Menghasilkan serat alpaka,item.alpaca_fiber,1000,,
+24,animal.donkey_hauling,Keledai Angkut,Donkey,Hauling,5600,3500,Membawa barang,,,,
+25,animal.ostrich_layer,Burung Unta Petelur,Ostrich,Product,8000,5000,Menghasilkan telur burung unta,item.ostrich_egg,800,,
+26,animal.dog_guard,Anjing Penjaga,Dog,HerdingCompanion,2400,1500,Pendamping dan menggiring ternak,,,,
+27,animal.husky_companion,Husky Pendamping,Husky,HerdingCompanion,4000,2500,Pendamping dan menggiring ternak,,,,
+28,animal.cat_house,Kucing Peliharaan,Cat,HouseCompanion,2000,1250,Pendamping di rumah,,,,

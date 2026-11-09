@@ -1,0 +1,46 @@
+{
+  "version": 5,
+  "colorSize": [
+    512,
+    256
+  ],
+  "paddingPixels": 8,
+  "authoring": "Native GIMP editable enamel and gauge layers",
+  "existingAtlasPagesModified": false,
+  "slots": [
+    {
+      "name": "EnamelRed",
+      "pixelRectTopLeft": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.015625,
+        0.03125,
+        0.484375,
+        0.96875
+      ],
+      "metallic": 0.12,
+      "smoothness": 0.3
+    },
+    {
+      "name": "GaugeFace",
+      "pixelRectTopLeft": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.515625,
+        0.03125,
+        0.984375,
+        0.96875
+      ],
+      "metallic": 0,
+      "smoothness": 0.12
+    }
+  ]
+}

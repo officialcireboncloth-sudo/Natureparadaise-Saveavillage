@@ -89,6 +89,10 @@ public class ItemSO : ScriptableObject
     public int buyPrice;
     [Tooltip("Harga jual satu item. Nilai 0 berarti tidak dapat dijual normal.")]
     public int sellPrice;
+    [Tooltip("Harga tepat bintang 1-5 dari data balance. Kosong memakai harga legacy.")]
+    public int[] sellPricesByStars;
+    [Tooltip("Item normal asal mutasi. Harga mutasi adalah 3x harga item ini pada bintang yang sama.")]
+    public ItemSO mutationSourceItem;
 
     [Header("Inventory")]
     [Tooltip("Dipakai untuk sorting dan validasi fitur seperti eating atau tool selection.")]
@@ -130,6 +134,9 @@ public class ItemSO : ScriptableObject
 
     [Header("Crop Quality Booster")]
     [Range(1, 5)] public int cropBoosterLevel = 1;
+    [Tooltip("Hari efek pupuk kualitas aktif, termasuk hari pemakaian.")]
+    [Min(1)] public int cropBoosterDurationDays = 1;
+    public bool isMutatedCrop;
     // Field legacy dipertahankan untuk kompatibilitas asset, tidak memengaruhi growth.
     [HideInInspector] public int cropBoosterPercent;
     public int SoilRestoreAmount => soilRestoreAmount > 0 ? soilRestoreAmount :
@@ -240,7 +247,7 @@ public class ItemSO : ScriptableObject
 
     /// <summary>Aturan tunggal untuk barang yang boleh dititipkan pada Market Stand.</summary>
     public bool CanSellAtMarket =>
-        sellPrice > 0 &&
+        HasSellPrice &&
         !isKeyItem &&
         !isNotSellable &&
         category != ItemCategory.Tool &&
@@ -248,20 +255,35 @@ public class ItemSO : ScriptableObject
         equippedTool == PlayerToolType.None;
 
     /// <summary>
-    /// Harga jual aktual. Setiap quality star menambah 20%; ikan memakai ukuran
-    /// 5-100 cm untuk multiplier 0.75-1.75 jika ukuran tersedia.
+    /// Harga eksplisit per bintang bila tersedia; fallback legacy +20% per bintang.
+    /// Mutasi memakai 3x harga normal pada bintang yang sama; ikan mengikuti ukuran.
     /// </summary>
     public int GetMarketSellPrice(int qualityStars = 0, float fishSizeCm = 0f)
     {
         if (!CanSellAtMarket)
             return 0;
 
-        float qualityMultiplier = 1f + Mathf.Clamp(qualityStars, 0, 5) * 0.2f;
+        if (isMutatedCrop && mutationSourceItem != null && mutationSourceItem != this)
+            return (int)System.Math.Min(int.MaxValue, 3L * mutationSourceItem.NormalSellPrice(qualityStars, fishSizeCm));
+        return NormalSellPrice(qualityStars, fishSizeCm);
+    }
+
+    bool HasOwnSellPrice => sellPrice > 0 || sellPricesByStars != null && sellPricesByStars.Length == 5 &&
+        System.Array.Exists(sellPricesByStars, value => value > 0);
+    bool HasSellPrice => isMutatedCrop && mutationSourceItem != null && mutationSourceItem != this
+        ? mutationSourceItem.HasOwnSellPrice : HasOwnSellPrice;
+
+    int NormalSellPrice(int qualityStars, float fishSizeCm)
+    {
+        int stars = Mathf.Clamp(qualityStars, 0, 5);
+        bool explicitPrice = stars > 0 && sellPricesByStars != null && sellPricesByStars.Length == 5;
+        int qualitySteps=Mathf.Max(0,stars-(isAnimalProduct||category==ItemCategory.AnimalProduct?1:0));
+        float price = explicitPrice ? Mathf.Max(0, sellPricesByStars[stars - 1]) : sellPrice * (1f + qualitySteps * .2f);
         float sizeMultiplier = 1f;
         if (category == ItemCategory.Fish && fishSizeCm > 0f)
             sizeMultiplier = FishMeasurement.SizePriceMultiplier(this, fishSizeCm);
 
-        return Mathf.Max(1, Mathf.RoundToInt(sellPrice * qualityMultiplier * sizeMultiplier));
+        return price <= 0 ? 0 : Mathf.Max(1, Mathf.RoundToInt(price * sizeMultiplier));
     }
 
     /// <summary>True jika item memiliki setidaknya satu aksi world dan perlu divisualkan di tangan.</summary>

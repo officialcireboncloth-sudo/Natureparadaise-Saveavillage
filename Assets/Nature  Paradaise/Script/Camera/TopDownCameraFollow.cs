@@ -14,11 +14,18 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     [SerializeField] Vector3 focusOffset = new Vector3(0f, .75f, 0f);
 
     [Header("Top Down Framing")]
+    [Tooltip("Sudut dasar scene / interior. Di luar memakai Outdoor Pitch; marker Barn/Coop tetap dapat mengganti sudut interior.")]
     [SerializeField, Range(35f, 75f)] float pitch = 55f;
     [SerializeField, Range(-180f, 180f)] float yaw;
     [SerializeField, Min(1f)] float distance = 15f;
     [Tooltip("Ruang aman di atas terrain untuk bidang depan kamera saat zoom. Tidak mengubah ukuran atau sudut pandang.")]
     [SerializeField, Min(.25f)] float terrainClipClearance = 2f;
+
+    [Header("Outdoor Framing")]
+    [Tooltip("Sudut kamera di luar saja. Nilai lebih kecil memperlihatkan tanaman dari samping dengan lebih jelas.")]
+    [SerializeField, Range(25f, 75f)] float outdoorPitch = 30f;
+    [Tooltip("Batas zoom terdekat di luar. Level zoom dan framing interior tetap memakai nilai scene semula.")]
+    [SerializeField, Min(1f)] float outdoorMinimumZoomSize = 4.25f;
 
     [Header("Player Zoom")]
     [SerializeField] bool allowPlayerZoom = true;
@@ -46,6 +53,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     float baseOrthographicSize;
     float sceneOrthographicSize;
     float sceneFarClipPlane;
+    bool projectionInInterior;
     float nextGroundProbeTime, sampledSize, sampledAspect;
     Vector3 sampledFocus;
     float highestGround, lowestGround;
@@ -63,6 +71,12 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     public float Pitch => pitch;
     public float Yaw => yaw;
     public float FollowDistance => distance;
+    public float CurrentPitch => IsInterior ? pitch : outdoorPitch;
+
+    bool IsInterior => SceneTransitionManager.Instance != null && SceneTransitionManager.Instance.IsInsideInterior;
+    float ZoomSize(int index, bool interior) => index == 0 && !interior
+        ? Mathf.Min(zoomLevels[index], Mathf.Max(1f, outdoorMinimumZoomSize))
+        : zoomLevels[index];
 
     const string ZoomPreferenceKey = "NatureParadise.CameraZoomLevel";
 
@@ -75,7 +89,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
         zoomIndex = PlayerPrefs.HasKey(ZoomPreferenceKey)
             ? Mathf.Clamp(PlayerPrefs.GetInt(ZoomPreferenceKey), 0, zoomLevels.Length - 1)
             : FindClosestZoomLevel(sceneOrthographicSize);
-        baseOrthographicSize = zoomLevels[zoomIndex];
+        baseOrthographicSize = ZoomSize(zoomIndex, IsInterior);
         ApplyFixedRotation();
         RefreshProjection(true);
     }
@@ -183,6 +197,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     public void SetTarget(Transform newTarget, bool snapImmediately = true)
     {
         target = newTarget;
+        RefreshProjection(true);
         hasGroundProbe = false;
         followVelocity = Vector3.zero;
 
@@ -197,7 +212,7 @@ public sealed class TopDownCameraFollow : MonoBehaviour
         yaw=Mathf.Repeat(nextYaw+180f,360f)-180f;
         distance=Mathf.Max(1f,nextDistance);
         hasGroundProbe=false;
-        ApplyFixedRotation();
+        RefreshProjection(true);
         followVelocity=Vector3.zero;
         if(snapImmediately && target!=null) transform.position=GetDesiredPosition();
     }
@@ -213,11 +228,12 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     {
         EnsureZoomLevels();
         int next = Mathf.Clamp(index, 0, zoomLevels.Length - 1);
-        if (next == zoomIndex && Mathf.Approximately(baseOrthographicSize, zoomLevels[next]))
+        float size = ZoomSize(next, IsInterior);
+        if (next == zoomIndex && Mathf.Approximately(baseOrthographicSize, size))
             return;
 
         zoomIndex = next;
-        baseOrthographicSize = zoomLevels[zoomIndex];
+        baseOrthographicSize = size;
         PlayerPrefs.SetInt(ZoomPreferenceKey, zoomIndex);
         RefreshProjection(true);
     }
@@ -251,8 +267,8 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     float SafeFollowDistance(Vector3 focus)
     {
         float size=cachedCamera.orthographicSize,aspect=cachedCamera.aspect;
-        float sine=Mathf.Max(.1f,Mathf.Sin(pitch*Mathf.Deg2Rad));
-        float cosine=Mathf.Cos(pitch*Mathf.Deg2Rad);
+        float sine=Mathf.Max(.1f,Mathf.Sin(CurrentPitch*Mathf.Deg2Rad));
+        float cosine=Mathf.Cos(CurrentPitch*Mathf.Deg2Rad);
         var transition=SceneTransitionManager.Instance;
         bool interiorTerrain=transition!=null&&transition.IsInsideInterior;
         int terrainScene=interiorTerrain
@@ -289,23 +305,28 @@ public sealed class TopDownCameraFollow : MonoBehaviour
 
     void ApplyFixedRotation()
     {
-        transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
+        transform.rotation = Quaternion.Euler(CurrentPitch, yaw, 0f);
     }
 
     void RefreshProjection(bool force)
     {
         int screenWidth = Screen.width;
         int screenHeight = Screen.height;
+        bool interior = IsInterior;
 
         if (!force &&
             screenWidth == cachedScreenWidth &&
-            screenHeight == cachedScreenHeight)
+            screenHeight == cachedScreenHeight &&
+            interior == projectionInInterior)
         {
             return;
         }
 
         cachedScreenWidth = screenWidth;
         cachedScreenHeight = screenHeight;
+        projectionInInterior = interior;
+        baseOrthographicSize = ZoomSize(zoomIndex, interior);
+        ApplyFixedRotation();
 
         if (cachedCamera == null)
             cachedCamera = GetComponent<Camera>();
@@ -337,10 +358,10 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     int FindClosestZoomLevel(float size)
     {
         int closest = 0;
-        float difference = Mathf.Abs(zoomLevels[0] - size);
+        float difference = Mathf.Abs(ZoomSize(0, IsInterior) - size);
         for (int i = 1; i < zoomLevels.Length; i++)
         {
-            float candidate = Mathf.Abs(zoomLevels[i] - size);
+            float candidate = Mathf.Abs(ZoomSize(i, IsInterior) - size);
             if (candidate >= difference) continue;
             closest = i;
             difference = candidate;
@@ -354,6 +375,8 @@ public sealed class TopDownCameraFollow : MonoBehaviour
         EnsureZoomLevels();
         mobilePinchStepPixels = Mathf.Max(10f, mobilePinchStepPixels);
         maximumOrthographicSize = Mathf.Max(1f, maximumOrthographicSize);
+        outdoorPitch = Mathf.Clamp(outdoorPitch, 25f, 75f);
+        outdoorMinimumZoomSize = Mathf.Max(1f, outdoorMinimumZoomSize);
 
         if (!isActiveAndEnabled)
             return;

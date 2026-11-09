@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Broccoli
+  itemId: item.broccoli
+  m_EditorClassIdentifier: 
+  itemName: Brokoli
+  icon: {fileID: 21300000, guid: dbd94dd6c6cd448a822a8a85d2449f35, type: 3}
+  buyPrice: 0
+  sellPrice: 12
+  category: 2
+  isAnimalProduct: 0
+  maxStack: 16
+  equippedTool: 0
+  seedCrop: {fileID: 0}
+  fertilizerLevel: 0
+  requiredVillageLevel: 1
+  soilRestoreAmount: 0
+  cropBoosterLevel: 1
+  cropBoosterPercent: 0
+  canDropToWorld: 1
+  canPlaceInWorld: 0
+  worldPrefab: {fileID: 100, guid: da3ac34c83e34fbc809e26e7fe8217f8, type: 3}
+  worldScale: {x: 0.4, y: 0.4, z: 0.4}
+  sprinklerLevel: 0
+  treeDefinition: {fileID: 0}
+  isEdible: 1
+  foodPreparation: 2
+  healthRestore: 2
+  staminaRestore: 12
+  hungerRestore: 20
+  refrigeratorCategory: 1
+  inventoryIllustration: {fileID: 21300000, guid: dbd94dd6c6cd448a822a8a85d2449f35, type: 3}
+  inventoryDescription: Hasil panen Brokoli.

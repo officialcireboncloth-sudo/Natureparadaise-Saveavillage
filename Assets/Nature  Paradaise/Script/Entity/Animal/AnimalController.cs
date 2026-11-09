@@ -176,7 +176,8 @@ public class AnimalController : MonoBehaviour
         if(growth!=null && FeedTypes.Kind(cabbageItem)!=FeedTypes.ForAnimal(growth.Type))cabbageItem=catalog.FeedFor(growth.Type);
         if (favoriteTreatItem == null) favoriteTreatItem = catalog.treat;
         if (medicineItem == null) medicineItem = catalog.medicine;
-        if (milkItem == null && growth != null) milkItem = catalog.Product(growth.Type);
+        if(growth!=null&&!growth.ProducesProducts)milkItem=null;
+        else if (milkItem == null && growth != null) milkItem = catalog.Product(growth.Type);
     }
 
     void Update()

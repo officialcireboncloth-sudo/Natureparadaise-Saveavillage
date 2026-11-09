@@ -8,10 +8,11 @@ MonoBehaviour:
   itemId: item.egg
   itemName: Egg
   buyPrice: 0
-  sellPrice: 25
+  sellPrice: 100
   category: 7
   maxStack: 32
   canDropToWorld: 1
   worldPrefab: {fileID: 321993839436385943, guid: 9bc6b880096b1874e93dd7190661154b, type: 3}
   worldScale: {x: 0.85, y: 0.85, z: 0.85}
   refrigeratorCategory: 4
+  isAnimalProduct: 1

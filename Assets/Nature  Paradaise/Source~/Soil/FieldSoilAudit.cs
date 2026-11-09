@@ -40,7 +40,7 @@ public static class FieldSoilAudit
             Check(rules != null && rules.initialFertility == 80, "Shared rules asset linked");
             Check(rules.GetCondition(19) == FieldSoilCondition.Poor && rules.GetCondition(20) == FieldSoilCondition.Medium
                 && rules.GetCondition(49) == FieldSoilCondition.Medium && rules.GetCondition(50) == FieldSoilCondition.Good, "Condition boundaries");
-            Check(rules.GetQualityContribution(10) == 10 && rules.GetQualityContribution(25) == 25 && rules.GetQualityContribution(80) == 40, "10/25/40 quality contribution");
+            Check(rules.GetQualityContribution(10) == 5 && rules.GetQualityContribution(25) == 12.5f && rules.GetQualityContribution(80) == 40, "Linear fertility / 80 * 40 quality contribution");
             var inventory = new GameObject("Inventory fixture").AddComponent<Inventory>();
             Invoke(inventory, "Awake");
             FieldArea Create(int number, int columns, int rows)
@@ -150,18 +150,16 @@ public static class FieldSoilAudit
             Check(third.TryBeginSoilRestoration(inventory,ultra,out _), "Normal calendar test starts Terra");
             clock.AdvanceToNextDay();
             Check(third.SoilSnapshot.RemainingDays == 9, "Actual sleep/calendar event advances restoration exactly once");
-            int healthyFive = 0, poorFive = 0;
-            for (int i=0;i<1000;i++)
+            var perfectCare = new CropQualityCare();var poorCare = new CropQualityCare();
+            for(int d=1;d<=5;d++)
             {
-                CropQualityCare Care() => new CropQualityCare { days=5,wateredDays=5,boostedDays=5,bestBooster=3,minimumBooster=3,readyDay=1,roll=i/1000f };
-                var care = Care();
-                if(care.RollStars(crop,true,1,.4f)==5)healthyFive++;
-                if(Care().RollStars(crop,false,1,.1f)==5)poorFive++;
-                Check(care.RollStars(crop,true,1,.4f)==care.RollStars(crop,true,1,.4f), "Quality roll stable at sample " + i);
+                perfectCare.ApplyFertilizer(1,1);poorCare.ApplyFertilizer(1,1);
+                perfectCare.RecordDay(true,80,5,d);poorCare.RecordDay(true,10,5,d);
+                perfectCare.FinishDay();poorCare.FinishDay();
             }
-            Check(healthyFive > 0 && healthyFive < 1000 && poorFive == 0, "Good soil improves eligible quality without guaranteeing five stars");
-            var noCare = new CropQualityCare { days=5,wateredDays=4,roll=.999f };
-            Check(noCare.RollStars(crop,true,1,.4f)==1, "Full soil does not replace watering and crop care");
+            Check(perfectCare.Stars==5&&perfectCare.QualityPercent==100&&poorCare.Stars<5,"Perfect daily care guarantees five stars; poor fertility reduces the exact score");
+            var noCare = new CropQualityCare { targetGrowthDays=5,days=5,wateredDays=4 };
+            Check(noCare.Stars==1,"Missing recorded fertilizer and soil history cannot invent perfect care");
             Check(Object.FindFirstObjectByType<SaveManager>() == null, "No player save writer created during audit");
             report.AppendLine("SOIL_AUDIT_PASS checks="+checks);
             File.WriteAllText(output+"/Audit.txt",report.ToString());

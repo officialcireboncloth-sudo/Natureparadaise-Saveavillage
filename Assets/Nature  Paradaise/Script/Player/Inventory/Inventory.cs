@@ -232,6 +232,33 @@ public class Inventory : MonoBehaviour
         return freeSpace >= amount;
     }
 
+    bool batchCommitInProgress;
+    /// <summary>Commit all normal/mutation stacks once, or leave every slot untouched.</summary>
+    public bool TryAddBatch(IReadOnlyList<ItemStack> incoming)
+    {
+        if(batchCommitInProgress||incoming==null||incoming.Count==0)return false;
+        NormalizeSlots();
+        var prepared=new List<ItemStack>(slots.Count);
+        foreach(var s in slots)prepared.Add(!IsValid(s)?null:new ItemStack
+        {item=s.item,count=s.count,qualityStars=s.qualityStars,fishSizeCm=s.fishSizeCm,fishWeightKg=s.fishWeightKg});
+        foreach(var entry in incoming)
+        {
+            if(entry?.item==null||entry.count<=0)return false;
+            int left=entry.count,quality=Mathf.Clamp(entry.qualityStars,0,5);
+            float size=Mathf.Max(0,entry.fishSizeCm),weight=NormalizeFishWeight(entry.item,size,entry.fishWeightKg);
+            for(int i=0;i<prepared.Count&&left>0;i++)
+                if(IsCompatible(prepared[i],entry.item,quality,size,weight))
+                {int n=Mathf.Min(left,Mathf.Max(0,entry.item.StackLimit-prepared[i].count));prepared[i].count+=n;left-=n;}
+            for(int i=0;i<prepared.Count&&left>0;i++)
+                if(prepared[i]==null)
+                {int n=Mathf.Min(left,entry.item.StackLimit);prepared[i]=new ItemStack{item=entry.item,count=n,qualityStars=quality,fishSizeCm=size,fishWeightKg=weight};left-=n;}
+            if(left>0)return false;
+        }
+        batchCommitInProgress=true;
+        try{RestoreContents(BackpackLevel,prepared);return true;}
+        finally{batchCommitInProgress=false;}
+    }
+
     /// <summary>Menyortir area bag berdasarkan kategori tanpa mengubah slot hotbar.</summary>
     public void SortByCategory()
     {

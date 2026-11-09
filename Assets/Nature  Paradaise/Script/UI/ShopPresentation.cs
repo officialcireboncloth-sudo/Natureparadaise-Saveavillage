@@ -41,6 +41,16 @@ public static class ShopPresentation
  public static void Apply(ShopFront f)
  {
   if(f.uiRoot==null)return;
+  // The supermarket has an additional farming-supplies category. Older authored
+  // storefronts have five buttons; extend them before ShopFront binds callbacks.
+  if(f.catalog!=null&&f.catalog.kind==ShopKind.Minimarket&&f.tabs.Count>0)
+  {
+   while(f.tabs.Count<f.catalog.tabs.Count)
+   {
+    var template=f.tabs[0];var tab=Object.Instantiate(template,template.transform.parent,false);
+    tab.name=$"Category_{f.tabs.Count+1}_Editable";tab.onClick=new Button.ButtonClickedEvent();f.tabs.Add(tab);
+   }
+  }
   Surface(f.headerSurface);Surface(f.detailSurface);Surface(f.transactionSurface);
   foreach(var button in f.uiRoot.GetComponentsInChildren<Button>(true))
   {Surface(button.GetComponent<Image>());button.GetComponent<Image>().color=new Color(.27f,.34f,.28f,.96f);var colors=button.colors;colors.highlightedColor=new Color(1.12f,1.12f,1.12f,1);colors.pressedColor=new Color(.82f,.82f,.82f,1);colors.disabledColor=new Color(.65f,.65f,.65f,.65f);button.colors=colors;}
@@ -61,6 +71,19 @@ public static class ShopPresentation
    label.fontSize=label.fontSizeMax=22;
    if(label.text.Length>10)
    {var r=(RectTransform)tab.transform;r.anchorMax=new Vector2(Mathf.Max(r.anchorMax.x,r.anchorMin.x+.09f),r.anchorMax.y);}
+  }
+  if(f.catalog!=null&&f.catalog.kind==ShopKind.Minimarket)
+  {
+   int count=Mathf.Min(f.tabs.Count,f.catalog.tabs.Count);float units=0;
+   for(int i=0;i<count;i++)units+=f.catalog.tabs[i].title=="Perlengkapan Pertanian"?2.5f:1;
+   float x=.05f,unit=(.64f-Mathf.Max(0,count-1)*.006f)/Mathf.Max(1,units);
+   for(int i=0;i<count;i++)
+   {
+    float width=unit*(f.catalog.tabs[i].title=="Perlengkapan Pertanian"?2.5f:1);
+    Place(f.tabs[i],x,.84f,width,.045f);x+=width+.006f;
+    var label=f.tabs[i].GetComponentInChildren<TMP_Text>();
+    if(label!=null){label.text=f.catalog.tabs[i].title;label.enableAutoSizing=true;label.fontSizeMin=14;label.fontSizeMax=22;}
+   }
   }
   foreach(var card in f.cards)if(card.transform.Find("SelectionMarker")==null)CommerceUIStyle.Panel("SelectionMarker",card.transform,.12f,.005f,.76f,.012f,CommerceUIStyle.Sage);
   if(safe.Find("Shop_Subtitle") == null)

@@ -1,0 +1,110 @@
+{
+  "renderer": "Original tool artwork retouched in GIMP; native GIMP chemical artwork",
+  "runtime_size": [
+    128,
+    128
+  ],
+  "icons": [
+    {
+      "name": "Tool_Hoe",
+      "group": "Tools",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Tools\\icon_tool_hoe.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Retouched_Hoe.xcf",
+      "method": "Original artwork with subtle native GIMP color retouch"
+    },
+    {
+      "name": "Tool_Axe",
+      "group": "Tools",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Tools\\icon_tool_axe.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Retouched_Axe.xcf",
+      "method": "Original artwork with subtle native GIMP color retouch"
+    },
+    {
+      "name": "Tool_Hammer",
+      "group": "Tools",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Tools\\icon_tool_hammer.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Retouched_Hammer.xcf",
+      "method": "Original artwork with subtle native GIMP color retouch"
+    },
+    {
+      "name": "Tool_Pickaxe",
+      "group": "Tools",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Tools\\icon_tool_pickaxe.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Retouched_Pickaxe.xcf",
+      "method": "Original artwork with subtle native GIMP color retouch"
+    },
+    {
+      "name": "Tool_Pitchfork",
+      "group": "Tools",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Tools\\icon_tool_pitchfork.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Retouched_Pitchfork.xcf",
+      "method": "Original artwork with subtle native GIMP color retouch"
+    },
+    {
+      "name": "Tool_Sickle",
+      "group": "Tools",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Tools\\icon_tool_sickle.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Retouched_Sickle.xcf",
+      "method": "Original artwork with subtle native GIMP color retouch"
+    },
+    {
+      "name": "Tool_WateringCan",
+      "group": "Tools",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Tools\\icon_tool_watering_can.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Retouched_WateringCan.xcf",
+      "method": "Original artwork with subtle native GIMP color retouch"
+    },
+    {
+      "name": "Tool_FishingRod",
+      "group": "Tools",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Tools\\icon_tool_fishing_rod.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Retouched_FishingRod.xcf",
+      "method": "Original artwork with subtle native GIMP color retouch"
+    },
+    {
+      "name": "Tool_Shears",
+      "group": "Tools",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Tools\\icon_tool_shears.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Retouched_Shears.xcf",
+      "method": "Original artwork with subtle native GIMP color retouch"
+    },
+    {
+      "name": "Tool_Brush",
+      "group": "Tools",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Tools\\icon_tool_brush.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Retouched_Brush.xcf",
+      "method": "Original artwork with subtle native GIMP color retouch"
+    },
+    {
+      "name": "Tool_Milker",
+      "group": "Tools",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Tools\\icon_tool_milker.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Retouched_Milker.xcf",
+      "method": "Original artwork with subtle native GIMP color retouch"
+    },
+    {
+      "name": "Chemical_Calcium",
+      "group": "FertilizerMaker",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\FertilizerMaker\\icon_chemical_calcium.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Chemical_Calcium.xcf"
+    },
+    {
+      "name": "Chemical_Phosphate",
+      "group": "FertilizerMaker",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\FertilizerMaker\\icon_chemical_phosphate.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Chemical_Phosphate.xcf"
+    },
+    {
+      "name": "Chemical_Urea",
+      "group": "FertilizerMaker",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\FertilizerMaker\\icon_chemical_urea.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Chemical_Urea.xcf"
+    },
+    {
+      "name": "Chemical_Potassium",
+      "group": "FertilizerMaker",
+      "file": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\FertilizerMaker\\icon_chemical_potassium.png",
+      "master": "ArtSource\\UIIcons\\HandPainted\\Chemical_Potassium.xcf"
+    }
+  ]
+}

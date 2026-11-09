@@ -200,8 +200,8 @@ public class FarmingTool : MonoBehaviour
                 ? "soil perlu pupuk setelah panen"
                 : "soil sangat subur";
         string boosterClue = snapshot.BoosterLevelToday > 0
-            ? $"booster kualitas Lv.{snapshot.BoosterLevelToday} hari ini"
-            : "booster belum aktif";
+            ? $"pupuk aktif {snapshot.FertilizerDaysRemaining} hari"
+            : "efek pupuk belum aktif";
 
         string text = snapshot.CropState switch
         {
@@ -214,6 +214,7 @@ public class FarmingTool : MonoBehaviour
                  $"{Mathf.CeilToInt(snapshot.Crop.TotalGrowthDays)} hari | " +
                  $"{waterClue} | {fertilizerClue} | {boosterClue}"
         };
+        text += $"\nKualitas {snapshot.QualityPercent:0.00}% | Pupuk {snapshot.FertilizerPercent:0.00}/40 | Tanah {snapshot.SoilPercent:0.00}/40 | Air {snapshot.WaterPercent:0.00}/20";
         float distance = Vector3.Distance(transform.position, promptPosition);
         WorldInteractionPrompt.Request(this, promptPosition, text, distance);
     }
@@ -627,9 +628,12 @@ public class FarmingTool : MonoBehaviour
             return;
         }
 
-        if (!currentField.TryApplyCropBooster(currentX, currentZ, booster.cropBoosterLevel))
+        bool treeTarget=WorldTree.TryFindFruitTree(currentField.GridToWorld(currentX,currentZ),currentField.CellSize*.45f,out var tree);
+        bool applied=treeTarget?tree.TryApplyQualityFertilizer(booster.cropBoosterLevel,Mathf.Max(1,booster.cropBoosterDurationDays)):
+            currentField.TryApplyCropBooster(currentX,currentZ,booster.cropBoosterLevel,Mathf.Max(1,booster.cropBoosterDurationDays));
+        if (!applied)
         {
-            ShowFeedback("Booster hanya untuk tanaman tumbuh, maksimal sekali sehari");
+            ShowFeedback("Pupuk untuk tanaman/pohon tumbuh yang belum siap panen dan efeknya belum aktif");
             return;
         }
 
@@ -640,7 +644,7 @@ public class FarmingTool : MonoBehaviour
         }
 
         SpendStamina(cropBoosterCost);
-        ShowFeedback($"Booster kualitas Lv.{booster.cropBoosterLevel} hari ini. Growth/yield tetap");
+        ShowFeedback($"{booster.itemName} aktif {Mathf.Max(1, booster.cropBoosterDurationDays)} hari");
     }
 
     void BuildHoeTargets()
@@ -734,7 +738,8 @@ public class FarmingTool : MonoBehaviour
                          (selectedTool == PlayerToolType.WateringCan
                              ? snapshot.State == TileState.Hoed || snapshot.State == TileState.Planted
                              : selectedTool == PlayerToolType.CropBooster
-                                 ? snapshot.State == TileState.Planted
+                                   ? WorldTree.TryFindFruitTree(currentField.GridToWorld(currentX,currentZ),currentField.CellSize*.45f,out var fruitTree)
+                                       ? fruitTree.CanApplyQualityFertilizer : snapshot.State == TileState.Planted
                                  : currentField.CanFertilize(currentX, currentZ));
             hoeTargets.Add(new HoeTileTarget(currentField, currentX, currentZ, valid));
         }

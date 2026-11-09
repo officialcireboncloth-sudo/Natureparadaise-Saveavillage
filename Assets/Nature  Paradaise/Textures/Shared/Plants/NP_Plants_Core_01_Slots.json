@@ -1,0 +1,1433 @@
+{
+  "version": 1,
+  "name": "NP_Plants_Core_01",
+  "colorSize": [
+    1024,
+    1024
+  ],
+  "normalSize": [
+    1024,
+    1024
+  ],
+  "maskSize": [
+    1024,
+    1024
+  ],
+  "paddingPixels": 10,
+  "normalConvention": "Tangent +Y, GIMP GEGL normal-map",
+  "surfaceMaskChannels": {
+    "R": "metallic (zero)",
+    "A": "smoothness"
+  },
+  "authoring": "Native GIMP 3, editable per-slot layers from deterministic vector brush masters",
+  "slots": [
+    {
+      "name": "LeafBrassica",
+      "index": 0,
+      "pixelRectTopLeft": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.884765625,
+        0.115234375,
+        0.990234375
+      ],
+      "base": "#28744b",
+      "highlight": "#58a066",
+      "shadow": "#164b35",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.36
+    },
+    {
+      "name": "LeafCabbage",
+      "index": 1,
+      "pixelRectTopLeft": [
+        128,
+        0,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.884765625,
+        0.240234375,
+        0.990234375
+      ],
+      "base": "#428829",
+      "highlight": "#79af40",
+      "shadow": "#24591e",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.34
+    },
+    {
+      "name": "LeafCabbageInner",
+      "index": 2,
+      "pixelRectTopLeft": [
+        256,
+        0,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.884765625,
+        0.365234375,
+        0.990234375
+      ],
+      "base": "#91b93d",
+      "highlight": "#bdd45e",
+      "shadow": "#628c29",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.36
+    },
+    {
+      "name": "LeafOval",
+      "index": 3,
+      "pixelRectTopLeft": [
+        384,
+        0,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.884765625,
+        0.490234375,
+        0.990234375
+      ],
+      "base": "#588d38",
+      "highlight": "#93b950",
+      "shadow": "#386629",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.19
+    },
+    {
+      "name": "LeafSerrated",
+      "index": 4,
+      "pixelRectTopLeft": [
+        512,
+        0,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.884765625,
+        0.615234375,
+        0.990234375
+      ],
+      "base": "#3e7d37",
+      "highlight": "#7eac4a",
+      "shadow": "#285b2c",
+      "pattern": "serrated",
+      "metallic": 0,
+      "smoothness": 0.17
+    },
+    {
+      "name": "LeafLobed",
+      "index": 5,
+      "pixelRectTopLeft": [
+        640,
+        0,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.884765625,
+        0.740234375,
+        0.990234375
+      ],
+      "base": "#638c3c",
+      "highlight": "#9bb55a",
+      "shadow": "#3f672e",
+      "pattern": "lobed",
+      "metallic": 0,
+      "smoothness": 0.16
+    },
+    {
+      "name": "LeafVineRound",
+      "index": 6,
+      "pixelRectTopLeft": [
+        768,
+        0,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.884765625,
+        0.865234375,
+        0.990234375
+      ],
+      "base": "#72a23c",
+      "highlight": "#abd060",
+      "shadow": "#47722c",
+      "pattern": "roundleaf",
+      "metallic": 0,
+      "smoothness": 0.19
+    },
+    {
+      "name": "LeafVineHeart",
+      "index": 7,
+      "pixelRectTopLeft": [
+        896,
+        0,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.884765625,
+        0.990234375,
+        0.990234375
+      ],
+      "base": "#4b8c38",
+      "highlight": "#95bb51",
+      "shadow": "#2e612c",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.19
+    },
+    {
+      "name": "LeafStrap",
+      "index": 8,
+      "pixelRectTopLeft": [
+        0,
+        128,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.759765625,
+        0.115234375,
+        0.865234375
+      ],
+      "base": "#719b35",
+      "highlight": "#b6c45f",
+      "shadow": "#45692a",
+      "pattern": "strap",
+      "metallic": 0,
+      "smoothness": 0.16
+    },
+    {
+      "name": "LeafNarrow",
+      "index": 9,
+      "pixelRectTopLeft": [
+        128,
+        128,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.759765625,
+        0.240234375,
+        0.865234375
+      ],
+      "base": "#75906b",
+      "highlight": "#a9b6a0",
+      "shadow": "#4f715c",
+      "pattern": "strap",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "LeafOrchid",
+      "index": 10,
+      "pixelRectTopLeft": [
+        256,
+        128,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.759765625,
+        0.365234375,
+        0.865234375
+      ],
+      "base": "#568841",
+      "highlight": "#a4b967",
+      "shadow": "#345f35",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.25
+    },
+    {
+      "name": "LeafBean",
+      "index": 11,
+      "pixelRectTopLeft": [
+        384,
+        128,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.759765625,
+        0.490234375,
+        0.865234375
+      ],
+      "base": "#62993b",
+      "highlight": "#a2bc59",
+      "shadow": "#3d712b",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.18
+    },
+    {
+      "name": "LeafYoung",
+      "index": 12,
+      "pixelRectTopLeft": [
+        512,
+        128,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.759765625,
+        0.615234375,
+        0.865234375
+      ],
+      "base": "#65a42c",
+      "highlight": "#a1c94a",
+      "shadow": "#3b7821",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.38
+    },
+    {
+      "name": "LeafDark",
+      "index": 13,
+      "pixelRectTopLeft": [
+        640,
+        128,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.759765625,
+        0.740234375,
+        0.865234375
+      ],
+      "base": "#397137",
+      "highlight": "#75a04c",
+      "shadow": "#214f2d",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.2
+    },
+    {
+      "name": "LeafSage",
+      "index": 14,
+      "pixelRectTopLeft": [
+        768,
+        128,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.759765625,
+        0.865234375,
+        0.865234375
+      ],
+      "base": "#829578",
+      "highlight": "#b2bf9c",
+      "shadow": "#536e59",
+      "pattern": "strap",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "LeafWaterSpinach",
+      "index": 15,
+      "pixelRectTopLeft": [
+        896,
+        128,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.759765625,
+        0.990234375,
+        0.865234375
+      ],
+      "base": "#629c40",
+      "highlight": "#a5c65c",
+      "shadow": "#3c752f",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.2
+    },
+    {
+      "name": "StemGreen",
+      "index": 16,
+      "pixelRectTopLeft": [
+        0,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.634765625,
+        0.115234375,
+        0.740234375
+      ],
+      "base": "#609d2c",
+      "highlight": "#97c447",
+      "shadow": "#387322",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.3
+    },
+    {
+      "name": "StemPurple",
+      "index": 17,
+      "pixelRectTopLeft": [
+        128,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.634765625,
+        0.240234375,
+        0.740234375
+      ],
+      "base": "#655446",
+      "highlight": "#a18368",
+      "shadow": "#423e36",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.15
+    },
+    {
+      "name": "RootCream",
+      "index": 18,
+      "pixelRectTopLeft": [
+        256,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.634765625,
+        0.365234375,
+        0.740234375
+      ],
+      "base": "#c6b88d",
+      "highlight": "#eee1b7",
+      "shadow": "#9b8a66",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "SepalGreen",
+      "index": 19,
+      "pixelRectTopLeft": [
+        384,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.634765625,
+        0.490234375,
+        0.740234375
+      ],
+      "base": "#527b2d",
+      "highlight": "#9aad4b",
+      "shadow": "#325823",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.16
+    },
+    {
+      "name": "SeedTan",
+      "index": 20,
+      "pixelRectTopLeft": [
+        512,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.634765625,
+        0.615234375,
+        0.740234375
+      ],
+      "base": "#ba8547",
+      "highlight": "#dfb870",
+      "shadow": "#80562f",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "SeedBrown",
+      "index": 21,
+      "pixelRectTopLeft": [
+        640,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.634765625,
+        0.740234375,
+        0.740234375
+      ],
+      "base": "#765438",
+      "highlight": "#b18b58",
+      "shadow": "#4b382b",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "SeedBlack",
+      "index": 22,
+      "pixelRectTopLeft": [
+        768,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.634765625,
+        0.865234375,
+        0.740234375
+      ],
+      "base": "#343630",
+      "highlight": "#716b51",
+      "shadow": "#232720",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "SeedCream",
+      "index": 23,
+      "pixelRectTopLeft": [
+        896,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.634765625,
+        0.990234375,
+        0.740234375
+      ],
+      "base": "#d7c18b",
+      "highlight": "#f2e4b6",
+      "shadow": "#a58c59",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "LeafUnderside",
+      "index": 24,
+      "pixelRectTopLeft": [
+        0,
+        384,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.509765625,
+        0.115234375,
+        0.615234375
+      ],
+      "base": "#8ba474",
+      "highlight": "#bac994",
+      "shadow": "#5b7d52",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "LeafPurpleVein",
+      "index": 25,
+      "pixelRectTopLeft": [
+        128,
+        384,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.509765625,
+        0.240234375,
+        0.615234375
+      ],
+      "base": "#66804e",
+      "highlight": "#a5ad6c",
+      "shadow": "#4b6440",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.17
+    },
+    {
+      "name": "LeafSunflower",
+      "index": 26,
+      "pixelRectTopLeft": [
+        256,
+        384,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.509765625,
+        0.365234375,
+        0.615234375
+      ],
+      "base": "#689143",
+      "highlight": "#a6bb63",
+      "shadow": "#42672f",
+      "pattern": "serrated",
+      "metallic": 0,
+      "smoothness": 0.15
+    },
+    {
+      "name": "LeafHibiscus",
+      "index": 27,
+      "pixelRectTopLeft": [
+        384,
+        384,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.509765625,
+        0.490234375,
+        0.615234375
+      ],
+      "base": "#39813f",
+      "highlight": "#84ac59",
+      "shadow": "#235b32",
+      "pattern": "serrated",
+      "metallic": 0,
+      "smoothness": 0.2
+    },
+    {
+      "name": "LeafRose",
+      "index": 28,
+      "pixelRectTopLeft": [
+        512,
+        384,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.509765625,
+        0.615234375,
+        0.615234375
+      ],
+      "base": "#426c3a",
+      "highlight": "#85a25a",
+      "shadow": "#2b4c2d",
+      "pattern": "serrated",
+      "metallic": 0,
+      "smoothness": 0.2
+    },
+    {
+      "name": "LeafMarigold",
+      "index": 29,
+      "pixelRectTopLeft": [
+        640,
+        384,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.509765625,
+        0.740234375,
+        0.615234375
+      ],
+      "base": "#538940",
+      "highlight": "#96af5d",
+      "shadow": "#346630",
+      "pattern": "strap",
+      "metallic": 0,
+      "smoothness": 0.14
+    },
+    {
+      "name": "LeafChrysanthemum",
+      "index": 30,
+      "pixelRectTopLeft": [
+        768,
+        384,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.509765625,
+        0.865234375,
+        0.615234375
+      ],
+      "base": "#648649",
+      "highlight": "#a3b96a",
+      "shadow": "#415f31",
+      "pattern": "lobed",
+      "metallic": 0,
+      "smoothness": 0.16
+    },
+    {
+      "name": "LeafDahlia",
+      "index": 31,
+      "pixelRectTopLeft": [
+        896,
+        384,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.509765625,
+        0.990234375,
+        0.615234375
+      ],
+      "base": "#587940",
+      "highlight": "#9cad61",
+      "shadow": "#36542e",
+      "pattern": "serrated",
+      "metallic": 0,
+      "smoothness": 0.16
+    },
+    {
+      "name": "StemPale",
+      "index": 32,
+      "pixelRectTopLeft": [
+        0,
+        512,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.384765625,
+        0.115234375,
+        0.490234375
+      ],
+      "base": "#80b638",
+      "highlight": "#b4d25a",
+      "shadow": "#508b27",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.32
+    },
+    {
+      "name": "BarkYoung",
+      "index": 33,
+      "pixelRectTopLeft": [
+        128,
+        512,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.384765625,
+        0.240234375,
+        0.490234375
+      ],
+      "base": "#8a6a3d",
+      "highlight": "#c8a16b",
+      "shadow": "#5f472d",
+      "pattern": "bark",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "BarkBrown",
+      "index": 34,
+      "pixelRectTopLeft": [
+        256,
+        512,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.384765625,
+        0.365234375,
+        0.490234375
+      ],
+      "base": "#725037",
+      "highlight": "#ac8156",
+      "shadow": "#483727",
+      "pattern": "bark",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "BarkBerryRed",
+      "index": 35,
+      "pixelRectTopLeft": [
+        384,
+        512,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.384765625,
+        0.490234375,
+        0.490234375
+      ],
+      "base": "#855247",
+      "highlight": "#b98566",
+      "shadow": "#563c36",
+      "pattern": "bark",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "RootGray",
+      "index": 36,
+      "pixelRectTopLeft": [
+        512,
+        512,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.384765625,
+        0.615234375,
+        0.490234375
+      ],
+      "base": "#a5ac8e",
+      "highlight": "#d0d3b2",
+      "shadow": "#747f68",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.15
+    },
+    {
+      "name": "RootTip",
+      "index": 37,
+      "pixelRectTopLeft": [
+        640,
+        512,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.384765625,
+        0.740234375,
+        0.490234375
+      ],
+      "base": "#d2c8a5",
+      "highlight": "#f2e8c6",
+      "shadow": "#ab9c75",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.13
+    },
+    {
+      "name": "Tendril",
+      "index": 38,
+      "pixelRectTopLeft": [
+        768,
+        512,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.384765625,
+        0.865234375,
+        0.490234375
+      ],
+      "base": "#72963d",
+      "highlight": "#aabd5a",
+      "shadow": "#4b702e",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.17
+    },
+    {
+      "name": "Thorn",
+      "index": 39,
+      "pixelRectTopLeft": [
+        896,
+        512,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.384765625,
+        0.990234375,
+        0.490234375
+      ],
+      "base": "#7a6341",
+      "highlight": "#ac976a",
+      "shadow": "#51452f",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.13
+    },
+    {
+      "name": "SeedGreen",
+      "index": 40,
+      "pixelRectTopLeft": [
+        0,
+        640,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.259765625,
+        0.115234375,
+        0.365234375
+      ],
+      "base": "#92a154",
+      "highlight": "#c3cd80",
+      "shadow": "#65773b",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "SeedGrain",
+      "index": 41,
+      "pixelRectTopLeft": [
+        128,
+        640,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.259765625,
+        0.240234375,
+        0.365234375
+      ],
+      "base": "#c2a355",
+      "highlight": "#ead083",
+      "shadow": "#90753c",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "SeedStripe",
+      "index": 42,
+      "pixelRectTopLeft": [
+        256,
+        640,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.259765625,
+        0.365234375,
+        0.365234375
+      ],
+      "base": "#3b3b30",
+      "highlight": "#c9bb91",
+      "shadow": "#252b25",
+      "pattern": "seedstripe",
+      "metallic": 0,
+      "smoothness": 0.13
+    },
+    {
+      "name": "BulbSkin",
+      "index": 43,
+      "pixelRectTopLeft": [
+        384,
+        640,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.259765625,
+        0.490234375,
+        0.365234375
+      ],
+      "base": "#bd894b",
+      "highlight": "#e3bf7c",
+      "shadow": "#8a622f",
+      "pattern": "onion",
+      "metallic": 0,
+      "smoothness": 0.15
+    },
+    {
+      "name": "SoilDark",
+      "index": 44,
+      "pixelRectTopLeft": [
+        512,
+        640,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.259765625,
+        0.615234375,
+        0.365234375
+      ],
+      "base": "#604931",
+      "highlight": "#896a47",
+      "shadow": "#3b3024",
+      "pattern": "speckle",
+      "metallic": 0,
+      "smoothness": 0.08
+    },
+    {
+      "name": "SoilLight",
+      "index": 45,
+      "pixelRectTopLeft": [
+        640,
+        640,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.259765625,
+        0.740234375,
+        0.365234375
+      ],
+      "base": "#997345",
+      "highlight": "#b99664",
+      "shadow": "#735638",
+      "pattern": "speckle",
+      "metallic": 0,
+      "smoothness": 0.08
+    },
+    {
+      "name": "BudGreen",
+      "index": 46,
+      "pixelRectTopLeft": [
+        768,
+        640,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.259765625,
+        0.865234375,
+        0.365234375
+      ],
+      "base": "#809b3e",
+      "highlight": "#bec469",
+      "shadow": "#506e2d",
+      "pattern": "petal",
+      "metallic": 0,
+      "smoothness": 0.17
+    },
+    {
+      "name": "BudPale",
+      "index": 47,
+      "pixelRectTopLeft": [
+        896,
+        640,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.259765625,
+        0.990234375,
+        0.365234375
+      ],
+      "base": "#acc06d",
+      "highlight": "#d6dc9f",
+      "shadow": "#7b954a",
+      "pattern": "petal",
+      "metallic": 0,
+      "smoothness": 0.18
+    },
+    {
+      "name": "CutStem",
+      "index": 48,
+      "pixelRectTopLeft": [
+        0,
+        768,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.134765625,
+        0.115234375,
+        0.240234375
+      ],
+      "base": "#bfd17d",
+      "highlight": "#e1e8ae",
+      "shadow": "#8da35d",
+      "pattern": "rings",
+      "metallic": 0,
+      "smoothness": 0.14
+    },
+    {
+      "name": "HollowStem",
+      "index": 49,
+      "pixelRectTopLeft": [
+        128,
+        768,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.134765625,
+        0.240234375,
+        0.240234375
+      ],
+      "base": "#94b85b",
+      "highlight": "#c4d885",
+      "shadow": "#547c37",
+      "pattern": "rings",
+      "metallic": 0,
+      "smoothness": 0.17
+    },
+    {
+      "name": "LeafDry",
+      "index": 50,
+      "pixelRectTopLeft": [
+        256,
+        768,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.134765625,
+        0.365234375,
+        0.240234375
+      ],
+      "base": "#ad9e55",
+      "highlight": "#d0bd79",
+      "shadow": "#817541",
+      "pattern": "strap",
+      "metallic": 0,
+      "smoothness": 0.1
+    },
+    {
+      "name": "StemGold",
+      "index": 51,
+      "pixelRectTopLeft": [
+        384,
+        768,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.134765625,
+        0.490234375,
+        0.240234375
+      ],
+      "base": "#bfaa55",
+      "highlight": "#e4cd82",
+      "shadow": "#907b3c",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "LeafWarm",
+      "index": 52,
+      "pixelRectTopLeft": [
+        512,
+        768,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.134765625,
+        0.615234375,
+        0.240234375
+      ],
+      "base": "#7f9b41",
+      "highlight": "#b9c264",
+      "shadow": "#526f30",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.16
+    },
+    {
+      "name": "LeafCool",
+      "index": 53,
+      "pixelRectTopLeft": [
+        640,
+        768,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.134765625,
+        0.740234375,
+        0.240234375
+      ],
+      "base": "#4e8474",
+      "highlight": "#90b4a1",
+      "shadow": "#315b57",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.17
+    },
+    {
+      "name": "VeinCream",
+      "index": 54,
+      "pixelRectTopLeft": [
+        768,
+        768,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.134765625,
+        0.865234375,
+        0.240234375
+      ],
+      "base": "#c1cf92",
+      "highlight": "#e2e8b6",
+      "shadow": "#8da46a",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.16
+    },
+    {
+      "name": "VeinGreen",
+      "index": 55,
+      "pixelRectTopLeft": [
+        896,
+        768,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.134765625,
+        0.990234375,
+        0.240234375
+      ],
+      "base": "#a1bd74",
+      "highlight": "#cbda96",
+      "shadow": "#6e954c",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.17
+    },
+    {
+      "name": "FlowerWhite",
+      "index": 56,
+      "pixelRectTopLeft": [
+        0,
+        896,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.009765625,
+        0.115234375,
+        0.115234375
+      ],
+      "base": "#e9e0b9",
+      "highlight": "#fff3d7",
+      "shadow": "#c7c798",
+      "pattern": "petal",
+      "metallic": 0,
+      "smoothness": 0.18
+    },
+    {
+      "name": "FlowerGold",
+      "index": 57,
+      "pixelRectTopLeft": [
+        128,
+        896,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.009765625,
+        0.240234375,
+        0.115234375
+      ],
+      "base": "#dcae36",
+      "highlight": "#f6d56b",
+      "shadow": "#b78228",
+      "pattern": "petal",
+      "metallic": 0,
+      "smoothness": 0.2
+    },
+    {
+      "name": "FlowerPurple",
+      "index": 58,
+      "pixelRectTopLeft": [
+        256,
+        896,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.009765625,
+        0.365234375,
+        0.115234375
+      ],
+      "base": "#9c70ad",
+      "highlight": "#c59bce",
+      "shadow": "#6d4d84",
+      "pattern": "petal",
+      "metallic": 0,
+      "smoothness": 0.2
+    },
+    {
+      "name": "PollenGold",
+      "index": 59,
+      "pixelRectTopLeft": [
+        384,
+        896,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.009765625,
+        0.490234375,
+        0.115234375
+      ],
+      "base": "#d5a33b",
+      "highlight": "#f3cb64",
+      "shadow": "#a77728",
+      "pattern": "speckle",
+      "metallic": 0,
+      "smoothness": 0.13
+    },
+    {
+      "name": "FruitUnripe",
+      "index": 60,
+      "pixelRectTopLeft": [
+        512,
+        896,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.009765625,
+        0.615234375,
+        0.115234375
+      ],
+      "base": "#8ba743",
+      "highlight": "#c2cd6d",
+      "shadow": "#597b30",
+      "pattern": "fruit",
+      "metallic": 0,
+      "smoothness": 0.25
+    },
+    {
+      "name": "LeafBud",
+      "index": 61,
+      "pixelRectTopLeft": [
+        640,
+        896,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.009765625,
+        0.740234375,
+        0.115234375
+      ],
+      "base": "#719946",
+      "highlight": "#b0c368",
+      "shadow": "#456c32",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.17
+    },
+    {
+      "name": "SeedPink",
+      "index": 62,
+      "pixelRectTopLeft": [
+        768,
+        896,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.009765625,
+        0.865234375,
+        0.115234375
+      ],
+      "base": "#ac765f",
+      "highlight": "#d6a680",
+      "shadow": "#784f42",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12
+    },
+    {
+      "name": "SeedWhite",
+      "index": 63,
+      "pixelRectTopLeft": [
+        896,
+        896,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.009765625,
+        0.990234375,
+        0.115234375
+      ],
+      "base": "#ded9b3",
+      "highlight": "#f8f1d5",
+      "shadow": "#b7b38b",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12
+    }
+  ]
+}

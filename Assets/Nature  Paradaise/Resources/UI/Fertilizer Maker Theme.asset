@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 923c133e32714224d8265e0766996807, type: 3}
+  m_Name: Fertilizer Maker Theme
+  m_EditorClassIdentifier: 
+  background: {fileID: 0}
+  fertilizerIcons:
+  - {fileID: 21300000, guid: 3f691a7137774160b8db14495cd30b1e, type: 3}
+  - {fileID: 21300000, guid: 0950ab1a84ac4db1ae87c7517b6116d1, type: 3}
+  - {fileID: 21300000, guid: 7573442252f84e0d815ab8d755270bbf, type: 3}
+  - {fileID: 21300000, guid: da248c2f2f994d739d35934dbb707b79, type: 3}
+  fishIcon: {fileID: 21300000, guid: 00014b2dacda4d7ba2bdbe44925aa094, type: 3}
+  manureIcon: {fileID: 21300000, guid: bded692372444d23ae79e3747b986ea3, type: 3}
+  shellIcon: {fileID: 21300000, guid: 7d25e8baf99c4f08a16ca52a0c181ae5, type: 3}
+  mineralIcon: {fileID: 21300000, guid: 7f8b2376a1734eeca074f024876db4bf, type: 3}
+  panel: {r: 0.145, g: 0.19, b: 0.17, a: 0.96}
+  border: {r: 0.64, g: 0.7, b: 0.64, a: 0.45}
+  selected: {r: 0.22, g: 0.29, b: 0.2, a: 0.82}
+  selectedBorder: {r: 0.79, g: 0.91, b: 0.7, a: 1}

@@ -10,6 +10,15 @@ public sealed partial class FieldArea
     [SerializeField] FieldSoilRulesSO fieldSoilRules;
     FieldSoilState fieldSoil;
     bool soilTransactionInProgress;
+    int careSoilDay=-1,careSoilFertility;
+    /// <summary>Same completed-day soil sample for crops and trees, regardless of event subscriber order.</summary>
+    public int FertilityForCare(int calendarDay,int x,int z)
+    {
+        if(!UsesFieldSoil)return TryGetSnapshot(x,z,out var tile)?tile.SoilDurability:0;
+        if(careSoilDay!=calendarDay)
+        {careSoilFertility=SoilSnapshot.Fertility;careSoilDay=calendarDay;}
+        return careSoilFertility;
+    }
 
     public int FieldNumber => fieldNumber;
     public bool UsesFieldSoil => fieldNumber > 0;
@@ -123,6 +132,7 @@ public sealed partial class FieldArea
     {
         if (!UsesFieldSoil) return;
         InitializeFieldSoil();
+        FertilityForCare(day-1,0,0);
         bool occupied = false;
         if (tiles != null)
             foreach (int index in activeTileIndices)
@@ -133,6 +143,7 @@ public sealed partial class FieldArea
 
     void RestoreFieldSoil(FieldSaveData data)
     {
+        careSoilDay=-1;
         if (!UsesFieldSoil) return;
         InitializeFieldSoil();
         if (data.soil != null) fieldSoil = data.soil.Copy();

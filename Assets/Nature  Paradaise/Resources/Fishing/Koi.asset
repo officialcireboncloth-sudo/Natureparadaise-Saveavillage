@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f1b74e18d9044519beb95912588f4e1, type: 3}
+  m_Name: Koi
+  m_EditorClassIdentifier: 
+  fishId: fish.koi
+  item: {fileID: 11400000, guid: 4437258f3325cfe428d65549f53ce97c, type: 2}
+  rarity: 1
+  waterTypes: 7
+  seasons: 15
+  weather: 4095
+  startHour: 0
+  endHour: 24
+  requiredRodLevel: 1
+  encounterWeight: 0.8
+  minimumCastPower: 0
+  minimumBiteWait: 2
+  maximumBiteWait: 5
+  hookWindow: 1.25
+  catchZoneSize: 0.38
+  fishMoveSpeed: 0.35
+  progressGainPerSecond: 0.28
+  progressLossPerSecond: 0.12
+  timeLimit: 24
+  minimumSizeCm: 15
+  maximumSizeCm: 75
+  pondMediumSizeCm: 25
+  pondLargeSizeCm: 45
+  pondJumboSizeCm: 65
+  pondSmallGrowthDays: 7
+  pondMediumGrowthDays: 10
+  pondLargeGrowthDays: 14

@@ -41,10 +41,10 @@ public static class KitchenRecipeCsvDatabase
     static void ReadRows(bool apply)
     {
         if (!File.Exists(CsvPath)) { Debug.LogError($"[RECIPE CSV] File tidak ditemukan: {CsvPath}"); return; }
-        List<string[]> table = Parse(File.ReadAllText(CsvPath));
-        if (table.Count == 0) { Debug.LogError("[RECIPE CSV] File kosong."); return; }
-        Dictionary<string, int> header = table[0].Select((name, index) => (name, index))
-            .ToDictionary(value => value.name.Trim(), value => value.index, StringComparer.OrdinalIgnoreCase);
+        var parsed = BalanceCsvDatabase.Csv.Read(CsvPath,out string[] columns,out string csvError);
+        if(csvError!=null){Debug.LogError("[RECIPE CSV] "+csvError);return;}
+        var table=new List<string[]>{columns};table.AddRange(parsed.Select(row=>columns.Select(c=>row[c]).ToArray()));
+        Dictionary<string,int> header=columns.Select((name,index)=>(name,index)).ToDictionary(v=>v.name,v=>v.index,StringComparer.OrdinalIgnoreCase);
         List<string> missing = Columns.Where(name => !header.ContainsKey(name)).ToList();
         if (missing.Count > 0) { Debug.LogError($"[RECIPE CSV] Kolom hilang: {string.Join(", ", missing)}"); return; }
         Dictionary<string, ItemSO> items = LoadAssets<ItemSO>().GroupBy(value => value.Id, StringComparer.OrdinalIgnoreCase)
@@ -76,13 +76,13 @@ public static class KitchenRecipeCsvDatabase
                !int.TryParse(Cell(row,header,"required_kitchen_level"),out int kitchenLevel)||kitchenLevel<1||kitchenLevel>4||
                !int.TryParse(Cell(row,header,"base_cooking_minutes"),out int minutes)||minutes<0||minutes>1440||
                !bool.TryParse(Cell(row,header,"learned_by_default"),out bool learned))
-            {errors.Add($"{id}: jumlah hasil 1–999, level 1–4, menit 0–1440 dan learned TRUE/FALSE wajib valid.");continue;}
+            {errors.Add($"{id}: jumlah hasil 1â€“999, level 1â€“4, menit 0â€“1440 dan learned TRUE/FALSE wajib valid.");continue;}
             KitchenOutputQuality qualityMode=KitchenOutputQuality.IngredientAverage;int fixedQuality=0;
             bool hasQuality=header.ContainsKey("output_quality_mode"),hasFixed=header.ContainsKey("fixed_output_quality");
             if(hasQuality&&(!Enum.TryParse(Cell(row,header,"output_quality_mode"),true,out qualityMode)||!Enum.IsDefined(typeof(KitchenOutputQuality),qualityMode)))
             {errors.Add($"{id}: output_quality_mode harus IngredientAverage/Fixed.");continue;}
             if(hasFixed&&(!int.TryParse(Cell(row,header,"fixed_output_quality"),out fixedQuality)||fixedQuality<0||fixedQuality>5))
-            {errors.Add($"{id}: fixed_output_quality harus 0–5.");continue;}
+            {errors.Add($"{id}: fixed_output_quality harus 0â€“5.");continue;}
             if(qualityMode==KitchenOutputQuality.Fixed&&!hasFixed){errors.Add($"{id}: Fixed memerlukan fixed_output_quality.");continue;}
             string displayName=Cell(row,header,"display_name"),description=Cell(row,header,"description");
             if (apply)pending.Add(()=>
@@ -107,34 +107,6 @@ public static class KitchenRecipeCsvDatabase
     static List<T> LoadAssets<T>() where T : UnityEngine.Object => AssetDatabase.FindAssets($"t:{typeof(T).Name}")
         .Select(AssetDatabase.GUIDToAssetPath).Select(AssetDatabase.LoadAssetAtPath<T>).Where(value => value != null).ToList();
 
-    static void WriteCsv(IEnumerable<string[]> rows)
-    {
-        Directory.CreateDirectory(Path.GetDirectoryName(CsvPath));
-        using StreamWriter writer = new(CsvPath, false, new UTF8Encoding(false));
-        writer.WriteLine(string.Join(",", ExportColumns.Select(Escape)));
-        foreach (string[] row in rows) writer.WriteLine(string.Join(",", row.Select(Escape)));
-    }
-    static string Escape(string value)
-    {
-        value ??= string.Empty; return value.IndexOfAny(new[] { ',', '"', '\n', '\r' }) < 0 ? value : $"\"{value.Replace("\"", "\"\"")}\"";
-    }
-    static List<string[]> Parse(string text)
-    {
-        List<string[]> result = new(); List<string> row = new(); StringBuilder cell = new(); bool quoted = false;
-        for (int index = 0; index < text.Length; index++)
-        {
-            char value = text[index];
-            if (value == '"') { if (quoted && index + 1 < text.Length && text[index + 1] == '"') { cell.Append('"'); index++; } else quoted = !quoted; }
-            else if (value == ',' && !quoted) { row.Add(cell.ToString()); cell.Clear(); }
-            else if ((value == '\n' || value == '\r') && !quoted)
-            {
-                if (value == '\r' && index + 1 < text.Length && text[index + 1] == '\n') index++;
-                row.Add(cell.ToString()); cell.Clear(); result.Add(row.ToArray()); row.Clear();
-            }
-            else cell.Append(value);
-        }
-        if (cell.Length > 0 || row.Count > 0) { row.Add(cell.ToString()); result.Add(row.ToArray()); }
-        return result;
-    }
+    static void WriteCsv(IEnumerable<string[]> rows)=>BalanceCsvDatabase.Csv.Write(CsvPath,ExportColumns,rows);
 }
 #endif

@@ -15,6 +15,7 @@ MonoBehaviour:
   cropId: crop.cabbage
   seedItem: {fileID: 11400000, guid: fca809e92df656a4fa355e0f085ad8fe, type: 2}
   produceItem: {fileID: 11400000, guid: 61c78b05ef567844c9b80b15badc379b, type: 2}
+  mutationProduceItem: {fileID: 11400000, guid: 51b810e987208d64fbd5c595fd46af89, type: 2}
   allowedSeasons: -1
   outOfSeasonBehavior: 0
   idealMoistureMin: 35
@@ -22,6 +23,8 @@ MonoBehaviour:
   minimumFertility: 35
   dailyFertilityUse: 3
   soilDepletionOnHarvest: 4
+  mutationChance: 0.01
+  fiveStarDoubleYieldChance: 0.2
   baseYield: 1
   windVulnerability: 1
   dryDaysBeforeWither: 3
@@ -48,37 +51,37 @@ MonoBehaviour:
   visualStages:
   - stageName: Seed
     startsOnDay: 0
-    modelPrefab: {fileID: 5173273575829774630, guid: 8d4c53676a8adad4b89cfd92536d9939, type: 3}
-    scale: {x: 0.12, y: 0.12, z: 0.12}
-    localOffset: {x: 0, y: 0, z: 0}
+    modelPrefab: {fileID: 100, guid: b1e1f6aab623454b8caeebf130c20417, type: 3}
+    scale: {x: 1.053857, y: 1.053857, z: 1.053857}
+    localOffset: {x: 0.004049, y: 0.0083, z: -0.0034}
     localEulerAngles: {x: 0, y: 0, z: 0}
   - stageName: Sprout
     startsOnDay: 1
-    modelPrefab: {fileID: 5173273575829774630, guid: 8d4c53676a8adad4b89cfd92536d9939, type: 3}
-    scale: {x: 0.22, y: 0.22, z: 0.22}
-    localOffset: {x: 0, y: 0, z: 0}
+    modelPrefab: {fileID: 100, guid: ddc54cad614341aabc05dd87a8f8a16f, type: 3}
+    scale: {x: 1.053857, y: 1.053857, z: 1.053857}
+    localOffset: {x: 0.000165, y: 0, z: 4.1e-05}
     localEulerAngles: {x: 0, y: 0, z: 0}
-  - stageName: Small Plant
+  - stageName: Young
     startsOnDay: 2
-    modelPrefab: {fileID: 1060469420965833698, guid: a9d1fb110e81ab34c8cbc0e9f7d62abe, type: 3}
-    scale: {x: 0.36, y: 0.36, z: 0.36}
-    localOffset: {x: 0, y: 0, z: 0}
+    modelPrefab: {fileID: 100, guid: 8855c1474f164c4e9cdf6109f03c3c32, type: 3}
+    scale: {x: 1.053857, y: 1.053857, z: 1.053857}
+    localOffset: {x: 9e-06, y: 0, z: -0.006538}
     localEulerAngles: {x: 0, y: 0, z: 0}
-  - stageName: Growing
+  - stageName: Head Forming
     startsOnDay: 3
-    modelPrefab: {fileID: 1060469420965833698, guid: a9d1fb110e81ab34c8cbc0e9f7d62abe, type: 3}
-    scale: {x: 0.5, y: 0.5, z: 0.5}
-    localOffset: {x: 0, y: 0, z: 0}
+    modelPrefab: {fileID: 100, guid: d14fdbbfe7f84becaa2856518da07f5a, type: 3}
+    scale: {x: 1.053857, y: 1.053857, z: 1.053857}
+    localOffset: {x: -0.008431, y: 0, z: -0.001669}
     localEulerAngles: {x: 0, y: 0, z: 0}
   - stageName: Mature
     startsOnDay: 4
-    modelPrefab: {fileID: 6096570127688782058, guid: 6b546f09cecb0e043aa1019313b21402, type: 3}
-    scale: {x: 0.65, y: 0.65, z: 0.65}
-    localOffset: {x: 0, y: 0, z: 0}
+    modelPrefab: {fileID: 100, guid: 5f8673227aa0477cb4ab4762da9b4f96, type: 3}
+    scale: {x: 1.053857, y: 1.053857, z: 1.053857}
+    localOffset: {x: 0.007814, y: 0, z: 0.001761}
     localEulerAngles: {x: 0, y: 0, z: 0}
   - stageName: Harvest Ready
     startsOnDay: 5
-    modelPrefab: {fileID: 6096570127688782058, guid: 6b546f09cecb0e043aa1019313b21402, type: 3}
-    scale: {x: 0.8, y: 0.8, z: 0.8}
-    localOffset: {x: 0, y: 0, z: 0}
+    modelPrefab: {fileID: 100, guid: 5f8673227aa0477cb4ab4762da9b4f96, type: 3}
+    scale: {x: 1.053857, y: 1.053857, z: 1.053857}
+    localOffset: {x: 0.007814, y: 0, z: 0.001761}
     localEulerAngles: {x: 0, y: 0, z: 0}

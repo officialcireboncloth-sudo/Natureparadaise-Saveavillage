@@ -2,11 +2,10 @@
 
 The runtime artwork lives in `Textures/UI/Icons` under the Nature Paradaise folder.
 Every icon is a physically **128 x 128 PNG with real alpha transparency**. The original
-set was generated using the built-in imagegen tool and downscaled/exported with native GIMP.
-The sickle illustration uses the compact Toon Pack hook shape with the same painted
-wood, steel highlights and visual weight as the hoe/axe/hammer icons. It replaces the
-thin model-rendered icon. Rebuilding the sickle grip preserves the illustration;
-its sprite GUID stays unchanged. The current generation prompt is in `UIIconPrompts.json`.
+set used image generation. The current eleven tool icons retain those original
+designs with a light native GIMP retouch: saturation -8 and a gentle highlight
+curve. The original silhouettes, proportions, wood grain and steel detail remain.
+The tool sprite GUIDs stay unchanged. Historical generation prompts remain in `UIIconPrompts.json`.
 Original large artwork stays locally in the ignored `ArtSource/UIIcons/Originals`.
 The full generation prompt set is recorded in `UIIconPrompts.json` next to this guide.
 The 24 runtime PNG files remain in one shared mobile atlas; the revised sickle replaces
@@ -39,8 +38,9 @@ previous filenames using Unity AssetDatabase.MoveAsset, retaining each .meta GUI
 | Fishing Rod | Tools/icon_tool_fishing_rod.png | Pancing |
 | Shears Tool | Tools/icon_tool_shears.png | Gunting bulu |
 | Pitchfork Tool | Tools/icon_tool_pitchfork.png | Garpu kandang |
+| Milker Tool | Tools/icon_tool_milker.png | Pemerah susu |
 
-All eight `ItemSO.icon` references are assigned. Inventory, hotbar, storage,
+All nine `ItemSO.icon` references are assigned. Inventory, hotbar, storage,
 shops, drag previews and detail artwork therefore use the same source sprite.
 Detail artwork keeps its existing `inventoryIllustration` override if supplied.
 
@@ -50,6 +50,29 @@ Additional existing model/action artwork:
 - `icon_tool_milker.png`: milking action (cow and goat).
 - `icon_tool_pickaxe.png`: mining HUD symbol. The alternate pickaxe model already exists;
   mining gameplay currently equips Hammer. No new tool item or save ID is introduced.
+
+## GIMP tool retouch and chemical revision
+
+All eleven `Tools/icon_tool_*.png` files use the approved original artwork, with
+native GIMP color correction to soften excess saturation and bright highlights.
+The flatter redraw was rejected; its `Tool_*.xcf` masters remain as an earlier
+revision. Current `Retouched_*.xcf` masters contain the untouched original layer
+and a visible retouch layer. Four distinct
+kraft pouches under `FertilizerMaker/icon_chemical_*.png` represent Calcium (Ca),
+Phosphate (P), Urea (UREA) and Potassium (K). Colored labels and mineral shapes
+distinguish them at inventory size. Each chemical ItemSO points at its own sprite;
+the same icon therefore appears in the supermarket, inventory and fertilizer recipe.
+The generic mineral fallback and existing fertilizer sacks remain available.
+
+Editable 512px XCF masters, the native GIMP drawing/export script, a manifest and
+the contact sheet are kept together in `ArtSource/UIIcons/HandPainted/`.
+Run `retouch_tools_gimp.py` through GIMP's `python-fu-eval` batch interpreter to
+rebuild the current eleven tools from `ArtSource/UIIcons/Originals/`. The retouch
+keeps the original framing and exports 128px PNGs using NoHalo interpolation.
+`RetouchedTools_Preview.png` shows the current tools beside the existing fertilizer.
+`draw_icons_gimp.py` rebuilds the earlier flat revision and the current four chemical
+pouches; running it also overwrites tool PNGs, so run `retouch_tools_gimp.py` afterwards
+to restore the approved tool style. The manifest records the current per-icon masters.
 
 ## Weather
 

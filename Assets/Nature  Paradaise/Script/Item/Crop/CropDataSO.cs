@@ -51,6 +51,8 @@ public class CropDataSO : ScriptableObject
     public ItemSO seedItem;
     [Tooltip("Item hasil yang dimasukkan ke inventory saat panen.")]
     public ItemSO produceItem;
+    [Tooltip("Varian item terpisah untuk hasil mutasi; peluang diatur pada Harvest Quality.")]
+    public ItemSO mutationProduceItem;
 
     [Header("Season")]
     public CropSeason allowedSeasons = CropSeason.All;
@@ -96,6 +98,8 @@ public class CropDataSO : ScriptableObject
     public int regrowStage = -1;
 
     [Header("Harvest Quality")]
+    [Range(0f,1f)] public float mutationChance=.01f;
+    [Range(0f,1f)] public float fiveStarDoubleYieldChance=.20f;
     [Tooltip("Bobot relatif bintang 1-5 sebelum bonus tier booster; bukan persentase final.")]
     public float[] qualityWeights = { 50f, 30f, 14f, 5f, 1f };
     [Tooltip("Tier booster minimum bintang 1-5. Default Premium dapat mengakses peluang bintang 5.")]

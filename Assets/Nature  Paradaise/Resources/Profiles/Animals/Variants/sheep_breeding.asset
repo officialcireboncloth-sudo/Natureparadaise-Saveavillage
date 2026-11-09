@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c3ea62c7f9e4d97a7eb631309e0a2e8, type: 3}
+  m_Name: sheep_breeding
+  animalType: 3
+  salePrice:
+    baseSellPrice: 0
+    bonusPerHeart: 0.1
+  incubationOrPregnancyDays: 7
+  bornToAdultDays: 42
+  purchasedYoungToAdultDays: 21
+  productionIntervalDays: 1
+  stageSlots: []
+  conditionVisualSlots: []
+  variantId: animal.sheep_breeding
+  productionEnabled: 0
+  purchaseSex: 2
+  sellOnlyAsAdult: 1
+  productItem: {fileID: 0}

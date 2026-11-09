@@ -1,4 +1,4 @@
-recipe_id,asset_path,display_name,description,ingredients,result_item_id,result_amount,required_kitchen_level,required_equipment,base_cooking_minutes,learned_by_default,output_quality_mode,fixed_output_quality
+﻿recipe_id,asset_path,display_name,description,ingredients,result_item_id,result_amount,required_kitchen_level,required_equipment,base_cooking_minutes,learned_by_default,output_quality_mode,fixed_output_quality
 recipe.bread,Assets/Nature  Paradaise/Resources/Cooking/Recipes/Bread.asset,Bread,Roti sederhana yang dipanggang dari wheat.,item.wheat:3,item.bread,1,2,Oven,10,TRUE,IngredientAverage,0
 recipe.fish_soup,Assets/Nature  Paradaise/Resources/Cooking/Recipes/Fish Soup.asset,Fish Soup,Sup ikan dan sayuran yang memulihkan banyak stamina.,item.tilapia:1|item.cabbage:1,item.fish_soup,1,1,Pot,10,FALSE,IngredientAverage,0
 recipe.fried_egg,Assets/Nature  Paradaise/Resources/Cooking/Recipes/Fried Egg.asset,Fried Egg,Telur sederhana yang dimasak dengan frying pan.,item.egg:1,item.fried_egg,1,1,FryingPan,10,TRUE,IngredientAverage,0

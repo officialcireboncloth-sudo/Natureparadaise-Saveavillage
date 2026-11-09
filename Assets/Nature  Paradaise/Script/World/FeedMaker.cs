@@ -58,6 +58,7 @@ public sealed class FeedMaker : MonoBehaviour
     Inventory inventory;
     PlayerController player;
     bool open;
+    bool queueInProgress;
     string feedback;
 
 
@@ -71,7 +72,7 @@ public sealed class FeedMaker : MonoBehaviour
     Coroutine animatedCollectionRoutine;
     PlayerController animatedCollectionPlayer;
     public int Level => Mathf.Clamp(level, 1, 4);
-    public int InputCapacity => new[] {10,20,40,60}[Level-1];
+    public int InputCapacity => Math.Max(new[] {10,20,40,60}[Level-1],catalog!=null?catalog.MinimumInputCapacity:10);
     public int Inputs { get { int total=0; foreach(var job in jobs) total+=job.inputs; return total; } }
     public int Output => output + fishFeedOutput + poultryFeedOutput;
     public int AnimalFeedOutput => output;
@@ -200,31 +201,39 @@ public sealed class FeedMaker : MonoBehaviour
             job.finish=at+job.hours; reserved+=job.output; running++;
         }
     }
-    public bool Queue(Inventory source, int index)
+    public bool CanQueue(Inventory source,int index,int batches,out string reason)
+        =>TryQueuePlan(source,index,batches,out _,out reason);
+
+    bool TryQueuePlan(Inventory source,int index,int batches,out List<ItemStack> prepared,out string reason)
     {
-        if(source==null || TimeManager.Instance==null || catalog?.animalFeed==null || catalog.recipes==null || index<0 || index>=catalog.recipes.Length) return false;
+        prepared=null;reason="Data resep belum tersedia";
+        if(queueInProgress||source==null||TimeManager.Instance==null||catalog?.recipes==null||index<0||index>=catalog.recipes.Length)return false;
+        var recipe=catalog.recipes[index];
+        if(recipe==null||recipe.TotalInputCount<1||recipe.outputCount<1||recipe.hours<=0||float.IsNaN(recipe.hours)||float.IsInfinity(recipe.hours)||batches<1||batches>99)return false;
+        if(recipe.outputCount>outputCapacity||(long)Inputs+(long)recipe.TotalInputCount*batches>InputCapacity)
+        {reason="Kapasitas bahan mesin tidak cukup";return false;}
+        if(catalog.Item(recipe.Kind)==null||FeedTypes.Kind(catalog.Item(recipe.Kind))!=recipe.Kind||dedicatedOutput&&recipe.Kind!=DedicatedFeedKind)
+        {reason="Jenis pakan tidak sesuai dengan mesin ini";return false;}
+        return FeedRecipePlan.TryPrepare(source.slots,source.Capacity,recipe,batches,out prepared,out reason);
+    }
+
+    public bool Queue(Inventory source,int index)=>Queue(source,index,1);
+    public bool Queue(Inventory source,int index,int batches)
+    {
+        if(queueInProgress)return false;
         Advance(Now);
-        FeedRecipe recipe=catalog.recipes[index];
-        if(recipe?.input==null || recipe.inputCount<1 || recipe.outputCount<1 || recipe.hours<=0 || recipe.outputCount>outputCapacity || Inputs+recipe.inputCount>InputCapacity) return false;
-        if (recipe.producesFishFeed && catalog.fishFeed==null) return false;
-        if(catalog.Item(recipe.Kind)==null || FeedTypes.Kind(catalog.Item(recipe.Kind))!=recipe.Kind || dedicatedOutput && recipe.Kind!=DedicatedFeedKind)return false;
-        var needed = new Dictionary<ItemSO,int>();
-        int remaining=recipe.inputCount;
-        ItemSO[] allowed=recipe.mixedInputs!=null && recipe.mixedInputs.Length>0 ? recipe.mixedInputs : new[]{recipe.input};
-        foreach(var item in allowed)
+        if(!TryQueuePlan(source,index,batches,out var prepared,out _))return false;
+        queueInProgress=true;
+        try
         {
-            if(item==null || needed.ContainsKey(item)) continue;
-            int take=Math.Min(remaining,source.GetCount(item));
-            if(take>0) {needed.Add(item,take); remaining-=take;}
-            if(remaining==0) break;
+            var recipe=catalog.recipes[index];
+            for(int i=0;i<batches;i++)jobs.Add(new FeedJob{recipeId=recipe.id,inputs=recipe.TotalInputCount,output=recipe.outputCount,
+                producesFishFeed=recipe.producesFishFeed,producesPoultryFeed=recipe.producesPoultryFeed,hours=recipe.hours/new[]{1d,1.25d,1.6d,2d}[Level-1]});
+            StartWaiting(Now);PublishState();
+            source.RestoreContents(source.BackpackLevel,prepared);
+            return true;
         }
-        if(remaining>0) return false;
-        foreach(var pair in needed) source.Remove(pair.Key,pair.Value);
-        jobs.Add(new FeedJob {recipeId=recipe.id, inputs=recipe.inputCount, output=recipe.outputCount,
-            producesFishFeed=recipe.producesFishFeed, producesPoultryFeed=recipe.producesPoultryFeed, hours=recipe.hours/new[]{1d,1.25d,1.6d,2d}[Level-1]});
-        StartWaiting(Now);
-        PublishState();
-        return true;
+        finally{queueInProgress=false;}
     }
     public bool Collect(Inventory target)
         =>CollectFeed(target,dedicatedOutput?DedicatedFeedKind:FeedKind.Livestock);
@@ -241,7 +250,7 @@ public sealed class FeedMaker : MonoBehaviour
         else if(kind==FeedKind.Fish)fishFeedOutput-=amount;
         else output-=amount;
         StartWaiting(Now); PublishState();
-        PlayerPickupNotification.ShowItem(target,item,amount);
+        if(Application.isPlaying)PlayerPickupNotification.ShowItem(target,item,amount);
         return true;
     }
     public bool CollectFishFeed(Inventory target)

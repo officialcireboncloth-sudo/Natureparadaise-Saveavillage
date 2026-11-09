@@ -213,31 +213,63 @@ public static class BalanceSettingsCsv
 public class BalanceCsvWindow : EditorWindow
 {
     Vector2 scroll;
+    string actionError="";
+    const string Root="Assets/Nature  Paradaise/Data/Balance/";
     [MenuItem("Nature Paradise/Data CSV/Balance CSV Panel",false,0)]
-    public static void Open(){var window=GetWindow<BalanceCsvWindow>("Balance CSV");window.minSize=new Vector2(600,640);
-        var main=EditorGUIUtility.GetMainWindowPosition();window.position=new Rect(main.x+30,main.y+60,620,Mathf.Max(640,main.height-100));}
+    public static void Open()
+    {
+        var window=GetWindow<BalanceCsvWindow>("Balance CSV");window.minSize=new Vector2(720,580);
+        var main=EditorGUIUtility.GetMainWindowPosition();window.position=new Rect(main.x+30,main.y+60,740,Mathf.Max(580,main.height-100));
+    }
+    void Run(Action action)
+    {
+        actionError="";try{action();}catch(Exception ex){actionError=ex.Message;Debug.LogError("[CSV] "+ex.Message);}
+    }
+    void Row(string label,Action export,Action check,Action import,string path)
+    {
+        using(new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField(label,GUILayout.Width(235));
+            EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
+            if(GUILayout.Button("Export",GUILayout.Width(85)))Run(export);
+            if(GUILayout.Button("Periksa",GUILayout.Width(85)))Run(check);
+            if(GUILayout.Button("Import",GUILayout.Width(85)))Run(import);
+            EditorGUI.EndDisabledGroup();
+            if(GUILayout.Button("Buka CSV",GUILayout.Width(85)))EditorUtility.RevealInFinder(Path.GetFullPath(path));
+        }
+    }
     void OnGUI()
     {
-        EditorGUILayout.HelpBox("1. Export data terbaru → 2. Edit CSV UTF-8 → 3. Preview → 4. Import.\nSettings: edit hanya value. ID/path/setting jangan diubah. Export akan menimpa CSV, jadi import perubahan spreadsheet dahulu.",MessageType.Info);
-        EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
-        if(GUILayout.Button("Export item + tanaman"))BalanceCsvDatabase.Export();
-        if(GUILayout.Button("Validate item + tanaman"))BalanceCsvDatabase.Validate();
-        if(GUILayout.Button("Import item + tanaman"))BalanceCsvDatabase.Import();
-        if(GUILayout.Button("Export ikan"))FishingCsvDatabase.Export();
-        if(GUILayout.Button("Validate ikan"))FishingCsvDatabase.ValidateMenu();
-        if(GUILayout.Button("Import ikan"))FishingCsvDatabase.Import();
-        if(GUILayout.Button("Export resep"))KitchenRecipeCsvDatabase.Export();
-        if(GUILayout.Button("Validate resep"))KitchenRecipeCsvDatabase.Validate();
-        if(GUILayout.Button("Import resep"))KitchenRecipeCsvDatabase.Import();
-        if(GUILayout.Button("Export settings hewan / shop / drops / upgrade"))BalanceSettingsCsv.Export();
-        if(GUILayout.Button("Preview perubahan settings"))BalanceSettingsCsv.Preview();
-        if(GUILayout.Button("Import settings tervalidasi"))BalanceSettingsCsv.Import();
-        if(GUILayout.Button("Export kalender / cuaca / festival / cafe"))ScheduleCafeCsvDatabase.Export();
-        if(GUILayout.Button("Validate kalender / cuaca / festival / cafe"))ScheduleCafeCsvDatabase.Validate();
-        if(GUILayout.Button("Import kalender / cuaca / festival / cafe"))ScheduleCafeCsvDatabase.Import();
-        EditorGUI.EndDisabledGroup();
-        if(GUILayout.Button("Buka folder CSV"))BalanceCsvDatabase.OpenFolder();
-        if(GUILayout.Button("Buka panduan"))AssetDatabase.OpenAsset(AssetDatabase.LoadMainAssetAtPath("Assets/Nature  Paradaise/Data/Balance/PANDUAN.md"));
-        scroll=EditorGUILayout.BeginScrollView(scroll);EditorGUILayout.SelectableLabel(BalanceSettingsCsv.LastReport+"\n\nKalender / cafe:\n"+ScheduleCafeCsvDatabase.LastReport,GUILayout.MinHeight(300));EditorGUILayout.EndScrollView();
+        EditorGUILayout.LabelField("DATA CSV",EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox("Export > Edit CSV > Periksa > Import. Simpan CSV UTF-8 dengan pemisah koma.\nExport menimpa CSV: impor dulu edit spreadsheet yang belum diterapkan. CSV tidak menyimpan warna/font/lebar kolom.",MessageType.Info);
+        scroll=EditorGUILayout.BeginScrollView(scroll);
+        Row("Item dan tanaman",BalanceCsvDatabase.Export,BalanceCsvDatabase.Validate,BalanceCsvDatabase.Import,Root+"Items.csv");
+        Row("Hewan: daftar dan harga",AnimalRosterCsvDatabase.Export,AnimalRosterCsvDatabase.Validate,AnimalRosterCsvDatabase.Import,Root+"Animals.csv");
+        Row("Ikan",FishingCsvDatabase.Export,FishingCsvDatabase.ValidateMenu,FishingCsvDatabase.Import,Root+"Fish.csv");
+        Row("Resep masakan",KitchenRecipeCsvDatabase.Export,KitchenRecipeCsvDatabase.Validate,KitchenRecipeCsvDatabase.Import,Root+"Recipes.csv");
+        Row("Settings: angka lanjutan",BalanceSettingsCsv.Export,()=>BalanceSettingsCsv.Preview(),BalanceSettingsCsv.Import,Root+"Settings");
+        Row("Kalender, festival dan cafe",ScheduleCafeCsvDatabase.Export,()=>ScheduleCafeCsvDatabase.Validate(),ScheduleCafeCsvDatabase.Import,Root+"Schedules");
+        Row("Cuaca",WeatherCsvDatabase.Export,WeatherCsvDatabase.Validate,WeatherCsvDatabase.Import,Root+"Schedules/WeatherSchedule.csv");
+        EditorGUILayout.Space(10);
+        EditorGUILayout.HelpBox("Hewan: Animals.csv untuk daftar/harga; Settings/Animals.csv untuk durasi dan angka lanjutan. Settings: edit hanya value.\nStamina dibaca langsung dari CSV runtime; gunakan Periksa Stamina setelah menyimpan.",MessageType.None);
+        using(new EditorGUILayout.HorizontalScope())
+        {
+            if(GUILayout.Button("Buka CSV Stamina"))EditorUtility.RevealInFinder(Path.GetFullPath(Root+"Stamina"));
+            EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
+            if(GUILayout.Button("Periksa Stamina"))Run(StaminaBalanceSetup.Validate);
+            if(GUILayout.Button("Rapikan format semua CSV"))Run(BalanceCsvWorkspace.Standardize);
+            EditorGUI.EndDisabledGroup();
+        }
+        using(new EditorGUILayout.HorizontalScope())
+        {
+            if(GUILayout.Button("Buka folder data"))BalanceCsvDatabase.OpenFolder();
+            if(GUILayout.Button("Panduan format seragam"))AssetDatabase.OpenAsset(AssetDatabase.LoadMainAssetAtPath(Root+"FORMAT_CSV.md"));
+            if(GUILayout.Button("Panduan semua data"))AssetDatabase.OpenAsset(AssetDatabase.LoadMainAssetAtPath(Root+"PANDUAN.md"));
+        }
+        if(!string.IsNullOrEmpty(actionError))EditorGUILayout.HelpBox(actionError,MessageType.Error);
+        EditorGUILayout.Space(10);EditorGUILayout.LabelField("Hasil pemeriksaan dan impor",EditorStyles.boldLabel);
+        string report=string.Join("\n\n",new[]{AnimalRosterCsvDatabase.LastReport,BalanceSettingsCsv.LastReport,ScheduleCafeCsvDatabase.LastReport,WeatherCsvDatabase.LastReport,BalanceCsvWorkspace.LastReport}.Where(r=>!string.IsNullOrEmpty(r)));
+        EditorGUILayout.SelectableLabel(report+"\n\nRincian item/tanaman/ikan/resep juga tampil di Console.",GUILayout.MinHeight(220));
+        EditorGUILayout.EndScrollView();
     }
 }

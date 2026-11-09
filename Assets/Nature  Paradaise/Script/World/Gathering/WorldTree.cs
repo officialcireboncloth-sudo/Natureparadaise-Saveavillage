@@ -48,6 +48,21 @@ public sealed class WorldTree : MonoBehaviour
     int shownStage = -2;
     Inventory fruitInventory;
     public TreeProgress Progress => progress;
+    public bool CanApplyQualityFertilizer=>definition!=null&&definition.UsesFruitCare&&progress!=null&&
+        state==TreeGrowthState.Standing&&progress.fruitStage!=TreeFruitStage.Ready&&!progress.Care.FertilizerActive;
+    public bool TryApplyQualityFertilizer(int level,int days)=>CanApplyQualityFertilizer&&progress.Care.ApplyFertilizer(level,days);
+    public static bool TryFindFruitTree(Vector3 point,float radius,out WorldTree target)
+    {
+        target=null;float nearest=radius*radius;
+        foreach(var tree in Registry)
+        {
+            if(tree==null||tree.definition==null||!tree.definition.UsesFruitCare||tree.state!=TreeGrowthState.Standing)continue;
+            var delta=tree.transform.position-point;delta.y=0;
+            if(delta.sqrMagnitude>nearest)continue;nearest=delta.sqrMagnitude;target=tree;
+        }
+        return target!=null;
+    }
+    public static int SampleCareSoil(Vector3 point,int day)=>FieldArea.TryGetAt(point,out var field,out int x,out int z)?field.FertilityForCare(day,x,z):0;
     public void RefreshGrowthVisual() => ApplyStateVisual();
 
     [Header("Axe Requirement")]
@@ -316,8 +331,7 @@ public sealed class WorldTree : MonoBehaviour
         if (interactionCollider != null) interactionCollider.enabled = state != TreeGrowthState.Depleted;
         if (boxCollider != null && state != TreeGrowthState.Depleted)
         {
-            int stageIndex = definition != null && progress != null ? definition.StageIndex(progress.growth) : -1;
-            Vector3 scale = stageIndex >= 0 ? definition.stages[stageIndex].scale : Vector3.one;
+              Vector3 scale = definition != null && progress != null ? definition.VisualScale(progress.growth,progress.fruitStage) : Vector3.one;
             boxCollider.size = stump ? stumpColliderSize : Vector3.Scale(standingColliderSize, scale);
             boxCollider.center = stump ? stumpColliderCenter : Vector3.Scale(standingColliderCenter, scale);
         }
@@ -525,7 +539,7 @@ public sealed class WorldTree : MonoBehaviour
     {
         if (state != TreeGrowthState.Standing || definition == null) return;
         progress.Advance(definition, CurrentDay, WeatherSystem.Instance != null ? WeatherSystem.Instance.CurrentWeather : WeatherType.Sunny,
-            FarmPlacement.Covered(transform.position), UnityEngine.Random.value);
+              FarmPlacement.Covered(transform.position), UnityEngine.Random.value,SampleCareSoil(transform.position,CurrentDay));
         ApplyStateVisual();
     }
 
@@ -560,32 +574,47 @@ public sealed class WorldTree : MonoBehaviour
         if (progress.fruitStage == TreeFruitStage.Ready && definition.fruitItem != null &&
             (definition.fruitSeasons & CropDataSO.GetSeasonForDay(CurrentDay)) != 0)
         {
-            WorldInteractionPrompt.Request(this, transform, "E - Panen " + definition.fruitItem.itemName, 1f, promptHeight);
+                WorldInteractionPrompt.Request(this, transform, "E - Panen " + definition.fruitItem.itemName+
+                    (definition.UsesFruitCare?$" | {definition.HarvestAmount(progress.Care.Stars)} buah, ★{progress.Care.Stars}":""), 1f, promptHeight);
             if (PlayerInteractionTarget.PressPrompt(this, KeyCode.E))
                 TryHarvestFruit(fruitInventory);
         }
         else if (HUDManager.DebugCluesEnabled)
             WorldInteractionPrompt.Request(this, transform,
                 $"{definition.treeType}: {progress.growth:0.#}/{definition.matureDays} growth | HP {progress.health} | {progress.fruitStage}", 5f, promptHeight);
-        else if (inField)
-            WorldInteractionPrompt.Request(this, transform, definition.treeType, 1f, promptHeight);
+          else if (inField)
+              WorldInteractionPrompt.Request(this, transform, definition.treeType+(definition.UsesFruitCare?
+                  $" | ★{progress.Care.Stars} | Pupuk {progress.Care.boostedDays}/{progress.Care.days} hari"+
+                  (progress.Care.FertilizerActive?$" | Efek {progress.Care.fertilizerDaysRemaining} hari":""):""), 1f, promptHeight);
     }
 
     public bool TryHarvestFruit(Inventory inventory)
     {
         if (inventory == null || definition == null || definition.fruitItem == null || state != TreeGrowthState.Standing ||
             progress.fruitStage != TreeFruitStage.Ready || (definition.fruitSeasons & CropDataSO.GetSeasonForDay(CurrentDay)) == 0) return false;
-        if (!StaminaBalance.Can(inventory,"harvest") || !inventory.Add(definition.fruitItem, Mathf.Max(1, definition.fruitAmount))) return false;
+        int stars=definition.UsesFruitCare?progress.Care.Stars:0;
+        int amount=definition.HarvestAmount(stars);
+          if(definition.UsesFruitCare&&!progress.Care.mutationRollReady)
+          {progress.Care.mutationRoll=UnityEngine.Random.value;progress.Care.mutationRollReady=true;}
+        bool mutation=definition.UsesFruitCare&&stars==5&&HarvestRules.Succeeds(progress.Care.mutationRoll,definition.fruitMutationChance);
+        if(mutation&&definition.mutationFruitItem==null){Debug.LogError("[TREE] Missing mutation item for "+definition.treeType);return false;}
+        var output=new List<ItemStack>();
+        if(amount-(mutation?1:0)>0)output.Add(new ItemStack{item=definition.fruitItem,count=amount-(mutation?1:0),qualityStars=stars});
+        if(mutation)output.Add(new ItemStack{item=definition.mutationFruitItem,count=1,qualityStars=stars});
+        if (!StaminaBalance.Can(inventory,"harvest") || !inventory.TryAddBatch(output)) return false;
         StaminaBalance.Spend(inventory,"harvest");
         progress.fruitProgress = 0;
         progress.fruitStage = TreeFruitStage.Flowering;
+        if(definition.UsesFruitCare)progress.care=progress.Care.NextCycle();
+        ApplyGrowthVisual();
         return true;
     }
 
     void ApplyGrowthVisual()
     {
         if (definition == null || progress == null || standingVisual == null) return;
-        int index = definition.StageIndex(progress.growth);
+        int index = definition.StageIndex(progress.growth,progress.fruitStage);
+        if(standingVisual!=transform)standingVisual.localScale=Vector3.Scale(matureVisualScale,definition.VisualScale(progress.growth,progress.fruitStage));
         if (index == shownStage) return;
         shownStage = index;
         if (stageModel != null) { stageModel.SetActive(false); Destroy(stageModel); }
@@ -593,7 +622,7 @@ public sealed class WorldTree : MonoBehaviour
         bool custom = stage?.model != null && standingVisual != transform;
         foreach (Renderer renderer in standingRenderers) if (renderer != null) renderer.enabled = !custom;
         if (standingVisual != transform)
-            standingVisual.localScale = Vector3.Scale(matureVisualScale, stage != null ? stage.scale : Vector3.one);
+            standingVisual.localScale = Vector3.Scale(matureVisualScale, definition.VisualScale(progress.growth,progress.fruitStage));
         if (custom)
         {
             stageModel = Instantiate(stage.model, standingVisual);

@@ -11,6 +11,9 @@ using UnityEngine;
 /// </summary>
 public sealed partial class FieldArea : MonoBehaviour
 {
+    const float HoedSurfaceLift = 0.035f;
+    const float CropSurfaceClearance = 0.002f;
+
     static readonly List<FieldArea> ActiveAreasInternal = new List<FieldArea>();
     static CropDataSO[] runtimeCrops;
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -24,7 +27,7 @@ public sealed partial class FieldArea : MonoBehaviour
     [Header("Manual Grid Size")]
     [SerializeField, Min(1)] int columns = 10;
     [SerializeField, Min(1)] int rows = 10;
-    [SerializeField, Min(0.25f)] float cellSize = .8f;
+    [SerializeField, Min(0.25f)] float cellSize = 1f;
     [SerializeField] bool allowCrops = true;
     [SerializeField] bool allowBuildings = true;
     [Tooltip("Aktifkan untuk field di dalam Greenhouse. Hujan tidak menyiram dan angin tidak dapat mencabut crop.")]
@@ -420,7 +423,7 @@ public sealed partial class FieldArea : MonoBehaviour
     }
 
     /// <summary>Menerapkan satu booster kualitas per hari pada tanaman yang masih tumbuh.</summary>
-    public bool TryApplyCropBooster(int x, int z, int level)
+    public bool TryApplyCropBooster(int x, int z, int level, int durationDays = 1)
     {
         if (IsSoilLocked) return false;
         if (!TryGetIndex(x, z, out int index) || !tiles[index].HasCrop || level < 1 || level > 5)
@@ -429,8 +432,7 @@ public sealed partial class FieldArea : MonoBehaviour
         if (tile.cropState == CropLifecycleState.Dead || tile.cropState == CropLifecycleState.HarvestReady)
             return false;
         tile.qualityCare ??= new CropQualityCare();
-        if (tile.qualityCare.boosterToday > 0) return false;
-        tile.qualityCare.boosterToday = level;
+        if (!tile.qualityCare.ApplyFertilizer(level, durationDays)) return false;
         tile.dirty = true;
         tiles[index] = tile;
         NotifyChanged(x, z);
@@ -597,11 +599,21 @@ public sealed partial class FieldArea : MonoBehaviour
         tile.qualityCare ??= new CropQualityCare();
         tiles[index] = tile;
         grade = CalculateGrade(tile);
-        int amount = Mathf.Max(1, tile.crop.baseYield);
-        ItemSO item = tile.crop.produceItem;
-        if (item == null || !inventory.Add(item, amount, (int)grade + 1))
+            if(!tile.qualityCare.harvestRollsReady)
+            {
+                tile.qualityCare.mutationRoll=UnityEngine.Random.value;
+                tile.qualityCare.doubleYieldRoll=UnityEngine.Random.value;
+                tile.qualityCare.harvestRollsReady=true;
+            }
+          tile.dirty=true;tiles[index]=tile;
+          int amount=HarvestRules.CropAmount(tile.crop.baseYield,(int)grade+1,tile.crop.fiveStarDoubleYieldChance,tile.qualityCare.doubleYieldRoll);
+          bool mutation=HarvestRules.Succeeds(tile.qualityCare.mutationRoll,tile.crop.mutationChance);
+          ItemSO item=mutation?tile.crop.mutationProduceItem:tile.crop.produceItem;
+          if(mutation&&item==null)
+          { Debug.LogError("[FARMING] Assign Mutation Produce Item for "+tile.crop.name);return false; }
+          if (item == null || !inventory.TryAddBatch(new[]{new ItemStack{item=item,count=amount,qualityStars=(int)grade+1}}))
             return false;
-        PlayerPickupNotification.ShowItem(inventory, item, amount);
+        if (Application.isPlaying) PlayerPickupNotification.ShowItem(inventory, item, amount);
 
         CropHarvestResult result = new CropHarvestResult(
             FieldId,
@@ -616,7 +628,8 @@ public sealed partial class FieldArea : MonoBehaviour
         // Panen tidak memberi penalti tambahan agar masa pakai tetap tepat 80 hari.
         if (harvestedCrop.regrowsAfterHarvest)
         {
-            tile.qualityCare = new CropQualityCare();
+            tile.qualityCare = new CropQualityCare { targetGrowthDays = Mathf.Max(1, harvestedCrop.regrowDays),
+                boosterToday = tile.qualityCare.boosterToday, fertilizerDaysRemaining = tile.qualityCare.fertilizerDaysRemaining };
             tile.cropState = CropLifecycleState.Regrowing;
             tile.regrowDaysRemaining = Mathf.Max(1, harvestedCrop.regrowDays);
             tile.growthStage = (byte)harvestedCrop.GetRegrowStage();
@@ -653,7 +666,7 @@ public sealed partial class FieldArea : MonoBehaviour
             HideCropView(index);
         NotifyChanged(x, z);
         CropHarvested?.Invoke(result);
-        QuestEventHub.Publish(QuestObjectiveType.Harvest, item.name, amount, item);
+        if (Application.isPlaying) QuestEventHub.Publish(QuestObjectiveType.Harvest, harvestedCrop.produceItem.name, amount, item);
         return true;
     }
 
@@ -937,6 +950,7 @@ public sealed partial class FieldArea : MonoBehaviour
 
     void HandleDayChanged()
     {
+        int completedDayFertility = UsesFieldSoil ? FertilityForCare(TimeManager.Instance!=null?TimeManager.Instance.day:fieldSoil.lastProcessedDay,0,0) : 0;
         if (UsesFieldSoil)
         {
             AdvanceFieldSoilToDay(TimeManager.Instance != null ? TimeManager.Instance.day + 1 : fieldSoil.lastProcessedDay + 1);
@@ -959,11 +973,12 @@ public sealed partial class FieldArea : MonoBehaviour
 
             if (tile.HasCrop)
             {
+                int sampledFertility = UsesFieldSoil ? completedDayFertility : tile.soilDurability;
                 tile.soilRestDays = 0;
                 tile.soilDurability = UsesFieldSoil ? (byte)fieldSoil.fertility
                     : (byte)Mathf.Max(0, tile.soilDurability - durabilityLoss);
                 tile.soilQuality = DurabilityToQuality(tile.soilDurability, maximumDurability);
-                ProcessCropDay(ref tile);
+                ProcessCropDay(ref tile, sampledFertility);
                 changed = true;
             }
             else if (tile.state == TileState.Hoed)
@@ -1007,7 +1022,7 @@ public sealed partial class FieldArea : MonoBehaviour
         }
     }
 
-    void ProcessCropDay(ref FieldTileData tile)
+    void ProcessCropDay(ref FieldTileData tile, int sampledFertility)
     {
         CropDataSO crop = tile.crop;
         bool watered = tile.waterSourcesToday != CropWaterSource.None;
@@ -1018,14 +1033,9 @@ public sealed partial class FieldArea : MonoBehaviour
         care.correctSeason &= crop.SupportsSeason(currentSeason);
         if (tile.cropState != CropLifecycleState.HarvestReady && tile.cropState != CropLifecycleState.Dead)
         {
-            care.days++;
-            if (watered) care.wateredDays++;
-            if (care.boosterToday > 0)
-            {
-                care.boostedDays++;
-                care.minimumBooster = Mathf.Min(care.minimumBooster, care.boosterToday);
-                care.bestBooster = Mathf.Max(care.bestBooster, care.boosterToday);
-            }
+            care.RecordDay(watered, sampledFertility,
+                tile.cropState == CropLifecycleState.Regrowing ? crop.regrowDays : Mathf.CeilToInt(crop.TotalGrowthDays),
+                TimeManager.Instance != null ? TimeManager.Instance.day : care.days + 1);
         }
         tile.careSamples++;
         tile.totalMoisture += tile.moisture;
@@ -1142,7 +1152,7 @@ public sealed partial class FieldArea : MonoBehaviour
     {
         if (tile.qualityCare != null)
         {
-            tile.qualityCare.boosterToday = 0;
+            tile.qualityCare.FinishDay();
             if (tile.cropState == CropLifecycleState.HarvestReady && tile.qualityCare.readyDay < 0)
                 tile.qualityCare.readyDay = (TimeManager.Instance != null ? TimeManager.Instance.day : 1) + 1;
         }
@@ -1271,7 +1281,7 @@ public sealed partial class FieldArea : MonoBehaviour
             // Pooled geometry is resampled at the new cell, so slopes never reuse old heights.
             if (filter.sharedMesh != null) { blendedTileMeshes.Remove(filter.sharedMesh); Destroy(filter.sharedMesh); }
             float tileWidth = cellSize * (1 - 2 * (soilVisualProfile != null ? soilVisualProfile.tileInset : .085f));
-            filter.sharedMesh = FieldGroundSurface.CreateMesh(view.transform, Vector2.one * tileWidth, !protectedFromWeather, .035f, 4);
+            filter.sharedMesh = FieldGroundSurface.CreateMesh(view.transform, Vector2.one * tileWidth, !protectedFromWeather, HoedSurfaceLift, 4);
             blendedTileMeshes.Add(filter.sharedMesh);
             var renderer = view.GetComponent<MeshRenderer>(); renderer.sharedMaterial = blendedTileMaterial;
             float feather = soilVisualProfile != null ? soilVisualProfile.tileFeather * cellSize : tileEdgeFeather;
@@ -1316,7 +1326,11 @@ public sealed partial class FieldArea : MonoBehaviour
         }
 
         view.transform.SetParent(visualRoot, true);
-        view.transform.SetPositionAndRotation(GridToWorld(x, z) + transform.up * 0.01f, transform.rotation);
+        // Seed meshes are only a few millimetres high; anchor them above the
+        // hoed overlay rather than the terrain underneath it, including on load/pool reuse.
+        Vector3 surfaceUp = blendGroundSurface && !protectedFromWeather ? Vector3.up : transform.up;
+        float lift = blendedTileMaterial != null ? HoedSurfaceLift + CropSurfaceClearance : 0.01f;
+        view.transform.SetPositionAndRotation(GridToWorld(x, z) + surfaceUp * lift, transform.rotation);
         view.gameObject.SetActive(true);
         view.Initialize(this, x, z, tiles[index].crop, tiles[index].growthStage, tiles[index].cropState);
         cropViews[index] = view;

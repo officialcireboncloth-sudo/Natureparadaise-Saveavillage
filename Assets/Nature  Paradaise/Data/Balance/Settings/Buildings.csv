@@ -1,4 +1,4 @@
-asset_guid,object_id,asset_name,asset_path,setting,label,value,type,minimum,maximum,description
+﻿asset_guid,object_id,asset_name,asset_path,setting,label,value,type,minimum,maximum,description
 74d11c7c8cbb4e52b713d2a9c1f9e201,11400000,Player House Building,Assets/Nature  Paradaise/Resources/Buildings/Player House Building.asset,canDemolish,Can Demolish,FALSE,Boolean,,,"Pengaturan Can Demolish pada data game. Nilai awal berasal dari asset, bukan contoh. Lihat Inspector untuk konteks entri."
 74d11c7c8cbb4e52b713d2a9c1f9e201,11400000,Player House Building,Assets/Nature  Paradaise/Resources/Buildings/Player House Building.asset,canRelocate,Can Relocate,FALSE,Boolean,,,"Pengaturan Can Relocate pada data game. Nilai awal berasal dari asset, bukan contoh. Lihat Inspector untuk konteks entri."
 74d11c7c8cbb4e52b713d2a9c1f9e201,11400000,Player House Building,Assets/Nature  Paradaise/Resources/Buildings/Player House Building.asset,defaultPlacementYaw,Default Placement Yaw,0,Float,-180,180,Arah awal bangunan pada sumbu Y. Preview tidak mengambil arah hadap player; gunakan T untuk memutarnya.

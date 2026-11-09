@@ -82,22 +82,33 @@ public sealed class FieldCropView : MonoBehaviour
                     if (renderer != null) renderer.enabled = stagePrefab == null;
         }
 
+        // Tiny seeds otherwise reach the prefab's cull threshold at normal camera
+        // distance. Keep their cheapest LOD visible; FieldArea still hides distant fields.
+        if (stageVisual != null)
+            foreach (LODGroup lod in stageVisual.GetComponentsInChildren<LODGroup>(true))
+                lod.ForceLOD(stage == 0 && lod.lodCount > 0 ? lod.lodCount - 1 : -1);
+
         Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
         foreach (Renderer renderer in renderers)
         {
-            if (renderer == null || !renderer.enabled)
+            // Prepare disabled LOD renderers too, so distance changes keep the same lifecycle tint.
+            if (renderer == null)
                 continue;
             renderer.GetPropertyBlock(propertyBlock);
-            if (renderer.sharedMaterial != null && renderer.sharedMaterial.HasProperty("_Color"))
+            if (renderer.sharedMaterial != null)
             {
                 bool mature = stage >= definition.StageCount - 1;
                 Color cropColor = state switch
                 {
                     CropLifecycleState.Withered => new Color(0.48f, 0.34f, 0.16f),
                     CropLifecycleState.Dead => new Color(0.22f, 0.18f, 0.14f),
-                    _ => mature ? Color.yellow : Color.green
+                    // Authored crop atlases already contain the crop's colours.
+                    _ => stagePrefab != null ? Color.white : mature ? Color.yellow : Color.green
                 };
-                propertyBlock.SetColor("_Color", cropColor);
+                if (renderer.sharedMaterial.HasProperty("_BaseColor"))
+                    propertyBlock.SetColor("_BaseColor", cropColor);
+                if (renderer.sharedMaterial.HasProperty("_Color"))
+                    propertyBlock.SetColor("_Color", cropColor);
             }
             renderer.SetPropertyBlock(propertyBlock);
         }

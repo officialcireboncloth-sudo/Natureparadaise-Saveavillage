@@ -55,6 +55,16 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d1a20000000000000000000000000002, type: 2}
     - {fileID: 11400000, guid: d1a30000000000000000000000000003, type: 2}
     - {fileID: 11400000, guid: d1a40000000000000000000000000004, type: 2}
+    - {fileID: 11400000, guid: eeef94032bbf4e35b7dce923971852b4, type: 2}
+    animals: []
+  - title: Perlengkapan Pertanian
+    background: {fileID: 0}
+    sellInventory: 0
+    items:
+    - {fileID: 11400000, guid: e45ba9f352d15a74bb3e1beb8b3942fe, type: 2}
+    - {fileID: 11400000, guid: 7f7b4e41686a4ad489218b75fb9b9564, type: 2}
+    - {fileID: 11400000, guid: 06a06cb196d5d71479b6de7705ec236f, type: 2}
+    - {fileID: 11400000, guid: af58914225f41c64bb9c637d7863ba84, type: 2}
     animals: []
   - title: Umpan
     background: {fileID: 0}
@@ -86,7 +96,7 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000075, type: 2}
     price: 300
   - item: {fileID: 11400000, guid: a3ff5e12700285547907d72e6ca5b7a7, type: 2}
-    price: 100
+    price: 1200
   - item: {fileID: 11400000, guid: ae46c643f14442b39117474735f1d1ec, type: 2}
     price: 330
   - item: {fileID: 11400000, guid: ad726a9495424bacbe3aa0100000006f, type: 2}

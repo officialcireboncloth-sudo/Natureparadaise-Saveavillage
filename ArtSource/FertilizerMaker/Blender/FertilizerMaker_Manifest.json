@@ -1,0 +1,59 @@
+{
+  "parts": 154,
+  "lods": [
+    {
+      "name": "FertilizerMaker_Cozy_LOD0",
+      "triangles": 15932,
+      "min": [
+        -0.5620999932289124,
+        0.0026455819606781006,
+        -0.7923519611358643
+      ],
+      "max": [
+        0.5620999932289124,
+        1.5577841997146606,
+        0.44850000739097595
+      ]
+    },
+    {
+      "name": "FertilizerMaker_Cozy_LOD1",
+      "triangles": 8251,
+      "min": [
+        -0.5606632232666016,
+        0.0042360275983810425,
+        -0.7923519611358643
+      ],
+      "max": [
+        0.5606632232666016,
+        1.5576648712158203,
+        0.44831061363220215
+      ]
+    },
+    {
+      "name": "FertilizerMaker_Cozy_LOD2",
+      "triangles": 4111,
+      "min": [
+        -0.5566274523735046,
+        0.012397803366184235,
+        -0.7912472486495972
+      ],
+      "max": [
+        0.5566274523735046,
+        1.55728280544281,
+        0.44831565022468567
+      ]
+    }
+  ],
+  "front": "Unity -Z",
+  "origin": "ground centre",
+  "units": "metres",
+  "sharedMaterials": [
+    "NP_CozySurfaces_01",
+    "NP_CozySurfaces_05"
+  ],
+  "existingAtlasModified": false,
+  "pivots": [
+    "PIVOT - hopper lid opens about local X",
+    "PIVOT - service hatch left hinge"
+  ]
+}

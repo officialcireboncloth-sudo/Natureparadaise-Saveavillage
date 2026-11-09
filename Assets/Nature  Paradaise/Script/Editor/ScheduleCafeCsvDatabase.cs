@@ -19,7 +19,7 @@ public static class ScheduleCafeCsvDatabase
     static readonly string[] EventColumns={"event_id","year","season","day","type","title","description","location","start_hour","end_hour","image_guid","icon_guid"};
     static readonly string[] CategoryColumns={"category_id","title","icon_guid"};
     static readonly string[] MenuColumns={"offer_id","category_id","item_id","price","quality","maximum_quantity","enabled","allow_dine_in","allow_takeaway","image_guid"};
-    static string S(object value)=>Convert.ToString(value,Inv);
+    static string S(object value)=>value is bool boolean?(boolean?"TRUE":"FALSE"):Convert.ToString(value,Inv);
     static string Guid(UnityEngine.Object obj)=>obj==null?"":AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(obj));
     public static void EnsureAssets()
     {

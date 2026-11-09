@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tags>
+
+  <resource identifier="${gimp_data_dir}/brushes/Round.vbr" checksum="a7f02530d3bc7484c8f9240cbe9c65b1">
+    <tag>round</tag>
+  </resource>
+
+  <resource identifier="${gimp_data_dir}/brushes/Round-Fuzzy.vbr" checksum="f8cb2466841104a55e42afce4568d103">
+    <tag>fuzzy</tag>
+    <tag>round</tag>
+  </resource>
+
+  <resource identifier="internal:gimp-brush-clipboard-image\\Clipboard Image" checksum="157dcef48665ab465439cfaf10d6feeb">
+  </resource>
+
+  <resource identifier="internal:gimp-brush-clipboard-mask\\Clipboard Mask" checksum="157dcef48665ab465439cfaf10d6feeb">
+  </resource>
+
+  <resource identifier="internal:gimp-pattern-clipboard-image\\Clipboard Image" checksum="eff9598f9f61c1dc78d842f1798c2ab8">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-custom\\Custom" checksum="885c2d63e957cf7fc63fc5312fa84346">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-fg-bg-hsv-ccw\\FG to BG (HSV Counter-Clockwise)" checksum="3172a6059d6a03413a22b5228e3ee0d5">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-fg-bg-hsv-cw\\FG to BG (HSV Clockwise Hue)" checksum="5e4e38df5d2fd2e004f5cad181dca4ee">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-fg-bg-rgb\\FG to BG (RGB)" checksum="885c2d63e957cf7fc63fc5312fa84346">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-fg-bg-rgb-hardedge\\FG to BG (Hard Edge)" checksum="b48050f9bf83a918f04735ae5a6497eb">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-fg-transparent\\FG to Transparent" checksum="f3d0f8a64d4d9a9c16c7acc86bb58a30">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-fg-transparent-hardedge\\FG to Transparent (Hard Edge)" checksum="593f8e23ba6f9d0ddda44f2e94c83c21">
+  </resource>
+
+  <resource identifier="internal:gimp-palette-color-history\\Color History" checksum="(NULL)">
+  </resource>
+</tags>

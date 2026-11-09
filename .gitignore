@@ -30,6 +30,42 @@
 # Local art sources, exports, previews and validation workspaces.
 # Existing versioned files in these folders remain tracked.
 /ArtSource/
+# Keep the scanner's canonical editable sources and previews after consolidation.
+!/ArtSource/
+/ArtSource/*
+!/ArtSource/SoilScanner/
+/ArtSource/SoilScanner/*
+!/ArtSource/SoilScanner/Blender/
+!/ArtSource/SoilScanner/Textures/
+!/ArtSource/SoilScanner/Scripts/
+!/ArtSource/SoilScanner/Previews/
+/ArtSource/SoilScanner/Blender/*.blend1
+/ArtSource/SoilScanner/Blender/*.blend2
+!/ArtSource/FertilizerMaker/
+/ArtSource/FertilizerMaker/*
+!/ArtSource/FertilizerMaker/Blender/
+!/ArtSource/FertilizerMaker/Textures/
+!/ArtSource/FertilizerMaker/Scripts/
+!/ArtSource/FertilizerMaker/Previews/
+/ArtSource/FertilizerMaker/Blender/*.blend1
+/ArtSource/FertilizerMaker/Blender/*.blend2
+/ArtSource/FertilizerMaker/Textures/*.xcf~
+# Keep only the fertilizer icon sources in the existing UI art workspace.
+!/ArtSource/UIIcons/
+/ArtSource/UIIcons/*
+!/ArtSource/UIIcons/export_fertilizer_gimp.py
+!/ArtSource/UIIcons/FertilizerMaker_Icons.xcf
+!/ArtSource/UIIcons/HandPainted/
+/ArtSource/UIIcons/HandPainted/*
+!/ArtSource/UIIcons/HandPainted/*.py
+!/ArtSource/UIIcons/HandPainted/*.xcf
+!/ArtSource/UIIcons/HandPainted/Manifest.json
+!/ArtSource/UIIcons/HandPainted/Preview.png
+!/ArtSource/UIIcons/HandPainted/RetouchedTools_Preview.png
+!/ArtSource/UIIcons/Originals/
+/ArtSource/UIIcons/Originals/*
+!/ArtSource/UIIcons/Originals/FertilizerMaker_Sheet.png
+!/ArtSource/UIIcons/Originals/Milker_Approved.png
 /Documentation/
 
 # Only Nature Paradise assets belong to this repository.

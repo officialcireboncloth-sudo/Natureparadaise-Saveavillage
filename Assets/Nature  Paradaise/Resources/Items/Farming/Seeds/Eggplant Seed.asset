@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Eggplant Seed
+  itemId: item.eggplant_seed
+  m_EditorClassIdentifier: 
+  itemName: Benih Terong
+  icon: {fileID: 21300000, guid: d8afda5f1c6a4139a8438ee510f91bcc, type: 3}
+  buyPrice: 5
+  sellPrice: 0
+  category: 1
+  maxStack: 16
+  equippedTool: 2
+  seedCrop: {fileID: 11400000, guid: d6be672dab544fe2bd40c7a0bf6f74d1, type: 2}
+  isEdible: 0
+  foodPreparation: 0
+  healthRestore: 0
+  staminaRestore: 0
+  hungerRestore: 0
+  inventoryIllustration: {fileID: 21300000, guid: d8afda5f1c6a4139a8438ee510f91bcc, type: 3}
+  inventoryDescription: Benih Terong. Tanam di petak yang sudah dicangkul dan rawat dengan menyiramnya.

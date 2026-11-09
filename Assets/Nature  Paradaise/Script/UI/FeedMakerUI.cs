@@ -54,19 +54,20 @@ public sealed class FeedMakerUI : MonoBehaviour
     static FeedKind Kind(int category)=>category==2?FeedKind.Fish:category==1?FeedKind.Livestock:FeedKind.Poultry;
     static int Category(FeedKind kind)=>kind==FeedKind.Fish?2:kind==FeedKind.Poultry?0:1;
     bool Allowed(int value)=>!Machine.HasDedicatedOutput||Kind(value)==Machine.DedicatedFeedKind;
-    void CycleCategory(int direction){for(int n=1;n<=3;n++){int value=(category+direction*n+6)%3;if(Allowed(value)){SelectCategory(value);return;}}}
+    void CycleCategory(int direction){if(Machine.HasDedicatedOutput)return;for(int n=1;n<=3;n++){int value=(category+direction*n+6)%3;if(Allowed(value)){SelectCategory(value);return;}}}
     public void SelectCategory(int value)
     {
         value=Mathf.Clamp(value,0,2);if(!Allowed(value))return;category=value;recipePosition=0;batches=1;recipes.Clear();
         var list=Machine.Catalog?.recipes;if(list!=null)for(int i=0;i<list.Length;i++)if(list[i]!=null&&list[i].Kind==Kind(category))recipes.Add(i);
-        for(int i=0;i<3;i++)markers[i].SetActive(i==category);Refresh();GameplayInput.ConsumeCurrentFrame();
+        for(int i=0;i<3;i++)if(markers[i]!=null)markers[i].SetActive(i==category);Refresh();GameplayInput.ConsumeCurrentFrame();
     }
     public void ChangeRecipe(int direction){if(recipes.Count==0)return;recipePosition=(recipePosition+direction+recipes.Count)%recipes.Count;batches=1;Refresh();}
     public void ChangeQuantity(int delta){batches=Mathf.Clamp(batches+delta,1,99);Refresh();}
     public int Produce()
     {
-        int index=SelectedRecipeIndex,count=0;if(index>=0)for(int i=0;i<batches;i++){if(!Machine.Queue(inventory,index))break;count++;}
-        feedback.text=count>0?$"{count} produksi ditambahkan ke antrean.":"Bahan tidak cukup atau kapasitas mesin penuh.";Refresh();GameplayInput.ConsumeCurrentFrame();return count;
+        int index=SelectedRecipeIndex,count=0;string reason="Pilih resep terlebih dahulu";
+        if(index>=0&&Machine.CanQueue(inventory,index,batches,out reason)&&Machine.Queue(inventory,index,batches))count=batches;
+        feedback.text=count>0?$"{count} produksi ditambahkan ke antrean.":reason;Refresh();GameplayInput.ConsumeCurrentFrame();return count;
     }
     public bool Collect()
     {
@@ -92,16 +93,16 @@ public sealed class FeedMakerUI : MonoBehaviour
         var panel=Rect("Feed Maker Panel",safe,.482f,.095f,.985f,.985f);
         if(theme?.panel!=null){var image=panel.gameObject.AddComponent<Image>();image.sprite=theme.panel;image.type=Image.Type.Sliced;} else Surface(panel,GameplayHUDStyle.Modal);
         Art("Leaf Image Slot",panel,theme?.leafIcon,.025f,.94f,.08f,.982f);
-        Text(panel,"MESIN PEMBUAT PAKAN",33,.09f,.935f,.64f,.99f).fontStyle=FontStyles.Bold;
+        Text(panel,Machine.HasDedicatedOutput?"MESIN "+FeedTypes.Label(Machine.DedicatedFeedKind).ToUpperInvariant():"MESIN PEMBUAT PAKAN",33,.09f,.935f,.64f,.99f).fontStyle=FontStyles.Bold;
         status=Text(panel,"",18,.66f,.935f,.975f,.99f);
         string[] names={"Pakan Unggas","Pakan Hewan","Pakan Ikan"};
-        for(int i=0;i<3;i++)
+        if(!Machine.HasDedicatedOutput)for(int i=0;i<3;i++)
         {
             int tab=i;float left=.025f+i*.322f;var button=Button(panel,"",left,.833f,left+.311f,.922f,()=>SelectCategory(tab));button.interactable=Allowed(i);
             Art("Bag Image Slot",button.transform,theme?.Bag(i),.025f,.09f,.27f,.91f);Text(button.transform,names[i],24,.29f,.05f,.97f,.95f);
             markers[i]=Rect("Selected Underline",button.transform,.08f,.025f,.92f,.045f).gameObject;var mark=markers[i].AddComponent<Image>();mark.color=new(.70f,.84f,.91f);mark.raycastTarget=false;
         }
-        var card=Rect("Recipe",panel,.025f,.479f,.975f,.815f);Surface(card,GameplayHUDStyle.Card);
+        var card=Rect("Recipe",panel,.025f,.479f,.975f,Machine.HasDedicatedOutput?.922f:.815f);Surface(card,GameplayHUDStyle.Card);
         bag=Art("Large Bag Illustration Slot",card,null,.025f,.10f,.32f,.94f);
         title=Text(card,"",31,.345f,.83f,.98f,.97f);description=Text(card,"",19,.345f,.70f,.98f,.83f);
         var material=Rect("Ingredients",card,.345f,.13f,.715f,.67f);Surface(material,GameplayHUDStyle.Card);
@@ -126,7 +127,7 @@ public sealed class FeedMakerUI : MonoBehaviour
         outputs=Text(ready,"",20,.065f,.30f,.935f,.56f);take=Button(ready,"Ambil Hasil x1",.055f,.055f,.945f,.29f,()=>Collect());
         feedback=Text(panel,"",17,.035f,.035f,.975f,.072f);
         upgrade=Button(panel,"",.025f,.002f,.975f,.035f,Upgrade);upgradeLabel=Text(upgrade.transform,"",16,.02f,0,.98f,1);
-        Text(safe,"A / D  Pilih Pakan    W / S  Jumlah    Enter  Produksi    F  Ambil Hasil    Esc  Tutup",21,.50f,.025f,.935f,.08f);
+        Text(safe,(Machine.HasDedicatedOutput?"":"A / D  Pilih Pakan    ")+"W / S  Jumlah    Enter  Produksi    F  Ambil Hasil    Esc  Tutup",21,.50f,.025f,.935f,.08f);
         Button(safe,"Tutup",.94f,.03f,.985f,.075f,Dispose);Art("Logo Image Slot",safe,theme?.logo,.025f,.025f,.25f,.105f);
     }
     void Refresh()
@@ -137,17 +138,31 @@ public sealed class FeedMakerUI : MonoBehaviour
         string label=FeedTypes.Label(Kind(category));title.text=label;
         description.text=category==2?"Pakan khusus kolam ikan.":category==1?"Pakan khusus ternak besar, seperti sapi dan domba.":"Pakan khusus ayam, bebek, dan unggas lainnya.";
         SetArt(bag,theme?.Bag(category));SetArt(product,theme?.Product(category));
-        var recipe=Recipe;int available=0;var lines=new List<string>();var seen=new HashSet<ItemSO>();
+        var recipe=Recipe;var lines=new List<string>();
         foreach(var icon in materialIcons)SetArt(icon,null);
         if(recipe!=null)
         {
-            var allowed=recipe.mixedInputs!=null&&recipe.mixedInputs.Length>0?recipe.mixedInputs:new[]{recipe.input};
-            foreach(var item in allowed)if(item!=null&&seen.Add(item)){int count=inventory.GetCount(item);available+=count;if(lines.Count<3)SetArt(materialIcons[lines.Count],item.icon);lines.Add($"{item.itemName}: {count}");}
-            int required=recipe.inputCount*batches;ingredients.text=string.Join("\n",lines)+$"\nTotal perlu: {required}";
-            result.text=$"{label}\nx{recipe.outputCount}";recipeLabel.text=$"Resep {recipePosition+1}/{recipes.Count} · {recipe.input?.itemName}";
+            if(recipe.HasIngredients)
+            {
+                foreach(var ingredient in recipe.ingredients)
+                {
+                    if(ingredient==null)continue;
+                    int count=FeedRecipePlan.Available(inventory.slots,ingredient);long required=(long)ingredient.amount*batches;
+                    if(lines.Count<materialIcons.Length)SetArt(materialIcons[lines.Count],ingredient.item?.icon);
+                    string color=count>=required?"#B7D99A":"#FF7770";
+                    lines.Add($"{ingredient.DisplayName}: <color={color}>{count}/{required}</color>");
+                }
+            }
+            else
+            {
+                var allowed=recipe.mixedInputs!=null&&recipe.mixedInputs.Length>0?recipe.mixedInputs:new[]{recipe.input};var seen=new HashSet<ItemSO>();
+                foreach(var item in allowed)if(item!=null&&seen.Add(item)){if(lines.Count<3)SetArt(materialIcons[lines.Count],item.icon);lines.Add($"{item.itemName}: {inventory.GetCount(item)}");}
+            }
+            ingredients.text=string.Join("\n",lines);
+            result.text=$"{label}\nx{recipe.outputCount}";recipeLabel.text=$"Resep {recipePosition+1}/{recipes.Count} | {label}";
             double hours=recipe.hours/new[]{1d,1.25d,1.6d,2d}[Machine.Level-1];
             total.text=$"Total hasil: x{recipe.outputCount*batches}\nProses per batch: {Duration(hours)}";
-            start.interactable=available>=recipe.inputCount&&Machine.Inputs+recipe.inputCount<=Machine.InputCapacity;
+            start.interactable=Machine.CanQueue(inventory,SelectedRecipeIndex,batches,out _);
         }
         else {ingredients.text="Resep belum tersedia.";result.text="";recipeLabel.text="Tidak ada resep";total.text="";start.interactable=false;}
         quantity.text=batches.ToString();queueLabel.text=$"ANTREAN PRODUKSI · {Machine.Jobs.Count} batch";

@@ -29,6 +29,14 @@ public sealed class TestingDebugMenu : MonoBehaviour
     string search = "", itemGroup = "Semua";
     ItemSO[] items;
     AnimalGrowthSystem selectedAnimal;
+    enum CropStageTarget { PlayerTile, Nearby, Field }
+    CropStageTarget cropStageTarget = CropStageTarget.Nearby;
+    string CropStageTargetLabel => cropStageTarget switch
+    {
+        CropStageTarget.PlayerTile => "Tile player",
+        CropStageTarget.Nearby => "Sekitar player (5 x 5)",
+        _ => "Seluruh field ini"
+    };
     readonly List<Button> tabs = new();
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -283,10 +291,44 @@ public sealed class TestingDebugMenu : MonoBehaviour
     }
     void FarmPage()
     {
+        var cropCatalog = Resources.Load<ShopCatalogSO>("Shops/Crops Catalog");
+        var seedShop = FindObjectsByType<ShopFront>(FindObjectsSortMode.None)
+            .FirstOrDefault(s => cropCatalog != null && s.catalog == cropCatalog);
+        if (seedShop != null) Launch("Buka toko bibit", seedShop.Open);
+        Note("Skip fase mengikuti tanaman pada tiap tile. Siap panen tetap dipetik manual; tanaman layu / mati dilewati.");
+        Action("Target fase · " + CropStageTargetLabel, () =>
+        {
+            cropStageTarget = (CropStageTarget)(((int)cropStageTarget + 1) % 3);
+            RefreshPage();
+        });
+        bool onField = FieldArea.TryGetAt(player.transform.position, out _, out _, out _);
+        var stages = Row("Fase tanaman", 58);
+        ButtonAt(stages, "Naik 1 fase", Vector2.zero, new(.49f, 1), () => AdvanceCropStages(false)).interactable = onField;
+        ButtonAt(stages, "Siap panen", new(.51f, 0), Vector2.one, () => AdvanceCropStages(true)).interactable = onField;
+        if (!onField) Note("Berdiri di dalam field untuk memakai tombol fase tanaman.", 38);
         Note("Aksi kebun berlaku pada petak yang sudah dicangkul dalam radius 2 petak dari player; bangunan dan tanaman tetap ada.");
         Action("Sirami petak di sekitar player",()=>ApplyNearby(false));
         Action("Pupuk petak di sekitar player",()=>ApplyNearby(true));
-        Note("Benih / pupuk / booster / pakan ikan bisa ditambahkan melalui Item & Tools. Pertumbuhan kalender ada di Waktu & Cuaca.");
+        Note("Benih / pupuk / booster / pakan ikan ada di Item & Tools. Pertumbuhan lewat pergantian hari ada di Waktu & Cuaca.");
+        var fertilizerCatalog=FertilizerCatalog.Load();
+        if(fertilizerCatalog?.makerRecipes!=null)
+            foreach(var entry in fertilizerCatalog.makerRecipes)
+            {
+                var recipe=entry;if(recipe?.output==null)continue;
+                Action("Bahan tes: "+recipe.output.itemName,()=>
+                {
+                    if(inventory==null)return;bool complete=true;
+                    foreach(var ingredient in recipe.ingredients)
+                    {
+                        float size=0;var fish=FishMeasurement.FindDefinition(ingredient.item);
+                        if(fish!=null)size=!ingredient.requireFishSize?fish.minimumSizeCm:
+                            ingredient.fishSize==FishSizeTier.Small?fish.minimumSizeCm:
+                            ingredient.fishSize==FishSizeTier.Medium?fish.PondMediumSizeCm:fish.PondLargeSizeCm;
+                        complete &= inventory.Add(ingredient.item,ingredient.amount,0,size);
+                    }
+                    feedback.text=complete?"Bahan resep ditambahkan ke tas":"Sebagian bahan tidak muat di tas";
+                });
+            }
         foreach(var pond in FindObjectsByType<FishPond>(FindObjectsSortMode.None))
         {
             var p=pond;Note(p.name+$" · {p.FishCount}/{p.Capacity} ikan");
@@ -332,6 +374,30 @@ public sealed class TestingDebugMenu : MonoBehaviour
             }
         }
         Note("Untuk menguji durasi, gunakan Waktu & Cuaca → Hari berikutnya atau tidur. Timer mengikuti hari game, bukan waktu nyata.", 80);
+    }
+    void AdvanceCropStages(bool harvestReady)
+    {
+        if (!FieldArea.TryGetAt(player.transform.position, out var field, out int x, out int z))
+        {
+            feedback.text = "Player belum berada di field";
+            return;
+        }
+        int radius = cropStageTarget == CropStageTarget.PlayerTile ? 0 : 2;
+        int minX = cropStageTarget == CropStageTarget.Field ? 0 : Mathf.Max(0, x - radius);
+        int maxX = cropStageTarget == CropStageTarget.Field ? field.Columns - 1 : Mathf.Min(field.Columns - 1, x + radius);
+        int minZ = cropStageTarget == CropStageTarget.Field ? 0 : Mathf.Max(0, z - radius);
+        int maxZ = cropStageTarget == CropStageTarget.Field ? field.Rows - 1 : Mathf.Min(field.Rows - 1, z + radius);
+        int changed = 0;
+        for (int tz = minZ; tz <= maxZ; tz++)
+            for (int tx = minX; tx <= maxX; tx++)
+                if (field.DebugAdvanceCropStage(tx, tz, harvestReady)) changed++;
+        if (changed == 1 && cropStageTarget == CropStageTarget.PlayerTile && field.TryGetSnapshot(x, z, out var tile))
+            feedback.text = tile.Crop.name + " · " + tile.Crop.GetStageName(tile.GrowthStage) +
+                (tile.IsHarvestReady ? " · Siap dipanen" : "");
+        else
+            feedback.text = changed > 0
+                ? $"{changed} tanaman · {(harvestReady ? "Siap dipanen" : "Naik 1 fase")} · {CropStageTargetLabel}"
+                : "Tidak ada tanaman yang bisa dinaikkan · kosong, sudah siap panen, layu / mati, atau field terkunci";
     }
     void ApplyNearby(bool fertilizer)
     {

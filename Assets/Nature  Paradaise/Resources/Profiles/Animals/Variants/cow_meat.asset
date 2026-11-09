@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c3ea62c7f9e4d97a7eb631309e0a2e8, type: 3}
+  m_Name: cow_meat
+  m_EditorClassIdentifier:
+  animalType: 4
+  salePrice:
+    baseSellPrice: 0
+    bonusPerHeart: 0.1
+  incubationOrPregnancyDays: 14
+  bornToAdultDays: 56
+  purchasedYoungToAdultDays: 28
+  productItem: {fileID: 0}
+  productionIntervalDays: 1
+  stageSlots:
+  - stage: 3
+    startsOnGrowthDay: 0
+    modelPrefab: {fileID: 4999233921299821092, guid: 6783be1bf4726d24aa3a98437cfded00, type: 3}
+    scale: {x: 0.55, y: 0.55, z: 0.55}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    animatorController: {fileID: 0}
+    voiceClip: {fileID: 0}
+  - stage: 4
+    startsOnGrowthDay: 8
+    modelPrefab: {fileID: 4999233921299821092, guid: 6783be1bf4726d24aa3a98437cfded00, type: 3}
+    scale: {x: 0.65, y: 0.65, z: 0.65}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    animatorController: {fileID: 0}
+    voiceClip: {fileID: 0}
+  - stage: 5
+    startsOnGrowthDay: 15
+    modelPrefab: {fileID: 4999233921299821092, guid: 6783be1bf4726d24aa3a98437cfded00, type: 3}
+    scale: {x: 0.8, y: 0.8, z: 0.8}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    animatorController: {fileID: 0}
+    voiceClip: {fileID: 0}
+  - stage: 6
+    startsOnGrowthDay: 36
+    modelPrefab: {fileID: 1324212943872702015, guid: d976df1387d9a7240808c95276721b09, type: 3}
+    scale: {x: 0.78, y: 0.78, z: 0.78}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    animatorController: {fileID: 0}
+    voiceClip: {fileID: 0}
+  - stage: 7
+    startsOnGrowthDay: 56
+    modelPrefab: {fileID: 1324212943872702015, guid: d976df1387d9a7240808c95276721b09, type: 3}
+    scale: {x: 0.9, y: 0.9, z: 0.9}
+    localOffset: {x: 0, y: 0, z: 0}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+    animatorController: {fileID: 0}
+    voiceClip: {fileID: 0}
+  conditionVisualSlots: []
+  variantId: animal.cow_meat
+  productionEnabled: 0
+  purchaseSex: 0
+  sellOnlyAsAdult: 1

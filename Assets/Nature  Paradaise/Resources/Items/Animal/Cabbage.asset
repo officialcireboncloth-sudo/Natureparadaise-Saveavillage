@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Cabbage
   itemId: item.cabbage
   m_EditorClassIdentifier: 
-  itemName: Cabbage
-  icon: {fileID: 0}
+  itemName: Kubis
+  icon: {fileID: 21300000, guid: bb18a97417a2422692ac1c2fb5de7d3b, type: 3}
   buyPrice: 0
   sellPrice: 12
   category: 2
@@ -29,7 +29,7 @@ MonoBehaviour:
   cropBoosterPercent: 0
   canDropToWorld: 1
   canPlaceInWorld: 0
-  worldPrefab: {fileID: 1434287555336096191, guid: 22090256d92572f45b7e6cb94d58f231, type: 3}
+  worldPrefab: {fileID: 100, guid: ca4689a6af9a4c6e9bb4dc2a2957c405, type: 3}
   worldScale: {x: 0.4, y: 0.4, z: 0.4}
   sprinklerLevel: 0
   treeDefinition: {fileID: 0}
@@ -39,3 +39,5 @@ MonoBehaviour:
   staminaRestore: 12
   hungerRestore: 20
   refrigeratorCategory: 1
+  inventoryIllustration: {fileID: 21300000, guid: bb18a97417a2422692ac1c2fb5de7d3b, type: 3}
+  inventoryDescription: Hasil panen Kubis.

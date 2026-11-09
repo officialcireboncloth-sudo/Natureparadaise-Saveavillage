@@ -3,8 +3,15 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52c4875d0d7943e0b3d5c90010000002, type: 3}
   m_Name: FertilizerCatalog
+  m_EditorClassIdentifier:
   soilFertilizers:
   - {fileID: 11400000, guid: d1a10000000000000000000000000001, type: 2}
   - {fileID: 11400000, guid: d1a20000000000000000000000000002, type: 2}
@@ -16,7 +23,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000ca, type: 2}
   - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cb, type: 2}
   - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cc, type: 2}
-  - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cd, type: 2}
   recipes:
   - id: booster.basic
     output: {fileID: 11400000, guid: cb002000000000000000000000000020, type: 2}
@@ -25,8 +31,16 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012c, type: 2}
       amount: 5
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012e, type: 2}
       amount: 3
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
   - id: booster.organic
     output: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000ca, type: 2}
     outputCount: 5
@@ -34,8 +48,16 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012d, type: 2}
       amount: 5
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012f, type: 2}
       amount: 5
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
   - id: booster.premium
     output: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cb, type: 2}
     outputCount: 3
@@ -43,10 +65,22 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: cb002000000000000000000000000020, type: 2}
       amount: 3
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000ca, type: 2}
       amount: 3
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c900000000130, type: 2}
       amount: 2
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
   - id: booster.deluxe
     output: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cc, type: 2}
     outputCount: 2
@@ -54,8 +88,16 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cb, type: 2}
       amount: 3
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c900000000131, type: 2}
       amount: 5
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
   - id: booster.divine
     output: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cd, type: 2}
     outputCount: 1
@@ -63,10 +105,22 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cc, type: 2}
       amount: 2
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c900000000133, type: 2}
       amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c900000000132, type: 2}
       amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
   - id: manure.soil
     output: {fileID: 11400000, guid: d1a10000000000000000000000000001, type: 2}
     outputCount: 1
@@ -74,6 +128,10 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012d, type: 2}
       amount: 3
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
   - id: manure.poultry.soil
     output: {fileID: 11400000, guid: d1a10000000000000000000000000001, type: 2}
     outputCount: 1
@@ -81,6 +139,10 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012c, type: 2}
       amount: 5
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
   - id: compost.soil
     output: {fileID: 11400000, guid: d1a10000000000000000000000000001, type: 2}
     outputCount: 1
@@ -88,6 +150,10 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: 678fd352d3fe4b80a581a9b5c88eb390, type: 2}
       amount: 3
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
   - id: compost.booster.basic
     output: {fileID: 11400000, guid: cb002000000000000000000000000020, type: 2}
     outputCount: 5
@@ -95,8 +161,16 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: 678fd352d3fe4b80a581a9b5c88eb390, type: 2}
       amount: 5
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012e, type: 2}
       amount: 3
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
   - id: compost.booster.organic
     output: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000ca, type: 2}
     outputCount: 5
@@ -104,5 +178,146 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: 678fd352d3fe4b80a581a9b5c88eb390, type: 2}
       amount: 5
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
     - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012f, type: 2}
       amount: 5
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
+  makerRecipes:
+  - id: maker.basic
+    output: {fileID: 11400000, guid: cb002000000000000000000000000020, type: 2}
+    outputCount: 1
+    productionHours: 0
+    ingredients:
+    - item: {fileID: 11400000, guid: 6f71da47e3f64ab7f541fbf78beefa47, type: 2}
+      amount: 1
+      alternatives: []
+      displayName: Tilapia kecil
+      requireFishSize: 1
+      fishSize: 0
+    - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012d, type: 2}
+      amount: 1
+      alternatives:
+      - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012c, type: 2}
+      displayName: Kotoran hewan
+      requireFishSize: 0
+      fishSize: 0
+    - item: {fileID: 11400000, guid: 17953359350d1db4fa5c2d97c6823033, type: 2}
+      amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
+  - id: maker.plus
+    output: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000ca, type: 2}
+    outputCount: 1
+    productionHours: 0
+    ingredients:
+    - item: {fileID: 11400000, guid: 4437258f3325cfe428d65549f53ce97c, type: 2}
+      amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
+    - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012d, type: 2}
+      amount: 2
+      alternatives:
+      - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012c, type: 2}
+      displayName: Kotoran hewan
+      requireFishSize: 0
+      fishSize: 0
+    - item: {fileID: 11400000, guid: e45ba9f352d15a74bb3e1beb8b3942fe, type: 2}
+      amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
+    - item: {fileID: 11400000, guid: 7f7b4e41686a4ad489218b75fb9b9564, type: 2}
+      amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
+  - id: maker.super
+    output: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cb, type: 2}
+    outputCount: 1
+    productionHours: 0
+    ingredients:
+    - item: {fileID: 11400000, guid: c2904d57451043aeb30a446645f6ecb5, type: 2}
+      amount: 1
+      alternatives: []
+      displayName: Tuna sedang
+      requireFishSize: 1
+      fishSize: 1
+    - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012d, type: 2}
+      amount: 5
+      alternatives:
+      - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012c, type: 2}
+      displayName: Kotoran hewan
+      requireFishSize: 0
+      fishSize: 0
+    - item: {fileID: 11400000, guid: e45ba9f352d15a74bb3e1beb8b3942fe, type: 2}
+      amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
+    - item: {fileID: 11400000, guid: 7f7b4e41686a4ad489218b75fb9b9564, type: 2}
+      amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
+    - item: {fileID: 11400000, guid: 06a06cb196d5d71479b6de7705ec236f, type: 2}
+      amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
+  - id: maker.premium
+    output: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c9000000000cc, type: 2}
+    outputCount: 1
+    productionHours: 0
+    ingredients:
+    - item: {fileID: 11400000, guid: 711a1f33f679cf94d9bb5c0a7ec92b0d, type: 2}
+      amount: 1
+      alternatives: []
+      displayName: Marlin besar
+      requireFishSize: 1
+      fishSize: 2
+    - item: {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012d, type: 2}
+      amount: 10
+      alternatives:
+      - {fileID: 11400000, guid: 2c4875d0d7943e0b3d5c90000000012c, type: 2}
+      displayName: Kotoran hewan
+      requireFishSize: 0
+      fishSize: 0
+    - item: {fileID: 11400000, guid: e45ba9f352d15a74bb3e1beb8b3942fe, type: 2}
+      amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
+    - item: {fileID: 11400000, guid: 7f7b4e41686a4ad489218b75fb9b9564, type: 2}
+      amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
+    - item: {fileID: 11400000, guid: 06a06cb196d5d71479b6de7705ec236f, type: 2}
+      amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0
+    - item: {fileID: 11400000, guid: af58914225f41c64bb9c637d7863ba84, type: 2}
+      amount: 1
+      alternatives: []
+      displayName:
+      requireFishSize: 0
+      fishSize: 0

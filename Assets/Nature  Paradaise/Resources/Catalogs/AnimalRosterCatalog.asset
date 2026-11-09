@@ -1,0 +1,484 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc6ba29800445861a269d16fbcbb5256, type: 3}
+  m_Name: AnimalRosterCatalog
+  entries:
+  - id: animal.cow_dairy
+    displayName: Sapi Perah
+    species: Cow
+    benefit: Menghasilkan susu
+    purpose: 0
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 1
+    buyPrice: 6400
+    adultSellPrice: 4000
+    productPrice: 400
+    product: {fileID: 11400000, guid: a3ff5e12700285547907d72e6ca5b7a7, type: 2}
+    hasRuntimeType: 1
+    isDefault: 1
+    runtimeType: 4
+    growthProfile: {fileID: 11400000, guid: ca01c011000000000000000000000001, type: 2}
+    animalPrefab: {fileID: 3192596076704916411, guid: 9c4cc366c277c934d90642903ee7416a, type: 3}
+  - id: animal.cow_meat
+    displayName: Sapi Pedaging
+    species: Cow
+    benefit: Dibesarkan untuk dijual
+    purpose: 1
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 1
+    isDefault: 0
+    runtimeType: 4
+    growthProfile: {fileID: 11400000, guid: 6da068f40cb455e78f7901aefeecfecd, type: 2}
+    animalPrefab: {fileID: 3192596076704916411, guid: 9c4cc366c277c934d90642903ee7416a, type: 3}
+  - id: animal.cow_breeding
+    displayName: Sapi Jantan
+    species: Cow
+    benefit: Perkembangbiakan
+    purpose: 2
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 1
+    isDefault: 0
+    runtimeType: 4
+    growthProfile: {fileID: 11400000, guid: 41eb5ece1976555c9f8db23b1932292a, type: 2}
+    animalPrefab: {fileID: 3192596076704916411, guid: 9c4cc366c277c934d90642903ee7416a, type: 3}
+  - id: animal.chicken_layer
+    displayName: Ayam Petelur
+    species: Chicken
+    benefit: Menghasilkan telur
+    purpose: 0
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 1
+    buyPrice: 1200
+    adultSellPrice: 750
+    productPrice: 100
+    product: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000001, type: 2}
+    hasRuntimeType: 1
+    isDefault: 1
+    runtimeType: 0
+    growthProfile: {fileID: 11400000, guid: ca02c022000000000000000000000002, type: 2}
+    animalPrefab: {fileID: 5737161228259277445, guid: 887baffc5664c2e49b13a56458bb948e, type: 3}
+  - id: animal.chicken_meat
+    displayName: Ayam Pedaging
+    species: Chicken
+    benefit: Dibesarkan untuk dijual
+    purpose: 1
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 1
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 11400000, guid: e94db5cc00e45d809aaeef4b2fad5de9, type: 2}
+    animalPrefab: {fileID: 5737161228259277445, guid: 887baffc5664c2e49b13a56458bb948e, type: 3}
+  - id: animal.chicken_rooster
+    displayName: Ayam Jago
+    species: Chicken
+    benefit: Perkembangbiakan
+    purpose: 2
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 1
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 11400000, guid: 85fc4b1f11fd540fac73ddccca7b12f1, type: 2}
+    animalPrefab: {fileID: 5737161228259277445, guid: 887baffc5664c2e49b13a56458bb948e, type: 3}
+  - id: animal.goat_dairy
+    displayName: Kambing Perah
+    species: Goat
+    benefit: Menghasilkan susu kambing
+    purpose: 0
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 1
+    buyPrice: 4000
+    adultSellPrice: 2500
+    productPrice: 300
+    product: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000003, type: 2}
+    hasRuntimeType: 1
+    isDefault: 1
+    runtimeType: 2
+    growthProfile: {fileID: 11400000, guid: c53dd16cef0c5ee28be1ce3833cc1d02, type: 2}
+    animalPrefab: {fileID: 6138874550457800520, guid: 5a26e7474e19d3b49bee8f52b38c6dba, type: 3}
+  - id: animal.goat_meat
+    displayName: Kambing Pedaging
+    species: Goat
+    benefit: Dibesarkan untuk dijual
+    purpose: 1
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 1
+    isDefault: 0
+    runtimeType: 2
+    growthProfile: {fileID: 11400000, guid: b2cae52773615fab8464ff62380c1e66, type: 2}
+    animalPrefab: {fileID: 6138874550457800520, guid: 5a26e7474e19d3b49bee8f52b38c6dba, type: 3}
+  - id: animal.goat_breeding
+    displayName: Kambing Jantan
+    species: Goat
+    benefit: Perkembangbiakan
+    purpose: 2
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 1
+    isDefault: 0
+    runtimeType: 2
+    growthProfile: {fileID: 11400000, guid: 8ddc24a9f60d53eebd7d1659080b63db, type: 2}
+    animalPrefab: {fileID: 6138874550457800520, guid: 5a26e7474e19d3b49bee8f52b38c6dba, type: 3}
+  - id: animal.sheep_wool
+    displayName: Domba Wol
+    species: Sheep
+    benefit: Menghasilkan wol
+    purpose: 0
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 1
+    buyPrice: 4800
+    adultSellPrice: 3000
+    productPrice: 650
+    product: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000004, type: 2}
+    hasRuntimeType: 1
+    isDefault: 1
+    runtimeType: 3
+    growthProfile: {fileID: 11400000, guid: 6e2f394bbd675a7fbce65874347087f0, type: 2}
+    animalPrefab: {fileID: 3255867418874246156, guid: 39e6eba51095af7488a501108040e7a7, type: 3}
+  - id: animal.sheep_meat
+    displayName: Domba Pedaging
+    species: Sheep
+    benefit: Dibesarkan untuk dijual
+    purpose: 1
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 1
+    isDefault: 0
+    runtimeType: 3
+    growthProfile: {fileID: 11400000, guid: e72cba6f6fa45bbbb7ec1281da8e2af0, type: 2}
+    animalPrefab: {fileID: 3255867418874246156, guid: 39e6eba51095af7488a501108040e7a7, type: 3}
+  - id: animal.sheep_breeding
+    displayName: Domba Jantan
+    species: Sheep
+    benefit: Perkembangbiakan
+    purpose: 2
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 1
+    isDefault: 0
+    runtimeType: 3
+    growthProfile: {fileID: 11400000, guid: c624ad32ca4f5f6db8d0c61ef2949b83, type: 2}
+    animalPrefab: {fileID: 3255867418874246156, guid: 39e6eba51095af7488a501108040e7a7, type: 3}
+  - id: animal.pig_meat
+    displayName: Babi Ternak
+    species: Pig
+    benefit: Dibesarkan untuk dijual
+    purpose: 1
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 0
+    buyPrice: 4800
+    adultSellPrice: 9000
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 1
+    isDefault: 1
+    runtimeType: 5
+    growthProfile: {fileID: 11400000, guid: 7e2a0c7f6aa15234b61d3fc57b56d3ac, type: 2}
+    animalPrefab: {fileID: 1369942611831455936, guid: a1c3b039c590d724ca643590a24edcc8, type: 3}
+  - id: animal.pig_breeding
+    displayName: Babi Jantan
+    species: Pig
+    benefit: Perkembangbiakan
+    purpose: 2
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 1
+    isDefault: 0
+    runtimeType: 5
+    growthProfile: {fileID: 11400000, guid: bd90f682edee5ab8b4117d990c8f783b, type: 2}
+    animalPrefab: {fileID: 1369942611831455936, guid: a1c3b039c590d724ca643590a24edcc8, type: 3}
+  - id: animal.duck_layer
+    displayName: Bebek Petelur
+    species: Duck
+    benefit: Menghasilkan telur bebek
+    purpose: 0
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 1
+    buyPrice: 1600
+    adultSellPrice: 1000
+    productPrice: 150
+    product: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000002, type: 2}
+    hasRuntimeType: 1
+    isDefault: 1
+    runtimeType: 1
+    growthProfile: {fileID: 11400000, guid: 0feba9a7ff3153d48435d13833e7c474, type: 2}
+    animalPrefab: {fileID: 0}
+  - id: animal.duck_meat
+    displayName: Bebek Pedaging
+    species: Duck
+    benefit: Dibesarkan untuk dijual
+    purpose: 1
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 1
+    isDefault: 0
+    runtimeType: 1
+    growthProfile: {fileID: 11400000, guid: f15150a639c7522da4685eb3d74510a4, type: 2}
+    animalPrefab: {fileID: 0}
+  - id: animal.duck_breeding
+    displayName: Bebek Jantan
+    species: Duck
+    benefit: Perkembangbiakan
+    purpose: 2
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 1
+    isDefault: 0
+    runtimeType: 1
+    growthProfile: {fileID: 11400000, guid: 678c5483e6675c0c9ee6acce07af955c, type: 2}
+    animalPrefab: {fileID: 0}
+  - id: animal.goose_layer
+    displayName: Angsa Petelur
+    species: Goose
+    benefit: Menghasilkan telur angsa
+    purpose: 0
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 11400000, guid: aa17d08e4423574da55866594d48cecc, type: 2}
+    hasRuntimeType: 0
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 0}
+    animalPrefab: {fileID: 0}
+  - id: animal.goose_meat
+    displayName: Angsa Pedaging
+    species: Goose
+    benefit: Dibesarkan untuk dijual
+    purpose: 1
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 0
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 0}
+    animalPrefab: {fileID: 0}
+  - id: animal.goose_breeding
+    displayName: Angsa Jantan
+    species: Goose
+    benefit: Perkembangbiakan
+    purpose: 2
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 0
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 0}
+    animalPrefab: {fileID: 0}
+  - id: animal.horse_riding
+    displayName: Kuda Tunggangan
+    species: Horse
+    benefit: Transportasi pemain
+    purpose: 3
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 0
+    buyPrice: 12000
+    adultSellPrice: 7500
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 0
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 0}
+    animalPrefab: {fileID: 0}
+  - id: animal.horse_hauling
+    displayName: Kuda Angkut
+    species: Horse
+    benefit: Membawa barang
+    purpose: 4
+    hasBuyPrice: 0
+    hasAdultSellPrice: 0
+    hasProductPrice: 0
+    buyPrice: 0
+    adultSellPrice: 0
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 0
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 0}
+    animalPrefab: {fileID: 0}
+  - id: animal.alpaca_fiber
+    displayName: Alpaka Serat
+    species: Alpaca
+    benefit: Menghasilkan serat alpaka
+    purpose: 0
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 1
+    buyPrice: 9600
+    adultSellPrice: 6000
+    productPrice: 1000
+    product: {fileID: 11400000, guid: 5ca03812211d59bca30109c3c8fc2ff6, type: 2}
+    hasRuntimeType: 0
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 0}
+    animalPrefab: {fileID: 0}
+  - id: animal.donkey_hauling
+    displayName: Keledai Angkut
+    species: Donkey
+    benefit: Membawa barang
+    purpose: 4
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 0
+    buyPrice: 5600
+    adultSellPrice: 3500
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 0
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 0}
+    animalPrefab: {fileID: 0}
+  - id: animal.ostrich_layer
+    displayName: Burung Unta Petelur
+    species: Ostrich
+    benefit: Menghasilkan telur burung unta
+    purpose: 0
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 1
+    buyPrice: 8000
+    adultSellPrice: 5000
+    productPrice: 800
+    product: {fileID: 11400000, guid: d88253a5665c56d6b662f7ede937d1bb, type: 2}
+    hasRuntimeType: 0
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 0}
+    animalPrefab: {fileID: 0}
+  - id: animal.dog_guard
+    displayName: Anjing Penjaga
+    species: Dog
+    benefit: Pendamping dan menggiring ternak
+    purpose: 5
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 0
+    buyPrice: 2400
+    adultSellPrice: 1500
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 0
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 0}
+    animalPrefab: {fileID: 0}
+  - id: animal.husky_companion
+    displayName: Husky Pendamping
+    species: Husky
+    benefit: Pendamping dan menggiring ternak
+    purpose: 5
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 0
+    buyPrice: 4000
+    adultSellPrice: 2500
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 0
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 0}
+    animalPrefab: {fileID: 0}
+  - id: animal.cat_house
+    displayName: Kucing Peliharaan
+    species: Cat
+    benefit: Pendamping di rumah
+    purpose: 6
+    hasBuyPrice: 1
+    hasAdultSellPrice: 1
+    hasProductPrice: 0
+    buyPrice: 2000
+    adultSellPrice: 1250
+    productPrice: 0
+    product: {fileID: 0}
+    hasRuntimeType: 0
+    isDefault: 0
+    runtimeType: 0
+    growthProfile: {fileID: 0}
+    animalPrefab: {fileID: 0}

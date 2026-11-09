@@ -72,7 +72,7 @@ public readonly struct FieldSoilSnapshot
     public readonly int FieldNumber, Fertility, RemainingDays;
     public readonly string FieldId, DisplayName, RestorationItemId;
     public readonly FieldSoilCondition Condition;
-    public readonly int QualityContributionPercent;
+    public readonly float QualityContributionPercent;
     public bool IsRestoring => RemainingDays > 0;
     public int MaximumFertility => FieldSoilState.MaximumFertility;
 
@@ -86,7 +86,7 @@ public readonly struct FieldSoilSnapshot
         RestorationItemId = state.restorationItemId;
         Condition = rules != null ? rules.GetCondition(Fertility) : FieldSoilRulesSO.DefaultCondition(Fertility);
         QualityContributionPercent = rules != null ? rules.GetQualityContribution(Fertility)
-            : Condition == FieldSoilCondition.Good ? 40 : Condition == FieldSoilCondition.Medium ? 25 : 10;
+            : Math.Max(0, Math.Min(80, Fertility)) / 80f * 40f;
     }
 
     public string ConditionName => Condition == FieldSoilCondition.Good ? "Bagus"

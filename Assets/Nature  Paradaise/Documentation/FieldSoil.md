@@ -16,6 +16,10 @@ Menu Editor **Nature Paradise → Soil** dapat membuat ulang prefab dummy atau m
 
 ## Menyiapkan Field 1–4
 
+Petak outdoor memakai **Cell Size = 1 unit** (sebelumnya 0,8). Field 1 dan 2 di Map tetap **15 × 15 petak**, kini berukuran **15 × 15 unit**. Semua fase tanaman mengikuti ukuran cell sehingga ikut membesar **25%**, termasuk tanaman dari save lama. Collider field, permukaan tanah, marker alat, dan jarak antartanaman memakai ukuran cell yang sama.
+
+Kamera outdoor memakai **Outdoor Pitch = 30°** dan zoom terdekat **4,25**, dengan level lain tetap 6,5 dan 8. Pilihan zoom player tetap disimpan. Saat masuk interior, kamera kembali memakai sudut scene / marker interior dan zoom awal 5; rumah tetap memakai kamera perspektif yang sudah disusun. Dua nilai outdoor tersedia di komponen `TopDownCameraFollow` agar dapat disesuaikan tanpa mengubah framing interior.
+
 1. Di scene Map, pilih objek yang memiliki komponen `FieldArea`. Field utama sudah menggunakan **Field Number = 1**.
 2. Duplicate instance tersebut, pindahkan posisinya, lalu ubah **Field Number** menjadi 2, 3, atau 4. Hindari field saling bertumpuk.
 3. Atur **Columns**, **Rows**, dan ukuran cell pada setiap instance. Scanner membaca ID yang diberikan, bukan urutan Hierarchy maupun posisi field.
@@ -30,13 +34,14 @@ Scene Map sudah memiliki Field 1 dan Field 2 sesuai dua instance yang disusun di
 | Pengaturan | Default |
 | --- | --- |
 | Kesuburan awal | 80 / 80 |
-| Buruk | 0–19; kontribusi kualitas 10% |
-| Sedang | 20–49; kontribusi kualitas 25% |
-| Bagus | 50–80; kontribusi kualitas 40% |
+| Buruk | 0-19 |
+| Sedang | 20-49 |
+| Bagus | 50-80 |
+| Kontribusi kualitas | Linear: (kesuburan / 80) x 40%, dicatat setiap hari tumbuh |
 | Penurunan | 1 poin per hari jika field berisi tanaman |
 | Field tanpa tanaman | Tidak berkurang; tidak pulih otomatis |
 
-Batas kondisi dan laju penurunan merupakan tuning awal, karena belum ditetapkan dalam revisi. Nilai kesuburan ditampilkan sebagai nilai absolut, misalnya **25 / 80**. Kontribusi 10/25/40% membias bobot kualitas yang sudah memenuhi syarat; bukan peluang tetap mendapatkan bintang 5. Penyiraman, pupuk tanaman, musim, hama, dan ketepatan waktu panen tetap diperhitungkan. Kesuburan 80 tidak menjamin bintang 5. Tanah buruk tetap bisa ditanami.
+Batas kondisi dan laju penurunan merupakan tuning awal. Nilai kesuburan ditampilkan sebagai nilai absolut, misalnya **25 / 80**. Revisi Pembuat Pupuk menggunakan kualitas pasti: pupuk maks. 40%, kesuburan maks. 40%, air maks. 20%. Kontribusi tanah mengikuti (nilai/80)*40 secara linear; label kondisi tidak lagi menjadi bobot peluang acak. Bintang 5 memerlukan seluruh riwayat perawatan mencapai tepat 100% dan menjamin hasil mutasi. Kesuburan 80 saja tidak cukup, dan tanah buruk tetap bisa ditanami. Lihat `FertilizerMaker.md` untuk aturan harian dan durasi efek.
 
 ## Terra dan penguncian field
 

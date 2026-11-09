@@ -1,0 +1,1631 @@
+{
+  "version": 1,
+  "name": "NP_Plants_Trellis_01",
+  "colorSize": [
+    2048,
+    2048
+  ],
+  "normalSize": [
+    2048,
+    2048
+  ],
+  "maskSize": [
+    2048,
+    2048
+  ],
+  "paddingPixels": 20,
+  "normalConvention": "Tangent +Y, GIMP GEGL normal-map",
+  "surfaceMaskChannels": {
+    "R": "metallic (zero)",
+    "A": "smoothness"
+  },
+  "authoring": "Native GIMP; generated kiwi leaf/skin sources, registered leaf mesh UV, independent 2048 G03 page",
+  "slots": [
+    {
+      "name": "LeafBrassica",
+      "index": 0,
+      "pixelRectTopLeft": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.884765625,
+        0.115234375,
+        0.990234375
+      ],
+      "base": "#28744b",
+      "highlight": "#58a066",
+      "shadow": "#164b35",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.36,
+      "surfaceDetail": {
+        "revision": "R03",
+        "style": "pinnate",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafCabbage",
+      "index": 1,
+      "pixelRectTopLeft": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.884765625,
+        0.240234375,
+        0.990234375
+      ],
+      "base": "#428829",
+      "highlight": "#79af40",
+      "shadow": "#24591e",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.34,
+      "surfaceDetail": {
+        "revision": "R03",
+        "style": "pinnate",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafCabbageInner",
+      "index": 2,
+      "pixelRectTopLeft": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.884765625,
+        0.365234375,
+        0.990234375
+      ],
+      "base": "#91b93d",
+      "highlight": "#bdd45e",
+      "shadow": "#628c29",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.36,
+      "surfaceDetail": {
+        "revision": "R03",
+        "style": "pinnate",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafOval",
+      "index": 3,
+      "pixelRectTopLeft": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.884765625,
+        0.490234375,
+        0.990234375
+      ],
+      "base": "#588d38",
+      "highlight": "#93b950",
+      "shadow": "#386629",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.32,
+      "surfaceDetail": {
+        "revision": "G03 R01",
+        "style": "pea_leaf",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafSerrated",
+      "index": 4,
+      "pixelRectTopLeft": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.884765625,
+        0.615234375,
+        0.990234375
+      ],
+      "base": "#3e7d37",
+      "highlight": "#7eac4a",
+      "shadow": "#285b2c",
+      "pattern": "serrated",
+      "metallic": 0,
+      "smoothness": 0.32,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G04 R01",
+        "registeredNormal": true
+      }
+    },
+    {
+      "name": "LeafLobed",
+      "index": 5,
+      "pixelRectTopLeft": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.884765625,
+        0.740234375,
+        0.990234375
+      ],
+      "base": "#4b792b",
+      "highlight": "#70993e",
+      "shadow": "#325a22",
+      "pattern": "lobed",
+      "metallic": 0,
+      "smoothness": 0.16,
+      "surfaceDetail": {
+        "revision": "R03",
+        "style": "palmate",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafVineRound",
+      "index": 6,
+      "pixelRectTopLeft": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.884765625,
+        0.865234375,
+        0.990234375
+      ],
+      "base": "#72a23c",
+      "highlight": "#abd060",
+      "shadow": "#47722c",
+      "pattern": "roundleaf",
+      "metallic": 0,
+      "smoothness": 0.19,
+      "surfaceDetail": {
+        "revision": "R03",
+        "style": "palmate",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafVineHeart",
+      "index": 7,
+      "pixelRectTopLeft": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.884765625,
+        0.990234375,
+        0.990234375
+      ],
+      "base": "#4b8c38",
+      "highlight": "#95bb51",
+      "shadow": "#2e612c",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.34,
+      "surfaceDetail": {
+        "revision": "R03",
+        "style": "palmate",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafStrap",
+      "index": 8,
+      "pixelRectTopLeft": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.759765625,
+        0.115234375,
+        0.865234375
+      ],
+      "base": "#719b35",
+      "highlight": "#b6c45f",
+      "shadow": "#45692a",
+      "pattern": "strap",
+      "metallic": 0,
+      "smoothness": 0.16,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafNarrow",
+      "index": 9,
+      "pixelRectTopLeft": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.759765625,
+        0.240234375,
+        0.865234375
+      ],
+      "base": "#75906b",
+      "highlight": "#a9b6a0",
+      "shadow": "#4f715c",
+      "pattern": "strap",
+      "metallic": 0,
+      "smoothness": 0.37,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G04 R01",
+        "registeredNormal": true
+      }
+    },
+    {
+      "name": "LeafOrchid",
+      "index": 10,
+      "pixelRectTopLeft": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.759765625,
+        0.365234375,
+        0.865234375
+      ],
+      "base": "#568841",
+      "highlight": "#a4b967",
+      "shadow": "#345f35",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.25,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafBean",
+      "index": 11,
+      "pixelRectTopLeft": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.759765625,
+        0.490234375,
+        0.865234375
+      ],
+      "base": "#62993b",
+      "highlight": "#a2bc59",
+      "shadow": "#3d712b",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.32,
+      "surfaceDetail": {
+        "revision": "G03 R01",
+        "style": "kiwi_leaf",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafYoung",
+      "index": 12,
+      "pixelRectTopLeft": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.759765625,
+        0.615234375,
+        0.865234375
+      ],
+      "base": "#65a42c",
+      "highlight": "#a1c94a",
+      "shadow": "#3b7821",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.34,
+      "surfaceDetail": {
+        "revision": "R03",
+        "style": "cotyledon",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafDark",
+      "index": 13,
+      "pixelRectTopLeft": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.759765625,
+        0.740234375,
+        0.865234375
+      ],
+      "base": "#397137",
+      "highlight": "#75a04c",
+      "shadow": "#214f2d",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.32,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G04 R01",
+        "registeredNormal": true
+      }
+    },
+    {
+      "name": "LeafSage",
+      "index": 14,
+      "pixelRectTopLeft": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.759765625,
+        0.865234375,
+        0.865234375
+      ],
+      "base": "#829578",
+      "highlight": "#b2bf9c",
+      "shadow": "#536e59",
+      "pattern": "strap",
+      "metallic": 0,
+      "smoothness": 0.12,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafWaterSpinach",
+      "index": 15,
+      "pixelRectTopLeft": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.759765625,
+        0.990234375,
+        0.865234375
+      ],
+      "base": "#629c40",
+      "highlight": "#a5c65c",
+      "shadow": "#3c752f",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.2,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "StemGreen",
+      "index": 16,
+      "pixelRectTopLeft": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.634765625,
+        0.115234375,
+        0.740234375
+      ],
+      "base": "#609d2c",
+      "highlight": "#97c447",
+      "shadow": "#387322",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.35,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "StemPurple",
+      "index": 17,
+      "pixelRectTopLeft": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.634765625,
+        0.240234375,
+        0.740234375
+      ],
+      "base": "#526f2c",
+      "highlight": "#549e24",
+      "shadow": "#673052",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.3,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G04 R01",
+        "registeredNormal": true
+      }
+    },
+    {
+      "name": "RootCream",
+      "index": 18,
+      "pixelRectTopLeft": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.634765625,
+        0.365234375,
+        0.740234375
+      ],
+      "base": "#c6b88d",
+      "highlight": "#eee1b7",
+      "shadow": "#9b8a66",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.12,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "SepalGreen",
+      "index": 19,
+      "pixelRectTopLeft": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.634765625,
+        0.490234375,
+        0.740234375
+      ],
+      "base": "#527b2d",
+      "highlight": "#9aad4b",
+      "shadow": "#325823",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.16,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "SeedTan",
+      "index": 20,
+      "pixelRectTopLeft": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.634765625,
+        0.615234375,
+        0.740234375
+      ],
+      "base": "#ba8547",
+      "highlight": "#dfb870",
+      "shadow": "#80562f",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "SeedBrown",
+      "index": 21,
+      "pixelRectTopLeft": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.634765625,
+        0.740234375,
+        0.740234375
+      ],
+      "base": "#765438",
+      "highlight": "#b18b58",
+      "shadow": "#4b382b",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "SeedBlack",
+      "index": 22,
+      "pixelRectTopLeft": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.634765625,
+        0.865234375,
+        0.740234375
+      ],
+      "base": "#343630",
+      "highlight": "#716b51",
+      "shadow": "#232720",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "SeedCream",
+      "index": 23,
+      "pixelRectTopLeft": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.634765625,
+        0.990234375,
+        0.740234375
+      ],
+      "base": "#d7c18b",
+      "highlight": "#f2e4b6",
+      "shadow": "#a58c59",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "BerryBlue",
+      "index": 24,
+      "pixelRectTopLeft": [
+        0,
+        768,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.509765625,
+        0.115234375,
+        0.615234375
+      ],
+      "base": "#49689f",
+      "highlight": "#8a9ec4",
+      "shadow": "#2d4377",
+      "pattern": "fruit",
+      "metallic": 0,
+      "smoothness": 0.28,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "BerryRed",
+      "index": 25,
+      "pixelRectTopLeft": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.509765625,
+        0.240234375,
+        0.615234375
+      ],
+      "base": "#df690b",
+      "highlight": "#f7a022",
+      "shadow": "#a43a07",
+      "pattern": "fruit",
+      "metallic": 0,
+      "smoothness": 0.57,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G04 R01",
+        "registeredNormal": true
+      }
+    },
+    {
+      "name": "BerryDark",
+      "index": 26,
+      "pixelRectTopLeft": [
+        512,
+        768,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.509765625,
+        0.365234375,
+        0.615234375
+      ],
+      "base": "#403649",
+      "highlight": "#796080",
+      "shadow": "#252536",
+      "pattern": "fruit",
+      "metallic": 0,
+      "smoothness": 0.24,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "FruitUnripe",
+      "index": 27,
+      "pixelRectTopLeft": [
+        768,
+        768,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.509765625,
+        0.490234375,
+        0.615234375
+      ],
+      "base": "#94ac4c",
+      "highlight": "#c5d37c",
+      "shadow": "#628334",
+      "pattern": "fruit",
+      "metallic": 0,
+      "smoothness": 0.24,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "WatermelonStripe",
+      "index": 28,
+      "pixelRectTopLeft": [
+        1024,
+        768,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.509765625,
+        0.615234375,
+        0.615234375
+      ],
+      "base": "#356442",
+      "highlight": "#86a251",
+      "shadow": "#234d36",
+      "pattern": "watermelon",
+      "metallic": 0,
+      "smoothness": 0.24,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "MelonNet",
+      "index": 29,
+      "pixelRectTopLeft": [
+        1280,
+        768,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.509765625,
+        0.740234375,
+        0.615234375
+      ],
+      "base": "#c4b76b",
+      "highlight": "#e3d497",
+      "shadow": "#97904f",
+      "pattern": "melon",
+      "metallic": 0,
+      "smoothness": 0.16,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "KiwiSkin",
+      "index": 30,
+      "pixelRectTopLeft": [
+        1536,
+        768,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.509765625,
+        0.865234375,
+        0.615234375
+      ],
+      "base": "#8f612f",
+      "highlight": "#b88b4e",
+      "shadow": "#684626",
+      "pattern": "kiwi",
+      "metallic": 0,
+      "smoothness": 0.1,
+      "surfaceDetail": {
+        "revision": "G03 R01",
+        "style": "kiwi",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "OnionSkin",
+      "index": 31,
+      "pixelRectTopLeft": [
+        1792,
+        768,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.509765625,
+        0.990234375,
+        0.615234375
+      ],
+      "base": "#ca914a",
+      "highlight": "#eed091",
+      "shadow": "#9c6b36",
+      "pattern": "onion",
+      "metallic": 0,
+      "smoothness": 0.2,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "RadishGradient",
+      "index": 32,
+      "pixelRectTopLeft": [
+        0,
+        1024,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.384765625,
+        0.115234375,
+        0.490234375
+      ],
+      "base": "#c44652",
+      "highlight": "#f4dfbb",
+      "shadow": "#95374b",
+      "pattern": "radish",
+      "metallic": 0,
+      "smoothness": 0.23,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "EggplantPurple",
+      "index": 33,
+      "pixelRectTopLeft": [
+        256,
+        1024,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.384765625,
+        0.240234375,
+        0.490234375
+      ],
+      "base": "#36054e",
+      "highlight": "#692582",
+      "shadow": "#18031f",
+      "pattern": "fruit",
+      "metallic": 0,
+      "smoothness": 0.67,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G04 R01",
+        "registeredNormal": true
+      }
+    },
+    {
+      "name": "ChiliRed",
+      "index": 34,
+      "pixelRectTopLeft": [
+        512,
+        1024,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.384765625,
+        0.365234375,
+        0.490234375
+      ],
+      "base": "#c10802",
+      "highlight": "#e5260b",
+      "shadow": "#7b0303",
+      "pattern": "fruit",
+      "metallic": 0,
+      "smoothness": 0.62,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G04 R01",
+        "registeredNormal": true
+      }
+    },
+    {
+      "name": "ChiliGreen",
+      "index": 35,
+      "pixelRectTopLeft": [
+        768,
+        1024,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.384765625,
+        0.490234375,
+        0.490234375
+      ],
+      "base": "#4d9d13",
+      "highlight": "#8ac52d",
+      "shadow": "#1f610a",
+      "pattern": "fruit",
+      "metallic": 0,
+      "smoothness": 0.54,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G04 R01",
+        "registeredNormal": true
+      }
+    },
+    {
+      "name": "PodGreen",
+      "index": 36,
+      "pixelRectTopLeft": [
+        1024,
+        1024,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.384765625,
+        0.615234375,
+        0.490234375
+      ],
+      "base": "#83a743",
+      "highlight": "#b8cb71",
+      "shadow": "#567e33",
+      "pattern": "fruit",
+      "metallic": 0,
+      "smoothness": 0.4,
+      "surfaceDetail": {
+        "revision": "G03 R01",
+        "style": "pod",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "CucumberSkin",
+      "index": 37,
+      "pixelRectTopLeft": [
+        1280,
+        1024,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.384765625,
+        0.740234375,
+        0.490234375
+      ],
+      "base": "#24552c",
+      "highlight": "#659747",
+      "shadow": "#193e23",
+      "pattern": "cucumber",
+      "metallic": 0,
+      "smoothness": 0.52,
+      "surfaceDetail": {
+        "revision": "G03 R01",
+        "style": "cucumber",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "ZucchiniSkin",
+      "index": 38,
+      "pixelRectTopLeft": [
+        1536,
+        1024,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.384765625,
+        0.865234375,
+        0.490234375
+      ],
+      "base": "#24451f",
+      "highlight": "#547032",
+      "shadow": "#16331a",
+      "pattern": "zucchini",
+      "metallic": 0,
+      "smoothness": 0.27,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "BroccoliHead",
+      "index": 39,
+      "pixelRectTopLeft": [
+        1792,
+        1024,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.384765625,
+        0.990234375,
+        0.490234375
+      ],
+      "base": "#286b27",
+      "highlight": "#558c32",
+      "shadow": "#17431c",
+      "pattern": "cluster",
+      "metallic": 0,
+      "smoothness": 0.22,
+      "surfaceDetail": {
+        "revision": "R03",
+        "style": "florets",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "CauliflowerHead",
+      "index": 40,
+      "pixelRectTopLeft": [
+        0,
+        1280,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.259765625,
+        0.115234375,
+        0.365234375
+      ],
+      "base": "#e4d9b5",
+      "highlight": "#fbf1d2",
+      "shadow": "#c1b48f",
+      "pattern": "cluster",
+      "metallic": 0,
+      "smoothness": 0.24,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "CabbageHead",
+      "index": 41,
+      "pixelRectTopLeft": [
+        256,
+        1280,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.259765625,
+        0.240234375,
+        0.365234375
+      ],
+      "base": "#94bc3e",
+      "highlight": "#c0d96b",
+      "shadow": "#628f28",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.36,
+      "surfaceDetail": {
+        "revision": "R03",
+        "style": "pinnate",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "GrainGreen",
+      "index": 42,
+      "pixelRectTopLeft": [
+        512,
+        1280,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.259765625,
+        0.365234375,
+        0.365234375
+      ],
+      "base": "#75b52b",
+      "highlight": "#b0d950",
+      "shadow": "#387d18",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.4,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G04 R01",
+        "registeredNormal": true
+      }
+    },
+    {
+      "name": "GrainGold",
+      "index": 43,
+      "pixelRectTopLeft": [
+        768,
+        1280,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.259765625,
+        0.490234375,
+        0.365234375
+      ],
+      "base": "#c9a448",
+      "highlight": "#eed485",
+      "shadow": "#967735",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.14,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "WatermelonFlesh",
+      "index": 44,
+      "pixelRectTopLeft": [
+        1024,
+        1280,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.259765625,
+        0.615234375,
+        0.365234375
+      ],
+      "base": "#d26158",
+      "highlight": "#f4967d",
+      "shadow": "#a94445",
+      "pattern": "flesh",
+      "metallic": 0,
+      "smoothness": 0.2,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "MelonFlesh",
+      "index": 45,
+      "pixelRectTopLeft": [
+        1280,
+        1280,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.259765625,
+        0.740234375,
+        0.365234375
+      ],
+      "base": "#cad781",
+      "highlight": "#e6e6ae",
+      "shadow": "#a4b96b",
+      "pattern": "flesh",
+      "metallic": 0,
+      "smoothness": 0.2,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "KiwiFlesh",
+      "index": 46,
+      "pixelRectTopLeft": [
+        1536,
+        1280,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.259765625,
+        0.865234375,
+        0.365234375
+      ],
+      "base": "#93b64c",
+      "highlight": "#d0d985",
+      "shadow": "#648f35",
+      "pattern": "kiwicut",
+      "metallic": 0,
+      "smoothness": 0.23,
+      "surfaceDetail": {
+        "revision": "G03 R01",
+        "style": "kiwi_cut",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "OnionCut",
+      "index": 47,
+      "pixelRectTopLeft": [
+        1792,
+        1280,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.259765625,
+        0.990234375,
+        0.365234375
+      ],
+      "base": "#eadcbb",
+      "highlight": "#fff0d7",
+      "shadow": "#c4b995",
+      "pattern": "rings",
+      "metallic": 0,
+      "smoothness": 0.18,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "RadishCut",
+      "index": 48,
+      "pixelRectTopLeft": [
+        0,
+        1536,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.134765625,
+        0.115234375,
+        0.240234375
+      ],
+      "base": "#e9e0bf",
+      "highlight": "#fff5da",
+      "shadow": "#c6c29f",
+      "pattern": "rings",
+      "metallic": 0,
+      "smoothness": 0.2,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "EggplantFlesh",
+      "index": 49,
+      "pixelRectTopLeft": [
+        256,
+        1536,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.134765625,
+        0.240234375,
+        0.240234375
+      ],
+      "base": "#eee2a9",
+      "highlight": "#fff5d4",
+      "shadow": "#cbbb76",
+      "pattern": "flesh",
+      "metallic": 0,
+      "smoothness": 0.22,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G04 R01",
+        "registeredNormal": true
+      }
+    },
+    {
+      "name": "SeedStripe",
+      "index": 50,
+      "pixelRectTopLeft": [
+        512,
+        1536,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.134765625,
+        0.365234375,
+        0.240234375
+      ],
+      "base": "#3e3d31",
+      "highlight": "#cfbf91",
+      "shadow": "#292c26",
+      "pattern": "seedstripe",
+      "metallic": 0,
+      "smoothness": 0.13,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "FlowerWhite",
+      "index": 51,
+      "pixelRectTopLeft": [
+        768,
+        1536,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.134765625,
+        0.490234375,
+        0.240234375
+      ],
+      "base": "#e9e1c7",
+      "highlight": "#fff3df",
+      "shadow": "#c6c7a3",
+      "pattern": "petal",
+      "metallic": 0,
+      "smoothness": 0.18,
+      "surfaceDetail": {
+        "revision": "G03 R01",
+        "style": "white_petal",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "FlowerGold",
+      "index": 52,
+      "pixelRectTopLeft": [
+        1024,
+        1536,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.134765625,
+        0.615234375,
+        0.240234375
+      ],
+      "base": "#f6b900",
+      "highlight": "#ffda43",
+      "shadow": "#d88a03",
+      "pattern": "petal",
+      "metallic": 0,
+      "smoothness": 0.19,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "FlowerPurple",
+      "index": 53,
+      "pixelRectTopLeft": [
+        1280,
+        1536,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.134765625,
+        0.740234375,
+        0.240234375
+      ],
+      "base": "#a44bc7",
+      "highlight": "#d681ed",
+      "shadow": "#67308e",
+      "pattern": "petal",
+      "metallic": 0,
+      "smoothness": 0.28,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G04 R01",
+        "registeredNormal": true
+      }
+    },
+    {
+      "name": "PollenGold",
+      "index": 54,
+      "pixelRectTopLeft": [
+        1536,
+        1536,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.134765625,
+        0.865234375,
+        0.240234375
+      ],
+      "base": "#d5a43d",
+      "highlight": "#f2cf72",
+      "shadow": "#a8792b",
+      "pattern": "speckle",
+      "metallic": 0,
+      "smoothness": 0.12,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "BerryCrown",
+      "index": 55,
+      "pixelRectTopLeft": [
+        1792,
+        1536,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.134765625,
+        0.990234375,
+        0.240234375
+      ],
+      "base": "#324660",
+      "highlight": "#5e7195",
+      "shadow": "#24364d",
+      "pattern": "fruit",
+      "metallic": 0,
+      "smoothness": 0.22,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "StemPale",
+      "index": 56,
+      "pixelRectTopLeft": [
+        0,
+        1792,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.009765625,
+        0.009765625,
+        0.115234375,
+        0.115234375
+      ],
+      "base": "#80b638",
+      "highlight": "#b4d25a",
+      "shadow": "#508b27",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.32,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "RootGray",
+      "index": 57,
+      "pixelRectTopLeft": [
+        256,
+        1792,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.134765625,
+        0.009765625,
+        0.240234375,
+        0.115234375
+      ],
+      "base": "#a5ac8e",
+      "highlight": "#d0d3b2",
+      "shadow": "#747f68",
+      "pattern": "stem",
+      "metallic": 0,
+      "smoothness": 0.13,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "BarkBrown",
+      "index": 58,
+      "pixelRectTopLeft": [
+        512,
+        1792,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.259765625,
+        0.009765625,
+        0.365234375,
+        0.115234375
+      ],
+      "base": "#806040",
+      "highlight": "#b58f62",
+      "shadow": "#56422f",
+      "pattern": "bark",
+      "metallic": 0,
+      "smoothness": 0.12,
+      "surfaceDetail": {
+        "revision": "G03 R01",
+        "style": "wood",
+        "normalFromRegisteredHeight": true
+      },
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "CutStem",
+      "index": 59,
+      "pixelRectTopLeft": [
+        768,
+        1792,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.384765625,
+        0.009765625,
+        0.490234375,
+        0.115234375
+      ],
+      "base": "#c1ce80",
+      "highlight": "#e1e7b0",
+      "shadow": "#8caa5b",
+      "pattern": "rings",
+      "metallic": 0,
+      "smoothness": 0.14,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "SeedGreen",
+      "index": 60,
+      "pixelRectTopLeft": [
+        1024,
+        1792,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.509765625,
+        0.009765625,
+        0.615234375,
+        0.115234375
+      ],
+      "base": "#9aaa5b",
+      "highlight": "#c7d386",
+      "shadow": "#6b8040",
+      "pattern": "grain",
+      "metallic": 0,
+      "smoothness": 0.12,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "HollowStem",
+      "index": 61,
+      "pixelRectTopLeft": [
+        1280,
+        1792,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.634765625,
+        0.009765625,
+        0.740234375,
+        0.115234375
+      ],
+      "base": "#93b65c",
+      "highlight": "#c7d98b",
+      "shadow": "#567e39",
+      "pattern": "rings",
+      "metallic": 0,
+      "smoothness": 0.17,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "BulbSkin",
+      "index": 62,
+      "pixelRectTopLeft": [
+        1536,
+        1792,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.759765625,
+        0.009765625,
+        0.865234375,
+        0.115234375
+      ],
+      "base": "#be8b4b",
+      "highlight": "#e5c082",
+      "shadow": "#896135",
+      "pattern": "onion",
+      "metallic": 0,
+      "smoothness": 0.17,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    },
+    {
+      "name": "LeafUnderside",
+      "index": 63,
+      "pixelRectTopLeft": [
+        1792,
+        1792,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.884765625,
+        0.009765625,
+        0.990234375,
+        0.115234375
+      ],
+      "base": "#8ea981",
+      "highlight": "#c0cda1",
+      "shadow": "#637f5b",
+      "pattern": "leaf",
+      "metallic": 0,
+      "smoothness": 0.13,
+      "source": "Retained Produce vocabulary, independent G03 detail page"
+    }
+  ],
+  "revision": "G03 R02 colour and kiwi detail",
+  "batchRevisions": {
+    "G03": "R02",
+    "G04": "R01"
+  }
+}

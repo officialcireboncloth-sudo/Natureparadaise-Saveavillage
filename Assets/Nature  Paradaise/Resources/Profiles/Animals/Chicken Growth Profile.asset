@@ -15,12 +15,12 @@ MonoBehaviour:
   animalType: 0
   walkingSpeedMultiplier: 0.5
   salePrice:
-    baseSellPrice: 1000
+    baseSellPrice: 750
     bonusPerHeart: 0.1
   incubationOrPregnancyDays: 7
   bornToAdultDays: 28
   purchasedYoungToAdultDays: 14
-  productItem: {fileID: 0}
+  productItem: {fileID: 11400000, guid: 9f31dc224ab34790918a125000000001, type: 2}
   productionIntervalDays: 1
   stageSlots:
   - stage: 0
@@ -72,3 +72,7 @@ MonoBehaviour:
     animatorController: {fileID: 0}
     voiceClip: {fileID: 0}
   conditionVisualSlots: []
+  variantId: animal.chicken_layer
+  productionEnabled: 1
+  purchaseSex: 1
+  sellOnlyAsAdult: 1

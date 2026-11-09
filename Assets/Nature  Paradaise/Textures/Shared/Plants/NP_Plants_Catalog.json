@@ -1,0 +1,547 @@
+{
+  "schemaVersion": 1,
+  "plants": [
+    {
+      "plantId": "art.blueberry",
+      "displayName": "Blueberry",
+      "group": "G01",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafOval",
+        "BarkBrown",
+        "FlowerWhite",
+        "BerryBlue",
+        "BerryCrown",
+        "FruitUnripe"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.raspberry",
+      "displayName": "Raspberry",
+      "group": "G01",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafSerrated",
+        "BarkBrown",
+        "FlowerWhite",
+        "BerryRed",
+        "FruitUnripe"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.blackberry",
+      "displayName": "Blackberry",
+      "group": "G01",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafSerrated",
+        "BarkBrown",
+        "FlowerWhite",
+        "BerryDark",
+        "FruitUnripe"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.watermelon",
+      "displayName": "Watermelon",
+      "group": "G02",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "SeedBlack",
+        "SepalGreen",
+        "WatermelonStripe",
+        "WatermelonFlesh",
+        "FlowerGold",
+        "PollenGold",
+        "FruitUnripe",
+        "LeafVineHeart"
+      ],
+      "artStatus": "G02 R03 registered surface detail"
+    },
+    {
+      "plantId": "art.melon",
+      "displayName": "Melon",
+      "group": "G02",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "SeedCream",
+        "SepalGreen",
+        "MelonNet",
+        "MelonFlesh",
+        "FlowerGold",
+        "PollenGold",
+        "FruitUnripe",
+        "LeafVineRound"
+      ],
+      "artStatus": "G02 R03 registered surface detail"
+    },
+    {
+      "plantId": "art.zucchini",
+      "displayName": "Zucchini",
+      "group": "G02",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "SeedCream",
+        "SepalGreen",
+        "ZucchiniSkin",
+        "FlowerGold",
+        "PollenGold",
+        "LeafLobed"
+      ],
+      "artStatus": "G02 R03 registered surface detail"
+    },
+    {
+      "plantId": "art.kiwi",
+      "displayName": "Kiwi",
+      "group": "G03",
+      "atlas": "NP_Plants_Trellis_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafBean",
+        "BarkBrown",
+        "KiwiSkin",
+        "KiwiFlesh",
+        "FlowerWhite",
+        "SeedBlack",
+        "PollenGold",
+        "FruitUnripe",
+        "SepalGreen"
+      ],
+      "artStatus": "G03 R02 vivid colours and registered kiwi leaf/skin; field integration pending"
+    },
+    {
+      "plantId": "art.pea",
+      "displayName": "Pea",
+      "group": "G03",
+      "atlas": "NP_Plants_Trellis_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafOval",
+        "PodGreen",
+        "SeedGreen",
+        "SeedCream",
+        "FlowerWhite",
+        "SepalGreen",
+        "BarkBrown"
+      ],
+      "artStatus": "G03 R02 vivid colours and registered kiwi leaf/skin; field integration pending"
+    },
+    {
+      "plantId": "art.cucumber",
+      "displayName": "Cucumber",
+      "group": "G03",
+      "atlas": "NP_Plants_Trellis_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafVineHeart",
+        "CucumberSkin",
+        "FlowerGold",
+        "PollenGold",
+        "SepalGreen",
+        "SeedCream",
+        "BarkBrown",
+        "MelonFlesh"
+      ],
+      "artStatus": "G03 R02 vivid colours and registered kiwi leaf/skin; field integration pending"
+    },
+    {
+      "plantId": "art.eggplant",
+      "displayName": "Eggplant",
+      "group": "G04",
+      "atlas": "NP_Plants_Trellis_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafSerrated",
+        "StemPurple",
+        "EggplantPurple",
+        "EggplantFlesh",
+        "FlowerPurple",
+        "SeedCream",
+        "SeedTan",
+        "SepalGreen",
+        "PollenGold"
+      ],
+      "artStatus": "G04 R01 prepared reference bushes; field integration pending"
+    },
+    {
+      "plantId": "art.chili_pepper",
+      "displayName": "Chili Pepper",
+      "group": "G04",
+      "atlas": "NP_Plants_Trellis_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafNarrow",
+        "ChiliRed",
+        "ChiliGreen",
+        "BerryRed",
+        "FlowerWhite",
+        "SeedCream",
+        "SeedTan",
+        "SepalGreen",
+        "PollenGold",
+        "EggplantFlesh"
+      ],
+      "artStatus": "G04 R01 prepared reference bushes; field integration pending"
+    },
+    {
+      "plantId": "art.green_bean",
+      "displayName": "Green Bean",
+      "group": "G04",
+      "atlas": "NP_Plants_Trellis_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafDark",
+        "GrainGreen",
+        "SeedCream",
+        "SeedGreen",
+        "FlowerWhite",
+        "SepalGreen"
+      ],
+      "artStatus": "G04 R01 prepared reference bushes; field integration pending"
+    },
+    {
+      "plantId": "art.cabbage",
+      "displayName": "Cabbage",
+      "group": "G05",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafCabbage",
+        "LeafCabbageInner",
+        "LeafBrassica",
+        "CabbageHead"
+      ],
+      "artStatus": "G05 R03 registered surface detail"
+    },
+    {
+      "plantId": "art.broccoli",
+      "displayName": "Broccoli",
+      "group": "G05",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafBrassica",
+        "StemPale",
+        "BroccoliHead"
+      ],
+      "artStatus": "G05 R03 registered surface detail"
+    },
+    {
+      "plantId": "art.cauliflower",
+      "displayName": "Cauliflower",
+      "group": "G05",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafBrassica",
+        "LeafCabbage",
+        "CauliflowerHead"
+      ],
+      "artStatus": "G05 R03 registered surface detail"
+    },
+    {
+      "plantId": "art.radish",
+      "displayName": "Radish",
+      "group": "G06",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafLobed",
+        "RadishGradient",
+        "RadishCut",
+        "RootCream"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.onion",
+      "displayName": "Onion",
+      "group": "G06",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafStrap",
+        "OnionSkin",
+        "OnionCut",
+        "RootCream",
+        "BulbSkin"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.spinach",
+      "displayName": "Spinach",
+      "group": "G07",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafDark",
+        "LeafOval"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.water_spinach",
+      "displayName": "Water Spinach",
+      "group": "G07",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafWaterSpinach",
+        "HollowStem"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.rice",
+      "displayName": "Rice",
+      "group": "G08",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafStrap",
+        "GrainGreen",
+        "GrainGold"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.wheat",
+      "displayName": "Wheat",
+      "group": "G08",
+      "atlas": "NP_Plants_Produce_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafStrap",
+        "GrainGreen",
+        "GrainGold"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.rose",
+      "displayName": "Rose",
+      "group": "G09",
+      "atlas": "NP_Plants_Flowers_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafRose",
+        "BarkBrown",
+        "Thorn",
+        "PetalRed",
+        "RoseInner",
+        "BudRed"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.hibiscus",
+      "displayName": "Hibiscus",
+      "group": "G09",
+      "atlas": "NP_Plants_Flowers_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafHibiscus",
+        "PetalRed",
+        "HibiscusFilament",
+        "PollenGold",
+        "BudRed"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.jasmine",
+      "displayName": "Jasmine",
+      "group": "G09",
+      "atlas": "NP_Plants_Flowers_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafJasmine",
+        "PetalWhite",
+        "PetalCream",
+        "BudWhite"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.sunflower",
+      "displayName": "Sunflower",
+      "group": "G10",
+      "atlas": "NP_Plants_Flowers_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafSunflower",
+        "PetalGold",
+        "PetalYellow",
+        "SunflowerDisk",
+        "SeedStripe"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.chrysanthemum",
+      "displayName": "Chrysanthemum",
+      "group": "G10",
+      "atlas": "NP_Plants_Flowers_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafChrysanthemum",
+        "PetalGold",
+        "PetalYellow",
+        "FlowerGreen"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.dahlia",
+      "displayName": "Dahlia",
+      "group": "G10",
+      "atlas": "NP_Plants_Flowers_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafDahlia",
+        "PetalCoral",
+        "DahliaPetal",
+        "BudPink"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.marigold",
+      "displayName": "Marigold",
+      "group": "G10",
+      "atlas": "NP_Plants_Flowers_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafMarigold",
+        "PetalOrange",
+        "MarigoldRuffle",
+        "FlowerGreen"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.tulip",
+      "displayName": "Tulip",
+      "group": "G11",
+      "atlas": "NP_Plants_Flowers_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafStrap",
+        "BulbSkin",
+        "PetalPink",
+        "BudPink"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.orchid",
+      "displayName": "Orchid",
+      "group": "G12",
+      "atlas": "NP_Plants_Flowers_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafOrchid",
+        "RootGray",
+        "PetalPurple",
+        "OrchidLip",
+        "BudPurple"
+      ],
+      "artStatus": "textures prepared; model pending"
+    },
+    {
+      "plantId": "art.lavender",
+      "displayName": "Lavender",
+      "group": "G13",
+      "atlas": "NP_Plants_Flowers_01",
+      "slots": [
+        "LeafYoung",
+        "StemGreen",
+        "SeedBrown",
+        "LeafLavender",
+        "PetalLavender",
+        "LavenderFloret",
+        "BudPurple"
+      ],
+      "artStatus": "textures prepared; model pending"
+    }
+  ],
+  "missingReference": [
+    "Daisy",
+    "Moonflower"
+  ],
+  "sharedEarlyStages": "Core atlas: reusable round/oval/flat seeds; broad two-leaf sprout. Single-leaf/strap/bulb sprouts remain distinct.",
+  "trellisMaterial": "NP_CozySurfaces_01 (existing wood/rope)",
+  "trellisMaterialByGroup": {
+    "G03": "NP_Plants_Trellis_01 / BarkBrown"
+  }
+}

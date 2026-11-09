@@ -440,7 +440,7 @@ public sealed class TerrainTreeManager : MonoBehaviour
             if (record.state != TreeGrowthState.Standing) continue;
             TreeDefinition definition = DefinitionFor(settingByPrototype[record.prototypeIndex].interactivePrefab);
             record.progress ??= TreeProgress.Create(definition, day, true);
-            record.progress.Advance(definition, day, weather, FarmPlacement.Covered(record.worldPosition), UnityEngine.Random.value);
+            record.progress.Advance(definition, day, weather, FarmPlacement.Covered(record.worldPosition), UnityEngine.Random.value,WorldTree.SampleCareSoil(record.worldPosition,day));
             if (record.activeObject != null)
                 record.activeObject.RefreshGrowthVisual();
             QueueVisual(record);
@@ -450,8 +450,7 @@ public sealed class TerrainTreeManager : MonoBehaviour
     Vector3 GrowthScale(TreeRecord record)
     {
         TreeDefinition definition = DefinitionFor(settingByPrototype[record.prototypeIndex].interactivePrefab);
-        int index = definition != null && record.progress != null ? definition.StageIndex(record.progress.growth) : -1;
-        return index >= 0 ? definition.stages[index].scale : Vector3.one;
+        return definition!=null&&record.progress!=null?definition.VisualScale(record.progress.growth,record.progress.fruitStage):Vector3.one;
     }
 
     void HandleDayChanged()
