@@ -13,3 +13,7 @@ MonoBehaviour:
   maxStack: 99
   canDropToWorld: 1
   refrigeratorCategory: 5
+  icon: {fileID: 21300000, guid: a77c074eb882492b828b2743e3e697de, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: a77c074eb882492b828b2743e3e697de, type: 3}
+  worldPrefab: {fileID: 100, guid: 062b715c7a384e5ea5a412162a49b8d9, type: 3}
+  inventoryDescription: Hasil panen Gandum.

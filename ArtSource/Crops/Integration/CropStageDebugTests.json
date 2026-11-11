@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "method": "Actual crop/debug source with engine boundary stand-ins; not Unity Play Mode",
+  "result": "PASS 7037 crop debug checks; 33 authored crop schedules. Engine boundaries stubbed; no Play Mode.",
+  "sourceHashes": {
+    "Assets/Nature  Paradaise/Script/Item/Crop/CropDataSO.cs": "e33f40b83d10a3a232400f95e81ab72aedfa98e89de0549fdab15f54cc765950",
+    "Assets/Nature  Paradaise/Script/Item/Crop/CropQualityCare.cs": "55fcbe8a95000511f507786bcfae56e559fc3c70e93afc4fe5e15603cc2eb9a7",
+    "Assets/Nature  Paradaise/Script/World/Field/FieldData.cs": "d3fe3114147506b31d471d1e27ad418b535f174b343b4141e9b57e5671fa774d",
+    "Assets/Nature  Paradaise/Script/World/Field/FieldAreaCropDebug.cs": "74833e526083a2b0ea034082ff423adb004bf79e6e945264847ddc1849c7f3cd",
+    "Tests/CropStageDebugTests.cs": "8f48d05016e02c5ea2d4e29d16ccefcca2f9346dabe758a7bfacdae3b89db156"
+  }
+}

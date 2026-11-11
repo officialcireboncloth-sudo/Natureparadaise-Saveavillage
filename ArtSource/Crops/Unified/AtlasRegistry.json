@@ -1,0 +1,7353 @@
+{
+  "version": 1,
+  "name": "NP_Plants_Unified_01",
+  "size": 4096,
+  "slots": [
+    {
+      "key": "NP_Plants_Leafy_01:LeafOrchid",
+      "name": "NP_Plants_Leafy_01:LeafOrchid",
+      "index": 0,
+      "sourceAtlas": "NP_Plants_Leafy_01",
+      "sourceSlot": "LeafOrchid",
+      "sourceRect": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.01171875,
+        0.51171875,
+        0.48828125,
+        0.98828125
+      ],
+      "pixelRectTopLeft": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "contentRectTopLeft": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "uvSafe": [
+        0.005859375,
+        0.755859375,
+        0.244140625,
+        0.994140625
+      ],
+      "normalStrength": 0.55,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Leafy_01:LeafWaterSpinach",
+      "name": "NP_Plants_Leafy_01:LeafWaterSpinach",
+      "index": 1,
+      "sourceAtlas": "NP_Plants_Leafy_01",
+      "sourceSlot": "LeafWaterSpinach",
+      "sourceRect": [
+        1024,
+        0,
+        1024,
+        1024
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.51171875,
+        0.51171875,
+        0.98828125,
+        0.98828125
+      ],
+      "pixelRectTopLeft": [
+        1024,
+        0,
+        1024,
+        1024
+      ],
+      "contentRectTopLeft": [
+        1024,
+        0,
+        1024,
+        1024
+      ],
+      "uvSafe": [
+        0.255859375,
+        0.755859375,
+        0.494140625,
+        0.994140625
+      ],
+      "normalStrength": 0.55,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Cereal_01:LeafGold",
+      "name": "NP_Plants_Cereal_01:LeafGold",
+      "index": 2,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "LeafGold",
+      "sourceRect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.5078125,
+        0.4921875,
+        0.7421875
+      ],
+      "pixelRectTopLeft": [
+        2048,
+        0,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        2048,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.50390625,
+        0.87890625,
+        0.62109375,
+        0.99609375
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Cereal_01:LeafGreen",
+      "name": "NP_Plants_Cereal_01:LeafGreen",
+      "index": 3,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "LeafGreen",
+      "sourceRect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.5078125,
+        0.2421875,
+        0.7421875
+      ],
+      "pixelRectTopLeft": [
+        2560,
+        0,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        2560,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.62890625,
+        0.87890625,
+        0.74609375,
+        0.99609375
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Cereal_01:LeafWarm",
+      "name": "NP_Plants_Cereal_01:LeafWarm",
+      "index": 4,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "LeafWarm",
+      "sourceRect": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.2578125,
+        0.9921875,
+        0.4921875
+      ],
+      "pixelRectTopLeft": [
+        3072,
+        0,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        3072,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.75390625,
+        0.87890625,
+        0.87109375,
+        0.99609375
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Cereal_01:RiceGold",
+      "name": "NP_Plants_Cereal_01:RiceGold",
+      "index": 5,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "RiceGold",
+      "sourceRect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.7578125,
+        0.2421875,
+        0.9921875
+      ],
+      "pixelRectTopLeft": [
+        3584,
+        0,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        3584,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.87890625,
+        0.87890625,
+        0.99609375,
+        0.99609375
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Cereal_01:RiceGreen",
+      "name": "NP_Plants_Cereal_01:RiceGreen",
+      "index": 6,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "RiceGreen",
+      "sourceRect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.7578125,
+        0.4921875,
+        0.9921875
+      ],
+      "pixelRectTopLeft": [
+        2048,
+        512,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        2048,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.50390625,
+        0.75390625,
+        0.62109375,
+        0.87109375
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Cereal_01:WheatGold",
+      "name": "NP_Plants_Cereal_01:WheatGold",
+      "index": 7,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "WheatGold",
+      "sourceRect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.7578125,
+        0.7421875,
+        0.9921875
+      ],
+      "pixelRectTopLeft": [
+        2560,
+        512,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        2560,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.62890625,
+        0.75390625,
+        0.74609375,
+        0.87109375
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Cereal_01:WheatGreen",
+      "name": "NP_Plants_Cereal_01:WheatGreen",
+      "index": 8,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "WheatGreen",
+      "sourceRect": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.7578125,
+        0.9921875,
+        0.9921875
+      ],
+      "pixelRectTopLeft": [
+        3072,
+        512,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        3072,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.75390625,
+        0.75390625,
+        0.87109375,
+        0.87109375
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Leafy_01:LeafYoungSpinach",
+      "name": "NP_Plants_Leafy_01:LeafYoungSpinach",
+      "index": 9,
+      "sourceAtlas": "NP_Plants_Leafy_01",
+      "sourceSlot": "LeafYoungSpinach",
+      "sourceRect": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.005859375,
+        0.255859375,
+        0.244140625,
+        0.494140625
+      ],
+      "pixelRectTopLeft": [
+        3584,
+        512,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        3584,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.8779296875,
+        0.7529296875,
+        0.9970703125,
+        0.8720703125
+      ],
+      "normalStrength": 0.55,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Leafy_01:LeafYoungWaterSpinach",
+      "name": "NP_Plants_Leafy_01:LeafYoungWaterSpinach",
+      "index": 10,
+      "sourceAtlas": "NP_Plants_Leafy_01",
+      "sourceSlot": "LeafYoungWaterSpinach",
+      "sourceRect": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.255859375,
+        0.255859375,
+        0.494140625,
+        0.494140625
+      ],
+      "pixelRectTopLeft": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0029296875,
+        0.6279296875,
+        0.1220703125,
+        0.7470703125
+      ],
+      "normalStrength": 0.55,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:BudGreen",
+      "name": "NP_Plants_RadialFlowers_01:BudGreen",
+      "index": 11,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "BudGreen",
+      "sourceRect": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.2578125,
+        0.7421875,
+        0.4921875
+      ],
+      "pixelRectTopLeft": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.12890625,
+        0.62890625,
+        0.24609375,
+        0.74609375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:ChrysanthemumLeaf",
+      "name": "NP_Plants_RadialFlowers_01:ChrysanthemumLeaf",
+      "index": 12,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "ChrysanthemumLeaf",
+      "sourceRect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.5078125,
+        0.4921875,
+        0.7421875
+      ],
+      "pixelRectTopLeft": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.25390625,
+        0.62890625,
+        0.37109375,
+        0.74609375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:ChrysanthemumPetal",
+      "name": "NP_Plants_RadialFlowers_01:ChrysanthemumPetal",
+      "index": 13,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "ChrysanthemumPetal",
+      "sourceRect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.7578125,
+        0.4921875,
+        0.9921875
+      ],
+      "pixelRectTopLeft": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.37890625,
+        0.62890625,
+        0.49609375,
+        0.74609375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:DahliaLeaf",
+      "name": "NP_Plants_RadialFlowers_01:DahliaLeaf",
+      "index": 14,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "DahliaLeaf",
+      "sourceRect": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.5078125,
+        0.7421875,
+        0.7421875
+      ],
+      "pixelRectTopLeft": [
+        2048,
+        1024,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        2048,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.50390625,
+        0.62890625,
+        0.62109375,
+        0.74609375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:DahliaPetal",
+      "name": "NP_Plants_RadialFlowers_01:DahliaPetal",
+      "index": 15,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "DahliaPetal",
+      "sourceRect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.7578125,
+        0.7421875,
+        0.9921875
+      ],
+      "pixelRectTopLeft": [
+        2560,
+        1024,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        2560,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.62890625,
+        0.62890625,
+        0.74609375,
+        0.74609375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:MarigoldLeaf",
+      "name": "NP_Plants_RadialFlowers_01:MarigoldLeaf",
+      "index": 16,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "MarigoldLeaf",
+      "sourceRect": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.5078125,
+        0.9921875,
+        0.7421875
+      ],
+      "pixelRectTopLeft": [
+        3072,
+        1024,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        3072,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.75390625,
+        0.62890625,
+        0.87109375,
+        0.74609375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:MarigoldPetal",
+      "name": "NP_Plants_RadialFlowers_01:MarigoldPetal",
+      "index": 17,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "MarigoldPetal",
+      "sourceRect": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.7578125,
+        0.9921875,
+        0.9921875
+      ],
+      "pixelRectTopLeft": [
+        3584,
+        1024,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        3584,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.87890625,
+        0.62890625,
+        0.99609375,
+        0.74609375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:SunflowerDisk",
+      "name": "NP_Plants_RadialFlowers_01:SunflowerDisk",
+      "index": 18,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "SunflowerDisk",
+      "sourceRect": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.2578125,
+        0.9921875,
+        0.4921875
+      ],
+      "pixelRectTopLeft": [
+        0,
+        1536,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        0,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.00390625,
+        0.50390625,
+        0.12109375,
+        0.62109375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:SunflowerLeaf",
+      "name": "NP_Plants_RadialFlowers_01:SunflowerLeaf",
+      "index": 19,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "SunflowerLeaf",
+      "sourceRect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.5078125,
+        0.2421875,
+        0.7421875
+      ],
+      "pixelRectTopLeft": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.12890625,
+        0.50390625,
+        0.24609375,
+        0.62109375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:SunflowerPetal",
+      "name": "NP_Plants_RadialFlowers_01:SunflowerPetal",
+      "index": 20,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "SunflowerPetal",
+      "sourceRect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.7578125,
+        0.2421875,
+        0.9921875
+      ],
+      "pixelRectTopLeft": [
+        1024,
+        1536,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        1024,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.25390625,
+        0.50390625,
+        0.37109375,
+        0.62109375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:BudCream",
+      "name": "NP_Plants_ShrubFlowers_01:BudCream",
+      "index": 21,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "BudCream",
+      "sourceRect": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.2578125,
+        0.4921875,
+        0.4921875
+      ],
+      "pixelRectTopLeft": [
+        1536,
+        1536,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        1536,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.37890625,
+        0.50390625,
+        0.49609375,
+        0.62109375
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:BudRed",
+      "name": "NP_Plants_ShrubFlowers_01:BudRed",
+      "index": 22,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "BudRed",
+      "sourceRect": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.2578125,
+        0.2421875,
+        0.4921875
+      ],
+      "pixelRectTopLeft": [
+        2048,
+        1536,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        2048,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.50390625,
+        0.50390625,
+        0.62109375,
+        0.62109375
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:HibiscusLeaf",
+      "name": "NP_Plants_ShrubFlowers_01:HibiscusLeaf",
+      "index": 23,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "HibiscusLeaf",
+      "sourceRect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.5078125,
+        0.2421875,
+        0.7421875
+      ],
+      "pixelRectTopLeft": [
+        2560,
+        1536,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        2560,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.62890625,
+        0.50390625,
+        0.74609375,
+        0.62109375
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:HibiscusPetal",
+      "name": "NP_Plants_ShrubFlowers_01:HibiscusPetal",
+      "index": 24,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "HibiscusPetal",
+      "sourceRect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.7578125,
+        0.4921875,
+        0.9921875
+      ],
+      "pixelRectTopLeft": [
+        3072,
+        1536,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        3072,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.75390625,
+        0.50390625,
+        0.87109375,
+        0.62109375
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:JasmineLeaf",
+      "name": "NP_Plants_ShrubFlowers_01:JasmineLeaf",
+      "index": 25,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "JasmineLeaf",
+      "sourceRect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.5078125,
+        0.4921875,
+        0.7421875
+      ],
+      "pixelRectTopLeft": [
+        3584,
+        1536,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        3584,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.87890625,
+        0.50390625,
+        0.99609375,
+        0.62109375
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:JasminePetal",
+      "name": "NP_Plants_ShrubFlowers_01:JasminePetal",
+      "index": 26,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "JasminePetal",
+      "sourceRect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.7578125,
+        0.7421875,
+        0.9921875
+      ],
+      "pixelRectTopLeft": [
+        0,
+        2048,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        0,
+        2048,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.00390625,
+        0.37890625,
+        0.12109375,
+        0.49609375
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:RoseLeaf",
+      "name": "NP_Plants_ShrubFlowers_01:RoseLeaf",
+      "index": 27,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "RoseLeaf",
+      "sourceRect": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.7578125,
+        0.9921875,
+        0.9921875
+      ],
+      "pixelRectTopLeft": [
+        512,
+        2048,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        512,
+        2048,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.12890625,
+        0.37890625,
+        0.24609375,
+        0.49609375
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:RosePetal",
+      "name": "NP_Plants_ShrubFlowers_01:RosePetal",
+      "index": 28,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "RosePetal",
+      "sourceRect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.7578125,
+        0.2421875,
+        0.9921875
+      ],
+      "pixelRectTopLeft": [
+        1024,
+        2048,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        1024,
+        2048,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.25390625,
+        0.37890625,
+        0.37109375,
+        0.49609375
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Tulip_01:BulbSkin",
+      "name": "NP_Plants_Tulip_01:BulbSkin",
+      "index": 29,
+      "sourceAtlas": "NP_Plants_Tulip_01",
+      "sourceSlot": "BulbSkin",
+      "sourceRect": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.515625,
+        0.9921875,
+        0.984375
+      ],
+      "pixelRectTopLeft": [
+        1536,
+        2048,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        1536,
+        2048,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.37890625,
+        0.37890625,
+        0.49609375,
+        0.49609375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Tulip_01:TulipBud",
+      "name": "NP_Plants_Tulip_01:TulipBud",
+      "index": 30,
+      "sourceAtlas": "NP_Plants_Tulip_01",
+      "sourceSlot": "TulipBud",
+      "sourceRect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.515625,
+        0.4921875,
+        0.984375
+      ],
+      "pixelRectTopLeft": [
+        2048,
+        2048,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        2048,
+        2048,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.50390625,
+        0.37890625,
+        0.62109375,
+        0.49609375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Tulip_01:TulipLeaf",
+      "name": "NP_Plants_Tulip_01:TulipLeaf",
+      "index": 31,
+      "sourceAtlas": "NP_Plants_Tulip_01",
+      "sourceSlot": "TulipLeaf",
+      "sourceRect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.515625,
+        0.7421875,
+        0.984375
+      ],
+      "pixelRectTopLeft": [
+        2560,
+        2048,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        2560,
+        2048,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.62890625,
+        0.37890625,
+        0.74609375,
+        0.49609375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Tulip_01:TulipPetal",
+      "name": "NP_Plants_Tulip_01:TulipPetal",
+      "index": 32,
+      "sourceAtlas": "NP_Plants_Tulip_01",
+      "sourceSlot": "TulipPetal",
+      "sourceRect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.515625,
+        0.2421875,
+        0.984375
+      ],
+      "pixelRectTopLeft": [
+        3072,
+        2048,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        3072,
+        2048,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.75390625,
+        0.37890625,
+        0.87109375,
+        0.49609375
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:BarkBrown",
+      "name": "NP_Plants_Trellis_01:BarkBrown",
+      "index": 33,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "BarkBrown",
+      "sourceRect": [
+        512,
+        1792,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.259765625,
+        0.009765625,
+        0.365234375,
+        0.115234375
+      ],
+      "pixelRectTopLeft": [
+        3584,
+        2048,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3584,
+        2048,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.8798828125,
+        0.4423828125,
+        0.9326171875,
+        0.4951171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:BerryRed",
+      "name": "NP_Plants_Trellis_01:BerryRed",
+      "index": 34,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "BerryRed",
+      "sourceRect": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.134765625,
+        0.509765625,
+        0.240234375,
+        0.615234375
+      ],
+      "pixelRectTopLeft": [
+        3840,
+        2048,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3840,
+        2048,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.9423828125,
+        0.4423828125,
+        0.9951171875,
+        0.4951171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:ChiliGreen",
+      "name": "NP_Plants_Trellis_01:ChiliGreen",
+      "index": 35,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "ChiliGreen",
+      "sourceRect": [
+        768,
+        1024,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.384765625,
+        0.384765625,
+        0.490234375,
+        0.490234375
+      ],
+      "pixelRectTopLeft": [
+        3584,
+        2304,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3584,
+        2304,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.8798828125,
+        0.3798828125,
+        0.9326171875,
+        0.4326171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:ChiliRed",
+      "name": "NP_Plants_Trellis_01:ChiliRed",
+      "index": 36,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "ChiliRed",
+      "sourceRect": [
+        512,
+        1024,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.259765625,
+        0.384765625,
+        0.365234375,
+        0.490234375
+      ],
+      "pixelRectTopLeft": [
+        3840,
+        2304,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3840,
+        2304,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.9423828125,
+        0.3798828125,
+        0.9951171875,
+        0.4326171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:CucumberSkin",
+      "name": "NP_Plants_Trellis_01:CucumberSkin",
+      "index": 37,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "CucumberSkin",
+      "sourceRect": [
+        1280,
+        1024,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.634765625,
+        0.384765625,
+        0.740234375,
+        0.490234375
+      ],
+      "pixelRectTopLeft": [
+        0,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        0,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.0048828125,
+        0.3173828125,
+        0.0576171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:EggplantFlesh",
+      "name": "NP_Plants_Trellis_01:EggplantFlesh",
+      "index": 38,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "EggplantFlesh",
+      "sourceRect": [
+        256,
+        1536,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.134765625,
+        0.134765625,
+        0.240234375,
+        0.240234375
+      ],
+      "pixelRectTopLeft": [
+        256,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        256,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.0673828125,
+        0.3173828125,
+        0.1201171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:EggplantPurple",
+      "name": "NP_Plants_Trellis_01:EggplantPurple",
+      "index": 39,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "EggplantPurple",
+      "sourceRect": [
+        256,
+        1024,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.134765625,
+        0.384765625,
+        0.240234375,
+        0.490234375
+      ],
+      "pixelRectTopLeft": [
+        512,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        512,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.1298828125,
+        0.3173828125,
+        0.1826171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:FlowerGold",
+      "name": "NP_Plants_Trellis_01:FlowerGold",
+      "index": 40,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "FlowerGold",
+      "sourceRect": [
+        1024,
+        1536,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.509765625,
+        0.134765625,
+        0.615234375,
+        0.240234375
+      ],
+      "pixelRectTopLeft": [
+        768,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        768,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.1923828125,
+        0.3173828125,
+        0.2451171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:FlowerPurple",
+      "name": "NP_Plants_Trellis_01:FlowerPurple",
+      "index": 41,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "FlowerPurple",
+      "sourceRect": [
+        1280,
+        1536,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.634765625,
+        0.134765625,
+        0.740234375,
+        0.240234375
+      ],
+      "pixelRectTopLeft": [
+        1024,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        1024,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.2548828125,
+        0.3173828125,
+        0.3076171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:FlowerWhite",
+      "name": "NP_Plants_Trellis_01:FlowerWhite",
+      "index": 42,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "FlowerWhite",
+      "sourceRect": [
+        768,
+        1536,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.384765625,
+        0.134765625,
+        0.490234375,
+        0.240234375
+      ],
+      "pixelRectTopLeft": [
+        1280,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        1280,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.3173828125,
+        0.3173828125,
+        0.3701171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:FruitUnripe",
+      "name": "NP_Plants_Trellis_01:FruitUnripe",
+      "index": 43,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "FruitUnripe",
+      "sourceRect": [
+        768,
+        768,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.384765625,
+        0.509765625,
+        0.490234375,
+        0.615234375
+      ],
+      "pixelRectTopLeft": [
+        1536,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        1536,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.3798828125,
+        0.3173828125,
+        0.4326171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:GrainGreen",
+      "name": "NP_Plants_Trellis_01:GrainGreen",
+      "index": 44,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "GrainGreen",
+      "sourceRect": [
+        512,
+        1280,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.259765625,
+        0.259765625,
+        0.365234375,
+        0.365234375
+      ],
+      "pixelRectTopLeft": [
+        1792,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        1792,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.4423828125,
+        0.3173828125,
+        0.4951171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:KiwiFlesh",
+      "name": "NP_Plants_Trellis_01:KiwiFlesh",
+      "index": 45,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "KiwiFlesh",
+      "sourceRect": [
+        1536,
+        1280,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.759765625,
+        0.259765625,
+        0.865234375,
+        0.365234375
+      ],
+      "pixelRectTopLeft": [
+        2048,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        2048,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.5048828125,
+        0.3173828125,
+        0.5576171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:KiwiSkin",
+      "name": "NP_Plants_Trellis_01:KiwiSkin",
+      "index": 46,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "KiwiSkin",
+      "sourceRect": [
+        1536,
+        768,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.759765625,
+        0.509765625,
+        0.865234375,
+        0.615234375
+      ],
+      "pixelRectTopLeft": [
+        2304,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        2304,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.5673828125,
+        0.3173828125,
+        0.6201171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:LeafBean",
+      "name": "NP_Plants_Trellis_01:LeafBean",
+      "index": 47,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "LeafBean",
+      "sourceRect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.384765625,
+        0.759765625,
+        0.490234375,
+        0.865234375
+      ],
+      "pixelRectTopLeft": [
+        2560,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        2560,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.6298828125,
+        0.3173828125,
+        0.6826171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:LeafDark",
+      "name": "NP_Plants_Trellis_01:LeafDark",
+      "index": 48,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "LeafDark",
+      "sourceRect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.634765625,
+        0.759765625,
+        0.740234375,
+        0.865234375
+      ],
+      "pixelRectTopLeft": [
+        2816,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        2816,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.6923828125,
+        0.3173828125,
+        0.7451171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:LeafLobed",
+      "name": "NP_Plants_Trellis_01:LeafLobed",
+      "index": 49,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "LeafLobed",
+      "sourceRect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.634765625,
+        0.884765625,
+        0.740234375,
+        0.990234375
+      ],
+      "pixelRectTopLeft": [
+        3072,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3072,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.7548828125,
+        0.3173828125,
+        0.8076171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:LeafNarrow",
+      "name": "NP_Plants_Trellis_01:LeafNarrow",
+      "index": 50,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "LeafNarrow",
+      "sourceRect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.134765625,
+        0.759765625,
+        0.240234375,
+        0.865234375
+      ],
+      "pixelRectTopLeft": [
+        3328,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3328,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.8173828125,
+        0.3173828125,
+        0.8701171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:LeafOval",
+      "name": "NP_Plants_Trellis_01:LeafOval",
+      "index": 51,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "LeafOval",
+      "sourceRect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.384765625,
+        0.884765625,
+        0.490234375,
+        0.990234375
+      ],
+      "pixelRectTopLeft": [
+        3584,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3584,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.8798828125,
+        0.3173828125,
+        0.9326171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:LeafSerrated",
+      "name": "NP_Plants_Trellis_01:LeafSerrated",
+      "index": 52,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "LeafSerrated",
+      "sourceRect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.509765625,
+        0.884765625,
+        0.615234375,
+        0.990234375
+      ],
+      "pixelRectTopLeft": [
+        3840,
+        2560,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3840,
+        2560,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.9423828125,
+        0.3173828125,
+        0.9951171875,
+        0.3701171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:LeafStrap",
+      "name": "NP_Plants_Trellis_01:LeafStrap",
+      "index": 53,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "LeafStrap",
+      "sourceRect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.009765625,
+        0.759765625,
+        0.115234375,
+        0.865234375
+      ],
+      "pixelRectTopLeft": [
+        0,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        0,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.0048828125,
+        0.2548828125,
+        0.0576171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:LeafVineHeart",
+      "name": "NP_Plants_Trellis_01:LeafVineHeart",
+      "index": 54,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "LeafVineHeart",
+      "sourceRect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.884765625,
+        0.884765625,
+        0.990234375,
+        0.990234375
+      ],
+      "pixelRectTopLeft": [
+        256,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        256,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.0673828125,
+        0.2548828125,
+        0.1201171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:LeafYoung",
+      "name": "NP_Plants_Trellis_01:LeafYoung",
+      "index": 55,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "LeafYoung",
+      "sourceRect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.509765625,
+        0.759765625,
+        0.615234375,
+        0.865234375
+      ],
+      "pixelRectTopLeft": [
+        512,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        512,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.1298828125,
+        0.2548828125,
+        0.1826171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:MelonFlesh",
+      "name": "NP_Plants_Trellis_01:MelonFlesh",
+      "index": 56,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "MelonFlesh",
+      "sourceRect": [
+        1280,
+        1280,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.634765625,
+        0.259765625,
+        0.740234375,
+        0.365234375
+      ],
+      "pixelRectTopLeft": [
+        768,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        768,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.1923828125,
+        0.2548828125,
+        0.2451171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:OnionCut",
+      "name": "NP_Plants_Trellis_01:OnionCut",
+      "index": 57,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "OnionCut",
+      "sourceRect": [
+        1792,
+        1280,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.884765625,
+        0.259765625,
+        0.990234375,
+        0.365234375
+      ],
+      "pixelRectTopLeft": [
+        1024,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        1024,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.2548828125,
+        0.2548828125,
+        0.3076171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:OnionSkin",
+      "name": "NP_Plants_Trellis_01:OnionSkin",
+      "index": 58,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "OnionSkin",
+      "sourceRect": [
+        1792,
+        768,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.884765625,
+        0.509765625,
+        0.990234375,
+        0.615234375
+      ],
+      "pixelRectTopLeft": [
+        1280,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        1280,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.3173828125,
+        0.2548828125,
+        0.3701171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:PodGreen",
+      "name": "NP_Plants_Trellis_01:PodGreen",
+      "index": 59,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "PodGreen",
+      "sourceRect": [
+        1024,
+        1024,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.509765625,
+        0.384765625,
+        0.615234375,
+        0.490234375
+      ],
+      "pixelRectTopLeft": [
+        1536,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        1536,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.3798828125,
+        0.2548828125,
+        0.4326171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:PollenGold",
+      "name": "NP_Plants_Trellis_01:PollenGold",
+      "index": 60,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "PollenGold",
+      "sourceRect": [
+        1536,
+        1536,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.759765625,
+        0.134765625,
+        0.865234375,
+        0.240234375
+      ],
+      "pixelRectTopLeft": [
+        1792,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        1792,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.4423828125,
+        0.2548828125,
+        0.4951171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:RadishCut",
+      "name": "NP_Plants_Trellis_01:RadishCut",
+      "index": 61,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "RadishCut",
+      "sourceRect": [
+        0,
+        1536,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.009765625,
+        0.134765625,
+        0.115234375,
+        0.240234375
+      ],
+      "pixelRectTopLeft": [
+        2048,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        2048,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.5048828125,
+        0.2548828125,
+        0.5576171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:RadishGradient",
+      "name": "NP_Plants_Trellis_01:RadishGradient",
+      "index": 62,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "RadishGradient",
+      "sourceRect": [
+        0,
+        1024,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.009765625,
+        0.384765625,
+        0.115234375,
+        0.490234375
+      ],
+      "pixelRectTopLeft": [
+        2304,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        2304,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.5673828125,
+        0.2548828125,
+        0.6201171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:RootCream",
+      "name": "NP_Plants_Trellis_01:RootCream",
+      "index": 63,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "RootCream",
+      "sourceRect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.259765625,
+        0.634765625,
+        0.365234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        2560,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        2560,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.6298828125,
+        0.2548828125,
+        0.6826171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:SeedBlack",
+      "name": "NP_Plants_Trellis_01:SeedBlack",
+      "index": 64,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "SeedBlack",
+      "sourceRect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.759765625,
+        0.634765625,
+        0.865234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        2816,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        2816,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.6923828125,
+        0.2548828125,
+        0.7451171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:SeedBrown",
+      "name": "NP_Plants_Trellis_01:SeedBrown",
+      "index": 65,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "SeedBrown",
+      "sourceRect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.634765625,
+        0.634765625,
+        0.740234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        3072,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3072,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.7548828125,
+        0.2548828125,
+        0.8076171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:SeedCream",
+      "name": "NP_Plants_Trellis_01:SeedCream",
+      "index": 66,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "SeedCream",
+      "sourceRect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.884765625,
+        0.634765625,
+        0.990234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        3328,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3328,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.8173828125,
+        0.2548828125,
+        0.8701171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:SeedGreen",
+      "name": "NP_Plants_Trellis_01:SeedGreen",
+      "index": 67,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "SeedGreen",
+      "sourceRect": [
+        1024,
+        1792,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.509765625,
+        0.009765625,
+        0.615234375,
+        0.115234375
+      ],
+      "pixelRectTopLeft": [
+        3584,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3584,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.8798828125,
+        0.2548828125,
+        0.9326171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:SeedTan",
+      "name": "NP_Plants_Trellis_01:SeedTan",
+      "index": 68,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "SeedTan",
+      "sourceRect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.509765625,
+        0.634765625,
+        0.615234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        3840,
+        2816,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3840,
+        2816,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.9423828125,
+        0.2548828125,
+        0.9951171875,
+        0.3076171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:SepalGreen",
+      "name": "NP_Plants_Trellis_01:SepalGreen",
+      "index": 69,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "SepalGreen",
+      "sourceRect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.384765625,
+        0.634765625,
+        0.490234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        0,
+        3072,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        0,
+        3072,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.0048828125,
+        0.1923828125,
+        0.0576171875,
+        0.2451171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:StemGreen",
+      "name": "NP_Plants_Trellis_01:StemGreen",
+      "index": 70,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "StemGreen",
+      "sourceRect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.009765625,
+        0.634765625,
+        0.115234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        256,
+        3072,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        256,
+        3072,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.0673828125,
+        0.1923828125,
+        0.1201171875,
+        0.2451171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Trellis_01:StemPurple",
+      "name": "NP_Plants_Trellis_01:StemPurple",
+      "index": 71,
+      "sourceAtlas": "NP_Plants_Trellis_01",
+      "sourceSlot": "StemPurple",
+      "sourceRect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.134765625,
+        0.634765625,
+        0.240234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        512,
+        3072,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        512,
+        3072,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.1298828125,
+        0.1923828125,
+        0.1826171875,
+        0.2451171875
+      ],
+      "normalStrength": 0.65,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Cereal_01:AwnGold",
+      "name": "NP_Plants_Cereal_01:AwnGold",
+      "index": 72,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "AwnGold",
+      "sourceRect": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.0078125,
+        0.4921875,
+        0.2421875
+      ],
+      "pixelRectTopLeft": [
+        768,
+        3072,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        784,
+        3088,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.1923828125,
+        0.2158203125,
+        0.2216796875,
+        0.2451171875
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Cereal_01:RiceSeed",
+      "name": "NP_Plants_Cereal_01:RiceSeed",
+      "index": 73,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "RiceSeed",
+      "sourceRect": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.2578125,
+        0.2421875,
+        0.4921875
+      ],
+      "pixelRectTopLeft": [
+        928,
+        3072,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        944,
+        3088,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.2314453125,
+        0.2158203125,
+        0.2607421875,
+        0.2451171875
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Cereal_01:RiceWhite",
+      "name": "NP_Plants_Cereal_01:RiceWhite",
+      "index": 74,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "RiceWhite",
+      "sourceRect": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.2578125,
+        0.7421875,
+        0.4921875
+      ],
+      "pixelRectTopLeft": [
+        1088,
+        3072,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1104,
+        3088,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.2705078125,
+        0.2158203125,
+        0.2998046875,
+        0.2451171875
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Cereal_01:StemGold",
+      "name": "NP_Plants_Cereal_01:StemGold",
+      "index": 75,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "StemGold",
+      "sourceRect": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.5078125,
+        0.9921875,
+        0.7421875
+      ],
+      "pixelRectTopLeft": [
+        1248,
+        3072,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1264,
+        3088,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.3095703125,
+        0.2158203125,
+        0.3388671875,
+        0.2451171875
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Cereal_01:StemGreen",
+      "name": "NP_Plants_Cereal_01:StemGreen",
+      "index": 76,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "StemGreen",
+      "sourceRect": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.5078125,
+        0.7421875,
+        0.7421875
+      ],
+      "pixelRectTopLeft": [
+        1408,
+        3072,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1424,
+        3088,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.3486328125,
+        0.2158203125,
+        0.3779296875,
+        0.2451171875
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Cereal_01:WheatSeed",
+      "name": "NP_Plants_Cereal_01:WheatSeed",
+      "index": 77,
+      "sourceAtlas": "NP_Plants_Cereal_01",
+      "sourceSlot": "WheatSeed",
+      "sourceRect": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.2578125,
+        0.4921875,
+        0.4921875
+      ],
+      "pixelRectTopLeft": [
+        1568,
+        3072,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1584,
+        3088,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.3876953125,
+        0.2158203125,
+        0.4169921875,
+        0.2451171875
+      ],
+      "normalStrength": 0.5,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Leafy_01:CutStem",
+      "name": "NP_Plants_Leafy_01:CutStem",
+      "index": 78,
+      "sourceAtlas": "NP_Plants_Leafy_01",
+      "sourceSlot": "CutStem",
+      "sourceRect": [
+        1024,
+        1536,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.505859375,
+        0.005859375,
+        0.744140625,
+        0.244140625
+      ],
+      "pixelRectTopLeft": [
+        1728,
+        3072,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1744,
+        3088,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.426513671875,
+        0.215576171875,
+        0.456298828125,
+        0.245361328125
+      ],
+      "normalStrength": 0.55,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Leafy_01:HollowStem",
+      "name": "NP_Plants_Leafy_01:HollowStem",
+      "index": 79,
+      "sourceAtlas": "NP_Plants_Leafy_01",
+      "sourceSlot": "HollowStem",
+      "sourceRect": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.755859375,
+        0.255859375,
+        0.994140625,
+        0.494140625
+      ],
+      "pixelRectTopLeft": [
+        1888,
+        3072,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1904,
+        3088,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.465576171875,
+        0.215576171875,
+        0.495361328125,
+        0.245361328125
+      ],
+      "normalStrength": 0.55,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Leafy_01:SeedBrown",
+      "name": "NP_Plants_Leafy_01:SeedBrown",
+      "index": 80,
+      "sourceAtlas": "NP_Plants_Leafy_01",
+      "sourceSlot": "SeedBrown",
+      "sourceRect": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.255859375,
+        0.005859375,
+        0.494140625,
+        0.244140625
+      ],
+      "pixelRectTopLeft": [
+        2048,
+        3072,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        2064,
+        3088,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.504638671875,
+        0.215576171875,
+        0.534423828125,
+        0.245361328125
+      ],
+      "normalStrength": 0.55,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Leafy_01:SeedTan",
+      "name": "NP_Plants_Leafy_01:SeedTan",
+      "index": 81,
+      "sourceAtlas": "NP_Plants_Leafy_01",
+      "sourceSlot": "SeedTan",
+      "sourceRect": [
+        0,
+        1536,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.005859375,
+        0.005859375,
+        0.244140625,
+        0.244140625
+      ],
+      "pixelRectTopLeft": [
+        2208,
+        3072,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        2224,
+        3088,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.543701171875,
+        0.215576171875,
+        0.573486328125,
+        0.245361328125
+      ],
+      "normalStrength": 0.55,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Leafy_01:StemPale",
+      "name": "NP_Plants_Leafy_01:StemPale",
+      "index": 82,
+      "sourceAtlas": "NP_Plants_Leafy_01",
+      "sourceSlot": "StemPale",
+      "sourceRect": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.505859375,
+        0.255859375,
+        0.744140625,
+        0.494140625
+      ],
+      "pixelRectTopLeft": [
+        2368,
+        3072,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        2384,
+        3088,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.582763671875,
+        0.215576171875,
+        0.612548828125,
+        0.245361328125
+      ],
+      "normalStrength": 0.55,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Produce_01:BroccoliHead",
+      "name": "NP_Plants_Produce_01:BroccoliHead",
+      "index": 83,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "BroccoliHead",
+      "sourceRect": [
+        896,
+        512,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.884765625,
+        0.384765625,
+        0.990234375,
+        0.490234375
+      ],
+      "pixelRectTopLeft": [
+        2528,
+        3072,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        2528,
+        3072,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.61962890625,
+        0.22119140625,
+        0.64599609375,
+        0.24755859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:CabbageHead",
+      "name": "NP_Plants_Produce_01:CabbageHead",
+      "index": 84,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "CabbageHead",
+      "sourceRect": [
+        128,
+        640,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.134765625,
+        0.259765625,
+        0.240234375,
+        0.365234375
+      ],
+      "pixelRectTopLeft": [
+        2656,
+        3072,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        2656,
+        3072,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.65087890625,
+        0.22119140625,
+        0.67724609375,
+        0.24755859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:CauliflowerHead",
+      "name": "NP_Plants_Produce_01:CauliflowerHead",
+      "index": 85,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "CauliflowerHead",
+      "sourceRect": [
+        0,
+        640,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.009765625,
+        0.259765625,
+        0.115234375,
+        0.365234375
+      ],
+      "pixelRectTopLeft": [
+        2784,
+        3072,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        2784,
+        3072,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.68212890625,
+        0.22119140625,
+        0.70849609375,
+        0.24755859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:FlowerGold",
+      "name": "NP_Plants_Produce_01:FlowerGold",
+      "index": 86,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "FlowerGold",
+      "sourceRect": [
+        512,
+        768,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.509765625,
+        0.134765625,
+        0.615234375,
+        0.240234375
+      ],
+      "pixelRectTopLeft": [
+        2912,
+        3072,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        2912,
+        3072,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.71337890625,
+        0.22119140625,
+        0.73974609375,
+        0.24755859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:FruitUnripe",
+      "name": "NP_Plants_Produce_01:FruitUnripe",
+      "index": 87,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "FruitUnripe",
+      "sourceRect": [
+        384,
+        384,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.384765625,
+        0.509765625,
+        0.490234375,
+        0.615234375
+      ],
+      "pixelRectTopLeft": [
+        3040,
+        3072,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3040,
+        3072,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.74462890625,
+        0.22119140625,
+        0.77099609375,
+        0.24755859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:LeafBrassica",
+      "name": "NP_Plants_Produce_01:LeafBrassica",
+      "index": 88,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "LeafBrassica",
+      "sourceRect": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.009765625,
+        0.884765625,
+        0.115234375,
+        0.990234375
+      ],
+      "pixelRectTopLeft": [
+        3168,
+        3072,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3168,
+        3072,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.77587890625,
+        0.22119140625,
+        0.80224609375,
+        0.24755859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:LeafCabbage",
+      "name": "NP_Plants_Produce_01:LeafCabbage",
+      "index": 89,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "LeafCabbage",
+      "sourceRect": [
+        128,
+        0,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.134765625,
+        0.884765625,
+        0.240234375,
+        0.990234375
+      ],
+      "pixelRectTopLeft": [
+        3296,
+        3072,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3296,
+        3072,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.80712890625,
+        0.22119140625,
+        0.83349609375,
+        0.24755859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:LeafCabbageInner",
+      "name": "NP_Plants_Produce_01:LeafCabbageInner",
+      "index": 90,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "LeafCabbageInner",
+      "sourceRect": [
+        256,
+        0,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.259765625,
+        0.884765625,
+        0.365234375,
+        0.990234375
+      ],
+      "pixelRectTopLeft": [
+        3424,
+        3072,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3424,
+        3072,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.83837890625,
+        0.22119140625,
+        0.86474609375,
+        0.24755859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:LeafLobed",
+      "name": "NP_Plants_Produce_01:LeafLobed",
+      "index": 91,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "LeafLobed",
+      "sourceRect": [
+        640,
+        0,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.634765625,
+        0.884765625,
+        0.740234375,
+        0.990234375
+      ],
+      "pixelRectTopLeft": [
+        3552,
+        3072,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3552,
+        3072,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.86962890625,
+        0.22119140625,
+        0.89599609375,
+        0.24755859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:LeafVineHeart",
+      "name": "NP_Plants_Produce_01:LeafVineHeart",
+      "index": 92,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "LeafVineHeart",
+      "sourceRect": [
+        896,
+        0,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.884765625,
+        0.884765625,
+        0.990234375,
+        0.990234375
+      ],
+      "pixelRectTopLeft": [
+        3680,
+        3072,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3680,
+        3072,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.90087890625,
+        0.22119140625,
+        0.92724609375,
+        0.24755859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:LeafVineRound",
+      "name": "NP_Plants_Produce_01:LeafVineRound",
+      "index": 93,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "LeafVineRound",
+      "sourceRect": [
+        768,
+        0,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.759765625,
+        0.884765625,
+        0.865234375,
+        0.990234375
+      ],
+      "pixelRectTopLeft": [
+        3808,
+        3072,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3808,
+        3072,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.93212890625,
+        0.22119140625,
+        0.95849609375,
+        0.24755859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:LeafYoung",
+      "name": "NP_Plants_Produce_01:LeafYoung",
+      "index": 94,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "LeafYoung",
+      "sourceRect": [
+        512,
+        128,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.509765625,
+        0.759765625,
+        0.615234375,
+        0.865234375
+      ],
+      "pixelRectTopLeft": [
+        3936,
+        3072,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3936,
+        3072,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.96337890625,
+        0.22119140625,
+        0.98974609375,
+        0.24755859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:MelonNet",
+      "name": "NP_Plants_Produce_01:MelonNet",
+      "index": 95,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "MelonNet",
+      "sourceRect": [
+        640,
+        384,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.634765625,
+        0.509765625,
+        0.740234375,
+        0.615234375
+      ],
+      "pixelRectTopLeft": [
+        2528,
+        3200,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        2528,
+        3200,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.61962890625,
+        0.18994140625,
+        0.64599609375,
+        0.21630859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:PollenGold",
+      "name": "NP_Plants_Produce_01:PollenGold",
+      "index": 96,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "PollenGold",
+      "sourceRect": [
+        768,
+        768,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.759765625,
+        0.134765625,
+        0.865234375,
+        0.240234375
+      ],
+      "pixelRectTopLeft": [
+        2656,
+        3200,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        2656,
+        3200,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.65087890625,
+        0.18994140625,
+        0.67724609375,
+        0.21630859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:SeedBlack",
+      "name": "NP_Plants_Produce_01:SeedBlack",
+      "index": 97,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "SeedBlack",
+      "sourceRect": [
+        768,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.759765625,
+        0.634765625,
+        0.865234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        2784,
+        3200,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        2784,
+        3200,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.68212890625,
+        0.18994140625,
+        0.70849609375,
+        0.21630859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:SeedBrown",
+      "name": "NP_Plants_Produce_01:SeedBrown",
+      "index": 98,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "SeedBrown",
+      "sourceRect": [
+        640,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.634765625,
+        0.634765625,
+        0.740234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        2912,
+        3200,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        2912,
+        3200,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.71337890625,
+        0.18994140625,
+        0.73974609375,
+        0.21630859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:SeedCream",
+      "name": "NP_Plants_Produce_01:SeedCream",
+      "index": 99,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "SeedCream",
+      "sourceRect": [
+        896,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.884765625,
+        0.634765625,
+        0.990234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        3040,
+        3200,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3040,
+        3200,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.74462890625,
+        0.18994140625,
+        0.77099609375,
+        0.21630859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:SepalGreen",
+      "name": "NP_Plants_Produce_01:SepalGreen",
+      "index": 100,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "SepalGreen",
+      "sourceRect": [
+        384,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.384765625,
+        0.634765625,
+        0.490234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        3168,
+        3200,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3168,
+        3200,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.77587890625,
+        0.18994140625,
+        0.80224609375,
+        0.21630859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:StemGreen",
+      "name": "NP_Plants_Produce_01:StemGreen",
+      "index": 101,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "StemGreen",
+      "sourceRect": [
+        0,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.009765625,
+        0.634765625,
+        0.115234375,
+        0.740234375
+      ],
+      "pixelRectTopLeft": [
+        3296,
+        3200,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3296,
+        3200,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.80712890625,
+        0.18994140625,
+        0.83349609375,
+        0.21630859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:StemPale",
+      "name": "NP_Plants_Produce_01:StemPale",
+      "index": 102,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "StemPale",
+      "sourceRect": [
+        0,
+        896,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.009765625,
+        0.009765625,
+        0.115234375,
+        0.115234375
+      ],
+      "pixelRectTopLeft": [
+        3424,
+        3200,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3424,
+        3200,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.83837890625,
+        0.18994140625,
+        0.86474609375,
+        0.21630859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:WatermelonStripe",
+      "name": "NP_Plants_Produce_01:WatermelonStripe",
+      "index": 103,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "WatermelonStripe",
+      "sourceRect": [
+        512,
+        384,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.509765625,
+        0.509765625,
+        0.615234375,
+        0.615234375
+      ],
+      "pixelRectTopLeft": [
+        3552,
+        3200,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3552,
+        3200,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.86962890625,
+        0.18994140625,
+        0.89599609375,
+        0.21630859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Produce_01:ZucchiniSkin",
+      "name": "NP_Plants_Produce_01:ZucchiniSkin",
+      "index": 104,
+      "sourceAtlas": "NP_Plants_Produce_01",
+      "sourceSlot": "ZucchiniSkin",
+      "sourceRect": [
+        768,
+        512,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.759765625,
+        0.384765625,
+        0.865234375,
+        0.490234375
+      ],
+      "pixelRectTopLeft": [
+        3680,
+        3200,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3680,
+        3200,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.90087890625,
+        0.18994140625,
+        0.92724609375,
+        0.21630859375
+      ],
+      "normalStrength": 0.85,
+      "saturation": 0.97,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:CutStem",
+      "name": "NP_Plants_RadialFlowers_01:CutStem",
+      "index": 105,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "CutStem",
+      "sourceRect": [
+        1536,
+        1536,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.0078125,
+        0.9921875,
+        0.2421875
+      ],
+      "pixelRectTopLeft": [
+        3808,
+        3200,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        3824,
+        3216,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.9345703125,
+        0.1845703125,
+        0.9638671875,
+        0.2138671875
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:SeedBlack",
+      "name": "NP_Plants_RadialFlowers_01:SeedBlack",
+      "index": 106,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "SeedBlack",
+      "sourceRect": [
+        1024,
+        1536,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.0078125,
+        0.7421875,
+        0.2421875
+      ],
+      "pixelRectTopLeft": [
+        768,
+        3232,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        784,
+        3248,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.1923828125,
+        0.1767578125,
+        0.2216796875,
+        0.2060546875
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:SeedBrown",
+      "name": "NP_Plants_RadialFlowers_01:SeedBrown",
+      "index": 107,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "SeedBrown",
+      "sourceRect": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.0078125,
+        0.4921875,
+        0.2421875
+      ],
+      "pixelRectTopLeft": [
+        928,
+        3232,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        944,
+        3248,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.2314453125,
+        0.1767578125,
+        0.2607421875,
+        0.2060546875
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:SeedStripe",
+      "name": "NP_Plants_RadialFlowers_01:SeedStripe",
+      "index": 108,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "SeedStripe",
+      "sourceRect": [
+        0,
+        1536,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.0078125,
+        0.2421875,
+        0.2421875
+      ],
+      "pixelRectTopLeft": [
+        1088,
+        3232,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1104,
+        3248,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.2705078125,
+        0.1767578125,
+        0.2998046875,
+        0.2060546875
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:SepalGreen",
+      "name": "NP_Plants_RadialFlowers_01:SepalGreen",
+      "index": 109,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "SepalGreen",
+      "sourceRect": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.2578125,
+        0.4921875,
+        0.4921875
+      ],
+      "pixelRectTopLeft": [
+        1248,
+        3232,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1264,
+        3248,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.3095703125,
+        0.1767578125,
+        0.3388671875,
+        0.2060546875
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_RadialFlowers_01:StemGreen",
+      "name": "NP_Plants_RadialFlowers_01:StemGreen",
+      "index": 110,
+      "sourceAtlas": "NP_Plants_RadialFlowers_01",
+      "sourceSlot": "StemGreen",
+      "sourceRect": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.2578125,
+        0.2421875,
+        0.4921875
+      ],
+      "pixelRectTopLeft": [
+        1408,
+        3232,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1424,
+        3248,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.3486328125,
+        0.1767578125,
+        0.3779296875,
+        0.2060546875
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:PollenGold",
+      "name": "NP_Plants_ShrubFlowers_01:PollenGold",
+      "index": 111,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "PollenGold",
+      "sourceRect": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.2578125,
+        0.7421875,
+        0.4921875
+      ],
+      "pixelRectTopLeft": [
+        1568,
+        3232,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1584,
+        3248,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.3876953125,
+        0.1767578125,
+        0.4169921875,
+        0.2060546875
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:SeedBrown",
+      "name": "NP_Plants_ShrubFlowers_01:SeedBrown",
+      "index": 112,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "SeedBrown",
+      "sourceRect": [
+        0,
+        1536,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.0078125,
+        0.2421875,
+        0.2421875
+      ],
+      "pixelRectTopLeft": [
+        1728,
+        3232,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1744,
+        3248,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.4267578125,
+        0.1767578125,
+        0.4560546875,
+        0.2060546875
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:SeedTan",
+      "name": "NP_Plants_ShrubFlowers_01:SeedTan",
+      "index": 113,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "SeedTan",
+      "sourceRect": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.0078125,
+        0.4921875,
+        0.2421875
+      ],
+      "pixelRectTopLeft": [
+        1888,
+        3232,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1904,
+        3248,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.4658203125,
+        0.1767578125,
+        0.4951171875,
+        0.2060546875
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:SepalGreen",
+      "name": "NP_Plants_ShrubFlowers_01:SepalGreen",
+      "index": 114,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "SepalGreen",
+      "sourceRect": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.5078125,
+        0.9921875,
+        0.7421875
+      ],
+      "pixelRectTopLeft": [
+        2048,
+        3232,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        2064,
+        3248,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.5048828125,
+        0.1767578125,
+        0.5341796875,
+        0.2060546875
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:StemGreen",
+      "name": "NP_Plants_ShrubFlowers_01:StemGreen",
+      "index": 115,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "StemGreen",
+      "sourceRect": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.5078125,
+        0.7421875,
+        0.7421875
+      ],
+      "pixelRectTopLeft": [
+        2208,
+        3232,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        2224,
+        3248,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.5439453125,
+        0.1767578125,
+        0.5732421875,
+        0.2060546875
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:StigmaRed",
+      "name": "NP_Plants_ShrubFlowers_01:StigmaRed",
+      "index": 116,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "StigmaRed",
+      "sourceRect": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.2578125,
+        0.9921875,
+        0.4921875
+      ],
+      "pixelRectTopLeft": [
+        2368,
+        3232,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        2384,
+        3248,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.5830078125,
+        0.1767578125,
+        0.6123046875,
+        0.2060546875
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_ShrubFlowers_01:ThornBronze",
+      "name": "NP_Plants_ShrubFlowers_01:ThornBronze",
+      "index": 117,
+      "sourceAtlas": "NP_Plants_ShrubFlowers_01",
+      "sourceSlot": "ThornBronze",
+      "sourceRect": [
+        1024,
+        1536,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        2048
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.0078125,
+        0.7421875,
+        0.2421875
+      ],
+      "pixelRectTopLeft": [
+        0,
+        3328,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        16,
+        3344,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.0048828125,
+        0.1533203125,
+        0.0341796875,
+        0.1826171875
+      ],
+      "normalStrength": 0.25,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Tulip_01:CutStem",
+      "name": "NP_Plants_Tulip_01:CutStem",
+      "index": 118,
+      "sourceAtlas": "NP_Plants_Tulip_01",
+      "sourceSlot": "CutStem",
+      "sourceRect": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.015625,
+        0.9921875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        160,
+        3328,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        176,
+        3344,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.0439453125,
+        0.1533203125,
+        0.0732421875,
+        0.1826171875
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Tulip_01:RootCream",
+      "name": "NP_Plants_Tulip_01:RootCream",
+      "index": 119,
+      "sourceAtlas": "NP_Plants_Tulip_01",
+      "sourceSlot": "RootCream",
+      "sourceRect": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.015625,
+        0.7421875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        320,
+        3328,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        336,
+        3344,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.0830078125,
+        0.1533203125,
+        0.1123046875,
+        0.1826171875
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Tulip_01:SepalGreen",
+      "name": "NP_Plants_Tulip_01:SepalGreen",
+      "index": 120,
+      "sourceAtlas": "NP_Plants_Tulip_01",
+      "sourceSlot": "SepalGreen",
+      "sourceRect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.015625,
+        0.4921875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        480,
+        3328,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        496,
+        3344,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.1220703125,
+        0.1533203125,
+        0.1513671875,
+        0.1826171875
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Tulip_01:StemGreen",
+      "name": "NP_Plants_Tulip_01:StemGreen",
+      "index": 121,
+      "sourceAtlas": "NP_Plants_Tulip_01",
+      "sourceSlot": "StemGreen",
+      "sourceRect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.015625,
+        0.2421875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        2528,
+        3328,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        2544,
+        3344,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.6220703125,
+        0.1533203125,
+        0.6513671875,
+        0.1826171875
+      ],
+      "normalStrength": 0.22,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Orchid_Source_01:OrchidLeaf",
+      "name": "NP_Plants_Orchid_Source_01:OrchidLeaf",
+      "index": 122,
+      "sourceAtlas": "NP_Plants_Orchid_Source_01",
+      "sourceSlot": "OrchidLeaf",
+      "sourceRect": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.515625,
+        0.9921875,
+        0.984375
+      ],
+      "pixelRectTopLeft": [
+        2688,
+        3328,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        2688,
+        3328,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.66015625,
+        0.06640625,
+        0.77734375,
+        0.18359375
+      ],
+      "normalStrength": 0.3,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Orchid_Source_01:OrchidLip",
+      "name": "NP_Plants_Orchid_Source_01:OrchidLip",
+      "index": 123,
+      "sourceAtlas": "NP_Plants_Orchid_Source_01",
+      "sourceSlot": "OrchidLip",
+      "sourceRect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.515625,
+        0.7421875,
+        0.984375
+      ],
+      "pixelRectTopLeft": [
+        3200,
+        3328,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        3200,
+        3328,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.78515625,
+        0.06640625,
+        0.90234375,
+        0.18359375
+      ],
+      "normalStrength": 0.3,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Orchid_Source_01:OrchidPetal",
+      "name": "NP_Plants_Orchid_Source_01:OrchidPetal",
+      "index": 124,
+      "sourceAtlas": "NP_Plants_Orchid_Source_01",
+      "sourceSlot": "OrchidPetal",
+      "sourceRect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.515625,
+        0.2421875,
+        0.984375
+      ],
+      "pixelRectTopLeft": [
+        640,
+        3392,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        640,
+        3392,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.16015625,
+        0.05078125,
+        0.27734375,
+        0.16796875
+      ],
+      "normalStrength": 0.3,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Orchid_Source_01:OrchidSepal",
+      "name": "NP_Plants_Orchid_Source_01:OrchidSepal",
+      "index": 125,
+      "sourceAtlas": "NP_Plants_Orchid_Source_01",
+      "sourceSlot": "OrchidSepal",
+      "sourceRect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.515625,
+        0.4921875,
+        0.984375
+      ],
+      "pixelRectTopLeft": [
+        1152,
+        3392,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        1152,
+        3392,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.28515625,
+        0.05078125,
+        0.40234375,
+        0.16796875
+      ],
+      "normalStrength": 0.3,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Orchid_Source_01:ColumnAmber",
+      "name": "NP_Plants_Orchid_Source_01:ColumnAmber",
+      "index": 126,
+      "sourceAtlas": "NP_Plants_Orchid_Source_01",
+      "sourceSlot": "ColumnAmber",
+      "sourceRect": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.015625,
+        0.9921875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        3712,
+        3360,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        3728,
+        3376,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.9111328125,
+        0.1455078125,
+        0.9404296875,
+        0.1748046875
+      ],
+      "normalStrength": 0.3,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Orchid_Source_01:RootVelamen",
+      "name": "NP_Plants_Orchid_Source_01:RootVelamen",
+      "index": 127,
+      "sourceAtlas": "NP_Plants_Orchid_Source_01",
+      "sourceSlot": "RootVelamen",
+      "sourceRect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.015625,
+        0.4921875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        3872,
+        3360,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        3888,
+        3376,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.9501953125,
+        0.1455078125,
+        0.9794921875,
+        0.1748046875
+      ],
+      "normalStrength": 0.3,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Orchid_Source_01:SeedCream",
+      "name": "NP_Plants_Orchid_Source_01:SeedCream",
+      "index": 128,
+      "sourceAtlas": "NP_Plants_Orchid_Source_01",
+      "sourceSlot": "SeedCream",
+      "sourceRect": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.015625,
+        0.7421875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        1664,
+        3392,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1680,
+        3408,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.4111328125,
+        0.1376953125,
+        0.4404296875,
+        0.1669921875
+      ],
+      "normalStrength": 0.3,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Orchid_Source_01:StemGreen",
+      "name": "NP_Plants_Orchid_Source_01:StemGreen",
+      "index": 129,
+      "sourceAtlas": "NP_Plants_Orchid_Source_01",
+      "sourceSlot": "StemGreen",
+      "sourceRect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        2048,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.015625,
+        0.2421875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        1824,
+        3392,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        1840,
+        3408,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.4501953125,
+        0.1376953125,
+        0.4794921875,
+        0.1669921875
+      ],
+      "normalStrength": 0.3,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Lavender_Source_01:LavenderLeaf",
+      "name": "NP_Plants_Lavender_Source_01:LavenderLeaf",
+      "index": 130,
+      "sourceAtlas": "NP_Plants_Lavender_Source_01",
+      "sourceSlot": "LavenderLeaf",
+      "sourceRect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.515625,
+        0.515625,
+        0.984375,
+        0.984375
+      ],
+      "pixelRectTopLeft": [
+        1984,
+        3392,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        1984,
+        3392,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.48828125,
+        0.05078125,
+        0.60546875,
+        0.16796875
+      ],
+      "normalStrength": 0.3,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Lavender_Source_01:LavenderPetal",
+      "name": "NP_Plants_Lavender_Source_01:LavenderPetal",
+      "index": 131,
+      "sourceAtlas": "NP_Plants_Lavender_Source_01",
+      "sourceSlot": "LavenderPetal",
+      "sourceRect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.015625,
+        0.515625,
+        0.484375,
+        0.984375
+      ],
+      "pixelRectTopLeft": [
+        0,
+        3488,
+        512,
+        512
+      ],
+      "contentRectTopLeft": [
+        0,
+        3488,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.00390625,
+        0.02734375,
+        0.12109375,
+        0.14453125
+      ],
+      "normalStrength": 0.3,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Lavender_Source_01:SeedBrown",
+      "name": "NP_Plants_Lavender_Source_01:SeedBrown",
+      "index": 132,
+      "sourceAtlas": "NP_Plants_Lavender_Source_01",
+      "sourceSlot": "SeedBrown",
+      "sourceRect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.515625,
+        0.015625,
+        0.984375,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        2496,
+        3488,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        2512,
+        3504,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.6142578125,
+        0.1142578125,
+        0.6435546875,
+        0.1435546875
+      ],
+      "normalStrength": 0.3,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Lavender_Source_01:StemSage",
+      "name": "NP_Plants_Lavender_Source_01:StemSage",
+      "index": 133,
+      "sourceAtlas": "NP_Plants_Lavender_Source_01",
+      "sourceSlot": "StemSage",
+      "sourceRect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "sourceSize": [
+        1024,
+        1024
+      ],
+      "sourceUvSafe": [
+        0.015625,
+        0.015625,
+        0.484375,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        3712,
+        3520,
+        160,
+        160
+      ],
+      "contentRectTopLeft": [
+        3728,
+        3536,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.9111328125,
+        0.1064453125,
+        0.9404296875,
+        0.1357421875
+      ],
+      "normalStrength": 0.3,
+      "saturation": 1.05,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": false
+    },
+    {
+      "key": "NP_Plants_Berries_Source_01:BlackberryDrupe",
+      "name": "NP_Plants_Berries_Source_01:BlackberryDrupe",
+      "index": 134,
+      "sourceAtlas": "NP_Plants_Berries_Source_01",
+      "sourceSlot": "BlackberryDrupe",
+      "sourceRect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.76171875,
+        0.5234375,
+        0.98828125,
+        0.9765625
+      ],
+      "pixelRectTopLeft": [
+        2496,
+        3840,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        2496,
+        3840,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.6123046875,
+        0.0029296875,
+        0.6689453125,
+        0.0595703125
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Berries_Source_01:BlackberryLeaf",
+      "name": "NP_Plants_Berries_Source_01:BlackberryLeaf",
+      "index": 135,
+      "sourceAtlas": "NP_Plants_Berries_Source_01",
+      "sourceSlot": "BlackberryLeaf",
+      "sourceRect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.26171875,
+        0.5234375,
+        0.48828125,
+        0.9765625
+      ],
+      "pixelRectTopLeft": [
+        2752,
+        3840,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        2752,
+        3840,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.6748046875,
+        0.0029296875,
+        0.7314453125,
+        0.0595703125
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Berries_Source_01:BlueberryLeaf",
+      "name": "NP_Plants_Berries_Source_01:BlueberryLeaf",
+      "index": 136,
+      "sourceAtlas": "NP_Plants_Berries_Source_01",
+      "sourceSlot": "BlueberryLeaf",
+      "sourceRect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.01171875,
+        0.5234375,
+        0.23828125,
+        0.9765625
+      ],
+      "pixelRectTopLeft": [
+        3008,
+        3840,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3008,
+        3840,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.7373046875,
+        0.0029296875,
+        0.7939453125,
+        0.0595703125
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Berries_Source_01:BlueberrySkin",
+      "name": "NP_Plants_Berries_Source_01:BlueberrySkin",
+      "index": 137,
+      "sourceAtlas": "NP_Plants_Berries_Source_01",
+      "sourceSlot": "BlueberrySkin",
+      "sourceRect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.51171875,
+        0.5234375,
+        0.73828125,
+        0.9765625
+      ],
+      "pixelRectTopLeft": [
+        3264,
+        3840,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3264,
+        3840,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.7998046875,
+        0.0029296875,
+        0.8564453125,
+        0.0595703125
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Berries_Source_01:BarkRed",
+      "name": "NP_Plants_Berries_Source_01:BarkRed",
+      "index": 138,
+      "sourceAtlas": "NP_Plants_Berries_Source_01",
+      "sourceSlot": "BarkRed",
+      "sourceRect": [
+        0,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.265625,
+        0.1171875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        3968,
+        3200,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3968,
+        3200,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.970703125,
+        0.189453125,
+        0.998046875,
+        0.216796875
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Berries_Source_01:BerryCrown",
+      "name": "NP_Plants_Berries_Source_01:BerryCrown",
+      "index": 139,
+      "sourceAtlas": "NP_Plants_Berries_Source_01",
+      "sourceSlot": "BerryCrown",
+      "sourceRect": [
+        384,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.3828125,
+        0.265625,
+        0.4921875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        512,
+        3488,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        512,
+        3488,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.126953125,
+        0.119140625,
+        0.154296875,
+        0.146484375
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Berries_Source_01:BerryGreen",
+      "name": "NP_Plants_Berries_Source_01:BerryGreen",
+      "index": 140,
+      "sourceAtlas": "NP_Plants_Berries_Source_01",
+      "sourceSlot": "BerryGreen",
+      "sourceRect": [
+        256,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.265625,
+        0.3671875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        512,
+        3616,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        512,
+        3616,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.126953125,
+        0.087890625,
+        0.154296875,
+        0.115234375
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Berries_Source_01:BerryRed",
+      "name": "NP_Plants_Berries_Source_01:BerryRed",
+      "index": 141,
+      "sourceAtlas": "NP_Plants_Berries_Source_01",
+      "sourceSlot": "BerryRed",
+      "sourceRect": [
+        896,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.8828125,
+        0.265625,
+        0.9921875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        512,
+        3744,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        512,
+        3744,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.126953125,
+        0.056640625,
+        0.154296875,
+        0.083984375
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Berries_Source_01:FlowerIvory",
+      "name": "NP_Plants_Berries_Source_01:FlowerIvory",
+      "index": 142,
+      "sourceAtlas": "NP_Plants_Berries_Source_01",
+      "sourceSlot": "FlowerIvory",
+      "sourceRect": [
+        128,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.1328125,
+        0.265625,
+        0.2421875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        512,
+        3872,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        512,
+        3872,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.126953125,
+        0.025390625,
+        0.154296875,
+        0.052734375
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Berries_Source_01:PollenGold",
+      "name": "NP_Plants_Berries_Source_01:PollenGold",
+      "index": 143,
+      "sourceAtlas": "NP_Plants_Berries_Source_01",
+      "sourceSlot": "PollenGold",
+      "sourceRect": [
+        640,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.6328125,
+        0.265625,
+        0.7421875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        2496,
+        3648,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        2496,
+        3648,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.611328125,
+        0.080078125,
+        0.638671875,
+        0.107421875
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Berries_Source_01:SeedTan",
+      "name": "NP_Plants_Berries_Source_01:SeedTan",
+      "index": 144,
+      "sourceAtlas": "NP_Plants_Berries_Source_01",
+      "sourceSlot": "SeedTan",
+      "sourceRect": [
+        512,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.265625,
+        0.6171875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        640,
+        3904,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        640,
+        3904,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.158203125,
+        0.017578125,
+        0.185546875,
+        0.044921875
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Berries_Source_01:StemGreen",
+      "name": "NP_Plants_Berries_Source_01:StemGreen",
+      "index": 145,
+      "sourceAtlas": "NP_Plants_Berries_Source_01",
+      "sourceSlot": "StemGreen",
+      "sourceRect": [
+        768,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.265625,
+        0.8671875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        768,
+        3904,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        768,
+        3904,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.189453125,
+        0.017578125,
+        0.216796875,
+        0.044921875
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Raspberry_Source_01:RaspberryDrupe",
+      "name": "NP_Plants_Raspberry_Source_01:RaspberryDrupe",
+      "index": 146,
+      "sourceAtlas": "NP_Plants_Raspberry_Source_01",
+      "sourceSlot": "RaspberryDrupe",
+      "sourceRect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.26171875,
+        0.5234375,
+        0.48828125,
+        0.9765625
+      ],
+      "pixelRectTopLeft": [
+        3520,
+        3840,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3520,
+        3840,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.8623046875,
+        0.0029296875,
+        0.9189453125,
+        0.0595703125
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Raspberry_Source_01:RaspberryLeaf",
+      "name": "NP_Plants_Raspberry_Source_01:RaspberryLeaf",
+      "index": 147,
+      "sourceAtlas": "NP_Plants_Raspberry_Source_01",
+      "sourceSlot": "RaspberryLeaf",
+      "sourceRect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.01171875,
+        0.5234375,
+        0.23828125,
+        0.9765625
+      ],
+      "pixelRectTopLeft": [
+        3776,
+        3680,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        3776,
+        3680,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.9248046875,
+        0.0419921875,
+        0.9814453125,
+        0.0986328125
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Raspberry_Source_01:BarkRed",
+      "name": "NP_Plants_Raspberry_Source_01:BarkRed",
+      "index": 148,
+      "sourceAtlas": "NP_Plants_Raspberry_Source_01",
+      "sourceSlot": "BarkRed",
+      "sourceRect": [
+        0,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.265625,
+        0.1171875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        3872,
+        3520,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3872,
+        3520,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.947265625,
+        0.111328125,
+        0.974609375,
+        0.138671875
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Raspberry_Source_01:BerryGreen",
+      "name": "NP_Plants_Raspberry_Source_01:BerryGreen",
+      "index": 149,
+      "sourceAtlas": "NP_Plants_Raspberry_Source_01",
+      "sourceSlot": "BerryGreen",
+      "sourceRect": [
+        256,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.265625,
+        0.3671875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        3776,
+        3936,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3776,
+        3936,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.923828125,
+        0.009765625,
+        0.951171875,
+        0.037109375
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Raspberry_Source_01:FlowerIvory",
+      "name": "NP_Plants_Raspberry_Source_01:FlowerIvory",
+      "index": 150,
+      "sourceAtlas": "NP_Plants_Raspberry_Source_01",
+      "sourceSlot": "FlowerIvory",
+      "sourceRect": [
+        128,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.1328125,
+        0.265625,
+        0.2421875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        3904,
+        3936,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        3904,
+        3936,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.955078125,
+        0.009765625,
+        0.982421875,
+        0.037109375
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Raspberry_Source_01:PollenGold",
+      "name": "NP_Plants_Raspberry_Source_01:PollenGold",
+      "index": 151,
+      "sourceAtlas": "NP_Plants_Raspberry_Source_01",
+      "sourceSlot": "PollenGold",
+      "sourceRect": [
+        640,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.6328125,
+        0.265625,
+        0.7421875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        896,
+        3904,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        896,
+        3904,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.220703125,
+        0.017578125,
+        0.248046875,
+        0.044921875
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Raspberry_Source_01:SeedTan",
+      "name": "NP_Plants_Raspberry_Source_01:SeedTan",
+      "index": 152,
+      "sourceAtlas": "NP_Plants_Raspberry_Source_01",
+      "sourceSlot": "SeedTan",
+      "sourceRect": [
+        512,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.265625,
+        0.6171875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        1024,
+        3904,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        1024,
+        3904,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.251953125,
+        0.017578125,
+        0.279296875,
+        0.044921875
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_Raspberry_Source_01:StemGreen",
+      "name": "NP_Plants_Raspberry_Source_01:StemGreen",
+      "index": 153,
+      "sourceAtlas": "NP_Plants_Raspberry_Source_01",
+      "sourceSlot": "StemGreen",
+      "sourceRect": [
+        768,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.7578125,
+        0.265625,
+        0.8671875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        1152,
+        3904,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        1152,
+        3904,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.283203125,
+        0.017578125,
+        0.310546875,
+        0.044921875
+      ],
+      "normalStrength": 0.28,
+      "saturation": 1.03,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_DaisyMoonflower_Source_01:DaisyLeaf",
+      "name": "NP_Plants_DaisyMoonflower_Source_01:DaisyLeaf",
+      "index": 154,
+      "sourceAtlas": "NP_Plants_DaisyMoonflower_Source_01",
+      "sourceSlot": "DaisyLeaf",
+      "sourceRect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.01171875,
+        0.5234375,
+        0.23828125,
+        0.9765625
+      ],
+      "pixelRectTopLeft": [
+        1664,
+        3552,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        1664,
+        3552,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.4091796875,
+        0.0732421875,
+        0.4658203125,
+        0.1298828125
+      ],
+      "normalStrength": 0.32,
+      "saturation": 1.0,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_DaisyMoonflower_Source_01:MoonflowerLeaf",
+      "name": "NP_Plants_DaisyMoonflower_Source_01:MoonflowerLeaf",
+      "index": 155,
+      "sourceAtlas": "NP_Plants_DaisyMoonflower_Source_01",
+      "sourceSlot": "MoonflowerLeaf",
+      "sourceRect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.26171875,
+        0.5234375,
+        0.48828125,
+        0.9765625
+      ],
+      "pixelRectTopLeft": [
+        1664,
+        3808,
+        256,
+        256
+      ],
+      "contentRectTopLeft": [
+        1664,
+        3808,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.4091796875,
+        0.0107421875,
+        0.4658203125,
+        0.0673828125
+      ],
+      "normalStrength": 0.32,
+      "saturation": 1.0,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_DaisyMoonflower_Source_01:DaisyPetal",
+      "name": "NP_Plants_DaisyMoonflower_Source_01:DaisyPetal",
+      "index": 156,
+      "sourceAtlas": "NP_Plants_DaisyMoonflower_Source_01",
+      "sourceSlot": "DaisyPetal",
+      "sourceRect": [
+        512,
+        0,
+        192,
+        192
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.51171875,
+        0.6484375,
+        0.67578125,
+        0.9765625
+      ],
+      "pixelRectTopLeft": [
+        1280,
+        3904,
+        192,
+        192
+      ],
+      "contentRectTopLeft": [
+        1280,
+        3904,
+        192,
+        192
+      ],
+      "uvSafe": [
+        0.3154296875,
+        0.0029296875,
+        0.3564453125,
+        0.0439453125
+      ],
+      "normalStrength": 0.32,
+      "saturation": 1.0,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_DaisyMoonflower_Source_01:MoonflowerPetal",
+      "name": "NP_Plants_DaisyMoonflower_Source_01:MoonflowerPetal",
+      "index": 157,
+      "sourceAtlas": "NP_Plants_DaisyMoonflower_Source_01",
+      "sourceSlot": "MoonflowerPetal",
+      "sourceRect": [
+        704,
+        0,
+        192,
+        192
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.69921875,
+        0.6484375,
+        0.86328125,
+        0.9765625
+      ],
+      "pixelRectTopLeft": [
+        1472,
+        3904,
+        192,
+        192
+      ],
+      "contentRectTopLeft": [
+        1472,
+        3904,
+        192,
+        192
+      ],
+      "uvSafe": [
+        0.3623046875,
+        0.0029296875,
+        0.4033203125,
+        0.0439453125
+      ],
+      "normalStrength": 0.32,
+      "saturation": 1.0,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_DaisyMoonflower_Source_01:DaisyDisk",
+      "name": "NP_Plants_DaisyMoonflower_Source_01:DaisyDisk",
+      "index": 158,
+      "sourceAtlas": "NP_Plants_DaisyMoonflower_Source_01",
+      "sourceSlot": "DaisyDisk",
+      "sourceRect": [
+        0,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.0078125,
+        0.265625,
+        0.1171875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        1920,
+        3904,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        1920,
+        3904,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.470703125,
+        0.017578125,
+        0.498046875,
+        0.044921875
+      ],
+      "normalStrength": 0.32,
+      "saturation": 1.0,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_DaisyMoonflower_Source_01:DaisySeed",
+      "name": "NP_Plants_DaisyMoonflower_Source_01:DaisySeed",
+      "index": 159,
+      "sourceAtlas": "NP_Plants_DaisyMoonflower_Source_01",
+      "sourceSlot": "DaisySeed",
+      "sourceRect": [
+        128,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.1328125,
+        0.265625,
+        0.2421875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        2048,
+        3904,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        2048,
+        3904,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.501953125,
+        0.017578125,
+        0.529296875,
+        0.044921875
+      ],
+      "normalStrength": 0.32,
+      "saturation": 1.0,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_DaisyMoonflower_Source_01:MoonflowerSeed",
+      "name": "NP_Plants_DaisyMoonflower_Source_01:MoonflowerSeed",
+      "index": 160,
+      "sourceAtlas": "NP_Plants_DaisyMoonflower_Source_01",
+      "sourceSlot": "MoonflowerSeed",
+      "sourceRect": [
+        256,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.2578125,
+        0.265625,
+        0.3671875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        2176,
+        3904,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        2176,
+        3904,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.533203125,
+        0.017578125,
+        0.560546875,
+        0.044921875
+      ],
+      "normalStrength": 0.32,
+      "saturation": 1.0,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_DaisyMoonflower_Source_01:FlowerStem",
+      "name": "NP_Plants_DaisyMoonflower_Source_01:FlowerStem",
+      "index": 161,
+      "sourceAtlas": "NP_Plants_DaisyMoonflower_Source_01",
+      "sourceSlot": "FlowerStem",
+      "sourceRect": [
+        384,
+        256,
+        128,
+        128
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.3828125,
+        0.265625,
+        0.4921875,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        2304,
+        3904,
+        128,
+        128
+      ],
+      "contentRectTopLeft": [
+        2304,
+        3904,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.564453125,
+        0.017578125,
+        0.591796875,
+        0.044921875
+      ],
+      "normalStrength": 0.32,
+      "saturation": 1.0,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    },
+    {
+      "key": "NP_Plants_DaisyMoonflower_Source_01:DaisyStem",
+      "name": "NP_Plants_DaisyMoonflower_Source_01:DaisyStem",
+      "index": 162,
+      "sourceAtlas": "NP_Plants_DaisyMoonflower_Source_01",
+      "sourceSlot": "DaisyStem",
+      "sourceRect": [
+        512,
+        256,
+        96,
+        96
+      ],
+      "sourceSize": [
+        1024,
+        512
+      ],
+      "sourceUvSafe": [
+        0.5078125,
+        0.328125,
+        0.5859375,
+        0.484375
+      ],
+      "pixelRectTopLeft": [
+        4000,
+        3520,
+        96,
+        96
+      ],
+      "contentRectTopLeft": [
+        4000,
+        3520,
+        96,
+        96
+      ],
+      "uvSafe": [
+        0.978515625,
+        0.119140625,
+        0.998046875,
+        0.138671875
+      ],
+      "normalStrength": 0.32,
+      "saturation": 1.0,
+      "smoothnessScale": 1.0,
+      "primaryDetailPreserved": true
+    }
+  ],
+  "policy": "One shared runtime material; stable append-only UV rectangles; source-page namespaces; preserve primary leaf/petal texel density",
+  "usedPixels": 16485376,
+  "freePixels": 291840,
+  "freePercent": 1.74,
+  "maps": {
+    "BaseColor": "Assets/Nature  Paradaise/Textures/Shared/Plants/NP_Plants_Unified_01_BaseColor.png",
+    "Normal": "Assets/Nature  Paradaise/Textures/Shared/Plants/NP_Plants_Unified_01_Normal.png",
+    "SurfaceMask": "Assets/Nature  Paradaise/Textures/Shared/Plants/NP_Plants_Unified_01_SurfaceMask.png"
+  },
+  "material": "Assets/Nature  Paradaise/Material/Shared/Plants/NP_Plants_Unified_01.mat",
+  "materialGuid": "7608168a5d5646fd965b3910bff9c6bd"
+}

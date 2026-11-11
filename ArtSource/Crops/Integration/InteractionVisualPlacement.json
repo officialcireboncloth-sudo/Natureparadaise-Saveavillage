@@ -1,0 +1,39 @@
+{
+  "status": "APPLIED",
+  "rootCrops": [
+    {
+      "plant": "Radish",
+      "phase": "RootForming",
+      "burialInModelUnits": 0.15625,
+      "aboveSoilFraction": 0.5
+    },
+    {
+      "plant": "Radish",
+      "phase": "Ready",
+      "burialInModelUnits": 0.25,
+      "aboveSoilFraction": 0.5
+    },
+    {
+      "plant": "Onion",
+      "phase": "BulbForming",
+      "burialInModelUnits": 0.1458,
+      "aboveSoilFraction": 0.5000000000000001
+    },
+    {
+      "plant": "Onion",
+      "phase": "Ready",
+      "burialInModelUnits": 0.27,
+      "aboveSoilFraction": 0.49999999999999994
+    }
+  ],
+  "material": "Assets/Nature  Paradaise/Resources/UI/Interaction/WorldInteractionClue.mat",
+  "shader": "Assets/Nature  Paradaise/Material/WorldInteractionClue.shader",
+  "depthTest": "Always",
+  "revealDistanceMetres": 12,
+  "maximumGlints": 12,
+  "glintsPerObject": 1,
+  "glintHalfSizeAt720p": 7,
+  "mobileSizeMultiplier": 1.2,
+  "twinklePeriodSeconds": 5,
+  "twinkleDurationSeconds": 0.85
+}

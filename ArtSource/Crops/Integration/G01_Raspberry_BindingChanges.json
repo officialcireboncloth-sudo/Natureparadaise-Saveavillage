@@ -1,0 +1,33 @@
+{
+  "status": "APPLIED_SCOPED_EXTENSION",
+  "group": "G01",
+  "newPlantKeys": [
+    "raspberry"
+  ],
+  "authorizedChanges": {
+    "Assets/Nature  Paradaise/Resources/Shops/Crops Catalog.asset": {
+      "before": "9a072c41d1bd703c643d4f0d4c82db22304a7ccd433f54b0460d364bfc5d188f",
+      "after": "1217e193427e42c375ed16732af599d945f5befa414ab447436f0813f44e1c4b"
+    },
+    "Assets/Nature  Paradaise/Data/Balance/Items.csv": {
+      "before": "5fad5bd7cd52ba63b4cfb6981bbe1cc2440f363b2d31914e171628e9ae2cc0ac",
+      "after": "6d58b58be2db563d401a14e1499023959dadfe2f030b7e64d78696e29e690b90"
+    },
+    "Assets/Nature  Paradaise/Data/Balance/Crops.csv": {
+      "before": "2aaea09390a82af543fe5cb9b36833b96204fc4c82a8514b82b2475941dd8fd1",
+      "after": "794db7cb62d9b357c2802052edd98b5d9824c3833063a3b7d1215b06502b69b3"
+    },
+    "Assets/Nature  Paradaise/Script/Editor/CropGameplayValidation.cs": {
+      "before": "2fd3531d1fb1118a8e91125da0571a6e45fd3bd51e2f94368c088d8fb3673ad7",
+      "after": "f1b3227b869839d0a504ddaa65bf58f86e7bd388d769a5fbcde135518af13eba"
+    }
+  },
+  "baseline": "ArtSource/Crops/G01/Review/Raspberry/Baseline.json",
+  "priorPlantsRetained": 30,
+  "priorCsvRowsRetained": true,
+  "editorChanges": "Append Raspberry to the species fixture list only",
+  "catalogAllowedGroups": [
+    "G01"
+  ],
+  "pendingReference": []
+}

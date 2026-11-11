@@ -24,6 +24,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
     Image panelBackground;
     TMP_Text promptText;
     Camera worldCamera;
+    void OnEnable() => WorldInteractionVisuals.EnsureExists();
 
     int requestFrame = -1;
     float nearestDistance = float.PositiveInfinity;
@@ -70,6 +71,17 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
 
     public static bool HasDisplayedPrompt => instance != null && IsDisplayedFor(instance.displayedOwner);
 
+    /// <summary>Visual cues read the same published owner/anchor used by E/F and touch input.</summary>
+    public static bool TryGetDisplayedTarget(out Object owner, out Transform anchor, out Vector3 worldPosition)
+    {
+        owner = null; anchor = null; worldPosition = Vector3.zero;
+        if (!HasDisplayedPrompt) return false;
+        owner = instance.displayedOwner; anchor = instance.displayedAnchor;
+        worldPosition = instance.displayedWorldPosition;
+        return anchor == null || anchor.gameObject.activeInHierarchy;
+    }
+    Vector3 displayedWorldPosition;
+
     /// <summary>Returns the exact anchor the player was shown, so an action cannot silently switch targets.</summary>
     public static bool TryGetDisplayedAnchor(Object owner,out Transform anchor)
     {anchor=IsDisplayedFor(owner)?instance.displayedAnchor:null;return anchor!=null;}
@@ -106,9 +118,9 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         RequestInternal(owner,anchor.position+Vector3.up*height,text,distance,true,anchor);
     }
 
-    public static void Request(Object owner, Vector3 worldPosition, string text, float distance)
+    public static void Request(Object owner, Vector3 worldPosition, string text, float distance, Transform targetAnchor = null)
     {
-        RequestInternal(owner,worldPosition,text,distance,false);
+        RequestInternal(owner,worldPosition,text,distance,false,targetAnchor);
     }
 
     static void RequestInternal(Object owner,Vector3 worldPosition,string text,float distance,bool cleanStyle,Transform anchor = null,System.Action action = null)
@@ -267,6 +279,7 @@ public sealed class WorldInteractionPrompt : MonoBehaviour
         if(requestedAction!=null)EnsureEventSystem();
         displayedOwner = requestedOwner;
         displayedAnchor = requestedAnchor;
+        displayedWorldPosition = requestedWorldPosition;
         displayedFrame = Time.frameCount;
         displayedAction=requestedAction;
         if(heldOwner!=null&&heldOwner!=displayedOwner)

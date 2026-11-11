@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "method": "Unity bundled Roslyn and existing cached project references; not an Editor import or Play Mode result",
+  "assemblies": [
+    {
+      "assembly": "Assembly-CSharp",
+      "status": "PASS",
+      "exitCode": 0,
+      "sourceCount": 320,
+      "errors": []
+    },
+    {
+      "assembly": "Assembly-CSharp-Editor",
+      "status": "PASS",
+      "exitCode": 0,
+      "sourceCount": 146,
+      "errors": []
+    }
+  ],
+  "sourceHashes": {
+    "Assets/Nature  Paradaise/Script/Camera/TopDownCameraFollow.cs": "efaaf94fee012d63aafd743a0a55d664d97812ddb4e12c86a5238402c66ffde0",
+    "Assets/Nature  Paradaise/Script/World/Field/FieldArea.cs": "6c11602aefbbbc944a939434f96c48913d1a77353a001c6bfeaa34a7c6810003",
+    "Assets/Nature  Paradaise/Script/World/Field/FieldCropView.cs": "c3fcc07d4138f65245851a167b5abc0560ef657c704bfda4885d9a5ec9d3a4ca",
+    "Assets/Nature  Paradaise/Script/World/Field/FieldAreaCropDebug.cs": "74833e526083a2b0ea034082ff423adb004bf79e6e945264847ddc1849c7f3cd",
+    "Assets/Nature  Paradaise/Script/UI/TestingDebugMenu.cs": "ed411a80426222c06215d9f1dd9c5b6e78e2ebdb12bfa4bd5b9c9f54b05cf515",
+    "Assets/Nature  Paradaise/Script/Editor/CropGameplayValidation.cs": "2a90b70ae9635cd0dd989cfab991153757846ae8d5aa7665ef870e71e474e8f5",
+    "Assets/Nature  Paradaise/Script/Editor/CropArtValidation.cs": "849f59c28fc611e3feed87ebabff48f834193b90a47ea7bce76d0db60c5f121b",
+    "Assets/Nature  Paradaise/Script/Core/WorldInteractionPrompt.cs": "f7c166dabc23ed33e7977f7a2dce6a56671c0c8b0e0594d7306e3d623dbf5f36",
+    "Assets/Nature  Paradaise/Script/Core/WorldInteractionVisuals.cs": "20cb707d643a81ca8016f36afa7da6229a2b1afa26546dc8b6e83a3933263ba3",
+    "Assets/Nature  Paradaise/Script/Core/CollectibleClueRules.cs": "812f84a9823f620aba6bdc28b193a1c76554d2a61f89218eb71cca318aa7789d",
+    "Assets/Nature  Paradaise/Script/Player/PlayerInteractionTarget.cs": "f8a8357abbaa8e40eab6a858c6946ea5f3d2f295c6c5e6956ba2a2707ce6660f",
+    "Assets/Nature  Paradaise/Script/Player/Inventory/WorldItemPickup.cs": "baa132f39c99f2c938b6052f14b15c28eda560b99d6ad74dc5e9147e21be9af4",
+    "Assets/Nature  Paradaise/Script/Player/Item/HoeTool.cs": "a23a8108f1d745bb19e2afdb977f4e1f943a4639c4dbf96e8eb536bdcd3614f3",
+    "Assets/Nature  Paradaise/Script/World/Gathering/WorldTree.cs": "06e55af0d25d137f624785a6467917156db437b79e0f35e869a843322bfc13d0",
+    "Assets/Nature  Paradaise/Script/Entity/Animal/AnimalManureSystem.cs": "48297b26ec4e6a9d2be1f75c0f021b97484779c70ed36506698a28f43ef54103",
+    "Assets/Nature  Paradaise/Script/Item/Crop/CropDataSO.cs": "e33f40b83d10a3a232400f95e81ab72aedfa98e89de0549fdab15f54cc765950",
+    "Assets/Nature  Paradaise/Script/Editor/CropSharedAtlasValidation.cs": "b78cbdd19e3f065db0f81f901a1473dae1f9832903a788d2125ff44cebfd6172"
+  }
+}

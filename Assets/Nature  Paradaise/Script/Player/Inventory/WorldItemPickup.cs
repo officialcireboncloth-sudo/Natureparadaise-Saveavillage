@@ -64,7 +64,26 @@ public sealed class WorldItemPickup : MonoBehaviour
     PlayerController pickupMovement;
     bool pickupInProgress;
     static readonly List<WorldItemPickup> Active = new();
-    void OnEnable() => Active.Add(this);
+    public static IReadOnlyList<WorldItemPickup> ActivePickups => Active;
+    public bool IsPickupAvailable => isActiveAndEnabled && item != null && amount > 0 && !pickupInProgress;
+    public bool IsCollectibleHintAvailable => showPickupHint && IsPickupAvailable;
+    public Transform VisualAnchor => destroyTarget != null ? destroyTarget.transform : transform;
+    Renderer clueRenderer;
+    Bounds ClueBounds
+    {
+        get
+        {
+            if (clueRenderer == null) clueRenderer = VisualAnchor.GetComponentInChildren<Renderer>();
+            return clueRenderer != null ? clueRenderer.bounds : new Bounds(VisualAnchor.position, Vector3.one * .25f);
+        }
+    }
+    public Vector3 CollectibleHintPosition => ClueBounds.center;
+    public Vector3 IndicatorGroundPosition { get { Bounds b = ClueBounds; return new Vector3(b.center.x, b.min.y + .035f, b.center.z); } }
+    void OnEnable()
+    {
+        if (!Active.Contains(this)) Active.Add(this);
+        if (pickupHintPrefab == null) RebuildPickupHint();
+    }
     void OnDisable()
     {
         Active.Remove(this);
@@ -144,6 +163,7 @@ public sealed class WorldItemPickup : MonoBehaviour
     public void SetDestroyTarget(GameObject target)
     {
         destroyTarget = target;
+        clueRenderer = null;
         RebuildPickupHint();
     }
 
@@ -261,21 +281,13 @@ public sealed class WorldItemPickup : MonoBehaviour
     /// </summary>
     void EnsurePickupHint()
     {
-        if (!showPickupHint || hintRoot != null)
+        // Shared nearby sparkles and the single selected-target ring replace automatic mesh outlines.
+        // A deliberately assigned artist prefab remains supported.
+        if (!showPickupHint || pickupHintPrefab == null || hintRoot != null)
             return;
 
         Transform visualOwner = destroyTarget != null ? destroyTarget.transform : transform;
         Bounds visualBounds = FindVisualBounds(visualOwner);
-
-        // Pilihan utama: outline mengikuti silhouette mesh. Ring hanya dipakai sebagai fallback.
-        if (TryBuildShapeOutline(visualOwner))
-        {
-            GameObject shapeRoot = new("PickupHint_ShapeOutline");
-            hintRoot = shapeRoot.transform;
-            hintRoot.SetParent(visualOwner, false);
-            ApplyHintColor();
-            return;
-        }
 
         GameObject rootObject = new("PickupHint_Subtle");
         hintRoot = rootObject.transform;

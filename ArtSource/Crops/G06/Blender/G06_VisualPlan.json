@@ -1,0 +1,129 @@
+{
+  "group": "G06",
+  "plants": {
+    "Radish": [
+      {
+        "stage": "Seed",
+        "model": "NP_Radish_Seed",
+        "source_group": "G06",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Radish_Sprout",
+        "source_group": "G06",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Radish_Young",
+        "source_group": "G06",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "RootForming",
+        "model": "NP_Radish_RootForming",
+        "source_group": "G06",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Radish_Ready",
+        "source_group": "G06",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Radish_Harvest",
+        "source_group": "G06",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Onion": [
+      {
+        "stage": "Seed",
+        "model": "NP_Onion_Seed",
+        "source_group": "G06",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Onion_Sprout",
+        "source_group": "G06",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Onion_Young",
+        "source_group": "G06",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BulbForming",
+        "model": "NP_Onion_BulbForming",
+        "source_group": "G06",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Onion_Ready",
+        "source_group": "G06",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Onion_Harvest",
+        "source_group": "G06",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  }
+}

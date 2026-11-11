@@ -1,0 +1,1048 @@
+{
+  "status": "PASS",
+  "group": "G13",
+  "checks": 5805,
+  "stages": {
+    "Seed": {
+      "leaves": 0,
+      "flowerSpikes": 0,
+      "budHeads": 0,
+      "florets": 0
+    },
+    "Sprout": {
+      "leaves": 2,
+      "flowerSpikes": 0,
+      "budHeads": 0,
+      "florets": 0
+    },
+    "Young": {
+      "leaves": 24,
+      "flowerSpikes": 0,
+      "budHeads": 0,
+      "florets": 0
+    },
+    "BudForming": {
+      "leaves": 68,
+      "flowerSpikes": 0,
+      "budHeads": 5,
+      "florets": 15
+    },
+    "Ready": {
+      "leaves": 108,
+      "flowerSpikes": 9,
+      "budHeads": 0,
+      "florets": 297
+    },
+    "Harvest": {
+      "leaves": 6,
+      "flowerSpikes": 4,
+      "budHeads": 0,
+      "florets": 132
+    }
+  },
+  "closedSculptedVolumes": 652,
+  "floralJoints": [
+    {
+      "stage": "BudForming",
+      "joint": "Spike_0",
+      "gap": 1.862645149230957e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "BudForming",
+      "joint": "Spike_1",
+      "gap": 5.960464477539063e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "BudForming",
+      "joint": "Spike_2",
+      "gap": 1.666000468656264e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "BudForming",
+      "joint": "Spike_3",
+      "gap": 6.00973732952091e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "BudForming",
+      "joint": "Spike_4",
+      "gap": 7.450580596923828e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Spike_0",
+      "gap": 4.231116433292831e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Spike_1",
+      "gap": 1.4901161193847656e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Spike_2",
+      "gap": 6.664001874625056e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Spike_3",
+      "gap": 1.862645149230957e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Spike_4",
+      "gap": 7.450580596923828e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Spike_5",
+      "gap": 3.332000937312528e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Spike_6",
+      "gap": 1.1920930077911046e-07,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Spike_7",
+      "gap": 6.143906154658885e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Spike_8",
+      "gap": 1.4901161193847656e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Harvest",
+      "joint": "Spike_0",
+      "gap": 1.0536712127723509e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Harvest",
+      "joint": "Spike_1",
+      "gap": 7.450580596923828e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Harvest",
+      "joint": "Spike_2",
+      "gap": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Harvest",
+      "joint": "Spike_3",
+      "gap": 0.0,
+      "angleDegrees": 0.0
+    }
+  ],
+  "leafMetrics": {
+    "Sprout": {
+      "depthWidthRatio": 0.4608212243489572,
+      "minMaxProjectedAreaRatio": 0.3001677199877109,
+      "leaves": [
+        {
+          "index": 0,
+          "nonplanarRatio": 0.12912868012116463
+        },
+        {
+          "index": 1,
+          "nonplanarRatio": 0.13060845606451324
+        }
+      ]
+    },
+    "Young": {
+      "depthWidthRatio": 1.0519839790379426,
+      "minMaxProjectedAreaRatio": 0.5000368085865348,
+      "leaves": [
+        {
+          "index": 0,
+          "nonplanarRatio": 0.11018500921760348
+        },
+        {
+          "index": 1,
+          "nonplanarRatio": 0.10497836825167406
+        },
+        {
+          "index": 2,
+          "nonplanarRatio": 0.10440489636107815
+        },
+        {
+          "index": 3,
+          "nonplanarRatio": 0.10289784185386458
+        },
+        {
+          "index": 4,
+          "nonplanarRatio": 0.0935433962673138
+        },
+        {
+          "index": 5,
+          "nonplanarRatio": 0.0938840488291967
+        },
+        {
+          "index": 6,
+          "nonplanarRatio": 0.09354418413272005
+        },
+        {
+          "index": 7,
+          "nonplanarRatio": 0.0901689357506212
+        },
+        {
+          "index": 8,
+          "nonplanarRatio": 0.10768519516555722
+        },
+        {
+          "index": 9,
+          "nonplanarRatio": 0.10813126442561499
+        },
+        {
+          "index": 10,
+          "nonplanarRatio": 0.11435339220177236
+        },
+        {
+          "index": 11,
+          "nonplanarRatio": 0.11719372548950989
+        },
+        {
+          "index": 12,
+          "nonplanarRatio": 0.12269809813393508
+        },
+        {
+          "index": 13,
+          "nonplanarRatio": 0.1244487665090625
+        },
+        {
+          "index": 14,
+          "nonplanarRatio": 0.14846925189483592
+        },
+        {
+          "index": 15,
+          "nonplanarRatio": 0.15529084130184073
+        },
+        {
+          "index": 16,
+          "nonplanarRatio": 0.12283059401849293
+        },
+        {
+          "index": 17,
+          "nonplanarRatio": 0.12017677142096006
+        },
+        {
+          "index": 18,
+          "nonplanarRatio": 0.08641936224931777
+        },
+        {
+          "index": 19,
+          "nonplanarRatio": 0.06982770138660524
+        },
+        {
+          "index": 20,
+          "nonplanarRatio": 0.09649563320449155
+        },
+        {
+          "index": 21,
+          "nonplanarRatio": 0.08251636998501062
+        },
+        {
+          "index": 22,
+          "nonplanarRatio": 0.06785434575216703
+        },
+        {
+          "index": 23,
+          "nonplanarRatio": 0.10587617561232854
+        }
+      ]
+    },
+    "BudForming": {
+      "depthWidthRatio": 0.9576561118318325,
+      "minMaxProjectedAreaRatio": 0.4696820168824039,
+      "leaves": [
+        {
+          "index": 0,
+          "nonplanarRatio": 0.09010949187672536
+        },
+        {
+          "index": 1,
+          "nonplanarRatio": 0.08677449577145523
+        },
+        {
+          "index": 2,
+          "nonplanarRatio": 0.08624767002966373
+        },
+        {
+          "index": 3,
+          "nonplanarRatio": 0.08543257689699839
+        },
+        {
+          "index": 4,
+          "nonplanarRatio": 0.07728777305025868
+        },
+        {
+          "index": 5,
+          "nonplanarRatio": 0.07742762211524375
+        },
+        {
+          "index": 6,
+          "nonplanarRatio": 0.07770438891027379
+        },
+        {
+          "index": 7,
+          "nonplanarRatio": 0.07530097247345002
+        },
+        {
+          "index": 8,
+          "nonplanarRatio": 0.08908557638592982
+        },
+        {
+          "index": 9,
+          "nonplanarRatio": 0.08910157152312753
+        },
+        {
+          "index": 10,
+          "nonplanarRatio": 0.09187295704090963
+        },
+        {
+          "index": 11,
+          "nonplanarRatio": 0.09478179685815638
+        },
+        {
+          "index": 12,
+          "nonplanarRatio": 0.10019790123789082
+        },
+        {
+          "index": 13,
+          "nonplanarRatio": 0.1013976269531734
+        },
+        {
+          "index": 14,
+          "nonplanarRatio": 0.11970169400438269
+        },
+        {
+          "index": 15,
+          "nonplanarRatio": 0.12518783875815942
+        },
+        {
+          "index": 16,
+          "nonplanarRatio": 0.09889933282209278
+        },
+        {
+          "index": 17,
+          "nonplanarRatio": 0.09620563061846868
+        },
+        {
+          "index": 18,
+          "nonplanarRatio": 0.11630967078087634
+        },
+        {
+          "index": 19,
+          "nonplanarRatio": 0.11834217952411484
+        },
+        {
+          "index": 20,
+          "nonplanarRatio": 0.10217929707872712
+        },
+        {
+          "index": 21,
+          "nonplanarRatio": 0.09685529447122371
+        },
+        {
+          "index": 22,
+          "nonplanarRatio": 0.07423859959938016
+        },
+        {
+          "index": 23,
+          "nonplanarRatio": 0.07770000510872846
+        },
+        {
+          "index": 24,
+          "nonplanarRatio": 0.0793734377235607
+        },
+        {
+          "index": 25,
+          "nonplanarRatio": 0.07768836653484745
+        },
+        {
+          "index": 26,
+          "nonplanarRatio": 0.08074328581449734
+        },
+        {
+          "index": 27,
+          "nonplanarRatio": 0.0848611669469696
+        },
+        {
+          "index": 28,
+          "nonplanarRatio": 0.09060067033650107
+        },
+        {
+          "index": 29,
+          "nonplanarRatio": 0.08824208572466323
+        },
+        {
+          "index": 30,
+          "nonplanarRatio": 0.07506857449164726
+        },
+        {
+          "index": 31,
+          "nonplanarRatio": 0.07637402827916999
+        },
+        {
+          "index": 32,
+          "nonplanarRatio": 0.10513166617368948
+        },
+        {
+          "index": 33,
+          "nonplanarRatio": 0.10499424318391971
+        },
+        {
+          "index": 34,
+          "nonplanarRatio": 0.1357440753512963
+        },
+        {
+          "index": 35,
+          "nonplanarRatio": 0.13431851482334115
+        },
+        {
+          "index": 36,
+          "nonplanarRatio": 0.10711490753593901
+        },
+        {
+          "index": 37,
+          "nonplanarRatio": 0.11180687952253654
+        },
+        {
+          "index": 38,
+          "nonplanarRatio": 0.1322615931806679
+        },
+        {
+          "index": 39,
+          "nonplanarRatio": 0.12657450057493655
+        },
+        {
+          "index": 40,
+          "nonplanarRatio": 0.10165670583428975
+        },
+        {
+          "index": 41,
+          "nonplanarRatio": 0.1009469642486848
+        },
+        {
+          "index": 42,
+          "nonplanarRatio": 0.10498946254075202
+        },
+        {
+          "index": 43,
+          "nonplanarRatio": 0.09702131746299639
+        },
+        {
+          "index": 44,
+          "nonplanarRatio": 0.08774183543563796
+        },
+        {
+          "index": 45,
+          "nonplanarRatio": 0.08869617218345141
+        },
+        {
+          "index": 46,
+          "nonplanarRatio": 0.06646024765286301
+        },
+        {
+          "index": 47,
+          "nonplanarRatio": 0.06992225789248781
+        },
+        {
+          "index": 48,
+          "nonplanarRatio": 0.07626481548392058
+        },
+        {
+          "index": 49,
+          "nonplanarRatio": 0.07889786258239516
+        },
+        {
+          "index": 50,
+          "nonplanarRatio": 0.0807868026489851
+        },
+        {
+          "index": 51,
+          "nonplanarRatio": 0.08262636536912836
+        },
+        {
+          "index": 52,
+          "nonplanarRatio": 0.08166429030982932
+        },
+        {
+          "index": 53,
+          "nonplanarRatio": 0.07969419484715735
+        },
+        {
+          "index": 54,
+          "nonplanarRatio": 0.06930854354730209
+        },
+        {
+          "index": 55,
+          "nonplanarRatio": 0.06201548566100233
+        },
+        {
+          "index": 56,
+          "nonplanarRatio": 0.07979565953109845
+        },
+        {
+          "index": 57,
+          "nonplanarRatio": 0.06854317318880723
+        },
+        {
+          "index": 58,
+          "nonplanarRatio": 0.058101004114672714
+        },
+        {
+          "index": 59,
+          "nonplanarRatio": 0.08568667469711579
+        },
+        {
+          "index": 60,
+          "nonplanarRatio": 0.06289661427871447
+        },
+        {
+          "index": 61,
+          "nonplanarRatio": 0.06016142962290723
+        },
+        {
+          "index": 62,
+          "nonplanarRatio": 0.08663007610693366
+        },
+        {
+          "index": 63,
+          "nonplanarRatio": 0.05890685409649939
+        },
+        {
+          "index": 64,
+          "nonplanarRatio": 0.06612965650631868
+        },
+        {
+          "index": 65,
+          "nonplanarRatio": 0.08011438330019335
+        },
+        {
+          "index": 66,
+          "nonplanarRatio": 0.06090541854721459
+        },
+        {
+          "index": 67,
+          "nonplanarRatio": 0.06812552744009925
+        }
+      ]
+    },
+    "Ready": {
+      "depthWidthRatio": 1.0708448789425398,
+      "minMaxProjectedAreaRatio": 0.49158799186173596,
+      "leaves": [
+        {
+          "index": 0,
+          "nonplanarRatio": 0.08276673926552193
+        },
+        {
+          "index": 1,
+          "nonplanarRatio": 0.08001369977804784
+        },
+        {
+          "index": 2,
+          "nonplanarRatio": 0.07980121472162292
+        },
+        {
+          "index": 3,
+          "nonplanarRatio": 0.07916578032201431
+        },
+        {
+          "index": 4,
+          "nonplanarRatio": 0.07158444697245495
+        },
+        {
+          "index": 5,
+          "nonplanarRatio": 0.07167131983322153
+        },
+        {
+          "index": 6,
+          "nonplanarRatio": 0.07200391922584728
+        },
+        {
+          "index": 7,
+          "nonplanarRatio": 0.06983967293519926
+        },
+        {
+          "index": 8,
+          "nonplanarRatio": 0.0825029338299568
+        },
+        {
+          "index": 9,
+          "nonplanarRatio": 0.08238565472119302
+        },
+        {
+          "index": 10,
+          "nonplanarRatio": 0.08399005470042253
+        },
+        {
+          "index": 11,
+          "nonplanarRatio": 0.08695208468193644
+        },
+        {
+          "index": 12,
+          "nonplanarRatio": 0.09211546532930522
+        },
+        {
+          "index": 13,
+          "nonplanarRatio": 0.09318699026471197
+        },
+        {
+          "index": 14,
+          "nonplanarRatio": 0.1095153777992387
+        },
+        {
+          "index": 15,
+          "nonplanarRatio": 0.11464228132920345
+        },
+        {
+          "index": 16,
+          "nonplanarRatio": 0.09053591406433326
+        },
+        {
+          "index": 17,
+          "nonplanarRatio": 0.08773496396339663
+        },
+        {
+          "index": 18,
+          "nonplanarRatio": 0.10623708656937537
+        },
+        {
+          "index": 19,
+          "nonplanarRatio": 0.10807097661712753
+        },
+        {
+          "index": 20,
+          "nonplanarRatio": 0.09405488104308361
+        },
+        {
+          "index": 21,
+          "nonplanarRatio": 0.08933031942124584
+        },
+        {
+          "index": 22,
+          "nonplanarRatio": 0.0688184731725297
+        },
+        {
+          "index": 23,
+          "nonplanarRatio": 0.07185481246877463
+        },
+        {
+          "index": 24,
+          "nonplanarRatio": 0.07288287833253514
+        },
+        {
+          "index": 25,
+          "nonplanarRatio": 0.07132700328537159
+        },
+        {
+          "index": 26,
+          "nonplanarRatio": 0.07497184265588591
+        },
+        {
+          "index": 27,
+          "nonplanarRatio": 0.07850826315554164
+        },
+        {
+          "index": 28,
+          "nonplanarRatio": 0.0835180928228873
+        },
+        {
+          "index": 29,
+          "nonplanarRatio": 0.0814407740365859
+        },
+        {
+          "index": 30,
+          "nonplanarRatio": 0.06888694279323285
+        },
+        {
+          "index": 31,
+          "nonplanarRatio": 0.07012598588730468
+        },
+        {
+          "index": 32,
+          "nonplanarRatio": 0.09653607831623565
+        },
+        {
+          "index": 33,
+          "nonplanarRatio": 0.0965416583747027
+        },
+        {
+          "index": 34,
+          "nonplanarRatio": 0.12345706768340535
+        },
+        {
+          "index": 35,
+          "nonplanarRatio": 0.12228172244619005
+        },
+        {
+          "index": 36,
+          "nonplanarRatio": 0.09811542898269039
+        },
+        {
+          "index": 37,
+          "nonplanarRatio": 0.10207403535152801
+        },
+        {
+          "index": 38,
+          "nonplanarRatio": 0.1207689633967399
+        },
+        {
+          "index": 39,
+          "nonplanarRatio": 0.11562144863619514
+        },
+        {
+          "index": 40,
+          "nonplanarRatio": 0.09337638861342665
+        },
+        {
+          "index": 41,
+          "nonplanarRatio": 0.09258236670441544
+        },
+        {
+          "index": 42,
+          "nonplanarRatio": 0.09630012783808882
+        },
+        {
+          "index": 43,
+          "nonplanarRatio": 0.08934540645945671
+        },
+        {
+          "index": 44,
+          "nonplanarRatio": 0.08121426367018153
+        },
+        {
+          "index": 45,
+          "nonplanarRatio": 0.0821142651092804
+        },
+        {
+          "index": 46,
+          "nonplanarRatio": 0.061656096170568955
+        },
+        {
+          "index": 47,
+          "nonplanarRatio": 0.06496080987544907
+        },
+        {
+          "index": 48,
+          "nonplanarRatio": 0.07073489160784203
+        },
+        {
+          "index": 49,
+          "nonplanarRatio": 0.0730947432757849
+        },
+        {
+          "index": 50,
+          "nonplanarRatio": 0.07503759196348124
+        },
+        {
+          "index": 51,
+          "nonplanarRatio": 0.076672926428365
+        },
+        {
+          "index": 52,
+          "nonplanarRatio": 0.07517098084188954
+        },
+        {
+          "index": 53,
+          "nonplanarRatio": 0.07318175075788357
+        },
+        {
+          "index": 54,
+          "nonplanarRatio": 0.0832063681412144
+        },
+        {
+          "index": 55,
+          "nonplanarRatio": 0.08242982147560463
+        },
+        {
+          "index": 56,
+          "nonplanarRatio": 0.10803627002105486
+        },
+        {
+          "index": 57,
+          "nonplanarRatio": 0.10795907881381735
+        },
+        {
+          "index": 58,
+          "nonplanarRatio": 0.1040698177588271
+        },
+        {
+          "index": 59,
+          "nonplanarRatio": 0.1041159923911967
+        },
+        {
+          "index": 60,
+          "nonplanarRatio": 0.1090751757662628
+        },
+        {
+          "index": 61,
+          "nonplanarRatio": 0.11021903724071988
+        },
+        {
+          "index": 62,
+          "nonplanarRatio": 0.1062204786009421
+        },
+        {
+          "index": 63,
+          "nonplanarRatio": 0.10414448086899195
+        },
+        {
+          "index": 64,
+          "nonplanarRatio": 0.07959260580846604
+        },
+        {
+          "index": 65,
+          "nonplanarRatio": 0.08190635196727161
+        },
+        {
+          "index": 66,
+          "nonplanarRatio": 0.07912957899087317
+        },
+        {
+          "index": 67,
+          "nonplanarRatio": 0.0770223613332922
+        },
+        {
+          "index": 68,
+          "nonplanarRatio": 0.07387838453680615
+        },
+        {
+          "index": 69,
+          "nonplanarRatio": 0.07966579185574688
+        },
+        {
+          "index": 70,
+          "nonplanarRatio": 0.0823210802202479
+        },
+        {
+          "index": 71,
+          "nonplanarRatio": 0.07804013771575866
+        },
+        {
+          "index": 72,
+          "nonplanarRatio": 0.06325526099212886
+        },
+        {
+          "index": 73,
+          "nonplanarRatio": 0.058943260254654066
+        },
+        {
+          "index": 74,
+          "nonplanarRatio": 0.07465831496252041
+        },
+        {
+          "index": 75,
+          "nonplanarRatio": 0.06314153439051104
+        },
+        {
+          "index": 76,
+          "nonplanarRatio": 0.055217097665642645
+        },
+        {
+          "index": 77,
+          "nonplanarRatio": 0.07886515146349182
+        },
+        {
+          "index": 78,
+          "nonplanarRatio": 0.05883968977479206
+        },
+        {
+          "index": 79,
+          "nonplanarRatio": 0.05578991255478998
+        },
+        {
+          "index": 80,
+          "nonplanarRatio": 0.0804453737544894
+        },
+        {
+          "index": 81,
+          "nonplanarRatio": 0.05465320762459743
+        },
+        {
+          "index": 82,
+          "nonplanarRatio": 0.060314871048892674
+        },
+        {
+          "index": 83,
+          "nonplanarRatio": 0.07522220764062852
+        },
+        {
+          "index": 84,
+          "nonplanarRatio": 0.05519291994134475
+        },
+        {
+          "index": 85,
+          "nonplanarRatio": 0.06284913829836916
+        },
+        {
+          "index": 86,
+          "nonplanarRatio": 0.06987433750309333
+        },
+        {
+          "index": 87,
+          "nonplanarRatio": 0.05967673855926469
+        },
+        {
+          "index": 88,
+          "nonplanarRatio": 0.059671618418855286
+        },
+        {
+          "index": 89,
+          "nonplanarRatio": 0.0709291581503615
+        },
+        {
+          "index": 100,
+          "nonplanarRatio": 0.09117067006240034
+        },
+        {
+          "index": 101,
+          "nonplanarRatio": 0.09492949684271443
+        },
+        {
+          "index": 102,
+          "nonplanarRatio": 0.09880109796821246
+        },
+        {
+          "index": 103,
+          "nonplanarRatio": 0.09441451645092942
+        },
+        {
+          "index": 104,
+          "nonplanarRatio": 0.09140993442715427
+        },
+        {
+          "index": 105,
+          "nonplanarRatio": 0.09773705530199775
+        },
+        {
+          "index": 106,
+          "nonplanarRatio": 0.09784119542772045
+        },
+        {
+          "index": 107,
+          "nonplanarRatio": 0.0915110177177835
+        },
+        {
+          "index": 108,
+          "nonplanarRatio": 0.09423007477005373
+        },
+        {
+          "index": 109,
+          "nonplanarRatio": 0.09879233389532428
+        },
+        {
+          "index": 110,
+          "nonplanarRatio": 0.09511183655620387
+        },
+        {
+          "index": 111,
+          "nonplanarRatio": 0.09110190257098208
+        },
+        {
+          "index": 112,
+          "nonplanarRatio": 0.09728944324754438
+        },
+        {
+          "index": 113,
+          "nonplanarRatio": 0.09818595304479118
+        },
+        {
+          "index": 114,
+          "nonplanarRatio": 0.09196537333387259
+        },
+        {
+          "index": 115,
+          "nonplanarRatio": 0.0935387583963204
+        },
+        {
+          "index": 116,
+          "nonplanarRatio": 0.09871691486801666
+        },
+        {
+          "index": 117,
+          "nonplanarRatio": 0.09578610754135979
+        }
+      ]
+    },
+    "Harvest": {
+      "depthWidthRatio": 0.7784708191324538,
+      "minMaxProjectedAreaRatio": 0.1785092139386716,
+      "leaves": [
+        {
+          "index": 0,
+          "nonplanarRatio": 0.09302000966679526
+        },
+        {
+          "index": 1,
+          "nonplanarRatio": 0.08849921997435609
+        },
+        {
+          "index": 2,
+          "nonplanarRatio": 0.09045575366265302
+        },
+        {
+          "index": 3,
+          "nonplanarRatio": 0.09312068741705232
+        },
+        {
+          "index": 4,
+          "nonplanarRatio": 0.09294593262954311
+        },
+        {
+          "index": 5,
+          "nonplanarRatio": 0.09251406902636772
+        }
+      ]
+    }
+  },
+  "priorAtlasSurfacesRetained": 130,
+  "runtimeAtlas": "NP_Plants_Unified_01",
+  "runtimeMaterials": 1,
+  "modelsWithLods": 12,
+  "fieldProfiles": 28,
+  "masterSha256": "33a597c9a120bddb45a73160767fcffc0654ef680c34e081d34d2cf43fc69f6f",
+  "protectedFiles": 4109,
+  "sourceHashes": {
+    "ArtSource/Crops/Scripts/apply_g13_crop_integration.py": "dcb8e302a9670ea5dac4dc16a21ba6ad960c1616b533c5637dcc14d391e86592",
+    "ArtSource/Crops/Scripts/build_g13_blender.py": "495af1d86b07cdbf0b8143972fb26bbedf9b1b9e2c0d62e68c2942022b01a4c7",
+    "ArtSource/Crops/Scripts/capture_g13_exports.py": "fa8d35d49955010696fa9740f9ece0e352cc9acd3be8e8da66947d610e71f6c1",
+    "ArtSource/Crops/Scripts/finalize_g13.py": "751ad8a722b05703d2099330eeb2176122fc76b7e333104abcfbff0da2c79817",
+    "ArtSource/Crops/Scripts/finish_g13_workflows.py": "25abf7db7841b7fdd7f02de51e2f4b6c3d93df0094c0764858ed7a9607317dd4",
+    "ArtSource/Crops/Scripts/g13_config.py": "7b8c7c768fec48561932a20e98e9d10bc98c709b076e576ad69b39d70ad43d38",
+    "ArtSource/Crops/Scripts/g13_geometry.py": "6a5a4983c196f02af438244663433bc336de2796b68505b8366013eddb5df63a",
+    "ArtSource/Crops/Scripts/g13_integration_config.py": "862c7f2dae3304d864f445c80345db95c71f5b45a561c4d48d6197e3a1c2ecfc",
+    "ArtSource/Crops/Scripts/inspect_g13_icon_atlas.py": "4c68db0e98091fef16e6abf3b999ae5511b8ae11832c484861d2f776344c2167",
+    "ArtSource/Crops/Scripts/paint_g13_gimp.py": "b618536fb668412290bba98ffb903cbe13750e530dc2b93c686ec525449a482c",
+    "ArtSource/Crops/Scripts/prepare_g13.py": "ed46676362da7fc9db0bde7a5ef4113cb027819ace3701ebb9b2345ce51d15e2",
+    "ArtSource/Crops/Scripts/prepare_g13_crop_integration.py": "f8857c3102414c93e63cfc486426b54fa4b80314e2fabcf986c06987703a084a",
+    "ArtSource/Crops/Scripts/prepare_g13_workflows.py": "d8fe58b08fd99072bfe0eb23c83d222b8c6f315d82d9aa8f42c5cec709919c1a",
+    "ArtSource/Crops/Scripts/record_g13_integration.py": "bf64f23b7c87bdaa4624fa6eecb0f713a48f1546064a6a552b44670c56597260",
+    "ArtSource/Crops/Scripts/render_g13.py": "5bf8da267850fd2b01a7bdab6b3db8e9b97d0a494b1488f57333438a797a80e2",
+    "ArtSource/Crops/Scripts/review_g13_gimp.py": "a628dd973913a1a25768555cd03c6048b5f6dff6bfb1b26307d1853e401136f6",
+    "ArtSource/Crops/Scripts/update_g13_docs.py": "c0ce8edaf078153829ec8c7a2a8d781c823781b1be661df786a034faea1b4408",
+    "ArtSource/Crops/Scripts/verify_g13.py": "acb5aae4a235b27d86626dcd5d2f37ff914f8ae58f04e99cdaaad2c00b0806ad"
+  },
+  "unityEditorImport": "NOT_RUN_BY_AGENT",
+  "unityPlayMode": "NOT_RUN_BY_AGENT",
+  "mobileProfiling": "NOT_RUN"
+}

@@ -1,0 +1,362 @@
+{
+  "status": "APPLIED_ART_TRANSFORMS_ONLY",
+  "reason": "Recenter and rescale the revised foliage to the established 85-percent tile footprint",
+  "plants": {
+    "blackberry": {
+      "before": {
+        "group": "G01",
+        "species": "Blackberry",
+        "key": "blackberry",
+        "label": "Blackberry",
+        "cropId": "crop.blackberry",
+        "seedId": "item.blackberry_seed",
+        "produceId": "item.blackberry",
+        "mutationId": "item.blackberry_mutation",
+        "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Blackberry Crop.asset",
+        "profileGuid": "b7580a6c7c2e489fb32562563494b049",
+        "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Blackberry Seed.asset",
+        "seedGuid": "c1607a7c493f409e906f9d4b8b8333ef",
+        "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Blackberry.asset",
+        "produceGuid": "1ebbad8bb90045929f0f4276d8e637ff",
+        "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Blackberry Mutation.asset",
+        "mutationGuid": "b711374b40a247aeba4d25556dca8506",
+        "stages": [
+          {
+            "index": 0,
+            "name": "Seed",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Seed.prefab",
+            "guid": "638e823befa144698cf13db9744d9668",
+            "scale": 1.049449,
+            "offset": [
+              -0.007173,
+              0,
+              -0.001144
+            ]
+          },
+          {
+            "index": 1,
+            "name": "Sprout",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Sprout.prefab",
+            "guid": "3003edd3bdc14d4093edf1d292890396",
+            "scale": 1.049449,
+            "offset": [
+              0.002083,
+              0,
+              0.019571
+            ]
+          },
+          {
+            "index": 2,
+            "name": "Young Plant",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Young.prefab",
+            "guid": "e6bdbd753e494d0bbdacc11b32672850",
+            "scale": 1.049449,
+            "offset": [
+              -0.008861,
+              0,
+              0.012555
+            ]
+          },
+          {
+            "index": 3,
+            "name": "Flowering",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Flowering.prefab",
+            "guid": "ae59b7bd27224bd9a1af70675666b54b",
+            "scale": 1.049449,
+            "offset": [
+              0.009408,
+              0,
+              0.018811
+            ]
+          },
+          {
+            "index": 4,
+            "name": "Harvest Ready",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Ready.prefab",
+            "guid": "a8fd2d9d835f4494a3f3dbf6f1bdcfac",
+            "scale": 1.049449,
+            "offset": [
+              0.011874,
+              0,
+              0.013276
+            ]
+          }
+        ],
+        "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Harvest.prefab",
+        "harvestGuid": "5720e0a888a541308a2bc6e6f9fb947d",
+        "footprintInCells": 0.85,
+        "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+      },
+      "after": {
+        "group": "G01",
+        "species": "Blackberry",
+        "key": "blackberry",
+        "label": "Blackberry",
+        "cropId": "crop.blackberry",
+        "seedId": "item.blackberry_seed",
+        "produceId": "item.blackberry",
+        "mutationId": "item.blackberry_mutation",
+        "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Blackberry Crop.asset",
+        "profileGuid": "b7580a6c7c2e489fb32562563494b049",
+        "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Blackberry Seed.asset",
+        "seedGuid": "c1607a7c493f409e906f9d4b8b8333ef",
+        "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Blackberry.asset",
+        "produceGuid": "1ebbad8bb90045929f0f4276d8e637ff",
+        "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Blackberry Mutation.asset",
+        "mutationGuid": "b711374b40a247aeba4d25556dca8506",
+        "stages": [
+          {
+            "index": 0,
+            "name": "Seed",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Seed.prefab",
+            "guid": "638e823befa144698cf13db9744d9668",
+            "scale": 1.049307,
+            "offset": [
+              -0.007173,
+              0,
+              -0.001144
+            ]
+          },
+          {
+            "index": 1,
+            "name": "Sprout",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Sprout.prefab",
+            "guid": "3003edd3bdc14d4093edf1d292890396",
+            "scale": 1.049307,
+            "offset": [
+              0.002083,
+              0,
+              0.01868
+            ]
+          },
+          {
+            "index": 2,
+            "name": "Young Plant",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Young.prefab",
+            "guid": "e6bdbd753e494d0bbdacc11b32672850",
+            "scale": 1.049307,
+            "offset": [
+              -0.009068,
+              0,
+              0.012555
+            ]
+          },
+          {
+            "index": 3,
+            "name": "Flowering",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Flowering.prefab",
+            "guid": "ae59b7bd27224bd9a1af70675666b54b",
+            "scale": 1.049307,
+            "offset": [
+              0.009401,
+              0,
+              0.018969
+            ]
+          },
+          {
+            "index": 4,
+            "name": "Harvest Ready",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Ready.prefab",
+            "guid": "a8fd2d9d835f4494a3f3dbf6f1bdcfac",
+            "scale": 1.049307,
+            "offset": [
+              0.012305,
+              0,
+              0.013531
+            ]
+          }
+        ],
+        "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Harvest.prefab",
+        "harvestGuid": "5720e0a888a541308a2bc6e6f9fb947d",
+        "footprintInCells": 0.85,
+        "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+      },
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Blackberry Crop.asset",
+      "beforeText": "%YAML 1.1\n%TAG !u! tag:unity3d.com,2011:\n--- !u!114 &11400000\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 0}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 3bf30472b7f17324b983093b0cdfad72, type: 3}\n  m_Name: Blackberry Crop\n  m_EditorClassIdentifier: \n  cropId: crop.blackberry\n  seedItem: {fileID: 11400000, guid: c1607a7c493f409e906f9d4b8b8333ef, type: 2}\n  produceItem: {fileID: 11400000, guid: 1ebbad8bb90045929f0f4276d8e637ff, type: 2}\n  mutationProduceItem: {fileID: 11400000, guid: b711374b40a247aeba4d25556dca8506, type: 2}\n  allowedSeasons: -1\n  outOfSeasonBehavior: 0\n  idealMoistureMin: 35\n  idealMoistureMax: 80\n  minimumFertility: 35\n  dailyFertilityUse: 3\n  soilDepletionOnHarvest: 4\n  mutationChance: 0.01\n  fiveStarDoubleYieldChance: 0.2\n  baseYield: 1\n  windVulnerability: 1\n  dryDaysBeforeWither: 3\n  dryDaysBeforeDeath: 5\n  wateredDaysToRecover: 2\n  healthLossWhenDry: 10\n  daysUntilFirstHarvest: 5\n  regrowsAfterHarvest: 0\n  regrowDays: 3\n  regrowStage: -1\n  qualityWeights:\n  - 50\n  - 30\n  - 14\n  - 5\n  - 1\n  minimumBoosterForStars: 0000000001000000020000000300000003000000\n  harvestGraceDays: 0\n  maximumBoosterPercent: 50\n  soilWeight: 0.35\n  moistureWeight: 0.25\n  fertilityWeight: 0.25\n  healthWeight: 0.15\n  visualStages:\n  - stageName: Seed\n    startsOnDay: 0\n    modelPrefab: {fileID: 100, guid: 638e823befa144698cf13db9744d9668, type: 3}\n    scale: {x: 1.049449, y: 1.049449, z: 1.049449}\n    localOffset: {x: -0.007173, y: 0, z: -0.001144}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Sprout\n    startsOnDay: 1\n    modelPrefab: {fileID: 100, guid: 3003edd3bdc14d4093edf1d292890396, type: 3}\n    scale: {x: 1.049449, y: 1.049449, z: 1.049449}\n    localOffset: {x: 0.002083, y: 0, z: 0.019571}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Young Plant\n    startsOnDay: 2\n    modelPrefab: {fileID: 100, guid: e6bdbd753e494d0bbdacc11b32672850, type: 3}\n    scale: {x: 1.049449, y: 1.049449, z: 1.049449}\n    localOffset: {x: -0.008861, y: 0, z: 0.012555}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Flowering\n    startsOnDay: 3\n    modelPrefab: {fileID: 100, guid: ae59b7bd27224bd9a1af70675666b54b, type: 3}\n    scale: {x: 1.049449, y: 1.049449, z: 1.049449}\n    localOffset: {x: 0.009408, y: 0, z: 0.018811}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Harvest Ready\n    startsOnDay: 4\n    modelPrefab: {fileID: 100, guid: a8fd2d9d835f4494a3f3dbf6f1bdcfac, type: 3}\n    scale: {x: 1.049449, y: 1.049449, z: 1.049449}\n    localOffset: {x: 0.011874, y: 0, z: 0.013276}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n",
+      "afterText": "%YAML 1.1\n%TAG !u! tag:unity3d.com,2011:\n--- !u!114 &11400000\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 0}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 3bf30472b7f17324b983093b0cdfad72, type: 3}\n  m_Name: Blackberry Crop\n  m_EditorClassIdentifier: \n  cropId: crop.blackberry\n  seedItem: {fileID: 11400000, guid: c1607a7c493f409e906f9d4b8b8333ef, type: 2}\n  produceItem: {fileID: 11400000, guid: 1ebbad8bb90045929f0f4276d8e637ff, type: 2}\n  mutationProduceItem: {fileID: 11400000, guid: b711374b40a247aeba4d25556dca8506, type: 2}\n  allowedSeasons: -1\n  outOfSeasonBehavior: 0\n  idealMoistureMin: 35\n  idealMoistureMax: 80\n  minimumFertility: 35\n  dailyFertilityUse: 3\n  soilDepletionOnHarvest: 4\n  mutationChance: 0.01\n  fiveStarDoubleYieldChance: 0.2\n  baseYield: 1\n  windVulnerability: 1\n  dryDaysBeforeWither: 3\n  dryDaysBeforeDeath: 5\n  wateredDaysToRecover: 2\n  healthLossWhenDry: 10\n  daysUntilFirstHarvest: 5\n  regrowsAfterHarvest: 0\n  regrowDays: 3\n  regrowStage: -1\n  qualityWeights:\n  - 50\n  - 30\n  - 14\n  - 5\n  - 1\n  minimumBoosterForStars: 0000000001000000020000000300000003000000\n  harvestGraceDays: 0\n  maximumBoosterPercent: 50\n  soilWeight: 0.35\n  moistureWeight: 0.25\n  fertilityWeight: 0.25\n  healthWeight: 0.15\n  visualStages:\n  - stageName: Seed\n    startsOnDay: 0\n    modelPrefab: {fileID: 100, guid: 638e823befa144698cf13db9744d9668, type: 3}\n    scale: {x: 1.049307, y: 1.049307, z: 1.049307}\n    localOffset: {x: -0.007173, y: 0, z: -0.001144}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Sprout\n    startsOnDay: 1\n    modelPrefab: {fileID: 100, guid: 3003edd3bdc14d4093edf1d292890396, type: 3}\n    scale: {x: 1.049307, y: 1.049307, z: 1.049307}\n    localOffset: {x: 0.002083, y: 0, z: 0.01868}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Young Plant\n    startsOnDay: 2\n    modelPrefab: {fileID: 100, guid: e6bdbd753e494d0bbdacc11b32672850, type: 3}\n    scale: {x: 1.049307, y: 1.049307, z: 1.049307}\n    localOffset: {x: -0.009068, y: 0, z: 0.012555}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Flowering\n    startsOnDay: 3\n    modelPrefab: {fileID: 100, guid: ae59b7bd27224bd9a1af70675666b54b, type: 3}\n    scale: {x: 1.049307, y: 1.049307, z: 1.049307}\n    localOffset: {x: 0.009401, y: 0, z: 0.018969}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Harvest Ready\n    startsOnDay: 4\n    modelPrefab: {fileID: 100, guid: a8fd2d9d835f4494a3f3dbf6f1bdcfac, type: 3}\n    scale: {x: 1.049307, y: 1.049307, z: 1.049307}\n    localOffset: {x: 0.012305, y: 0, z: 0.013531}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n",
+      "beforeSha256": "b1c0b5930badaf7ea32333dff42890245d97c67fdde2202044a4e6412256cfc1",
+      "afterSha256": "465ad885970afd24acc7510dd25ac0e1b5b08290788ec23beeef55d59721bb60",
+      "scaleRatio": 0.9998646908997006
+    },
+    "raspberry": {
+      "before": {
+        "group": "G01",
+        "species": "Raspberry",
+        "key": "raspberry",
+        "label": "Raspberry",
+        "cropId": "crop.raspberry",
+        "seedId": "item.raspberry_seed",
+        "produceId": "item.raspberry",
+        "mutationId": "item.raspberry_mutation",
+        "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Raspberry Crop.asset",
+        "profileGuid": "bb7e54ba9ba948e5a8be0c0134270ea9",
+        "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Raspberry Seed.asset",
+        "seedGuid": "05ecf5251a5e49da8ee964060bc08df8",
+        "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Raspberry.asset",
+        "produceGuid": "8b1cabd521654814a159178b1a66330c",
+        "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Raspberry Mutation.asset",
+        "mutationGuid": "056784f79e41454a86b13cb3491f32d3",
+        "stages": [
+          {
+            "index": 0,
+            "name": "Seed",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Seed.prefab",
+            "guid": "a9013fd611244d36a9c7fdec4d0627d7",
+            "scale": 1.056269,
+            "offset": [
+              -0.007173,
+              0,
+              -0.001144
+            ]
+          },
+          {
+            "index": 1,
+            "name": "Sprout",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Sprout.prefab",
+            "guid": "e81c5e059d6f4616bcf5cc1b95fd886e",
+            "scale": 1.056269,
+            "offset": [
+              0.002186,
+              0,
+              0.023758
+            ]
+          },
+          {
+            "index": 2,
+            "name": "Young Plant",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Young.prefab",
+            "guid": "9b11336c60594527bbf8318ff604f16c",
+            "scale": 1.056269,
+            "offset": [
+              -0.00752,
+              0,
+              0.004401
+            ]
+          },
+          {
+            "index": 3,
+            "name": "Flowering",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Flowering.prefab",
+            "guid": "54f1825077b6433f9820861027ba9c7b",
+            "scale": 1.056269,
+            "offset": [
+              0.006836,
+              0,
+              0.011155
+            ]
+          },
+          {
+            "index": 4,
+            "name": "Harvest Ready",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Ready.prefab",
+            "guid": "57c8087d09fa47aa938ef9cf8b9f8fa2",
+            "scale": 1.056269,
+            "offset": [
+              0.008984,
+              0,
+              0.0116
+            ]
+          }
+        ],
+        "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Harvest.prefab",
+        "harvestGuid": "8cc90c72c94c4f78a54048549ab33ceb",
+        "footprintInCells": 0.85,
+        "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+      },
+      "after": {
+        "group": "G01",
+        "species": "Raspberry",
+        "key": "raspberry",
+        "label": "Raspberry",
+        "cropId": "crop.raspberry",
+        "seedId": "item.raspberry_seed",
+        "produceId": "item.raspberry",
+        "mutationId": "item.raspberry_mutation",
+        "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Raspberry Crop.asset",
+        "profileGuid": "bb7e54ba9ba948e5a8be0c0134270ea9",
+        "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Raspberry Seed.asset",
+        "seedGuid": "05ecf5251a5e49da8ee964060bc08df8",
+        "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Raspberry.asset",
+        "produceGuid": "8b1cabd521654814a159178b1a66330c",
+        "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Raspberry Mutation.asset",
+        "mutationGuid": "056784f79e41454a86b13cb3491f32d3",
+        "stages": [
+          {
+            "index": 0,
+            "name": "Seed",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Seed.prefab",
+            "guid": "a9013fd611244d36a9c7fdec4d0627d7",
+            "scale": 1.05704,
+            "offset": [
+              -0.007173,
+              0,
+              -0.001144
+            ]
+          },
+          {
+            "index": 1,
+            "name": "Sprout",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Sprout.prefab",
+            "guid": "e81c5e059d6f4616bcf5cc1b95fd886e",
+            "scale": 1.05704,
+            "offset": [
+              0.002186,
+              0,
+              0.018727
+            ]
+          },
+          {
+            "index": 2,
+            "name": "Young Plant",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Young.prefab",
+            "guid": "9b11336c60594527bbf8318ff604f16c",
+            "scale": 1.05704,
+            "offset": [
+              -0.00752,
+              0,
+              0.004401
+            ]
+          },
+          {
+            "index": 3,
+            "name": "Flowering",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Flowering.prefab",
+            "guid": "54f1825077b6433f9820861027ba9c7b",
+            "scale": 1.05704,
+            "offset": [
+              0.006873,
+              0,
+              0.011457
+            ]
+          },
+          {
+            "index": 4,
+            "name": "Harvest Ready",
+            "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Ready.prefab",
+            "guid": "57c8087d09fa47aa938ef9cf8b9f8fa2",
+            "scale": 1.05704,
+            "offset": [
+              0.008966,
+              0,
+              0.011954
+            ]
+          }
+        ],
+        "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Harvest.prefab",
+        "harvestGuid": "8cc90c72c94c4f78a54048549ab33ceb",
+        "footprintInCells": 0.85,
+        "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+      },
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Raspberry Crop.asset",
+      "beforeText": "%YAML 1.1\n%TAG !u! tag:unity3d.com,2011:\n--- !u!114 &11400000\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 0}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 3bf30472b7f17324b983093b0cdfad72, type: 3}\n  m_Name: Raspberry Crop\n  m_EditorClassIdentifier: \n  cropId: crop.raspberry\n  seedItem: {fileID: 11400000, guid: 05ecf5251a5e49da8ee964060bc08df8, type: 2}\n  produceItem: {fileID: 11400000, guid: 8b1cabd521654814a159178b1a66330c, type: 2}\n  mutationProduceItem: {fileID: 11400000, guid: 056784f79e41454a86b13cb3491f32d3, type: 2}\n  allowedSeasons: -1\n  outOfSeasonBehavior: 0\n  idealMoistureMin: 35\n  idealMoistureMax: 80\n  minimumFertility: 35\n  dailyFertilityUse: 3\n  soilDepletionOnHarvest: 4\n  mutationChance: 0.01\n  fiveStarDoubleYieldChance: 0.2\n  baseYield: 1\n  windVulnerability: 1\n  dryDaysBeforeWither: 3\n  dryDaysBeforeDeath: 5\n  wateredDaysToRecover: 2\n  healthLossWhenDry: 10\n  daysUntilFirstHarvest: 5\n  regrowsAfterHarvest: 0\n  regrowDays: 3\n  regrowStage: -1\n  qualityWeights:\n  - 50\n  - 30\n  - 14\n  - 5\n  - 1\n  minimumBoosterForStars: 0000000001000000020000000300000003000000\n  harvestGraceDays: 0\n  maximumBoosterPercent: 50\n  soilWeight: 0.35\n  moistureWeight: 0.25\n  fertilityWeight: 0.25\n  healthWeight: 0.15\n  visualStages:\n  - stageName: Seed\n    startsOnDay: 0\n    modelPrefab: {fileID: 100, guid: a9013fd611244d36a9c7fdec4d0627d7, type: 3}\n    scale: {x: 1.056269, y: 1.056269, z: 1.056269}\n    localOffset: {x: -0.007173, y: 0, z: -0.001144}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Sprout\n    startsOnDay: 1\n    modelPrefab: {fileID: 100, guid: e81c5e059d6f4616bcf5cc1b95fd886e, type: 3}\n    scale: {x: 1.056269, y: 1.056269, z: 1.056269}\n    localOffset: {x: 0.002186, y: 0, z: 0.023758}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Young Plant\n    startsOnDay: 2\n    modelPrefab: {fileID: 100, guid: 9b11336c60594527bbf8318ff604f16c, type: 3}\n    scale: {x: 1.056269, y: 1.056269, z: 1.056269}\n    localOffset: {x: -0.00752, y: 0, z: 0.004401}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Flowering\n    startsOnDay: 3\n    modelPrefab: {fileID: 100, guid: 54f1825077b6433f9820861027ba9c7b, type: 3}\n    scale: {x: 1.056269, y: 1.056269, z: 1.056269}\n    localOffset: {x: 0.006836, y: 0, z: 0.011155}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Harvest Ready\n    startsOnDay: 4\n    modelPrefab: {fileID: 100, guid: 57c8087d09fa47aa938ef9cf8b9f8fa2, type: 3}\n    scale: {x: 1.056269, y: 1.056269, z: 1.056269}\n    localOffset: {x: 0.008984, y: 0, z: 0.0116}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n",
+      "afterText": "%YAML 1.1\n%TAG !u! tag:unity3d.com,2011:\n--- !u!114 &11400000\nMonoBehaviour:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {fileID: 0}\n  m_PrefabInstance: {fileID: 0}\n  m_PrefabAsset: {fileID: 0}\n  m_GameObject: {fileID: 0}\n  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {fileID: 11500000, guid: 3bf30472b7f17324b983093b0cdfad72, type: 3}\n  m_Name: Raspberry Crop\n  m_EditorClassIdentifier: \n  cropId: crop.raspberry\n  seedItem: {fileID: 11400000, guid: 05ecf5251a5e49da8ee964060bc08df8, type: 2}\n  produceItem: {fileID: 11400000, guid: 8b1cabd521654814a159178b1a66330c, type: 2}\n  mutationProduceItem: {fileID: 11400000, guid: 056784f79e41454a86b13cb3491f32d3, type: 2}\n  allowedSeasons: -1\n  outOfSeasonBehavior: 0\n  idealMoistureMin: 35\n  idealMoistureMax: 80\n  minimumFertility: 35\n  dailyFertilityUse: 3\n  soilDepletionOnHarvest: 4\n  mutationChance: 0.01\n  fiveStarDoubleYieldChance: 0.2\n  baseYield: 1\n  windVulnerability: 1\n  dryDaysBeforeWither: 3\n  dryDaysBeforeDeath: 5\n  wateredDaysToRecover: 2\n  healthLossWhenDry: 10\n  daysUntilFirstHarvest: 5\n  regrowsAfterHarvest: 0\n  regrowDays: 3\n  regrowStage: -1\n  qualityWeights:\n  - 50\n  - 30\n  - 14\n  - 5\n  - 1\n  minimumBoosterForStars: 0000000001000000020000000300000003000000\n  harvestGraceDays: 0\n  maximumBoosterPercent: 50\n  soilWeight: 0.35\n  moistureWeight: 0.25\n  fertilityWeight: 0.25\n  healthWeight: 0.15\n  visualStages:\n  - stageName: Seed\n    startsOnDay: 0\n    modelPrefab: {fileID: 100, guid: a9013fd611244d36a9c7fdec4d0627d7, type: 3}\n    scale: {x: 1.05704, y: 1.05704, z: 1.05704}\n    localOffset: {x: -0.007173, y: 0, z: -0.001144}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Sprout\n    startsOnDay: 1\n    modelPrefab: {fileID: 100, guid: e81c5e059d6f4616bcf5cc1b95fd886e, type: 3}\n    scale: {x: 1.05704, y: 1.05704, z: 1.05704}\n    localOffset: {x: 0.002186, y: 0, z: 0.018727}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Young Plant\n    startsOnDay: 2\n    modelPrefab: {fileID: 100, guid: 9b11336c60594527bbf8318ff604f16c, type: 3}\n    scale: {x: 1.05704, y: 1.05704, z: 1.05704}\n    localOffset: {x: -0.00752, y: 0, z: 0.004401}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Flowering\n    startsOnDay: 3\n    modelPrefab: {fileID: 100, guid: 54f1825077b6433f9820861027ba9c7b, type: 3}\n    scale: {x: 1.05704, y: 1.05704, z: 1.05704}\n    localOffset: {x: 0.006873, y: 0, z: 0.011457}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n  - stageName: Harvest Ready\n    startsOnDay: 4\n    modelPrefab: {fileID: 100, guid: 57c8087d09fa47aa938ef9cf8b9f8fa2, type: 3}\n    scale: {x: 1.05704, y: 1.05704, z: 1.05704}\n    localOffset: {x: 0.008966, y: 0, z: 0.011954}\n    localEulerAngles: {x: 0, y: 0, z: 0}\n",
+      "beforeSha256": "ffad8a1ed5c41b2a952dfdd61e492f3887f637e76d447b9d5f5a2527b2e2fc7f",
+      "afterSha256": "c54e9cea6046de6464dedfba16ec0c72c47a279bf64a64312d012182bb772140",
+      "scaleRatio": 1.0007299276983421
+    }
+  },
+  "onlyStageFields": [
+    "scale",
+    "offset"
+  ]
+}

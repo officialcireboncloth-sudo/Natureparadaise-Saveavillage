@@ -1,0 +1,33 @@
+{
+  "status": "APPLIED_SCOPED_EXTENSION",
+  "group": "G12",
+  "newPlantKeys": [
+    "orchid"
+  ],
+  "authorizedChanges": {
+    "Assets/Nature  Paradaise/Resources/Shops/Crops Catalog.asset": {
+      "before": "daa535314e6c279980439ad7fc06609f6f9920976867e754d46721e236019909",
+      "after": "e93ec82d6cd3f37076bc0d08a9c278d0eb7df8da6548be3ce0f51955b5e279d9"
+    },
+    "Assets/Nature  Paradaise/Data/Balance/Items.csv": {
+      "before": "2c64acbd4c192e3135c45a1031446ecd3ba786fc856126a21e9f99ea28afb575",
+      "after": "de6f8d77aa1c1bc0ca507c8353c59937af49efbb2cab815cc367fe59c4806e97"
+    },
+    "Assets/Nature  Paradaise/Data/Balance/Crops.csv": {
+      "before": "687f545087a24cee4d40be2075290b15eae32b76a7a8c8cb88b098f702c37868",
+      "after": "d355b44878360e4664d247c5d0c4b146cef3a81244ebf276a5ab945166461221"
+    },
+    "Assets/Nature  Paradaise/Script/Editor/CropGameplayValidation.cs": {
+      "before": "ea3bc157fcfb4cffc2e83409dbdc7af02049f96838b2ea8ed569bf19e8830a21",
+      "after": "6bf76e53199ba01a32237beec05361faf4de8db5add66c6f8d1a9bcd1cdd480d"
+    }
+  },
+  "baseline": "ArtSource/Crops/G12/Review/Baseline.json",
+  "manifestBeforeSha256": "714fb47508235f596c9ff0ad5b11a35b81bb35c68fc9c725b244d03b41122734",
+  "priorPlantsRetained": 26,
+  "priorCsvRowsRetained": true,
+  "editorChanges": "Append Orchid to the Editor fixture list only",
+  "catalogAllowedGroups": [
+    "G12"
+  ]
+}

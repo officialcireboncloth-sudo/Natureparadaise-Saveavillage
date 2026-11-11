@@ -1,0 +1,129 @@
+{
+  "group": "G08",
+  "plants": {
+    "Rice": [
+      {
+        "stage": "Seed",
+        "model": "NP_Rice_Seed",
+        "source_group": "G08",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Rice_Sprout",
+        "source_group": "G08",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Rice_Young",
+        "source_group": "G08",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Heading",
+        "model": "NP_Rice_Heading",
+        "source_group": "G08",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Rice_Ready",
+        "source_group": "G08",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Rice_Harvest",
+        "source_group": "G08",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Wheat": [
+      {
+        "stage": "Seed",
+        "model": "NP_Wheat_Seed",
+        "source_group": "G08",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Wheat_Sprout",
+        "source_group": "G08",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Wheat_Young",
+        "source_group": "G08",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Heading",
+        "model": "NP_Wheat_Heading",
+        "source_group": "G08",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Wheat_Ready",
+        "source_group": "G08",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Wheat_Harvest",
+        "source_group": "G08",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  }
+}

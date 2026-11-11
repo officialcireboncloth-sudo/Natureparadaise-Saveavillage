@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "retainedRoots": {
+    "NP_Rice_HuskPile": "4e6bb75d265f99387d2c19ca1f4d820f349a6d82ef7d21313f14c08c9ffa2ad8",
+    "NP_Rice_WhitePile": "f7be3e8cdd48a34827cf4dfa4bd89561352618a8aece7c4b8aac05248c824201",
+    "NP_Wheat_GrainPile": "23fa34bc913fab8bb09934f35a0c718031089e13f9c60a09db8dec0f82296061",
+    "Rice_Harvest": "c3c046ab7426f3fe82dc95bff4390e00e18f88700795d03c0bc6feb545100e0e",
+    "Rice_Heading": "1adec770451760b15bdcfbc63085bc1130858f1b599e89f1d996f1ff5bfd324e",
+    "Rice_Ready": "271916cfe4c860f754531e5ce411b808f4a0b395a46c2d920594f73342ea6bf1",
+    "Rice_Seed": "cfd7cd03ddb2c567b8016ee2d9fd8415e166f5a4de91577561126a2946c5ccf1",
+    "Rice_Sprout": "1f0a20559a8c82826863fd77c9ba8d7b6a4babcf9fb224922ae0f876d3e39206",
+    "Rice_Young": "a08e46428d5950691ce21b4b23634ccbb3506abd6bda6ada8c58de7066167e3d",
+    "Wheat_Ready": "3b21fecd124df12c1d6aeda4f4834ba8e6d443b1ed2d0f197769087a1df6e05d",
+    "Wheat_Seed": "9d2a6f7c7e2756147c6aded3b9d7c94b139cc354839b42c6960a22812794d04b",
+    "Wheat_Sprout": "b6c1cacf5580754400b2cec7958b40fcf41e7e8e3c046f31c7fe90924e8167ba",
+    "Wheat_Young": "1313b45e80819d4a4d338c75300589e703b2158f172086d813253fbe66c62064"
+  },
+  "changedRoots": [
+    "Wheat_Harvest",
+    "Wheat_Heading"
+  ]
+}

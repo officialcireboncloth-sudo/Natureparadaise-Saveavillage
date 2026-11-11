@@ -1,0 +1,114 @@
+{
+  "status": "PASS",
+  "revision": "Leaf_R03",
+  "checks": 6479,
+  "preservedFiles": 4423,
+  "updatedNearDistanceMeshes": 24,
+  "updatedPrefabs": 12,
+  "leafVolumes": 311,
+  "continuousJoints": 48,
+  "metrics": {
+    "Blackberry_Flowering": {
+      "meanElevation": 13.51094233278838,
+      "minElevation": -12.376272571470315,
+      "maxElevation": 44.94364413416922,
+      "meanWidthLengthRatio": 0.645416991226534,
+      "canopyDepthWidthRatio": 0.8044850989335046
+    },
+    "Blackberry_Ready": {
+      "meanElevation": 14.93927104501409,
+      "minElevation": -12.376272571470315,
+      "maxElevation": 44.94364413416922,
+      "meanWidthLengthRatio": 0.6438452901741895,
+      "canopyDepthWidthRatio": 0.7396895222905017
+    },
+    "Blackberry_Sprout": {
+      "meanElevation": 20.617411586341145,
+      "minElevation": 10.675172551612789,
+      "maxElevation": 27.893460442015492,
+      "meanWidthLengthRatio": 0.7098979928596431,
+      "canopyDepthWidthRatio": 0.6232167451489175
+    },
+    "Blackberry_Young": {
+      "meanElevation": 15.015737683727181,
+      "minElevation": -8.998120593838898,
+      "maxElevation": 44.12759344852969,
+      "meanWidthLengthRatio": 0.6589986173734752,
+      "canopyDepthWidthRatio": 0.8445108329323315
+    },
+    "Blueberry_Flowering": {
+      "meanElevation": 11.049709801354506,
+      "minElevation": -12.376272571470315,
+      "maxElevation": 44.94364413416922,
+      "meanWidthLengthRatio": 0.7375337382643307,
+      "canopyDepthWidthRatio": 0.7883245760906685
+    },
+    "Blueberry_Ready": {
+      "meanElevation": 11.049709801354506,
+      "minElevation": -12.376272571470315,
+      "maxElevation": 44.94364413416922,
+      "meanWidthLengthRatio": 0.7354031020705215,
+      "canopyDepthWidthRatio": 0.7885651673905447
+    },
+    "Blueberry_Sprout": {
+      "meanElevation": 25.58853110370532,
+      "minElevation": 23.283601765395154,
+      "maxElevation": 27.893460442015492,
+      "meanWidthLengthRatio": 0.5769803719888069,
+      "canopyDepthWidthRatio": 0.4340089709755444
+    },
+    "Blueberry_Young": {
+      "meanElevation": 20.728205942335865,
+      "minElevation": -8.76750569848896,
+      "maxElevation": 42.941919592312736,
+      "meanWidthLengthRatio": 0.7839681069763489,
+      "canopyDepthWidthRatio": 0.9663869627751771
+    },
+    "Raspberry_Flowering": {
+      "meanElevation": 8.485853123630958,
+      "minElevation": -21.42400209014268,
+      "maxElevation": 40.23359028241565,
+      "meanWidthLengthRatio": 0.7117794297415416,
+      "canopyDepthWidthRatio": 0.8740252260360319
+    },
+    "Raspberry_Ready": {
+      "meanElevation": 8.963125850903687,
+      "minElevation": -13.413315176992299,
+      "maxElevation": 40.23359028241565,
+      "meanWidthLengthRatio": 0.7103631175071773,
+      "canopyDepthWidthRatio": 0.8415416150842139
+    },
+    "Raspberry_Sprout": {
+      "meanElevation": 20.617411586341145,
+      "minElevation": 10.675172551612789,
+      "maxElevation": 27.893460442015492,
+      "meanWidthLengthRatio": 0.6489933143904155,
+      "canopyDepthWidthRatio": 0.6799859788044941
+    },
+    "Raspberry_Young": {
+      "meanElevation": 15.015737683727181,
+      "minElevation": -8.998120593838898,
+      "maxElevation": 44.12759344852969,
+      "meanWidthLengthRatio": 0.721965606543911,
+      "canopyDepthWidthRatio": 0.9364355166586505
+    }
+  },
+  "atlasSlots": 154,
+  "atlasPixelsUnchanged": true,
+  "otherCrops": 28,
+  "allCropPrefabAndItemBindingsPreserved": true,
+  "visualTransformsFitExistingTileFootprint": true,
+  "masterSha256": "b0aacb9712a9ab1dc657a78c8ae3850976a7b0551bbef7487437ce65ab4270b0",
+  "sourceHashes": {
+    "ArtSource/Crops/Scripts/build_g01_leaf_r03.py": "7374ec5e73accdb765a2cc03a98c1ff31f2060aaf91250ccc638991aef8550c1",
+    "ArtSource/Crops/Scripts/capture_g01_leaf_r03.py": "ca8486331712206b65624e7fa6e5285e8d7af485a730b9ca1820eb07115d81d3",
+    "ArtSource/Crops/Scripts/finalize_g01_leaf_r03.py": "02e6537bdd06ccab3870b5e9f07bcc18d040e3be716f6d3742650bfed34b23d5",
+    "ArtSource/Crops/Scripts/fit_g01_leaf_r03.py": "40daccac63d75ad998f59c60f128ef1acbd9696ee327e85df1155bfd33f1b08d",
+    "ArtSource/Crops/Scripts/g01_leaf_r03.py": "abd9ba70c35bc08ff987cf0ba4c4bf8d4755d75a881e3dde6a2266418be008cc",
+    "ArtSource/Crops/Scripts/prepare_g01_leaf_r03.py": "1221d2634059f3e65e956dcaea44b9da1eeed89f57f719f62abead32092bcb7e",
+    "ArtSource/Crops/Scripts/render_g01_leaf_r03.py": "7b5e309806313bd8550e12d5170972a387a6760d46e70c3f788719c70616245b",
+    "ArtSource/Crops/Scripts/review_g01_leaf_r03_gimp.py": "ca73d14795bb44690e0892aa1158a12e0e7a37d850bc4c8b9d7fd6b9f400b81e",
+    "ArtSource/Crops/Scripts/verify_g01_leaf_r03.py": "998de1d958fe96ad4951e13a8c1eba524b812eb0ef3d8a80b4a003866d981829"
+  },
+  "unityPlayMode": "NOT_RUN"
+}

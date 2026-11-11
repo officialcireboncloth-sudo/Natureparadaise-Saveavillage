@@ -1,0 +1,96 @@
+{
+  "source": "Two user images attached directly in this conversation, visually inspected before modeling",
+  "spinach": {
+    "seedCount": 3,
+    "phaseLeafCounts": [
+      0,
+      2,
+      4,
+      6,
+      13,
+      8
+    ],
+    "features": [
+      "low dense radial rosette",
+      "broad rounded oval leaves with smooth outline",
+      "cupped blades and branching veins",
+      "fresh dark green with gentle waxy highlights",
+      "cut leaf-stalk bunch plus a separate leaf"
+    ]
+  },
+  "waterSpinach": {
+    "seedCount": 5,
+    "phaseLeafCounts": [
+      0,
+      2,
+      5,
+      16,
+      49,
+      27
+    ],
+    "features": [
+      "taller clump of upright branching stems",
+      "visible internodes and swollen node collars",
+      "pointed lanceolate leaves",
+      "curved leaves spread through the full crown",
+      "harvest bunch with real hollow cut ends plus a two-leaf sprig"
+    ]
+  },
+  "priorCorrections": [
+    "match the distinct silhouette and proportions of each phase",
+    "curved leaves with real side depth",
+    "vivid source albedo under neutral lighting",
+    "registered secondary/tertiary veins",
+    "stable atlas UVs and prior group assets",
+    "complete unclipped previews"
+  ],
+  "previousUsedTiles": [
+    "BarkBrown",
+    "BerryRed",
+    "ChiliGreen",
+    "ChiliRed",
+    "CucumberSkin",
+    "EggplantFlesh",
+    "EggplantPurple",
+    "FlowerGold",
+    "FlowerPurple",
+    "FlowerWhite",
+    "FruitUnripe",
+    "GrainGreen",
+    "KiwiFlesh",
+    "KiwiSkin",
+    "LeafBean",
+    "LeafDark",
+    "LeafLobed",
+    "LeafNarrow",
+    "LeafOval",
+    "LeafSerrated",
+    "LeafStrap",
+    "LeafVineHeart",
+    "LeafYoung",
+    "MelonFlesh",
+    "OnionCut",
+    "OnionSkin",
+    "PodGreen",
+    "PollenGold",
+    "RadishCut",
+    "RadishGradient",
+    "RootCream",
+    "SeedBlack",
+    "SeedBrown",
+    "SeedCream",
+    "SeedGreen",
+    "SeedTan",
+    "SepalGreen",
+    "StemGreen",
+    "StemPurple"
+  ],
+  "changedPreviouslyUnusedTiles": [
+    "LeafOrchid",
+    "LeafWaterSpinach",
+    "StemPale",
+    "HollowStem",
+    "CutStem"
+  ],
+  "scope": "Prepared visual assets; gameplay integration is separate"
+}

@@ -1,0 +1,28 @@
+{
+  "status": "APPLIED_SCOPED_EXTENSION",
+  "group": "G14",
+  "newPlantKeys": [
+    "daisy",
+    "moonflower"
+  ],
+  "authorizedChanges": {
+    "Assets/Nature  Paradaise/Resources/Shops/Crops Catalog.asset": {
+      "before": "1217e193427e42c375ed16732af599d945f5befa414ab447436f0813f44e1c4b",
+      "after": "ad88f6ecccb37ee271d6621939391aa3404caee9a96b4fd86d5112909071bd62"
+    },
+    "Assets/Nature  Paradaise/Data/Balance/Items.csv": {
+      "before": "6d58b58be2db563d401a14e1499023959dadfe2f030b7e64d78696e29e690b90",
+      "after": "bc5d32beba41e860d0f97f14958e4ffd66455d032c358eab58b4d7c350ec764c"
+    },
+    "Assets/Nature  Paradaise/Data/Balance/Crops.csv": {
+      "before": "794db7cb62d9b357c2802052edd98b5d9824c3833063a3b7d1215b06502b69b3",
+      "after": "71085ddfe72c7616f0c25f8999f82181e4151c6ba7c9360e94178dccd54a0aca"
+    },
+    "Assets/Nature  Paradaise/Script/Editor/CropGameplayValidation.cs": {
+      "before": "f1b3227b869839d0a504ddaa65bf58f86e7bd388d769a5fbcde135518af13eba",
+      "after": "2a90b70ae9635cd0dd989cfab991153757846ae8d5aa7665ef870e71e474e8f5"
+    }
+  },
+  "priorPlantsRetained": 31,
+  "priorCsvRowsRetained": true
+}

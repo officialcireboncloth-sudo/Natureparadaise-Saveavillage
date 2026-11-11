@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "tests": 4,
+  "exhaustiveLayouts": 40,
+  "futureSurfaces": {
+    "256px": 8,
+    "128px": 12
+  },
+  "currentAllocationsRetained": 134,
+  "registryUnchanged": true,
+  "sourceHashes": {
+    "Tests/test_plant_atlas_allocator.py": "8a33cbb55a34f8cdc2ccf33eb951d0b0bb78e7df3fbcf64a7516f2e4b25e5d76",
+    "ArtSource/Crops/Scripts/unified_plant_atlas.py": "95f981e9e6e682bc71637b6a3e17d40e71b6b62ef8b8c2a8f3cda104319c2718"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "status": "SOURCE_EXPORTS_CAPTURED",
+  "models": {
+    "NP_Orchid_BudForming": {
+      "sourceSpec": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_BudForming.json",
+      "sourceFbx": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_BudForming.fbx",
+      "geometrySha256": "0409135ac2e3eac1f1576fc4bb259295d5d84a6df91f216ce3e9d04201c1d163",
+      "specSha256": "2db640a5034c08ca9de38c2ecc0d5129a8b199a3ddd8e796fe11d311b8b9bdbd",
+      "triangles": 14416
+    },
+    "NP_Orchid_BudForming_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_BudForming_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_BudForming_LOD1.fbx",
+      "geometrySha256": "d4e3841fad28f27e8377d1c02776b75aaaa3820384e886d1b604873cc64cb22b",
+      "specSha256": "25aea0cf1fc98f76624c72b109f5d0e1b52750570d88a8eb62b4d9dc44da0206",
+      "triangles": 2799
+    },
+    "NP_Orchid_Harvest": {
+      "sourceSpec": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Harvest.json",
+      "sourceFbx": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Harvest.fbx",
+      "geometrySha256": "98a69f92d9fe0fe4b10245c48eebf13a075a37c20a1164c9146f8771795f865d",
+      "specSha256": "8152952d43561c26e7d3b76a0700108916169334f71c2bb4bf8c93b082ae9498",
+      "triangles": 16992
+    },
+    "NP_Orchid_Harvest_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Harvest_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Harvest_LOD1.fbx",
+      "geometrySha256": "7d737738de5f814ceca5d978cb93366357f8c3aecad4ebb5d08618c9a025832f",
+      "specSha256": "32d4f02960e4006f98266ee026821bde331e2884e600c0c22b2b8d4f7129b05c",
+      "triangles": 2800
+    },
+    "NP_Orchid_Ready": {
+      "sourceSpec": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Ready.json",
+      "sourceFbx": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Ready.fbx",
+      "geometrySha256": "51e43f5ab91aad002d4d12f5d2b86f97cdcb011761964e3eafe886bfebeb3892",
+      "specSha256": "a8629ea0f10c4cca2c2de3b781d883ad9ed2ddca6a83adfee43ec6c2285a1be3",
+      "triangles": 25999
+    },
+    "NP_Orchid_Ready_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Ready_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Ready_LOD1.fbx",
+      "geometrySha256": "65ed0c6d0912223606c83185ff662c4cd6d1f6e735afc97a4ed7a0dc77f6daf0",
+      "specSha256": "94121a7b0f375dc36b5aa763fc9211ed32be83b863e8a57cc543e7d8e0bcfdc3",
+      "triangles": 2799
+    },
+    "NP_Orchid_Seed": {
+      "sourceSpec": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Seed.json",
+      "sourceFbx": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Seed.fbx",
+      "geometrySha256": "7ea7cff1105ac1242a17683a752c4b2291026fa5c303fe1ab77bfb6003bc68c9",
+      "specSha256": "53afc232becd072e5acc1ad25a212f56247179a16cd3bafa822e3bedc148fbab",
+      "triangles": 880
+    },
+    "NP_Orchid_Seed_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Seed_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Seed_LOD1.fbx",
+      "geometrySha256": "f2d39fc0a9b2a4a2aa73edf09c40ca5c225d5a3345a7413d3765a36842d621d2",
+      "specSha256": "04a7615d629c3cbf0fdf2be1aca5e9f01782871a84be4211eea7523509669325",
+      "triangles": 352
+    },
+    "NP_Orchid_Sprout": {
+      "sourceSpec": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Sprout.json",
+      "sourceFbx": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Sprout.fbx",
+      "geometrySha256": "d5472935f6ae02ac3d20c2edb8e58806c147d8b1db251714df608d090e9aee8e",
+      "specSha256": "619f1e08e3695817f5cb4a6b85977133009f12b97c9a32477ded60e41ad54ff9",
+      "triangles": 5494
+    },
+    "NP_Orchid_Sprout_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Sprout_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Sprout_LOD1.fbx",
+      "geometrySha256": "10554c71017800e0fd6cdc0bba61bd7f47cfec8d19ec14f34a1eae39eca9df03",
+      "specSha256": "61d0c51ffbab0a721a2bc9a854504546a9283bdfa16a9e98893b4f7d058d1c60",
+      "triangles": 2196
+    },
+    "NP_Orchid_Young": {
+      "sourceSpec": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Young.json",
+      "sourceFbx": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Young.fbx",
+      "geometrySha256": "e722b0a3a64fcc0245e1fb2776fb358dad62a26101c2c2235d20510214350dc3",
+      "specSha256": "bc4a26c9eac14d1cb671085733462a05ef5cac812df133269594e95ce3ab63c3",
+      "triangles": 8038
+    },
+    "NP_Orchid_Young_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Young_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G12/Review/SourceExports/NP_Orchid_Young_LOD1.fbx",
+      "geometrySha256": "94bd1a1d9a7ed02ccfae6cbd9e1cfb8469ad0dd1e39268c8e42dc0ac92ece1b6",
+      "specSha256": "a0e5f08cb0843b3cf833f4e232e3e0e69b62277fd22604c8bccaa51a18f5d40c",
+      "triangles": 2800
+    }
+  }
+}

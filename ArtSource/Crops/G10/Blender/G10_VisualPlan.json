@@ -1,0 +1,253 @@
+{
+  "group": "G10",
+  "plants": {
+    "Sunflower": [
+      {
+        "stage": "Seed",
+        "model": "NP_Sunflower_Seed",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Sunflower_Sprout",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Sunflower_Young",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "model": "NP_Sunflower_BudForming",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Sunflower_Ready",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Sunflower_Harvest",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Chrysanthemum": [
+      {
+        "stage": "Seed",
+        "model": "NP_Chrysanthemum_Seed",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Chrysanthemum_Sprout",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Chrysanthemum_Young",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "model": "NP_Chrysanthemum_BudForming",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Chrysanthemum_Ready",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Chrysanthemum_Harvest",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Dahlia": [
+      {
+        "stage": "Seed",
+        "model": "NP_Dahlia_Seed",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Dahlia_Sprout",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Dahlia_Young",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "model": "NP_Dahlia_BudForming",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Dahlia_Ready",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Dahlia_Harvest",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Marigold": [
+      {
+        "stage": "Seed",
+        "model": "NP_Marigold_Seed",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Marigold_Sprout",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Marigold_Young",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "model": "NP_Marigold_BudForming",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Marigold_Ready",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Marigold_Harvest",
+        "source_group": "G10",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  }
+}

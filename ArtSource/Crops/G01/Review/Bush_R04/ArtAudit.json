@@ -1,0 +1,165 @@
+{
+  "status": "PASS",
+  "checks": 6952,
+  "revision": "Bush_R04",
+  "structure": {
+    "Blackberry_Flowering": {
+      "leaves": 89,
+      "fruit": 5,
+      "flowers": 4,
+      "canes": 5
+    },
+    "Blackberry_Ready": {
+      "leaves": 89,
+      "fruit": 8,
+      "flowers": 0,
+      "canes": 5
+    },
+    "Blackberry_Sprout": {
+      "leaves": 3,
+      "fruit": 0,
+      "flowers": 0,
+      "canes": 0
+    },
+    "Blackberry_Young": {
+      "leaves": 35,
+      "fruit": 0,
+      "flowers": 0,
+      "canes": 5
+    },
+    "Blueberry_Flowering": {
+      "leaves": 54,
+      "fruit": 3,
+      "flowers": 4,
+      "canes": 4
+    },
+    "Blueberry_Ready": {
+      "leaves": 54,
+      "fruit": 9,
+      "flowers": 0,
+      "canes": 4
+    },
+    "Blueberry_Sprout": {
+      "leaves": 2,
+      "fruit": 0,
+      "flowers": 0,
+      "canes": 0
+    },
+    "Blueberry_Young": {
+      "leaves": 20,
+      "fruit": 0,
+      "flowers": 0,
+      "canes": 4
+    },
+    "Raspberry_Flowering": {
+      "leaves": 89,
+      "fruit": 5,
+      "flowers": 4,
+      "canes": 5
+    },
+    "Raspberry_Ready": {
+      "leaves": 89,
+      "fruit": 8,
+      "flowers": 0,
+      "canes": 5
+    },
+    "Raspberry_Sprout": {
+      "leaves": 3,
+      "fruit": 0,
+      "flowers": 0,
+      "canes": 0
+    },
+    "Raspberry_Young": {
+      "leaves": 35,
+      "fruit": 0,
+      "flowers": 0,
+      "canes": 5
+    }
+  },
+  "leafMetrics": {
+    "Blackberry_Flowering": {
+      "depthWidthRatio": 0.8906577477020606,
+      "minMaxProjectionRatio": 0.3962347247134767,
+      "meanInclination": 23.04154206970151
+    },
+    "Blackberry_Ready": {
+      "depthWidthRatio": 0.8717492126508652,
+      "minMaxProjectionRatio": 0.40035550047349433,
+      "meanInclination": 23.378620721386902
+    },
+    "Blackberry_Sprout": {
+      "depthWidthRatio": 0.647466397141469,
+      "minMaxProjectionRatio": 0.20806835942484586,
+      "meanInclination": 22.333333333333332
+    },
+    "Blackberry_Young": {
+      "depthWidthRatio": 0.9744400366637258,
+      "minMaxProjectionRatio": 0.3383653860298909,
+      "meanInclination": 22.113360614691203
+    },
+    "Blueberry_Flowering": {
+      "depthWidthRatio": 0.9060137888538266,
+      "minMaxProjectionRatio": 0.3207510578959401,
+      "meanInclination": 23.102139353073397
+    },
+    "Blueberry_Ready": {
+      "depthWidthRatio": 0.9423595808667983,
+      "minMaxProjectionRatio": 0.3347905983595101,
+      "meanInclination": 23.32436157529562
+    },
+    "Blueberry_Sprout": {
+      "depthWidthRatio": 0.371408573836574,
+      "minMaxProjectionRatio": 0.22803627060815349,
+      "meanInclination": 30.5
+    },
+    "Blueberry_Young": {
+      "depthWidthRatio": 0.947866913006021,
+      "minMaxProjectionRatio": 0.36523505683431595,
+      "meanInclination": 23.705545293929095
+    },
+    "Raspberry_Flowering": {
+      "depthWidthRatio": 0.9131193375995795,
+      "minMaxProjectionRatio": 0.3884286528233551,
+      "meanInclination": 22.83929487869027
+    },
+    "Raspberry_Ready": {
+      "depthWidthRatio": 0.9142036774301953,
+      "minMaxProjectionRatio": 0.3972029465845148,
+      "meanInclination": 23.51345218206106
+    },
+    "Raspberry_Sprout": {
+      "depthWidthRatio": 0.6222979472445536,
+      "minMaxProjectionRatio": 0.209124426332128,
+      "meanInclination": 22.333333333333332
+    },
+    "Raspberry_Young": {
+      "depthWidthRatio": 0.9629404509346666,
+      "minMaxProjectionRatio": 0.3457329820910485,
+      "meanInclination": 22.113360614691203
+    }
+  },
+  "closedLeaves": 562,
+  "continuousJoints": 50,
+  "changedLeafSurfaces": 3,
+  "priorAtlasSlots": 154,
+  "otherAtlasSurfacesRetained": 151,
+  "allCropPrefabAndItemReferencesRetained": true,
+  "otherCropsRetained": 28,
+  "runtimeMaterials": 1,
+  "updatedNearDistanceMeshes": 24,
+  "masterSha256": "4bd2180d381667cb9ca84f85d590b375cd0e67e147339e13aae2f8a5eec16689",
+  "sourceHashes": {
+    "ArtSource/Crops/Scripts/build_g01_bush_r04.py": "26c8b60b959805123fa783ddba95cc19bf26b7c9e566106ce54cbd5702bc6474",
+    "ArtSource/Crops/Scripts/capture_g01_bush_r04.py": "d2657198164b30f4d44e48436d2bcde3a55dcfaf8fa75ed6702b9c355df1e44f",
+    "ArtSource/Crops/Scripts/finalize_g01_bush_r04.py": "b4c9b07e7b79cfa56a8ee11635e3f9468f67cf4262a6df5a92652c87037539f5",
+    "ArtSource/Crops/Scripts/fit_g01_bush_r04.py": "623b377428b9800d18ca6e67e5710c2c5889821a86b7c0d6d0540285b6192c52",
+    "ArtSource/Crops/Scripts/g01_bush_r04_geometry.py": "6e2c8588cda1bcaae43d7aa5c3397b8ff75a64324e4c2edf84458051c4363f18",
+    "ArtSource/Crops/Scripts/paint_g01_bush_r04_gimp.py": "2029f71cb260d5cad627097088949f07be923802e3f0d8721ab8dece1cff1959",
+    "ArtSource/Crops/Scripts/prepare_g01_bush_r04.py": "3a79fbe01515fa95d60303a9065455aa0e4a6caa647a36eb5f56954c7231af18",
+    "ArtSource/Crops/Scripts/render_g01_bush_r04.py": "18be60279c4f627fe91572fc5f435d46ad3a21885d75e9781b5869a254aba8bb",
+    "ArtSource/Crops/Scripts/render_g01_bush_r04_draft.py": "b239bfb0f96c502b13084cf35c6a6ca6053d4aa42e5ab11025ed4d1ac84317ea",
+    "ArtSource/Crops/Scripts/review_g01_bush_r04_gimp.py": "47ded004703ab7d1a7d0e2fee3014fa60f89d4de343f99b998c05110f3c12f83",
+    "ArtSource/Crops/Scripts/verify_g01_bush_r04.py": "9b47f00110b0b17cc0b336eafcbb676de39f28710f179b744b3246dc21244fb2"
+  },
+  "unityPlayMode": "NOT_RUN"
+}

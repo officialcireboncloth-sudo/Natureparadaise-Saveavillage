@@ -1,0 +1,204 @@
+{
+  "name": "NP_Plants_Raspberry_Source_01",
+  "colorSize": [
+    1024,
+    512
+  ],
+  "normalSize": [
+    1024,
+    512
+  ],
+  "maskSize": [
+    1024,
+    512
+  ],
+  "paddingPixels": 8,
+  "materialSettings": {
+    "_BumpScale": 0.28,
+    "_Saturation": 1.03,
+    "_Smoothness": 1.0
+  },
+  "slots": [
+    {
+      "name": "RaspberryLeaf",
+      "index": 0,
+      "pixelRectTopLeft": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.01171875,
+        0.5234375,
+        0.23828125,
+        0.9765625
+      ],
+      "smoothness": 0.25,
+      "primaryDetail": true
+    },
+    {
+      "name": "RaspberryDrupe",
+      "index": 1,
+      "pixelRectTopLeft": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.26171875,
+        0.5234375,
+        0.48828125,
+        0.9765625
+      ],
+      "smoothness": 0.38,
+      "primaryDetail": true
+    },
+    {
+      "name": "BarkRed",
+      "index": 2,
+      "pixelRectTopLeft": [
+        0,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.265625,
+        0.1171875,
+        0.484375
+      ],
+      "smoothness": 0.24,
+      "primaryDetail": false
+    },
+    {
+      "name": "FlowerIvory",
+      "index": 3,
+      "pixelRectTopLeft": [
+        128,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.1328125,
+        0.265625,
+        0.2421875,
+        0.484375
+      ],
+      "smoothness": 0.28,
+      "primaryDetail": false
+    },
+    {
+      "name": "BerryGreen",
+      "index": 4,
+      "pixelRectTopLeft": [
+        256,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.265625,
+        0.3671875,
+        0.484375
+      ],
+      "smoothness": 0.26,
+      "primaryDetail": false
+    },
+    {
+      "name": "BerryCrown",
+      "index": 5,
+      "pixelRectTopLeft": [
+        384,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.3828125,
+        0.265625,
+        0.4921875,
+        0.484375
+      ],
+      "smoothness": 0.26,
+      "primaryDetail": false
+    },
+    {
+      "name": "SeedTan",
+      "index": 6,
+      "pixelRectTopLeft": [
+        512,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.265625,
+        0.6171875,
+        0.484375
+      ],
+      "smoothness": 0.27,
+      "primaryDetail": false
+    },
+    {
+      "name": "PollenGold",
+      "index": 7,
+      "pixelRectTopLeft": [
+        640,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.6328125,
+        0.265625,
+        0.7421875,
+        0.484375
+      ],
+      "smoothness": 0.32,
+      "primaryDetail": false
+    },
+    {
+      "name": "StemGreen",
+      "index": 8,
+      "pixelRectTopLeft": [
+        768,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.265625,
+        0.8671875,
+        0.484375
+      ],
+      "smoothness": 0.27,
+      "primaryDetail": false
+    },
+    {
+      "name": "BerryRed",
+      "index": 9,
+      "pixelRectTopLeft": [
+        896,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.8828125,
+        0.265625,
+        0.9921875,
+        0.484375
+      ],
+      "smoothness": 0.45,
+      "primaryDetail": false
+    }
+  ],
+  "runtimeAtlas": "NP_Plants_Unified_01"
+}

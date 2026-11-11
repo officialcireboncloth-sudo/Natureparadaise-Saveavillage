@@ -1,0 +1,359 @@
+{
+  "name": "NP_Plants_ShrubFlowers_01",
+  "colorSize": [
+    2048,
+    2048
+  ],
+  "normalSize": [
+    2048,
+    2048
+  ],
+  "maskSize": [
+    2048,
+    2048
+  ],
+  "paddingPixels": 16,
+  "normalConvention": "Tangent +Y",
+  "surfaceMaskChannels": {
+    "R": "metallic zero",
+    "A": "smoothness"
+  },
+  "slots": [
+    {
+      "name": "RosePetal",
+      "index": 0,
+      "pixelRectTopLeft": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.7578125,
+        0.2421875,
+        0.9921875
+      ],
+      "base": "#ed2638",
+      "highlight": "#ff6470",
+      "shadow": "#9e102b",
+      "pattern": "petal",
+      "smoothness": 0.4
+    },
+    {
+      "name": "HibiscusPetal",
+      "index": 1,
+      "pixelRectTopLeft": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.7578125,
+        0.4921875,
+        0.9921875
+      ],
+      "base": "#fa2836",
+      "highlight": "#ff7472",
+      "shadow": "#9d102b",
+      "pattern": "petal",
+      "smoothness": 0.43
+    },
+    {
+      "name": "JasminePetal",
+      "index": 2,
+      "pixelRectTopLeft": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.7578125,
+        0.7421875,
+        0.9921875
+      ],
+      "base": "#fff5d9",
+      "highlight": "#fffdf2",
+      "shadow": "#e3ce9d",
+      "pattern": "petal",
+      "smoothness": 0.38
+    },
+    {
+      "name": "RoseLeaf",
+      "index": 3,
+      "pixelRectTopLeft": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.7578125,
+        0.9921875,
+        0.9921875
+      ],
+      "base": "#377e30",
+      "highlight": "#7ab645",
+      "shadow": "#1c5228",
+      "pattern": "leaf",
+      "smoothness": 0.43
+    },
+    {
+      "name": "HibiscusLeaf",
+      "index": 4,
+      "pixelRectTopLeft": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.5078125,
+        0.2421875,
+        0.7421875
+      ],
+      "base": "#4c9b23",
+      "highlight": "#99cf43",
+      "shadow": "#226620",
+      "pattern": "leaf",
+      "smoothness": 0.48
+    },
+    {
+      "name": "JasmineLeaf",
+      "index": 5,
+      "pixelRectTopLeft": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.5078125,
+        0.4921875,
+        0.7421875
+      ],
+      "base": "#397f22",
+      "highlight": "#84b437",
+      "shadow": "#225e1b",
+      "pattern": "leaf",
+      "smoothness": 0.51
+    },
+    {
+      "name": "StemGreen",
+      "index": 6,
+      "pixelRectTopLeft": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.5078125,
+        0.7421875,
+        0.7421875
+      ],
+      "base": "#569729",
+      "highlight": "#99c149",
+      "shadow": "#326d20",
+      "pattern": "stem",
+      "smoothness": 0.34
+    },
+    {
+      "name": "SepalGreen",
+      "index": 7,
+      "pixelRectTopLeft": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.5078125,
+        0.9921875,
+        0.7421875
+      ],
+      "base": "#438326",
+      "highlight": "#87b137",
+      "shadow": "#245c1b",
+      "pattern": "leaf",
+      "smoothness": 0.36
+    },
+    {
+      "name": "BudRed",
+      "index": 8,
+      "pixelRectTopLeft": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.2578125,
+        0.2421875,
+        0.4921875
+      ],
+      "base": "#f02b40",
+      "highlight": "#ff7378",
+      "shadow": "#a01430",
+      "pattern": "petal",
+      "smoothness": 0.42
+    },
+    {
+      "name": "BudCream",
+      "index": 9,
+      "pixelRectTopLeft": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.2578125,
+        0.4921875,
+        0.4921875
+      ],
+      "base": "#fff2c7",
+      "highlight": "#fffce6",
+      "shadow": "#d9c585",
+      "pattern": "petal",
+      "smoothness": 0.41
+    },
+    {
+      "name": "PollenGold",
+      "index": 10,
+      "pixelRectTopLeft": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.2578125,
+        0.7421875,
+        0.4921875
+      ],
+      "base": "#ffd51b",
+      "highlight": "#fff591",
+      "shadow": "#e5a018",
+      "pattern": "pollen",
+      "smoothness": 0.31
+    },
+    {
+      "name": "StigmaRed",
+      "index": 11,
+      "pixelRectTopLeft": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.2578125,
+        0.9921875,
+        0.4921875
+      ],
+      "base": "#ec2539",
+      "highlight": "#ff7b71",
+      "shadow": "#a7132b",
+      "pattern": "fruit",
+      "smoothness": 0.48
+    },
+    {
+      "name": "SeedBrown",
+      "index": 12,
+      "pixelRectTopLeft": [
+        0,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.0078125,
+        0.2421875,
+        0.2421875
+      ],
+      "base": "#98632f",
+      "highlight": "#d49d55",
+      "shadow": "#62421e",
+      "pattern": "seed",
+      "smoothness": 0.28
+    },
+    {
+      "name": "SeedTan",
+      "index": 13,
+      "pixelRectTopLeft": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.0078125,
+        0.4921875,
+        0.2421875
+      ],
+      "base": "#d4a34c",
+      "highlight": "#f5d183",
+      "shadow": "#a36a2c",
+      "pattern": "seed",
+      "smoothness": 0.29
+    },
+    {
+      "name": "ThornBronze",
+      "index": 14,
+      "pixelRectTopLeft": [
+        1024,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.0078125,
+        0.7421875,
+        0.2421875
+      ],
+      "base": "#ad633c",
+      "highlight": "#dc9c63",
+      "shadow": "#704326",
+      "pattern": "stem",
+      "smoothness": 0.29
+    },
+    {
+      "name": "CutStem",
+      "index": 15,
+      "pixelRectTopLeft": [
+        1536,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.0078125,
+        0.9921875,
+        0.2421875
+      ],
+      "base": "#c8d981",
+      "highlight": "#f2ecc0",
+      "shadow": "#8fbd56",
+      "pattern": "rings",
+      "smoothness": 0.25
+    }
+  ]
+}

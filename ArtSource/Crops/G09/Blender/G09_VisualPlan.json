@@ -1,0 +1,191 @@
+{
+  "group": "G09",
+  "plants": {
+    "Rose": [
+      {
+        "stage": "Seed",
+        "model": "NP_Rose_Seed",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Rose_Sprout",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Rose_Young",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "model": "NP_Rose_BudForming",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Rose_Ready",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Rose_Harvest",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Hibiscus": [
+      {
+        "stage": "Seed",
+        "model": "NP_Hibiscus_Seed",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Hibiscus_Sprout",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Hibiscus_Young",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "model": "NP_Hibiscus_BudForming",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Hibiscus_Ready",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Hibiscus_Harvest",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Jasmine": [
+      {
+        "stage": "Seed",
+        "model": "NP_Jasmine_Seed",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Jasmine_Sprout",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Jasmine_Young",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "model": "NP_Jasmine_BudForming",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Jasmine_Ready",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Jasmine_Harvest",
+        "source_group": "G09",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  }
+}

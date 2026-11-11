@@ -1,0 +1,67 @@
+{
+  "group": "G12",
+  "plants": {
+    "Orchid": [
+      {
+        "stage": "Seed",
+        "model": "NP_Orchid_Seed",
+        "source_group": "G12",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Orchid_Sprout",
+        "source_group": "G12",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Orchid_Young",
+        "source_group": "G12",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "model": "NP_Orchid_BudForming",
+        "source_group": "G12",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Orchid_Ready",
+        "source_group": "G12",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Orchid_Harvest",
+        "source_group": "G12",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  }
+}

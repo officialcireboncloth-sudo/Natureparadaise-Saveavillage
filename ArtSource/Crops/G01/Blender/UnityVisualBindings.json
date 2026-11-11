@@ -1,0 +1,217 @@
+{
+  "group": "G01",
+  "status": "Applied to gameplay crop profiles and the existing seed store; Unity Play Mode blocked by licensing",
+  "material": "NP_Plants_Unified_01",
+  "plants": {
+    "Blueberry": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Blueberry_Seed.prefab",
+        "guid": "bc2fc3781843482faddc0905482a2adc",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Blueberry_Sprout.prefab",
+        "guid": "68363209704740c0b2e158f3f500c722",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Blueberry_Young.prefab",
+        "guid": "6a46f2fe40374622b2c2741ed8313380",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Flowering",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Blueberry_Flowering.prefab",
+        "guid": "b819cf54b7814b908e6b0b97a3aac937",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Blueberry_Ready.prefab",
+        "guid": "a3443d368dd34ecfb5b68e3754e29b0d",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Blueberry_Harvest.prefab",
+        "guid": "6b2fe7a1469140cd81f3f8bdd0f88bf4",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Blackberry": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Blackberry_Seed.prefab",
+        "guid": "638e823befa144698cf13db9744d9668",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Blackberry_Sprout.prefab",
+        "guid": "3003edd3bdc14d4093edf1d292890396",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Blackberry_Young.prefab",
+        "guid": "e6bdbd753e494d0bbdacc11b32672850",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Flowering",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Blackberry_Flowering.prefab",
+        "guid": "ae59b7bd27224bd9a1af70675666b54b",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Blackberry_Ready.prefab",
+        "guid": "a8fd2d9d835f4494a3f3dbf6f1bdcfac",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Blackberry_Harvest.prefab",
+        "guid": "5720e0a888a541308a2bc6e6f9fb947d",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Raspberry": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Raspberry_Seed.prefab",
+        "guid": "a9013fd611244d36a9c7fdec4d0627d7",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Raspberry_Sprout.prefab",
+        "guid": "e81c5e059d6f4616bcf5cc1b95fd886e",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Raspberry_Young.prefab",
+        "guid": "9b11336c60594527bbf8318ff604f16c",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Flowering",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Raspberry_Flowering.prefab",
+        "guid": "54f1825077b6433f9820861027ba9c7b",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Raspberry_Ready.prefab",
+        "guid": "57c8087d09fa47aa938ef9cf8b9f8fa2",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G01\\NP_Raspberry_Harvest.prefab",
+        "guid": "8cc90c72c94c4f78a54048549ab33ceb",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "gameplayIntegration": "ArtSource/Crops/Integration/Manifest.json",
+  "profiles": {
+    "Blueberry": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Blueberry Crop.asset",
+    "Blackberry": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Blackberry Crop.asset",
+    "Raspberry": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Raspberry Crop.asset"
+  }
+}

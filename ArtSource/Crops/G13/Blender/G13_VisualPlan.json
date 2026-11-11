@@ -1,0 +1,67 @@
+{
+  "group": "G13",
+  "plants": {
+    "Lavender": [
+      {
+        "stage": "Seed",
+        "model": "NP_Lavender_Seed",
+        "source_group": "G13",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Lavender_Sprout",
+        "source_group": "G13",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Lavender_Young",
+        "source_group": "G13",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "model": "NP_Lavender_BudForming",
+        "source_group": "G13",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Lavender_Ready",
+        "source_group": "G13",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Lavender_Harvest",
+        "source_group": "G13",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  }
+}

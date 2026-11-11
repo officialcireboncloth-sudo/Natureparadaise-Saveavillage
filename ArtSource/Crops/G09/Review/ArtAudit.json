@@ -1,0 +1,710 @@
+{
+  "status": "PASS",
+  "group": "G09",
+  "checks": 3062,
+  "phaseAppearances": 18,
+  "baseModels": 18,
+  "meshesWithLods": 36,
+  "verifiedFbx": 36,
+  "atlas": "NP_Plants_ShrubFlowers_01",
+  "newAtlasPages": 1,
+  "surfaceResolution": 512,
+  "protectedFiles": 2045,
+  "previousAssetsRetained": true,
+  "atlasPixels": {
+    "BaseColor": {
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "b35acb415a738548ec5a316aa790d232caaa9e6f2447cbc751a91c3ca41fb3c7"
+    },
+    "Normal": {
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "aa5a847a5c5da742ce9cc7956a6ab629bde7fc68fd025a6fd3d8b319d9803659"
+    },
+    "SurfaceMask": {
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "7c18ad84d6c1ee23a2b8f4bf24dc39a8858de586b9706cea0cc844e57a17f7dc"
+    }
+  },
+  "volumes": {
+    "Rose": {
+      "leaves": 80,
+      "width": 0.6912925243377686,
+      "depth": 0.47106248140335083,
+      "depthToWidth": 0.6814227911036799
+    },
+    "Hibiscus": {
+      "leaves": 72,
+      "width": 0.7063841819763184,
+      "depth": 0.4795992821455002,
+      "depthToWidth": 0.678949634466162
+    },
+    "Jasmine": {
+      "leaves": 56,
+      "width": 0.40963175892829895,
+      "depth": 0.4469076842069626,
+      "depthToWidth": 1.0909986212401768
+    }
+  },
+  "structure": {
+    "Rose_Seed": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 0,
+      "petals": 0
+    },
+    "Rose_Sprout": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 2,
+      "petals": 0
+    },
+    "Rose_Young": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 11,
+      "petals": 0
+    },
+    "Rose_BudForming": {
+      "flowers": 0,
+      "buds": 3,
+      "leaves": 79,
+      "petals": 0
+    },
+    "Rose_Ready": {
+      "flowers": 3,
+      "buds": 1,
+      "leaves": 80,
+      "petals": 78
+    },
+    "Rose_Harvest": {
+      "flowers": 1,
+      "buds": 0,
+      "leaves": 6,
+      "petals": 26
+    },
+    "Hibiscus_Seed": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 0,
+      "petals": 0
+    },
+    "Hibiscus_Sprout": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 2,
+      "petals": 0
+    },
+    "Hibiscus_Young": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 8,
+      "petals": 0
+    },
+    "Hibiscus_BudForming": {
+      "flowers": 0,
+      "buds": 4,
+      "leaves": 66,
+      "petals": 0
+    },
+    "Hibiscus_Ready": {
+      "flowers": 3,
+      "buds": 3,
+      "leaves": 72,
+      "petals": 15
+    },
+    "Hibiscus_Harvest": {
+      "flowers": 1,
+      "buds": 0,
+      "leaves": 2,
+      "petals": 5
+    },
+    "Jasmine_Seed": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 0,
+      "petals": 0
+    },
+    "Jasmine_Sprout": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 2,
+      "petals": 0
+    },
+    "Jasmine_Young": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 7,
+      "petals": 0
+    },
+    "Jasmine_BudForming": {
+      "flowers": 0,
+      "buds": 14,
+      "leaves": 56,
+      "petals": 0
+    },
+    "Jasmine_Ready": {
+      "flowers": 5,
+      "buds": 10,
+      "leaves": 56,
+      "petals": 90
+    },
+    "Jasmine_Harvest": {
+      "flowers": 2,
+      "buds": 3,
+      "leaves": 3,
+      "petals": 36
+    }
+  },
+  "floralJoints": [
+    {
+      "plant": "Rose",
+      "stage": "BudForming",
+      "joint": "Bud_0",
+      "gapMetres": 5.972094663188382e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Rose",
+      "stage": "BudForming",
+      "joint": "Bud_1",
+      "gapMetres": 1.192238405779396e-07,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Rose",
+      "stage": "BudForming",
+      "joint": "Bud_2",
+      "gapMetres": 2.980245028511331e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Rose",
+      "stage": "Ready",
+      "joint": "Flower_0",
+      "gapMetres": 1.666000468656264e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Rose",
+      "stage": "Ready",
+      "joint": "Flower_1",
+      "gapMetres": 5.963374150388733e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Rose",
+      "stage": "Ready",
+      "joint": "Flower_2",
+      "gapMetres": 1.5359765386647212e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Rose",
+      "stage": "Ready",
+      "joint": "Bud_0",
+      "gapMetres": 5.972094663188382e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Rose",
+      "stage": "Harvest",
+      "joint": "Flower_0",
+      "gapMetres": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Hibiscus",
+      "stage": "BudForming",
+      "joint": "Bud_0",
+      "gapMetres": 5.960464477539063e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Hibiscus",
+      "stage": "BudForming",
+      "joint": "Bud_1",
+      "gapMetres": 2.634178031930877e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Hibiscus",
+      "stage": "BudForming",
+      "joint": "Bud_2",
+      "gapMetres": 1.4930236657970956e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Hibiscus",
+      "stage": "BudForming",
+      "joint": "Bud_3",
+      "gapMetres": 3.0719530773294423e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Hibiscus",
+      "stage": "Ready",
+      "joint": "Flower_0",
+      "gapMetres": 7.450580596923828e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Hibiscus",
+      "stage": "Ready",
+      "joint": "Flower_1",
+      "gapMetres": 6.006850114687196e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Hibiscus",
+      "stage": "Ready",
+      "joint": "Flower_2",
+      "gapMetres": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Hibiscus",
+      "stage": "Ready",
+      "joint": "Bud_0",
+      "gapMetres": 1.862645149230957e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Hibiscus",
+      "stage": "Ready",
+      "joint": "Bud_1",
+      "gapMetres": 1.862645149230957e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Hibiscus",
+      "stage": "Ready",
+      "joint": "Bud_2",
+      "gapMetres": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Hibiscus",
+      "stage": "Harvest",
+      "joint": "Flower_0",
+      "gapMetres": 5.820766091346741e-11,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_0",
+      "gapMetres": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_1",
+      "gapMetres": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_2",
+      "gapMetres": 1.4901161193847656e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_3",
+      "gapMetres": 5.972094663188382e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_4",
+      "gapMetres": 7.450580596923828e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_5",
+      "gapMetres": 6.664001874625056e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_6",
+      "gapMetres": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_7",
+      "gapMetres": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_8",
+      "gapMetres": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_9",
+      "gapMetres": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_10",
+      "gapMetres": 7.450580596923828e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_11",
+      "gapMetres": 1.862645149230957e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_12",
+      "gapMetres": 1.4901161193847656e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "joint": "Bud_13",
+      "gapMetres": 1.862645149230957e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Flower_0",
+      "gapMetres": 5.960464477539063e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Flower_1",
+      "gapMetres": 5.972094663188382e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Flower_2",
+      "gapMetres": 3.0719530773294423e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Flower_3",
+      "gapMetres": 1.490298007224245e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Flower_4",
+      "gapMetres": 3.725290298461914e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Bud_0",
+      "gapMetres": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Bud_1",
+      "gapMetres": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Bud_2",
+      "gapMetres": 1.4901161193847656e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Bud_3",
+      "gapMetres": 5.972094663188382e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Bud_4",
+      "gapMetres": 7.450580596923828e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Bud_5",
+      "gapMetres": 6.664001874625056e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Bud_6",
+      "gapMetres": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Bud_7",
+      "gapMetres": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Bud_8",
+      "gapMetres": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "joint": "Bud_9",
+      "gapMetres": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Harvest",
+      "joint": "Flower_0",
+      "gapMetres": 2.1093993732530856e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Harvest",
+      "joint": "Flower_1",
+      "gapMetres": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Harvest",
+      "joint": "Bud_0",
+      "gapMetres": 1.4901161193847656e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Harvest",
+      "joint": "Bud_1",
+      "gapMetres": 4.215713701306386e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Jasmine",
+      "stage": "Harvest",
+      "joint": "Bud_2",
+      "gapMetres": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    }
+  ],
+  "baseTriangleCounts": {
+    "NP_Hibiscus_BudForming": 57388,
+    "NP_Hibiscus_Harvest": 10736,
+    "NP_Hibiscus_Ready": 85756,
+    "NP_Hibiscus_Seed": 260,
+    "NP_Hibiscus_Sprout": 1288,
+    "NP_Hibiscus_Young": 4988,
+    "NP_Jasmine_BudForming": 89688,
+    "NP_Jasmine_Harvest": 45230,
+    "NP_Jasmine_Ready": 153828,
+    "NP_Jasmine_Seed": 280,
+    "NP_Jasmine_Sprout": 1288,
+    "NP_Jasmine_Young": 4430,
+    "NP_Rose_BudForming": 71136,
+    "NP_Rose_Harvest": 26654,
+    "NP_Rose_Ready": 126456,
+    "NP_Rose_Seed": 1300,
+    "NP_Rose_Sprout": 1288,
+    "NP_Rose_Young": 7324
+  },
+  "masterSha256": "33fdd9e7367f07ea13b05f4dd5a73963880773290bb10d0352ad40de5512b68e",
+  "roundtrip": [
+    {
+      "file": "NP_Hibiscus_BudForming.fbx",
+      "triangles": 57388
+    },
+    {
+      "file": "NP_Hibiscus_BudForming_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Hibiscus_Harvest.fbx",
+      "triangles": 10736
+    },
+    {
+      "file": "NP_Hibiscus_Harvest_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Hibiscus_Ready.fbx",
+      "triangles": 85756
+    },
+    {
+      "file": "NP_Hibiscus_Ready_LOD1.fbx",
+      "triangles": 2677
+    },
+    {
+      "file": "NP_Hibiscus_Seed.fbx",
+      "triangles": 260
+    },
+    {
+      "file": "NP_Hibiscus_Seed_LOD1.fbx",
+      "triangles": 104
+    },
+    {
+      "file": "NP_Hibiscus_Sprout.fbx",
+      "triangles": 1288
+    },
+    {
+      "file": "NP_Hibiscus_Sprout_LOD1.fbx",
+      "triangles": 514
+    },
+    {
+      "file": "NP_Hibiscus_Young.fbx",
+      "triangles": 4988
+    },
+    {
+      "file": "NP_Hibiscus_Young_LOD1.fbx",
+      "triangles": 1995
+    },
+    {
+      "file": "NP_Jasmine_BudForming.fbx",
+      "triangles": 89688
+    },
+    {
+      "file": "NP_Jasmine_BudForming_LOD1.fbx",
+      "triangles": 2799
+    },
+    {
+      "file": "NP_Jasmine_Harvest.fbx",
+      "triangles": 45230
+    },
+    {
+      "file": "NP_Jasmine_Harvest_LOD1.fbx",
+      "triangles": 2796
+    },
+    {
+      "file": "NP_Jasmine_Ready.fbx",
+      "triangles": 153828
+    },
+    {
+      "file": "NP_Jasmine_Ready_LOD1.fbx",
+      "triangles": 2780
+    },
+    {
+      "file": "NP_Jasmine_Seed.fbx",
+      "triangles": 280
+    },
+    {
+      "file": "NP_Jasmine_Seed_LOD1.fbx",
+      "triangles": 112
+    },
+    {
+      "file": "NP_Jasmine_Sprout.fbx",
+      "triangles": 1288
+    },
+    {
+      "file": "NP_Jasmine_Sprout_LOD1.fbx",
+      "triangles": 514
+    },
+    {
+      "file": "NP_Jasmine_Young.fbx",
+      "triangles": 4430
+    },
+    {
+      "file": "NP_Jasmine_Young_LOD1.fbx",
+      "triangles": 1772
+    },
+    {
+      "file": "NP_Rose_BudForming.fbx",
+      "triangles": 71136
+    },
+    {
+      "file": "NP_Rose_BudForming_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Rose_Harvest.fbx",
+      "triangles": 26654
+    },
+    {
+      "file": "NP_Rose_Harvest_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Rose_Ready.fbx",
+      "triangles": 126456
+    },
+    {
+      "file": "NP_Rose_Ready_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Rose_Seed.fbx",
+      "triangles": 1300
+    },
+    {
+      "file": "NP_Rose_Seed_LOD1.fbx",
+      "triangles": 520
+    },
+    {
+      "file": "NP_Rose_Sprout.fbx",
+      "triangles": 1288
+    },
+    {
+      "file": "NP_Rose_Sprout_LOD1.fbx",
+      "triangles": 514
+    },
+    {
+      "file": "NP_Rose_Young.fbx",
+      "triangles": 7324
+    },
+    {
+      "file": "NP_Rose_Young_LOD1.fbx",
+      "triangles": 2799
+    }
+  ],
+  "unityEditorImport": "NOT_RUN",
+  "unityPlayMode": "NOT_RUN",
+  "referenceReview": "Manual comparison with the three user references; technical checks do not score artistic similarity."
+}

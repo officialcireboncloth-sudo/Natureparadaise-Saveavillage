@@ -1,0 +1,129 @@
+{
+  "group": "G14",
+  "plants": {
+    "Daisy": [
+      {
+        "stage": "Seed",
+        "model": "NP_Daisy_Seed",
+        "source_group": "G14",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Daisy_Sprout",
+        "source_group": "G14",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Daisy_Young",
+        "source_group": "G14",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "model": "NP_Daisy_BudForming",
+        "source_group": "G14",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Daisy_Ready",
+        "source_group": "G14",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Daisy_Harvest",
+        "source_group": "G14",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Moonflower": [
+      {
+        "stage": "Seed",
+        "model": "NP_Moonflower_Seed",
+        "source_group": "G14",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Moonflower_Sprout",
+        "source_group": "G14",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Moonflower_Young",
+        "source_group": "G14",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "model": "NP_Moonflower_BudForming",
+        "source_group": "G14",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Moonflower_Ready",
+        "source_group": "G14",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Moonflower_Harvest",
+        "source_group": "G14",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  }
+}

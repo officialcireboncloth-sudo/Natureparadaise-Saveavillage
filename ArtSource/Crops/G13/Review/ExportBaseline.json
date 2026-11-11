@@ -1,0 +1,89 @@
+{
+  "status": "SOURCE_EXPORTS_CAPTURED",
+  "models": {
+    "NP_Lavender_BudForming": {
+      "sourceSpec": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_BudForming.json",
+      "sourceFbx": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_BudForming.fbx",
+      "geometrySha256": "2d3d7404ca739821005838e2759dbb281dcaa0b456b33a65608b64aca1ccf9b2",
+      "specSha256": "e8007800fd57762ea425614bd8114757a8934c585c24847679c05eab56edcad4",
+      "triangles": 17978
+    },
+    "NP_Lavender_BudForming_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_BudForming_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_BudForming_LOD1.fbx",
+      "geometrySha256": "e7a426a18fc16c4735cf300c74f6c17535f5d1fbdb551911ae4cd25e9ff28d15",
+      "specSha256": "159d852c73b390930034b7b443c6d3f4bb9abf08c76e2c2590cb4eab77d2f378",
+      "triangles": 2799
+    },
+    "NP_Lavender_Harvest": {
+      "sourceSpec": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Harvest.json",
+      "sourceFbx": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Harvest.fbx",
+      "geometrySha256": "2d8c03f8bffd0c0bdfd5ec62c0a67afb219803eceaad280625f3244b2f68fd58",
+      "specSha256": "898eef4053a711a5652c2a742a671e47ee1f9102e72bfa278bb319478adf9da6",
+      "triangles": 14296
+    },
+    "NP_Lavender_Harvest_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Harvest_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Harvest_LOD1.fbx",
+      "geometrySha256": "8752fa44153b0f4a9c750477856918f3f0d297ca9ccc9c15867f8ad70e49cd18",
+      "specSha256": "d29e9bd6b8f27bc39bdef93bc17ccb68fdb0ba07360fe3eb3190d99f2c4235ab",
+      "triangles": 2796
+    },
+    "NP_Lavender_Ready": {
+      "sourceSpec": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Ready.json",
+      "sourceFbx": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Ready.fbx",
+      "geometrySha256": "8095d897aa85a5a436002a83761c643310bc5a2253e1ebc5180c2f1e37d6dbff",
+      "specSha256": "7164a3ad787c15f92cb980c622e964229f1ae28d5270a6f07add2823ab950a1c",
+      "triangles": 26000
+    },
+    "NP_Lavender_Ready_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Ready_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Ready_LOD1.fbx",
+      "geometrySha256": "ae27420eb7854794f4e7c7bb75f474797888e47251ad2d518f1bfb689aaf7627",
+      "specSha256": "a49385901975751b87b26c907a1b17f2ebe5d4c45d58b8f9418fb7a7b9c5bfdd",
+      "triangles": 2703
+    },
+    "NP_Lavender_Seed": {
+      "sourceSpec": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Seed.json",
+      "sourceFbx": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Seed.fbx",
+      "geometrySha256": "aa579854624e7f0828cef3c6b1b88664c475973d40353f5b9ad2e00908bfa655",
+      "specSha256": "2590ab4ed5883f9626a524724b4e62c9d85de7219090607278c9760fa1c3f851",
+      "triangles": 240
+    },
+    "NP_Lavender_Seed_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Seed_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Seed_LOD1.fbx",
+      "geometrySha256": "0d2d2b20b143b3283b4c1b285c3842263d435b8891ba749ffb09e8d464a88b93",
+      "specSha256": "1161462a0ce35ef0a6d00172ece5c8e19bc0c243edab9f7880c7e94c7c3efb85",
+      "triangles": 96
+    },
+    "NP_Lavender_Sprout": {
+      "sourceSpec": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Sprout.json",
+      "sourceFbx": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Sprout.fbx",
+      "geometrySha256": "0149f3f0b6b016f42e0f71a64acc48d1ef5c892b82b1fceb03af06d742bfcf2d",
+      "specSha256": "ec9693b8d9c9d797c4355a2bc31b6cef8333dd290243847583d35d80ed59e033",
+      "triangles": 354
+    },
+    "NP_Lavender_Sprout_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Sprout_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Sprout_LOD1.fbx",
+      "geometrySha256": "b56bd6f68c3d03c0076eeacf9b0c1ebc65b3da42ff6d167342a47b01c9a848cb",
+      "specSha256": "5e57b2dd5d0b6b877536a06d00e1b03f4d7380591a9d23ffca01052e9cc4918d",
+      "triangles": 140
+    },
+    "NP_Lavender_Young": {
+      "sourceSpec": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Young.json",
+      "sourceFbx": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Young.fbx",
+      "geometrySha256": "080dba38607af77e024fe3d7b12e85481725e5b26757c32413b9bfdf4673e646",
+      "specSha256": "c6033b9a580f344034416b2ddaa771186b2894257aad04efbacbbad8d9e5111d",
+      "triangles": 4452
+    },
+    "NP_Lavender_Young_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Young_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G13/Review/SourceExports/NP_Lavender_Young_LOD1.fbx",
+      "geometrySha256": "743c903d46722d1b631c6a51534cc7a3ac35662011c1225158ee9f85f702fc08",
+      "specSha256": "1ae90fcacffdc87fe106b1ee577552851371703d2d7925eab7be8bcf41d0a3f5",
+      "triangles": 1780
+    }
+  }
+}

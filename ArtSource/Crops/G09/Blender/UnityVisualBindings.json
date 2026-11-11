@@ -1,0 +1,213 @@
+{
+  "group": "G09",
+  "status": "Prepared visual assets; existing crop profiles not modified",
+  "material": "NP_Plants_Unified_01",
+  "plants": {
+    "Rose": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Rose_Seed.prefab",
+        "guid": "f7ab6e6cf4614dee82f864d8b6d4223a",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Rose_Sprout.prefab",
+        "guid": "065f97244e9e4b7bbcd857aa5fc0aef8",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Rose_Young.prefab",
+        "guid": "c205238dfd6442658bf04af756abfd1b",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Rose_BudForming.prefab",
+        "guid": "4a3c04d114464a289f92a157af3c7971",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Rose_Ready.prefab",
+        "guid": "54b2685c186e4f34b9f7fa0c89d9d197",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Rose_Harvest.prefab",
+        "guid": "96df8da3aa6e436faafb7573a486c0bc",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Hibiscus": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Hibiscus_Seed.prefab",
+        "guid": "1f0951a1a0e047e7ac29a26acfb11227",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Hibiscus_Sprout.prefab",
+        "guid": "0fb8daf2cbe84c649d54da333664d5bc",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Hibiscus_Young.prefab",
+        "guid": "6c10bc430b3b45c5a23a5f20f622fc62",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Hibiscus_BudForming.prefab",
+        "guid": "1afcabb5532e480e9084de56ab0257d7",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Hibiscus_Ready.prefab",
+        "guid": "693ce01c6b624a96a7787ddc3ff3fa9c",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Hibiscus_Harvest.prefab",
+        "guid": "c0294834b7ca420db6908a60bfe64375",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Jasmine": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Jasmine_Seed.prefab",
+        "guid": "04d2f4c6db6040fd98590e8a810a18a3",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Jasmine_Sprout.prefab",
+        "guid": "5714f9710220447ea370c1b97f197d65",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Jasmine_Young.prefab",
+        "guid": "06ec7325088e44708da779f8062e34d9",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Jasmine_BudForming.prefab",
+        "guid": "75ce57b1436642d9bab37de8676584c1",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Jasmine_Ready.prefab",
+        "guid": "40412730850d46a4b9ac2ce160f03022",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G09\\NP_Jasmine_Harvest.prefab",
+        "guid": "517fb923402549eb997b26bba6582e05",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "authoringMaterial": "NP_Plants_ShrubFlowers_01",
+  "runtimeAtlas": "ArtSource/Crops/Unified/AtlasRegistry.json"
+}

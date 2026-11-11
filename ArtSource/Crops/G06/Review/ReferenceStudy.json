@@ -1,0 +1,79 @@
+{
+  "source": "Two images attached directly by the user in the current conversation; visually inspected before modeling. Original downloads were unavailable.",
+  "radish": {
+    "seedCount": 3,
+    "sproutLeaves": 2,
+    "youngLeaves": 4,
+    "formingLeaves": 4,
+    "readyLeaves": 6,
+    "features": [
+      "rounded deeply scalloped broad leaves",
+      "pale branching veins",
+      "red spherical shoulder fading irregularly to ivory lower root",
+      "curved pointed taproot",
+      "whole harvest retains foliage",
+      "ivory cut face with thin red rim"
+    ]
+  },
+  "onion": {
+    "seedCount": 4,
+    "sprout": "single loop with pale root",
+    "youngLeaves": 3,
+    "formingLeaves": 4,
+    "readyLeaves": 5,
+    "features": [
+      "black angular seeds",
+      "hollow tubular leaves",
+      "long arched outer leaves with golden tips",
+      "golden pear-shaped bulb with narrow neck",
+      "fine longitudinal papery fibres",
+      "radial cream roots",
+      "harvest has dry neck and no green leaves",
+      "cut face has concentric rings"
+    ]
+  },
+  "reviewTarget": "Match the supplied compositions and proportions; render actual 3D volume from front/side/rear/top. Visual similarity requires review and is not a pixel-identical guarantee.",
+  "previousUsedTiles": [
+    "BarkBrown",
+    "BerryRed",
+    "ChiliGreen",
+    "ChiliRed",
+    "CucumberSkin",
+    "EggplantFlesh",
+    "EggplantPurple",
+    "FlowerGold",
+    "FlowerPurple",
+    "FlowerWhite",
+    "FruitUnripe",
+    "GrainGreen",
+    "KiwiFlesh",
+    "KiwiSkin",
+    "LeafBean",
+    "LeafDark",
+    "LeafNarrow",
+    "LeafOval",
+    "LeafSerrated",
+    "LeafVineHeart",
+    "LeafYoung",
+    "MelonFlesh",
+    "PodGreen",
+    "PollenGold",
+    "SeedBlack",
+    "SeedBrown",
+    "SeedCream",
+    "SeedGreen",
+    "SeedTan",
+    "SepalGreen",
+    "StemGreen",
+    "StemPurple"
+  ],
+  "changedPreviouslyUnusedTiles": [
+    "LeafLobed",
+    "LeafStrap",
+    "RadishGradient",
+    "OnionSkin",
+    "RadishCut",
+    "OnionCut",
+    "RootCream"
+  ]
+}

@@ -1,0 +1,2984 @@
+{
+  "status": "APPLIED_ASSET_BINDINGS",
+  "scope": "G01-G14: 33 crop profiles and seed-store products",
+  "plants": [
+    {
+      "group": "G02",
+      "species": "Watermelon",
+      "key": "watermelon",
+      "label": "Semangka",
+      "cropId": "crop.watermelon",
+      "seedId": "item.watermelon_seed",
+      "produceId": "item.watermelon",
+      "mutationId": "item.watermelon_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Watermelon Crop.asset",
+      "profileGuid": "c32193af44a9444d8059b10448ef09cc",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Watermelon Seed.asset",
+      "seedGuid": "3fa1884e8917430e8bec49b974587794",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Watermelon.asset",
+      "produceGuid": "b479208b0af7431fa096463d2ce20608",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Watermelon Mutation.asset",
+      "mutationGuid": "ee1be88eb9624936b4c74c795889ba19",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_G02_SeedBlack.prefab",
+          "guid": "3e288b9e526b49b28c91dde57ed50ba7",
+          "scale": 0.777259,
+          "offset": [
+            0.004779,
+            0.002,
+            0.001977
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Shared_Sprout.prefab",
+          "guid": "ddc54cad614341aabc05dd87a8f8a16f",
+          "scale": 0.777259,
+          "offset": [
+            0.000165,
+            0,
+            4.1e-05
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_Watermelon_Young.prefab",
+          "guid": "25396eff0e96421e9ca02f005f79d58d",
+          "scale": 0.777259,
+          "offset": [
+            0.005805,
+            0,
+            -0.097828
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Flowering",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_Watermelon_Flowering.prefab",
+          "guid": "e7a45fc7564d4962a58e3f368cd5bfcb",
+          "scale": 0.777259,
+          "offset": [
+            -0.001904,
+            0,
+            -0.164331
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_Watermelon_Ready.prefab",
+          "guid": "a248fcb704f443c08fa051bec508238e",
+          "scale": 0.777259,
+          "offset": [
+            -0.019506,
+            0,
+            -0.126831
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_Watermelon_Harvest.prefab",
+      "harvestGuid": "3a114c94a4c84490bff524659739bca6",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage defaults"
+    },
+    {
+      "group": "G02",
+      "species": "Melon",
+      "key": "melon",
+      "label": "Melon",
+      "cropId": "crop.melon",
+      "seedId": "item.melon_seed",
+      "produceId": "item.melon",
+      "mutationId": "item.melon_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Melon Crop.asset",
+      "profileGuid": "f5ccece722e7410e9166b9c5e1b9f15b",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Melon Seed.asset",
+      "seedGuid": "74e9547d073f4991a48039de0072e3c3",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Melon.asset",
+      "produceGuid": "215f163e11dd48c19936a50e83d4c9ee",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Melon Mutation.asset",
+      "mutationGuid": "42306941fcd048758771fda65e025c04",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_G02_SeedCream.prefab",
+          "guid": "d3e9d41cf0e741d5a8ff1551d9ba9c00",
+          "scale": 0.776116,
+          "offset": [
+            0.004779,
+            0.002,
+            -0.011033
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Shared_Sprout.prefab",
+          "guid": "ddc54cad614341aabc05dd87a8f8a16f",
+          "scale": 0.776116,
+          "offset": [
+            0.000165,
+            0,
+            4.1e-05
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_Melon_Young.prefab",
+          "guid": "6d9c6fe517eb4710aef656f4db995a0c",
+          "scale": 0.776116,
+          "offset": [
+            0.00711,
+            0,
+            -0.099987
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Flowering",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_Melon_Flowering.prefab",
+          "guid": "5a9a1b998e8a494ca47a4295d5b9b1d7",
+          "scale": 0.776116,
+          "offset": [
+            -0.010659,
+            0,
+            -0.16719
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_Melon_Ready.prefab",
+          "guid": "16c01f9cb7c34a7fbc6f16b1d740eb99",
+          "scale": 0.776116,
+          "offset": [
+            -0.019553,
+            0,
+            -0.12969
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_Melon_Harvest.prefab",
+      "harvestGuid": "0609a6321a0e4cfe864b9279de09f916",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage defaults"
+    },
+    {
+      "group": "G02",
+      "species": "Zucchini",
+      "key": "zucchini",
+      "label": "Zucchini",
+      "cropId": "crop.zucchini",
+      "seedId": "item.zucchini_seed",
+      "produceId": "item.zucchini",
+      "mutationId": "item.zucchini_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Zucchini Crop.asset",
+      "profileGuid": "dab26a1bc1044705b8fe368c1d736a49",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Zucchini Seed.asset",
+      "seedGuid": "8e9ca09d282d4ad8a85f6e3adb262aa2",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Zucchini.asset",
+      "produceGuid": "b9b9ec524abe4e0e856388941364c44c",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Zucchini Mutation.asset",
+      "mutationGuid": "40db4d6a20a94e65ad3a6c6791981137",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_G02_SeedCream.prefab",
+          "guid": "d3e9d41cf0e741d5a8ff1551d9ba9c00",
+          "scale": 0.851399,
+          "offset": [
+            0.004779,
+            0.002,
+            -0.011033
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Shared_Sprout.prefab",
+          "guid": "ddc54cad614341aabc05dd87a8f8a16f",
+          "scale": 0.851399,
+          "offset": [
+            0.000165,
+            0,
+            4.1e-05
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_Zucchini_Young.prefab",
+          "guid": "f0619ab641a64f71ac352fd6e3cd7fcb",
+          "scale": 0.851399,
+          "offset": [
+            0.003556,
+            0,
+            -0.024522
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Flowering",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_Zucchini_Flowering.prefab",
+          "guid": "f3052215b383406baae0f3ab97cd3c0e",
+          "scale": 0.851399,
+          "offset": [
+            -0.000605,
+            0,
+            -0.050027
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_Zucchini_Ready.prefab",
+          "guid": "a15c39dbac4c4ff38ef7cdec88c3e051",
+          "scale": 0.851399,
+          "offset": [
+            -0.021199,
+            0,
+            0.000231
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G02/NP_Zucchini_Harvest.prefab",
+      "harvestGuid": "8f212ab6bb8345cb8a1f1344a749a995",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage defaults"
+    },
+    {
+      "group": "G03",
+      "species": "Cucumber",
+      "key": "cucumber",
+      "label": "Timun",
+      "cropId": "crop.cucumber",
+      "seedId": "item.cucumber_seed",
+      "produceId": "item.cucumber",
+      "mutationId": "item.cucumber_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Cucumber Crop.asset",
+      "profileGuid": "d0353ea184c34ff780dd3e4f3404cd6a",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Cucumber Seed.asset",
+      "seedGuid": "8775936a41da4992a7ae0c3965f6b85e",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Cucumber.asset",
+      "produceGuid": "280c45bb770f4d66876190a700f17947",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Cucumber Mutation.asset",
+      "mutationGuid": "afb608cf728b493db8db170b64b53afe",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Cucumber_Seed.prefab",
+          "guid": "aa5ea2aef74d411c945def9d5cde1265",
+          "scale": 0.932654,
+          "offset": [
+            0.006008,
+            0,
+            -0.00079
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_G03_Shared_Sprout.prefab",
+          "guid": "7665393046494e1396480865d9a5e893",
+          "scale": 0.932654,
+          "offset": [
+            0.000247,
+            0,
+            6.2e-05
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Cucumber_Young.prefab",
+          "guid": "29f53f92d17740b6a43d3ae83c8924af",
+          "scale": 0.932654,
+          "offset": [
+            0.005037,
+            0.001926,
+            0.020776
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Flowering",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Cucumber_Flowering.prefab",
+          "guid": "685185e8250448b2a7ab2f159fee9d51",
+          "scale": 0.932654,
+          "offset": [
+            0.00475,
+            0.001926,
+            0.055474
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Cucumber_Ready.prefab",
+          "guid": "3bb8bdede7a14064bc17c53bee9930a1",
+          "scale": 0.932654,
+          "offset": [
+            0.00475,
+            0.001926,
+            0.081835
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Cucumber_Harvest.prefab",
+      "harvestGuid": "3d3b2aafe8cf432d8a3392ec719c90ff",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage defaults"
+    },
+    {
+      "group": "G03",
+      "species": "Pea",
+      "key": "pea",
+      "label": "Ercis",
+      "cropId": "crop.pea",
+      "seedId": "item.pea_seed",
+      "produceId": "item.pea",
+      "mutationId": "item.pea_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Pea Crop.asset",
+      "profileGuid": "ecd2addc517542aebc9a56f2ea35977f",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Pea Seed.asset",
+      "seedGuid": "966dcb795ae14d2b90518f331dc1d337",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Pea.asset",
+      "produceGuid": "9509a588bd604ad29fdbdae2f45ef0cc",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Pea Mutation.asset",
+      "mutationGuid": "d57eda6107dc4d68872f9b71b18005c5",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Pea_Seed.prefab",
+          "guid": "56edd2422e45479da9236aea15d5990c",
+          "scale": 1.307692,
+          "offset": [
+            -0.0025,
+            0.005,
+            -0.0025
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Pea_Sprout.prefab",
+          "guid": "435ab1d68e7c4421abe379750675887b",
+          "scale": 1.307692,
+          "offset": [
+            2e-06,
+            0,
+            0.005526
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Pea_Young.prefab",
+          "guid": "30d768d906a54294a6549a2390628460",
+          "scale": 1.307692,
+          "offset": [
+            -0.001067,
+            0.001072,
+            -0.009965
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Flowering",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Pea_Flowering.prefab",
+          "guid": "6cf2756944c648988187f1f1db23220f",
+          "scale": 1.307692,
+          "offset": [
+            -0.0,
+            0.001072,
+            0.059113
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Pea_Ready.prefab",
+          "guid": "844e3f6fb712455e9833239152bb198a",
+          "scale": 1.307692,
+          "offset": [
+            -0.0,
+            0.001072,
+            0.070988
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Pea_Harvest.prefab",
+      "harvestGuid": "4197ccb4aef140528d9fc21fc9fb56df",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage defaults"
+    },
+    {
+      "group": "G03",
+      "species": "Kiwi",
+      "key": "kiwi",
+      "label": "Kiwi",
+      "cropId": "crop.kiwi",
+      "seedId": "item.kiwi_seed",
+      "produceId": "item.kiwi",
+      "mutationId": "item.kiwi_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Kiwi Crop.asset",
+      "profileGuid": "9841a607208e4966a86852610a176b24",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Kiwi Seed.asset",
+      "seedGuid": "88bcee8f8948412ab0983a31d03256a5",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Kiwi.asset",
+      "produceGuid": "4b4f297b6f5c472199291d0362302968",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Kiwi Mutation.asset",
+      "mutationGuid": "04fa4faa6ef6439e9795f76fc269a11b",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Kiwi_Seed.prefab",
+          "guid": "840e5f87a36b4aec87ed073eedf07c3c",
+          "scale": 1.023822,
+          "offset": [
+            0.006008,
+            0.0039,
+            -0.00079
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_G03_Shared_Sprout.prefab",
+          "guid": "7665393046494e1396480865d9a5e893",
+          "scale": 1.023822,
+          "offset": [
+            0.000247,
+            0,
+            6.2e-05
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Kiwi_Young.prefab",
+          "guid": "bf98922a0fe84f399beb4577cd3af6dc",
+          "scale": 1.023822,
+          "offset": [
+            0.043576,
+            0.001135,
+            0.049045
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Flowering",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Kiwi_Flowering.prefab",
+          "guid": "f00f9d349ac44caca5fcfb2942d425ee",
+          "scale": 1.023822,
+          "offset": [
+            0.006276,
+            0.001135,
+            0.0827
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Kiwi_Ready.prefab",
+          "guid": "3b275933c31849969cfc75252648c6f6",
+          "scale": 1.023822,
+          "offset": [
+            0.006276,
+            0.001135,
+            0.088516
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_Kiwi_Harvest.prefab",
+      "harvestGuid": "4595f61026944fcda9c22abad0cb510f",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage defaults"
+    },
+    {
+      "group": "G04",
+      "species": "GreenBean",
+      "key": "green_bean",
+      "label": "Buncis",
+      "cropId": "crop.green_bean",
+      "seedId": "item.green_bean_seed",
+      "produceId": "item.green_bean",
+      "mutationId": "item.green_bean_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/GreenBean Crop.asset",
+      "profileGuid": "6c2095a1e4cb455a85ed439685c0c623",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/GreenBean Seed.asset",
+      "seedGuid": "2c9ada62727e4d388bcf30e8de70ad92",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/GreenBean.asset",
+      "produceGuid": "95174a6865d74e2fb9dbb2bef4abb15a",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/GreenBean Mutation.asset",
+      "mutationGuid": "539b5b7f2ea643c88bc78fddcf791804",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_GreenBean_Seed.prefab",
+          "guid": "e7d899397b234b74b7b5fadfa3ebfb3c",
+          "scale": 0.970696,
+          "offset": [
+            0.003281,
+            0,
+            -0.0075
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_GreenBean_Sprout.prefab",
+          "guid": "d1e44f1bb79c4c18b16bddf66a534dc8",
+          "scale": 0.970696,
+          "offset": [
+            -0.0,
+            0,
+            -0.0
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_GreenBean_Young.prefab",
+          "guid": "f2f3f2a67ede49f4b77b05133ecd8beb",
+          "scale": 0.970696,
+          "offset": [
+            -0.024313,
+            0,
+            -0.019072
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Flowering",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_GreenBean_Flowering.prefab",
+          "guid": "534bd3ac29f44302965d89db4f7ddc3c",
+          "scale": 0.970696,
+          "offset": [
+            -0.016037,
+            0,
+            0.035366
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_GreenBean_Ready.prefab",
+          "guid": "a19937f5938d49b0a263f1a2714d8446",
+          "scale": 0.970696,
+          "offset": [
+            -0.017806,
+            0,
+            0.030847
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_GreenBean_Harvest.prefab",
+      "harvestGuid": "887e7138952a4eb4b15e2ed6fd33fccf",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage defaults",
+      "geometryRevision": "G04 R02 radial 3D crown"
+    },
+    {
+      "group": "G04",
+      "species": "ChiliPepper",
+      "key": "chili_pepper",
+      "label": "Cabai",
+      "cropId": "crop.chili_pepper",
+      "seedId": "item.chili_pepper_seed",
+      "produceId": "item.chili_pepper",
+      "mutationId": "item.chili_pepper_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/ChiliPepper Crop.asset",
+      "profileGuid": "32d2a1541f01405bb922e37adedf4c45",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/ChiliPepper Seed.asset",
+      "seedGuid": "c1961427bb38488dad3f6fe0f64b8965",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/ChiliPepper.asset",
+      "produceGuid": "360f4e3091f7415799eca378cb6b67db",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/ChiliPepper Mutation.asset",
+      "mutationGuid": "710cde36454c4b729d7402d584797938",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_ChiliPepper_Seed.prefab",
+          "guid": "84f90fe718754bfebe61705f5a53e91b",
+          "scale": 0.93111,
+          "offset": [
+            0.000436,
+            0,
+            -0.007433
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G03/NP_G03_Shared_Sprout.prefab",
+          "guid": "7665393046494e1396480865d9a5e893",
+          "scale": 0.93111,
+          "offset": [
+            0.000247,
+            0,
+            6.2e-05
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_ChiliPepper_Young.prefab",
+          "guid": "bdc54565a3d346b08296ae9bf06389dd",
+          "scale": 0.93111,
+          "offset": [
+            -0.027613,
+            0,
+            0.013907
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Flowering",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_ChiliPepper_Flowering.prefab",
+          "guid": "dd5cb4d9ae564dab8b3916bb5d3f8e69",
+          "scale": 0.93111,
+          "offset": [
+            0.028917,
+            0,
+            -0.048659
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_ChiliPepper_Ready.prefab",
+          "guid": "cca59d51157d416393251ac1cde3eeaa",
+          "scale": 0.93111,
+          "offset": [
+            0.032162,
+            0,
+            -0.079586
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_ChiliPepper_Harvest.prefab",
+      "harvestGuid": "bbe36812191c459e99e68731a60d0708",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage defaults",
+      "geometryRevision": "G04 R02 radial 3D crown"
+    },
+    {
+      "group": "G04",
+      "species": "Eggplant",
+      "key": "eggplant",
+      "label": "Terong",
+      "cropId": "crop.eggplant",
+      "seedId": "item.eggplant_seed",
+      "produceId": "item.eggplant",
+      "mutationId": "item.eggplant_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Eggplant Crop.asset",
+      "profileGuid": "d6be672dab544fe2bd40c7a0bf6f74d1",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Eggplant Seed.asset",
+      "seedGuid": "db3fd7f66b13482db675c1446a41e938",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Eggplant.asset",
+      "produceGuid": "8d2135cfd69646b780f15d1f823234bb",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Eggplant Mutation.asset",
+      "mutationGuid": "a3501411e9784d66857d303806cf2c2c",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_Eggplant_Seed.prefab",
+          "guid": "8362d1c8851547a0a3506919f17634ed",
+          "scale": 0.825403,
+          "offset": [
+            0.000436,
+            0,
+            0.001805
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_Eggplant_Sprout.prefab",
+          "guid": "fca8d2713caa414a919eea345162b9c4",
+          "scale": 0.825403,
+          "offset": [
+            0.000247,
+            0,
+            6.2e-05
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_Eggplant_Young.prefab",
+          "guid": "406bcbeb912d4759815089b899ad6d19",
+          "scale": 0.825403,
+          "offset": [
+            -0.050195,
+            0,
+            -0.049718
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Flowering",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_Eggplant_Flowering.prefab",
+          "guid": "2f26b037341043d29fffaa5eba445c88",
+          "scale": 0.825403,
+          "offset": [
+            -0.033487,
+            0,
+            0.083481
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_Eggplant_Ready.prefab",
+          "guid": "13e5b5e67fc34277b7821808dd08507f",
+          "scale": 0.825403,
+          "offset": [
+            -0.036816,
+            0,
+            0.030999
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G04/NP_Eggplant_Harvest.prefab",
+      "harvestGuid": "bf9f112a2b7f4c5fb095633e547dc449",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage defaults",
+      "geometryRevision": "G04 R02 radial 3D crown"
+    },
+    {
+      "group": "G05",
+      "species": "Cabbage",
+      "key": "cabbage",
+      "label": "Kubis",
+      "cropId": "crop.cabbage",
+      "seedId": "item.seed",
+      "produceId": "item.cabbage",
+      "mutationId": "item.cabbage_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Cabbage Crop.asset",
+      "profileGuid": "7751a3af0eb44fcbab91f74acff8d35a",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seed.asset",
+      "seedGuid": "fca809e92df656a4fa355e0f085ad8fe",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Animal/Cabbage.asset",
+      "produceGuid": "61c78b05ef567844c9b80b15badc379b",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Cabbage Mutation.asset",
+      "mutationGuid": "51b810e987208d64fbd5c595fd46af89",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Shared_Seed.prefab",
+          "guid": "b1e1f6aab623454b8caeebf130c20417",
+          "scale": 1.053857,
+          "offset": [
+            0.004049,
+            0.0083,
+            -0.0034
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Shared_Sprout.prefab",
+          "guid": "ddc54cad614341aabc05dd87a8f8a16f",
+          "scale": 1.053857,
+          "offset": [
+            0.000165,
+            0,
+            4.1e-05
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Cabbage_Young.prefab",
+          "guid": "8855c1474f164c4e9cdf6109f03c3c32",
+          "scale": 1.053857,
+          "offset": [
+            9e-06,
+            0,
+            -0.006538
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Head Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Cabbage_HeadForming.prefab",
+          "guid": "d14fdbbfe7f84becaa2856518da07f5a",
+          "scale": 1.053857,
+          "offset": [
+            -0.008431,
+            0,
+            -0.001669
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Mature",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Cabbage_Ready.prefab",
+          "guid": "5f8673227aa0477cb4ab4762da9b4f96",
+          "scale": 1.053857,
+          "offset": [
+            0.007814,
+            0,
+            0.001761
+          ]
+        },
+        {
+          "index": 5,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Cabbage_Ready.prefab",
+          "guid": "5f8673227aa0477cb4ab4762da9b4f96",
+          "scale": 1.053857,
+          "offset": [
+            0.007814,
+            0,
+            0.001761
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Cabbage_Harvest.prefab",
+      "harvestGuid": "ca4689a6af9a4c6e9bb4dc2a2957c405",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing values retained"
+    },
+    {
+      "group": "G05",
+      "species": "Broccoli",
+      "key": "broccoli",
+      "label": "Brokoli",
+      "cropId": "crop.broccoli",
+      "seedId": "item.broccoli_seed",
+      "produceId": "item.broccoli",
+      "mutationId": "item.broccoli_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Broccoli Crop.asset",
+      "profileGuid": "81ec275ea6204c1a9aa26f090bc41bbc",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Broccoli Seed.asset",
+      "seedGuid": "62f8f41e47374c4ba11bc36705208a49",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Broccoli.asset",
+      "produceGuid": "7fa9ac8cbd9b4aceb76aeba029259708",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Broccoli Mutation.asset",
+      "mutationGuid": "a82ff1e885ef40039bec616c531b7fcf",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Shared_Seed.prefab",
+          "guid": "b1e1f6aab623454b8caeebf130c20417",
+          "scale": 1.095092,
+          "offset": [
+            0.004049,
+            0.0083,
+            -0.0034
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Shared_Sprout.prefab",
+          "guid": "ddc54cad614341aabc05dd87a8f8a16f",
+          "scale": 1.095092,
+          "offset": [
+            0.000165,
+            0,
+            4.1e-05
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Broccoli_Young.prefab",
+          "guid": "e18d498f145645af87b17e9055e63faa",
+          "scale": 1.095092,
+          "offset": [
+            8e-05,
+            0,
+            2.9e-05
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Head Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Broccoli_HeadForming.prefab",
+          "guid": "18d14a96217f427f812697ccab2a9d41",
+          "scale": 1.095092,
+          "offset": [
+            -0.007895,
+            0,
+            -0.001604
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Broccoli_Ready.prefab",
+          "guid": "5bf4065c9935414c96b91317e99c5cce",
+          "scale": 1.095092,
+          "offset": [
+            0.009705,
+            0,
+            0.001705
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Broccoli_Harvest.prefab",
+      "harvestGuid": "da3ac34c83e34fbc809e26e7fe8217f8",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage defaults"
+    },
+    {
+      "group": "G05",
+      "species": "Cauliflower",
+      "key": "cauliflower",
+      "label": "Kembang Kol",
+      "cropId": "crop.cauliflower",
+      "seedId": "item.cauliflower_seed",
+      "produceId": "item.cauliflower",
+      "mutationId": "item.cauliflower_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Cauliflower Crop.asset",
+      "profileGuid": "25eedcfe194a4803a581fd16c0df47ca",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Cauliflower Seed.asset",
+      "seedGuid": "7e07fab41b0e4b968dd354aedce3fc73",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Cauliflower.asset",
+      "produceGuid": "603fc7bc2bd7404e9018e81fcad77602",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Cauliflower Mutation.asset",
+      "mutationGuid": "cceeceb7a90e4adda11fe3234d0a2a21",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Shared_Seed.prefab",
+          "guid": "b1e1f6aab623454b8caeebf130c20417",
+          "scale": 1.053639,
+          "offset": [
+            0.004049,
+            0.0083,
+            -0.0034
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Shared_Sprout.prefab",
+          "guid": "ddc54cad614341aabc05dd87a8f8a16f",
+          "scale": 1.053639,
+          "offset": [
+            0.000165,
+            0,
+            4.1e-05
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Cauliflower_Young.prefab",
+          "guid": "8b88cebf9c384443a307b2096882186e",
+          "scale": 1.053639,
+          "offset": [
+            8e-05,
+            0,
+            2.9e-05
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Head Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Cauliflower_HeadForming.prefab",
+          "guid": "6fb7c588193b40fda1f636ccf76bbb1c",
+          "scale": 1.053639,
+          "offset": [
+            -0.008224,
+            0,
+            -0.001685
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Cauliflower_Ready.prefab",
+          "guid": "de707450f73d4685ba9a921a3ac3b116",
+          "scale": 1.053639,
+          "offset": [
+            0.010087,
+            0,
+            0.001753
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G05/NP_Cauliflower_Harvest.prefab",
+      "harvestGuid": "b169574dd3f34b61ac2caf14746f04ed",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage defaults"
+    },
+    {
+      "group": "G06",
+      "species": "Radish",
+      "key": "radish",
+      "label": "Lobak",
+      "cropId": "crop.radish",
+      "seedId": "item.radish_seed",
+      "produceId": "item.radish",
+      "mutationId": "item.radish_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Radish Crop.asset",
+      "profileGuid": "26339934e0d3424d8dc39c070242686d",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Radish Seed.asset",
+      "seedGuid": "e90e323992e04677828c86140f82d1b1",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Radish.asset",
+      "produceGuid": "87c0563a2805402c9771e4bf4b00c0e0",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Radish Mutation.asset",
+      "mutationGuid": "2d55fa6c2e9347a189e211c16320ba83",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G06/NP_Radish_Seed.prefab",
+          "guid": "89496672ac924872b7e4d913da4e25cf",
+          "scale": 1.072079,
+          "offset": [
+            0.003822,
+            0,
+            -0.025026
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G06/NP_Radish_Sprout.prefab",
+          "guid": "9bd962a920d04806b50319f0b538576d",
+          "scale": 1.072079,
+          "offset": [
+            0.004135,
+            0,
+            -0.008472
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G06/NP_Radish_Young.prefab",
+          "guid": "3543e9cc0b7c4dfda1d9ef5a993a3e4f",
+          "scale": 1.072079,
+          "offset": [
+            -0.006499,
+            0,
+            -0.000363
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Root Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G06/NP_Radish_RootForming.prefab",
+          "guid": "0d42aedc75c944329f9697e101125698",
+          "scale": 1.072079,
+          "offset": [
+            -0.007375,
+            0,
+            -0.022501
+          ],
+          "soilBurialDepth": 0.15625
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G06/NP_Radish_Ready.prefab",
+          "guid": "9eb9ddad725346698339db5f4ffb5000",
+          "scale": 1.072079,
+          "offset": [
+            -0.022728,
+            0,
+            -0.034361
+          ],
+          "soilBurialDepth": 0.25
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G06/NP_Radish_Harvest.prefab",
+      "harvestGuid": "026956a421d248e69491148cc794ad83",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G06",
+      "species": "Onion",
+      "key": "onion",
+      "label": "Bawang Bombay",
+      "cropId": "crop.onion",
+      "seedId": "item.onion_seed",
+      "produceId": "item.onion",
+      "mutationId": "item.onion_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Onion Crop.asset",
+      "profileGuid": "2b38633d8af74b0fa5e5695532180f53",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Onion Seed.asset",
+      "seedGuid": "de4421dad343484087fa42cd2e6a34e4",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Onion.asset",
+      "produceGuid": "f8de966474f241bc8a399779f0e52ca0",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Onion Mutation.asset",
+      "mutationGuid": "fb494a4066bf45cd820dc4216b20dcfa",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G06/NP_Onion_Seed.prefab",
+          "guid": "0a21028763f14675b926e641fde638dd",
+          "scale": 1.01023,
+          "offset": [
+            -0.000473,
+            0.001107,
+            -0.016981
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G06/NP_Onion_Sprout.prefab",
+          "guid": "be922ed3daa747a79f1428dc62b7acf2",
+          "scale": 1.01023,
+          "offset": [
+            -0.020888,
+            0,
+            -0.007545
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G06/NP_Onion_Young.prefab",
+          "guid": "6f2be94310904597a23e5021b18cdc14",
+          "scale": 1.01023,
+          "offset": [
+            5.9e-05,
+            0,
+            0.002983
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bulb Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G06/NP_Onion_BulbForming.prefab",
+          "guid": "c3e59e4616f643ee82432b99bcabaa35",
+          "scale": 1.01023,
+          "offset": [
+            -0.037139,
+            0,
+            0.00468
+          ],
+          "soilBurialDepth": 0.1458
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G06/NP_Onion_Ready.prefab",
+          "guid": "a9049d2274f64a02bd97b1686a2c5968",
+          "scale": 1.01023,
+          "offset": [
+            -0.040031,
+            0,
+            -0.00952
+          ],
+          "soilBurialDepth": 0.27
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G06/NP_Onion_Harvest.prefab",
+      "harvestGuid": "a3e47c70b8bc4aab87e17008613a592f",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G07",
+      "species": "Spinach",
+      "key": "spinach",
+      "label": "Bayam",
+      "cropId": "crop.spinach",
+      "seedId": "item.spinach_seed",
+      "produceId": "item.spinach",
+      "mutationId": "item.spinach_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Spinach Crop.asset",
+      "profileGuid": "086dc380a5f1481b88693599584f52e8",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Spinach Seed.asset",
+      "seedGuid": "8db5a129aa9f4dcebdf77c7917654991",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Spinach.asset",
+      "produceGuid": "df4f748f790640379a406beac7e26209",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Spinach Mutation.asset",
+      "mutationGuid": "afe9489e93114a359b14f9289792d9c2",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G07/NP_Spinach_Seed.prefab",
+          "guid": "2762bc7c763840499841c71db1fd0202",
+          "scale": 1.207941,
+          "offset": [
+            0.003395,
+            0,
+            -0.017682
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G07/NP_Spinach_Sprout.prefab",
+          "guid": "baea2f87d3124423be7ed092dc95c87a",
+          "scale": 1.207941,
+          "offset": [
+            0.004503,
+            0,
+            0.003347
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G07/NP_Spinach_Young.prefab",
+          "guid": "eba2b70764dd4acd96cddc90d0ce9fa8",
+          "scale": 1.207941,
+          "offset": [
+            0.002118,
+            3.7e-05,
+            0.018859
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Leaf Growth",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G07/NP_Spinach_LeafGrowth.prefab",
+          "guid": "309b6e05efd94eac8863e1505a622edf",
+          "scale": 1.207941,
+          "offset": [
+            -0.022033,
+            0,
+            -0.014501
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G07/NP_Spinach_Ready.prefab",
+          "guid": "3f329a9af8a349c997e4a57ce2e53df9",
+          "scale": 1.207941,
+          "offset": [
+            -0.002839,
+            4.7e-05,
+            0.011792
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G07/NP_Spinach_Harvest.prefab",
+      "harvestGuid": "ba3664f4dc82494c958352c68c24f744",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G07",
+      "species": "WaterSpinach",
+      "key": "water_spinach",
+      "label": "Kangkung",
+      "cropId": "crop.water_spinach",
+      "seedId": "item.water_spinach_seed",
+      "produceId": "item.water_spinach",
+      "mutationId": "item.water_spinach_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/WaterSpinach Crop.asset",
+      "profileGuid": "4194eeba5d9d4babb3e3f4e8ddcac99c",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/WaterSpinach Seed.asset",
+      "seedGuid": "c6c51727e0bd4d00a707b9fe1fb11210",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/WaterSpinach.asset",
+      "produceGuid": "487c8fa4a28d44ba885298f1dfd087a0",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/WaterSpinach Mutation.asset",
+      "mutationGuid": "b41e164053a44318ba13d62bfb9a3108",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G07/NP_WaterSpinach_Seed.prefab",
+          "guid": "df64be8bcfbd4419bce8c33a60bd2579",
+          "scale": 1.004221,
+          "offset": [
+            0.004893,
+            0,
+            -0.004639
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G07/NP_WaterSpinach_Sprout.prefab",
+          "guid": "22842ab427184e0d8300830a113ef797",
+          "scale": 1.004221,
+          "offset": [
+            0.007737,
+            0,
+            -0.002749
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G07/NP_WaterSpinach_Young.prefab",
+          "guid": "a2fb88865a2f43058567ca28e47f4ab2",
+          "scale": 1.004221,
+          "offset": [
+            -0.016105,
+            0,
+            -0.034095
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Leaf Growth",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G07/NP_WaterSpinach_LeafGrowth.prefab",
+          "guid": "c75264d3c13d4f2eb203cf3e99d9e5ba",
+          "scale": 1.004221,
+          "offset": [
+            0.014491,
+            0,
+            0.000534
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G07/NP_WaterSpinach_Ready.prefab",
+          "guid": "29f8d74d506a4123961055c32dd25397",
+          "scale": 1.004221,
+          "offset": [
+            0.009197,
+            3.2e-05,
+            0.019182
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G07/NP_WaterSpinach_Harvest.prefab",
+      "harvestGuid": "fc241392ea4246028490d1fe6b117e22",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G08",
+      "species": "Rice",
+      "key": "rice",
+      "label": "Padi",
+      "cropId": "crop.rice",
+      "seedId": "item.rice_seed",
+      "produceId": "item.rice",
+      "mutationId": "item.rice_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Rice Crop.asset",
+      "profileGuid": "773aaf06868b48b6b724bb341d7bb7b4",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Rice Seed.asset",
+      "seedGuid": "e0384c6ffb4e4a9eabaef6235bafa0c3",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Rice.asset",
+      "produceGuid": "560d299aad6f4d659a883e60617f2693",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Rice Mutation.asset",
+      "mutationGuid": "ed4e6e4a40d941789f681a386d2e6729",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G08/NP_Rice_Seed.prefab",
+          "guid": "7f34300afbe84dc9809e73bb5d27ea03",
+          "scale": 0.864215,
+          "offset": [
+            -0.005522,
+            0.001838,
+            0.020264
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G08/NP_Rice_Sprout.prefab",
+          "guid": "a09ac7331eee4293be8b220b0689c98c",
+          "scale": 0.864215,
+          "offset": [
+            -0.024335,
+            0.002853,
+            -0.013891
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G08/NP_Rice_Young.prefab",
+          "guid": "7aa59d838ced4338bc10bfbed20d10b9",
+          "scale": 0.864215,
+          "offset": [
+            0.006865,
+            0,
+            0.001119
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Heading",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G08/NP_Rice_Heading.prefab",
+          "guid": "71c5dadf75134660ababf786be8aeeb3",
+          "scale": 0.864215,
+          "offset": [
+            0.003115,
+            0,
+            -0.003382
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G08/NP_Rice_Ready.prefab",
+          "guid": "747753bc0d3d496cb0055bf59df847b2",
+          "scale": 0.864215,
+          "offset": [
+            0.004306,
+            0,
+            -0.003519
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G08/NP_Rice_Harvest.prefab",
+      "harvestGuid": "3f889f97a850466f9b59618520311ef0",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G08",
+      "species": "Wheat",
+      "key": "wheat",
+      "label": "Gandum",
+      "cropId": "crop.wheat",
+      "seedId": "item.wheat_seed",
+      "produceId": "item.wheat",
+      "mutationId": "item.wheat_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Wheat Crop.asset",
+      "profileGuid": "e73d764dfdcf438094e119bda387f9f6",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Wheat Seed.asset",
+      "seedGuid": "13f7630b500e459c813a6908061be451",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Materials/Wheat.asset",
+      "produceGuid": "d1060000000040008000000000000012",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Wheat Mutation.asset",
+      "mutationGuid": "158c531d41324c678eee76d5f6e4cdc9",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G08/NP_Wheat_Seed.prefab",
+          "guid": "467b992b90b34925aeb5c989a8669a9c",
+          "scale": 1.030151,
+          "offset": [
+            -0.001923,
+            0.006257,
+            0.003806
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G08/NP_Wheat_Sprout.prefab",
+          "guid": "d4724c4c2cd2474b85c22fc382f54325",
+          "scale": 1.030151,
+          "offset": [
+            -0.02433,
+            0.007349,
+            -0.013885
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G08/NP_Wheat_Young.prefab",
+          "guid": "2954cc2a3e294c6ab2d19d47cbe8545a",
+          "scale": 1.030151,
+          "offset": [
+            -0.02321,
+            0,
+            0.045813
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Heading",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G08/NP_Wheat_Heading.prefab",
+          "guid": "49fd99cf8f664a5ebeebddb1284fb88a",
+          "scale": 1.030151,
+          "offset": [
+            -0.020138,
+            0,
+            0.069277
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G08/NP_Wheat_Ready.prefab",
+          "guid": "dc87e188f11c4babad7c1dbac33ea71c",
+          "scale": 1.030151,
+          "offset": [
+            -0.038511,
+            0,
+            -0.01504
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G08/NP_Wheat_Harvest.prefab",
+      "harvestGuid": "062b715c7a384e5ea5a412162a49b8d9",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Wheat ingredient ID/GUID, sale price 4 G and stack 99 retained; seed/growth follow integration defaults"
+    },
+    {
+      "group": "G09",
+      "species": "Rose",
+      "key": "rose",
+      "label": "Mawar",
+      "cropId": "crop.rose",
+      "seedId": "item.rose_seed",
+      "produceId": "item.rose",
+      "mutationId": "item.rose_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Rose Crop.asset",
+      "profileGuid": "ca23653663214ae387b575ec2b881586",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Rose Seed.asset",
+      "seedGuid": "5b2f337ef509448888a44df0d0ff4d1b",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Rose.asset",
+      "produceGuid": "7ab4c5e8a2cf49c7a9fcfdc45dabfee1",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Rose Mutation.asset",
+      "mutationGuid": "d12e3b07cfb04300a12c4495ab86e312",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Rose_Seed.prefab",
+          "guid": "f7ab6e6cf4614dee82f864d8b6d4223a",
+          "scale": 1.161123,
+          "offset": [
+            -0.001455,
+            0,
+            0.003415
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Rose_Sprout.prefab",
+          "guid": "065f97244e9e4b7bbcd857aa5fc0aef8",
+          "scale": 1.161123,
+          "offset": [
+            -4e-05,
+            0,
+            -0.00028
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Rose_Young.prefab",
+          "guid": "c205238dfd6442658bf04af756abfd1b",
+          "scale": 1.161123,
+          "offset": [
+            0.007821,
+            0,
+            -0.009643
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bud Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Rose_BudForming.prefab",
+          "guid": "4a3c04d114464a289f92a157af3c7971",
+          "scale": 1.161123,
+          "offset": [
+            -0.007442,
+            0,
+            -0.056616
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Rose_Ready.prefab",
+          "guid": "54b2685c186e4f34b9f7fa0c89d9d197",
+          "scale": 1.161123,
+          "offset": [
+            -0.012313,
+            0,
+            -0.032444
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Rose_Harvest.prefab",
+      "harvestGuid": "96df8da3aa6e436faafb7573a486c0bc",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G09",
+      "species": "Hibiscus",
+      "key": "hibiscus",
+      "label": "Kembang Sepatu",
+      "cropId": "crop.hibiscus",
+      "seedId": "item.hibiscus_seed",
+      "produceId": "item.hibiscus",
+      "mutationId": "item.hibiscus_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Hibiscus Crop.asset",
+      "profileGuid": "0b6ccd6e31ac4e5085c43a8d6f99c5f0",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Hibiscus Seed.asset",
+      "seedGuid": "d5cc7c2194ee4a87b892b56367e183a3",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Hibiscus.asset",
+      "produceGuid": "8cb7a58643254a9fb2116d3401ce6c7a",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Hibiscus Mutation.asset",
+      "mutationGuid": "54e48dbf3fdb4fa486cc2a2200bd7d43",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Hibiscus_Seed.prefab",
+          "guid": "1f0951a1a0e047e7ac29a26acfb11227",
+          "scale": 1.07169,
+          "offset": [
+            3e-06,
+            0,
+            0.000317
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Hibiscus_Sprout.prefab",
+          "guid": "0fb8daf2cbe84c649d54da333664d5bc",
+          "scale": 1.07169,
+          "offset": [
+            -0.000313,
+            0,
+            -0.000246
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Hibiscus_Young.prefab",
+          "guid": "6c10bc430b3b45c5a23a5f20f622fc62",
+          "scale": 1.07169,
+          "offset": [
+            0.014713,
+            0,
+            -0.010308
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bud Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Hibiscus_BudForming.prefab",
+          "guid": "1afcabb5532e480e9084de56ab0257d7",
+          "scale": 1.07169,
+          "offset": [
+            -0.003026,
+            0,
+            -0.036036
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Hibiscus_Ready.prefab",
+          "guid": "693ce01c6b624a96a7787ddc3ff3fa9c",
+          "scale": 1.07169,
+          "offset": [
+            0.001609,
+            0,
+            0.016302
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Hibiscus_Harvest.prefab",
+      "harvestGuid": "c0294834b7ca420db6908a60bfe64375",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G09",
+      "species": "Jasmine",
+      "key": "jasmine",
+      "label": "Melati",
+      "cropId": "crop.jasmine",
+      "seedId": "item.jasmine_seed",
+      "produceId": "item.jasmine",
+      "mutationId": "item.jasmine_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Jasmine Crop.asset",
+      "profileGuid": "705feef3ffdd4295a23b4cbb9fb7b9de",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Jasmine Seed.asset",
+      "seedGuid": "a8f655e6d5804d028b10c8d3b4e91ca5",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Jasmine.asset",
+      "produceGuid": "c81f787835f1440a8ed2b6b6e8fd0428",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Jasmine Mutation.asset",
+      "mutationGuid": "1287c5c99510425992aaac81eb6b7e99",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Jasmine_Seed.prefab",
+          "guid": "04d2f4c6db6040fd98590e8a810a18a3",
+          "scale": 1.379486,
+          "offset": [
+            0.000462,
+            0,
+            0.000301
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Jasmine_Sprout.prefab",
+          "guid": "5714f9710220447ea370c1b97f197d65",
+          "scale": 1.379486,
+          "offset": [
+            -4e-05,
+            0,
+            -0.00028
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Jasmine_Young.prefab",
+          "guid": "06ec7325088e44708da779f8062e34d9",
+          "scale": 1.379486,
+          "offset": [
+            0.002672,
+            0,
+            -0.008826
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bud Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Jasmine_BudForming.prefab",
+          "guid": "75ce57b1436642d9bab37de8676584c1",
+          "scale": 1.379486,
+          "offset": [
+            0.020663,
+            0,
+            -0.000506
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Jasmine_Ready.prefab",
+          "guid": "40412730850d46a4b9ac2ce160f03022",
+          "scale": 1.379486,
+          "offset": [
+            -0.010497,
+            0,
+            0.020741
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G09/NP_Jasmine_Harvest.prefab",
+      "harvestGuid": "517fb923402549eb997b26bba6582e05",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G10",
+      "species": "Sunflower",
+      "key": "sunflower",
+      "label": "Bunga Matahari",
+      "cropId": "crop.sunflower",
+      "seedId": "item.sunflower_seed",
+      "produceId": "item.sunflower",
+      "mutationId": "item.sunflower_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Sunflower Crop.asset",
+      "profileGuid": "41f423dd724d4f1eb19fa69ea02f4f7e",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Sunflower Seed.asset",
+      "seedGuid": "311676d3d545436297b6ca39ea8f06bb",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Sunflower.asset",
+      "produceGuid": "113bbdc66bdf4951a7c7f41f5793ffdc",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Sunflower Mutation.asset",
+      "mutationGuid": "483f717a97ac49289f2a039eec138edf",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Sunflower_Seed.prefab",
+          "guid": "fbcdaa2620ee4873ab4782d0ed7b5104",
+          "scale": 1.38437,
+          "offset": [
+            0.001127,
+            0,
+            -0.020509
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Sunflower_Sprout.prefab",
+          "guid": "303b47a13aa5411bb21054e7f73093ed",
+          "scale": 1.38437,
+          "offset": [
+            -0.000172,
+            0,
+            0.002991
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Sunflower_Young.prefab",
+          "guid": "5aff1357c5214ec2aaca4504f294608d",
+          "scale": 1.38437,
+          "offset": [
+            0.008084,
+            0,
+            -0.00572
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bud Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Sunflower_BudForming.prefab",
+          "guid": "6232d842918449b3b71986e15c218bc1",
+          "scale": 1.38437,
+          "offset": [
+            0.022816,
+            0,
+            -0.001527
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Sunflower_Ready.prefab",
+          "guid": "e69a408cd0c64efd97c0e9043503288f",
+          "scale": 1.38437,
+          "offset": [
+            0.054838,
+            0,
+            -0.001507
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Sunflower_Harvest.prefab",
+      "harvestGuid": "78a55354cc214e7eafcdd64efbda4870",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G10",
+      "species": "Chrysanthemum",
+      "key": "chrysanthemum",
+      "label": "Krisan",
+      "cropId": "crop.chrysanthemum",
+      "seedId": "item.chrysanthemum_seed",
+      "produceId": "item.chrysanthemum",
+      "mutationId": "item.chrysanthemum_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Chrysanthemum Crop.asset",
+      "profileGuid": "282a72538ac841d980e75c89ed016107",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Chrysanthemum Seed.asset",
+      "seedGuid": "ce7dbd0deeae4744ad8ba0a21d5df002",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Chrysanthemum.asset",
+      "produceGuid": "798cbef2e5b345ac8b6c80d57f2cd504",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Chrysanthemum Mutation.asset",
+      "mutationGuid": "6bb17111df90430c946b9557785a6443",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Chrysanthemum_Seed.prefab",
+          "guid": "e8bb741bcc1a42f8897c3976841a0f14",
+          "scale": 1.23789,
+          "offset": [
+            0.004084,
+            0,
+            -0.020434
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Chrysanthemum_Sprout.prefab",
+          "guid": "33a3a5fa54a94ec288dbb6d519152edd",
+          "scale": 1.23789,
+          "offset": [
+            -0.000172,
+            0,
+            0.002991
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Chrysanthemum_Young.prefab",
+          "guid": "1c7274d60b5542a7983cdbc9b249dd0c",
+          "scale": 1.23789,
+          "offset": [
+            0.000744,
+            0,
+            -0.006101
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bud Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Chrysanthemum_BudForming.prefab",
+          "guid": "09ff9110bc3e462ea7e491ebe255d381",
+          "scale": 1.23789,
+          "offset": [
+            -0.001875,
+            0,
+            -0.009889
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Chrysanthemum_Ready.prefab",
+          "guid": "fee775d2cf49418db583aa0801d12db9",
+          "scale": 1.23789,
+          "offset": [
+            -0.000756,
+            0,
+            0.001566
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Chrysanthemum_Harvest.prefab",
+      "harvestGuid": "e1f84668e5a14c18ad9e1c00bd91b087",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G10",
+      "species": "Dahlia",
+      "key": "dahlia",
+      "label": "Dahlia",
+      "cropId": "crop.dahlia",
+      "seedId": "item.dahlia_seed",
+      "produceId": "item.dahlia",
+      "mutationId": "item.dahlia_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Dahlia Crop.asset",
+      "profileGuid": "9596e832c4a346b0922a8597421fa4ec",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Dahlia Seed.asset",
+      "seedGuid": "03739ff06c2547f08e57ef118875a3f1",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Dahlia.asset",
+      "produceGuid": "fb5f9bdceca74c71933e979d9c167c55",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Dahlia Mutation.asset",
+      "mutationGuid": "91b7de6af2054983966b9179fe045bf1",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Dahlia_Seed.prefab",
+          "guid": "d2a76d24c86e42f185ed4762968e78da",
+          "scale": 1.16593,
+          "offset": [
+            0.002441,
+            0,
+            -0.020608
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Dahlia_Sprout.prefab",
+          "guid": "c41a3848d14c46b8852e5af9efa97d8c",
+          "scale": 1.16593,
+          "offset": [
+            -0.000172,
+            0,
+            0.002991
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Dahlia_Young.prefab",
+          "guid": "d238aed515314e7a81a0193a3985bcc1",
+          "scale": 1.16593,
+          "offset": [
+            0.00074,
+            0,
+            -0.006127
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bud Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Dahlia_BudForming.prefab",
+          "guid": "ef5d3d1d0a934eaba87efb3cf0cfc807",
+          "scale": 1.16593,
+          "offset": [
+            -0.002033,
+            0,
+            -0.009604
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Dahlia_Ready.prefab",
+          "guid": "4811dfaf9b5c49a4b3dcb324a3359b28",
+          "scale": 1.16593,
+          "offset": [
+            -0.000159,
+            0,
+            0.002457
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Dahlia_Harvest.prefab",
+      "harvestGuid": "c0dc50bf7d0d4381a5440c9b897e5863",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G10",
+      "species": "Marigold",
+      "key": "marigold",
+      "label": "Marigold",
+      "cropId": "crop.marigold",
+      "seedId": "item.marigold_seed",
+      "produceId": "item.marigold",
+      "mutationId": "item.marigold_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Marigold Crop.asset",
+      "profileGuid": "516f313f2dbe42129d8e5bfa4c8870c9",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Marigold Seed.asset",
+      "seedGuid": "fb8a4a1335eb415ab75ecbcc3523778e",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Marigold.asset",
+      "produceGuid": "7323b9050d6142a5a8ec54cfe8d4fdd8",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Marigold Mutation.asset",
+      "mutationGuid": "2d0185e98efe4b1ea32ef16269d264ec",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Marigold_Seed.prefab",
+          "guid": "1e443365b3724b1ca79ee1f35304b2ee",
+          "scale": 1.308652,
+          "offset": [
+            0.001006,
+            0,
+            -0.01623
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Marigold_Sprout.prefab",
+          "guid": "69d7aaac93aa4f5d9f498abcd1d75908",
+          "scale": 1.308652,
+          "offset": [
+            -0.000187,
+            0,
+            0.003071
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Marigold_Young.prefab",
+          "guid": "2fad2b3448864a55b47935cad8f2f257",
+          "scale": 1.308652,
+          "offset": [
+            0.000873,
+            0,
+            -0.005228
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bud Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Marigold_BudForming.prefab",
+          "guid": "ecf5068f3fae4aa7af42bc054a8a7a95",
+          "scale": 1.308652,
+          "offset": [
+            0.013583,
+            0,
+            -0.008191
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Marigold_Ready.prefab",
+          "guid": "3622baaa68844482aadcdc5a55444ac5",
+          "scale": 1.308652,
+          "offset": [
+            0.008323,
+            0,
+            0.007953
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G10/NP_Marigold_Harvest.prefab",
+      "harvestGuid": "bffaa845a0e540019538d447707dc632",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G11",
+      "species": "Tulip",
+      "key": "tulip",
+      "label": "Tulip",
+      "cropId": "crop.tulip",
+      "seedId": "item.tulip_seed",
+      "produceId": "item.tulip",
+      "mutationId": "item.tulip_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Tulip Crop.asset",
+      "profileGuid": "67126912019542ac97cfe35763e97f54",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Tulip Seed.asset",
+      "seedGuid": "75a333dcb2af40f5a3ce0accc889c449",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Tulip.asset",
+      "produceGuid": "369bd89e9f2641b780067eb630fd923a",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Tulip Mutation.asset",
+      "mutationGuid": "b3dc511accf54cf5b81caeb3f7762781",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Bulb",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G11/NP_Tulip_Bulb.prefab",
+          "guid": "d9e7424fcc6c41e1827d0e57eee3379b",
+          "scale": 1.39456,
+          "offset": [
+            -0.001238,
+            0,
+            0.000124
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G11/NP_Tulip_Sprout.prefab",
+          "guid": "446ba6f04ff940f7898c1ee3221c505c",
+          "scale": 1.39456,
+          "offset": [
+            -0.001238,
+            0,
+            0.000124
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G11/NP_Tulip_Young.prefab",
+          "guid": "c9bb0480fca94266a26d756a978b107d",
+          "scale": 1.39456,
+          "offset": [
+            0.000498,
+            0,
+            0.02689
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bud Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G11/NP_Tulip_BudForming.prefab",
+          "guid": "79da9d65fd3544bba6d39594e8f261bc",
+          "scale": 1.39456,
+          "offset": [
+            -0.014825,
+            0,
+            -0.000978
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G11/NP_Tulip_Ready.prefab",
+          "guid": "27b17b90327d4e6faf672d52e639fbf9",
+          "scale": 1.39456,
+          "offset": [
+            -0.014825,
+            0,
+            0.010555
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G11/NP_Tulip_Harvest.prefab",
+      "harvestGuid": "918d3b0ccfa046a1815a57a7d6ff0059",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G12",
+      "species": "Orchid",
+      "key": "orchid",
+      "label": "Anggrek",
+      "cropId": "crop.orchid",
+      "seedId": "item.orchid_seed",
+      "produceId": "item.orchid",
+      "mutationId": "item.orchid_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Orchid Crop.asset",
+      "profileGuid": "f97aed920fab4cb5866cfdf67d59479b",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Orchid Seed.asset",
+      "seedGuid": "5ca9d86e0fe3485296709efa5c4172c6",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Orchid.asset",
+      "produceGuid": "39ecadcf60384cb0b38425dee645b219",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Orchid Mutation.asset",
+      "mutationGuid": "6dc4b158d75e42cdba63e6f4f395f5cf",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G12/NP_Orchid_Seed.prefab",
+          "guid": "9e98ed4d361a42779dde0ae60240a688",
+          "scale": 0.648537,
+          "offset": [
+            0.000237,
+            0,
+            0.001055
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G12/NP_Orchid_Sprout.prefab",
+          "guid": "61a023a9a4fa49b1b79f22c1b745deca",
+          "scale": 0.648537,
+          "offset": [
+            -9.9e-05,
+            0,
+            -0.00373
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G12/NP_Orchid_Young.prefab",
+          "guid": "14b2b89426cc4e9bbc61e0d8745f350c",
+          "scale": 0.648537,
+          "offset": [
+            0.001848,
+            0.0,
+            0.00227
+          ],
+          "rotation": [
+            0,
+            180,
+            0
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bud Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G12/NP_Orchid_BudForming.prefab",
+          "guid": "e376bc172f8a4f7f990b6e079c39a42d",
+          "scale": 0.648537,
+          "offset": [
+            0.066143,
+            0.0,
+            0.002975
+          ],
+          "rotation": [
+            0,
+            180,
+            0
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G12/NP_Orchid_Ready.prefab",
+          "guid": "95743c1032114cbd9a2f0229df586919",
+          "scale": 0.648537,
+          "offset": [
+            0.245792,
+            0.0,
+            0.0032
+          ],
+          "rotation": [
+            0,
+            180,
+            0
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G12/NP_Orchid_Harvest.prefab",
+      "harvestGuid": "b5b140c24b95484f9b7b613d2d13606b",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G13",
+      "species": "Lavender",
+      "key": "lavender",
+      "label": "Lavender",
+      "cropId": "crop.lavender",
+      "seedId": "item.lavender_seed",
+      "produceId": "item.lavender",
+      "mutationId": "item.lavender_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Lavender Crop.asset",
+      "profileGuid": "340a88175bc747e09598a3ace9a582ef",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Lavender Seed.asset",
+      "seedGuid": "17e61e377eae4589983dd6287a3a21f7",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Lavender.asset",
+      "produceGuid": "96f725acc7e94f52916eb776f583fe34",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Lavender Mutation.asset",
+      "mutationGuid": "ccb024cf31474de9a095ff0e95bda41e",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G13/NP_Lavender_Seed.prefab",
+          "guid": "aca90ce420254abdb51f7c155bb21d28",
+          "scale": 0.839761,
+          "offset": [
+            0.002134,
+            0,
+            0.002269
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G13/NP_Lavender_Sprout.prefab",
+          "guid": "ecd4108bc6a7468a95b84cb191ea9b7d",
+          "scale": 0.839761,
+          "offset": [
+            0.010594,
+            0,
+            -0.007181
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G13/NP_Lavender_Young.prefab",
+          "guid": "94676392d6534d248433af12a6762a53",
+          "scale": 0.839761,
+          "offset": [
+            0.000208,
+            0,
+            -0.000856
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bud Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G13/NP_Lavender_BudForming.prefab",
+          "guid": "0ad1f2c47fff4e2883ed1e7cf3a28ac1",
+          "scale": 0.839761,
+          "offset": [
+            0.05025,
+            0,
+            0.005671
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G13/NP_Lavender_Ready.prefab",
+          "guid": "23373f73c912451a9a73ffc28d2df8ff",
+          "scale": 0.839761,
+          "offset": [
+            -0.048991,
+            0,
+            -0.007647
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G13/NP_Lavender_Harvest.prefab",
+      "harvestGuid": "fa39973f872d4b87a68de5daf97165d6",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G01",
+      "species": "Blueberry",
+      "key": "blueberry",
+      "label": "Blueberry",
+      "cropId": "crop.blueberry",
+      "seedId": "item.blueberry_seed",
+      "produceId": "item.blueberry",
+      "mutationId": "item.blueberry_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Blueberry Crop.asset",
+      "profileGuid": "57034ead702d4002b7445595d19b98d2",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Blueberry Seed.asset",
+      "seedGuid": "68119fc06fa747738cedc9246f571c1f",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Blueberry.asset",
+      "produceGuid": "2c9d10f75f1c42edbd29404256c64cfa",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Blueberry Mutation.asset",
+      "mutationGuid": "7acefa4908924197a18f0c4b9ab66aa7",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blueberry_Seed.prefab",
+          "guid": "bc2fc3781843482faddc0905482a2adc",
+          "scale": 1.165882,
+          "offset": [
+            -0.007173,
+            0,
+            -0.001144
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blueberry_Sprout.prefab",
+          "guid": "68363209704740c0b2e158f3f500c722",
+          "scale": 1.165882,
+          "offset": [
+            0.002083,
+            0,
+            -0.016761
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blueberry_Young.prefab",
+          "guid": "6a46f2fe40374622b2c2741ed8313380",
+          "scale": 1.165882,
+          "offset": [
+            -0.009417,
+            0,
+            -0.015385
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Flowering",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blueberry_Flowering.prefab",
+          "guid": "b819cf54b7814b908e6b0b97a3aac937",
+          "scale": 1.165882,
+          "offset": [
+            -0.00432,
+            0,
+            0.035132
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blueberry_Ready.prefab",
+          "guid": "a3443d368dd34ecfb5b68e3754e29b0d",
+          "scale": 1.165882,
+          "offset": [
+            -0.011411,
+            0,
+            0.036867
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blueberry_Harvest.prefab",
+      "harvestGuid": "6b2fe7a1469140cd81f3f8bdd0f88bf4",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G01",
+      "species": "Blackberry",
+      "key": "blackberry",
+      "label": "Blackberry",
+      "cropId": "crop.blackberry",
+      "seedId": "item.blackberry_seed",
+      "produceId": "item.blackberry",
+      "mutationId": "item.blackberry_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Blackberry Crop.asset",
+      "profileGuid": "b7580a6c7c2e489fb32562563494b049",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Blackberry Seed.asset",
+      "seedGuid": "c1607a7c493f409e906f9d4b8b8333ef",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Blackberry.asset",
+      "produceGuid": "1ebbad8bb90045929f0f4276d8e637ff",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Blackberry Mutation.asset",
+      "mutationGuid": "b711374b40a247aeba4d25556dca8506",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Seed.prefab",
+          "guid": "638e823befa144698cf13db9744d9668",
+          "scale": 1.049307,
+          "offset": [
+            -0.007173,
+            0,
+            -0.001144
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Sprout.prefab",
+          "guid": "3003edd3bdc14d4093edf1d292890396",
+          "scale": 1.049307,
+          "offset": [
+            0.002083,
+            0,
+            0.01868
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Young.prefab",
+          "guid": "e6bdbd753e494d0bbdacc11b32672850",
+          "scale": 1.049307,
+          "offset": [
+            -0.009068,
+            0,
+            0.012555
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Flowering",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Flowering.prefab",
+          "guid": "ae59b7bd27224bd9a1af70675666b54b",
+          "scale": 1.049307,
+          "offset": [
+            0.009401,
+            0,
+            0.018969
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Ready.prefab",
+          "guid": "a8fd2d9d835f4494a3f3dbf6f1bdcfac",
+          "scale": 1.049307,
+          "offset": [
+            0.012305,
+            0,
+            0.013531
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Blackberry_Harvest.prefab",
+      "harvestGuid": "5720e0a888a541308a2bc6e6f9fb947d",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G01",
+      "species": "Raspberry",
+      "key": "raspberry",
+      "label": "Raspberry",
+      "cropId": "crop.raspberry",
+      "seedId": "item.raspberry_seed",
+      "produceId": "item.raspberry",
+      "mutationId": "item.raspberry_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Raspberry Crop.asset",
+      "profileGuid": "bb7e54ba9ba948e5a8be0c0134270ea9",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Raspberry Seed.asset",
+      "seedGuid": "05ecf5251a5e49da8ee964060bc08df8",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Raspberry.asset",
+      "produceGuid": "8b1cabd521654814a159178b1a66330c",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Raspberry Mutation.asset",
+      "mutationGuid": "056784f79e41454a86b13cb3491f32d3",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Seed.prefab",
+          "guid": "a9013fd611244d36a9c7fdec4d0627d7",
+          "scale": 1.05704,
+          "offset": [
+            -0.007173,
+            0,
+            -0.001144
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Sprout.prefab",
+          "guid": "e81c5e059d6f4616bcf5cc1b95fd886e",
+          "scale": 1.05704,
+          "offset": [
+            0.002186,
+            0,
+            0.018727
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Young.prefab",
+          "guid": "9b11336c60594527bbf8318ff604f16c",
+          "scale": 1.05704,
+          "offset": [
+            -0.00752,
+            0,
+            0.004401
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Flowering",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Flowering.prefab",
+          "guid": "54f1825077b6433f9820861027ba9c7b",
+          "scale": 1.05704,
+          "offset": [
+            0.006873,
+            0,
+            0.011457
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Ready.prefab",
+          "guid": "57c8087d09fa47aa938ef9cf8b9f8fa2",
+          "scale": 1.05704,
+          "offset": [
+            0.008966,
+            0,
+            0.011954
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G01/NP_Raspberry_Harvest.prefab",
+      "harvestGuid": "8cc90c72c94c4f78a54048549ab33ceb",
+      "footprintInCells": 0.85,
+      "initialBalance": "Existing Cabbage integration defaults; flowers are nonfood"
+    },
+    {
+      "group": "G14",
+      "species": "Daisy",
+      "key": "daisy",
+      "label": "Daisy",
+      "cropId": "crop.daisy",
+      "seedId": "item.daisy_seed",
+      "produceId": "item.daisy",
+      "mutationId": "item.daisy_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Daisy Crop.asset",
+      "profileGuid": "c02160da859542ecbfcc4caa1ed621dc",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Daisy Seed.asset",
+      "seedGuid": "03264907485546518016d0eee6bb8909",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Daisy.asset",
+      "produceGuid": "3ecd6930c9e24e8e9cdd88a0650d4911",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Daisy Mutation.asset",
+      "mutationGuid": "921416d9c0dd4cf6ac379ac79f4afec3",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G14/NP_Daisy_Seed.prefab",
+          "guid": "ceccfd6ca9174305977aada7b3b00b99",
+          "scale": 1.035439,
+          "offset": [
+            -0.01511,
+            0,
+            -0.000326
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G14/NP_Daisy_Sprout.prefab",
+          "guid": "a3046c765b364059b3dcabc58f6f77f0",
+          "scale": 1.035439,
+          "offset": [
+            -0.0,
+            0,
+            0.003946
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G14/NP_Daisy_Young.prefab",
+          "guid": "71ef7f59d6ea490ba67e558013a97eeb",
+          "scale": 1.035439,
+          "offset": [
+            -0.007998,
+            0.0,
+            0.010865
+          ],
+          "rotation": [
+            0,
+            180,
+            0
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bud Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G14/NP_Daisy_BudForming.prefab",
+          "guid": "523b81f2214647ce864a5649574616ea",
+          "scale": 1.035439,
+          "offset": [
+            -0.022792,
+            0.0,
+            0.014807
+          ],
+          "rotation": [
+            0,
+            180,
+            0
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G14/NP_Daisy_Ready.prefab",
+          "guid": "7f39bb8a343d40bd95f37a078b29000f",
+          "scale": 1.035439,
+          "offset": [
+            -0.02136,
+            0.0,
+            0.014807
+          ],
+          "rotation": [
+            0,
+            180,
+            0
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G14/NP_Daisy_Harvest.prefab",
+      "harvestGuid": "cd62d58735ea4d969e268895597d22a3",
+      "footprintInCells": 0.85,
+      "initialBalance": "Lavender defaults: all seasons, five growth days, 5 G seed, 12 G harvest, nonfood"
+    },
+    {
+      "group": "G14",
+      "species": "Moonflower",
+      "key": "moonflower",
+      "label": "Moonflower",
+      "cropId": "crop.moonflower",
+      "seedId": "item.moonflower_seed",
+      "produceId": "item.moonflower",
+      "mutationId": "item.moonflower_mutation",
+      "profile": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Moonflower Crop.asset",
+      "profileGuid": "8a03518c812c48cbb37e882559964621",
+      "seed": "Assets/Nature  Paradaise/Resources/Items/Farming/Seeds/Moonflower Seed.asset",
+      "seedGuid": "1085eb9ae3ed45f7b46b1611cc41cf4b",
+      "produce": "Assets/Nature  Paradaise/Resources/Items/Crops/Moonflower.asset",
+      "produceGuid": "a58e39e1241d4ffdaac7b90076669fe7",
+      "mutation": "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Moonflower Mutation.asset",
+      "mutationGuid": "fb3db5beb559430ba674c95de19846dd",
+      "stages": [
+        {
+          "index": 0,
+          "name": "Seed",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G14/NP_Moonflower_Seed.prefab",
+          "guid": "a5f794760ac949e8beeced96c6a903af",
+          "scale": 0.817173,
+          "offset": [
+            0.00686,
+            0,
+            -0.010571
+          ]
+        },
+        {
+          "index": 1,
+          "name": "Sprout",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G14/NP_Moonflower_Sprout.prefab",
+          "guid": "6be0fe457b1f490d89330c2bfb207e71",
+          "scale": 0.817173,
+          "offset": [
+            -0.0,
+            0,
+            0.003114
+          ]
+        },
+        {
+          "index": 2,
+          "name": "Young Plant",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G14/NP_Moonflower_Young.prefab",
+          "guid": "b0a4fbe63af34a7ea2fe0381deb3b854",
+          "scale": 0.817173,
+          "offset": [
+            -0.000328,
+            0.0,
+            -0.009404
+          ],
+          "rotation": [
+            0,
+            180,
+            0
+          ]
+        },
+        {
+          "index": 3,
+          "name": "Bud Forming",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G14/NP_Moonflower_BudForming.prefab",
+          "guid": "91b6102e513844c6bcaae71b49dfb0ac",
+          "scale": 0.817173,
+          "offset": [
+            -0.023808,
+            0.0,
+            0.028791
+          ],
+          "rotation": [
+            0,
+            180,
+            0
+          ]
+        },
+        {
+          "index": 4,
+          "name": "Harvest Ready",
+          "prefab": "Assets/Nature  Paradaise/Prefabs/Crops/G14/NP_Moonflower_Ready.prefab",
+          "guid": "2acfb1097010442bab5295e5ce7b5dd2",
+          "scale": 0.817173,
+          "offset": [
+            -0.025859,
+            0.0,
+            -0.083134
+          ],
+          "rotation": [
+            0,
+            180,
+            0
+          ]
+        }
+      ],
+      "harvest": "Assets/Nature  Paradaise/Prefabs/Crops/G14/NP_Moonflower_Harvest.prefab",
+      "harvestGuid": "55ed3a0108ec4a0385a2564c65fac871",
+      "footprintInCells": 0.85,
+      "initialBalance": "Lavender defaults: all seasons, five growth days, 5 G seed, 12 G harvest, nonfood"
+    }
+  ],
+  "authorizedChanges": {
+    "Assets/Nature  Paradaise/Resources/Profiles/Farming/Cabbage Crop.asset": {
+      "before": "b89e93a83029b7529f4f5526c56f48aae546c6cc9cb767d37b2c98d6a55631bf",
+      "after": "575543cc7c2e06fd5aa07eac2e2bfe5f6fe6127348c8717bfc9c939e6b1e84d6"
+    },
+    "Assets/Nature  Paradaise/Resources/Items/Farming/Seed.asset": {
+      "before": "b552a412b6ba123cc44b74466445d1045e8d476e0160140314c69bf53dfedf5b",
+      "after": "1da5c99bd5f24757361e8f9fe5640372af45f5c80b09c5d53670daf71e0a5676"
+    },
+    "Assets/Nature  Paradaise/Resources/Items/Animal/Cabbage.asset": {
+      "before": "cef227bf58b48fa4b47c3f65adb2ee3c8132d5c862044fbd5278083092b3e694",
+      "after": "972918d6f4daa115b269f5aeb3eac8b38619308ae845aff32a117c291d4b6198"
+    },
+    "Assets/Nature  Paradaise/Resources/Items/Crops/Mutations/Cabbage Mutation.asset": {
+      "before": "49f4c7ffa678ac668cf18bdbf4f2aecd334aa80f57cd3ce85802b0027ca4fb67",
+      "after": "9a0a455b6ce387937b1e99213dac252409008dd1498455def22826167bc28e6e"
+    },
+    "Assets/Nature  Paradaise/Resources/Shops/Crops Catalog.asset": {
+      "before": "7b202443b65ec96ef7afd8c7f11726c2404eda294c0ab09c30f355f2e6524722",
+      "after": "5a42d4ce6fe2f3dcec4b1cca57fbe0327a54efac2a7145d565c807de930f8b2b"
+    },
+    "Assets/Nature  Paradaise/Data/Balance/Crops.csv": {
+      "before": "a3f3c8b37a67b9bcc3e019d40d90ca21b678656fd8fc3d64c58f11a62c3dd711",
+      "after": "e7180570ba2a3b1f3e3958882e797f6b8d1d953b2c1730ea28ee819e5491dfc3"
+    },
+    "Assets/Nature  Paradaise/Data/Balance/Items.csv": {
+      "before": "919bdaf947e60155d0c034315fdf4f972f276538e19225e2ed38107d23d21551",
+      "after": "7225d35644a665ea9d160e704642e59a807fcaa3964cffa28321bd74ece2ac28"
+    },
+    "Assets/Nature  Paradaise/Script/World/Field/FieldCropView.cs": {
+      "before": "013261f41927aff5dd1379670dcbf2c3d7f5fe8f066c5d88be3e21e003f090ab",
+      "after": "90237864488866fa2082da9958885d8c7a933a0e83ea712573fc41b3f775d419"
+    },
+    "Assets/Nature  Paradaise/Map/Scenes/World/Map.unity": {
+      "before": "a081ffbc6c25019eee24123826c89ebed8945afec1948a32d0d430a1b1ea5b0d",
+      "after": "d07b0d87412f55a94504d93f0301d5bd6ea069825f7708146e63f84f949a1df3"
+    }
+  },
+  "newCropRows": [
+    "crop.watermelon",
+    "crop.melon",
+    "crop.zucchini",
+    "crop.cucumber",
+    "crop.pea",
+    "crop.kiwi",
+    "crop.green_bean",
+    "crop.chili_pepper",
+    "crop.eggplant",
+    "crop.broccoli",
+    "crop.cauliflower"
+  ],
+  "newItemRows": [
+    "item.watermelon_seed",
+    "item.watermelon",
+    "item.watermelon_mutation",
+    "item.melon_seed",
+    "item.melon",
+    "item.melon_mutation",
+    "item.zucchini_seed",
+    "item.zucchini",
+    "item.zucchini_mutation",
+    "item.cucumber_seed",
+    "item.cucumber",
+    "item.cucumber_mutation",
+    "item.pea_seed",
+    "item.pea",
+    "item.pea_mutation",
+    "item.kiwi_seed",
+    "item.kiwi",
+    "item.kiwi_mutation",
+    "item.green_bean_seed",
+    "item.green_bean",
+    "item.green_bean_mutation",
+    "item.chili_pepper_seed",
+    "item.chili_pepper",
+    "item.chili_pepper_mutation",
+    "item.eggplant_seed",
+    "item.eggplant",
+    "item.eggplant_mutation",
+    "item.broccoli_seed",
+    "item.broccoli",
+    "item.broccoli_mutation",
+    "item.cauliflower_seed",
+    "item.cauliflower",
+    "item.cauliflower_mutation"
+  ],
+  "seedShop": "Assets/Nature  Paradaise/Resources/Shops/Crops Catalog.asset",
+  "seedShopGuid": "b672bde7d877c194daa82c6c39c5434d",
+  "iconManifest": "ArtSource/UIIcons/Seeds/Manifest.json",
+  "runtimeValidation": "ASSET_REFERENCES_CHECKED; UNITY_PLAY_MODE_PENDING",
+  "extensionBaseline": "ArtSource/Crops/Integration/G01_Raspberry_Baseline.json",
+  "initialBalance": "Lavender defaults: all seasons, five growth days, 5 G seed, 12 G harvest, nonfood",
+  "unityPlayMode": "NOT_RUN_BY_AGENT",
+  "extensionSummary": {
+    "addedCrops": 2,
+    "totalCrops": 33,
+    "seedShopProducts": 33,
+    "totalUiSprites": 99,
+    "acceptedModelsPreserved": true,
+    "legacyWheatIngredientReused": true
+  },
+  "rootCropPlanting": [
+    {
+      "plant": "Radish",
+      "phase": "RootForming",
+      "burialInModelUnits": 0.15625,
+      "aboveSoilFraction": 0.5
+    },
+    {
+      "plant": "Radish",
+      "phase": "Ready",
+      "burialInModelUnits": 0.25,
+      "aboveSoilFraction": 0.5
+    },
+    {
+      "plant": "Onion",
+      "phase": "BulbForming",
+      "burialInModelUnits": 0.1458,
+      "aboveSoilFraction": 0.5000000000000001
+    },
+    {
+      "plant": "Onion",
+      "phase": "Ready",
+      "burialInModelUnits": 0.27,
+      "aboveSoilFraction": 0.49999999999999994
+    }
+  ],
+  "unityEditorFixture": "NOT_RUN_FOR_G14",
+  "runtimeAtlas": {
+    "name": "NP_Plants_Unified_01",
+    "size": [
+      4096,
+      4096
+    ],
+    "material": "Assets/Nature  Paradaise/Material/Shared/Plants/NP_Plants_Unified_01.mat",
+    "materialGuid": "7608168a5d5646fd965b3910bff9c6bd",
+    "registry": "ArtSource/Crops/Unified/AtlasRegistry.json",
+    "registrySha256": "6597691363eb4cfc82677c15d6ba2a09460c4086ddd697b51d13526deaea5ef7",
+    "policy": "One shared runtime atlas/material for all current and future crop groups; stable append-only allocations"
+  },
+  "pendingReference": [],
+  "visualRevisionReport": "ArtSource/Crops/G01/Review/Leaf_R05/Completion.json"
+}

@@ -1,0 +1,214 @@
+{
+  "status": "PASS",
+  "group": "G06",
+  "checks": 2100,
+  "phaseAppearances": 12,
+  "baseModels": 14,
+  "meshesWithLods": 28,
+  "verifiedFbx": 28,
+  "newAtlasPages": 0,
+  "atlas": "NP_Plants_Trellis_01",
+  "changedPreviouslyUnusedSlots": [
+    "LeafLobed",
+    "LeafStrap",
+    "RadishGradient",
+    "OnionSkin",
+    "RadishCut",
+    "OnionCut",
+    "RootCream"
+  ],
+  "protectedFiles": 1409,
+  "previousAssetsRetained": true,
+  "atlasPixels": {
+    "BaseColor": {
+      "outsideChangedPixels": 0,
+      "insideChangedPixels": 458752
+    },
+    "Normal": {
+      "outsideChangedPixels": 0,
+      "insideChangedPixels": 211822
+    },
+    "SurfaceMask": {
+      "outsideChangedPixels": 0,
+      "insideChangedPixels": 458752
+    }
+  },
+  "volumes": {
+    "Radish_Young": {
+      "leaves": 4,
+      "width": 0.5829366147518158,
+      "depth": 0.4071264863014221,
+      "depthToWidth": 0.698406097676255,
+      "horizontalCovarianceRatio": 0.7330817135241524
+    },
+    "Radish_RootForming": {
+      "leaves": 4,
+      "width": 0.7925305068492889,
+      "depth": 0.5165091156959534,
+      "depthToWidth": 0.6517214305722303,
+      "horizontalCovarianceRatio": 0.6992216050764136
+    },
+    "Radish_Ready": {
+      "leaves": 6,
+      "width": 0.7495628893375397,
+      "depth": 0.5643535256385803,
+      "depthToWidth": 0.7529101742715056,
+      "horizontalCovarianceRatio": 0.867645720804642
+    },
+    "Onion_Young": {
+      "leaves": 3,
+      "width": 0.20896536111831665,
+      "depth": 0.14937357604503632,
+      "depthToWidth": 0.7148245778421652,
+      "horizontalCovarianceRatio": 0.1836673888607995
+    },
+    "Onion_BulbForming": {
+      "leaves": 4,
+      "width": 0.3666807860136032,
+      "depth": 0.3122647702693939,
+      "depthToWidth": 0.8515983988804078,
+      "horizontalCovarianceRatio": 0.5212218738894842
+    },
+    "Onion_Ready": {
+      "leaves": 5,
+      "width": 0.8413929045200348,
+      "depth": 0.7042384147644043,
+      "depthToWidth": 0.8369911500099123,
+      "horizontalCovarianceRatio": 0.6720544705982145
+    }
+  },
+  "baseTriangleCounts": {
+    "NP_Onion_BulbForming": 6648,
+    "NP_Onion_CutHalf": 2588,
+    "NP_Onion_Harvest": 3616,
+    "NP_Onion_Ready": 7076,
+    "NP_Onion_Seed": 80,
+    "NP_Onion_Sprout": 1328,
+    "NP_Onion_Young": 4076,
+    "NP_Radish_CutHalf": 1228,
+    "NP_Radish_Harvest": 9188,
+    "NP_Radish_Ready": 9188,
+    "NP_Radish_RootForming": 6880,
+    "NP_Radish_Seed": 240,
+    "NP_Radish_Sprout": 2720,
+    "NP_Radish_Young": 5028
+  },
+  "masterSha256": "2987c0ac6cb00a4246e9f1f1485d50a93388a3697be51f6f0e345d75408b8190",
+  "roundtrip": [
+    {
+      "file": "NP_Onion_BulbForming.fbx",
+      "triangles": 6648
+    },
+    {
+      "file": "NP_Onion_BulbForming_LOD1.fbx",
+      "triangles": 2658
+    },
+    {
+      "file": "NP_Onion_CutHalf.fbx",
+      "triangles": 2588
+    },
+    {
+      "file": "NP_Onion_CutHalf_LOD1.fbx",
+      "triangles": 1034
+    },
+    {
+      "file": "NP_Onion_Harvest.fbx",
+      "triangles": 3616
+    },
+    {
+      "file": "NP_Onion_Harvest_LOD1.fbx",
+      "triangles": 1446
+    },
+    {
+      "file": "NP_Onion_Ready.fbx",
+      "triangles": 7076
+    },
+    {
+      "file": "NP_Onion_Ready_LOD1.fbx",
+      "triangles": 2799
+    },
+    {
+      "file": "NP_Onion_Seed.fbx",
+      "triangles": 80
+    },
+    {
+      "file": "NP_Onion_Seed_LOD1.fbx",
+      "triangles": 32
+    },
+    {
+      "file": "NP_Onion_Sprout.fbx",
+      "triangles": 1328
+    },
+    {
+      "file": "NP_Onion_Sprout_LOD1.fbx",
+      "triangles": 531
+    },
+    {
+      "file": "NP_Onion_Young.fbx",
+      "triangles": 4076
+    },
+    {
+      "file": "NP_Onion_Young_LOD1.fbx",
+      "triangles": 1629
+    },
+    {
+      "file": "NP_Radish_CutHalf.fbx",
+      "triangles": 1228
+    },
+    {
+      "file": "NP_Radish_CutHalf_LOD1.fbx",
+      "triangles": 490
+    },
+    {
+      "file": "NP_Radish_Harvest.fbx",
+      "triangles": 9188
+    },
+    {
+      "file": "NP_Radish_Harvest_LOD1.fbx",
+      "triangles": 2799
+    },
+    {
+      "file": "NP_Radish_Ready.fbx",
+      "triangles": 9188
+    },
+    {
+      "file": "NP_Radish_Ready_LOD1.fbx",
+      "triangles": 2799
+    },
+    {
+      "file": "NP_Radish_RootForming.fbx",
+      "triangles": 6880
+    },
+    {
+      "file": "NP_Radish_RootForming_LOD1.fbx",
+      "triangles": 2751
+    },
+    {
+      "file": "NP_Radish_Seed.fbx",
+      "triangles": 240
+    },
+    {
+      "file": "NP_Radish_Seed_LOD1.fbx",
+      "triangles": 96
+    },
+    {
+      "file": "NP_Radish_Sprout.fbx",
+      "triangles": 2720
+    },
+    {
+      "file": "NP_Radish_Sprout_LOD1.fbx",
+      "triangles": 1087
+    },
+    {
+      "file": "NP_Radish_Young.fbx",
+      "triangles": 5028
+    },
+    {
+      "file": "NP_Radish_Young_LOD1.fbx",
+      "triangles": 2011
+    }
+  ],
+  "unityEditorImport": "NOT_RUN",
+  "unityPlayMode": "NOT_RUN",
+  "referenceReview": "Manual comparison against two visible user attachments; no automated pixel-identical comparison"
+}

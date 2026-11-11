@@ -1,0 +1,115 @@
+{
+  "status": "PASS",
+  "group": "G09",
+  "revision": "R02 closed fleshy petals and branching shrubs",
+  "baseModels": 18,
+  "assetChecks": 3062,
+  "fbxRoundtrips": 36,
+  "floralJoints": 53,
+  "masterSha256": "33fdd9e7367f07ea13b05f4dd5a73963880773290bb10d0352ad40de5512b68e",
+  "atlas": "NP_Plants_ShrubFlowers_01",
+  "previousAssetsRetained": true,
+  "olderFilesChecked": 2045,
+  "gimpSources": 3,
+  "visualReview": [
+    "eighteen growth and harvest appearances",
+    "front side rear top with radial foliage",
+    "rolled spiral rose petals and bronze thorns",
+    "five cupped red hibiscus petals with yellow anthers and five red stigma pads",
+    "double ivory jasmine rosettes and pointed buds",
+    "complete cut-flower stems and aligned calyces",
+    "registered petal fibres and branching leaf veins",
+    "R02 closed fleshy petals, rounded outlines, varied branch skeletons and before/after renders"
+  ],
+  "previews": {
+    "G09_Closeup.png": {
+      "size": [
+        2100,
+        1050
+      ],
+      "sha256": "88ef59109bcfaad0236586fe2ab9126130aed716c774f0b1dfe7b20430cec2d0"
+    },
+    "G09_GrowthStages.png": {
+      "size": [
+        2430,
+        2100
+      ],
+      "sha256": "55b9d5ba7fb9b28a14767d4e4e80ad5d7e7101bdc22869af344c6c258fc4b9c5"
+    },
+    "G09_VolumeReview.png": {
+      "size": [
+        1760,
+        2050
+      ],
+      "sha256": "86317c270dab8ea7fbf70c306dbcb9d0650a28da263cd99f4ac1f9ab79caafa8"
+    },
+    "G09_HarvestStudy.png": {
+      "size": [
+        2100,
+        1000
+      ],
+      "sha256": "67ad082547ac2e4c8e6fb7095649f56f013d78296a5c416dd6f628788f95c6bd"
+    },
+    "G09_FlowerDetail.png": {
+      "size": [
+        2110,
+        850
+      ],
+      "sha256": "8f8de3b5bf69481d9fece8bb580c8c24ce8158fc38dc2fe25bf60a4ab02efee1"
+    },
+    "G09_SurfaceDetail.png": {
+      "size": [
+        1540,
+        840
+      ],
+      "sha256": "b96a46c27c32d4d0da9d09d79ae52cc0dc8d6e32496f1fbd535f4527fba576d0"
+    },
+    "G09_R02_Comparison.png": {
+      "size": [
+        1320,
+        2515
+      ],
+      "sha256": "14ada9645563e9529e85b067e2a3aa9d03a16eb7619ce540687e18f59dc14288"
+    },
+    "G09_R02_FlowerComparison.png": {
+      "size": [
+        1320,
+        2245
+      ],
+      "sha256": "9708cead55df783d48ce088b46e93682dd6a9c183faa132dd8d866e34dc430a2"
+    }
+  },
+  "unityEditorImport": "NOT_RUN",
+  "unityPlayMode": "NOT_RUN",
+  "referenceReview": "Manual visual comparison with user references; technical checks do not establish artistic similarity.",
+  "formRevision": {
+    "status": "PASS",
+    "revision": "R02 closed fleshy petals and branching shrubs",
+    "checks": 922,
+    "preservedFiles": 177,
+    "retainedMetadata": 126,
+    "masterSha256": "33fdd9e7367f07ea13b05f4dd5a73963880773290bb10d0352ad40de5512b68e",
+    "plants": {
+      "Rose": {
+        "closedPetals": 78,
+        "minPetalVolumeMetres3": 1.3961069449942927e-05,
+        "maxPetalVolumeMetres3": 6.528109432237357e-05,
+        "branches": 9
+      },
+      "Hibiscus": {
+        "closedPetals": 15,
+        "minPetalVolumeMetres3": 3.735587458337223e-05,
+        "maxPetalVolumeMetres3": 6.0712853392438195e-05,
+        "branches": 13
+      },
+      "Jasmine": {
+        "closedPetals": 90,
+        "minPetalVolumeMetres3": 2.734532321666197e-06,
+        "maxPetalVolumeMetres3": 1.3945820745251523e-05,
+        "branches": 20
+      }
+    },
+    "technicalScope": "Physical mesh checks and preservation; artistic fidelity reviewed separately"
+  },
+  "comparisonSourceImagesVerified": 12
+}

@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "assetChecks": 2100,
+  "fbxRoundtrips": 28,
+  "gimpSources": 3,
+  "visualReview": [
+    "twelve growth/harvest appearances",
+    "front/side/rear/top for both crops",
+    "whole and cut harvest items",
+    "seven registered colour/normal tiles"
+  ],
+  "previews": {
+    "G06_Closeup.png": {
+      "size": [
+        1800,
+        1100
+      ],
+      "sha256": "f539dcf1468d01357e71d2aa7637bc6e6ef9e7477593947809fb92fd33c649ff"
+    },
+    "G06_GrowthStages.png": {
+      "size": [
+        2430,
+        1430
+      ],
+      "sha256": "9a207dd1a8ca43f7d8b2a50fd4b273d9536c34d8c044b0d546844115e644f7c3"
+    },
+    "G06_VolumeReview.png": {
+      "size": [
+        1760,
+        1540
+      ],
+      "sha256": "6bff8ee7b50eac32b4df52588dc1e8a1dc76fe0bfa1f320e84169ee5eaeee479"
+    },
+    "G06_HarvestStudy.png": {
+      "size": [
+        1800,
+        1000
+      ],
+      "sha256": "ef5b24dc97383148c9c98f7ceb370941abbe4a967add7472d0d3da9c32639805"
+    },
+    "G06_SurfaceDetail.png": {
+      "size": [
+        1540,
+        1210
+      ],
+      "sha256": "a6fad924f7d3eb6782ffa5476a026077bcee5d72b7aad15ca9140242a0dd5fe3"
+    }
+  },
+  "unityEditorImport": "NOT_RUN",
+  "unityPlayMode": "NOT_RUN"
+}

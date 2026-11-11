@@ -1,0 +1,36 @@
+{
+  "status": "APPLIED_SCOPED_EXTENSION",
+  "group": "G01",
+  "newPlantKeys": [
+    "blueberry",
+    "blackberry"
+  ],
+  "authorizedChanges": {
+    "Assets/Nature  Paradaise/Resources/Shops/Crops Catalog.asset": {
+      "before": "21745282ead11f8c955b6d85370a58ee689f4c0227651780aaf5964d98c82abb",
+      "after": "9a072c41d1bd703c643d4f0d4c82db22304a7ccd433f54b0460d364bfc5d188f"
+    },
+    "Assets/Nature  Paradaise/Data/Balance/Items.csv": {
+      "before": "4b5bcfcc4398d18c8d6a70691f9b96495427f5d05c145cf4ec578fd959915002",
+      "after": "5fad5bd7cd52ba63b4cfb6981bbe1cc2440f363b2d31914e171628e9ae2cc0ac"
+    },
+    "Assets/Nature  Paradaise/Data/Balance/Crops.csv": {
+      "before": "4d86956cb4012c8d4c3812b08443d28ba69405c7fa156039dbfed2772a6d48b8",
+      "after": "2aaea09390a82af543fe5cb9b36833b96204fc4c82a8514b82b2475941dd8fd1"
+    },
+    "Assets/Nature  Paradaise/Script/Editor/CropGameplayValidation.cs": {
+      "before": "fb18b2c993f755e3716e0358832ea240818a6097f390093bbf2e62e7d416c9f0",
+      "after": "2fd3531d1fb1118a8e91125da0571a6e45fd3bd51e2f94368c088d8fb3673ad7"
+    }
+  },
+  "baseline": "ArtSource/Crops/G01/Review/Baseline.json",
+  "priorPlantsRetained": 28,
+  "priorCsvRowsRetained": true,
+  "editorChanges": "Append Blueberry and Blackberry to the Editor fixture list only",
+  "catalogAllowedGroups": [
+    "G01"
+  ],
+  "pendingReference": [
+    "Raspberry"
+  ]
+}

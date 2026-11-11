@@ -1,0 +1,67 @@
+{
+  "group": "G11",
+  "plants": {
+    "Tulip": [
+      {
+        "stage": "Bulb",
+        "model": "NP_Tulip_Bulb",
+        "source_group": "G11",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Tulip_Sprout",
+        "source_group": "G11",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Tulip_Young",
+        "source_group": "G11",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "model": "NP_Tulip_BudForming",
+        "source_group": "G11",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Tulip_Ready",
+        "source_group": "G11",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Tulip_Harvest",
+        "source_group": "G11",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  }
+}

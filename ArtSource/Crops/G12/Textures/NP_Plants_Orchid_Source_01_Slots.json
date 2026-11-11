@@ -1,0 +1,205 @@
+{
+  "name": "NP_Plants_Orchid_Source_01",
+  "colorSize": [
+    2048,
+    1024
+  ],
+  "normalSize": [
+    2048,
+    1024
+  ],
+  "maskSize": [
+    2048,
+    1024
+  ],
+  "paddingPixels": 16,
+  "normalConvention": "Tangent +Y",
+  "materialSettings": {
+    "_BumpScale": 0.3,
+    "_Saturation": 1.05,
+    "_Smoothness": 1.0
+  },
+  "surfaceMaskChannels": {
+    "R": "metallic zero",
+    "A": "smoothness"
+  },
+  "slots": [
+    {
+      "name": "OrchidPetal",
+      "index": 0,
+      "pixelRectTopLeft": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.515625,
+        0.2421875,
+        0.984375
+      ],
+      "base": "#bb79e1",
+      "highlight": "#e8baf9",
+      "shadow": "#8b42af",
+      "pattern": "petal",
+      "smoothness": 0.39,
+      "primaryDetail": true
+    },
+    {
+      "name": "OrchidSepal",
+      "index": 1,
+      "pixelRectTopLeft": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.515625,
+        0.4921875,
+        0.984375
+      ],
+      "base": "#ac65d0",
+      "highlight": "#dfadf0",
+      "shadow": "#753694",
+      "pattern": "petal",
+      "smoothness": 0.38,
+      "primaryDetail": true
+    },
+    {
+      "name": "OrchidLip",
+      "index": 2,
+      "pixelRectTopLeft": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.515625,
+        0.7421875,
+        0.984375
+      ],
+      "base": "#a91a98",
+      "highlight": "#df65bf",
+      "shadow": "#661061",
+      "pattern": "petal",
+      "smoothness": 0.4,
+      "primaryDetail": true
+    },
+    {
+      "name": "OrchidLeaf",
+      "index": 3,
+      "pixelRectTopLeft": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.515625,
+        0.9921875,
+        0.984375
+      ],
+      "base": "#4c902f",
+      "highlight": "#a4c653",
+      "shadow": "#2c632c",
+      "pattern": "leaf",
+      "smoothness": 0.43,
+      "primaryDetail": true
+    },
+    {
+      "name": "StemGreen",
+      "index": 4,
+      "pixelRectTopLeft": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.015625,
+        0.2421875,
+        0.484375
+      ],
+      "base": "#619735",
+      "highlight": "#b0c96b",
+      "shadow": "#3f722e",
+      "pattern": "stem",
+      "smoothness": 0.31,
+      "primaryDetail": false
+    },
+    {
+      "name": "RootVelamen",
+      "index": 5,
+      "pixelRectTopLeft": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.015625,
+        0.4921875,
+        0.484375
+      ],
+      "base": "#c9c9a1",
+      "highlight": "#e7dfb8",
+      "shadow": "#9baa87",
+      "pattern": "root",
+      "smoothness": 0.32,
+      "primaryDetail": false
+    },
+    {
+      "name": "SeedCream",
+      "index": 6,
+      "pixelRectTopLeft": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.015625,
+        0.7421875,
+        0.484375
+      ],
+      "base": "#d4bb87",
+      "highlight": "#fae9c5",
+      "shadow": "#a98d5e",
+      "pattern": "seed",
+      "smoothness": 0.3,
+      "primaryDetail": false
+    },
+    {
+      "name": "ColumnAmber",
+      "index": 7,
+      "pixelRectTopLeft": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.015625,
+        0.9921875,
+        0.484375
+      ],
+      "base": "#d48216",
+      "highlight": "#ffc452",
+      "shadow": "#ad4a12",
+      "pattern": "column",
+      "smoothness": 0.38,
+      "primaryDetail": false
+    }
+  ],
+  "runtimeAtlas": "NP_Plants_Unified_01"
+}

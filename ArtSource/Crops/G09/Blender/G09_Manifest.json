@@ -1,0 +1,493 @@
+{
+  "group": "G09",
+  "revision": "R02 closed fleshy petals and branching shrubs",
+  "plants": [
+    "Rose",
+    "Hibiscus",
+    "Jasmine"
+  ],
+  "atlas": "NP_Plants_ShrubFlowers_01",
+  "material": "NP_Plants_ShrubFlowers_01",
+  "newAtlasPages": 1,
+  "phaseAppearances": 18,
+  "uniqueNewExports": 18,
+  "counts": {
+    "Rose": {
+      "Seed": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0,
+        "thorns": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0,
+        "thorns": 0
+      },
+      "Young": {
+        "leaves": 11,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0,
+        "thorns": 10,
+        "closedPetals": 0
+      },
+      "BudForming": {
+        "leaves": 79,
+        "flowers": 0,
+        "buds": 3,
+        "petals": 0,
+        "thorns": 10,
+        "closedPetals": 0
+      },
+      "Ready": {
+        "leaves": 80,
+        "flowers": 3,
+        "buds": 1,
+        "petals": 78,
+        "thorns": 10,
+        "closedPetals": 78
+      },
+      "Harvest": {
+        "leaves": 6,
+        "flowers": 1,
+        "buds": 0,
+        "petals": 26,
+        "thorns": 5,
+        "closedPetals": 26
+      }
+    },
+    "Hibiscus": {
+      "Seed": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0,
+        "thorns": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0,
+        "thorns": 0
+      },
+      "Young": {
+        "leaves": 8,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0,
+        "thorns": 0,
+        "closedPetals": 0
+      },
+      "BudForming": {
+        "leaves": 66,
+        "flowers": 0,
+        "buds": 4,
+        "petals": 0,
+        "thorns": 0,
+        "closedPetals": 0
+      },
+      "Ready": {
+        "leaves": 72,
+        "flowers": 3,
+        "buds": 3,
+        "petals": 15,
+        "thorns": 0,
+        "closedPetals": 15
+      },
+      "Harvest": {
+        "leaves": 2,
+        "flowers": 1,
+        "buds": 0,
+        "petals": 5,
+        "thorns": 0,
+        "closedPetals": 5
+      }
+    },
+    "Jasmine": {
+      "Seed": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0,
+        "thorns": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0,
+        "thorns": 0
+      },
+      "Young": {
+        "leaves": 7,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0,
+        "thorns": 0,
+        "closedPetals": 0
+      },
+      "BudForming": {
+        "leaves": 56,
+        "flowers": 0,
+        "buds": 14,
+        "petals": 0,
+        "thorns": 0,
+        "closedPetals": 0
+      },
+      "Ready": {
+        "leaves": 56,
+        "flowers": 5,
+        "buds": 10,
+        "petals": 90,
+        "thorns": 0,
+        "closedPetals": 90
+      },
+      "Harvest": {
+        "leaves": 3,
+        "flowers": 2,
+        "buds": 3,
+        "petals": 36,
+        "thorns": 0,
+        "closedPetals": 36
+      }
+    }
+  },
+  "exports": [
+    {
+      "name": "NP_Hibiscus_BudForming",
+      "plant": "Hibiscus",
+      "stage": "BudForming",
+      "triangles": 57388,
+      "bounds": [
+        [
+          -0.26350823044776917,
+          0.0010000000474974513,
+          -0.20484137535095215
+        ],
+        [
+          0.26955923438072205,
+          0.7743024826049805,
+          0.27691274881362915
+        ]
+      ]
+    },
+    {
+      "name": "NP_Hibiscus_Harvest",
+      "plant": "Hibiscus",
+      "stage": "Harvest",
+      "triangles": 10736,
+      "bounds": [
+        [
+          -0.4552786350250244,
+          0.0009358025854453444,
+          -0.22123602032661438
+        ],
+        [
+          -0.003683384507894516,
+          0.39796504378318787,
+          0.04005731642246246
+        ]
+      ]
+    },
+    {
+      "name": "NP_Hibiscus_Ready",
+      "plant": "Hibiscus",
+      "stage": "Ready",
+      "triangles": 85756,
+      "bounds": [
+        [
+          -0.3981785774230957,
+          0.0010000000474974513,
+          -0.3169082701206207
+        ],
+        [
+          0.39496147632598877,
+          0.9584631323814392,
+          0.28430333733558655
+        ]
+      ]
+    },
+    {
+      "name": "NP_Hibiscus_Seed",
+      "plant": "Hibiscus",
+      "stage": "Seed",
+      "triangles": 260,
+      "bounds": [
+        [
+          -0.034349475055933,
+          0.0010000000474974513,
+          -0.017829392105340958
+        ],
+        [
+          0.0343431681394577,
+          0.04294055327773094,
+          0.01719488389790058
+        ]
+      ]
+    },
+    {
+      "name": "NP_Hibiscus_Sprout",
+      "plant": "Hibiscus",
+      "stage": "Sprout",
+      "triangles": 1288,
+      "bounds": [
+        [
+          -0.12272917479276657,
+          0.0010000000474974513,
+          -0.06317255645990372
+        ],
+        [
+          0.12335503846406937,
+          0.19317492842674255,
+          0.0636649802327156
+        ]
+      ]
+    },
+    {
+      "name": "NP_Hibiscus_Young",
+      "plant": "Hibiscus",
+      "stage": "Young",
+      "triangles": 4988,
+      "bounds": [
+        [
+          -0.17554882168769836,
+          0.0010000000474974513,
+          -0.15627112984657288
+        ],
+        [
+          0.1461227685213089,
+          0.37696152925491333,
+          0.1768862009048462
+        ]
+      ]
+    },
+    {
+      "name": "NP_Jasmine_BudForming",
+      "plant": "Jasmine",
+      "stage": "BudForming",
+      "triangles": 89688,
+      "bounds": [
+        [
+          -0.2533091902732849,
+          0.0010000000474974513,
+          -0.2279110997915268
+        ],
+        [
+          0.21198329329490662,
+          0.6456374526023865,
+          0.22892330586910248
+        ]
+      ]
+    },
+    {
+      "name": "NP_Jasmine_Harvest",
+      "plant": "Jasmine",
+      "stage": "Harvest",
+      "triangles": 45230,
+      "bounds": [
+        [
+          -0.42991212010383606,
+          0.0009046324994415045,
+          -0.06436914950609207
+        ],
+        [
+          -0.003683384507894516,
+          0.3877824544906616,
+          0.03826438635587692
+        ]
+      ]
+    },
+    {
+      "name": "NP_Jasmine_Ready",
+      "plant": "Jasmine",
+      "stage": "Ready",
+      "triangles": 153828,
+      "bounds": [
+        [
+          -0.29758840799331665,
+          0.0010000000474974513,
+          -0.262774795293808
+        ],
+        [
+          0.31858301162719727,
+          0.680419385433197,
+          0.22129347920417786
+        ]
+      ]
+    },
+    {
+      "name": "NP_Jasmine_Seed",
+      "plant": "Jasmine",
+      "stage": "Seed",
+      "triangles": 280,
+      "bounds": [
+        [
+          -0.03526097536087036,
+          0.0010000000474974513,
+          -0.017375018447637558
+        ],
+        [
+          0.03433658182621002,
+          0.035122085362672806,
+          0.016772087663412094
+        ]
+      ]
+    },
+    {
+      "name": "NP_Jasmine_Sprout",
+      "plant": "Jasmine",
+      "stage": "Sprout",
+      "triangles": 1288,
+      "bounds": [
+        [
+          -0.12273098528385162,
+          0.0010000000474974513,
+          -0.06310828775167465
+        ],
+        [
+          0.12281053513288498,
+          0.19283442199230194,
+          0.06366827338933945
+        ]
+      ]
+    },
+    {
+      "name": "NP_Jasmine_Young",
+      "plant": "Jasmine",
+      "stage": "Young",
+      "triangles": 4430,
+      "bounds": [
+        [
+          -0.1441754251718521,
+          0.0010000000474974513,
+          -0.14301888644695282
+        ],
+        [
+          0.1388309895992279,
+          0.3325774371623993,
+          0.1606714427471161
+        ]
+      ]
+    },
+    {
+      "name": "NP_Rose_BudForming",
+      "plant": "Rose",
+      "stage": "BudForming",
+      "triangles": 71136,
+      "bounds": [
+        [
+          -0.34103649854660034,
+          0.0010000000474974513,
+          -0.18610943853855133
+        ],
+        [
+          0.3559204936027527,
+          0.8210025429725647,
+          0.2993406057357788
+        ]
+      ]
+    },
+    {
+      "name": "NP_Rose_Harvest",
+      "plant": "Rose",
+      "stage": "Harvest",
+      "triangles": 26654,
+      "bounds": [
+        [
+          -0.5040749907493591,
+          0.0009724498959258199,
+          -0.1345314085483551
+        ],
+        [
+          -0.003683384507894516,
+          0.40385696291923523,
+          0.10499028861522675
+        ]
+      ]
+    },
+    {
+      "name": "NP_Rose_Ready",
+      "plant": "Rose",
+      "stage": "Ready",
+      "triangles": 126456,
+      "bounds": [
+        [
+          -0.3537122905254364,
+          0.0010000000474974513,
+          -0.21372130513191223
+        ],
+        [
+          0.3783373534679413,
+          0.8501723408699036,
+          0.27860838174819946
+        ]
+      ]
+    },
+    {
+      "name": "NP_Rose_Seed",
+      "plant": "Rose",
+      "stage": "Seed",
+      "triangles": 1300,
+      "bounds": [
+        [
+          -0.06728200614452362,
+          0.0010000000474974513,
+          -0.06900440901517868
+        ],
+        [
+          0.07019158452749252,
+          0.03564722090959549,
+          0.062175169587135315
+        ]
+      ]
+    },
+    {
+      "name": "NP_Rose_Sprout",
+      "plant": "Rose",
+      "stage": "Sprout",
+      "triangles": 1288,
+      "bounds": [
+        [
+          -0.12273098528385162,
+          0.0010000000474974513,
+          -0.06310828775167465
+        ],
+        [
+          0.12281053513288498,
+          0.19283442199230194,
+          0.06366827338933945
+        ]
+      ]
+    },
+    {
+      "name": "NP_Rose_Young",
+      "plant": "Rose",
+      "stage": "Young",
+      "triangles": 7324,
+      "bounds": [
+        [
+          -0.18265299499034882,
+          0.0010000000474974513,
+          -0.11267803609371185
+        ],
+        [
+          0.1670101135969162,
+          0.42867234349250793,
+          0.131963312625885
+        ]
+      ]
+    }
+  ],
+  "integration": "Prepared visual assets; crop profiles, items, stores, balance and scenes retained",
+  "revisionScope": [
+    "Young",
+    "BudForming",
+    "Ready",
+    "Harvest"
+  ]
+}

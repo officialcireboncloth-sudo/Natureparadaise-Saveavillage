@@ -1,0 +1,906 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tags>
+
+  <resource identifier="${gimp_data_dir}/brushes/Round.vbr" checksum="a7f02530d3bc7484c8f9240cbe9c65b1">
+    <tag>round</tag>
+  </resource>
+
+  <resource identifier="${gimp_data_dir}/brushes/Round-Fuzzy.vbr" checksum="f8cb2466841104a55e42afce4568d103">
+    <tag>fuzzy</tag>
+    <tag>round</tag>
+  </resource>
+
+  <resource identifier="internal:gimp-brush-clipboard-image\\Clipboard Image" checksum="157dcef48665ab465439cfaf10d6feeb">
+  </resource>
+
+  <resource identifier="internal:gimp-brush-clipboard-mask\\Clipboard Mask" checksum="157dcef48665ab465439cfaf10d6feeb">
+  </resource>
+
+  <resource identifier="internal:gimp-pattern-clipboard-image\\Clipboard Image" checksum="eff9598f9f61c1dc78d842f1798c2ab8">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-custom\\Custom" checksum="885c2d63e957cf7fc63fc5312fa84346">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-fg-bg-hsv-ccw\\FG to BG (HSV Counter-Clockwise)" checksum="3172a6059d6a03413a22b5228e3ee0d5">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-fg-bg-hsv-cw\\FG to BG (HSV Clockwise Hue)" checksum="5e4e38df5d2fd2e004f5cad181dca4ee">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-fg-bg-rgb\\FG to BG (RGB)" checksum="885c2d63e957cf7fc63fc5312fa84346">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-fg-bg-rgb-hardedge\\FG to BG (Hard Edge)" checksum="b48050f9bf83a918f04735ae5a6497eb">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-fg-transparent\\FG to Transparent" checksum="f3d0f8a64d4d9a9c16c7acc86bb58a30">
+  </resource>
+
+  <resource identifier="internal:gimp-gradient-fg-transparent-hardedge\\FG to Transparent (Hard Edge)" checksum="593f8e23ba6f9d0ddda44f2e94c83c21">
+  </resource>
+
+  <resource identifier="internal:gimp-palette-color-history\\Color History" checksum="74b7ffa315f3a9a2ee06484b16169748">
+  </resource>
+
+  <resource identifier="internal:gimp-font-standard-alias: Monospace\\Monospace" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="internal:gimp-font-standard-alias: Monospace Bold\\Monospace Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="internal:gimp-font-standard-alias: Monospace Bold Italic\\Monospace Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="internal:gimp-font-standard-alias: Monospace Italic\\Monospace Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="internal:gimp-font-standard-alias: Sans-serif\\Sans-serif" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="internal:gimp-font-standard-alias: Sans-serif Bold\\Sans-serif Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="internal:gimp-font-standard-alias: Sans-serif Bold Italic\\Sans-serif Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="internal:gimp-font-standard-alias: Sans-serif Italic\\Sans-serif Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="internal:gimp-font-standard-alias: Serif\\Serif" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="internal:gimp-font-standard-alias: Serif Bold\\Serif Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="internal:gimp-font-standard-alias: Serif Bold Italic\\Serif Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="internal:gimp-font-standard-alias: Serif Italic\\Serif Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ariblk.ttf\\Arial Black" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\arialbd.ttf\\Arial Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\arialbi.ttf\\Arial Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ariali.ttf\\Arial Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ARIALN.TTF\\Arial Narrow" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ARIALNB.TTF\\Arial Narrow Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ARIALNBI.TTF\\Arial Narrow Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ARIALNI.TTF\\Arial Narrow Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\arial.ttf\\Arial Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift Bold Condensed" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift Bold SemiCondensed" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift Condensed" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift Light Condensed" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift Light SemiCondensed" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift SemiBold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift SemiBold Condensed" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift SemiBold SemiCondensed" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift SemiCondensed" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift SemiLight" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift SemiLight Condensed" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\bahnschrift.ttf\\Bahnschrift SemiLight SemiCondensed" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ANTQUAB.TTF\\Book Antiqua Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ANTQUABI.TTF\\Book Antiqua Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ANTQUAI.TTF\\Book Antiqua Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\BKANT.TTF\\Book Antiqua Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\BOOKOSB.TTF\\Bookman Old Style Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\BOOKOSBI.TTF\\Bookman Old Style Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\BOOKOSI.TTF\\Bookman Old Style Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\BOOKOS.TTF\\Bookman Old Style Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\BSSYM7.TTF\\Bookshelf Symbol 7 Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\calibrib.ttf\\Calibri Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\calibriz.ttf\\Calibri Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\calibrii.ttf\\Calibri Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\calibril.ttf\\Calibri Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\calibrili.ttf\\Calibri Light Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\calibri.ttf\\Calibri Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\cambriab.ttf\\Cambria Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\cambriaz.ttf\\Cambria Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\cambriai.ttf\\Cambria Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\cambria.ttc\\Cambria Math Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\cambria.ttc\\Cambria Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Candarab.ttf\\Candara Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Candaraz.ttf\\Candara Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Candarai.ttf\\Candara Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Candaral.ttf\\Candara Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Candarali.ttf\\Candara Light Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Candara.ttf\\Candara Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CascadiaCode.ttf\\Cascadia Code Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CascadiaCode.ttf\\Cascadia Code ExtraLight" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CascadiaCode.ttf\\Cascadia Code Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CascadiaCode.ttf\\Cascadia Code Roman" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CascadiaCode.ttf\\Cascadia Code SemiBold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CascadiaCode.ttf\\Cascadia Code SemiLight" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CascadiaMono.ttf\\Cascadia Mono Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CascadiaMono.ttf\\Cascadia Mono ExtraLight" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CascadiaMono.ttf\\Cascadia Mono Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CascadiaMono.ttf\\Cascadia Mono Roman" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CascadiaMono.ttf\\Cascadia Mono SemiBold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CascadiaMono.ttf\\Cascadia Mono SemiLight" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\GOTHICB.TTF\\Century Gothic Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\GOTHICBI.TTF\\Century Gothic Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\GOTHICI.TTF\\Century Gothic Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\GOTHIC.TTF\\Century Gothic Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\CENTURY.TTF\\Century Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\comicbd.ttf\\Comic Sans MS Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\comicz.ttf\\Comic Sans MS Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\comici.ttf\\Comic Sans MS Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\comic.ttf\\Comic Sans MS Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\consolab.ttf\\Consolas Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\consolaz.ttf\\Consolas Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\consolai.ttf\\Consolas Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\consola.ttf\\Consolas Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\constanb.ttf\\Constantia Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\constanz.ttf\\Constantia Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\constani.ttf\\Constantia Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\constan.ttf\\Constantia Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\corbelb.ttf\\Corbel Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\corbelz.ttf\\Corbel Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\corbeli.ttf\\Corbel Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\corbell.ttf\\Corbel Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\corbelli.ttf\\Corbel Light Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\corbel.ttf\\Corbel Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\courbd.ttf\\Courier New Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\courbi.ttf\\Courier New Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\couri.ttf\\Courier New Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\cour.ttf\\Courier New Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\DUBAI-BOLD.TTF\\Dubai Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\DUBAI-LIGHT.TTF\\Dubai Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\DUBAI-MEDIUM.TTF\\Dubai Medium" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\DUBAI-REGULAR.TTF\\Dubai Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ebrimabd.ttf\\Ebrima Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ebrima.ttf\\Ebrima Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\framdit.ttf\\Franklin Gothic Medium Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\framd.ttf\\Franklin Gothic Medium Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Gabriola.ttf\\Gabriola Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\gadugib.ttf\\Gadugi Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\gadugi.ttf\\Gadugi Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\GARABD.TTF\\Garamond Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\GARAIT.TTF\\Garamond Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\GARA.TTF\\Garamond Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\georgiab.ttf\\Georgia Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\georgiaz.ttf\\Georgia Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\georgiai.ttf\\Georgia Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\georgia.ttf\\Georgia Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\impact.ttf\\Impact Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Inkfree.ttf\\Ink Free Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\javatext.ttf\\Javanese Text Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\LEELAWDB.TTF\\Leelawadee Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\LEELAWAD.TTF\\Leelawadee Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\LeelaUIb.ttf\\Leelawadee UI Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\LeelawUI.ttf\\Leelawadee UI Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\LeelUIsl.ttf\\Leelawadee UI Semilight" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\lucon.ttf\\Lucida Console Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\l_10646.ttf\\Lucida Sans Unicode Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\malgunbd.ttf\\Malgun Gothic Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\malgun.ttf\\Malgun Gothic Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\malgunsl.ttf\\Malgun Gothic Semilight" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\marlett.ttf\\Marlett Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\himalaya.ttf\\Microsoft Himalaya Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msjhbd.ttc\\Microsoft JhengHei Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msjhl.ttc\\Microsoft JhengHei Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msjh.ttc\\Microsoft JhengHei Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msjhbd.ttc\\Microsoft JhengHei UI Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msjhl.ttc\\Microsoft JhengHei UI Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msjh.ttc\\Microsoft JhengHei UI Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ntailub.ttf\\Microsoft New Tai Lue Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\ntailu.ttf\\Microsoft New Tai Lue Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\phagspab.ttf\\Microsoft PhagsPa Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\phagspa.ttf\\Microsoft PhagsPa Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\micross.ttf\\Microsoft Sans Serif Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\taileb.ttf\\Microsoft Tai Le Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\taile.ttf\\Microsoft Tai Le Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\MSUIGHUB.TTF\\Microsoft Uighur Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\MSUIGHUR.TTF\\Microsoft Uighur Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msyhbd.ttc\\Microsoft YaHei Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msyhl.ttc\\Microsoft YaHei Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msyh.ttc\\Microsoft YaHei Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msyhbd.ttc\\Microsoft YaHei UI Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msyhl.ttc\\Microsoft YaHei UI Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msyh.ttc\\Microsoft YaHei UI Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msyi.ttf\\Microsoft Yi Baiti Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\mingliub.ttc\\MingLiU_HKSCS-ExtB Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\mingliub.ttc\\MingLiU_MSCS-ExtB Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\mingliub.ttc\\MingLiU-ExtB Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\monbaiti.ttf\\Mongolian Baiti Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\MTCORSVA.TTF\\Monotype Corsiva Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msgothic.ttc\\MS Gothic Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msgothic.ttc\\MS PGothic Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\REFSAN.TTF\\MS Reference Sans Serif Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\REFSPCL.TTF\\MS Reference Specialty Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\msgothic.ttc\\MS UI Gothic Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\MTEXTRA.TTF\\MT Extra Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\mvboli.ttf\\MV Boli Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\mmrtextb.ttf\\Myanmar Text Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\mmrtext.ttf\\Myanmar Text Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Nirmala.ttc\\Nirmala Text Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Nirmala.ttc\\Nirmala Text Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Nirmala.ttc\\Nirmala Text Semilight" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Nirmala.ttc\\Nirmala UI Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Nirmala.ttc\\Nirmala UI Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\Nirmala.ttc\\Nirmala UI Semilight" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\simsun.ttc\\NSimSun Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\palab.ttf\\Palatino Linotype Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\palabi.ttf\\Palatino Linotype Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\palai.ttf\\Palatino Linotype Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\pala.ttf\\Palatino Linotype Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\mingliub.ttc\\PMingLiU-ExtB Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SansSerifCollection.ttf\\Sans Serif Collection Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegoeIcons.ttf\\Segoe Fluent Icons Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\segmdl2.ttf\\Segoe MDL2 Assets Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\segoeprb.ttf\\Segoe Print Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\segoepr.ttf\\Segoe Print Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\segoescb.ttf\\Segoe Script Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\segoesc.ttf\\Segoe Script Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\seguibl.ttf\\Segoe UI Black" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\seguibli.ttf\\Segoe UI Black Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\segoeuib.ttf\\Segoe UI Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\segoeuiz.ttf\\Segoe UI Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\seguiemj.ttf\\Segoe UI Emoji Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\seguihis.ttf\\Segoe UI Historic Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\segoeuii.ttf\\Segoe UI Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\segoeuil.ttf\\Segoe UI Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\seguili.ttf\\Segoe UI Light Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\segoeui.ttf\\Segoe UI Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\seguisb.ttf\\Segoe UI Semibold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\seguisbi.ttf\\Segoe UI Semibold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\segoeuisl.ttf\\Segoe UI Semilight" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\seguisli.ttf\\Segoe UI Semilight Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\seguisym.ttf\\Segoe UI Symbol Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Bold Display" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Bold Small" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Bold Text" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Light Display" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Light Small" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Light Text" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Regular Display" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Regular Small" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Semibold Display" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Semibold Small" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Semibold Text" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Semilight Display" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Semilight Small" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SegUIVar.ttf\\Segoe UI Variable Semilight Text" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\simsun.ttc\\SimSun Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\simsunb.ttf\\SimSun-ExtB Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SimsunExtG.ttf\\SimSun-ExtG Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Banner" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Banner Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Banner Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Banner Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Banner Semibold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Banner Semibold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Display" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Display Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Display Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Display Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Display Semibold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Display Semibold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Heading" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Heading Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Heading Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Heading Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Heading Semibold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Heading Semibold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Small" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Small Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Small Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Small Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Small Semibold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Small Semibold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Subheading" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Subheading Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Subheading Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Subheading Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Subheading Semibold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Subheading Semibold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Text" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Text Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Text Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Text Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF.ttf\\Sitka Text Semibold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\SitkaVF-Italic.ttf\\Sitka Text Semibold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\sylfaen.ttf\\Sylfaen Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\symbol.ttf\\Symbol Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\tahomabd.ttf\\Tahoma Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\tahoma.ttf\\Tahoma Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\timesbd.ttf\\Times New Roman Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\timesbi.ttf\\Times New Roman Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\timesi.ttf\\Times New Roman Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\times.ttf\\Times New Roman Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\trebucbd.ttf\\Trebuchet MS Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\trebucbi.ttf\\Trebuchet MS Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\trebucit.ttf\\Trebuchet MS Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\trebuc.ttf\\Trebuchet MS Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\verdanab.ttf\\Verdana Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\verdanaz.ttf\\Verdana Bold Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\verdanai.ttf\\Verdana Italic" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\verdana.ttf\\Verdana Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\webdings.ttf\\Webdings Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\WINGDNG2.TTF\\Wingdings 2 Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\WINGDNG3.TTF\\Wingdings 3 Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\wingding.ttf\\Wingdings Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\YuGothB.ttc\\Yu Gothic Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\YuGothL.ttc\\Yu Gothic Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\YuGothM.ttc\\Yu Gothic Medium" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\YuGothR.ttc\\Yu Gothic Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\YuGothB.ttc\\Yu Gothic UI Bold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\YuGothL.ttc\\Yu Gothic UI Light" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\YuGothM.ttc\\Yu Gothic UI Regular" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\YuGothB.ttc\\Yu Gothic UI Semibold" checksum="(NULL)">
+  </resource>
+
+  <resource identifier="external:C:\WINDOWS\fonts\YuGothR.ttc\\Yu Gothic UI Semilight" checksum="(NULL)">
+  </resource>
+</tags>

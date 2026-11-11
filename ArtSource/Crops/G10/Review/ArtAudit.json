@@ -1,0 +1,411 @@
+{
+  "status": "PASS",
+  "group": "G10",
+  "checks": 4671,
+  "phaseAppearances": 24,
+  "meshesWithLods": 48,
+  "verifiedFbx": 48,
+  "closedPetals": 1127,
+  "protectedFiles": 2364,
+  "atlas": "NP_Plants_RadialFlowers_01",
+  "atlasPixels": {
+    "BaseColor": {
+      "sha256": "8cf52fb9fb9813033754e2a4ee55b8b94ebd54fe9040d293a92a54b0717d0f92",
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "Normal": {
+      "sha256": "86a1b150ff678fecc623576894dce3b748e9624b5dc59ee538ec48ea531aa4e0",
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "SurfaceMask": {
+      "sha256": "4e1f3867c68957f1a3e605e6035bc87025780168df77cbbe54ab455352f14e37",
+      "size": [
+        2048,
+        2048
+      ]
+    }
+  },
+  "structure": {
+    "Sunflower_Seed": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 0
+    },
+    "Sunflower_Sprout": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 2
+    },
+    "Sunflower_Young": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 6
+    },
+    "Sunflower_BudForming": {
+      "flowers": 0,
+      "buds": 2,
+      "leaves": 13
+    },
+    "Sunflower_Ready": {
+      "flowers": 2,
+      "buds": 1,
+      "leaves": 13
+    },
+    "Sunflower_Harvest": {
+      "flowers": 1,
+      "buds": 0,
+      "leaves": 2
+    },
+    "Chrysanthemum_Seed": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 0
+    },
+    "Chrysanthemum_Sprout": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 2
+    },
+    "Chrysanthemum_Young": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 4
+    },
+    "Chrysanthemum_BudForming": {
+      "flowers": 0,
+      "buds": 3,
+      "leaves": 16
+    },
+    "Chrysanthemum_Ready": {
+      "flowers": 3,
+      "buds": 1,
+      "leaves": 16
+    },
+    "Chrysanthemum_Harvest": {
+      "flowers": 1,
+      "buds": 0,
+      "leaves": 2
+    },
+    "Dahlia_Seed": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 0
+    },
+    "Dahlia_Sprout": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 2
+    },
+    "Dahlia_Young": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 12
+    },
+    "Dahlia_BudForming": {
+      "flowers": 0,
+      "buds": 3,
+      "leaves": 48
+    },
+    "Dahlia_Ready": {
+      "flowers": 3,
+      "buds": 1,
+      "leaves": 48
+    },
+    "Dahlia_Harvest": {
+      "flowers": 1,
+      "buds": 0,
+      "leaves": 6
+    },
+    "Marigold_Seed": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 0
+    },
+    "Marigold_Sprout": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 2
+    },
+    "Marigold_Young": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 36
+    },
+    "Marigold_BudForming": {
+      "flowers": 0,
+      "buds": 4,
+      "leaves": 153
+    },
+    "Marigold_Ready": {
+      "flowers": 4,
+      "buds": 1,
+      "leaves": 153
+    },
+    "Marigold_Harvest": {
+      "flowers": 1,
+      "buds": 0,
+      "leaves": 18
+    }
+  },
+  "floralJoints": [
+    {
+      "plant": "Sunflower",
+      "stage": "BudForming",
+      "joint": "Bud0",
+      "gap": 1.1921292747407888e-07,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Sunflower",
+      "stage": "BudForming",
+      "joint": "Bud1",
+      "gap": 1.201514409696321e-07,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Sunflower",
+      "stage": "Ready",
+      "joint": "Flower0",
+      "gap": 3.725290298461914e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Sunflower",
+      "stage": "Ready",
+      "joint": "Flower1",
+      "gap": 6.674406255472048e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Sunflower",
+      "stage": "Ready",
+      "joint": "Bud9",
+      "gap": 6.188917057900187e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Sunflower",
+      "stage": "Harvest",
+      "joint": "Flower0",
+      "gap": 1.0536712127723509e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Chrysanthemum",
+      "stage": "BudForming",
+      "joint": "Bud0",
+      "gap": 6.726218967781327e-11,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Chrysanthemum",
+      "stage": "BudForming",
+      "joint": "Bud1",
+      "gap": 6.705522537231445e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Chrysanthemum",
+      "stage": "BudForming",
+      "joint": "Bud2",
+      "gap": 6.664652624284791e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Chrysanthemum",
+      "stage": "Ready",
+      "joint": "Flower0",
+      "gap": 6.006850114687196e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Chrysanthemum",
+      "stage": "Ready",
+      "joint": "Flower1",
+      "gap": 3.003425057343598e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Chrysanthemum",
+      "stage": "Ready",
+      "joint": "Flower2",
+      "gap": 6.143906154658885e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Chrysanthemum",
+      "stage": "Ready",
+      "joint": "Bud9",
+      "gap": 3.332000937312528e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Chrysanthemum",
+      "stage": "Harvest",
+      "joint": "Flower0",
+      "gap": 1.5359765386647212e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Dahlia",
+      "stage": "BudForming",
+      "joint": "Bud0",
+      "gap": 1.1944191220269132e-07,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Dahlia",
+      "stage": "BudForming",
+      "joint": "Bud1",
+      "gap": 1.666000468656264e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Dahlia",
+      "stage": "BudForming",
+      "joint": "Bud2",
+      "gap": 1.4930236657970956e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Dahlia",
+      "stage": "Ready",
+      "joint": "Flower0",
+      "gap": 5.960646373703944e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Dahlia",
+      "stage": "Ready",
+      "joint": "Flower1",
+      "gap": 6.143906154658885e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Dahlia",
+      "stage": "Ready",
+      "joint": "Flower2",
+      "gap": 2.980323186851972e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Dahlia",
+      "stage": "Ready",
+      "joint": "Bud9",
+      "gap": 3.332000937312528e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Dahlia",
+      "stage": "Harvest",
+      "joint": "Flower0",
+      "gap": 1.5359765386647212e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Marigold",
+      "stage": "BudForming",
+      "joint": "Bud0",
+      "gap": 6.006850114687196e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Marigold",
+      "stage": "BudForming",
+      "joint": "Bud1",
+      "gap": 3.650024149988857e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Marigold",
+      "stage": "BudForming",
+      "joint": "Bud2",
+      "gap": 3.0719530773294423e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Marigold",
+      "stage": "BudForming",
+      "joint": "Bud3",
+      "gap": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Marigold",
+      "stage": "Ready",
+      "joint": "Flower0",
+      "gap": 5.960464477539063e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Marigold",
+      "stage": "Ready",
+      "joint": "Flower1",
+      "gap": 3.332000937312528e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Marigold",
+      "stage": "Ready",
+      "joint": "Flower2",
+      "gap": 5.972094663188382e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Marigold",
+      "stage": "Ready",
+      "joint": "Flower3",
+      "gap": 7.450580596923828e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Marigold",
+      "stage": "Ready",
+      "joint": "Bud9",
+      "gap": 3.332000937312528e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Marigold",
+      "stage": "Harvest",
+      "joint": "Flower0",
+      "gap": 1.5359765386647212e-08,
+      "angleDegrees": 0.0
+    }
+  ],
+  "baseTriangleCounts": {
+    "NP_Chrysanthemum_BudForming": 17430,
+    "NP_Chrysanthemum_Harvest": 26000,
+    "NP_Chrysanthemum_Ready": 26000,
+    "NP_Chrysanthemum_Seed": 400,
+    "NP_Chrysanthemum_Sprout": 882,
+    "NP_Chrysanthemum_Young": 2016,
+    "NP_Dahlia_BudForming": 26000,
+    "NP_Dahlia_Harvest": 20138,
+    "NP_Dahlia_Ready": 25999,
+    "NP_Dahlia_Seed": 400,
+    "NP_Dahlia_Sprout": 882,
+    "NP_Dahlia_Young": 5344,
+    "NP_Marigold_BudForming": 25999,
+    "NP_Marigold_Harvest": 26000,
+    "NP_Marigold_Ready": 25999,
+    "NP_Marigold_Seed": 500,
+    "NP_Marigold_Sprout": 354,
+    "NP_Marigold_Young": 5856,
+    "NP_Sunflower_BudForming": 15812,
+    "NP_Sunflower_Harvest": 21114,
+    "NP_Sunflower_Ready": 26000,
+    "NP_Sunflower_Seed": 320,
+    "NP_Sunflower_Sprout": 882,
+    "NP_Sunflower_Young": 2896
+  },
+  "masterSha256": "95e8404bffa761ddfe16cb4e6c63c321ead74abb0885944691ac9932dc74e822",
+  "unityEditorImport": "NOT_RUN_BY_AGENT",
+  "unityPlayMode": "NOT_RUN_BY_AGENT"
+}

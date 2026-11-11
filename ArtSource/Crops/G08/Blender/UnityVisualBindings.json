@@ -1,0 +1,145 @@
+{
+  "group": "G08",
+  "status": "Prepared visual assets; existing crop profiles not modified",
+  "material": "NP_Plants_Unified_01",
+  "plants": {
+    "Rice": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G08\\NP_Rice_Seed.prefab",
+        "guid": "7f34300afbe84dc9809e73bb5d27ea03",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G08\\NP_Rice_Sprout.prefab",
+        "guid": "a09ac7331eee4293be8b220b0689c98c",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G08\\NP_Rice_Young.prefab",
+        "guid": "7aa59d838ced4338bc10bfbed20d10b9",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Heading",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G08\\NP_Rice_Heading.prefab",
+        "guid": "71c5dadf75134660ababf786be8aeeb3",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G08\\NP_Rice_Ready.prefab",
+        "guid": "747753bc0d3d496cb0055bf59df847b2",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G08\\NP_Rice_Harvest.prefab",
+        "guid": "3f889f97a850466f9b59618520311ef0",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Wheat": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G08\\NP_Wheat_Seed.prefab",
+        "guid": "467b992b90b34925aeb5c989a8669a9c",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G08\\NP_Wheat_Sprout.prefab",
+        "guid": "d4724c4c2cd2474b85c22fc382f54325",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G08\\NP_Wheat_Young.prefab",
+        "guid": "2954cc2a3e294c6ab2d19d47cbe8545a",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Heading",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G08\\NP_Wheat_Heading.prefab",
+        "guid": "49fd99cf8f664a5ebeebddb1284fb88a",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G08\\NP_Wheat_Ready.prefab",
+        "guid": "dc87e188f11c4babad7c1dbac33ea71c",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G08\\NP_Wheat_Harvest.prefab",
+        "guid": "062b715c7a384e5ea5a412162a49b8d9",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "authoringMaterial": "NP_Plants_Cereal_01",
+  "runtimeAtlas": "ArtSource/Crops/Unified/AtlasRegistry.json"
+}

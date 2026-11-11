@@ -1,0 +1,131 @@
+{
+  "fields": [
+    {
+      "scene": "Assets/Nature  Paradaise/Map/Scenes/Testing/TestingScene.unity",
+      "component": "801829202",
+      "cellSizeBefore": 0.8,
+      "cellSizeAfter": 1,
+      "columns": 10,
+      "rows": 10,
+      "worldWidth": 10,
+      "worldDepth": 10
+    },
+    {
+      "scene": "Assets/Nature  Paradaise/Map/Scenes/World/Map.unity",
+      "component": "332942375",
+      "cellSizeBefore": 0.8,
+      "cellSizeAfter": 1,
+      "columns": 15,
+      "rows": 15,
+      "worldWidth": 15,
+      "worldDepth": 15
+    },
+    {
+      "scene": "Assets/Nature  Paradaise/Map/Scenes/World/Map.unity",
+      "component": "801829202",
+      "cellSizeBefore": 0.8,
+      "cellSizeAfter": 1,
+      "columns": 15,
+      "rows": 15,
+      "worldWidth": 15,
+      "worldDepth": 15
+    },
+    {
+      "scene": "Assets/Nature  Paradaise/Map/Scenes/World/Map_GameplayPreview.unity",
+      "component": "801829202",
+      "cellSizeBefore": 0.8,
+      "cellSizeAfter": 1,
+      "columns": 10,
+      "rows": 10,
+      "worldWidth": 10,
+      "worldDepth": 10
+    }
+  ],
+  "cameras": [
+    {
+      "scene": "Assets/Nature  Paradaise/Map/Scenes/Testing/FishingTestScene.unity",
+      "sceneInteriorPitchPreserved": 55.0,
+      "outdoorPitch": 30,
+      "yawPreserved": 0.0,
+      "minimumOutside": 4.25,
+      "minimumInsidePreserved": 5,
+      "otherZoomLevelsPreserved": [
+        6.5,
+        8
+      ]
+    },
+    {
+      "scene": "Assets/Nature  Paradaise/Map/Scenes/Testing/TestingScene.unity",
+      "sceneInteriorPitchPreserved": 55.0,
+      "outdoorPitch": 30,
+      "yawPreserved": 0.0,
+      "minimumOutside": 4.25,
+      "minimumInsidePreserved": 5,
+      "otherZoomLevelsPreserved": [
+        6.5,
+        8
+      ]
+    },
+    {
+      "scene": "Assets/Nature  Paradaise/Map/Scenes/World/Map.unity",
+      "sceneInteriorPitchPreserved": 35.0,
+      "outdoorPitch": 30,
+      "yawPreserved": -142.648,
+      "minimumOutside": 4.25,
+      "minimumInsidePreserved": 5,
+      "otherZoomLevelsPreserved": [
+        6.5,
+        8
+      ]
+    },
+    {
+      "scene": "Assets/Nature  Paradaise/Map/Scenes/World/Map_GameplayPreview.unity",
+      "sceneInteriorPitchPreserved": 55.0,
+      "outdoorPitch": 30,
+      "yawPreserved": 0.0,
+      "minimumOutside": 4.25,
+      "minimumInsidePreserved": 5,
+      "otherZoomLevelsPreserved": [
+        6.5,
+        8
+      ]
+    }
+  ],
+  "interiorsUnchanged": {
+    "Assets/Nature  Paradaise/Map/Scenes/Interiors/BarnInterior.unity": "aa424ff80e174794ddf4e4983dd5a933789ba19378cd7cacb6c46011f83444a1",
+    "Assets/Nature  Paradaise/Map/Scenes/Interiors/CaveInterior.unity": "89e1d74c8fa159402abf10eed4a30c39178ae48e0051aef42ee159376294307a",
+    "Assets/Nature  Paradaise/Map/Scenes/Interiors/CoopInterior.unity": "b059d6b9f15015cccfd53a1af34cb7a1c841da81ee3bab064d06187636891b28",
+    "Assets/Nature  Paradaise/Map/Scenes/Interiors/HouseInterior.unity": "aac39b3f44774e425ad801def4fa60c9ea461dd00feeeee86980d4a02a6daa25"
+  },
+  "runtimeValidation": "Not run: Unity licensing unavailable in this environment",
+  "cropWorldScaleMultiplier": 1.25,
+  "nearestZoomScreenScaleMultiplier": 1.1764705882352942,
+  "combinedNearestScreenScaleMultiplier": 1.4705882352941178,
+  "authorizedChanges": {
+    "Assets/Nature  Paradaise/Map/Scenes/World/Map.unity": {
+      "before": "a081ffbc6c25019eee24123826c89ebed8945afec1948a32d0d430a1b1ea5b0d",
+      "after": "d07b0d87412f55a94504d93f0301d5bd6ea069825f7708146e63f84f949a1df3"
+    }
+  },
+  "mapChangeScopeVerified": "Reversing only the four cell/collider/surface entries and the camera framing entries reproduces the protected original Map byte-for-byte.",
+  "status": "PASS",
+  "serializedAndGeometryChecks": 154,
+  "cropGeometry": {
+    "plants": 12,
+    "phases": 61,
+    "largestExtentFromTileCenter": 0.42500064359676487,
+    "fitWithinCell": true,
+    "newWorldScale": 1.25
+  },
+  "sourceHashes": {
+    "Assets/Nature  Paradaise/Script/Camera/TopDownCameraFollow.cs": "efaaf94fee012d63aafd743a0a55d664d97812ddb4e12c86a5238402c66ffde0",
+    "Assets/Nature  Paradaise/Script/World/Field/FieldArea.cs": "6c11602aefbbbc944a939434f96c48913d1a77353a001c6bfeaa34a7c6810003"
+  },
+  "compilation": "PASS: Runtime and Editor, 318 + 145 sources",
+  "sceneHashes": {
+    "Assets/Nature  Paradaise/Map/Scenes/Testing/FishingTestScene.unity": "640c565e27e3c5aea53835f054fef503d3bb68aa2016f11f4434b7b83885c96d",
+    "Assets/Nature  Paradaise/Map/Scenes/Testing/TestingScene.unity": "9815df455bde329d8d56d1f9f077abac7a8a1d7c2e9c40c12771b8f3c9c709ac",
+    "Assets/Nature  Paradaise/Map/Scenes/World/Map.unity": "d07b0d87412f55a94504d93f0301d5bd6ea069825f7708146e63f84f949a1df3",
+    "Assets/Nature  Paradaise/Map/Scenes/World/Map_GameplayPreview.unity": "3f4db7eb12114eae0cf92e0cb2f2f75c605302111cd463bc3d5fe87eca6bc7df"
+  }
+}

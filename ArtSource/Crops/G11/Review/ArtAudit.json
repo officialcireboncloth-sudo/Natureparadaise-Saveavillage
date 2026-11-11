@@ -1,0 +1,100 @@
+{
+  "status": "PASS",
+  "group": "G11",
+  "checks": 3448,
+  "phaseAppearances": 6,
+  "meshesWithLods": 12,
+  "verifiedFbx": 12,
+  "closedPetals": 18,
+  "protectedFiles": 3109,
+  "atlas": "NP_Plants_Tulip_01",
+  "atlasPixels": {
+    "BaseColor": {
+      "sha256": "3568020791b2ed88f4148a0eca990f747387c4a6f36326aada2ab2a8db2c496d",
+      "size": [
+        2048,
+        1024
+      ]
+    },
+    "Normal": {
+      "sha256": "ee6c186af54b07462bf4c56c1bc00af78caf0c6474330684fc24386c237eb8a2",
+      "size": [
+        2048,
+        1024
+      ]
+    },
+    "SurfaceMask": {
+      "sha256": "735d3452426b0decf3e7b06fd613d668232e1858f7f652e4bafab08c06b7f805",
+      "size": [
+        2048,
+        1024
+      ]
+    }
+  },
+  "structure": {
+    "Tulip_Bulb": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 0
+    },
+    "Tulip_Sprout": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 2
+    },
+    "Tulip_Young": {
+      "flowers": 0,
+      "buds": 0,
+      "leaves": 3
+    },
+    "Tulip_BudForming": {
+      "flowers": 0,
+      "buds": 1,
+      "leaves": 2
+    },
+    "Tulip_Ready": {
+      "flowers": 1,
+      "buds": 0,
+      "leaves": 2
+    },
+    "Tulip_Harvest": {
+      "flowers": 1,
+      "buds": 0,
+      "leaves": 1
+    }
+  },
+  "floralJoints": [
+    {
+      "plant": "Tulip",
+      "stage": "BudForming",
+      "joint": "TulipHead",
+      "gap": 5.96058100540866e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Tulip",
+      "stage": "Ready",
+      "joint": "TulipHead",
+      "gap": 5.96058100540866e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "plant": "Tulip",
+      "stage": "Harvest",
+      "joint": "TulipHead",
+      "gap": 0.0,
+      "angleDegrees": 0.0
+    }
+  ],
+  "baseTriangleCounts": {
+    "NP_Tulip_BudForming": 11844,
+    "NP_Tulip_Bulb": 3260,
+    "NP_Tulip_Harvest": 14840,
+    "NP_Tulip_Ready": 16680,
+    "NP_Tulip_Sprout": 7100,
+    "NP_Tulip_Young": 5760
+  },
+  "masterSha256": "b723720eeaaa5d8c49fd0301c365658b4215d82ff33225afca1a2bc256ac578c",
+  "unityEditorImport": "NOT_RUN_BY_AGENT",
+  "unityPlayMode": "NOT_RUN_BY_AGENT"
+}

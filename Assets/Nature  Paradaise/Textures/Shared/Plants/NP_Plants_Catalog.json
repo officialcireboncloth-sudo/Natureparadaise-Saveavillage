@@ -5,59 +5,74 @@
       "plantId": "art.blueberry",
       "displayName": "Blueberry",
       "group": "G01",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
-        "StemGreen",
-        "SeedBrown",
-        "LeafOval",
-        "BarkBrown",
-        "FlowerWhite",
-        "BerryBlue",
+        "BlueberryLeaf",
+        "BlueberrySkin",
+        "BarkRed",
+        "FlowerIvory",
+        "BerryGreen",
         "BerryCrown",
-        "FruitUnripe"
+        "SeedTan",
+        "PollenGold",
+        "StemGreen",
+        "BerryRed"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G01 supplied berry reference complete",
+      "authoringAtlas": "NP_Plants_Berries_Source_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material",
+      "gameplayStatus": "APPLIED"
     },
     {
       "plantId": "art.raspberry",
       "displayName": "Raspberry",
       "group": "G01",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
-        "StemGreen",
-        "SeedBrown",
-        "LeafSerrated",
-        "BarkBrown",
-        "FlowerWhite",
-        "BerryRed",
-        "FruitUnripe"
+        "RaspberryLeaf",
+        "RaspberryDrupe",
+        "BarkRed",
+        "FlowerIvory",
+        "BerryGreen",
+        "SeedTan",
+        "PollenGold",
+        "StemGreen"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G01 supplied Raspberry reference complete",
+      "authoringAtlas": "NP_Plants_Raspberry_Source_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material",
+      "gameplayStatus": "APPLIED"
     },
     {
       "plantId": "art.blackberry",
       "displayName": "Blackberry",
       "group": "G01",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
+        "BlackberryLeaf",
+        "BlackberryDrupe",
+        "BarkRed",
+        "FlowerIvory",
+        "BerryGreen",
+        "BerryCrown",
+        "SeedTan",
+        "PollenGold",
         "StemGreen",
-        "SeedBrown",
-        "LeafSerrated",
-        "BarkBrown",
-        "FlowerWhite",
-        "BerryDark",
-        "FruitUnripe"
+        "BerryRed"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G01 supplied berry reference complete",
+      "authoringAtlas": "NP_Plants_Berries_Source_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material",
+      "gameplayStatus": "APPLIED"
     },
     {
       "plantId": "art.watermelon",
       "displayName": "Watermelon",
       "group": "G02",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
         "LeafYoung",
         "StemGreen",
@@ -71,13 +86,16 @@
         "FruitUnripe",
         "LeafVineHeart"
       ],
-      "artStatus": "G02 R03 registered surface detail"
+      "artStatus": "G02 R03 registered surface detail",
+      "authoringAtlas": "NP_Plants_Produce_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.melon",
       "displayName": "Melon",
       "group": "G02",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
         "LeafYoung",
         "StemGreen",
@@ -91,13 +109,16 @@
         "FruitUnripe",
         "LeafVineRound"
       ],
-      "artStatus": "G02 R03 registered surface detail"
+      "artStatus": "G02 R03 registered surface detail",
+      "authoringAtlas": "NP_Plants_Produce_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.zucchini",
       "displayName": "Zucchini",
       "group": "G02",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
         "LeafYoung",
         "StemGreen",
@@ -109,13 +130,16 @@
         "PollenGold",
         "LeafLobed"
       ],
-      "artStatus": "G02 R03 registered surface detail"
+      "artStatus": "G02 R03 registered surface detail",
+      "authoringAtlas": "NP_Plants_Produce_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.kiwi",
       "displayName": "Kiwi",
       "group": "G03",
-      "atlas": "NP_Plants_Trellis_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
         "LeafYoung",
         "StemGreen",
@@ -130,13 +154,16 @@
         "FruitUnripe",
         "SepalGreen"
       ],
-      "artStatus": "G03 R02 vivid colours and registered kiwi leaf/skin; field integration pending"
+      "artStatus": "G03 R02 vivid colours and registered kiwi leaf/skin; field integration pending",
+      "authoringAtlas": "NP_Plants_Trellis_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.pea",
       "displayName": "Pea",
       "group": "G03",
-      "atlas": "NP_Plants_Trellis_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
         "LeafYoung",
         "StemGreen",
@@ -149,13 +176,16 @@
         "SepalGreen",
         "BarkBrown"
       ],
-      "artStatus": "G03 R02 vivid colours and registered kiwi leaf/skin; field integration pending"
+      "artStatus": "G03 R02 vivid colours and registered kiwi leaf/skin; field integration pending",
+      "authoringAtlas": "NP_Plants_Trellis_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.cucumber",
       "displayName": "Cucumber",
       "group": "G03",
-      "atlas": "NP_Plants_Trellis_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
         "LeafYoung",
         "StemGreen",
@@ -169,13 +199,16 @@
         "BarkBrown",
         "MelonFlesh"
       ],
-      "artStatus": "G03 R02 vivid colours and registered kiwi leaf/skin; field integration pending"
+      "artStatus": "G03 R02 vivid colours and registered kiwi leaf/skin; field integration pending",
+      "authoringAtlas": "NP_Plants_Trellis_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.eggplant",
       "displayName": "Eggplant",
       "group": "G04",
-      "atlas": "NP_Plants_Trellis_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
         "LeafYoung",
         "StemGreen",
@@ -190,13 +223,16 @@
         "SepalGreen",
         "PollenGold"
       ],
-      "artStatus": "G04 R01 prepared reference bushes; field integration pending"
+      "artStatus": "G04 R01 prepared reference bushes; field integration pending",
+      "authoringAtlas": "NP_Plants_Trellis_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.chili_pepper",
       "displayName": "Chili Pepper",
       "group": "G04",
-      "atlas": "NP_Plants_Trellis_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
         "LeafYoung",
         "StemGreen",
@@ -212,13 +248,16 @@
         "PollenGold",
         "EggplantFlesh"
       ],
-      "artStatus": "G04 R01 prepared reference bushes; field integration pending"
+      "artStatus": "G04 R01 prepared reference bushes; field integration pending",
+      "authoringAtlas": "NP_Plants_Trellis_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.green_bean",
       "displayName": "Green Bean",
       "group": "G04",
-      "atlas": "NP_Plants_Trellis_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
         "LeafYoung",
         "StemGreen",
@@ -230,13 +269,16 @@
         "FlowerWhite",
         "SepalGreen"
       ],
-      "artStatus": "G04 R01 prepared reference bushes; field integration pending"
+      "artStatus": "G04 R01 prepared reference bushes; field integration pending",
+      "authoringAtlas": "NP_Plants_Trellis_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.cabbage",
       "displayName": "Cabbage",
       "group": "G05",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
         "LeafYoung",
         "StemGreen",
@@ -246,13 +288,16 @@
         "LeafBrassica",
         "CabbageHead"
       ],
-      "artStatus": "G05 R03 registered surface detail"
+      "artStatus": "G05 R03 registered surface detail",
+      "authoringAtlas": "NP_Plants_Produce_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.broccoli",
       "displayName": "Broccoli",
       "group": "G05",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
         "LeafYoung",
         "StemGreen",
@@ -261,13 +306,16 @@
         "StemPale",
         "BroccoliHead"
       ],
-      "artStatus": "G05 R03 registered surface detail"
+      "artStatus": "G05 R03 registered surface detail",
+      "authoringAtlas": "NP_Plants_Produce_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.cauliflower",
       "displayName": "Cauliflower",
       "group": "G05",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
         "LeafYoung",
         "StemGreen",
@@ -276,272 +324,368 @@
         "LeafCabbage",
         "CauliflowerHead"
       ],
-      "artStatus": "G05 R03 registered surface detail"
+      "artStatus": "G05 R03 registered surface detail",
+      "authoringAtlas": "NP_Plants_Produce_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.radish",
       "displayName": "Radish",
       "group": "G06",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
-        "StemGreen",
-        "SeedBrown",
+        "SeedTan",
         "LeafLobed",
         "RadishGradient",
         "RadishCut",
-        "RootCream"
+        "RootCream",
+        "StemGreen"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G06 five growth phases, harvest, cut half and LODs prepared; Unity validation pending",
+      "authoringAtlas": "NP_Plants_Trellis_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.onion",
       "displayName": "Onion",
       "group": "G06",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
-        "StemGreen",
-        "SeedBrown",
+        "SeedBlack",
         "LeafStrap",
         "OnionSkin",
         "OnionCut",
         "RootCream",
-        "BulbSkin"
+        "StemGreen"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G06 five growth phases, harvest, cut half and LODs prepared; Unity validation pending",
+      "authoringAtlas": "NP_Plants_Trellis_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.spinach",
       "displayName": "Spinach",
       "group": "G07",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
-        "StemGreen",
-        "SeedBrown",
-        "LeafDark",
-        "LeafOval"
+        "LeafYoungSpinach",
+        "StemPale",
+        "SeedTan",
+        "LeafOrchid",
+        "CutStem"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G07 R02 registered high-detail leaf textures, inflated rosette and slender curved water-spinach stems; Unity validation pending",
+      "authoringAtlas": "NP_Plants_Leafy_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.water_spinach",
       "displayName": "Water Spinach",
       "group": "G07",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
-        "StemGreen",
+        "LeafYoungSpinach",
+        "StemPale",
         "SeedBrown",
         "LeafWaterSpinach",
+        "CutStem",
+        "LeafYoungWaterSpinach",
         "HollowStem"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G07 R02 registered high-detail leaf textures, inflated rosette and slender curved water-spinach stems; Unity validation pending",
+      "authoringAtlas": "NP_Plants_Leafy_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.rice",
       "displayName": "Rice",
       "group": "G08",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
+        "LeafGreen",
+        "LeafGold",
+        "LeafWarm",
         "StemGreen",
-        "SeedBrown",
-        "LeafStrap",
-        "GrainGreen",
-        "GrainGold"
+        "StemGold",
+        "CutStem",
+        "RiceGold",
+        "RiceGreen",
+        "RiceSeed",
+        "RiceWhite"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G08 sculpted cereal stages, vivid green/gold atlas and separate grain piles; Unity validation pending",
+      "authoringAtlas": "NP_Plants_Cereal_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.wheat",
       "displayName": "Wheat",
       "group": "G08",
-      "atlas": "NP_Plants_Produce_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
+        "LeafGreen",
+        "LeafGold",
+        "LeafWarm",
         "StemGreen",
-        "SeedBrown",
-        "LeafStrap",
-        "GrainGreen",
-        "GrainGold"
+        "StemGold",
+        "CutStem",
+        "WheatGold",
+        "WheatGreen",
+        "WheatSeed",
+        "AwnGold"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G08 sculpted cereal stages, vivid green/gold atlas and separate grain piles; Unity validation pending",
+      "authoringAtlas": "NP_Plants_Cereal_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.rose",
       "displayName": "Rose",
       "group": "G09",
-      "atlas": "NP_Plants_Flowers_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
+        "RoseLeaf",
+        "RosePetal",
         "StemGreen",
-        "SeedBrown",
-        "LeafRose",
-        "BarkBrown",
-        "Thorn",
-        "PetalRed",
-        "RoseInner",
-        "BudRed"
+        "SepalGreen",
+        "BudRed",
+        "SeedTan",
+        "CutStem",
+        "ThornBronze"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G09 sculpted species-specific flowers, detailed leaf/petal atlas and six visual stages; Unity validation pending",
+      "authoringAtlas": "NP_Plants_ShrubFlowers_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.hibiscus",
       "displayName": "Hibiscus",
       "group": "G09",
-      "atlas": "NP_Plants_Flowers_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
+        "HibiscusLeaf",
+        "HibiscusPetal",
         "StemGreen",
+        "SepalGreen",
+        "BudRed",
         "SeedBrown",
-        "LeafHibiscus",
-        "PetalRed",
-        "HibiscusFilament",
+        "CutStem",
         "PollenGold",
-        "BudRed"
+        "StigmaRed"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G09 sculpted species-specific flowers, detailed leaf/petal atlas and six visual stages; Unity validation pending",
+      "authoringAtlas": "NP_Plants_ShrubFlowers_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.jasmine",
       "displayName": "Jasmine",
       "group": "G09",
-      "atlas": "NP_Plants_Flowers_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
+        "JasmineLeaf",
+        "JasminePetal",
         "StemGreen",
+        "SepalGreen",
+        "BudCream",
         "SeedBrown",
-        "LeafJasmine",
-        "PetalWhite",
-        "PetalCream",
-        "BudWhite"
+        "CutStem"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G09 sculpted species-specific flowers, detailed leaf/petal atlas and six visual stages; Unity validation pending",
+      "authoringAtlas": "NP_Plants_ShrubFlowers_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.sunflower",
       "displayName": "Sunflower",
       "group": "G10",
-      "atlas": "NP_Plants_Flowers_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
+        "SunflowerLeaf",
+        "SunflowerPetal",
         "StemGreen",
-        "SeedBrown",
-        "LeafSunflower",
-        "PetalGold",
-        "PetalYellow",
-        "SunflowerDisk",
-        "SeedStripe"
+        "SepalGreen",
+        "BudGreen",
+        "CutStem",
+        "SeedStripe",
+        "SunflowerDisk"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G10: six sculpted visual stages and two-LOD Unity prefabs; art/export checks passed",
+      "gameplayStatus": "APPLIED",
+      "authoringAtlas": "NP_Plants_RadialFlowers_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.chrysanthemum",
       "displayName": "Chrysanthemum",
       "group": "G10",
-      "atlas": "NP_Plants_Flowers_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
+        "ChrysanthemumLeaf",
+        "ChrysanthemumPetal",
         "StemGreen",
-        "SeedBrown",
-        "LeafChrysanthemum",
-        "PetalGold",
-        "PetalYellow",
-        "FlowerGreen"
+        "SepalGreen",
+        "BudGreen",
+        "CutStem",
+        "SeedBrown"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G10: six sculpted visual stages and two-LOD Unity prefabs; art/export checks passed",
+      "gameplayStatus": "APPLIED",
+      "authoringAtlas": "NP_Plants_RadialFlowers_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.dahlia",
       "displayName": "Dahlia",
       "group": "G10",
-      "atlas": "NP_Plants_Flowers_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
-        "StemGreen",
-        "SeedBrown",
-        "LeafDahlia",
-        "PetalCoral",
+        "DahliaLeaf",
         "DahliaPetal",
-        "BudPink"
+        "StemGreen",
+        "SepalGreen",
+        "BudGreen",
+        "CutStem",
+        "SeedBlack"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G10: six sculpted visual stages and two-LOD Unity prefabs; art/export checks passed",
+      "gameplayStatus": "APPLIED",
+      "authoringAtlas": "NP_Plants_RadialFlowers_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.marigold",
       "displayName": "Marigold",
       "group": "G10",
-      "atlas": "NP_Plants_Flowers_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
+        "MarigoldLeaf",
+        "MarigoldPetal",
         "StemGreen",
-        "SeedBrown",
-        "LeafMarigold",
-        "PetalOrange",
-        "MarigoldRuffle",
-        "FlowerGreen"
+        "SepalGreen",
+        "BudGreen",
+        "CutStem",
+        "SeedBlack"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G10: six sculpted visual stages and two-LOD Unity prefabs; art/export checks passed",
+      "gameplayStatus": "APPLIED",
+      "authoringAtlas": "NP_Plants_RadialFlowers_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.tulip",
       "displayName": "Tulip",
       "group": "G11",
-      "atlas": "NP_Plants_Flowers_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
-        "StemGreen",
-        "SeedBrown",
-        "LeafStrap",
+        "TulipPetal",
+        "TulipBud",
+        "TulipLeaf",
         "BulbSkin",
-        "PetalPink",
-        "BudPink"
+        "StemGreen",
+        "SepalGreen",
+        "RootCream",
+        "CutStem"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G11: six reference-matched bulb, leaf, bud, cup and cut-flower visuals with two-LOD Unity prefabs",
+      "gameplayStatus": "APPLIED",
+      "authoringAtlas": "NP_Plants_Tulip_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material"
     },
     {
       "plantId": "art.orchid",
       "displayName": "Orchid",
       "group": "G12",
-      "atlas": "NP_Plants_Flowers_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
-        "StemGreen",
-        "SeedBrown",
-        "LeafOrchid",
-        "RootGray",
-        "PetalPurple",
+        "OrchidPetal",
+        "OrchidSepal",
         "OrchidLip",
-        "BudPurple"
+        "OrchidLeaf",
+        "StemGreen",
+        "RootVelamen",
+        "SeedCream",
+        "ColumnAmber"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G12 reference model and spatial leaves complete",
+      "authoringAtlas": "NP_Plants_Orchid_Source_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material",
+      "gameplayStatus": "APPLIED"
     },
     {
       "plantId": "art.lavender",
       "displayName": "Lavender",
       "group": "G13",
-      "atlas": "NP_Plants_Flowers_01",
+      "atlas": "NP_Plants_Unified_01",
       "slots": [
-        "LeafYoung",
-        "StemGreen",
-        "SeedBrown",
-        "LeafLavender",
-        "PetalLavender",
-        "LavenderFloret",
-        "BudPurple"
+        "LavenderPetal",
+        "LavenderLeaf",
+        "StemSage",
+        "SeedBrown"
       ],
-      "artStatus": "textures prepared; model pending"
+      "artStatus": "G13 reference model and spatial leaves complete",
+      "authoringAtlas": "NP_Plants_Lavender_Source_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material",
+      "gameplayStatus": "APPLIED"
+    },
+    {
+      "plantId": "art.daisy",
+      "displayName": "Daisy",
+      "group": "G14",
+      "atlas": "NP_Plants_Unified_01",
+      "slots": [
+        "DaisyLeaf",
+        "DaisyPetal",
+        "DaisyDisk",
+        "DaisySeed",
+        "DaisyStem"
+      ],
+      "artStatus": "Revised detailed color, relief and smoothness for Daisy",
+      "authoringAtlas": "NP_Plants_DaisyMoonflower_Source_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material",
+      "gameplayStatus": "APPLIED"
+    },
+    {
+      "plantId": "art.moonflower",
+      "displayName": "Moonflower",
+      "group": "G14",
+      "atlas": "NP_Plants_Unified_01",
+      "slots": [
+        "MoonflowerLeaf",
+        "MoonflowerPetal",
+        "MoonflowerSeed",
+        "FlowerStem"
+      ],
+      "artStatus": "Reference phases and detached harvest complete",
+      "authoringAtlas": "NP_Plants_DaisyMoonflower_Source_01",
+      "runtimeMaterial": "NP_Plants_Unified_01",
+      "atlasPolicy": "Append source surfaces to the shared registry; never introduce a per-group runtime material",
+      "gameplayStatus": "APPLIED"
     }
   ],
-  "missingReference": [
-    "Daisy",
-    "Moonflower"
-  ],
+  "missingReference": [],
   "sharedEarlyStages": "Core atlas: reusable round/oval/flat seeds; broad two-leaf sprout. Single-leaf/strap/bulb sprouts remain distinct.",
   "trellisMaterial": "NP_CozySurfaces_01 (existing wood/rope)",
   "trellisMaterialByGroup": {
     "G03": "NP_Plants_Trellis_01 / BarkBrown"
-  }
+  },
+  "runtimeAtlas": "ArtSource/Crops/Unified/AtlasRegistry.json"
 }

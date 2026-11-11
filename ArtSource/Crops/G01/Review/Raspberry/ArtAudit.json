@@ -1,0 +1,187 @@
+{
+  "status": "PASS",
+  "checks": 6322,
+  "priorCropsRetained": 30,
+  "priorAtlasSlotsAndPixelsRetained": 146,
+  "species": [
+    "Blueberry",
+    "Raspberry",
+    "Blackberry"
+  ],
+  "stages": {
+    "Seed": {
+      "leaves": 0,
+      "fruits": 0,
+      "flowers": 0
+    },
+    "Sprout": {
+      "leaves": 3,
+      "fruits": 0,
+      "flowers": 0
+    },
+    "Young": {
+      "leaves": 21,
+      "fruits": 0,
+      "flowers": 0
+    },
+    "Flowering": {
+      "leaves": 44,
+      "fruits": 5,
+      "flowers": 4
+    },
+    "Ready": {
+      "leaves": 44,
+      "fruits": 7,
+      "flowers": 0
+    },
+    "Harvest": {
+      "leaves": 0,
+      "fruits": 3,
+      "flowers": 0
+    }
+  },
+  "leafMetrics": {
+    "Sprout": {
+      "depthWidthRatio": 0.7230732323401786,
+      "projectionRatio": 0.3067812816658863,
+      "minimumLeafNonplanarity": 0.11853668620263956
+    },
+    "Young": {
+      "depthWidthRatio": 0.8694260401167067,
+      "projectionRatio": 0.7245871250490742,
+      "minimumLeafNonplanarity": 0.10967289791742028
+    },
+    "Flowering": {
+      "depthWidthRatio": 0.7737030363762915,
+      "projectionRatio": 0.5999694021639203,
+      "minimumLeafNonplanarity": 0.09818155320802843
+    },
+    "Ready": {
+      "depthWidthRatio": 0.7691271058732133,
+      "projectionRatio": 0.6052134117554043,
+      "minimumLeafNonplanarity": 0.09606973585835704
+    }
+  },
+  "closedSculptedVolumes": 942,
+  "floralJoints": [
+    {
+      "stage": "Flowering",
+      "key": "Fruit_0",
+      "gap": 7.300048299977713e-08,
+      "angle": 0.0
+    },
+    {
+      "stage": "Flowering",
+      "key": "Fruit_1",
+      "gap": 2.9802322387695312e-08,
+      "angle": 0.0
+    },
+    {
+      "stage": "Flowering",
+      "key": "Fruit_2",
+      "gap": 5.960464477539063e-08,
+      "angle": 0.0
+    },
+    {
+      "stage": "Flowering",
+      "key": "Fruit_3",
+      "gap": 0.0,
+      "angle": 0.0
+    },
+    {
+      "stage": "Flowering",
+      "key": "Fruit_4",
+      "gap": 7.300048299977713e-08,
+      "angle": 0.0
+    },
+    {
+      "stage": "Flowering",
+      "key": "Flower_0",
+      "gap": 2.1073424255447017e-08,
+      "angle": 0.0
+    },
+    {
+      "stage": "Flowering",
+      "key": "Flower_1",
+      "gap": 1.4901161193847656e-08,
+      "angle": 0.0
+    },
+    {
+      "stage": "Flowering",
+      "key": "Flower_2",
+      "gap": 0.0,
+      "angle": 0.0
+    },
+    {
+      "stage": "Flowering",
+      "key": "Flower_3",
+      "gap": 2.9802322387695312e-08,
+      "angle": 0.0
+    },
+    {
+      "stage": "Ready",
+      "key": "Fruit_0",
+      "gap": 4.2146848510894035e-08,
+      "angle": 0.0
+    },
+    {
+      "stage": "Ready",
+      "key": "Fruit_1",
+      "gap": 5.960464477539063e-08,
+      "angle": 0.0
+    },
+    {
+      "stage": "Ready",
+      "key": "Fruit_2",
+      "gap": 7.300048299977713e-08,
+      "angle": 0.0
+    },
+    {
+      "stage": "Ready",
+      "key": "Fruit_3",
+      "gap": 5.960464477539063e-08,
+      "angle": 0.0
+    },
+    {
+      "stage": "Ready",
+      "key": "Fruit_4",
+      "gap": 4.2146848510894035e-08,
+      "angle": 0.0
+    },
+    {
+      "stage": "Ready",
+      "key": "Fruit_5",
+      "gap": 0.0,
+      "angle": 0.0
+    },
+    {
+      "stage": "Ready",
+      "key": "Fruit_6",
+      "gap": 4.2146848510894035e-08,
+      "angle": 0.0
+    }
+  ],
+  "masterSha256": "3b617fa88f6a804ebdd4af26225b3ee305ace6d35e555f3f29f65eb0c937659a",
+  "runtimeMaterials": 1,
+  "atlasSize": [
+    4096,
+    4096
+  ],
+  "sourceHashes": {
+    "ArtSource/Crops/Scripts/apply_g01_raspberry_integration.py": "2ff74395fe7a14dc85328a60d5c06e9b31c87f74e57e2a60908c34e9ae01e67d",
+    "ArtSource/Crops/Scripts/build_g01_raspberry.py": "cc504d271f57f8325ecd878629517362c678590c97f24f8426c212de6abfb6c3",
+    "ArtSource/Crops/Scripts/capture_g01_raspberry_exports.py": "948d151824726505180465197c91ce088fcccd5e0d7d2833d76efc142b0483e7",
+    "ArtSource/Crops/Scripts/extend_g01_raspberry_icons_gimp.py": "f4a7e4b5a7fa75f7f908964bdc287bbd4b5ba6349fa797082d19682659622aa3",
+    "ArtSource/Crops/Scripts/g01_raspberry_config.py": "bf4bfbbafd15b890b2c1b8f35beb939c47ea9b003012a02e02c0815d403932bb",
+    "ArtSource/Crops/Scripts/g01_raspberry_geometry.py": "dc30f3328a7ad6819be2bac7d47438a84f7685b1edc4c5dd9a0fe7a52c3fe391",
+    "ArtSource/Crops/Scripts/g01_raspberry_integration_config.py": "890b407e4f6f13005d67d384f66eb976ac11cf9576c9fa747b2b956e7be0e0af",
+    "ArtSource/Crops/Scripts/inspect_g01_raspberry_icon.py": "20c119ff7da27979f7ade61164267e160ca2912645854e9640012411067a9d87",
+    "ArtSource/Crops/Scripts/paint_g01_raspberry_gimp.py": "7e5534dafac08db0dae0ce65840b3aa7254462d28a367eb3e96a358440ad9b22",
+    "ArtSource/Crops/Scripts/prepare_g01_raspberry.py": "b685eff8556018d6a93e1bacdf6ac5c29bcd460f31f1c02d81d784ceda699328",
+    "ArtSource/Crops/Scripts/render_g01_raspberry.py": "2ca129b732e50e6532d3b8f61c8dad731ba6b2374879987403b6264bc3fa3240",
+    "ArtSource/Crops/Scripts/review_g01_raspberry_gimp.py": "e0cd1221d8ab521068fb995be331129e822462ad3bca598f89533400f89128f7",
+    "ArtSource/Crops/Scripts/verify_g01_raspberry.py": "01c123bf08459677de9f1c968481651bfb6bcb3292e8ef559551bbf67906666f"
+  },
+  "unityPlayMode": "NOT_RUN",
+  "mobileProfiling": "NOT_RUN"
+}

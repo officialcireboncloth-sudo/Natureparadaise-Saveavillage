@@ -1,0 +1,148 @@
+{
+  "group": "G14",
+  "status": "Applied to crop profiles and the existing seed store",
+  "material": "NP_Plants_Unified_01",
+  "plants": {
+    "Daisy": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G14\\NP_Daisy_Seed.prefab",
+        "guid": "ceccfd6ca9174305977aada7b3b00b99",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G14\\NP_Daisy_Sprout.prefab",
+        "guid": "a3046c765b364059b3dcabc58f6f77f0",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G14\\NP_Daisy_Young.prefab",
+        "guid": "71ef7f59d6ea490ba67e558013a97eeb",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G14\\NP_Daisy_BudForming.prefab",
+        "guid": "523b81f2214647ce864a5649574616ea",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G14\\NP_Daisy_Ready.prefab",
+        "guid": "7f39bb8a343d40bd95f37a078b29000f",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G14\\NP_Daisy_Harvest.prefab",
+        "guid": "cd62d58735ea4d969e268895597d22a3",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Moonflower": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G14\\NP_Moonflower_Seed.prefab",
+        "guid": "a5f794760ac949e8beeced96c6a903af",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G14\\NP_Moonflower_Sprout.prefab",
+        "guid": "6be0fe457b1f490d89330c2bfb207e71",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G14\\NP_Moonflower_Young.prefab",
+        "guid": "b0a4fbe63af34a7ea2fe0381deb3b854",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G14\\NP_Moonflower_BudForming.prefab",
+        "guid": "91b6102e513844c6bcaae71b49dfb0ac",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G14\\NP_Moonflower_Ready.prefab",
+        "guid": "2acfb1097010442bab5295e5ce7b5dd2",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G14\\NP_Moonflower_Harvest.prefab",
+        "guid": "55ed3a0108ec4a0385a2564c65fac871",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "gameplayIntegration": "ArtSource/Crops/Integration/Manifest.json",
+  "profiles": {
+    "Daisy": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Daisy Crop.asset",
+    "Moonflower": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Moonflower Crop.asset"
+  }
+}

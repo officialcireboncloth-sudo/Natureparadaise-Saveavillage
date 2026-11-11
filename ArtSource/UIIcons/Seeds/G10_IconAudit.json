@@ -1,0 +1,92 @@
+{
+  "status": "PASS",
+  "newPackets": 4,
+  "newProduceSprites": 4,
+  "newMutationSprites": 4,
+  "seedMastersReopened": 4,
+  "produceMastersReopened": 4,
+  "source": "ArtSource/UIIcons/Seeds/Generated/G10_Illustrations.png",
+  "sourceSha256": "a840b2d98880bb6688489622f919e28e6d51c0c3f7afdd8f39395c91b6a87cfd",
+  "records": [
+    {
+      "plant": "sunflower",
+      "label": "BUNGA MATAHARI",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_sunflower.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_sunflower.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_sunflower.png",
+      "seedSha256": "6f9d90eec3f3d75505883fbd0b5daf2074512c21ffa57d3f0ecb0515167b8dfa",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G10_Illustrations.png",
+      "atlasCell": [
+        0,
+        0,
+        618,
+        624
+      ]
+    },
+    {
+      "plant": "chrysanthemum",
+      "label": "KRISAN",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_chrysanthemum.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_chrysanthemum.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_chrysanthemum.png",
+      "seedSha256": "4c707f3a3b1fcf070a5d0f2f9e9b253d437fd8ce0537ca0da9ed2489833e8481",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G10_Illustrations.png",
+      "atlasCell": [
+        618,
+        0,
+        636,
+        624
+      ]
+    },
+    {
+      "plant": "dahlia",
+      "label": "DAHLIA",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_dahlia.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_dahlia.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_dahlia.png",
+      "seedSha256": "2dda797db8cfc13091d9b57c3bb7a0bbc6f96574b8940307cc2408553e7977b1",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G10_Illustrations.png",
+      "atlasCell": [
+        0,
+        624,
+        618,
+        630
+      ]
+    },
+    {
+      "plant": "marigold",
+      "label": "MARIGOLD",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_marigold.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_marigold.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_marigold.png",
+      "seedSha256": "04820953d78c905408afd2134ce9a6b37fa6943e72c6d1ec999939537fdf53ab",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G10_Illustrations.png",
+      "atlasCell": [
+        618,
+        624,
+        636,
+        630
+      ]
+    }
+  ]
+}

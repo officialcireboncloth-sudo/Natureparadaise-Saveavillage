@@ -1,0 +1,284 @@
+{
+  "status": "SOURCE_EXPORTED",
+  "roots": {
+    "Blackberry_Flowering": {
+      "leaves": 38,
+      "fruitEnvelopes": 6
+    },
+    "Blackberry_Ready": {
+      "leaves": 38,
+      "fruitEnvelopes": 8
+    },
+    "Blackberry_Sprout": {
+      "leaves": 3,
+      "fruitEnvelopes": 0
+    },
+    "Blackberry_Young": {
+      "leaves": 21,
+      "fruitEnvelopes": 0
+    },
+    "Blueberry_Flowering": {
+      "leaves": 44,
+      "fruitEnvelopes": 3
+    },
+    "Blueberry_Ready": {
+      "leaves": 44,
+      "fruitEnvelopes": 7
+    },
+    "Blueberry_Sprout": {
+      "leaves": 2,
+      "fruitEnvelopes": 0
+    },
+    "Blueberry_Young": {
+      "leaves": 9,
+      "fruitEnvelopes": 0
+    },
+    "Raspberry_Flowering": {
+      "leaves": 44,
+      "fruitEnvelopes": 5
+    },
+    "Raspberry_Ready": {
+      "leaves": 44,
+      "fruitEnvelopes": 7
+    },
+    "Raspberry_Sprout": {
+      "leaves": 3,
+      "fruitEnvelopes": 0
+    },
+    "Raspberry_Young": {
+      "leaves": 21,
+      "fruitEnvelopes": 0
+    }
+  },
+  "exports": [
+    {
+      "name": "NP_Blackberry_Flowering",
+      "plant": "Blackberry",
+      "stage": "Flowering",
+      "triangles": 25950,
+      "lodTriangles": 2720,
+      "bounds": [
+        [
+          -0.5283185839653015,
+          0.000997221446596086,
+          -0.45313760638237
+        ],
+        [
+          0.4386478066444397,
+          0.9001143574714661,
+          0.37506428360939026
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blackberry_Ready",
+      "plant": "Blackberry",
+      "stage": "Ready",
+      "triangles": 25960,
+      "lodTriangles": 2769,
+      "bounds": [
+        [
+          -0.5876302719116211,
+          0.0009989714017137885,
+          -0.47380220890045166
+        ],
+        [
+          0.5170827507972717,
+          0.9427881240844727,
+          0.41741418838500977
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blackberry_Sprout",
+      "plant": "Blackberry",
+      "stage": "Sprout",
+      "triangles": 2480,
+      "lodTriangles": 992,
+      "bounds": [
+        [
+          -0.1968224048614502,
+          0.0010000000474974513,
+          -0.13607269525527954
+        ],
+        [
+          0.18032552301883698,
+          0.2553766965866089,
+          0.09897220879793167
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blackberry_Young",
+      "plant": "Blackberry",
+      "stage": "Young",
+      "triangles": 20616,
+      "lodTriangles": 2800,
+      "bounds": [
+        [
+          -0.3243393898010254,
+          0.0010000000474974513,
+          -0.23891176283359528
+        ],
+        [
+          0.26817426085472107,
+          0.5823624134063721,
+          0.2614724338054657
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blueberry_Flowering",
+      "plant": "Blueberry",
+      "stage": "Flowering",
+      "triangles": 25999,
+      "lodTriangles": 2779,
+      "bounds": [
+        [
+          -0.4969788193702698,
+          0.0010000000474974513,
+          -0.487873375415802
+        ],
+        [
+          0.36294201016426086,
+          0.7255018949508667,
+          0.34132257103919983
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blueberry_Ready",
+      "plant": "Blueberry",
+      "stage": "Ready",
+      "triangles": 26000,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.5528081655502319,
+          0.0010000000474974513,
+          -0.5129771828651428
+        ],
+        [
+          0.4176177978515625,
+          0.8074873685836792,
+          0.37964126467704773
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blueberry_Sprout",
+      "plant": "Blueberry",
+      "stage": "Sprout",
+      "triangles": 1224,
+      "lodTriangles": 488,
+      "bounds": [
+        [
+          -0.19682084023952484,
+          0.0010000000474974513,
+          -0.07433076947927475
+        ],
+        [
+          0.18032191693782806,
+          0.25475457310676575,
+          0.0893525704741478
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blueberry_Young",
+      "plant": "Blueberry",
+      "stage": "Young",
+      "triangles": 7968,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.2445978820323944,
+          0.0010000000474974513,
+          -0.24107348918914795
+        ],
+        [
+          0.22817488014698029,
+          0.5109689831733704,
+          0.2158079445362091
+        ]
+      ]
+    },
+    {
+      "name": "NP_Raspberry_Flowering",
+      "plant": "Raspberry",
+      "stage": "Flowering",
+      "triangles": 25955,
+      "lodTriangles": 2720,
+      "bounds": [
+        [
+          -0.43435683846473694,
+          0.0010184210259467363,
+          -0.445121169090271
+        ],
+        [
+          0.48038774728775024,
+          0.8692083954811096,
+          0.3515503704547882
+        ]
+      ]
+    },
+    {
+      "name": "NP_Raspberry_Ready",
+      "plant": "Raspberry",
+      "stage": "Ready",
+      "triangles": 25964,
+      "lodTriangles": 2762,
+      "bounds": [
+        [
+          -0.4762892723083496,
+          0.0010202847188338637,
+          -0.47881263494491577
+        ],
+        [
+          0.500115692615509,
+          0.950975239276886,
+          0.38689562678337097
+        ]
+      ]
+    },
+    {
+      "name": "NP_Raspberry_Sprout",
+      "plant": "Raspberry",
+      "stage": "Sprout",
+      "triangles": 2480,
+      "lodTriangles": 992,
+      "bounds": [
+        [
+          -0.20779898762702942,
+          0.0010000000474974513,
+          -0.1530391126871109
+        ],
+        [
+          0.18722878396511078,
+          0.25418028235435486,
+          0.11557423323392868
+        ]
+      ]
+    },
+    {
+      "name": "NP_Raspberry_Young",
+      "plant": "Raspberry",
+      "stage": "Young",
+      "triangles": 18936,
+      "lodTriangles": 2800,
+      "bounds": [
+        [
+          -0.26669782400131226,
+          0.0010000000474974513,
+          -0.24000510573387146
+        ],
+        [
+          0.2478771060705185,
+          0.5919605493545532,
+          0.24186113476753235
+        ]
+      ]
+    }
+  ],
+  "masterSha256": "b0aacb9712a9ab1dc657a78c8ae3850976a7b0551bbef7487437ce65ab4270b0"
+}

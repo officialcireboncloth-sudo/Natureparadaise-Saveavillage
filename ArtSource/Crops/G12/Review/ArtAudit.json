@@ -1,0 +1,255 @@
+{
+  "status": "PASS",
+  "group": "G12",
+  "checks": 4704,
+  "stages": {
+    "Seed": {
+      "leaves": 0,
+      "flowers": 0,
+      "buds": 0,
+      "aerialRoots": 0
+    },
+    "Sprout": {
+      "leaves": 2,
+      "flowers": 0,
+      "buds": 0,
+      "aerialRoots": 7
+    },
+    "Young": {
+      "leaves": 4,
+      "flowers": 0,
+      "buds": 0,
+      "aerialRoots": 7
+    },
+    "BudForming": {
+      "leaves": 5,
+      "flowers": 0,
+      "buds": 5,
+      "aerialRoots": 7
+    },
+    "Ready": {
+      "leaves": 5,
+      "flowers": 4,
+      "buds": 2,
+      "aerialRoots": 7
+    },
+    "Harvest": {
+      "leaves": 0,
+      "flowers": 2,
+      "buds": 2,
+      "aerialRoots": 0
+    }
+  },
+  "closedSculptedVolumes": 64,
+  "floralJoints": [
+    {
+      "stage": "BudForming",
+      "joint": "Bud_0",
+      "gap": 1.8662795822463695e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "BudForming",
+      "joint": "Bud_1",
+      "gap": 7.450580596923828e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "BudForming",
+      "joint": "Bud_2",
+      "gap": 5.960464477539063e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "BudForming",
+      "joint": "Bud_3",
+      "gap": 3.003425057343598e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "BudForming",
+      "joint": "Bud_4",
+      "gap": 5.960464477539063e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Bud_0",
+      "gap": 5.960464477539063e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Bud_1",
+      "gap": 5.960464477539063e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Flower_0",
+      "gap": 1.862645149230957e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Flower_1",
+      "gap": 6.666604492132843e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Flower_2",
+      "gap": 1.6859768348751402e-07,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Ready",
+      "joint": "Flower_3",
+      "gap": 5.960464477539063e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Harvest",
+      "joint": "Bud_0",
+      "gap": 3.0719530773294423e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Harvest",
+      "joint": "Bud_1",
+      "gap": 3.0091953317455035e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Harvest",
+      "joint": "Flower_0",
+      "gap": 1.4901161193847656e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "stage": "Harvest",
+      "joint": "Flower_1",
+      "gap": 1.666000468656264e-08,
+      "angleDegrees": 0.0
+    }
+  ],
+  "leafMetrics": {
+    "Sprout": {
+      "depthWidthRatio": 0.5944831417777849,
+      "minMaxProjectedAreaRatio": 0.6043400640362229,
+      "leaves": [
+        {
+          "index": 0,
+          "nonplanarRatio": 0.14301517090435648
+        },
+        {
+          "index": 1,
+          "nonplanarRatio": 0.1966947169624382
+        }
+      ]
+    },
+    "Young": {
+      "depthWidthRatio": 0.656527536022578,
+      "minMaxProjectedAreaRatio": 0.4822421858891274,
+      "leaves": [
+        {
+          "index": 0,
+          "nonplanarRatio": 0.1242940680031559
+        },
+        {
+          "index": 1,
+          "nonplanarRatio": 0.16681330505121286
+        },
+        {
+          "index": 2,
+          "nonplanarRatio": 0.2878554006340868
+        },
+        {
+          "index": 3,
+          "nonplanarRatio": 0.3015607660160772
+        }
+      ]
+    },
+    "BudForming": {
+      "depthWidthRatio": 0.6565293479893609,
+      "minMaxProjectedAreaRatio": 0.4783836668008624,
+      "leaves": [
+        {
+          "index": 0,
+          "nonplanarRatio": 0.12333594342998208
+        },
+        {
+          "index": 1,
+          "nonplanarRatio": 0.16616301319293444
+        },
+        {
+          "index": 2,
+          "nonplanarRatio": 0.287323923574479
+        },
+        {
+          "index": 3,
+          "nonplanarRatio": 0.3010844902266795
+        },
+        {
+          "index": 4,
+          "nonplanarRatio": 0.26318212223919246
+        }
+      ]
+    },
+    "Ready": {
+      "depthWidthRatio": 0.6565297128623436,
+      "minMaxProjectedAreaRatio": 0.47764546711600553,
+      "leaves": [
+        {
+          "index": 0,
+          "nonplanarRatio": 0.12317689852833191
+        },
+        {
+          "index": 1,
+          "nonplanarRatio": 0.16605530065714455
+        },
+        {
+          "index": 2,
+          "nonplanarRatio": 0.2872359990516563
+        },
+        {
+          "index": 3,
+          "nonplanarRatio": 0.3010056539908064
+        },
+        {
+          "index": 4,
+          "nonplanarRatio": 0.2628873385506607
+        }
+      ],
+      "leafHeightPlantHeightRatio": 0.39487784967813033
+    }
+  },
+  "priorAtlasSurfacesRetained": 122,
+  "runtimeAtlas": "NP_Plants_Unified_01",
+  "runtimeMaterials": 1,
+  "modelsWithLods": 12,
+  "fieldProfiles": 27,
+  "masterSha256": "7f22a55cf4ec8ae9719c96f02f48880e0ddab0a77d6bb0835d7748fe20f90a15",
+  "protectedFiles": 4009,
+  "sourceHashes": {
+    "ArtSource/Crops/Scripts/apply_g12_crop_integration.py": "9cd80eabd1072f9e1f507bd4802616f0e54acccf1a1b53515780a5efc87d01ff",
+    "ArtSource/Crops/Scripts/build_g12_blender.py": "4481e4e0206906004f466f941ffe078a284aa6c65a6707db0b1bfa11bc03acc9",
+    "ArtSource/Crops/Scripts/capture_g12_exports.py": "3968d3828ec2b8ded6a0b162074b02a7197a176d02f8c1437062c2738a134249",
+    "ArtSource/Crops/Scripts/g12_config.py": "d096a7d23f5fbff3165f0bded94d14b11ec148824a96cb92a590b1d1688f8f7b",
+    "ArtSource/Crops/Scripts/g12_geometry.py": "1706b7bef3bbc33cf4cf90d90c457b60258023dc08eb119288e76cef908c9f83",
+    "ArtSource/Crops/Scripts/g12_integration_config.py": "d82555c3cc536828812958831d61db88c9ad053529ec3b4ec8860730eb30344d",
+    "ArtSource/Crops/Scripts/inspect_g12_icon_atlas.py": "7d731ea8a5f2ef6f6e83cb1cfcbacf4893ecb8f8a550a7dd153439d701f8e701",
+    "ArtSource/Crops/Scripts/paint_g12_gimp.py": "f6717f68a2fa2f2ca2384413a9f83fd4fd6558c1eec2da1fb7ae6e4aa0d5f739",
+    "ArtSource/Crops/Scripts/prepare_g12.py": "5d17cd24d025923a6befe90c81e8d02883d9c527985190f13e12a81d2d25ab2e",
+    "ArtSource/Crops/Scripts/prepare_g12_binding_scripts.py": "c3509a59ce97a07117e234ac6a0a0a4e2aa8d2a7ec0ebf98a6098d272fbff636",
+    "ArtSource/Crops/Scripts/prepare_g12_crop_integration.py": "366f31343489dab01bfb1580d3c5e724ef2099dcc1455a31dd3be6ae373c3dc0",
+    "ArtSource/Crops/Scripts/prepare_g12_workflows.py": "c40d79cca305d53cd3297ce22bfad0a27b53f1bbad2ffb01522416795c784844",
+    "ArtSource/Crops/Scripts/record_g12_integration.py": "92fae8382765b1a522fa02f9d168fd53413a0f2e3010298001da32bc1e8b565b",
+    "ArtSource/Crops/Scripts/render_g12.py": "47167d99c492310eb46e9eecca9b448d5c5e6014fe33a573d71d2ecdc995d657",
+    "ArtSource/Crops/Scripts/review_g12_gimp.py": "9db92e47c9a2e617afce894809d5ce22153d15ca150e6407ea6299df7a865801",
+    "ArtSource/Crops/Scripts/verify_g12.py": "bf314061a789378ee6bc3f31d9e342b717cfeb903d0357ec4dcb18101c12d2fc"
+  },
+  "unityEditorImport": "NOT_RUN_BY_AGENT",
+  "unityPlayMode": "NOT_RUN_BY_AGENT",
+  "mobileProfiling": "NOT_RUN"
+}

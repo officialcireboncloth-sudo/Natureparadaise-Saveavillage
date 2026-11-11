@@ -1,0 +1,254 @@
+{
+  "status": "PASS",
+  "group": "G08",
+  "checks": 2554,
+  "phaseAppearances": 12,
+  "baseModels": 15,
+  "meshesWithLods": 30,
+  "verifiedFbx": 30,
+  "atlas": "NP_Plants_Cereal_01",
+  "newAtlasPages": 1,
+  "surfaceResolution": 512,
+  "protectedFiles": 1819,
+  "previousAssetsRetained": true,
+  "atlasPixels": {
+    "BaseColor": {
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "ed75ce44a8dcee8521c9620ca4424ae3b7017933217b8547ae7ab860d82be11e"
+    },
+    "Normal": {
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "27a204fe0c1b0d8fd1a4798db382f7b10866bf21ad222a6620d7cdb05175becb"
+    },
+    "SurfaceMask": {
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "74c21b44be14ce97936040808613dd2aa7cf391aeaba28269bf6b7a10a491a9d"
+    }
+  },
+  "volumes": {
+    "Rice": {
+      "width": 0.8686174750328064,
+      "depth": 0.8310279846191406,
+      "depthToWidth": 0.9567249203543297
+    },
+    "Wheat": {
+      "width": 0.8247448801994324,
+      "depth": 0.789845734834671,
+      "depthToWidth": 0.9576849202673167
+    }
+  },
+  "structure": {
+    "Rice_Seed": {
+      "heads": 0,
+      "grains": 3,
+      "leaves": 0
+    },
+    "Rice_Sprout": {
+      "heads": 0,
+      "grains": 1,
+      "leaves": 2
+    },
+    "Rice_Young": {
+      "heads": 0,
+      "grains": 0,
+      "leaves": 34
+    },
+    "Rice_Heading": {
+      "heads": 5,
+      "grains": 185,
+      "leaves": 42
+    },
+    "Rice_Ready": {
+      "heads": 5,
+      "grains": 185,
+      "leaves": 42
+    },
+    "Rice_Harvest": {
+      "heads": 3,
+      "grains": 111,
+      "leaves": 0
+    },
+    "Wheat_Seed": {
+      "heads": 0,
+      "grains": 5,
+      "leaves": 0
+    },
+    "Wheat_Sprout": {
+      "heads": 0,
+      "grains": 1,
+      "leaves": 2
+    },
+    "Wheat_Young": {
+      "heads": 0,
+      "grains": 0,
+      "leaves": 29
+    },
+    "Wheat_Heading": {
+      "heads": 3,
+      "grains": 57,
+      "leaves": 27
+    },
+    "Wheat_Ready": {
+      "heads": 6,
+      "grains": 114,
+      "leaves": 42
+    },
+    "Wheat_Harvest": {
+      "heads": 3,
+      "grains": 57,
+      "leaves": 0
+    }
+  },
+  "baseTriangleCounts": {
+    "NP_Rice_Harvest": 33444,
+    "NP_Rice_Heading": 77292,
+    "NP_Rice_HuskPile": 7800,
+    "NP_Rice_Ready": 77292,
+    "NP_Rice_Seed": 780,
+    "NP_Rice_Sprout": 1296,
+    "NP_Rice_WhitePile": 7800,
+    "NP_Rice_Young": 17724,
+    "NP_Wheat_GrainPile": 7800,
+    "NP_Wheat_Harvest": 15852,
+    "NP_Wheat_Heading": 29676,
+    "NP_Wheat_Ready": 53400,
+    "NP_Wheat_Seed": 1300,
+    "NP_Wheat_Sprout": 1296,
+    "NP_Wheat_Young": 15244
+  },
+  "masterSha256": "5e85455a3e587d4d4819209ba9b6a9a1672ce2d266d3abbfc43d7f039e666934",
+  "roundtrip": [
+    {
+      "file": "NP_Rice_Harvest.fbx",
+      "triangles": 33444
+    },
+    {
+      "file": "NP_Rice_Harvest_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Rice_Heading.fbx",
+      "triangles": 77292
+    },
+    {
+      "file": "NP_Rice_Heading_LOD1.fbx",
+      "triangles": 2799
+    },
+    {
+      "file": "NP_Rice_HuskPile.fbx",
+      "triangles": 7800
+    },
+    {
+      "file": "NP_Rice_HuskPile_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Rice_Ready.fbx",
+      "triangles": 77292
+    },
+    {
+      "file": "NP_Rice_Ready_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Rice_Seed.fbx",
+      "triangles": 780
+    },
+    {
+      "file": "NP_Rice_Seed_LOD1.fbx",
+      "triangles": 312
+    },
+    {
+      "file": "NP_Rice_Sprout.fbx",
+      "triangles": 1296
+    },
+    {
+      "file": "NP_Rice_Sprout_LOD1.fbx",
+      "triangles": 518
+    },
+    {
+      "file": "NP_Rice_WhitePile.fbx",
+      "triangles": 7800
+    },
+    {
+      "file": "NP_Rice_WhitePile_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Rice_Young.fbx",
+      "triangles": 17724
+    },
+    {
+      "file": "NP_Rice_Young_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Wheat_GrainPile.fbx",
+      "triangles": 7800
+    },
+    {
+      "file": "NP_Wheat_GrainPile_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Wheat_Harvest.fbx",
+      "triangles": 15852
+    },
+    {
+      "file": "NP_Wheat_Harvest_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Wheat_Heading.fbx",
+      "triangles": 29676
+    },
+    {
+      "file": "NP_Wheat_Heading_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_Wheat_Ready.fbx",
+      "triangles": 53400
+    },
+    {
+      "file": "NP_Wheat_Ready_LOD1.fbx",
+      "triangles": 2799
+    },
+    {
+      "file": "NP_Wheat_Seed.fbx",
+      "triangles": 1300
+    },
+    {
+      "file": "NP_Wheat_Seed_LOD1.fbx",
+      "triangles": 520
+    },
+    {
+      "file": "NP_Wheat_Sprout.fbx",
+      "triangles": 1296
+    },
+    {
+      "file": "NP_Wheat_Sprout_LOD1.fbx",
+      "triangles": 518
+    },
+    {
+      "file": "NP_Wheat_Young.fbx",
+      "triangles": 15244
+    },
+    {
+      "file": "NP_Wheat_Young_LOD1.fbx",
+      "triangles": 2800
+    }
+  ],
+  "unityEditorImport": "NOT_RUN",
+  "unityPlayMode": "NOT_RUN",
+  "referenceReview": "Manual visual comparison with the two user attachments; technical checks do not establish artistic fidelity."
+}

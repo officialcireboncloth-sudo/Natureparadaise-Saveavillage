@@ -1,0 +1,629 @@
+{
+  "group": "G10",
+  "revision": "R01 species-specific radial flowers",
+  "plants": [
+    "Sunflower",
+    "Chrysanthemum",
+    "Dahlia",
+    "Marigold"
+  ],
+  "atlas": "NP_Plants_RadialFlowers_01",
+  "material": "NP_Plants_RadialFlowers_01",
+  "phaseAppearances": 24,
+  "uniqueNewExports": 24,
+  "counts": {
+    "Sunflower": {
+      "Seed": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Young": {
+        "leaves": 6,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "BudForming": {
+        "leaves": 13,
+        "flowers": 0,
+        "buds": 2,
+        "petals": 0
+      },
+      "Ready": {
+        "leaves": 13,
+        "flowers": 2,
+        "buds": 1,
+        "petals": 86
+      },
+      "Harvest": {
+        "leaves": 2,
+        "flowers": 1,
+        "buds": 0,
+        "petals": 43
+      }
+    },
+    "Chrysanthemum": {
+      "Seed": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Young": {
+        "leaves": 4,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "BudForming": {
+        "leaves": 16,
+        "flowers": 0,
+        "buds": 3,
+        "petals": 0
+      },
+      "Ready": {
+        "leaves": 16,
+        "flowers": 3,
+        "buds": 1,
+        "petals": 360
+      },
+      "Harvest": {
+        "leaves": 2,
+        "flowers": 1,
+        "buds": 0,
+        "petals": 120
+      }
+    },
+    "Dahlia": {
+      "Seed": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Young": {
+        "leaves": 12,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "BudForming": {
+        "leaves": 48,
+        "flowers": 0,
+        "buds": 3,
+        "petals": 0
+      },
+      "Ready": {
+        "leaves": 48,
+        "flowers": 3,
+        "buds": 1,
+        "petals": 171
+      },
+      "Harvest": {
+        "leaves": 6,
+        "flowers": 1,
+        "buds": 0,
+        "petals": 57
+      }
+    },
+    "Marigold": {
+      "Seed": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Young": {
+        "leaves": 36,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "BudForming": {
+        "leaves": 153,
+        "flowers": 0,
+        "buds": 4,
+        "petals": 0
+      },
+      "Ready": {
+        "leaves": 153,
+        "flowers": 4,
+        "buds": 1,
+        "petals": 232
+      },
+      "Harvest": {
+        "leaves": 18,
+        "flowers": 1,
+        "buds": 0,
+        "petals": 58
+      }
+    }
+  },
+  "exports": [
+    {
+      "name": "NP_Sunflower_Seed",
+      "plant": "Sunflower",
+      "stage": "Seed",
+      "triangles": 320,
+      "lodTriangles": 128,
+      "bounds": [
+        [
+          -0.06288333982229233,
+          0.0010000000474974513,
+          -0.02696051448583603
+        ],
+        [
+          0.06062855198979378,
+          0.01899999938905239,
+          0.06797896325588226
+        ]
+      ]
+    },
+    {
+      "name": "NP_Sunflower_Sprout",
+      "plant": "Sunflower",
+      "stage": "Sprout",
+      "triangles": 882,
+      "lodTriangles": 352,
+      "bounds": [
+        [
+          -0.0780906081199646,
+          0.0010000000474974513,
+          -0.04145960137248039
+        ],
+        [
+          0.07843504101037979,
+          0.13197650015354156,
+          0.03547672554850578
+        ]
+      ]
+    },
+    {
+      "name": "NP_Sunflower_Young",
+      "plant": "Sunflower",
+      "stage": "Young",
+      "triangles": 2896,
+      "lodTriangles": 1158,
+      "bounds": [
+        [
+          -0.1870870143175125,
+          0.0010000000474974513,
+          -0.15090961754322052
+        ],
+        [
+          0.17091907560825348,
+          0.4396361708641052,
+          0.16234971582889557
+        ]
+      ]
+    },
+    {
+      "name": "NP_Sunflower_BudForming",
+      "plant": "Sunflower",
+      "stage": "BudForming",
+      "triangles": 15812,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.27157312631607056,
+          0.0010000000474974513,
+          -0.2154661864042282
+        ],
+        [
+          0.22594022750854492,
+          1.2332309484481812,
+          0.2185210883617401
+        ]
+      ]
+    },
+    {
+      "name": "NP_Sunflower_Ready",
+      "plant": "Sunflower",
+      "stage": "Ready",
+      "triangles": 26000,
+      "lodTriangles": 2800,
+      "bounds": [
+        [
+          -0.36183658242225647,
+          0.0009968766244128346,
+          -0.21544277667999268
+        ],
+        [
+          0.2521612346172333,
+          1.3616679906845093,
+          0.21845628321170807
+        ]
+      ]
+    },
+    {
+      "name": "NP_Sunflower_Harvest",
+      "plant": "Sunflower",
+      "stage": "Harvest",
+      "triangles": 21114,
+      "lodTriangles": 2800,
+      "bounds": [
+        [
+          -0.3376084864139557,
+          0.0010000000474974513,
+          -0.14560945332050323
+        ],
+        [
+          0.30372345447540283,
+          0.20570747554302216,
+          0.22357815504074097
+        ]
+      ]
+    },
+    {
+      "name": "NP_Dahlia_Seed",
+      "plant": "Dahlia",
+      "stage": "Seed",
+      "triangles": 400,
+      "lodTriangles": 160,
+      "bounds": [
+        [
+          -0.05954206362366676,
+          0.0010000000474974513,
+          -0.023769201710820198
+        ],
+        [
+          0.054659903049468994,
+          0.009999999776482582,
+          0.06498432904481888
+        ]
+      ]
+    },
+    {
+      "name": "NP_Dahlia_Sprout",
+      "plant": "Dahlia",
+      "stage": "Sprout",
+      "triangles": 882,
+      "lodTriangles": 352,
+      "bounds": [
+        [
+          -0.0780906081199646,
+          0.0010000000474974513,
+          -0.04145960137248039
+        ],
+        [
+          0.07843504101037979,
+          0.13197650015354156,
+          0.03547672554850578
+        ]
+      ]
+    },
+    {
+      "name": "NP_Dahlia_Young",
+      "plant": "Dahlia",
+      "stage": "Young",
+      "triangles": 5344,
+      "lodTriangles": 2136,
+      "bounds": [
+        [
+          -0.12175589799880981,
+          0.0010000000474974513,
+          -0.10679234564304352
+        ],
+        [
+          0.1202758252620697,
+          0.26420828700065613,
+          0.11904539912939072
+        ]
+      ]
+    },
+    {
+      "name": "NP_Dahlia_BudForming",
+      "plant": "Dahlia",
+      "stage": "BudForming",
+      "triangles": 26000,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.27649515867233276,
+          0.0010000000474974513,
+          -0.16822053492069244
+        ],
+        [
+          0.2805608808994293,
+          0.8264628648757935,
+          0.18742850422859192
+        ]
+      ]
+    },
+    {
+      "name": "NP_Dahlia_Ready",
+      "plant": "Dahlia",
+      "stage": "Ready",
+      "triangles": 25999,
+      "lodTriangles": 2776,
+      "bounds": [
+        [
+          -0.36435645818710327,
+          0.000993263558484614,
+          -0.19233106076717377
+        ],
+        [
+          0.3646750748157501,
+          0.8792485594749451,
+          0.18741632997989655
+        ]
+      ]
+    },
+    {
+      "name": "NP_Dahlia_Harvest",
+      "plant": "Dahlia",
+      "stage": "Harvest",
+      "triangles": 20138,
+      "lodTriangles": 2800,
+      "bounds": [
+        [
+          -0.3376084864139557,
+          0.0010000000474974513,
+          -0.12080910056829453
+        ],
+        [
+          0.2727638781070709,
+          0.204889714717865,
+          0.1916275918483734
+        ]
+      ]
+    },
+    {
+      "name": "NP_Marigold_Seed",
+      "plant": "Marigold",
+      "stage": "Seed",
+      "triangles": 500,
+      "lodTriangles": 200,
+      "bounds": [
+        [
+          -0.056285325437784195,
+          0.0010000000474974513,
+          -0.03999999910593033
+        ],
+        [
+          0.054272767156362534,
+          0.007000001147389412,
+          0.0724591538310051
+        ]
+      ]
+    },
+    {
+      "name": "NP_Marigold_Sprout",
+      "plant": "Marigold",
+      "stage": "Sprout",
+      "triangles": 354,
+      "lodTriangles": 140,
+      "bounds": [
+        [
+          -0.07806254923343658,
+          0.0010000000474974513,
+          -0.04133668914437294
+        ],
+        [
+          0.07843640446662903,
+          0.1318303793668747,
+          0.03519454598426819
+        ]
+      ]
+    },
+    {
+      "name": "NP_Marigold_Young",
+      "plant": "Marigold",
+      "stage": "Young",
+      "triangles": 5856,
+      "lodTriangles": 2341,
+      "bounds": [
+        [
+          -0.10797008872032166,
+          0.0010000000474974513,
+          -0.09513558447360992
+        ],
+        [
+          0.10622481256723404,
+          0.2591622769832611,
+          0.10559158027172089
+        ]
+      ]
+    },
+    {
+      "name": "NP_Marigold_BudForming",
+      "plant": "Marigold",
+      "stage": "BudForming",
+      "triangles": 25999,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.2737519443035126,
+          0.0010000000474974513,
+          -0.16013985872268677
+        ],
+        [
+          0.24658595025539398,
+          0.7456659078598022,
+          0.17652173340320587
+        ]
+      ]
+    },
+    {
+      "name": "NP_Marigold_Ready",
+      "plant": "Marigold",
+      "stage": "Ready",
+      "triangles": 25999,
+      "lodTriangles": 2607,
+      "bounds": [
+        [
+          -0.3330844044685364,
+          0.0009439691784791648,
+          -0.19237305223941803
+        ],
+        [
+          0.31643885374069214,
+          0.7500532269477844,
+          0.1764669120311737
+        ]
+      ]
+    },
+    {
+      "name": "NP_Marigold_Harvest",
+      "plant": "Marigold",
+      "stage": "Harvest",
+      "triangles": 26000,
+      "lodTriangles": 2800,
+      "bounds": [
+        [
+          -0.3376084864139557,
+          0.0010000000474974513,
+          -0.07852308452129364
+        ],
+        [
+          0.25142407417297363,
+          0.19371388852596283,
+          0.15313296020030975
+        ]
+      ]
+    },
+    {
+      "name": "NP_Chrysanthemum_Seed",
+      "plant": "Chrysanthemum",
+      "stage": "Seed",
+      "triangles": 400,
+      "lodTriangles": 160,
+      "bounds": [
+        [
+          -0.05625948682427406,
+          0.0010000000474974513,
+          -0.01765478029847145
+        ],
+        [
+          0.048090990632772446,
+          0.009000001475214958,
+          0.058522261679172516
+        ]
+      ]
+    },
+    {
+      "name": "NP_Chrysanthemum_Sprout",
+      "plant": "Chrysanthemum",
+      "stage": "Sprout",
+      "triangles": 882,
+      "lodTriangles": 352,
+      "bounds": [
+        [
+          -0.0780906081199646,
+          0.0010000000474974513,
+          -0.04145960137248039
+        ],
+        [
+          0.07843504101037979,
+          0.13197650015354156,
+          0.03547672554850578
+        ]
+      ]
+    },
+    {
+      "name": "NP_Chrysanthemum_Young",
+      "plant": "Chrysanthemum",
+      "stage": "Young",
+      "triangles": 2016,
+      "lodTriangles": 805,
+      "bounds": [
+        [
+          -0.12175530195236206,
+          0.0010000000474974513,
+          -0.10686253756284714
+        ],
+        [
+          0.12026813626289368,
+          0.26333189010620117,
+          0.11906473338603973
+        ]
+      ]
+    },
+    {
+      "name": "NP_Chrysanthemum_BudForming",
+      "plant": "Chrysanthemum",
+      "stage": "BudForming",
+      "triangles": 17430,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.2632819712162018,
+          0.0010000000474974513,
+          -0.16766110062599182
+        ],
+        [
+          0.2670328617095947,
+          0.7562775015830994,
+          0.1874391734600067
+        ]
+      ]
+    },
+    {
+      "name": "NP_Chrysanthemum_Ready",
+      "plant": "Chrysanthemum",
+      "stage": "Ready",
+      "triangles": 26000,
+      "lodTriangles": 2701,
+      "bounds": [
+        [
+          -0.3425700068473816,
+          0.000993263558484614,
+          -0.1905125379562378
+        ],
+        [
+          0.3440823554992676,
+          0.8090274930000305,
+          0.18737997114658356
+        ]
+      ]
+    },
+    {
+      "name": "NP_Chrysanthemum_Harvest",
+      "plant": "Chrysanthemum",
+      "stage": "Harvest",
+      "triangles": 26000,
+      "lodTriangles": 2800,
+      "bounds": [
+        [
+          -0.3376084864139557,
+          0.0010000000474974513,
+          -0.09729106724262238
+        ],
+        [
+          0.26988720893859863,
+          0.21639621257781982,
+          0.16596141457557678
+        ]
+      ]
+    }
+  ],
+  "nearTriangleBudget": 26000,
+  "distanceTriangleBudget": 2800,
+  "integration": "Applied: G10 profiles, seed/produce/mutation items, paper packet icons and existing seed store"
+}

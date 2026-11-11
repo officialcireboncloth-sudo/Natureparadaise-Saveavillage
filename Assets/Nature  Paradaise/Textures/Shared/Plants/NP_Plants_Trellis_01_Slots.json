@@ -175,16 +175,15 @@
         0.740234375,
         0.990234375
       ],
-      "base": "#4b792b",
-      "highlight": "#70993e",
-      "shadow": "#325a22",
+      "base": "#69a921",
+      "highlight": "#a1cb49",
+      "shadow": "#387b15",
       "pattern": "lobed",
       "metallic": 0,
-      "smoothness": 0.16,
+      "smoothness": 0.29,
       "surfaceDetail": {
-        "revision": "R03",
-        "style": "palmate",
-        "normalFromRegisteredHeight": true
+        "revision": "G06 R01",
+        "registeredNormal": true
       },
       "source": "Retained Produce vocabulary, independent G03 detail page"
     },
@@ -259,13 +258,17 @@
         0.115234375,
         0.865234375
       ],
-      "base": "#719b35",
-      "highlight": "#b6c45f",
-      "shadow": "#45692a",
+      "base": "#559719",
+      "highlight": "#a9c943",
+      "shadow": "#2a690d",
       "pattern": "strap",
       "metallic": 0,
-      "smoothness": 0.16,
-      "source": "Retained Produce vocabulary, independent G03 detail page"
+      "smoothness": 0.31,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G06 R01",
+        "registeredNormal": true
+      }
     },
     {
       "name": "LeafNarrow",
@@ -511,13 +514,17 @@
         0.365234375,
         0.740234375
       ],
-      "base": "#c6b88d",
-      "highlight": "#eee1b7",
-      "shadow": "#9b8a66",
+      "base": "#f1d9ac",
+      "highlight": "#fff1d0",
+      "shadow": "#ceb58a",
       "pattern": "stem",
       "metallic": 0,
-      "smoothness": 0.12,
-      "source": "Retained Produce vocabulary, independent G03 detail page"
+      "smoothness": 0.2,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G06 R01",
+        "registeredNormal": true
+      }
     },
     {
       "name": "SepalGreen",
@@ -819,13 +826,17 @@
         0.990234375,
         0.615234375
       ],
-      "base": "#ca914a",
-      "highlight": "#eed091",
-      "shadow": "#9c6b36",
+      "base": "#e99c3c",
+      "highlight": "#ffcf7a",
+      "shadow": "#bd641f",
       "pattern": "onion",
       "metallic": 0,
-      "smoothness": 0.2,
-      "source": "Retained Produce vocabulary, independent G03 detail page"
+      "smoothness": 0.27,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G06 R01",
+        "registeredNormal": true
+      }
     },
     {
       "name": "RadishGradient",
@@ -842,13 +853,17 @@
         0.115234375,
         0.490234375
       ],
-      "base": "#c44652",
-      "highlight": "#f4dfbb",
-      "shadow": "#95374b",
+      "base": "#e71932",
+      "highlight": "#fff0da",
+      "shadow": "#b90923",
       "pattern": "radish",
       "metallic": 0,
-      "smoothness": 0.23,
-      "source": "Retained Produce vocabulary, independent G03 detail page"
+      "smoothness": 0.52,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G06 R01",
+        "registeredNormal": true
+      }
     },
     {
       "name": "EggplantPurple",
@@ -1228,13 +1243,17 @@
         0.990234375,
         0.365234375
       ],
-      "base": "#eadcbb",
-      "highlight": "#fff0d7",
-      "shadow": "#c4b995",
+      "base": "#f3ead3",
+      "highlight": "#fff9e9",
+      "shadow": "#d9bc80",
       "pattern": "rings",
       "metallic": 0,
-      "smoothness": 0.18,
-      "source": "Retained Produce vocabulary, independent G03 detail page"
+      "smoothness": 0.3,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G06 R01",
+        "registeredNormal": true
+      }
     },
     {
       "name": "RadishCut",
@@ -1251,13 +1270,17 @@
         0.115234375,
         0.240234375
       ],
-      "base": "#e9e0bf",
-      "highlight": "#fff5da",
-      "shadow": "#c6c29f",
+      "base": "#f7eee2",
+      "highlight": "#fffaf1",
+      "shadow": "#e6cebb",
       "pattern": "rings",
       "metallic": 0,
-      "smoothness": 0.2,
-      "source": "Retained Produce vocabulary, independent G03 detail page"
+      "smoothness": 0.25,
+      "source": "Retained Produce vocabulary, independent G03 detail page",
+      "surfaceDetail": {
+        "revision": "G06 R01",
+        "registeredNormal": true
+      }
     },
     {
       "name": "EggplantFlesh",
@@ -1626,6 +1649,7 @@
   "revision": "G03 R02 colour and kiwi detail",
   "batchRevisions": {
     "G03": "R02",
-    "G04": "R01"
+    "G04": "R01",
+    "G06": "R01"
   }
 }

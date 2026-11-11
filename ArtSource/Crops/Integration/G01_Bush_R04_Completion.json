@@ -1,0 +1,131 @@
+{
+  "status": "APPLIED_AND_FILE_CHECKED",
+  "revision": "G01 Bush R04",
+  "species": [
+    "Blueberry",
+    "Raspberry",
+    "Blackberry"
+  ],
+  "changes": [
+    "Four/five curved canes with connected short side shoots and inner crown branches",
+    "Compound three-leaflet Rubus groups and compact upper crowns",
+    "Species-specific painted leaf color and fine normal maps in the existing three leaf slots",
+    "Fruit at multiple depths, with connected physical pedicels",
+    "Visual fitting to the existing tile footprint"
+  ],
+  "checks": 6952,
+  "closedLeaves": 562,
+  "continuousJoints": 50,
+  "structure": {
+    "Blackberry_Flowering": {
+      "leaves": 89,
+      "fruit": 5,
+      "flowers": 4,
+      "canes": 5
+    },
+    "Blackberry_Ready": {
+      "leaves": 89,
+      "fruit": 8,
+      "flowers": 0,
+      "canes": 5
+    },
+    "Blackberry_Sprout": {
+      "leaves": 3,
+      "fruit": 0,
+      "flowers": 0,
+      "canes": 0
+    },
+    "Blackberry_Young": {
+      "leaves": 35,
+      "fruit": 0,
+      "flowers": 0,
+      "canes": 5
+    },
+    "Blueberry_Flowering": {
+      "leaves": 54,
+      "fruit": 3,
+      "flowers": 4,
+      "canes": 4
+    },
+    "Blueberry_Ready": {
+      "leaves": 54,
+      "fruit": 9,
+      "flowers": 0,
+      "canes": 4
+    },
+    "Blueberry_Sprout": {
+      "leaves": 2,
+      "fruit": 0,
+      "flowers": 0,
+      "canes": 0
+    },
+    "Blueberry_Young": {
+      "leaves": 20,
+      "fruit": 0,
+      "flowers": 0,
+      "canes": 4
+    },
+    "Raspberry_Flowering": {
+      "leaves": 89,
+      "fruit": 5,
+      "flowers": 4,
+      "canes": 5
+    },
+    "Raspberry_Ready": {
+      "leaves": 89,
+      "fruit": 8,
+      "flowers": 0,
+      "canes": 5
+    },
+    "Raspberry_Sprout": {
+      "leaves": 3,
+      "fruit": 0,
+      "flowers": 0,
+      "canes": 0
+    },
+    "Raspberry_Young": {
+      "leaves": 35,
+      "fruit": 0,
+      "flowers": 0,
+      "canes": 5
+    }
+  },
+  "updatedNearDistanceMeshes": 24,
+  "updatedPrefabs": 12,
+  "runtimeMaterials": 1,
+  "atlas": "NP_Plants_Unified_01",
+  "atlasSlots": 154,
+  "changedLeafSurfaces": 3,
+  "otherAtlasSurfacesAndPixelsRetained": 151,
+  "surfaceMaskRetained": true,
+  "otherCropsRetained": 28,
+  "cropPrefabAndItemReferencesRetained": true,
+  "uiIconsAndDetachedHarvestRetained": true,
+  "master": "ArtSource/Crops/G01/Blender/G01_Berries_Master.blend",
+  "masterSha256": "4bd2180d381667cb9ca84f85d590b375cd0e67e147339e13aae2f8a5eec16689",
+  "preview": "ArtSource/Crops/Previews/G01_Bush_R04_BeforeAfter.png",
+  "spatialPreview": "ArtSource/Crops/Previews/G01_Bush_R04_SpatialReview.png",
+  "previewHashes": {
+    "G01_Bush_R04_BeforeAfter.png": "b66b101968b4d523b20e102ab6865a0f71161cd5fbe4b03e108ea80b79e72853",
+    "G01_Bush_R04_SpatialReview.png": "050019796fce29d2e38ad7982fec9854863442762a56dfa708ba4e9e26179d98",
+    "G01_AppliedPreview.png": "2c9024a319ecd6a7f2e5d0206ab78057d09540317a80313ce93b612299f30d11"
+  },
+  "atlasChecks": 9615,
+  "bindingChecks": 6939,
+  "unityEditorImport": "NOT_RUN_BY_AGENT",
+  "unityPlayMode": "NOT_RUN_BY_AGENT",
+  "mobileProfiling": "NOT_RUN",
+  "sourceHashes": {
+    "ArtSource/Crops/Scripts/build_g01_bush_r04.py": "26c8b60b959805123fa783ddba95cc19bf26b7c9e566106ce54cbd5702bc6474",
+    "ArtSource/Crops/Scripts/capture_g01_bush_r04.py": "d2657198164b30f4d44e48436d2bcde3a55dcfaf8fa75ed6702b9c355df1e44f",
+    "ArtSource/Crops/Scripts/finalize_g01_bush_r04.py": "72827812792ca2b135fe181f46543987e8cab55b01209a55f1097d7aac6082d3",
+    "ArtSource/Crops/Scripts/fit_g01_bush_r04.py": "623b377428b9800d18ca6e67e5710c2c5889821a86b7c0d6d0540285b6192c52",
+    "ArtSource/Crops/Scripts/g01_bush_r04_geometry.py": "6e2c8588cda1bcaae43d7aa5c3397b8ff75a64324e4c2edf84458051c4363f18",
+    "ArtSource/Crops/Scripts/paint_g01_bush_r04_gimp.py": "2029f71cb260d5cad627097088949f07be923802e3f0d8721ab8dece1cff1959",
+    "ArtSource/Crops/Scripts/prepare_g01_bush_r04.py": "3a79fbe01515fa95d60303a9065455aa0e4a6caa647a36eb5f56954c7231af18",
+    "ArtSource/Crops/Scripts/render_g01_bush_r04.py": "18be60279c4f627fe91572fc5f435d46ad3a21885d75e9781b5869a254aba8bb",
+    "ArtSource/Crops/Scripts/render_g01_bush_r04_draft.py": "b239bfb0f96c502b13084cf35c6a6ca6053d4aa42e5ab11025ed4d1ac84317ea",
+    "ArtSource/Crops/Scripts/review_g01_bush_r04_gimp.py": "47ded004703ab7d1a7d0e2fee3014fa60f89d4de343f99b998c05110f3c12f83",
+    "ArtSource/Crops/Scripts/verify_g01_bush_r04.py": "9b47f00110b0b17cc0b336eafcbb676de39f28710f179b744b3246dc21244fb2"
+  }
+}

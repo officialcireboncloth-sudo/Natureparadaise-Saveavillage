@@ -1,0 +1,17 @@
+{
+  "source": "User supplied Lavender growth reference, 1774 x 887",
+  "group": "G13",
+  "species": "Lavender",
+  "stages": {
+    "Seed": "Three brown oblong seeds",
+    "Sprout": "Two broad oval sage cotyledons on a short stem",
+    "Young": "Three basal branches with narrow, fleshy sage leaves",
+    "BudForming": "Dense narrow foliage and five tall purple bud heads",
+    "Ready": "Nine staggered outward-fanning stems; plump purple florets in stacked whorls",
+    "Harvest": "Three cut sprigs together and one separate sprig with sparse narrow leaves"
+  },
+  "geometry": "Closed curved leaf lenses in varied radial directions; physical florets distributed around the spike, no billboard foliage",
+  "palette": "Reference gray-sage foliage with clear highlights, rich purple and lilac florets, brown seeds",
+  "runtime": "Append to NP_Plants_Unified_01; preserve the previous 130 allocations and their map pixels",
+  "icons": "Use the established kraft paper bag renderer with Lavender illustration"
+}

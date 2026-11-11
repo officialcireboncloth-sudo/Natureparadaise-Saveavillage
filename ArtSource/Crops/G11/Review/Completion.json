@@ -1,0 +1,23 @@
+{
+  "status": "ART_COMPLETE_AND_APPLIED",
+  "phaseVisuals": 6,
+  "nativeMeshes": 12,
+  "prefabs": 6,
+  "atlasPages": 1,
+  "artChecks": 3448,
+  "closedPetals": 18,
+  "physicalJoints": 3,
+  "fbxRoundtrips": 12,
+  "masterSha256": "b723720eeaaa5d8c49fd0301c365658b4215d82ff33225afca1a2bc256ac578c",
+  "gameplayBindings": "APPLIED",
+  "gameplayIntegration": "ArtSource/Crops/Integration/G11_Completion.json",
+  "unityPlayMode": "NOT_RUN_BY_AGENT",
+  "reviews": {
+    "G11_GrowthStages.png": "fde19e52262bb6063fb13628509ed2ffe16afb8a5b01b78e45a6fe2c0bb7d0dd",
+    "G11_VolumeReview.png": "cacc021df795273e4128b7ef937fd577489bac49fb1ddd490092debec726acd8",
+    "G11_FlowerAndHarvest.png": "276ad5e5d936a3376ad40573d7761fddbc987e204b5ca0ee38396ef28760a690",
+    "G11_R03_SpatialReview.png": "fc6e81529ae34b49de50e763e36af22c2541be474d75d86e0164ac25208efb40"
+  },
+  "revision": "R03",
+  "revisionReport": "ArtSource/Crops/G11/Review/R03_Completion.json"
+}

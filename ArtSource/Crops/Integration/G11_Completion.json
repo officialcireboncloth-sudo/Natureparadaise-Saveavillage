@@ -1,0 +1,95 @@
+{
+  "status": "APPLIED_AND_FILE_CHECKED",
+  "group": "G11",
+  "addedCrops": 1,
+  "crops": 26,
+  "seedProducts": 26,
+  "phaseBindings": 131,
+  "uiSprites": 78,
+  "assetAudit": "PASS",
+  "assetChecks": 6579,
+  "artChecks": 3448,
+  "protectedFiles": 2745,
+  "compilation": "PASS",
+  "cropLogicChecks": "PASS 5749 crop debug checks; 26 authored crop schedules. Engine boundaries stubbed; no Play Mode.",
+  "unityEditorFixture": "NOT_RUN_FOR_G11",
+  "unityPlayMode": "NOT_RUN_BY_AGENT",
+  "preview": "ArtSource/Crops/Previews/Plants_Unified_Comparison.png",
+  "previewSha256": "b64bde8337e0bf78b8bd68372e92e5ff015d3e117201fe80eaaa367f3db848b6",
+  "seedPreview": "ArtSource/UIIcons/Seeds/G11_SeedPackets_Preview.png",
+  "bindingManifestSha256": "c6504965348fa033bc48b2800b6bf343623d4398ed741a7898d82de634c94d72",
+  "masterSha256": "b723720eeaaa5d8c49fd0301c365658b4215d82ff33225afca1a2bc256ac578c",
+  "authorizedArtBaselineChanges": {
+    "Assets\\Nature  Paradaise\\Resources\\Shops\\Crops Catalog.asset": {
+      "before": "a19f18005b0fe59a61a934b63128a163881c81a5d83e8b9203bf89b474419b89",
+      "after": "daa535314e6c279980439ad7fc06609f6f9920976867e754d46721e236019909"
+    },
+    "Assets\\Nature  Paradaise\\Data\\Balance\\Crops.csv": {
+      "before": "a52dcb61b6eb4aa966d3e07188a764bccebb4e5838aec461a873106622544b32",
+      "after": "687f545087a24cee4d40be2075290b15eae32b76a7a8c8cb88b098f702c37868"
+    },
+    "Assets\\Nature  Paradaise\\Data\\Balance\\Items.csv": {
+      "before": "4834bdb3925498eb9b7f171ef09b09a7f52e8e51147055ccd3fd64086d4b98fe",
+      "after": "2c64acbd4c192e3135c45a1031446ecd3ba786fc856126a21e9f99ea28afb575"
+    }
+  },
+  "addedProfiles": [
+    "Assets/Nature  Paradaise/Resources/Profiles/Farming/Tulip Crop.asset"
+  ],
+  "reference": "Current user Tulip growth reference attachment",
+  "features": "Pear bulb, rolled shoots, broad arching leaves, pink tapered bud, six closed overlapping cup tepals, real open upper cavity, curved harvested stem with one leaf",
+  "initialValues": "Existing flower integration defaults: seed 5 G, harvest 5 days, produce 12 G, nonfood; preceding 25 crop balances retained",
+  "sourceHashes": {
+    "ArtSource/Crops/Scripts/apply_g11_crop_integration.py": "897ca44cd063f1a34fe2b6471a5915d16de933c25cb091b0d1a75014f258aab1",
+    "ArtSource/Crops/Scripts/apply_g11_r02.py": "097ef9bb2037fefb943266b71e516a379d5d649b8f580a693a54498af26ba324",
+    "ArtSource/Crops/Scripts/apply_g11_r03.py": "aa13ea4e21477aa513c6c217a3c02e0e5b48dfbe2bd742e23edf2387b22362c9",
+    "ArtSource/Crops/Scripts/build_g11_blender.py": "1613c732c191dfdf4d92b781ee027999e96a39c0c6301fac30855fcfec30bd8a",
+    "ArtSource/Crops/Scripts/build_g11_r02.py": "aa406858babcebe7da9b00859546d158df764f06fb2a2422047018ba20dfcefa",
+    "ArtSource/Crops/Scripts/build_g11_r03.py": "203a50ee32aa8c094321b0846cb7e775df3a3beaf6ac0d53c51f8eb111f384b0",
+    "ArtSource/Crops/Scripts/finalize_g11_crop_integration.py": "3e70946fc4502db35c1b47760c2bca1805247ca674af2916ec7e8cb72911644a",
+    "ArtSource/Crops/Scripts/finalize_g11_r02.py": "af2a346e7146a547f5bb1a64fc42335dba79ffc93014d841b7781f8bf1733838",
+    "ArtSource/Crops/Scripts/finalize_g11_r03.py": "5a0f686efe0aabafb9b75de1181652d7c5baf31a7772504a8f53f4407d37943d",
+    "ArtSource/Crops/Scripts/g11_config.py": "00a76f67f7f8a5a05c3f05401697481d6b42f339afbcc6b8330dffa4b9155014",
+    "ArtSource/Crops/Scripts/g11_geometry.py": "ea4559f3cd7c14134f5c7598e68e7c990fd96020a9b73ef834968cdca5aab70c",
+    "ArtSource/Crops/Scripts/g11_integration_config.py": "b481f72da89aa2b603a159a6941fcf4a277cdb6fd5881e6f167e53d7b9b31721",
+    "ArtSource/Crops/Scripts/g11_r02_geometry.py": "b5075d28d2fa2b093b441e1f80f6cf1dc4f03952159d6fd66a116de1a0cbe73b",
+    "ArtSource/Crops/Scripts/g11_r03_geometry.py": "019acc4ec2c5a04b372741aa1c6fe72887a90bcc556bc7c7e245050e67490029",
+    "ArtSource/Crops/Scripts/inspect_g11_icon_atlas.py": "8084166f78cd5b20f6e1804498cf4eccd550414ab73696603e3b6764bb648a7c",
+    "ArtSource/Crops/Scripts/paint_g11_gimp.py": "a7891699816c5016360af882fcd580a0d7d424e28da37bdaea74d2ac6f520a70",
+    "ArtSource/Crops/Scripts/paint_g11_r02_gimp.py": "36467d9aae14df3050831babf211e3ad21b80a6f002de4835961966695332ee3",
+    "ArtSource/Crops/Scripts/prepare_g11.py": "847d72e9a84dec3a6296ac5a4a97b64fcf6dba3db99c54dc316f8caab231ca8e",
+    "ArtSource/Crops/Scripts/prepare_g11_binding_scripts.py": "bbd6b3217a590e31ddf2cc80c8298ca463522d97e51f6ff791035d8f3cb794fc",
+    "ArtSource/Crops/Scripts/prepare_g11_checks.py": "dbc5dd5a219a65f43117ab8092282b0b5d2b09b1b0cd7fed4738cea5c1f2b8f1",
+    "ArtSource/Crops/Scripts/prepare_g11_crop_integration.py": "4eed8884e679cc7364d25751daaa6e3de6a629219f1a2ad04b456660233bd6f8",
+    "ArtSource/Crops/Scripts/prepare_g11_r02.py": "b61205d92333598e464e5782e466f4bc5e9a4bbad73c2db2074bb0a135cda156",
+    "ArtSource/Crops/Scripts/prepare_g11_r03.py": "2d41aa87a0f1be5ebb735fc17dd7bde30777a137fa3bb14af672aa5a13305838",
+    "ArtSource/Crops/Scripts/prepare_g11_unity_page.py": "ea1e0fd864ec0b9f34b94675495fde86eb3a4267bc9ab360ef1e758cef386afb",
+    "ArtSource/Crops/Scripts/prepare_g11_workflows.py": "9e59a5476613f72b481b76c92059acd6755c8ea5abc44fadd215a6e9221d6134",
+    "ArtSource/Crops/Scripts/publish_g11_art.py": "30760ddd0bdf52124e27b512afa23a3e24ec7230bf1b514f86e4313c5b889fde",
+    "ArtSource/Crops/Scripts/record_g11_applied_catalog.py": "23cd9a73ff1bc7fdf291fc55f9e70f4b7ab192005f277b589b6e43c4c8a19f04",
+    "ArtSource/Crops/Scripts/refresh_g11_review_baseline.py": "8c778c6c4df3fc6556f97595d37feff57583007ff0bd3aadbdf02f82e5c5c8ef",
+    "ArtSource/Crops/Scripts/render_g11.py": "13dd24375806f53b456e91fdcf18e493963d297dd22a73fb533ffca37a8e5191",
+    "ArtSource/Crops/Scripts/review_g11_gimp.py": "2974983c2ec530a0368c7899f8a9fe4d59cafb506f745978a415a079b160d6f8",
+    "ArtSource/Crops/Scripts/review_g11_r02_gimp.py": "ee281c93a50354d8c14e9934b184e0c5e33b08d1952e9cfd83ac7a19b40f9de8",
+    "ArtSource/Crops/Scripts/review_g11_r03_gimp.py": "cabccab8ffd4a962b52e45b4432c354e8d07915bc4d0b393bd34874baaa00b68",
+    "ArtSource/Crops/Scripts/verify_g11_blender.py": "4b6b8c94eefc811b495e52adfc639ce8d3b9d1e2428c70783e0b37ee4150c011",
+    "ArtSource/Crops/Scripts/verify_g11_r02.py": "cce280fe856b67c48b52fff6ac73299381e0e54b78b0a0d21c76d07104534d49",
+    "ArtSource/Crops/Scripts/verify_g11_r03.py": "b0b6da081242222e6711e85fd6eb582bb66ad3f243062681a4d4b31595539cda"
+  },
+  "revision": "Unified crop atlas; accepted G11 R03 geometry retained",
+  "visualRevisionReport": "ArtSource/Crops/G11/Review/R03_Completion.json",
+  "runtimeAtlas": {
+    "name": "NP_Plants_Unified_01",
+    "size": [
+      4096,
+      4096
+    ],
+    "material": "Assets/Nature  Paradaise/Material/Shared/Plants/NP_Plants_Unified_01.mat",
+    "materialGuid": "7608168a5d5646fd965b3910bff9c6bd",
+    "registry": "ArtSource/Crops/Unified/AtlasRegistry.json",
+    "registrySha256": "526864709d506f948e92fb268307bc002401746dd5a912da109bde06879e12af",
+    "policy": "One shared runtime atlas/material for all current and future crop groups; stable append-only allocations"
+  },
+  "atlasMigrationReport": "ArtSource/Crops/Unified/Review/Completion.json",
+  "unifiedAtlasChecks": 8812
+}

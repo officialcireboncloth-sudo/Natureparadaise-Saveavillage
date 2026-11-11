@@ -1,0 +1,89 @@
+{
+  "status": "SOURCE_EXPORTS_CAPTURED",
+  "models": {
+    "NP_Raspberry_Flowering": {
+      "sourceSpec": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Flowering.json",
+      "sourceFbx": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Flowering.fbx",
+      "geometrySha256": "88ddb656576d1c4602df04b25ecb3c57b4edc3672f673e57fa8866bc533dafc8",
+      "specSha256": "2dafad980de8baf9a6ed9b8ba1c100790974495774099c58ade92569a8867629",
+      "triangles": 25955
+    },
+    "NP_Raspberry_Flowering_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Flowering_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Flowering_LOD1.fbx",
+      "geometrySha256": "bce8a8fa5c89a4eeb71e649b7612e5324e48d3189c0c270662545ea1e35b4b39",
+      "specSha256": "aecc00f7f3ea52ccc286fdedd82087955ffeca1944e359da638412f3b1ca2597",
+      "triangles": 2719
+    },
+    "NP_Raspberry_Harvest": {
+      "sourceSpec": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Harvest.json",
+      "sourceFbx": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Harvest.fbx",
+      "geometrySha256": "6cbf0046bbd92f12105f8c423a2d170450bc6c3281bfa5df117c464afed99f76",
+      "specSha256": "4327f9fb1b1d571fce4f8e740ec9426b16aa193614c214da5e9c71c05415d74d",
+      "triangles": 14992
+    },
+    "NP_Raspberry_Harvest_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Harvest_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Harvest_LOD1.fbx",
+      "geometrySha256": "93f9129dfc562f2e43614e02cc5b7ef6a3eb215315bb89ed609dbb6566da74dc",
+      "specSha256": "9dd38401ca2f06c5b7748906661397816f224c545636af19c526df206474c586",
+      "triangles": 2790
+    },
+    "NP_Raspberry_Ready": {
+      "sourceSpec": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Ready.json",
+      "sourceFbx": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Ready.fbx",
+      "geometrySha256": "6cdeae39a6da7086017379cdbaf7eb2d85c21da0ec804cf6bc5b946957071a6a",
+      "specSha256": "46b9202daa9cc37c16cdb0b21d149a8c1cc8656735dc59ac2f09eedc92441adc",
+      "triangles": 25965
+    },
+    "NP_Raspberry_Ready_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Ready_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Ready_LOD1.fbx",
+      "geometrySha256": "1476995060262f35964cd034b859ab5f53cb0a1a2065d65563968c39b9802a06",
+      "specSha256": "4bd4a2307dbf3ab5d3ffdc98358e5e09ad4e7bbaf47a0a19be11de2e328c8eec",
+      "triangles": 2788
+    },
+    "NP_Raspberry_Seed": {
+      "sourceSpec": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Seed.json",
+      "sourceFbx": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Seed.fbx",
+      "geometrySha256": "0e3842d581abb0c27be9afeadf28c7379817fa6097ca785148f071a3bc01894c",
+      "specSha256": "51ef67c443a641016a5c914459757f306d8b5b013ab9da7b516ba03d8d0a805e",
+      "triangles": 320
+    },
+    "NP_Raspberry_Seed_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Seed_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Seed_LOD1.fbx",
+      "geometrySha256": "e5c7485252afedce0dabed44e7b572fb1f709965727d7c0ea6c2a39913e0816a",
+      "specSha256": "4f5571979c888dbe803a6cfd9d3bb5cc5cca942d964c81a558fe037ecb55f746",
+      "triangles": 128
+    },
+    "NP_Raspberry_Sprout": {
+      "sourceSpec": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Sprout.json",
+      "sourceFbx": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Sprout.fbx",
+      "geometrySha256": "a02fb48ef3e93ae8bc805d5aca31ce69fe3568f8b417c5409be1570762994220",
+      "specSha256": "9d3068cbe50fb65b6192df851546f3f95dc3d91eef924b9fec09c2797f2df1e8",
+      "triangles": 1424
+    },
+    "NP_Raspberry_Sprout_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Sprout_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Sprout_LOD1.fbx",
+      "geometrySha256": "2bad76f07fa39fdb17b4e9c0568966e8f83322266902f91b85828757f9c70f89",
+      "specSha256": "04205bdd1b3ea64b80249e3b2cb65aca2b20a3b9115e97559af96a4d017f611f",
+      "triangles": 569
+    },
+    "NP_Raspberry_Young": {
+      "sourceSpec": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Young.json",
+      "sourceFbx": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Young.fbx",
+      "geometrySha256": "a0550de62249e9c18093de13b97040c52b1aa526b2edf9eaf9ef04eee7b75ce0",
+      "specSha256": "f097b68549007f4a9791422d68c4bbe1a59181ad4687410b4efef58b4a90feb3",
+      "triangles": 11544
+    },
+    "NP_Raspberry_Young_LOD1": {
+      "sourceSpec": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Young_LOD1.json",
+      "sourceFbx": "ArtSource/Crops/G01/Review/Raspberry/SourceExports/NP_Raspberry_Young_LOD1.fbx",
+      "geometrySha256": "25614f94d71c791ccc2b052fcfc6b5fed6857be9e6014b90aa458676e4d572e8",
+      "specSha256": "494fb2adeb958e2049fc5199319c32df8150d0585b017085c52008f84c87ff27",
+      "triangles": 2795
+    }
+  }
+}

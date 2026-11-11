@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "restoredSurface": "BlueberryLeaf",
+  "retainedRubusSurfaces": true,
+  "masters": [
+    {
+      "map": "BaseColor",
+      "layers": 15,
+      "restoredFrom": "ArtSource\\Crops\\G01\\Review\\Bush_R04\\Before\\ArtSource\\Crops\\G01\\Textures\\NP_Plants_Berries_Source_01_BaseColor.png"
+    },
+    {
+      "map": "Normal",
+      "layers": 5,
+      "restoredFrom": "ArtSource\\Crops\\G01\\Review\\Bush_R04\\Before\\ArtSource\\Crops\\G01\\Textures\\NP_Plants_Berries_Source_01_Normal.png"
+    }
+  ]
+}

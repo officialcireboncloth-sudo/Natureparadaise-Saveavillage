@@ -1,0 +1,322 @@
+{
+  "group": "G06",
+  "revision": "R01 reference root vegetables",
+  "plants": [
+    "Radish",
+    "Onion"
+  ],
+  "material": "NP_Plants_Trellis_01",
+  "atlas": "NP_Plants_Trellis_01",
+  "newAtlasPages": 0,
+  "phaseAppearances": 12,
+  "uniqueNewExports": 14,
+  "counts": {
+    "Radish": {
+      "Seed": {
+        "leaves": 0,
+        "hollowTips": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "hollowTips": 0
+      },
+      "Young": {
+        "leaves": 4,
+        "hollowTips": 0
+      },
+      "RootForming": {
+        "leaves": 4,
+        "hollowTips": 0
+      },
+      "Ready": {
+        "leaves": 6,
+        "hollowTips": 0
+      },
+      "Harvest": {
+        "leaves": 6,
+        "hollowTips": 0
+      }
+    },
+    "Onion": {
+      "Seed": {
+        "leaves": 0,
+        "hollowTips": 0
+      },
+      "Sprout": {
+        "leaves": 1,
+        "hollowTips": 0
+      },
+      "Young": {
+        "leaves": 3,
+        "hollowTips": 3
+      },
+      "BulbForming": {
+        "leaves": 4,
+        "hollowTips": 3
+      },
+      "Ready": {
+        "leaves": 5,
+        "hollowTips": 1
+      },
+      "Harvest": {
+        "leaves": 0,
+        "hollowTips": 0
+      }
+    }
+  },
+  "exports": [
+    {
+      "name": "NP_Radish_Seed",
+      "plant": "Radish",
+      "stage": "Seed",
+      "triangles": 240,
+      "bounds": [
+        [
+          -0.08781644701957703,
+          0.00012176670134067535,
+          -0.044501643627882004
+        ],
+        [
+          0.08017224073410034,
+          0.04887823760509491,
+          0.09455329924821854
+        ]
+      ]
+    },
+    {
+      "name": "NP_Radish_Sprout",
+      "plant": "Radish",
+      "stage": "Sprout",
+      "triangles": 2720,
+      "bounds": [
+        [
+          -0.16294531524181366,
+          0.0004421210614964366,
+          -0.06267798691987991
+        ],
+        [
+          0.1546756774187088,
+          0.2026067078113556,
+          0.07962282001972198
+        ]
+      ]
+    },
+    {
+      "name": "NP_Radish_Young",
+      "plant": "Radish",
+      "stage": "Young",
+      "triangles": 5028,
+      "bounds": [
+        [
+          -0.2852889895439148,
+          0.0004421210614964366,
+          -0.20380640029907227
+        ],
+        [
+          0.2982867658138275,
+          0.45367923378944397,
+          0.2045331597328186
+        ]
+      ]
+    },
+    {
+      "name": "NP_Radish_RootForming",
+      "plant": "Radish",
+      "stage": "RootForming",
+      "triangles": 6880,
+      "bounds": [
+        [
+          -0.3890511691570282,
+          0.0013677285751327872,
+          -0.23613233864307404
+        ],
+        [
+          0.40380075573921204,
+          0.7037312984466553,
+          0.2811335027217865
+        ]
+      ]
+    },
+    {
+      "name": "NP_Radish_Ready",
+      "plant": "Radish",
+      "stage": "Ready",
+      "triangles": 9188,
+      "bounds": [
+        [
+          -0.35223424434661865,
+          0.00135539670009166,
+          -0.248050719499588
+        ],
+        [
+          0.39769089221954346,
+          0.9038591384887695,
+          0.3167729079723358
+        ]
+      ]
+    },
+    {
+      "name": "NP_Radish_Harvest",
+      "plant": "Radish",
+      "stage": "Harvest",
+      "triangles": 9188,
+      "bounds": [
+        [
+          0.03269093111157417,
+          0.05442288517951965,
+          -0.248050719499588
+        ],
+        [
+          0.9278198480606079,
+          0.8178920745849609,
+          0.3167729079723358
+        ]
+      ]
+    },
+    {
+      "name": "NP_Onion_Seed",
+      "plant": "Onion",
+      "stage": "Seed",
+      "triangles": 80,
+      "bounds": [
+        [
+          -0.09485955536365509,
+          -0.001106729730963707,
+          -0.04986453056335449
+        ],
+        [
+          0.09580473601818085,
+          0.03710673004388809,
+          0.08382571488618851
+        ]
+      ]
+    },
+    {
+      "name": "NP_Onion_Sprout",
+      "plant": "Onion",
+      "stage": "Sprout",
+      "triangles": 1328,
+      "bounds": [
+        [
+          -0.06575582176446915,
+          0.003511860268190503,
+          -0.011306644417345524
+        ],
+        [
+          0.10753124952316284,
+          0.3211725950241089,
+          0.026397520676255226
+        ]
+      ]
+    },
+    {
+      "name": "NP_Onion_Young",
+      "plant": "Onion",
+      "stage": "Young",
+      "triangles": 4076,
+      "bounds": [
+        [
+          -0.10454197227954865,
+          0.003489043563604355,
+          -0.07963606715202332
+        ],
+        [
+          0.104423388838768,
+          0.6108757853507996,
+          0.0736692026257515
+        ]
+      ]
+    },
+    {
+      "name": "NP_Onion_BulbForming",
+      "plant": "Onion",
+      "stage": "BulbForming",
+      "triangles": 6648,
+      "bounds": [
+        [
+          -0.14620092511177063,
+          0.0035223071463406086,
+          -0.16081245243549347
+        ],
+        [
+          0.22047986090183258,
+          0.8402886390686035,
+          0.15145231783390045
+        ]
+      ]
+    },
+    {
+      "name": "NP_Onion_Ready",
+      "plant": "Onion",
+      "stage": "Ready",
+      "triangles": 7076,
+      "bounds": [
+        [
+          -0.3806653320789337,
+          0.003448112402111292,
+          -0.3425990343093872
+        ],
+        [
+          0.4607275724411011,
+          1.1304774284362793,
+          0.3616393804550171
+        ]
+      ]
+    },
+    {
+      "name": "NP_Onion_Harvest",
+      "plant": "Onion",
+      "stage": "Harvest",
+      "triangles": 3616,
+      "bounds": [
+        [
+          -0.21495969593524933,
+          0.003448112402111292,
+          -0.21744129061698914
+        ],
+        [
+          0.21992287039756775,
+          0.515999972820282,
+          0.21744129061698914
+        ]
+      ]
+    },
+    {
+      "name": "NP_Radish_CutHalf",
+      "plant": "Radish",
+      "stage": "Extra",
+      "triangles": 1228,
+      "bounds": [
+        [
+          -0.1793220043182373,
+          0.0013614824274554849,
+          -0.008164266124367714
+        ],
+        [
+          0.18367800116539001,
+          0.42500001192092896,
+          0.17423999309539795
+        ]
+      ]
+    },
+    {
+      "name": "NP_Onion_CutHalf",
+      "plant": "Onion",
+      "stage": "Extra",
+      "triangles": 2588,
+      "bounds": [
+        [
+          -0.21495969593524933,
+          0.0034536251332610846,
+          -0.09705158323049545
+        ],
+        [
+          0.21992287039756775,
+          0.4699999988079071,
+          0.21744129061698914
+        ]
+      ]
+    }
+  ],
+  "integration": "Prepared visual assets; no changes to gameplay profiles or scene bindings"
+}

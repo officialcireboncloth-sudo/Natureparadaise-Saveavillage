@@ -1,0 +1,81 @@
+{
+  "group": "G11",
+  "status": "Applied to gameplay crop profiles and the existing seed store; Unity Play Mode blocked by licensing",
+  "material": "NP_Plants_Unified_01",
+  "plants": {
+    "Tulip": [
+      {
+        "stage": "Bulb",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G11\\NP_Tulip_Bulb.prefab",
+        "guid": "d9e7424fcc6c41e1827d0e57eee3379b",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G11\\NP_Tulip_Sprout.prefab",
+        "guid": "446ba6f04ff940f7898c1ee3221c505c",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G11\\NP_Tulip_Young.prefab",
+        "guid": "c9bb0480fca94266a26d756a978b107d",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G11\\NP_Tulip_BudForming.prefab",
+        "guid": "79da9d65fd3544bba6d39594e8f261bc",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G11\\NP_Tulip_Ready.prefab",
+        "guid": "27b17b90327d4e6faf672d52e639fbf9",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G11\\NP_Tulip_Harvest.prefab",
+        "guid": "918d3b0ccfa046a1815a57a7d6ff0059",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "gameplayIntegration": "ArtSource/Crops/Integration/Manifest.json",
+  "profiles": {
+    "Tulip": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Tulip Crop.asset"
+  },
+  "authoringMaterial": "NP_Plants_Tulip_01",
+  "runtimeAtlas": "ArtSource/Crops/Unified/AtlasRegistry.json"
+}

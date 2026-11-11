@@ -33,6 +33,8 @@ public sealed class CropVisualStage
     public Vector3 scale = Vector3.one * 0.1f;
     [Tooltip("Koreksi posisi lokal untuk model yang pivot-nya tidak berada di dasar.")]
     public Vector3 localOffset;
+    [Tooltip("Kedalaman tertanam dalam satuan model. Hanya tampilan tanaman di lahan; model hasil panen tetap utuh.")]
+    [Min(0f)] public float soilBurialDepth;
     [Tooltip("Koreksi rotasi lokal model dalam derajat.")]
     public Vector3 localEulerAngles;
 }
@@ -189,7 +191,13 @@ public class CropDataSO : ScriptableObject
         return stage >= StageCount - 1 ? "Harvest Ready" : $"Stage {stage}";
     }
 
-    public Vector3 GetStageOffset(int stage) => GetVisualStage(stage)?.localOffset ?? Vector3.zero;
+    public Vector3 GetStageOffset(int stage)
+    {
+        CropVisualStage visual = GetVisualStage(stage);
+        Vector3 offset = visual != null ? visual.localOffset : Vector3.zero;
+        if (visual != null) offset.y -= Mathf.Max(0f, visual.soilBurialDepth);
+        return offset;
+    }
 
     public Quaternion GetStageRotation(int stage)
     {
@@ -222,6 +230,7 @@ public class CropDataSO : ScriptableObject
             if (visual == null)
                 continue;
             visual.startsOnDay = Mathf.Max(previousDay + 1, visual.startsOnDay);
+            visual.soilBurialDepth = Mathf.Max(0f, visual.soilBurialDepth);
             visual.scale = new Vector3(
                 Mathf.Max(0.001f, visual.scale.x),
                 Mathf.Max(0.001f, visual.scale.y),

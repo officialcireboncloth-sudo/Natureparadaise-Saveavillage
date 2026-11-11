@@ -1,0 +1,78 @@
+{
+  "size": [
+    1254,
+    1254
+  ],
+  "verticalGutters": [
+    0,
+    618,
+    1254
+  ],
+  "horizontalGutters": [
+    0,
+    624,
+    1254
+  ],
+  "cells": [
+    {
+      "key": "sunflower",
+      "pixelRectTopLeft": [
+        0,
+        0,
+        618,
+        624
+      ],
+      "contentRectInCell": [
+        92,
+        30,
+        540,
+        594
+      ]
+    },
+    {
+      "key": "chrysanthemum",
+      "pixelRectTopLeft": [
+        618,
+        0,
+        636,
+        624
+      ],
+      "contentRectInCell": [
+        71,
+        46,
+        512,
+        594
+      ]
+    },
+    {
+      "key": "dahlia",
+      "pixelRectTopLeft": [
+        0,
+        624,
+        618,
+        630
+      ],
+      "contentRectInCell": [
+        93,
+        32,
+        548,
+        593
+      ]
+    },
+    {
+      "key": "marigold",
+      "pixelRectTopLeft": [
+        618,
+        624,
+        636,
+        630
+      ],
+      "contentRectInCell": [
+        86,
+        36,
+        524,
+        595
+      ]
+    }
+  ]
+}

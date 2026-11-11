@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bf30472b7f17324b983093b0cdfad72, type: 3}
+  m_Name: Rice Crop
+  m_EditorClassIdentifier: 
+  cropId: crop.rice
+  seedItem: {fileID: 11400000, guid: e0384c6ffb4e4a9eabaef6235bafa0c3, type: 2}
+  produceItem: {fileID: 11400000, guid: 560d299aad6f4d659a883e60617f2693, type: 2}
+  mutationProduceItem: {fileID: 11400000, guid: ed4e6e4a40d941789f681a386d2e6729, type: 2}
+  allowedSeasons: -1
+  outOfSeasonBehavior: 0
+  idealMoistureMin: 35
+  idealMoistureMax: 80
+  minimumFertility: 35
+  dailyFertilityUse: 3
+  soilDepletionOnHarvest: 4
+  mutationChance: 0.01
+  fiveStarDoubleYieldChance: 0.2
+  baseYield: 1
+  windVulnerability: 1
+  dryDaysBeforeWither: 3
+  dryDaysBeforeDeath: 5
+  wateredDaysToRecover: 2
+  healthLossWhenDry: 10
+  daysUntilFirstHarvest: 5
+  regrowsAfterHarvest: 0
+  regrowDays: 3
+  regrowStage: -1
+  qualityWeights:
+  - 50
+  - 30
+  - 14
+  - 5
+  - 1
+  minimumBoosterForStars: 0000000001000000020000000300000003000000
+  harvestGraceDays: 0
+  maximumBoosterPercent: 50
+  soilWeight: 0.35
+  moistureWeight: 0.25
+  fertilityWeight: 0.25
+  healthWeight: 0.15
+  visualStages:
+  - stageName: Seed
+    startsOnDay: 0
+    modelPrefab: {fileID: 100, guid: 7f34300afbe84dc9809e73bb5d27ea03, type: 3}
+    scale: {x: 0.864215, y: 0.864215, z: 0.864215}
+    localOffset: {x: -0.005522, y: 0.001838, z: 0.020264}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Sprout
+    startsOnDay: 1
+    modelPrefab: {fileID: 100, guid: a09ac7331eee4293be8b220b0689c98c, type: 3}
+    scale: {x: 0.864215, y: 0.864215, z: 0.864215}
+    localOffset: {x: -0.024335, y: 0.002853, z: -0.013891}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Young Plant
+    startsOnDay: 2
+    modelPrefab: {fileID: 100, guid: 7aa59d838ced4338bc10bfbed20d10b9, type: 3}
+    scale: {x: 0.864215, y: 0.864215, z: 0.864215}
+    localOffset: {x: 0.006865, y: 0, z: 0.001119}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Heading
+    startsOnDay: 3
+    modelPrefab: {fileID: 100, guid: 71c5dadf75134660ababf786be8aeeb3, type: 3}
+    scale: {x: 0.864215, y: 0.864215, z: 0.864215}
+    localOffset: {x: 0.003115, y: 0, z: -0.003382}
+    localEulerAngles: {x: 0, y: 0, z: 0}
+  - stageName: Harvest Ready
+    startsOnDay: 4
+    modelPrefab: {fileID: 100, guid: 747753bc0d3d496cb0055bf59df847b2, type: 3}
+    scale: {x: 0.864215, y: 0.864215, z: 0.864215}
+    localOffset: {x: 0.004306, y: 0, z: -0.003519}
+    localEulerAngles: {x: 0, y: 0, z: 0}

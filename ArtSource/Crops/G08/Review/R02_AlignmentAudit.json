@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "revision": "R02 wheat heading and harvest attachment correction",
+  "checks": 300,
+  "preservedFiles": 262,
+  "retainedTargetGuids": 12,
+  "jointPairs": [
+    {
+      "stage": "Heading",
+      "culm": 0,
+      "jointGapMetres": 1.862645149230957e-09,
+      "axisAngleDegrees": 0.0
+    },
+    {
+      "stage": "Heading",
+      "culm": 1,
+      "jointGapMetres": 7.450580596923828e-09,
+      "axisAngleDegrees": 0.0
+    },
+    {
+      "stage": "Heading",
+      "culm": 2,
+      "jointGapMetres": 3.725290298461914e-09,
+      "axisAngleDegrees": 0.0
+    },
+    {
+      "stage": "Harvest",
+      "culm": 0,
+      "jointGapMetres": 3.725290298461914e-09,
+      "axisAngleDegrees": 0.0
+    },
+    {
+      "stage": "Harvest",
+      "culm": 1,
+      "jointGapMetres": 7.450580596923828e-09,
+      "axisAngleDegrees": 0.0
+    },
+    {
+      "stage": "Harvest",
+      "culm": 2,
+      "jointGapMetres": 0.0,
+      "axisAngleDegrees": 0.0
+    }
+  ],
+  "masterSha256": "5e85455a3e587d4d4819209ba9b6a9a1672ce2d266d3abbfc43d7f039e666934",
+  "scope": [
+    "Wheat_Heading",
+    "Wheat_Harvest"
+  ]
+}

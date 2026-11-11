@@ -1,0 +1,654 @@
+{
+  "status": "PASS",
+  "renderer": "Shared kraft packaging with Indonesian label and crop illustration",
+  "runtimeSize": [
+    256,
+    256
+  ],
+  "icons": [
+    {
+      "plant": "watermelon",
+      "label": "SEMANGKA",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Seed_watermelon.xcf",
+      "produceMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Crop_watermelon.xcf",
+      "layers": 22,
+      "seed": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Seeds\\icon_seed_watermelon.png",
+      "seedSha256": "5d39897332319804efcd9aafb8ad5e0b874fb27ddf61d1d5b23376ef14fbcf01",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "melon",
+      "label": "MELON",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Seed_melon.xcf",
+      "produceMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Crop_melon.xcf",
+      "layers": 22,
+      "seed": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Seeds\\icon_seed_melon.png",
+      "seedSha256": "476c6cc4a469a2797af2649ded865310c111ee017fb28f998308a40b473bbc3d",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "zucchini",
+      "label": "ZUCCHINI",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Seed_zucchini.xcf",
+      "produceMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Crop_zucchini.xcf",
+      "layers": 22,
+      "seed": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Seeds\\icon_seed_zucchini.png",
+      "seedSha256": "42d80d283e92a79dd40183d71cfc5202d94579a5a44f82f4cb7ee87f34fa0a5a",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "cucumber",
+      "label": "TIMUN",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Seed_cucumber.xcf",
+      "produceMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Crop_cucumber.xcf",
+      "layers": 22,
+      "seed": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Seeds\\icon_seed_cucumber.png",
+      "seedSha256": "e5d7334ed036bca48c45bb258ae0363ab143ce9984939f12d8eba5385d48e300",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "pea",
+      "label": "ERCIS",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Seed_pea.xcf",
+      "produceMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Crop_pea.xcf",
+      "layers": 22,
+      "seed": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Seeds\\icon_seed_pea.png",
+      "seedSha256": "5208545669f983cc5c2d019594a9d56f9250e4eeee286a788a629488e6301b54",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "kiwi",
+      "label": "KIWI",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Seed_kiwi.xcf",
+      "produceMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Crop_kiwi.xcf",
+      "layers": 22,
+      "seed": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Seeds\\icon_seed_kiwi.png",
+      "seedSha256": "883c7f9647e1562707d34218fb40e445919952a5847fb93eebc2c8c6ffd5294d",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "green_bean",
+      "label": "BUNCIS",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Seed_green_bean.xcf",
+      "produceMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Crop_green_bean.xcf",
+      "layers": 22,
+      "seed": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Seeds\\icon_seed_green_bean.png",
+      "seedSha256": "d60a928a13803b1089b5e59552d19a754f476f48fc7f1259319b10057d433ce4",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "chili_pepper",
+      "label": "CABAI",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Seed_chili_pepper.xcf",
+      "produceMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Crop_chili_pepper.xcf",
+      "layers": 22,
+      "seed": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Seeds\\icon_seed_chili_pepper.png",
+      "seedSha256": "69225ed2b7e9f729555886aa67b4dcc6b8593d4b7b3c2777d99b0644f25d6f76",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "eggplant",
+      "label": "TERONG",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Seed_eggplant.xcf",
+      "produceMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Crop_eggplant.xcf",
+      "layers": 22,
+      "seed": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Seeds\\icon_seed_eggplant.png",
+      "seedSha256": "eaeafe24c69770ec1069c62416b8a9b6e04fa9f2e8bc68d8b1c1fbc872667f52",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "cabbage",
+      "label": "KUBIS",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Seed_cabbage.xcf",
+      "produceMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Crop_cabbage.xcf",
+      "layers": 22,
+      "seed": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Seeds\\icon_seed_cabbage.png",
+      "seedSha256": "0e71622046b7577cfbebd7386b35925ad444306844ae8d1b7f89271ad3bacf61",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "broccoli",
+      "label": "BROKOLI",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Seed_broccoli.xcf",
+      "produceMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Crop_broccoli.xcf",
+      "layers": 22,
+      "seed": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Seeds\\icon_seed_broccoli.png",
+      "seedSha256": "58678d0743974a88605ba09d930713109a6e0d273a384c150e8f7eb4ed1d2d51",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "cauliflower",
+      "label": "KEMBANG KOL",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Seed_cauliflower.xcf",
+      "produceMaster": "ArtSource\\UIIcons\\Seeds\\Masters\\Crop_cauliflower.xcf",
+      "layers": 22,
+      "seed": "Assets\\Nature  Paradaise\\Textures\\UI\\Icons\\Seeds\\icon_seed_cauliflower.png",
+      "seedSha256": "9a858856a7f9b1a2f7dc5aaa8141e2c43cac8f0eda3c93fd1f306b92bb5de5a6",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "radish",
+      "label": "LOBAK",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_radish.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_radish.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_radish.png",
+      "seedSha256": "8b434677da8527cf07dc790a05fb7ada0704c06ef87997e54b39fd22e7d00504",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        0,
+        0,
+        429,
+        429
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "onion",
+      "label": "BAWANG BOMBAY",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_onion.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_onion.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_onion.png",
+      "seedSha256": "223ddd6fafec58e70eb52919675db3ad6b07a90ee8ccd6e6653e2facc04c2fbc",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        429,
+        0,
+        389,
+        429
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "spinach",
+      "label": "BAYAM",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_spinach.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_spinach.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_spinach.png",
+      "seedSha256": "f0cd0c887c9419fe57961191a08ccda73e3b96260c2ecb65de938db55336e281",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        818,
+        0,
+        436,
+        429
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "water_spinach",
+      "label": "KANGKUNG",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_water_spinach.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_water_spinach.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_water_spinach.png",
+      "seedSha256": "1332c2784ed023f098f1d5823177c86989bdabb61b9c51f591fc99f2a9c10ee3",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        0,
+        429,
+        429,
+        376
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "rice",
+      "label": "PADI",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_rice.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_rice.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_rice.png",
+      "seedSha256": "a537b421ba30a74f6c7691f45212ce534be40407993fa88cef416f55f71166bd",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        429,
+        429,
+        389,
+        376
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "wheat",
+      "label": "GANDUM",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_wheat.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_wheat.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_wheat.png",
+      "seedSha256": "15a54feace2ea085d81409ea70a17ec3ff83bb7fedb3fff0c90b266770333a70",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        818,
+        429,
+        436,
+        376
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "rose",
+      "label": "MAWAR",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_rose.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_rose.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_rose.png",
+      "seedSha256": "4a453fd56fead28e31c75ae52faf68687598c0f5051993008b21b9818ad62070",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        0,
+        805,
+        429,
+        449
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "hibiscus",
+      "label": "KEMBANG SEPATU",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_hibiscus.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_hibiscus.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_hibiscus.png",
+      "seedSha256": "2108051f805f365dcefc56dac32d5d60ef066640320d26c4931a4dbff2998655",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        429,
+        805,
+        389,
+        449
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "jasmine",
+      "label": "MELATI",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_jasmine.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_jasmine.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_jasmine.png",
+      "seedSha256": "43394d8333e2eaa0876f218ea8d1d43b4379ccd86a881a07883884a13fefd110",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        818,
+        805,
+        436,
+        449
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "sunflower",
+      "label": "BUNGA MATAHARI",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_sunflower.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_sunflower.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_sunflower.png",
+      "seedSha256": "ac68fa36f8b9e5ff01c132f4ca9ec9f2a2d0d9534413c5305618b25ee7373c74",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G10_Illustrations.png",
+      "atlasCell": [
+        0,
+        0,
+        618,
+        624
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "chrysanthemum",
+      "label": "KRISAN",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_chrysanthemum.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_chrysanthemum.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_chrysanthemum.png",
+      "seedSha256": "1b4fc93701ea3feb8385da7e689948dd91966e936925319ce68fcd6dcb19d3e1",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G10_Illustrations.png",
+      "atlasCell": [
+        618,
+        0,
+        636,
+        624
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "dahlia",
+      "label": "DAHLIA",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_dahlia.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_dahlia.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_dahlia.png",
+      "seedSha256": "9613d0e4ce78c1e7fdac59c5541a43e055e231b0306b2fe134cbb06132e9750b",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G10_Illustrations.png",
+      "atlasCell": [
+        0,
+        624,
+        618,
+        630
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "marigold",
+      "label": "MARIGOLD",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_marigold.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_marigold.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_marigold.png",
+      "seedSha256": "18d0a0f90dc53e65b78ff1422c14822a2f99bf06a0d4982b3cfcac76a240a265",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G10_Illustrations.png",
+      "atlasCell": [
+        618,
+        624,
+        636,
+        630
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "tulip",
+      "label": "TULIP",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_tulip.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_tulip.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_tulip.png",
+      "seedSha256": "efe70ef16765964f6fa603ad7b1589b985b63c9b9f5e2f0b9772edc8ed1162fc",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G11_Illustrations.png",
+      "atlasCell": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "orchid",
+      "label": "ANGGREK",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_orchid.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_orchid.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_orchid.png",
+      "seedSha256": "005cbdea56f168885124115264a6e12b48ce8e7f240ba09a1ae519df37f993f2",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G12_Illustrations.png",
+      "atlasCell": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "lavender",
+      "label": "LAVENDER",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_lavender.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_lavender.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_lavender.png",
+      "seedSha256": "0e713d7240c5206e114e035e4071f11a0bca3be850354fdddda85f094f656709",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G13_Illustrations.png",
+      "atlasCell": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "blueberry",
+      "label": "BLUEBERRY",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_blueberry.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_blueberry.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_blueberry.png",
+      "seedSha256": "4ed971084fd2bcfed37309f4b0ea02f092956fa5fbd29744e3bcedb441aef0b4",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G01_Illustrations.png",
+      "atlasCell": [
+        0,
+        0,
+        991,
+        793
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "blackberry",
+      "label": "BLACKBERRY",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_blackberry.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_blackberry.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_blackberry.png",
+      "seedSha256": "3e1e323f8c6e766b192a058220daafedfe8ea0a209705cacfe052dd314b2132f",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G01_Illustrations.png",
+      "atlasCell": [
+        991,
+        0,
+        992,
+        793
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "raspberry",
+      "label": "RASPBERRY",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_raspberry.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_raspberry.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_raspberry.png",
+      "seedSha256": "6f3ebe76d86c97bb48a68c7052b8bb5fe2748167a4348e53682a361df888cc6a",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G01_Raspberry_Illustration.png",
+      "atlasCell": [
+        0,
+        0,
+        1312,
+        1199
+      ],
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "daisy",
+      "label": "DAISY",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_daisy.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_daisy.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_daisy.png",
+      "seedSha256": "e6139c8fa177dbad2cccb2a98cffcd123536bdbf8465d62f8b8bcf56ac0b8486",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G14_Illustrations.png",
+      "atlasCell": [
+        0,
+        0,
+        448,
+        448
+      ],
+      "packetPrint": "ArtSource/UIIcons/Seeds/Generated/G14_daisy_PacketPrint.png",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    },
+    {
+      "plant": "moonflower",
+      "label": "MOONFLOWER",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_moonflower.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_moonflower.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_moonflower.png",
+      "seedSha256": "a07bbf3b314f21c8ebf02a0f947d0ed84ab26424426a29ff9a50f6ec3307fea4",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G14_Illustrations.png",
+      "atlasCell": [
+        448,
+        0,
+        448,
+        448
+      ],
+      "packetPrint": "ArtSource/UIIcons/Seeds/Generated/G14_moonflower_PacketPrint.png",
+      "seedStyle": "Kraft packet with large crop artwork",
+      "seedSource": "ArtSource/UIIcons/Seeds/make_kraft_seed_packets.py"
+    }
+  ]
+}

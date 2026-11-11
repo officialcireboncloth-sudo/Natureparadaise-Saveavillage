@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 public static class CropGameplayValidation
 {
     const string Output = "ArtSource/Crops/Integration/UnityGameplayAudit.json";
-    static readonly string[] Kinds = { "Watermelon", "Melon", "Zucchini", "Cucumber", "Pea", "Kiwi", "GreenBean", "ChiliPepper", "Eggplant", "Cabbage", "Broccoli", "Cauliflower" };
+    static readonly string[] Kinds = { "Watermelon", "Melon", "Zucchini", "Cucumber", "Pea", "Kiwi", "GreenBean", "ChiliPepper", "Eggplant", "Cabbage", "Broccoli", "Cauliflower", "Radish", "Onion", "Spinach", "WaterSpinach", "Rice", "Wheat", "Rose", "Hibiscus", "Jasmine", "Sunflower", "Chrysanthemum", "Dahlia", "Marigold", "Tulip", "Orchid", "Lavender", "Blueberry", "Blackberry", "Raspberry", "Daisy", "Moonflower" };
     [Serializable] sealed class Report { public string status; public List<string> checks = new(); public string error; }
     static Report report;
     static void Check(bool ok, string label) { if (!ok) throw new InvalidOperationException(label); report.checks.Add(label); }
@@ -31,8 +31,11 @@ public static class CropGameplayValidation
             ItemCatalog.Invalidate();
             var catalog = Resources.Load<ShopCatalogSO>("Shops/Crops Catalog");
             Check(catalog != null && catalog.kind == ShopKind.Crops, "Existing seed-store catalog resolves");
+            var clueMaterial = Resources.Load<Material>("UI/Interaction/WorldInteractionClue");
+            Check(clueMaterial != null && clueMaterial.shader != null && !ShaderUtil.ShaderHasError(clueMaterial.shader), "Imported collectible clue shader and material");
+            Check(clueMaterial.renderQueue == 4000, "Clues use the world overlay render queue");
             var seedTab = catalog.tabs.Single(t => t.title == "Benih");
-            Check(seedTab.items.Count == 12 && seedTab.items.Distinct().Count() == 12, "Twelve distinct seeds in the existing Benih tab");
+            Check(seedTab.items.Count == Kinds.Length && seedTab.items.Distinct().Count() == Kinds.Length, "All prepared crops have distinct seeds in the existing Benih tab");
             var actor = new GameObject("Crop store disposable fixture");
             UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(actor, preview);
             var bag = actor.AddComponent<Inventory>();
@@ -47,6 +50,13 @@ public static class CropGameplayValidation
                 Check(ItemCatalog.Resolve(seed.Id) == seed && ItemCatalog.Resolve(crop.produceItem.Id) == crop.produceItem, "Stable inventory/save IDs " + kind);
                 Check(crop.visualStages.Length == (kind == "Cabbage" ? 6 : 5), "Reference phases and legacy Cabbage schedule " + kind);
                 Check(crop.visualStages.All(s => s.modelPrefab != null && s.modelPrefab.GetComponent<LODGroup>() != null), "Every crop stage uses a real LOD prefab " + kind);
+                foreach (var stage in crop.visualStages)
+                {
+                    var filters = stage.modelPrefab.GetComponentsInChildren<MeshFilter>(true);
+                    var renderers = stage.modelPrefab.GetComponentsInChildren<MeshRenderer>(true);
+                    Check(filters.Length > 0 && filters.All(f => f.sharedMesh != null && f.sharedMesh.vertexCount > 0), "Actual imported meshes " + kind + " " + stage.stageName);
+                    Check(renderers.Length > 0 && renderers.All(r => r.sharedMaterials.Length > 0 && r.sharedMaterials.All(m => m != null)), "Actual imported materials " + kind + " " + stage.stageName);
+                }
                 Check(crop.GetStageForGrowth(crop.TotalGrowthDays) == crop.StageCount - 1, "Growth reaches final plant phase " + kind);
                 Check(crop.visualStages.Last().modelPrefab.name.EndsWith("_Ready") && crop.produceItem.worldPrefab.name.EndsWith("_Harvest"), "Ready plant stays planted; detached produce is the inventory/drop model " + kind);
                 foreach (var item in new[] { seed, crop.produceItem, crop.mutationProduceItem })
@@ -60,6 +70,8 @@ public static class CropGameplayValidation
                 Check(product.Icon == seed.inventoryIllustration, "Actual storefront resolves the packet artwork " + kind);
                 Check(crop.mutationProduceItem.isMutatedCrop && crop.mutationProduceItem.mutationSourceItem == crop.produceItem
                     && crop.mutationProduceItem.GetMarketSellPrice(5) == crop.produceItem.GetMarketSellPrice(5) * 3, "Mutation retains its source and price rule " + kind);
+                if (kind == "Rose" || kind == "Hibiscus" || kind == "Jasmine" || kind == "Sunflower" || kind == "Chrysanthemum" || kind == "Dahlia" || kind == "Marigold" || kind == "Tulip" || kind == "Daisy" || kind == "Moonflower")
+                    Check(!crop.produceItem.isEdible && !crop.mutationProduceItem.isEdible, "Ornamental flowers are nonfood " + kind);
                 bag.RestoreContents(0, Enumerable.Repeat<ItemStack>(null, bag.CapacityAtBackpackLevel(0)).ToList());
                 int goldBefore = score.points, unitPrice = catalog.BuyPrice(seed);
                 Check(manager.TryBuyItem(seed, 2), "Actual shop purchases two packets " + kind);

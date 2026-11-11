@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "newPackets": 2,
+  "newProduceSprites": 2,
+  "newMutationSprites": 2,
+  "seedMastersReopened": 2,
+  "produceMastersReopened": 2,
+  "source": "ArtSource/UIIcons/Seeds/Generated/G01_Illustrations.png",
+  "sourceSha256": "54538a2b49181e0c996d018943748f58a99c1434074732503b70f51d318c1815",
+  "records": [
+    {
+      "plant": "blueberry",
+      "label": "BLUEBERRY",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_blueberry.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_blueberry.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_blueberry.png",
+      "seedSha256": "1d8385b275af27e71dac294e79bd5045fc450466fd017c84ea8e8d574acacfc8",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G01_Illustrations.png",
+      "atlasCell": [
+        0,
+        0,
+        991,
+        793
+      ]
+    },
+    {
+      "plant": "blackberry",
+      "label": "BLACKBERRY",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_blackberry.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_blackberry.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_blackberry.png",
+      "seedSha256": "e05a4c8862fce6e93fc435be6500a2bc416f982e0378493d8932484e6323804e",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G01_Illustrations.png",
+      "atlasCell": [
+        991,
+        0,
+        992,
+        793
+      ]
+    }
+  ]
+}

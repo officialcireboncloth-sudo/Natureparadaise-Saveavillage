@@ -1,0 +1,192 @@
+{
+  "status": "SOURCE_EXPORTED",
+  "roots": {
+    "Blackberry_Flowering": {
+      "leaves": 89
+    },
+    "Blackberry_Ready": {
+      "leaves": 89
+    },
+    "Blackberry_Sprout": {
+      "leaves": 3
+    },
+    "Blackberry_Young": {
+      "leaves": 35
+    },
+    "Raspberry_Flowering": {
+      "leaves": 89
+    },
+    "Raspberry_Ready": {
+      "leaves": 89
+    },
+    "Raspberry_Sprout": {
+      "leaves": 3
+    },
+    "Raspberry_Young": {
+      "leaves": 35
+    }
+  },
+  "exports": [
+    {
+      "name": "NP_Blackberry_Flowering",
+      "plant": "Blackberry",
+      "stage": "Flowering",
+      "triangles": 25907,
+      "lodTriangles": 2749,
+      "bounds": [
+        [
+          -0.39297258853912354,
+          0.0011357002658769488,
+          -0.3549552857875824
+        ],
+        [
+          0.3741703927516937,
+          0.7571142911911011,
+          0.3170167803764343
+        ]
+      ],
+      "exactLeafTriangles": 16020
+    },
+    {
+      "name": "NP_Blackberry_Ready",
+      "plant": "Blackberry",
+      "stage": "Ready",
+      "triangles": 25941,
+      "lodTriangles": 2766,
+      "bounds": [
+        [
+          -0.4173338711261749,
+          0.0012515927664935589,
+          -0.36431244015693665
+        ],
+        [
+          0.39272457361221313,
+          0.8059379458427429,
+          0.33725130558013916
+        ]
+      ],
+      "exactLeafTriangles": 16020
+    },
+    {
+      "name": "NP_Blackberry_Sprout",
+      "plant": "Blackberry",
+      "stage": "Sprout",
+      "triangles": 584,
+      "lodTriangles": 233,
+      "bounds": [
+        [
+          -0.14995332062244415,
+          0.0010000000474974513,
+          -0.11530807614326477
+        ],
+        [
+          0.14578674733638763,
+          0.2252369374036789,
+          0.0779479593038559
+        ]
+      ],
+      "exactLeafTriangles": 540
+    },
+    {
+      "name": "NP_Blackberry_Young",
+      "plant": "Blackberry",
+      "stage": "Young",
+      "triangles": 9920,
+      "lodTriangles": 2788,
+      "bounds": [
+        [
+          -0.21976524591445923,
+          0.0010000000474974513,
+          -0.23573695123195648
+        ],
+        [
+          0.23790213465690613,
+          0.5048571825027466,
+          0.21062706410884857
+        ]
+      ],
+      "exactLeafTriangles": 6300
+    },
+    {
+      "name": "NP_Raspberry_Flowering",
+      "plant": "Raspberry",
+      "stage": "Flowering",
+      "triangles": 25894,
+      "lodTriangles": 2581,
+      "bounds": [
+        [
+          -0.38704895973205566,
+          0.001228748937137425,
+          -0.34591713547706604
+        ],
+        [
+          0.37330198287963867,
+          0.8065975308418274,
+          0.3230033218860626
+        ]
+      ],
+      "exactLeafTriangles": 17444
+    },
+    {
+      "name": "NP_Raspberry_Ready",
+      "plant": "Raspberry",
+      "stage": "Ready",
+      "triangles": 25941,
+      "lodTriangles": 2448,
+      "bounds": [
+        [
+          -0.4110322892665863,
+          0.0010730441426858306,
+          -0.3675270974636078
+        ],
+        [
+          0.3930998146533966,
+          0.858579695224762,
+          0.34362009167671204
+        ]
+      ],
+      "exactLeafTriangles": 17444
+    },
+    {
+      "name": "NP_Raspberry_Sprout",
+      "plant": "Raspberry",
+      "stage": "Sprout",
+      "triangles": 632,
+      "lodTriangles": 251,
+      "bounds": [
+        [
+          -0.15301217138767242,
+          0.0010000000474974513,
+          -0.11761359870433807
+        ],
+        [
+          0.14864100515842438,
+          0.22746366262435913,
+          0.08016010373830795
+        ]
+      ],
+      "exactLeafTriangles": 588
+    },
+    {
+      "name": "NP_Raspberry_Young",
+      "plant": "Raspberry",
+      "stage": "Young",
+      "triangles": 10480,
+      "lodTriangles": 2787,
+      "bounds": [
+        [
+          -0.21982677280902863,
+          0.0010000000474974513,
+          -0.2233230620622635
+        ],
+        [
+          0.23486639559268951,
+          0.5380213260650635,
+          0.2145213931798935
+        ]
+      ],
+      "exactLeafTriangles": 6860
+    }
+  ],
+  "masterSha256": "dfc82bd84fe83eee022ee58ad78c5c4e73d6704139f27e22bba8a1573f061227"
+}

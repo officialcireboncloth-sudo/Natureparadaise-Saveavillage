@@ -1,0 +1,191 @@
+{
+  "group": "G01",
+  "plants": {
+    "Blueberry": [
+      {
+        "stage": "Seed",
+        "model": "NP_Blueberry_Seed",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Blueberry_Sprout",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Blueberry_Young",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Flowering",
+        "model": "NP_Blueberry_Flowering",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Blueberry_Ready",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Blueberry_Harvest",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Blackberry": [
+      {
+        "stage": "Seed",
+        "model": "NP_Blackberry_Seed",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Blackberry_Sprout",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Blackberry_Young",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Flowering",
+        "model": "NP_Blackberry_Flowering",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Blackberry_Ready",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Blackberry_Harvest",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Raspberry": [
+      {
+        "stage": "Seed",
+        "model": "NP_Raspberry_Seed",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Raspberry_Sprout",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Raspberry_Young",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Flowering",
+        "model": "NP_Raspberry_Flowering",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Raspberry_Ready",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Raspberry_Harvest",
+        "source_group": "G01",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  }
+}

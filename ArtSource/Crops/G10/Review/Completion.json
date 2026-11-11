@@ -1,0 +1,45 @@
+{
+  "status": "ART_COMPLETE",
+  "species": [
+    "Sunflower",
+    "Chrysanthemum",
+    "Dahlia",
+    "Marigold"
+  ],
+  "phaseVisuals": 24,
+  "nativeMeshes": 48,
+  "prefabs": 24,
+  "atlasPages": 1,
+  "technicalChecks": 4671,
+  "closedPetals": 1127,
+  "physicalJoints": 32,
+  "fbxRoundtrips": 48,
+  "protectedFiles": 2364,
+  "masterSha256": "95e8404bffa761ddfe16cb4e6c63c321ead74abb0885944691ac9932dc74e822",
+  "referenceBasis": "Existing project species plan; no new G10 image attachments",
+  "visualReview": "Actual Blender colour renders reviewed; mature plants, growth, flower closeups, side/rear/top and detached harvest",
+  "gameplayBindings": "APPLIED",
+  "unityPlayMode": "NOT_RUN_BY_AGENT",
+  "reviews": {
+    "G10_ReadyReview.png": "a1cb7d221f67f11ee3c22f5cf3e62d2d0fcb48596c26712109559f71491bf433",
+    "G10_GrowthStages.png": "b343181c893268cdba4ec1d2739af4cee16dfde1944bc084722c9eb38854f374",
+    "G10_FlowerDetail.png": "3387543455b5ebc5446ee180f61d9a854b3a8c5f4d3e0489c01178e315ef3e09",
+    "G10_VolumeReview.png": "3526e4adebd0f6533e90c9eddb58963562f93c423a050e69058f11ddc40da80e",
+    "G10_HarvestStudy.png": "83802ec9f63aa384212d7d574cb9646aa2d9b32f929929cf04fb1a7ffd28c5d7"
+  },
+  "sourceHashes": {
+    "ArtSource\\Crops\\Scripts\\build_g10_blender.py": "d872b5a00203b0514a4268e6b4b09042e58fc2112681eae1e8b649ec8817b163",
+    "ArtSource\\Crops\\Scripts\\finalize_g10.py": "1bd051da85ca4c7c84d2bb1519e0472857e9ad2a0b3ebc53b0138cc03c7a5e29",
+    "ArtSource\\Crops\\Scripts\\g10_config.py": "59adab1feb87debece6b2583a31d69cf7c712633d0255d38210bfc04b963cf8c",
+    "ArtSource\\Crops\\Scripts\\g10_geometry.py": "c761f17b04fc9ee25b910c9766f11f24cea1266b7effc28c576861762c1a2fff",
+    "ArtSource\\Crops\\Scripts\\paint_g10_gimp.py": "d1e9caabbcc89aad6e168833d093cdc3b948250893de6f33ff776c306d7b0546",
+    "ArtSource\\Crops\\Scripts\\prepare_g10.py": "fe85f3226afe3718a110b67d30121e0eebfb3430a49038a060887af9adf464a5",
+    "ArtSource\\Crops\\Scripts\\prepare_g10_unity_page.py": "795285a8cdb2d94e41b331cff7e16e4cf56aa1eeda492085901e56dd7c0dc78e",
+    "ArtSource\\Crops\\Scripts\\render_g10.py": "09ae7d3fde251bac815a8fc311ca9b9b4b5ed6ed593e211ca7e8404b37fba550",
+    "ArtSource\\Crops\\Scripts\\review_g10_gimp.py": "92b7b17fb29ef50b00325eb715d5197b59c5107fe0ce48c7082b6cc6d1558169",
+    "ArtSource\\Crops\\Scripts\\verify_g10_blender.py": "83ca1ecd8bb6bc6eed555575c77b9db7b2d12abb96c02bfec5ebe36ec1907d2f",
+    "ArtSource\\Crops\\Scripts\\plant_library.py": "34ad7ac3abfb993780b75f22ae81f9b1db9cbc39421c1660cdb8a165c2ca7efb",
+    "ArtSource\\Crops\\Scripts\\prepare_plant_unity.py": "05a92d2f4a7b339c259c6abd005f6bdc4ea2e0f85e94b4649c7f8c2d07f187c9"
+  },
+  "gameplayIntegration": "ArtSource/Crops/Integration/G10_Completion.json"
+}

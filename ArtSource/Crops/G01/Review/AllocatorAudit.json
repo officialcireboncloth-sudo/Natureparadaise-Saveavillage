@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "tests": 5,
+  "exhaustiveLayouts": 40,
+  "regressionBerrySurfaces": {
+    "256px": 8,
+    "128px": 12
+  },
+  "remainingRaspberrySurfaces": {
+    "256px": 4,
+    "128px": 4
+  },
+  "currentAllocationsRetained": 146,
+  "registryUnchanged": true,
+  "sourceHashes": {
+    "Tests/test_plant_atlas_allocator.py": "a4832e19fe762475fc6f58dd8254ea8f498325eaf6acb07d996e4b84478c643f",
+    "ArtSource/Crops/Scripts/unified_plant_atlas.py": "95f981e9e6e682bc71637b6a3e17d40e71b6b62ef8b8c2a8f3cda104319c2718"
+  }
+}

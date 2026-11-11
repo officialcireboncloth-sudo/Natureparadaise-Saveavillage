@@ -1,0 +1,296 @@
+{
+  "name": "NP_Plants_Berries_Source_01",
+  "colorSize": [
+    1024,
+    512
+  ],
+  "normalSize": [
+    1024,
+    512
+  ],
+  "maskSize": [
+    1024,
+    512
+  ],
+  "paddingPixels": 8,
+  "normalConvention": "Tangent +Y",
+  "materialSettings": {
+    "_BumpScale": 0.28,
+    "_Saturation": 1.03,
+    "_Smoothness": 1.0
+  },
+  "surfaceMaskChannels": {
+    "R": "metallic zero",
+    "A": "smoothness"
+  },
+  "slots": [
+    {
+      "name": "BlueberryLeaf",
+      "index": 0,
+      "pixelRectTopLeft": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.01171875,
+        0.5234375,
+        0.23828125,
+        0.9765625
+      ],
+      "base": "#71ad32",
+      "highlight": "#a7d85b",
+      "shadow": "#356e2b",
+      "pattern": "leaf",
+      "smoothness": 0.25,
+      "primaryDetail": true
+    },
+    {
+      "name": "BlackberryLeaf",
+      "index": 1,
+      "pixelRectTopLeft": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.26171875,
+        0.5234375,
+        0.48828125,
+        0.9765625
+      ],
+      "base": "#38782e",
+      "highlight": "#7daa44",
+      "shadow": "#204e26",
+      "pattern": "leaf",
+      "smoothness": 0.26,
+      "primaryDetail": true
+    },
+    {
+      "name": "BlueberrySkin",
+      "index": 2,
+      "pixelRectTopLeft": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.51171875,
+        0.5234375,
+        0.73828125,
+        0.9765625
+      ],
+      "base": "#4773ce",
+      "highlight": "#9bb3e8",
+      "shadow": "#294b9b",
+      "pattern": "fruit",
+      "smoothness": 0.28,
+      "primaryDetail": true
+    },
+    {
+      "name": "BlackberryDrupe",
+      "index": 3,
+      "pixelRectTopLeft": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.76171875,
+        0.5234375,
+        0.98828125,
+        0.9765625
+      ],
+      "base": "#29163f",
+      "highlight": "#674a79",
+      "shadow": "#120c22",
+      "pattern": "fruit",
+      "smoothness": 0.53,
+      "primaryDetail": true
+    },
+    {
+      "name": "BarkRed",
+      "index": 4,
+      "pixelRectTopLeft": [
+        0,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.265625,
+        0.1171875,
+        0.484375
+      ],
+      "base": "#95583e",
+      "highlight": "#c48c57",
+      "shadow": "#69422d",
+      "pattern": "bark",
+      "smoothness": 0.24,
+      "primaryDetail": false
+    },
+    {
+      "name": "FlowerIvory",
+      "index": 5,
+      "pixelRectTopLeft": [
+        128,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.1328125,
+        0.265625,
+        0.2421875,
+        0.484375
+      ],
+      "base": "#fff0dc",
+      "highlight": "#fffdf1",
+      "shadow": "#e8cdbb",
+      "pattern": "petal",
+      "smoothness": 0.28,
+      "primaryDetail": false
+    },
+    {
+      "name": "BerryGreen",
+      "index": 6,
+      "pixelRectTopLeft": [
+        256,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.265625,
+        0.3671875,
+        0.484375
+      ],
+      "base": "#b6ca56",
+      "highlight": "#dce890",
+      "shadow": "#7d9c3d",
+      "pattern": "fruit",
+      "smoothness": 0.26,
+      "primaryDetail": false
+    },
+    {
+      "name": "BerryCrown",
+      "index": 7,
+      "pixelRectTopLeft": [
+        384,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.3828125,
+        0.265625,
+        0.4921875,
+        0.484375
+      ],
+      "base": "#203c77",
+      "highlight": "#4868a0",
+      "shadow": "#111c40",
+      "pattern": "fruit",
+      "smoothness": 0.26,
+      "primaryDetail": false
+    },
+    {
+      "name": "SeedTan",
+      "index": 8,
+      "pixelRectTopLeft": [
+        512,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.265625,
+        0.6171875,
+        0.484375
+      ],
+      "base": "#d9a150",
+      "highlight": "#f1c57b",
+      "shadow": "#986732",
+      "pattern": "seed",
+      "smoothness": 0.27,
+      "primaryDetail": false
+    },
+    {
+      "name": "PollenGold",
+      "index": 9,
+      "pixelRectTopLeft": [
+        640,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.6328125,
+        0.265625,
+        0.7421875,
+        0.484375
+      ],
+      "base": "#dcb52f",
+      "highlight": "#f4da73",
+      "shadow": "#a88528",
+      "pattern": "seed",
+      "smoothness": 0.32,
+      "primaryDetail": false
+    },
+    {
+      "name": "StemGreen",
+      "index": 10,
+      "pixelRectTopLeft": [
+        768,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.265625,
+        0.8671875,
+        0.484375
+      ],
+      "base": "#76a142",
+      "highlight": "#a4be68",
+      "shadow": "#496d32",
+      "pattern": "stem",
+      "smoothness": 0.27,
+      "primaryDetail": false
+    },
+    {
+      "name": "BerryRed",
+      "index": 11,
+      "pixelRectTopLeft": [
+        896,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.8828125,
+        0.265625,
+        0.9921875,
+        0.484375
+      ],
+      "base": "#c05543",
+      "highlight": "#e38563",
+      "shadow": "#7e3036",
+      "pattern": "fruit",
+      "smoothness": 0.45,
+      "primaryDetail": false
+    }
+  ],
+  "runtimeAtlas": "NP_Plants_Unified_01",
+  "pendingReference": [
+    "Raspberry"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "revision": "R02 closed fleshy petals and branching shrubs",
+  "checks": 922,
+  "preservedFiles": 177,
+  "retainedMetadata": 126,
+  "masterSha256": "33fdd9e7367f07ea13b05f4dd5a73963880773290bb10d0352ad40de5512b68e",
+  "plants": {
+    "Rose": {
+      "closedPetals": 78,
+      "minPetalVolumeMetres3": 1.3961069449942927e-05,
+      "maxPetalVolumeMetres3": 6.528109432237357e-05,
+      "branches": 9
+    },
+    "Hibiscus": {
+      "closedPetals": 15,
+      "minPetalVolumeMetres3": 3.735587458337223e-05,
+      "maxPetalVolumeMetres3": 6.0712853392438195e-05,
+      "branches": 13
+    },
+    "Jasmine": {
+      "closedPetals": 90,
+      "minPetalVolumeMetres3": 2.734532321666197e-06,
+      "maxPetalVolumeMetres3": 1.3945820745251523e-05,
+      "branches": 20
+    }
+  },
+  "technicalScope": "Physical mesh checks and preservation; artistic fidelity reviewed separately"
+}

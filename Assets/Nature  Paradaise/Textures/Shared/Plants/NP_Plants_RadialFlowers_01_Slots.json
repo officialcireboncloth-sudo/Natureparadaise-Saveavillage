@@ -1,0 +1,359 @@
+{
+  "name": "NP_Plants_RadialFlowers_01",
+  "colorSize": [
+    2048,
+    2048
+  ],
+  "normalSize": [
+    2048,
+    2048
+  ],
+  "maskSize": [
+    2048,
+    2048
+  ],
+  "paddingPixels": 16,
+  "normalConvention": "Tangent +Y",
+  "surfaceMaskChannels": {
+    "R": "metallic zero",
+    "A": "smoothness"
+  },
+  "slots": [
+    {
+      "name": "SunflowerPetal",
+      "index": 0,
+      "pixelRectTopLeft": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.7578125,
+        0.2421875,
+        0.9921875
+      ],
+      "base": "#ffcb09",
+      "highlight": "#fff074",
+      "shadow": "#d98609",
+      "pattern": "petal",
+      "smoothness": 0.34
+    },
+    {
+      "name": "ChrysanthemumPetal",
+      "index": 1,
+      "pixelRectTopLeft": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.7578125,
+        0.4921875,
+        0.9921875
+      ],
+      "base": "#ffd52e",
+      "highlight": "#fff79a",
+      "shadow": "#d8940c",
+      "pattern": "petal",
+      "smoothness": 0.34
+    },
+    {
+      "name": "DahliaPetal",
+      "index": 2,
+      "pixelRectTopLeft": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.7578125,
+        0.7421875,
+        0.9921875
+      ],
+      "base": "#f23888",
+      "highlight": "#ff8fbb",
+      "shadow": "#b51b5a",
+      "pattern": "petal",
+      "smoothness": 0.4
+    },
+    {
+      "name": "MarigoldPetal",
+      "index": 3,
+      "pixelRectTopLeft": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.7578125,
+        0.9921875,
+        0.9921875
+      ],
+      "base": "#ff9710",
+      "highlight": "#ffd342",
+      "shadow": "#dc4f06",
+      "pattern": "petal",
+      "smoothness": 0.34
+    },
+    {
+      "name": "SunflowerLeaf",
+      "index": 4,
+      "pixelRectTopLeft": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.5078125,
+        0.2421875,
+        0.7421875
+      ],
+      "base": "#4e9b20",
+      "highlight": "#98cf42",
+      "shadow": "#286b1c",
+      "pattern": "leaf",
+      "smoothness": 0.32
+    },
+    {
+      "name": "ChrysanthemumLeaf",
+      "index": 5,
+      "pixelRectTopLeft": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.5078125,
+        0.4921875,
+        0.7421875
+      ],
+      "base": "#318b28",
+      "highlight": "#83c840",
+      "shadow": "#1b5f27",
+      "pattern": "leaf",
+      "smoothness": 0.31
+    },
+    {
+      "name": "DahliaLeaf",
+      "index": 6,
+      "pixelRectTopLeft": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.5078125,
+        0.7421875,
+        0.7421875
+      ],
+      "base": "#27862b",
+      "highlight": "#78be43",
+      "shadow": "#145426",
+      "pattern": "leaf",
+      "smoothness": 0.41
+    },
+    {
+      "name": "MarigoldLeaf",
+      "index": 7,
+      "pixelRectTopLeft": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.5078125,
+        0.9921875,
+        0.7421875
+      ],
+      "base": "#5da51d",
+      "highlight": "#a3d63e",
+      "shadow": "#2d7517",
+      "pattern": "leaf",
+      "smoothness": 0.32
+    },
+    {
+      "name": "StemGreen",
+      "index": 8,
+      "pixelRectTopLeft": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.2578125,
+        0.2421875,
+        0.4921875
+      ],
+      "base": "#56992c",
+      "highlight": "#9ac74f",
+      "shadow": "#2d6e23",
+      "pattern": "stem",
+      "smoothness": 0.29
+    },
+    {
+      "name": "SepalGreen",
+      "index": 9,
+      "pixelRectTopLeft": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.2578125,
+        0.4921875,
+        0.4921875
+      ],
+      "base": "#4c8c24",
+      "highlight": "#92be45",
+      "shadow": "#28601d",
+      "pattern": "leaf",
+      "smoothness": 0.3
+    },
+    {
+      "name": "BudGreen",
+      "index": 10,
+      "pixelRectTopLeft": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.2578125,
+        0.7421875,
+        0.4921875
+      ],
+      "base": "#71a628",
+      "highlight": "#c0d65e",
+      "shadow": "#3d7b23",
+      "pattern": "bud",
+      "smoothness": 0.32
+    },
+    {
+      "name": "SunflowerDisk",
+      "index": 11,
+      "pixelRectTopLeft": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.2578125,
+        0.9921875,
+        0.4921875
+      ],
+      "base": "#754222",
+      "highlight": "#b68034",
+      "shadow": "#402819",
+      "pattern": "disk",
+      "smoothness": 0.2
+    },
+    {
+      "name": "SeedStripe",
+      "index": 12,
+      "pixelRectTopLeft": [
+        0,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.0078125,
+        0.2421875,
+        0.2421875
+      ],
+      "base": "#393b30",
+      "highlight": "#c5bb8f",
+      "shadow": "#1e251e",
+      "pattern": "stripe",
+      "smoothness": 0.23
+    },
+    {
+      "name": "SeedBrown",
+      "index": 13,
+      "pixelRectTopLeft": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.0078125,
+        0.4921875,
+        0.2421875
+      ],
+      "base": "#a17438",
+      "highlight": "#deb76a",
+      "shadow": "#60491f",
+      "pattern": "seed",
+      "smoothness": 0.22
+    },
+    {
+      "name": "SeedBlack",
+      "index": 14,
+      "pixelRectTopLeft": [
+        1024,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.0078125,
+        0.7421875,
+        0.2421875
+      ],
+      "base": "#343326",
+      "highlight": "#81774d",
+      "shadow": "#1c221b",
+      "pattern": "seed",
+      "smoothness": 0.23
+    },
+    {
+      "name": "CutStem",
+      "index": 15,
+      "pixelRectTopLeft": [
+        1536,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.0078125,
+        0.9921875,
+        0.2421875
+      ],
+      "base": "#c5d98b",
+      "highlight": "#eef0ba",
+      "shadow": "#85b24c",
+      "pattern": "rings",
+      "smoothness": 0.24
+    }
+  ]
+}

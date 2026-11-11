@@ -1,0 +1,338 @@
+{
+  "group": "G07",
+  "plants": [
+    "Spinach",
+    "WaterSpinach"
+  ],
+  "material": "NP_Plants_Leafy_01",
+  "atlas": "NP_Plants_Leafy_01",
+  "newAtlasPages": 1,
+  "phaseAppearances": 12,
+  "uniqueNewExports": 14,
+  "counts": {
+    "Spinach": {
+      "Seed": {
+        "leaves": 0,
+        "nodes": 0,
+        "hollowCutEnds": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "nodes": 0,
+        "hollowCutEnds": 0
+      },
+      "Young": {
+        "leaves": 4,
+        "nodes": 0,
+        "hollowCutEnds": 0
+      },
+      "LeafGrowth": {
+        "leaves": 6,
+        "nodes": 0,
+        "hollowCutEnds": 0
+      },
+      "Ready": {
+        "leaves": 16,
+        "nodes": 0,
+        "hollowCutEnds": 0
+      },
+      "Harvest": {
+        "leaves": 8,
+        "nodes": 0,
+        "hollowCutEnds": 0
+      }
+    },
+    "WaterSpinach": {
+      "Seed": {
+        "leaves": 0,
+        "nodes": 0,
+        "hollowCutEnds": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "nodes": 0,
+        "hollowCutEnds": 0
+      },
+      "Young": {
+        "leaves": 5,
+        "nodes": 2,
+        "hollowCutEnds": 0
+      },
+      "LeafGrowth": {
+        "leaves": 16,
+        "nodes": 16,
+        "hollowCutEnds": 0
+      },
+      "Ready": {
+        "leaves": 54,
+        "nodes": 54,
+        "hollowCutEnds": 0
+      },
+      "Harvest": {
+        "leaves": 27,
+        "nodes": 27,
+        "hollowCutEnds": 9
+      }
+    }
+  },
+  "exports": [
+    {
+      "name": "NP_Spinach_Seed",
+      "plant": "Spinach",
+      "stage": "Seed",
+      "triangles": 240,
+      "bounds": [
+        [
+          -0.07857588678598404,
+          0.0022155027836561203,
+          -0.038304708898067474
+        ],
+        [
+          0.07178503274917603,
+          0.03178450092673302,
+          0.07366829365491867
+        ]
+      ]
+    },
+    {
+      "name": "NP_Spinach_Sprout",
+      "plant": "Spinach",
+      "stage": "Sprout",
+      "triangles": 2650,
+      "bounds": [
+        [
+          -0.14164477586746216,
+          0.0039247493259608746,
+          -0.07704408466815948
+        ],
+        [
+          0.1326390951871872,
+          0.22553303837776184,
+          0.07034926861524582
+        ]
+      ]
+    },
+    {
+      "name": "NP_Spinach_Young",
+      "plant": "Spinach",
+      "stage": "Young",
+      "triangles": 5112,
+      "bounds": [
+        [
+          -0.22481051087379456,
+          -3.740331158041954e-05,
+          -0.20688064396381378
+        ],
+        [
+          0.22057533264160156,
+          0.2964053153991699,
+          0.16916200518608093
+        ]
+      ]
+    },
+    {
+      "name": "NP_Spinach_LeafGrowth",
+      "plant": "Spinach",
+      "stage": "LeafGrowth",
+      "triangles": 7668,
+      "bounds": [
+        [
+          -0.2838338315486908,
+          0.0001090827863663435,
+          -0.22401180863380432
+        ],
+        [
+          0.3279002010822296,
+          0.36793363094329834,
+          0.25301307439804077
+        ]
+      ]
+    },
+    {
+      "name": "NP_Spinach_Ready",
+      "plant": "Spinach",
+      "stage": "Ready",
+      "triangles": 20448,
+      "bounds": [
+        [
+          -0.3350207507610321,
+          -4.7034118324518204e-05,
+          -0.3636302351951599
+        ],
+        [
+          0.3406987190246582,
+          0.49736320972442627,
+          0.34004658460617065
+        ]
+      ]
+    },
+    {
+      "name": "NP_Spinach_Harvest",
+      "plant": "Spinach",
+      "stage": "Harvest",
+      "triangles": 10224,
+      "bounds": [
+        [
+          -0.2100919783115387,
+          0.005717091262340546,
+          -0.25663578510284424
+        ],
+        [
+          0.2653357684612274,
+          0.14091545343399048,
+          0.4649059772491455
+        ]
+      ]
+    },
+    {
+      "name": "NP_WaterSpinach_Seed",
+      "plant": "WaterSpinach",
+      "stage": "Seed",
+      "triangles": 100,
+      "bounds": [
+        [
+          -0.09298351407051086,
+          0.0005623530596494675,
+          -0.05603879690170288
+        ],
+        [
+          0.08319669961929321,
+          0.03343764692544937,
+          0.06531617790460587
+        ]
+      ]
+    },
+    {
+      "name": "NP_WaterSpinach_Sprout",
+      "plant": "WaterSpinach",
+      "stage": "Sprout",
+      "triangles": 1674,
+      "bounds": [
+        [
+          -0.15541264414787292,
+          0.003940798342227936,
+          -0.07478203624486923
+        ],
+        [
+          0.13993889093399048,
+          0.24667538702487946,
+          0.08028098940849304
+        ]
+      ]
+    },
+    {
+      "name": "NP_WaterSpinach_Young",
+      "plant": "WaterSpinach",
+      "stage": "Young",
+      "triangles": 4132,
+      "bounds": [
+        [
+          -0.16005253791809082,
+          0.001274932874366641,
+          -0.08949021250009537
+        ],
+        [
+          0.19226191937923431,
+          0.5740455389022827,
+          0.15767952799797058
+        ]
+      ]
+    },
+    {
+      "name": "NP_WaterSpinach_LeafGrowth",
+      "plant": "WaterSpinach",
+      "stage": "LeafGrowth",
+      "triangles": 14096,
+      "bounds": [
+        [
+          -0.3440777063369751,
+          0.0009909304790198803,
+          -0.3432311713695526
+        ],
+        [
+          0.3150966465473175,
+          0.8123665452003479,
+          0.3421629071235657
+        ]
+      ]
+    },
+    {
+      "name": "NP_WaterSpinach_Ready",
+      "plant": "WaterSpinach",
+      "stage": "Ready",
+      "triangles": 46728,
+      "bounds": [
+        [
+          -0.4324110746383667,
+          -3.248522989451885e-05,
+          -0.42498546838760376
+        ],
+        [
+          0.4140165448188782,
+          0.9723665118217468,
+          0.3866216540336609
+        ]
+      ]
+    },
+    {
+      "name": "NP_WaterSpinach_Harvest",
+      "plant": "WaterSpinach",
+      "stage": "Harvest",
+      "triangles": 26262,
+      "bounds": [
+        [
+          -0.21896357834339142,
+          -0.0028835474513471127,
+          -0.3260107934474945
+        ],
+        [
+          0.22454342246055603,
+          0.1619178205728531,
+          0.5356484651565552
+        ]
+      ]
+    },
+    {
+      "name": "NP_Spinach_LooseLeaf",
+      "plant": "Spinach",
+      "stage": "Extra",
+      "triangles": 1278,
+      "bounds": [
+        [
+          -0.10929197818040848,
+          0.005775822326540947,
+          -0.2560175359249115
+        ],
+        [
+          0.11052104085683823,
+          0.10162711143493652,
+          0.3461451232433319
+        ]
+      ]
+    },
+    {
+      "name": "NP_WaterSpinach_LooseSprig",
+      "plant": "WaterSpinach",
+      "stage": "Extra",
+      "triangles": 2084,
+      "bounds": [
+        [
+          -0.19171911478042603,
+          -0.005097337998449802,
+          -0.3009274899959564
+        ],
+        [
+          0.1870182603597641,
+          0.10935620963573456,
+          0.432343989610672
+        ]
+      ]
+    }
+  ],
+  "extras": {
+    "Spinach": "NP_Spinach_LooseLeaf",
+    "WaterSpinach": "NP_WaterSpinach_LooseSprig"
+  },
+  "integration": "Prepared visual assets; no gameplay profile, balance, item or store changes",
+  "revision": "R02 registered high-detail leaves and organic clumps"
+}

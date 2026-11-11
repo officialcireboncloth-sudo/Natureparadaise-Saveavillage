@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "newPackets": 1,
+  "newProduceSprites": 1,
+  "newMutationSprites": 1,
+  "seedMastersReopened": 1,
+  "produceMastersReopened": 1,
+  "source": "ArtSource/UIIcons/Seeds/Generated/G14_Illustrations.png",
+  "sourceSha256": "fd2437dd26ec9f13814c7d1aeec57f8858df354e39320d597b0d84ff80724c67",
+  "records": [
+    {
+      "plant": "daisy",
+      "label": "DAISY",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_daisy.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_daisy.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_daisy.png",
+      "seedSha256": "2933c28e629c44502fff7efaaefc16006741a631be3c0e8e536d4c4d8f0df655",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G14_Illustrations.png",
+      "atlasCell": [
+        0,
+        0,
+        448,
+        448
+      ],
+      "packetPrint": "ArtSource/UIIcons/Seeds/Generated/G14_daisy_PacketPrint.png"
+    }
+  ],
+  "shopPackets": [
+    {
+      "plant": "daisy",
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_daisy.png",
+      "seedSha256": "2933c28e629c44502fff7efaaefc16006741a631be3c0e8e536d4c4d8f0df655",
+      "packetPrint": "ArtSource/UIIcons/Seeds/Generated/G14_daisy_PacketPrint.png"
+    },
+    {
+      "plant": "moonflower",
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_moonflower.png",
+      "seedSha256": "50b46455ad90cdd48c13227cf11fd8ec2fc0fe738491bd7afc4d5aadfcfce1af",
+      "packetPrint": "ArtSource/UIIcons/Seeds/Generated/G14_moonflower_PacketPrint.png"
+    }
+  ]
+}

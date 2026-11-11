@@ -186,7 +186,7 @@ public class FarmingTool : MonoBehaviour
                 ? $"{cropName}\n{handHarvestKey} - Panen dengan tangan"
                 : cropName;
             WorldInteractionPrompt.Request(this, promptPosition, label,
-                Vector3.Distance(transform.position, promptPosition));
+                Vector3.Distance(transform.position, promptPosition), cropView != null ? cropView.transform : null);
             return;
         }
 
@@ -216,7 +216,7 @@ public class FarmingTool : MonoBehaviour
         };
         text += $"\nKualitas {snapshot.QualityPercent:0.00}% | Pupuk {snapshot.FertilizerPercent:0.00}/40 | Tanah {snapshot.SoilPercent:0.00}/40 | Air {snapshot.WaterPercent:0.00}/20";
         float distance = Vector3.Distance(transform.position, promptPosition);
-        WorldInteractionPrompt.Request(this, promptPosition, text, distance);
+        WorldInteractionPrompt.Request(this, promptPosition, text, distance, cropView != null ? cropView.transform : null);
     }
 
     void RefreshSoilInteractionPrompt()
@@ -417,12 +417,22 @@ public class FarmingTool : MonoBehaviour
 
     bool TryUseHandHarvest()
     {
-        if (!GameplayInput.GetKeyDown(handHarvestKey) || currentField == null ||
-            !currentField.TryGetSnapshot(currentX, currentZ, out FieldTileSnapshot snapshot) ||
-            snapshot.State != TileState.Planted || snapshot.CropState != CropLifecycleState.HarvestReady)
+        if (!GameplayInput.GetKeyDown(handHarvestKey) ||
+            !WorldInteractionPrompt.TryGetDisplayedAnchor(this, out Transform anchor))
             return false;
-        if (!PlayerInteractionTarget.PressPrompt(this, handHarvestKey)) return false;
-        ApproachCurrentTile(()=>TryHarvestCurrentTile());return true;
+        var shown = anchor.GetComponent<FieldCropView>();
+        if (shown == null || !shown.IsHarvestHintAvailable) return false;
+        var field = shown.Field; int x = shown.GridX, z = shown.GridZ;
+        // A changed facing/target tile must not substitute a different crop for the visible ring.
+        if (field != currentField || x != currentX || z != currentZ ||
+            !PlayerInteractionTarget.PressPrompt(this, anchor, handHarvestKey)) return false;
+        ApproachTile(this, field, x, z, () =>
+        {
+            if (shown == null || !shown.IsHarvestHintAvailable) return;
+            currentField = field; currentX = x; currentZ = z;
+            TryHarvestCurrentTile();
+        });
+        return true;
     }
 
     void UseSoilEffect(bool watering)

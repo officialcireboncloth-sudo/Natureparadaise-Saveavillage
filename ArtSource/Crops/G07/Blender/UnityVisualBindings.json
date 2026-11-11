@@ -1,0 +1,145 @@
+{
+  "group": "G07",
+  "status": "Prepared visual assets; existing crop profiles not modified",
+  "material": "NP_Plants_Unified_01",
+  "plants": {
+    "Spinach": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G07\\NP_Spinach_Seed.prefab",
+        "guid": "2762bc7c763840499841c71db1fd0202",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G07\\NP_Spinach_Sprout.prefab",
+        "guid": "baea2f87d3124423be7ed092dc95c87a",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G07\\NP_Spinach_Young.prefab",
+        "guid": "eba2b70764dd4acd96cddc90d0ce9fa8",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "LeafGrowth",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G07\\NP_Spinach_LeafGrowth.prefab",
+        "guid": "309b6e05efd94eac8863e1505a622edf",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G07\\NP_Spinach_Ready.prefab",
+        "guid": "3f329a9af8a349c997e4a57ce2e53df9",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G07\\NP_Spinach_Harvest.prefab",
+        "guid": "ba3664f4dc82494c958352c68c24f744",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "WaterSpinach": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G07\\NP_WaterSpinach_Seed.prefab",
+        "guid": "df64be8bcfbd4419bce8c33a60bd2579",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G07\\NP_WaterSpinach_Sprout.prefab",
+        "guid": "22842ab427184e0d8300830a113ef797",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G07\\NP_WaterSpinach_Young.prefab",
+        "guid": "a2fb88865a2f43058567ca28e47f4ab2",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "LeafGrowth",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G07\\NP_WaterSpinach_LeafGrowth.prefab",
+        "guid": "c75264d3c13d4f2eb203cf3e99d9e5ba",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G07\\NP_WaterSpinach_Ready.prefab",
+        "guid": "29f8d74d506a4123961055c32dd25397",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G07\\NP_WaterSpinach_Harvest.prefab",
+        "guid": "fc241392ea4246028490d1fe6b117e22",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "authoringMaterial": "NP_Plants_Leafy_01",
+  "runtimeAtlas": "ArtSource/Crops/Unified/AtlasRegistry.json"
+}

@@ -1,0 +1,45 @@
+{
+  "status": "APPLIED_AND_FILE_CHECKED",
+  "group": "G10",
+  "addedCrops": 4,
+  "crops": 25,
+  "seedProducts": 25,
+  "phaseBindings": 126,
+  "uiSprites": 75,
+  "assetAudit": "PASS",
+  "assetChecks": 6356,
+  "protectedFiles": 2593,
+  "compilation": "PASS",
+  "cropLogicChecks": "PASS 5565 crop debug checks; 25 authored crop schedules. Engine boundaries stubbed; no Play Mode.",
+  "unityEditorFixture": "NOT_RUN_FOR_G10",
+  "unityPlayMode": "NOT_RUN_BY_AGENT",
+  "preview": "ArtSource/UIIcons/Seeds/G10_SeedPackets_Preview.png",
+  "previewSha256": "794169783eaf6192051c7eeb07a1fc99eb72dc3270dd98e66f219ee9b16c2439",
+  "bindingManifestSha256": "8e9ff3db6714a9f7dda41a9a10772ddef6aae5c037e1c5e35ad53cf36cd295c2",
+  "authorizedArtBaselineChanges": {
+    "Assets\\Nature  Paradaise\\Resources\\Shops\\Crops Catalog.asset": {
+      "before": "60930ba1bd3ced1ef647773ca2b740a106b0dec411fbe23c93b948acb3619df3",
+      "after": "a19f18005b0fe59a61a934b63128a163881c81a5d83e8b9203bf89b474419b89"
+    },
+    "Assets\\Nature  Paradaise\\Data\\Balance\\Crops.csv": {
+      "before": "12a8bf246bb8730faa7e081a8743f912debed7a6cf7a4b62cb03ae16f378ec4e",
+      "after": "a52dcb61b6eb4aa966d3e07188a764bccebb4e5838aec461a873106622544b32"
+    },
+    "Assets\\Nature  Paradaise\\Data\\Balance\\Items.csv": {
+      "before": "1799cf01f16864e89bea6efeb7332d8202345a69f3f359c7a44ce0fc3cfae0c8",
+      "after": "4834bdb3925498eb9b7f171ef09b09a7f52e8e51147055ccd3fd64086d4b98fe"
+    }
+  },
+  "addedProfiles": [
+    "Assets/Nature  Paradaise/Resources/Profiles/Farming/Sunflower Crop.asset",
+    "Assets/Nature  Paradaise/Resources/Profiles/Farming/Chrysanthemum Crop.asset",
+    "Assets/Nature  Paradaise/Resources/Profiles/Farming/Dahlia Crop.asset",
+    "Assets/Nature  Paradaise/Resources/Profiles/Farming/Marigold Crop.asset"
+  ],
+  "initialValues": "5 G seeds, 5-day growth, 12 G produce, flower produce nonfood; preceding 21 balances retained",
+  "sourceHashes": {
+    "ArtSource/Crops/Scripts/apply_g10_crop_integration.py": "04c17ea15c58aec63b6d87f08ef5dced5dd93b48861d8d50868837fc6e62fed3",
+    "ArtSource/Crops/Scripts/finalize_g10_crop_integration.py": "ab02016a7fcd42a9f7c8dcc3f4d37327a051d10aeef00b23ac7c846b159d8276",
+    "ArtSource/Crops/Scripts/prepare_g10_crop_integration.py": "41ef304044f5f6ed710c859a14ee178e7d4c775c738eeaad0bbcaa6ee5f86fa4"
+  }
+}

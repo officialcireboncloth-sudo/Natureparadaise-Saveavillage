@@ -1,0 +1,359 @@
+{
+  "name": "NP_Plants_Cereal_01",
+  "colorSize": [
+    2048,
+    2048
+  ],
+  "normalSize": [
+    2048,
+    2048
+  ],
+  "maskSize": [
+    2048,
+    2048
+  ],
+  "paddingPixels": 16,
+  "normalConvention": "Tangent +Y",
+  "surfaceMaskChannels": {
+    "R": "metallic zero",
+    "A": "smoothness"
+  },
+  "slots": [
+    {
+      "name": "RiceGold",
+      "index": 0,
+      "pixelRectTopLeft": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.7578125,
+        0.2421875,
+        0.9921875
+      ],
+      "base": "#f9bd29",
+      "highlight": "#ffeaa1",
+      "shadow": "#cc8c1d",
+      "pattern": "husk",
+      "smoothness": 0.56
+    },
+    {
+      "name": "RiceGreen",
+      "index": 1,
+      "pixelRectTopLeft": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.7578125,
+        0.4921875,
+        0.9921875
+      ],
+      "base": "#a8ca23",
+      "highlight": "#e4f76c",
+      "shadow": "#6e9a15",
+      "pattern": "husk",
+      "smoothness": 0.47
+    },
+    {
+      "name": "WheatGold",
+      "index": 2,
+      "pixelRectTopLeft": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.7578125,
+        0.7421875,
+        0.9921875
+      ],
+      "base": "#ffc33b",
+      "highlight": "#ffeaaa",
+      "shadow": "#d09222",
+      "pattern": "wheat",
+      "smoothness": 0.58
+    },
+    {
+      "name": "WheatGreen",
+      "index": 3,
+      "pixelRectTopLeft": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.7578125,
+        0.9921875,
+        0.9921875
+      ],
+      "base": "#b0d039",
+      "highlight": "#edfa90",
+      "shadow": "#7e9f1f",
+      "pattern": "wheat",
+      "smoothness": 0.49
+    },
+    {
+      "name": "LeafGreen",
+      "index": 4,
+      "pixelRectTopLeft": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.5078125,
+        0.2421875,
+        0.7421875
+      ],
+      "base": "#78b319",
+      "highlight": "#d2e651",
+      "shadow": "#34720c",
+      "pattern": "strap",
+      "smoothness": 0.38
+    },
+    {
+      "name": "LeafGold",
+      "index": 5,
+      "pixelRectTopLeft": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.5078125,
+        0.4921875,
+        0.7421875
+      ],
+      "base": "#dcb026",
+      "highlight": "#ffe36c",
+      "shadow": "#99831b",
+      "pattern": "strap",
+      "smoothness": 0.33
+    },
+    {
+      "name": "StemGreen",
+      "index": 6,
+      "pixelRectTopLeft": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.5078125,
+        0.7421875,
+        0.7421875
+      ],
+      "base": "#6d9d17",
+      "highlight": "#b9d441",
+      "shadow": "#3c7213",
+      "pattern": "stem",
+      "smoothness": 0.34
+    },
+    {
+      "name": "StemGold",
+      "index": 7,
+      "pixelRectTopLeft": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.5078125,
+        0.9921875,
+        0.7421875
+      ],
+      "base": "#dfa629",
+      "highlight": "#ffda67",
+      "shadow": "#a57b1c",
+      "pattern": "stem",
+      "smoothness": 0.32
+    },
+    {
+      "name": "RiceSeed",
+      "index": 8,
+      "pixelRectTopLeft": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.2578125,
+        0.2421875,
+        0.4921875
+      ],
+      "base": "#f5b83a",
+      "highlight": "#ffe7a5",
+      "shadow": "#ca9228",
+      "pattern": "husk",
+      "smoothness": 0.5
+    },
+    {
+      "name": "WheatSeed",
+      "index": 9,
+      "pixelRectTopLeft": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.2578125,
+        0.4921875,
+        0.4921875
+      ],
+      "base": "#ffc343",
+      "highlight": "#ffe7a5",
+      "shadow": "#d09a2e",
+      "pattern": "wheat",
+      "smoothness": 0.55
+    },
+    {
+      "name": "RiceWhite",
+      "index": 10,
+      "pixelRectTopLeft": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.2578125,
+        0.7421875,
+        0.4921875
+      ],
+      "base": "#f0e3c8",
+      "highlight": "#fff9e8",
+      "shadow": "#d4bd92",
+      "pattern": "rice",
+      "smoothness": 0.31
+    },
+    {
+      "name": "LeafWarm",
+      "index": 11,
+      "pixelRectTopLeft": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.2578125,
+        0.9921875,
+        0.4921875
+      ],
+      "base": "#a2ba20",
+      "highlight": "#e8ed61",
+      "shadow": "#5d8d13",
+      "pattern": "strap",
+      "smoothness": 0.34
+    },
+    {
+      "name": "CutStem",
+      "index": 12,
+      "pixelRectTopLeft": [
+        0,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.0078125,
+        0.2421875,
+        0.2421875
+      ],
+      "base": "#e4ce71",
+      "highlight": "#fff2ac",
+      "shadow": "#ae9f45",
+      "pattern": "rings",
+      "smoothness": 0.26
+    },
+    {
+      "name": "AwnGold",
+      "index": 13,
+      "pixelRectTopLeft": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.0078125,
+        0.4921875,
+        0.2421875
+      ],
+      "base": "#edb82f",
+      "highlight": "#ffe19a",
+      "shadow": "#ba891b",
+      "pattern": "stem",
+      "smoothness": 0.3
+    },
+    {
+      "name": "LeafUnderside",
+      "index": 14,
+      "pixelRectTopLeft": [
+        1024,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.0078125,
+        0.7421875,
+        0.2421875
+      ],
+      "base": "#84ae37",
+      "highlight": "#c7d95f",
+      "shadow": "#527e19",
+      "pattern": "strap",
+      "smoothness": 0.3
+    },
+    {
+      "name": "RootCream",
+      "index": 15,
+      "pixelRectTopLeft": [
+        1536,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.7578125,
+        0.0078125,
+        0.9921875,
+        0.2421875
+      ],
+      "base": "#cbb881",
+      "highlight": "#fff0be",
+      "shadow": "#a28e55",
+      "pattern": "stem",
+      "smoothness": 0.22
+    }
+  ]
+}

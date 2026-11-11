@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "revision": "R02",
+  "assetChecks": 2353,
+  "fbxRoundtrips": 28,
+  "gimpSources": 3,
+  "masterSha256": "118eaa4058df3c3426f52d2f67aaae42259624ce60d0c9bb1b1d389b6ee5df58",
+  "atlas": "NP_Plants_Leafy_01",
+  "newAtlasPages": 1,
+  "leafRegionResolution": 1024,
+  "olderFilesChecked": 1607,
+  "previousAssetsRetained": true,
+  "trellisRestored": true,
+  "visualReview": [
+    "twelve growth and harvested-bunch appearances",
+    "front side rear top for both crops",
+    "puffed oval spinach leaves with registered branching veins",
+    "slender curved water-spinach stems with subtle nodes and folded lanceolate leaves",
+    "solid spinach stalks and nine hollow water-spinach cut ends",
+    "loose leaf and two-leaf sprig",
+    "registered colour and normal texture detail",
+    "previous and revised renders in a neutral studio"
+  ],
+  "previews": {
+    "G07_Closeup.png": {
+      "size": [
+        1800,
+        1100
+      ],
+      "sha256": "21a2c7f49c7d970d6aa7d46ab72d849a4b06a1fc40f27edd109724fb299b5149"
+    },
+    "G07_GrowthStages.png": {
+      "size": [
+        2430,
+        1430
+      ],
+      "sha256": "c6f33cccde767566de3b5062366d6c36122f3a98e132543babc7cd93778a6ec3"
+    },
+    "G07_VolumeReview.png": {
+      "size": [
+        1760,
+        1540
+      ],
+      "sha256": "a0aea138469f731818b5e8bd32e1ac9b7e22ceaedbc427cdcc87406990a55d01"
+    },
+    "G07_HarvestStudy.png": {
+      "size": [
+        1800,
+        1000
+      ],
+      "sha256": "442966e78317229bc56d611e4e47d0f9989a9fa7f99edf8906f16eb52cd02aff"
+    },
+    "G07_SurfaceDetail.png": {
+      "size": [
+        1540,
+        840
+      ],
+      "sha256": "73fecf18a79237ea6924bedf5d46eb9f7f48506a65d3ffaf9ea1ca909293efcb"
+    },
+    "G07_R02_Comparison.png": {
+      "size": [
+        1760,
+        1710
+      ],
+      "sha256": "c476d0b13aca9e605be4c6088d3f240ce53a7658b88785bc5cfa863ff0912165"
+    }
+  },
+  "unityEditorImport": "NOT_RUN",
+  "unityPlayMode": "NOT_RUN",
+  "referenceReview": "Manual visual comparison; artistic fidelity is not established by technical audit counts."
+}

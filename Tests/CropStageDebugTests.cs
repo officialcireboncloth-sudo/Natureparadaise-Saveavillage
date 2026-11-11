@@ -151,6 +151,28 @@ static class CropStageDebugTests
             int[] schedule = Regex.Matches(yaml, @"startsOnDay: (\d+)")
                 .Select(m => int.Parse(m.Groups[1].Value)).ToArray();
             var crop = Crop(days, schedule); crop.name = Path.GetFileNameWithoutExtension(asset);
+            string[] blocks = Regex.Split(yaml, @"(?=  - stageName: )").Skip(1).ToArray();
+            for (int i = 0; i < blocks.Length; i++)
+            {
+                var depth = Regex.Match(blocks[i], @"soilBurialDepth: ([\d.eE+-]+)");
+                crop.visualStages[i].soilBurialDepth = depth.Success ? float.Parse(depth.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture) : 0f;
+                var offset = Regex.Match(blocks[i], @"localOffset: \{x: ([\d.eE+-]+), y: ([\d.eE+-]+), z: ([\d.eE+-]+)\}");
+                if (offset.Success) crop.visualStages[i].localOffset = new Vector3(
+                    float.Parse(offset.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture),
+                    float.Parse(offset.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture),
+                    float.Parse(offset.Groups[3].Value, System.Globalization.CultureInfo.InvariantCulture));
+                bool rootCrop = crop.name == "Onion Crop" || crop.name == "Radish Crop";
+                if (rootCrop && i >= 3)
+                {
+                    bool onion = crop.name == "Onion Crop";
+                    float scale = i == 3 ? (onion ? .54f : .625f) : 1f;
+                    float low = (onion ? .07f : .075f) * scale, high = (onion ? .47f : .425f) * scale;
+                    float soil = crop.visualStages[i].localOffset.y - crop.GetStageOffset(i).y;
+                    Check(Math.Abs((high - soil) / (high - low) - .5f) < .0001f, "Actual field placement exposes upper bulb half: " + crop.name + " " + i);
+                    Check(low - soil < 0 && high - soil > 0, "Bulb crosses soil plane while top stays visible");
+                }
+                else Check(Math.Abs(crop.GetStageOffset(i).y - crop.visualStages[i].localOffset.y) < .0001f, "Other crops and early roots retain placement");
+            }
             Check(schedule.Length >= 2, "Authored schedule present");
             WalkAllStages(crop); profiles++;
             var tile = Plant(crop);
@@ -158,7 +180,7 @@ static class CropStageDebugTests
             Check(tile.growthStage == crop.StageCount - 1 && new FieldTileSnapshot(tile).IsHarvestReady,
                 "Final is harvestable for " + crop.name);
         }
-        Check(profiles >= 12, "All twelve integrated crops exercised");
+        Check(profiles >= 26, "All 26 integrated crops exercised");
         foreach (int days in new[] { 1, 5, 7, 31, 10000 })
             WalkAllStages(Crop(days, 0, 1, 7, 13, 29));
 

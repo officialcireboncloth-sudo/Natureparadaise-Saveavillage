@@ -1,0 +1,217 @@
+{
+  "status": "PASS",
+  "group": "G07",
+  "checks": 2353,
+  "phaseAppearances": 12,
+  "baseModels": 14,
+  "meshesWithLods": 28,
+  "verifiedFbx": 28,
+  "newAtlasPages": 1,
+  "atlas": "NP_Plants_Leafy_01",
+  "registeredLeafRegions": 2,
+  "leafRegionResolution": 1024,
+  "trellisRestored": true,
+  "protectedFiles": 1598,
+  "previousAssetsRetained": true,
+  "atlasPixels": {
+    "BaseColor": {
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "2c2300f7b7ee3cf1cced654575d68e003dc6b88c06702f53edbf0088d5a54737"
+    },
+    "Normal": {
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "f08c8b5dbb12f7c95f4bc8b98b333c89801e405fc81d2bae9d87c4387edfd7ac"
+    },
+    "SurfaceMask": {
+      "size": [
+        2048,
+        2048
+      ],
+      "sha256": "8f5497b2f8360ae04c9eb2b6ab6352026f09a97d652df559da0ad1ff7b28f20d"
+    }
+  },
+  "volumes": {
+    "Spinach_Young": {
+      "leaves": 4,
+      "width": 0.44500818848609924,
+      "depth": 0.3751263916492462,
+      "depthToWidth": 0.842965143912097,
+      "horizontalCovarianceRatio": 0.961062010607628
+    },
+    "Spinach_LeafGrowth": {
+      "leaves": 6,
+      "width": 0.6111915409564972,
+      "depth": 0.47630031406879425,
+      "depthToWidth": 0.7792979485995469,
+      "horizontalCovarianceRatio": 0.7832127887311536
+    },
+    "Spinach_Ready": {
+      "leaves": 16,
+      "width": 0.6750604510307312,
+      "depth": 0.7029924690723419,
+      "depthToWidth": 1.0413770618601077,
+      "horizontalCovarianceRatio": 0.9533632076447869
+    },
+    "WaterSpinach_Young": {
+      "leaves": 5,
+      "width": 0.3515186011791229,
+      "depth": 0.24706806987524033,
+      "depthToWidth": 0.7028591632035488,
+      "horizontalCovarianceRatio": 0.6068037077275054
+    },
+    "WaterSpinach_LeafGrowth": {
+      "leaves": 16,
+      "width": 0.6580883860588074,
+      "depth": 0.6846179366111755,
+      "depthToWidth": 1.0403130508217135,
+      "horizontalCovarianceRatio": 0.8581513348601723
+    },
+    "WaterSpinach_Ready": {
+      "leaves": 54,
+      "width": 0.845952570438385,
+      "depth": 0.811212569475174,
+      "depthToWidth": 0.9589338667707951,
+      "horizontalCovarianceRatio": 0.9016023859145196
+    }
+  },
+  "baseTriangleCounts": {
+    "NP_Spinach_Harvest": 10224,
+    "NP_Spinach_LeafGrowth": 7668,
+    "NP_Spinach_LooseLeaf": 1278,
+    "NP_Spinach_Ready": 20448,
+    "NP_Spinach_Seed": 240,
+    "NP_Spinach_Sprout": 2650,
+    "NP_Spinach_Young": 5112,
+    "NP_WaterSpinach_Harvest": 26262,
+    "NP_WaterSpinach_LeafGrowth": 14096,
+    "NP_WaterSpinach_LooseSprig": 2084,
+    "NP_WaterSpinach_Ready": 46728,
+    "NP_WaterSpinach_Seed": 100,
+    "NP_WaterSpinach_Sprout": 1674,
+    "NP_WaterSpinach_Young": 4132
+  },
+  "masterSha256": "118eaa4058df3c3426f52d2f67aaae42259624ce60d0c9bb1b1d389b6ee5df58",
+  "roundtrip": [
+    {
+      "file": "NP_Spinach_Harvest.fbx",
+      "triangles": 10224
+    },
+    {
+      "file": "NP_Spinach_Harvest_LOD1.fbx",
+      "triangles": 2799
+    },
+    {
+      "file": "NP_Spinach_LeafGrowth.fbx",
+      "triangles": 7668
+    },
+    {
+      "file": "NP_Spinach_LeafGrowth_LOD1.fbx",
+      "triangles": 2799
+    },
+    {
+      "file": "NP_Spinach_LooseLeaf.fbx",
+      "triangles": 1278
+    },
+    {
+      "file": "NP_Spinach_LooseLeaf_LOD1.fbx",
+      "triangles": 511
+    },
+    {
+      "file": "NP_Spinach_Ready.fbx",
+      "triangles": 20448
+    },
+    {
+      "file": "NP_Spinach_Ready_LOD1.fbx",
+      "triangles": 2799
+    },
+    {
+      "file": "NP_Spinach_Seed.fbx",
+      "triangles": 240
+    },
+    {
+      "file": "NP_Spinach_Seed_LOD1.fbx",
+      "triangles": 96
+    },
+    {
+      "file": "NP_Spinach_Sprout.fbx",
+      "triangles": 2650
+    },
+    {
+      "file": "NP_Spinach_Sprout_LOD1.fbx",
+      "triangles": 1060
+    },
+    {
+      "file": "NP_Spinach_Young.fbx",
+      "triangles": 5112
+    },
+    {
+      "file": "NP_Spinach_Young_LOD1.fbx",
+      "triangles": 2044
+    },
+    {
+      "file": "NP_WaterSpinach_Harvest.fbx",
+      "triangles": 26262
+    },
+    {
+      "file": "NP_WaterSpinach_Harvest_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_WaterSpinach_LeafGrowth.fbx",
+      "triangles": 14096
+    },
+    {
+      "file": "NP_WaterSpinach_LeafGrowth_LOD1.fbx",
+      "triangles": 2799
+    },
+    {
+      "file": "NP_WaterSpinach_LooseSprig.fbx",
+      "triangles": 2084
+    },
+    {
+      "file": "NP_WaterSpinach_LooseSprig_LOD1.fbx",
+      "triangles": 832
+    },
+    {
+      "file": "NP_WaterSpinach_Ready.fbx",
+      "triangles": 46728
+    },
+    {
+      "file": "NP_WaterSpinach_Ready_LOD1.fbx",
+      "triangles": 2800
+    },
+    {
+      "file": "NP_WaterSpinach_Seed.fbx",
+      "triangles": 100
+    },
+    {
+      "file": "NP_WaterSpinach_Seed_LOD1.fbx",
+      "triangles": 40
+    },
+    {
+      "file": "NP_WaterSpinach_Sprout.fbx",
+      "triangles": 1674
+    },
+    {
+      "file": "NP_WaterSpinach_Sprout_LOD1.fbx",
+      "triangles": 668
+    },
+    {
+      "file": "NP_WaterSpinach_Young.fbx",
+      "triangles": 4132
+    },
+    {
+      "file": "NP_WaterSpinach_Young_LOD1.fbx",
+      "triangles": 1652
+    }
+  ],
+  "unityEditorImport": "NOT_RUN",
+  "unityPlayMode": "NOT_RUN",
+  "referenceReview": "Manual comparison against the two supplied spinach and water-spinach images; no automated pixel-identical comparison"
+}

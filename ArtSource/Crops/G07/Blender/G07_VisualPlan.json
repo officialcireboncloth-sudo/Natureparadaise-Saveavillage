@@ -1,0 +1,129 @@
+{
+  "group": "G07",
+  "plants": {
+    "Spinach": [
+      {
+        "stage": "Seed",
+        "model": "NP_Spinach_Seed",
+        "source_group": "G07",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_Spinach_Sprout",
+        "source_group": "G07",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_Spinach_Young",
+        "source_group": "G07",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "LeafGrowth",
+        "model": "NP_Spinach_LeafGrowth",
+        "source_group": "G07",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_Spinach_Ready",
+        "source_group": "G07",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_Spinach_Harvest",
+        "source_group": "G07",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "WaterSpinach": [
+      {
+        "stage": "Seed",
+        "model": "NP_WaterSpinach_Seed",
+        "source_group": "G07",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "model": "NP_WaterSpinach_Sprout",
+        "source_group": "G07",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "model": "NP_WaterSpinach_Young",
+        "source_group": "G07",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "LeafGrowth",
+        "model": "NP_WaterSpinach_LeafGrowth",
+        "source_group": "G07",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "model": "NP_WaterSpinach_Ready",
+        "source_group": "G07",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "model": "NP_WaterSpinach_Harvest",
+        "source_group": "G07",
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  }
+}

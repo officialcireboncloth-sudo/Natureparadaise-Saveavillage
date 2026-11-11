@@ -1,0 +1,145 @@
+{
+  "group": "G06",
+  "status": "Prepared visual assets; existing crop profiles not modified",
+  "material": "NP_Plants_Unified_01",
+  "plants": {
+    "Radish": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G06\\NP_Radish_Seed.prefab",
+        "guid": "89496672ac924872b7e4d913da4e25cf",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G06\\NP_Radish_Sprout.prefab",
+        "guid": "9bd962a920d04806b50319f0b538576d",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G06\\NP_Radish_Young.prefab",
+        "guid": "3543e9cc0b7c4dfda1d9ef5a993a3e4f",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "RootForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G06\\NP_Radish_RootForming.prefab",
+        "guid": "0d42aedc75c944329f9697e101125698",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G06\\NP_Radish_Ready.prefab",
+        "guid": "9eb9ddad725346698339db5f4ffb5000",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G06\\NP_Radish_Harvest.prefab",
+        "guid": "026956a421d248e69491148cc794ad83",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Onion": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G06\\NP_Onion_Seed.prefab",
+        "guid": "0a21028763f14675b926e641fde638dd",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G06\\NP_Onion_Sprout.prefab",
+        "guid": "be922ed3daa747a79f1428dc62b7acf2",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G06\\NP_Onion_Young.prefab",
+        "guid": "6f2be94310904597a23e5021b18cdc14",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BulbForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G06\\NP_Onion_BulbForming.prefab",
+        "guid": "c3e59e4616f643ee82432b99bcabaa35",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G06\\NP_Onion_Ready.prefab",
+        "guid": "a9049d2274f64a02bd97b1686a2c5968",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G06\\NP_Onion_Harvest.prefab",
+        "guid": "a3e47c70b8bc4aab87e17008613a592f",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "authoringMaterial": "NP_Plants_Trellis_01",
+  "runtimeAtlas": "ArtSource/Crops/Unified/AtlasRegistry.json"
+}

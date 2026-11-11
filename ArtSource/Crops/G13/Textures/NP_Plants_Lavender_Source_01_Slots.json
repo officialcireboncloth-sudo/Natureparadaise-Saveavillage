@@ -1,0 +1,117 @@
+{
+  "name": "NP_Plants_Lavender_Source_01",
+  "colorSize": [
+    1024,
+    1024
+  ],
+  "normalSize": [
+    1024,
+    1024
+  ],
+  "maskSize": [
+    1024,
+    1024
+  ],
+  "paddingPixels": 16,
+  "normalConvention": "Tangent +Y",
+  "materialSettings": {
+    "_BumpScale": 0.3,
+    "_Saturation": 1.05,
+    "_Smoothness": 1.0
+  },
+  "surfaceMaskChannels": {
+    "R": "metallic zero",
+    "A": "smoothness"
+  },
+  "slots": [
+    {
+      "name": "LavenderPetal",
+      "index": 0,
+      "pixelRectTopLeft": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.015625,
+        0.515625,
+        0.484375,
+        0.984375
+      ],
+      "base": "#8c54bc",
+      "highlight": "#c799e6",
+      "shadow": "#593580",
+      "pattern": "petal",
+      "smoothness": 0.34,
+      "primaryDetail": true
+    },
+    {
+      "name": "LavenderLeaf",
+      "index": 1,
+      "pixelRectTopLeft": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.515625,
+        0.515625,
+        0.984375,
+        0.984375
+      ],
+      "base": "#8d9f81",
+      "highlight": "#c1ccb1",
+      "shadow": "#617a65",
+      "pattern": "leaf",
+      "smoothness": 0.25,
+      "primaryDetail": true
+    },
+    {
+      "name": "StemSage",
+      "index": 2,
+      "pixelRectTopLeft": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.015625,
+        0.015625,
+        0.484375,
+        0.484375
+      ],
+      "base": "#8d9d71",
+      "highlight": "#bbc797",
+      "shadow": "#677b57",
+      "pattern": "stem",
+      "smoothness": 0.27,
+      "primaryDetail": false
+    },
+    {
+      "name": "SeedBrown",
+      "index": 3,
+      "pixelRectTopLeft": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.515625,
+        0.015625,
+        0.984375,
+        0.484375
+      ],
+      "base": "#866348",
+      "highlight": "#c0996b",
+      "shadow": "#593f30",
+      "pattern": "seed",
+      "smoothness": 0.23,
+      "primaryDetail": false
+    }
+  ],
+  "runtimeAtlas": "NP_Plants_Unified_01"
+}

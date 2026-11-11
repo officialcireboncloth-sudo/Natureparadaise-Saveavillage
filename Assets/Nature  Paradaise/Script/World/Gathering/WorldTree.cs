@@ -48,6 +48,9 @@ public sealed class WorldTree : MonoBehaviour
     int shownStage = -2;
     Inventory fruitInventory;
     public TreeProgress Progress => progress;
+    public bool IsHarvestHintAvailable => isActiveAndEnabled && state == TreeGrowthState.Standing && progress != null &&
+        definition != null && definition.fruitItem != null && progress.fruitStage == TreeFruitStage.Ready &&
+        (definition.fruitSeasons & CropDataSO.GetSeasonForDay(CurrentDay)) != 0;
     public bool CanApplyQualityFertilizer=>definition!=null&&definition.UsesFruitCare&&progress!=null&&
         state==TreeGrowthState.Standing&&progress.fruitStage!=TreeFruitStage.Ready&&!progress.Care.FertilizerActive;
     public bool TryApplyQualityFertilizer(int level,int days)=>CanApplyQualityFertilizer&&progress.Care.ApplyFertilizer(level,days);

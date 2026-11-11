@@ -44,6 +44,8 @@ public sealed class AnimalManureSystem : MonoBehaviour
     bool collecting;
     float nextRefresh;
     public IReadOnlyList<AnimalManureDropData> Drops => drops;
+    public IEnumerable<GameObject> ActiveDropVisuals => visuals.Values;
+    public bool IsCollecting => collecting;
     double Now => (TimeManager.Instance.day-1)*24d+TimeManager.Instance.CurrentTimeHours;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]

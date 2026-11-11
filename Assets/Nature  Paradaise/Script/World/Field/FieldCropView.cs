@@ -7,6 +7,22 @@ using UnityEngine;
 /// </summary>
 public sealed class FieldCropView : MonoBehaviour
 {
+    static readonly System.Collections.Generic.List<FieldCropView> registry = new();
+    public static System.Collections.Generic.IReadOnlyList<FieldCropView> Active => registry;
+    public FieldArea Field => owner;
+    public int GridX => gridX;
+    public int GridZ => gridZ;
+    CropLifecycleState currentState;
+    Renderer clueRenderer;
+    public bool IsHarvestHintAvailable => isActiveAndEnabled && owner != null && definition != null && currentState == CropLifecycleState.HarvestReady;
+    public Vector3 CollectibleHintPosition => clueRenderer != null ? clueRenderer.bounds.center : transform.position + Vector3.up * .35f;
+    void OnEnable()
+    {
+        if (!registry.Contains(this)) registry.Add(this);
+        if (owner != null && owner.TryGetSnapshot(gridX, gridZ, out FieldTileSnapshot snapshot) && snapshot.Crop != null)
+            ApplyStage(snapshot.GrowthStage, snapshot.Crop, snapshot.CropState);
+    }
+    void OnDisable() => registry.Remove(this);
     FieldArea owner;
     CropDataSO definition;
     Renderer[] baseRenderers;
@@ -54,8 +70,10 @@ public sealed class FieldCropView : MonoBehaviour
         CropLifecycleState state = CropLifecycleState.Growing)
     {
         definition = crop != null ? crop : definition;
+        currentState = state;
         if (definition == null || owner == null)
             return;
+        propertyBlock ??= new MaterialPropertyBlock();
 
         transform.localScale = definition.GetStageScale(stage) * owner.CellSize;
 
@@ -74,6 +92,7 @@ public sealed class FieldCropView : MonoBehaviour
                 );
                 stageVisual.transform.localScale = Vector3.one;
                 FieldGroundSurface.DisableVisualColliders(stageVisual);
+                clueRenderer = stageVisual.GetComponentInChildren<Renderer>(true);
             }
             activeStagePrefab = stagePrefab;
 
@@ -85,8 +104,13 @@ public sealed class FieldCropView : MonoBehaviour
         // Tiny seeds otherwise reach the prefab's cull threshold at normal camera
         // distance. Keep their cheapest LOD visible; FieldArea still hides distant fields.
         if (stageVisual != null)
+        {
+            if (clueRenderer == null) clueRenderer = stageVisual.GetComponentInChildren<Renderer>(true);
+            // Also refresh placement when two visual slots share one prefab or Inspector values change.
+            stageVisual.transform.SetLocalPositionAndRotation(definition.GetStageOffset(stage), definition.GetStageRotation(stage));
             foreach (LODGroup lod in stageVisual.GetComponentsInChildren<LODGroup>(true))
                 lod.ForceLOD(stage == 0 && lod.lodCount > 0 ? lod.lodCount - 1 : -1);
+        }
 
         Renderer[] renderers = GetComponentsInChildren<Renderer>(true);
         foreach (Renderer renderer in renderers)

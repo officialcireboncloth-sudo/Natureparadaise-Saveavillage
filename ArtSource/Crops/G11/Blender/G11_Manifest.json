@@ -1,0 +1,170 @@
+{
+  "group": "G11",
+  "revision": "R03: leaf frames from radial growth/world up, depth distribution, rolled cross-sections",
+  "plants": [
+    "Tulip"
+  ],
+  "atlas": "NP_Plants_Tulip_01",
+  "material": "NP_Plants_Tulip_01",
+  "phaseAppearances": 6,
+  "uniqueNewExports": 6,
+  "counts": {
+    "Tulip": {
+      "Bulb": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Young": {
+        "leaves": 3,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "BudForming": {
+        "leaves": 2,
+        "flowers": 0,
+        "buds": 1,
+        "petals": 6
+      },
+      "Ready": {
+        "leaves": 2,
+        "flowers": 1,
+        "buds": 0,
+        "petals": 6
+      },
+      "Harvest": {
+        "leaves": 1,
+        "flowers": 1,
+        "buds": 0,
+        "petals": 6
+      }
+    }
+  },
+  "exports": [
+    {
+      "name": "NP_Tulip_Bulb",
+      "plant": "Tulip",
+      "stage": "Bulb",
+      "triangles": 3260,
+      "lodTriangles": 1303,
+      "bounds": [
+        [
+          -0.10073919594287872,
+          0.0010000000474974513,
+          -0.10203955322504044
+        ],
+        [
+          0.10321499407291412,
+          0.2775820791721344,
+          0.10179083794355392
+        ]
+      ]
+    },
+    {
+      "name": "NP_Tulip_Sprout",
+      "plant": "Tulip",
+      "stage": "Sprout",
+      "triangles": 7100,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.10073919594287872,
+          0.0010000000474974513,
+          -0.10203955322504044
+        ],
+        [
+          0.10321499407291412,
+          0.5155947208404541,
+          0.10179083794355392
+        ]
+      ]
+    },
+    {
+      "name": "NP_Tulip_Young",
+      "plant": "Tulip",
+      "stage": "Young",
+      "triangles": 5760,
+      "lodTriangles": 2304,
+      "bounds": [
+        [
+          -0.2269481122493744,
+          0.0010000000474974513,
+          -0.235154926776886
+        ],
+        [
+          0.2259526252746582,
+          0.5649904608726501,
+          0.18137474358081818
+        ]
+      ]
+    },
+    {
+      "name": "NP_Tulip_BudForming",
+      "plant": "Tulip",
+      "stage": "BudForming",
+      "triangles": 11844,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.25445619225502014,
+          0.0010000000474974513,
+          -0.1497800648212433
+        ],
+        [
+          0.28410568833351135,
+          0.8860350847244263,
+          0.15173667669296265
+        ]
+      ]
+    },
+    {
+      "name": "NP_Tulip_Ready",
+      "plant": "Tulip",
+      "stage": "Ready",
+      "triangles": 16680,
+      "lodTriangles": 2800,
+      "bounds": [
+        [
+          -0.25445619225502014,
+          0.0010000000474974513,
+          -0.19077569246292114
+        ],
+        [
+          0.28410568833351135,
+          0.947860836982727,
+          0.16966523230075836
+        ]
+      ]
+    },
+    {
+      "name": "NP_Tulip_Harvest",
+      "plant": "Tulip",
+      "stage": "Harvest",
+      "triangles": 14840,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.3979387879371643,
+          0.0010000000474974513,
+          -0.23032107949256897
+        ],
+        [
+          0.49951058626174927,
+          0.3785897493362427,
+          0.13630984723567963
+        ]
+      ]
+    }
+  ],
+  "nearTriangleBudget": 26000,
+  "distanceTriangleBudget": 2800,
+  "integration": "Applied: Tulip profile, seed/produce/mutation items, paper packet icon and existing seed store"
+}

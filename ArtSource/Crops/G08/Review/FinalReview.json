@@ -1,0 +1,143 @@
+{
+  "status": "PASS",
+  "group": "G08",
+  "revision": "R02 wheat heading and harvest attachment correction",
+  "assetChecks": 2554,
+  "fbxRoundtrips": 30,
+  "baseModels": 15,
+  "gimpSources": 3,
+  "masterSha256": "5e85455a3e587d4d4819209ba9b6a9a1672ce2d266d3abbfc43d7f039e666934",
+  "atlas": "NP_Plants_Cereal_01",
+  "surfaceResolution": 512,
+  "previousAssetsRetained": true,
+  "olderFilesChecked": 1819,
+  "orphanVerticesRemoved": true,
+  "visualReview": [
+    "five growth phases plus cut harvest for each cereal",
+    "radial foliage in front side rear and top views",
+    "green heading and vivid golden maturity",
+    "individual ridged rice husks and grooved wheat kernels",
+    "branched drooping rice panicles and compact upright wheat ears with awns",
+    "low diagonal harvest bundles and three separate grain piles",
+    "registered colour and normal-map fibre detail",
+    "R02 Heading and Harvest joint continuity, tapered neck/apex and three-angle renders"
+  ],
+  "previews": {
+    "G08_Closeup.png": {
+      "size": [
+        1800,
+        1200
+      ],
+      "sha256": "d359cd28165b3f6b4ef0ea6fcba094e37de8f1ed4a770d2e471bd9106948fce9"
+    },
+    "G08_ReadyReview.png": {
+      "size": [
+        1830,
+        1190
+      ],
+      "sha256": "6ef42acb1d7d3e752754b75563cbb9c5dcd77856c03e0b08f66444f7e13231f6"
+    },
+    "G08_GrowthStages.png": {
+      "size": [
+        2430,
+        1430
+      ],
+      "sha256": "818b617a59429f2756b4cbf58a102ccaa55a153a38298b9e271656e8f7dd6467"
+    },
+    "G08_VolumeReview.png": {
+      "size": [
+        1760,
+        1540
+      ],
+      "sha256": "5624cff06c9cbbb857366301f0b9ab3effc9c200d7aad6ddf570cb1de871febc"
+    },
+    "G08_HarvestStudy.png": {
+      "size": [
+        1800,
+        1100
+      ],
+      "sha256": "ea36dc14789bc589cf4b930d64e5f7876ed57fa878c726cdaf67a9cfb7d40f9e"
+    },
+    "G08_SurfaceDetail.png": {
+      "size": [
+        1540,
+        840
+      ],
+      "sha256": "4c561c210418da563c7f74cd3889c495620f7a48a29c9f65767b75e6a57d7aa4"
+    },
+    "G08_GrainDetail.png": {
+      "size": [
+        1900,
+        850
+      ],
+      "sha256": "43e2a916117a5cff9aa38467e6e97ba845bf2e1063d7371f3661fa048016e787"
+    },
+    "G08_Wheat_R02_Alignment.png": {
+      "size": [
+        1540,
+        1410
+      ],
+      "sha256": "109a2a736af139b0df2a4bd52cc5b9a62456c9437c93ba8d4ea7464ad4e68d3b"
+    },
+    "G08_Wheat_R02_Comparison.png": {
+      "size": [
+        1610,
+        1510
+      ],
+      "sha256": "d39ed944f06600c52da7023dd9930f36f7146c04545f7140e63e895a055a68e5"
+    }
+  },
+  "unityEditorImport": "NOT_RUN",
+  "unityPlayMode": "NOT_RUN",
+  "referenceReview": "Manual visual review against the supplied attachments; technical checks are not an artistic-fidelity score.",
+  "wheatAlignment": {
+    "status": "PASS",
+    "revision": "R02 wheat heading and harvest attachment correction",
+    "checks": 300,
+    "preservedFiles": 262,
+    "retainedTargetGuids": 12,
+    "jointPairs": [
+      {
+        "stage": "Heading",
+        "culm": 0,
+        "jointGapMetres": 1.862645149230957e-09,
+        "axisAngleDegrees": 0.0
+      },
+      {
+        "stage": "Heading",
+        "culm": 1,
+        "jointGapMetres": 7.450580596923828e-09,
+        "axisAngleDegrees": 0.0
+      },
+      {
+        "stage": "Heading",
+        "culm": 2,
+        "jointGapMetres": 3.725290298461914e-09,
+        "axisAngleDegrees": 0.0
+      },
+      {
+        "stage": "Harvest",
+        "culm": 0,
+        "jointGapMetres": 3.725290298461914e-09,
+        "axisAngleDegrees": 0.0
+      },
+      {
+        "stage": "Harvest",
+        "culm": 1,
+        "jointGapMetres": 7.450580596923828e-09,
+        "axisAngleDegrees": 0.0
+      },
+      {
+        "stage": "Harvest",
+        "culm": 2,
+        "jointGapMetres": 0.0,
+        "axisAngleDegrees": 0.0
+      }
+    ],
+    "masterSha256": "5e85455a3e587d4d4819209ba9b6a9a1672ce2d266d3abbfc43d7f039e666934",
+    "scope": [
+      "Wheat_Heading",
+      "Wheat_Harvest"
+    ]
+  }
+}

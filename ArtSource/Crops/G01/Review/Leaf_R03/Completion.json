@@ -1,0 +1,45 @@
+{
+  "status": "APPLIED_AND_FILE_CHECKED",
+  "revision": "G01 Leaf R03",
+  "species": [
+    "Blueberry",
+    "Raspberry",
+    "Blackberry"
+  ],
+  "changes": [
+    "Fuller ovate blades with fine Rubus serrations",
+    "Taper-aware UVs with a centered vein from petiole to tip",
+    "Mixed restrained leaf elevations and small rolls around the shrub",
+    "Planted Blueberries uniformly scaled to 84 percent, with regenerated connected pedicels",
+    "Three visual profiles recentered and rescaled to the existing tile footprint"
+  ],
+  "checks": 6479,
+  "updatedNearDistanceMeshes": 24,
+  "updatedPrefabs": 12,
+  "closedLeaves": 311,
+  "continuousJoints": 48,
+  "runtimeMaterials": 1,
+  "atlas": "NP_Plants_Unified_01",
+  "atlasPixelsAndAll154SlotsUnchanged": true,
+  "otherCropsAndAll31PrefabItemBindingsRetained": true,
+  "iconsAndHarvestRetained": true,
+  "master": "ArtSource/Crops/G01/Blender/G01_Berries_Master.blend",
+  "masterSha256": "b0aacb9712a9ab1dc657a78c8ae3850976a7b0551bbef7487437ce65ab4270b0",
+  "preview": "ArtSource/Crops/Previews/G01_Leaf_R03_BeforeAfter.png",
+  "spatialPreview": "ArtSource/Crops/Previews/G01_Leaf_R03_SpatialReview.png",
+  "atlasAuditChecks": 9615,
+  "bindingAuditChecks": 6939,
+  "unityPlayMode": "NOT_RUN",
+  "mobileProfiling": "NOT_RUN",
+  "sourceHashes": {
+    "ArtSource/Crops/Scripts/build_g01_leaf_r03.py": "7374ec5e73accdb765a2cc03a98c1ff31f2060aaf91250ccc638991aef8550c1",
+    "ArtSource/Crops/Scripts/capture_g01_leaf_r03.py": "ca8486331712206b65624e7fa6e5285e8d7af485a730b9ca1820eb07115d81d3",
+    "ArtSource/Crops/Scripts/finalize_g01_leaf_r03.py": "02e6537bdd06ccab3870b5e9f07bcc18d040e3be716f6d3742650bfed34b23d5",
+    "ArtSource/Crops/Scripts/fit_g01_leaf_r03.py": "40daccac63d75ad998f59c60f128ef1acbd9696ee327e85df1155bfd33f1b08d",
+    "ArtSource/Crops/Scripts/g01_leaf_r03.py": "abd9ba70c35bc08ff987cf0ba4c4bf8d4755d75a881e3dde6a2266418be008cc",
+    "ArtSource/Crops/Scripts/prepare_g01_leaf_r03.py": "1221d2634059f3e65e956dcaea44b9da1eeed89f57f719f62abead32092bcb7e",
+    "ArtSource/Crops/Scripts/render_g01_leaf_r03.py": "7b5e309806313bd8550e12d5170972a387a6760d46e70c3f788719c70616245b",
+    "ArtSource/Crops/Scripts/review_g01_leaf_r03_gimp.py": "ca73d14795bb44690e0892aa1158a12e0e7a37d850bc4c8b9d7fd6b9f400b81e",
+    "ArtSource/Crops/Scripts/verify_g01_leaf_r03.py": "998de1d958fe96ad4951e13a8c1eba524b812eb0ef3d8a80b4a003866d981829"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "renderer": "artifact-tool CSV import and range edit",
+  "files": [
+    {
+      "path": "Assets/Nature  Paradaise/Data/Balance/Items.csv",
+      "rows": 186,
+      "columns": 39,
+      "inspection": "{\"kind\":\"table\",\"sheet\":\"Data\",\"address\":\"A1:F4\",\"rows\":4,\"cols\":6,\"values\":[[\"item_id\",\"asset_path\",\"display_name\",\"category\",\"buy_price\",\"sell_price\"],[\"item.animal_feed\",\"Assets/Nature  Paradaise/Resources/Items/Materials/Animal Feed.asset\",\"Pakan Hewan\",\"Material\",\"20\",\"4\"],[\"item.poultry_feed\",\"Assets/Nature  Paradaise/Resources/Items/Materials/Poultry Feed.asset\",\"Pakan Unggas\",\"Material\",\"20\",\"4\"],[\"item.animal_medicine\",\"Assets/Nature  Paradaise/Resources/Items/Animal/Animal Medicine.asset\",\"Animal Medicine Lv.1 - Basic\",\"General\",\"150\",\"0\"]]}"
+    },
+    {
+      "path": "Assets/Nature  Paradaise/Data/Balance/Crops.csv",
+      "rows": 28,
+      "columns": 31,
+      "inspection": "{\"kind\":\"table\",\"sheet\":\"Data\",\"address\":\"A1:F4\",\"rows\":4,\"cols\":6,\"values\":[[\"crop_id\",\"asset_path\",\"seed_item_id\",\"produce_item_id\",\"allowed_seasons\",\"out_of_season_behavior\"],[\"crop.cabbage\",\"Assets/Nature  Paradaise/Resources/Profiles/Farming/Cabbage Crop.asset\",\"item.seed\",\"item.cabbage\",\"All\",\"PauseGrowth\"],[\"crop.watermelon\",\"Assets/Nature  Paradaise/Resources/Profiles/Farming/Watermelon Crop.asset\",\"item.watermelon_seed\",\"item.watermelon\",\"All\",\"PauseGrowth\"],[\"crop.melon\",\"Assets/Nature  Paradaise/Resources/Profiles/Farming/Melon Crop.asset\",\"item.melon_seed\",\"item.melon\",\"All\",\"PauseGrowth\"]]}"
+    }
+  ]
+}

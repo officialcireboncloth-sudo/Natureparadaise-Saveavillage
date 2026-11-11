@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "masters": [
+    {
+      "map": "BaseColor",
+      "layers": 10,
+      "size": [
+        1024,
+        512
+      ]
+    },
+    {
+      "map": "Normal",
+      "layers": 4,
+      "size": [
+        1024,
+        512
+      ]
+    },
+    {
+      "map": "SurfaceMask",
+      "layers": 14,
+      "size": [
+        1024,
+        512
+      ]
+    }
+  ]
+}

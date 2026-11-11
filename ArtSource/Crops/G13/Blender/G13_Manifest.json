@@ -1,0 +1,170 @@
+{
+  "group": "G13",
+  "revision": "R01 reference lavender, spatial sage foliage and tiered purple florets",
+  "plants": [
+    "Lavender"
+  ],
+  "atlas": "NP_Plants_Lavender_Source_01",
+  "material": "NP_Plants_Lavender_Source_01",
+  "phaseAppearances": 6,
+  "uniqueNewExports": 6,
+  "counts": {
+    "Lavender": {
+      "Seed": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Young": {
+        "leaves": 24,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "BudForming": {
+        "leaves": 68,
+        "flowers": 0,
+        "buds": 5,
+        "petals": 0
+      },
+      "Ready": {
+        "leaves": 108,
+        "flowers": 9,
+        "buds": 0,
+        "petals": 0
+      },
+      "Harvest": {
+        "leaves": 6,
+        "flowers": 4,
+        "buds": 0,
+        "petals": 0
+      }
+    }
+  },
+  "exports": [
+    {
+      "name": "NP_Lavender_Seed",
+      "plant": "Lavender",
+      "stage": "Seed",
+      "triangles": 240,
+      "lodTriangles": 96,
+      "bounds": [
+        [
+          -0.05346669256687164,
+          0.0010000000474974513,
+          -0.03915341943502426
+        ],
+        [
+          0.0491986908018589,
+          0.013272926211357117,
+          0.03461515158414841
+        ]
+      ]
+    },
+    {
+      "name": "NP_Lavender_Sprout",
+      "plant": "Lavender",
+      "stage": "Sprout",
+      "triangles": 354,
+      "lodTriangles": 140,
+      "bounds": [
+        [
+          -0.11864224821329117,
+          0.0010000000474974513,
+          -0.04261006787419319
+        ],
+        [
+          0.09745501726865768,
+          0.1493191123008728,
+          0.056972138583660126
+        ]
+      ]
+    },
+    {
+      "name": "NP_Lavender_Young",
+      "plant": "Lavender",
+      "stage": "Young",
+      "triangles": 4452,
+      "lodTriangles": 1780,
+      "bounds": [
+        [
+          -0.17498919367790222,
+          0.0010000000474974513,
+          -0.1830112636089325
+        ],
+        [
+          0.17457365989685059,
+          0.2327059805393219,
+          0.18472325801849365
+        ]
+      ]
+    },
+    {
+      "name": "NP_Lavender_BudForming",
+      "plant": "Lavender",
+      "stage": "BudForming",
+      "triangles": 17978,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.34629568457603455,
+          0.0010000000474974513,
+          -0.25328555703163147
+        ],
+        [
+          0.24579478800296783,
+          0.7415825724601746,
+          0.2419440895318985
+        ]
+      ]
+    },
+    {
+      "name": "NP_Lavender_Ready",
+      "plant": "Lavender",
+      "stage": "Ready",
+      "triangles": 26000,
+      "lodTriangles": 2703,
+      "bounds": [
+        [
+          -0.4571056067943573,
+          0.0010014706058427691,
+          -0.2870621383190155
+        ],
+        [
+          0.5550867319107056,
+          1.0277992486953735,
+          0.30235594511032104
+        ]
+      ]
+    },
+    {
+      "name": "NP_Lavender_Harvest",
+      "plant": "Lavender",
+      "stage": "Harvest",
+      "triangles": 14296,
+      "lodTriangles": 2796,
+      "bounds": [
+        [
+          -0.3944721221923828,
+          0.0010000000474974513,
+          -0.37491077184677124
+        ],
+        [
+          0.8869593143463135,
+          0.1802331507205963,
+          0.17302238941192627
+        ]
+      ]
+    }
+  ],
+  "nearTriangleBudget": 26000,
+  "distanceTriangleBudget": 2800,
+  "integration": "Visual assets; existing gameplay retained"
+}

@@ -1,0 +1,445 @@
+{
+  "status": "PASS",
+  "group": "G01",
+  "species": [
+    "Blueberry",
+    "Blackberry"
+  ],
+  "pendingReference": [
+    "Raspberry"
+  ],
+  "checks": 6242,
+  "stages": {
+    "Blueberry": {
+      "Seed": {
+        "leaves": 0,
+        "fruits": 0,
+        "flowers": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "fruits": 0,
+        "flowers": 0
+      },
+      "Young": {
+        "leaves": 9,
+        "fruits": 0,
+        "flowers": 0
+      },
+      "Flowering": {
+        "leaves": 44,
+        "fruits": 3,
+        "flowers": 4
+      },
+      "Ready": {
+        "leaves": 44,
+        "fruits": 7,
+        "flowers": 0
+      },
+      "Harvest": {
+        "leaves": 0,
+        "fruits": 3,
+        "flowers": 0
+      }
+    },
+    "Blackberry": {
+      "Seed": {
+        "leaves": 0,
+        "fruits": 0,
+        "flowers": 0
+      },
+      "Sprout": {
+        "leaves": 3,
+        "fruits": 0,
+        "flowers": 0
+      },
+      "Young": {
+        "leaves": 21,
+        "fruits": 0,
+        "flowers": 0
+      },
+      "Flowering": {
+        "leaves": 38,
+        "fruits": 6,
+        "flowers": 4
+      },
+      "Ready": {
+        "leaves": 38,
+        "fruits": 8,
+        "flowers": 0
+      },
+      "Harvest": {
+        "leaves": 0,
+        "fruits": 3,
+        "flowers": 0
+      }
+    }
+  },
+  "closedSculptedVolumes": 906,
+  "floralJoints": [
+    {
+      "species": "Blueberry",
+      "stage": "Flowering",
+      "key": "Fruit_0",
+      "gap": 4.2146848510894035e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Flowering",
+      "key": "Fruit_1",
+      "gap": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Flowering",
+      "key": "Fruit_2",
+      "gap": 4.2146848510894035e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Flowering",
+      "key": "Flower_0",
+      "gap": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Flowering",
+      "key": "Flower_1",
+      "gap": 6.674406255472048e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Flowering",
+      "key": "Flower_2",
+      "gap": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Flowering",
+      "key": "Flower_3",
+      "gap": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Ready",
+      "key": "Fruit_0",
+      "gap": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Ready",
+      "key": "Fruit_1",
+      "gap": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Ready",
+      "key": "Fruit_2",
+      "gap": 3.332000937312528e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Ready",
+      "key": "Fruit_3",
+      "gap": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Ready",
+      "key": "Fruit_4",
+      "gap": 4.2146848510894035e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Ready",
+      "key": "Fruit_5",
+      "gap": 0.0,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blueberry",
+      "stage": "Ready",
+      "key": "Fruit_6",
+      "gap": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Flowering",
+      "key": "Fruit_0",
+      "gap": 4.2146848510894035e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Flowering",
+      "key": "Fruit_1",
+      "gap": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Flowering",
+      "key": "Fruit_2",
+      "gap": 7.300048299977713e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Flowering",
+      "key": "Fruit_3",
+      "gap": 6.664001874625056e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Flowering",
+      "key": "Fruit_4",
+      "gap": 1.4901161193847656e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Flowering",
+      "key": "Fruit_5",
+      "gap": 4.2146848510894035e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Flowering",
+      "key": "Flower_0",
+      "gap": 6.143906154658885e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Flowering",
+      "key": "Flower_1",
+      "gap": 5.960464477539063e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Flowering",
+      "key": "Flower_2",
+      "gap": 6.143906154658885e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Flowering",
+      "key": "Flower_3",
+      "gap": 7.450580596923828e-09,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Ready",
+      "key": "Fruit_0",
+      "gap": 7.300048299977713e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Ready",
+      "key": "Fruit_1",
+      "gap": 6.664001874625056e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Ready",
+      "key": "Fruit_2",
+      "gap": 8.429369702178807e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Ready",
+      "key": "Fruit_3",
+      "gap": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Ready",
+      "key": "Fruit_4",
+      "gap": 4.470348358154297e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Ready",
+      "key": "Fruit_5",
+      "gap": 4.470348358154297e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Ready",
+      "key": "Fruit_6",
+      "gap": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    },
+    {
+      "species": "Blackberry",
+      "stage": "Ready",
+      "key": "Fruit_7",
+      "gap": 2.9802322387695312e-08,
+      "angleDegrees": 0.0
+    }
+  ],
+  "leafMetrics": {
+    "Blueberry": {
+      "Sprout": {
+        "depthWidthRatio": 0.46705181529373774,
+        "minMaxProjectionRatio": 0.4252463397844303,
+        "minimumLeafNonplanarity": 0.1332831245408103
+      },
+      "Young": {
+        "depthWidthRatio": 0.887208364869765,
+        "minMaxProjectionRatio": 0.821276778969855,
+        "minimumLeafNonplanarity": 0.11500206717147339
+      },
+      "Flowering": {
+        "depthWidthRatio": 0.8110171708527402,
+        "minMaxProjectionRatio": 0.7091580671152843,
+        "minimumLeafNonplanarity": 0.10293345005260787
+      },
+      "Ready": {
+        "depthWidthRatio": 0.8103991640244621,
+        "minMaxProjectionRatio": 0.7186542172222129,
+        "minimumLeafNonplanarity": 0.1012979675392604
+      }
+    },
+    "Blackberry": {
+      "Sprout": {
+        "depthWidthRatio": 0.6323320389259001,
+        "minMaxProjectionRatio": 0.4329004491173876,
+        "minimumLeafNonplanarity": 0.12860182484060503
+      },
+      "Young": {
+        "depthWidthRatio": 0.8675923396085449,
+        "minMaxProjectionRatio": 0.9363680299587988,
+        "minimumLeafNonplanarity": 0.10292454132331462
+      },
+      "Flowering": {
+        "depthWidthRatio": 0.832066008574979,
+        "minMaxProjectionRatio": 0.7878526998047519,
+        "minimumLeafNonplanarity": 0.079999802414687
+      },
+      "Ready": {
+        "depthWidthRatio": 0.8317681890060907,
+        "minMaxProjectionRatio": 0.8014767845662585,
+        "minimumLeafNonplanarity": 0.078468329937376
+      }
+    }
+  },
+  "calyxDepths": [
+    {
+      "stage": "Flowering",
+      "index": 0,
+      "depth": 0.0221054659525547
+    },
+    {
+      "stage": "Flowering",
+      "index": 1,
+      "depth": 0.019222147946214428
+    },
+    {
+      "stage": "Flowering",
+      "index": 2,
+      "depth": 0.01768438892101206
+    },
+    {
+      "stage": "Ready",
+      "index": 0,
+      "depth": 0.027648308639059805
+    },
+    {
+      "stage": "Ready",
+      "index": 1,
+      "depth": 0.030281475515240058
+    },
+    {
+      "stage": "Ready",
+      "index": 2,
+      "depth": 0.03028147368490635
+    },
+    {
+      "stage": "Ready",
+      "index": 3,
+      "depth": 0.027648303833540458
+    },
+    {
+      "stage": "Ready",
+      "index": 4,
+      "depth": 0.030281479336945166
+    },
+    {
+      "stage": "Ready",
+      "index": 5,
+      "depth": 0.02633171622482567
+    },
+    {
+      "stage": "Ready",
+      "index": 6,
+      "depth": 0.02422518120075385
+    },
+    {
+      "stage": "Harvest",
+      "index": 0,
+      "depth": 0.03686440531358041
+    },
+    {
+      "stage": "Harvest",
+      "index": 1,
+      "depth": 0.028964880679542282
+    },
+    {
+      "stage": "Harvest",
+      "index": 2,
+      "depth": 0.026331723741277117
+    }
+  ],
+  "priorAtlasSurfacesRetained": 134,
+  "runtimeMaterials": 1,
+  "fieldProfiles": 30,
+  "modelsWithLods": 24,
+  "masterSha256": "21bd3b2548292aaddba90b612c353b5d4578fe9d2f3779836ae2ab24bb2efec0",
+  "sourceHashes": {
+    "ArtSource/Crops/Scripts/apply_g01_crop_integration.py": "832da39ff8a6f749954c77aa2bf872fe84edfc8e567692cdeeefd4f27a9d9f09",
+    "ArtSource/Crops/Scripts/build_g01_blender.py": "7960ae956ebe521f25b664eb72818617d009b1aa480be6d8f9f5a50b7ced0f0c",
+    "ArtSource/Crops/Scripts/capture_g01_exports.py": "d3244f12419168f66eb246dac2ec9c99cd06008c7f876a1921af615575e10900",
+    "ArtSource/Crops/Scripts/finalize_g01.py": "d3764b3fdbdb8809128a3a01f363403ad3d5630d47781af7e15f17fcea4c2334",
+    "ArtSource/Crops/Scripts/g01_config.py": "7f550640c0eecbb434c8a5171ec81b453c1d1af764c9c0cc859c1bb883dbad77",
+    "ArtSource/Crops/Scripts/g01_geometry.py": "6049f10802e715a6546d00a59e7df6b374ce8fc2394e0975a6b09dce1fb6eb9e",
+    "ArtSource/Crops/Scripts/g01_integration_config.py": "f0298e615e4bb2aaa74b388c1ab4bf8d780920118f2e86e5068838510130151a",
+    "ArtSource/Crops/Scripts/inspect_g01_icon_atlas.py": "5d372d0068dbca40ff3f530bc140889483bc94eb7beedd9b5e172534042c6306",
+    "ArtSource/Crops/Scripts/paint_g01_gimp.py": "66a4758e3b3de48cf5f0271b09eeec36947c792c260cc6ac267b41629b6cdc18",
+    "ArtSource/Crops/Scripts/prepare_g01.py": "94eb292a772d96462f40ba5e5dee37018157ed7bd042a25eceae3dbcccf0c641",
+    "ArtSource/Crops/Scripts/prepare_g01_crop_integration.py": "b02330f3def074ee2c21654fbee4820e395b091577f6597ec0be6a019982d2f7",
+    "ArtSource/Crops/Scripts/prepare_g01_workflows.py": "9f4b9adf45bd7e8e5faea3a78cab51ca93afe381ada09e399422545feb2dbccd",
+    "ArtSource/Crops/Scripts/record_g01_integration.py": "8dd490ace91e4a911e0adbd19bdeec5bf54057ac7b2c861820cc2af7b32d7b53",
+    "ArtSource/Crops/Scripts/render_g01.py": "eddb82b6d1388777b55d711552bc7aa428dd3185a61b1a4e16363eb1229943ac",
+    "ArtSource/Crops/Scripts/review_g01_gimp.py": "7ae9c2da6a50c8d74eab4bed09d0a79a34b27b93e8f8b4a0e811520c4cd4468b",
+    "ArtSource/Crops/Scripts/update_g01_docs.py": "349ca7d7d59519155749672c0ee04ccfc3cc7dc1ac62799831dc3bbaea8d39c5",
+    "ArtSource/Crops/Scripts/verify_g01.py": "9512dc2d3550d4a5281ebed48d8cdb58c891e9a785ae6e0c4bdf7170d714aba6"
+  },
+  "unityEditorImport": "NOT_RUN_BY_AGENT",
+  "unityPlayMode": "NOT_RUN_BY_AGENT",
+  "mobileProfiling": "NOT_RUN"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "APPLIED_AND_CHECKED",
+  "revision": "G11 R02",
+  "scope": "Oval rounded closed petals, reference flower/stem proportions, curved asymmetrical leaves and softer petal/leaf albedo and relief",
+  "artChecks": 3451,
+  "formChecks": 3207,
+  "integrationChecks": 6579,
+  "protectedFiles": 3112,
+  "changedFiles": 31,
+  "retainedEarlyMeshes": [
+    "Bulb",
+    "Sprout"
+  ],
+  "preserved": "Other 25 crops, item IDs/icons, shop, CSV balance, planting depths and interaction hint code",
+  "masterSha256": "87753481dbcf1770381f6665ac84a9c6214e6714837f25c92b2677fa9561c95d",
+  "bindingManifestSha256": "9512cb82336d4f39b9748467db4d32e2c13d55b24d934ffe681e6cb4933a0057",
+  "comparison": "ArtSource/Crops/Previews/G11_R02_Comparison.png",
+  "comparisonSha256": "c10a0b0a5dbbb27c7f104287935748100b6b6e1eb8b36f9513ba63d0415e138f",
+  "unityPlayMode": "NOT_RUN_BY_AGENT"
+}

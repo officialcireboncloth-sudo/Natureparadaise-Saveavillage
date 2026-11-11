@@ -1,0 +1,184 @@
+{
+  "name": "NP_Plants_DaisyMoonflower_Source_01",
+  "colorSize": [
+    1024,
+    512
+  ],
+  "normalSize": [
+    1024,
+    512
+  ],
+  "maskSize": [
+    1024,
+    512
+  ],
+  "materialSettings": {
+    "_BumpScale": 0.32,
+    "_Saturation": 1.0,
+    "_Smoothness": 1.0
+  },
+  "slots": [
+    {
+      "name": "DaisyLeaf",
+      "index": 0,
+      "pixelRectTopLeft": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.01171875,
+        0.5234375,
+        0.23828125,
+        0.9765625
+      ],
+      "smoothness": 0.26,
+      "primaryDetail": true
+    },
+    {
+      "name": "MoonflowerLeaf",
+      "index": 1,
+      "pixelRectTopLeft": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "uvSafe": [
+        0.26171875,
+        0.5234375,
+        0.48828125,
+        0.9765625
+      ],
+      "smoothness": 0.29,
+      "primaryDetail": true
+    },
+    {
+      "name": "DaisyPetal",
+      "index": 2,
+      "pixelRectTopLeft": [
+        512,
+        0,
+        192,
+        192
+      ],
+      "uvSafe": [
+        0.51171875,
+        0.6484375,
+        0.67578125,
+        0.9765625
+      ],
+      "smoothness": 0.33,
+      "primaryDetail": true
+    },
+    {
+      "name": "MoonflowerPetal",
+      "index": 3,
+      "pixelRectTopLeft": [
+        704,
+        0,
+        192,
+        192
+      ],
+      "uvSafe": [
+        0.69921875,
+        0.6484375,
+        0.86328125,
+        0.9765625
+      ],
+      "smoothness": 0.35,
+      "primaryDetail": true
+    },
+    {
+      "name": "DaisyDisk",
+      "index": 4,
+      "pixelRectTopLeft": [
+        0,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.0078125,
+        0.265625,
+        0.1171875,
+        0.484375
+      ],
+      "smoothness": 0.27,
+      "primaryDetail": true
+    },
+    {
+      "name": "DaisySeed",
+      "index": 5,
+      "pixelRectTopLeft": [
+        128,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.1328125,
+        0.265625,
+        0.2421875,
+        0.484375
+      ],
+      "smoothness": 0.23,
+      "primaryDetail": true
+    },
+    {
+      "name": "MoonflowerSeed",
+      "index": 6,
+      "pixelRectTopLeft": [
+        256,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.2578125,
+        0.265625,
+        0.3671875,
+        0.484375
+      ],
+      "smoothness": 0.28,
+      "primaryDetail": true
+    },
+    {
+      "name": "FlowerStem",
+      "index": 7,
+      "pixelRectTopLeft": [
+        384,
+        256,
+        128,
+        128
+      ],
+      "uvSafe": [
+        0.3828125,
+        0.265625,
+        0.4921875,
+        0.484375
+      ],
+      "smoothness": 0.31,
+      "primaryDetail": true
+    },
+    {
+      "name": "DaisyStem",
+      "index": 8,
+      "pixelRectTopLeft": [
+        512,
+        256,
+        96,
+        96
+      ],
+      "uvSafe": [
+        0.5078125,
+        0.328125,
+        0.5859375,
+        0.484375
+      ],
+      "smoothness": 0.28,
+      "primaryDetail": true
+    }
+  ]
+}

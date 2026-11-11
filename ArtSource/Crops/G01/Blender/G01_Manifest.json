@@ -1,0 +1,495 @@
+{
+  "group": "G01",
+  "revision": "R05 reference-traced Rubus blades and restored detailed Blueberry leaf surface",
+  "plants": [
+    "Blueberry",
+    "Blackberry",
+    "Raspberry"
+  ],
+  "atlas": "NP_Plants_Raspberry_Source_01",
+  "material": "NP_Plants_Unified_01",
+  "phaseAppearances": 6,
+  "uniqueNewExports": 6,
+  "counts": {
+    "Blueberry": {
+      "Seed": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Young": {
+        "leaves": 9,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Flowering": {
+        "leaves": 44,
+        "flowers": 4,
+        "buds": 0,
+        "petals": 0
+      },
+      "Ready": {
+        "leaves": 44,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Harvest": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      }
+    },
+    "Blackberry": {
+      "Seed": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Sprout": {
+        "leaves": 3,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Young": {
+        "leaves": 21,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Flowering": {
+        "leaves": 38,
+        "flowers": 4,
+        "buds": 0,
+        "petals": 0
+      },
+      "Ready": {
+        "leaves": 38,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Harvest": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      }
+    },
+    "Raspberry": {
+      "Seed": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Sprout": {
+        "leaves": 3,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Young": {
+        "leaves": 21,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Flowering": {
+        "leaves": 44,
+        "flowers": 4,
+        "buds": 0,
+        "petals": 0
+      },
+      "Ready": {
+        "leaves": 44,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Harvest": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      }
+    }
+  },
+  "exports": [
+    {
+      "name": "NP_Blackberry_Seed",
+      "plant": "Blackberry",
+      "stage": "Seed",
+      "triangles": 320,
+      "lodTriangles": 128,
+      "bounds": [
+        [
+          -0.06198950111865997,
+          0.0010000000474974513,
+          -0.047379665076732635
+        ],
+        [
+          0.07633475214242935,
+          0.016494428738951683,
+          0.049666669219732285
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blackberry_Sprout",
+      "plant": "Blackberry",
+      "stage": "Sprout",
+      "triangles": 584,
+      "lodTriangles": 233,
+      "bounds": [
+        [
+          -0.14995332062244415,
+          0.0010000000474974513,
+          -0.11530807614326477
+        ],
+        [
+          0.14578674733638763,
+          0.2252369374036789,
+          0.0779479593038559
+        ]
+      ],
+      "exactLeafTriangles": 540
+    },
+    {
+      "name": "NP_Blackberry_Young",
+      "plant": "Blackberry",
+      "stage": "Young",
+      "triangles": 9920,
+      "lodTriangles": 2788,
+      "bounds": [
+        [
+          -0.21976524591445923,
+          0.0010000000474974513,
+          -0.23573695123195648
+        ],
+        [
+          0.23790213465690613,
+          0.5048571825027466,
+          0.21062706410884857
+        ]
+      ],
+      "exactLeafTriangles": 6300
+    },
+    {
+      "name": "NP_Blackberry_Flowering",
+      "plant": "Blackberry",
+      "stage": "Flowering",
+      "triangles": 25943,
+      "lodTriangles": 2697,
+      "bounds": [
+        [
+          -0.39297258853912354,
+          0.0011357002658769488,
+          -0.3549552857875824
+        ],
+        [
+          0.36486154794692993,
+          0.7571142911911011,
+          0.3170167803764343
+        ]
+      ],
+      "exactLeafTriangles": 16020
+    },
+    {
+      "name": "NP_Blackberry_Ready",
+      "plant": "Blackberry",
+      "stage": "Ready",
+      "triangles": 25941,
+      "lodTriangles": 2727,
+      "bounds": [
+        [
+          -0.4173338711261749,
+          0.0012515927664935589,
+          -0.3611902892589569
+        ],
+        [
+          0.38386213779449463,
+          0.8059379458427429,
+          0.33725130558013916
+        ]
+      ],
+      "exactLeafTriangles": 16020
+    },
+    {
+      "name": "NP_Blackberry_Harvest",
+      "plant": "Blackberry",
+      "stage": "Harvest",
+      "triangles": 9240,
+      "lodTriangles": 2790,
+      "bounds": [
+        [
+          -0.22603532671928406,
+          0.0010000000474974513,
+          -0.22375644743442535
+        ],
+        [
+          0.23363590240478516,
+          0.31843337416648865,
+          0.18803183734416962
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blueberry_Seed",
+      "plant": "Blueberry",
+      "stage": "Seed",
+      "triangles": 320,
+      "lodTriangles": 128,
+      "bounds": [
+        [
+          -0.06198950111865997,
+          0.0010000000474974513,
+          -0.047379665076732635
+        ],
+        [
+          0.07633475214242935,
+          0.016494428738951683,
+          0.049666669219732285
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blueberry_Sprout",
+      "plant": "Blueberry",
+      "stage": "Sprout",
+      "triangles": 1212,
+      "lodTriangles": 484,
+      "bounds": [
+        [
+          -0.1499631255865097,
+          0.0010000000474974513,
+          -0.038162961602211
+        ],
+        [
+          0.14579667150974274,
+          0.22708186507225037,
+          0.07168476283550262
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blueberry_Young",
+      "plant": "Blueberry",
+      "stage": "Young",
+      "triangles": 14432,
+      "lodTriangles": 2800,
+      "bounds": [
+        [
+          -0.18601571023464203,
+          0.0010000000474974513,
+          -0.16985878348350525
+        ],
+        [
+          0.20484893023967743,
+          0.48606204986572266,
+          0.2006288766860962
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blueberry_Flowering",
+      "plant": "Blueberry",
+      "stage": "Flowering",
+      "triangles": 26000,
+      "lodTriangles": 2779,
+      "bounds": [
+        [
+          -0.3324398398399353,
+          0.0010000000474974513,
+          -0.3432966470718384
+        ],
+        [
+          0.3286646604537964,
+          0.72856605052948,
+          0.29748207330703735
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blueberry_Ready",
+      "plant": "Blueberry",
+      "stage": "Ready",
+      "triangles": 25999,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.353119820356369,
+          0.0010000000474974513,
+          -0.3562452793121338
+        ],
+        [
+          0.3521777391433716,
+          0.7755699157714844,
+          0.3164672553539276
+        ]
+      ]
+    },
+    {
+      "name": "NP_Blueberry_Harvest",
+      "plant": "Blueberry",
+      "stage": "Harvest",
+      "triangles": 3324,
+      "lodTriangles": 1329,
+      "bounds": [
+        [
+          -0.26961520314216614,
+          0.0010000000474974513,
+          -0.2580346465110779
+        ],
+        [
+          0.2392093539237976,
+          0.28176215291023254,
+          0.1772686243057251
+        ]
+      ]
+    },
+    {
+      "name": "NP_Raspberry_Seed",
+      "plant": "Raspberry",
+      "stage": "Seed",
+      "triangles": 320,
+      "lodTriangles": 128,
+      "bounds": [
+        [
+          -0.06198950111865997,
+          0.0010000000474974513,
+          -0.047379665076732635
+        ],
+        [
+          0.07633475214242935,
+          0.016494428738951683,
+          0.049666669219732285
+        ]
+      ]
+    },
+    {
+      "name": "NP_Raspberry_Sprout",
+      "plant": "Raspberry",
+      "stage": "Sprout",
+      "triangles": 632,
+      "lodTriangles": 251,
+      "bounds": [
+        [
+          -0.15301217138767242,
+          0.0010000000474974513,
+          -0.11761359870433807
+        ],
+        [
+          0.14864100515842438,
+          0.22746366262435913,
+          0.08016010373830795
+        ]
+      ],
+      "exactLeafTriangles": 588
+    },
+    {
+      "name": "NP_Raspberry_Young",
+      "plant": "Raspberry",
+      "stage": "Young",
+      "triangles": 10480,
+      "lodTriangles": 2787,
+      "bounds": [
+        [
+          -0.21982677280902863,
+          0.0010000000474974513,
+          -0.2233230620622635
+        ],
+        [
+          0.23486639559268951,
+          0.5380213260650635,
+          0.2145213931798935
+        ]
+      ],
+      "exactLeafTriangles": 6860
+    },
+    {
+      "name": "NP_Raspberry_Flowering",
+      "plant": "Raspberry",
+      "stage": "Flowering",
+      "triangles": 25905,
+      "lodTriangles": 2487,
+      "bounds": [
+        [
+          -0.38704895973205566,
+          0.001228748937137425,
+          -0.34591713547706604
+        ],
+        [
+          0.3644731938838959,
+          0.8065975308418274,
+          0.3230033218860626
+        ]
+      ],
+      "exactLeafTriangles": 17444
+    },
+    {
+      "name": "NP_Raspberry_Ready",
+      "plant": "Raspberry",
+      "stage": "Ready",
+      "triangles": 25941,
+      "lodTriangles": 2374,
+      "bounds": [
+        [
+          -0.4110322892665863,
+          0.0010730441426858306,
+          -0.3675270974636078
+        ],
+        [
+          0.38005179166793823,
+          0.858579695224762,
+          0.34362009167671204
+        ]
+      ],
+      "exactLeafTriangles": 17444
+    },
+    {
+      "name": "NP_Raspberry_Harvest",
+      "plant": "Raspberry",
+      "stage": "Harvest",
+      "triangles": 14992,
+      "lodTriangles": 2790,
+      "bounds": [
+        [
+          -0.22820858657360077,
+          0.0010000000474974513,
+          -0.2821713984012604
+        ],
+        [
+          0.23622065782546997,
+          0.2711268961429596,
+          0.1754615306854248
+        ]
+      ]
+    }
+  ],
+  "nearTriangleBudget": 26000,
+  "distanceTriangleBudget": 2800,
+  "integration": "Visual assets; existing gameplay retained",
+  "authoringAtlases": [
+    "NP_Plants_Berries_Source_01",
+    "NP_Plants_Raspberry_Source_01"
+  ],
+  "runtimeMaterial": "NP_Plants_Unified_01",
+  "pendingReference": [],
+  "attachedBerryScale": {
+    "Blueberry": 0.7,
+    "Raspberry": 0.78,
+    "Blackberry": 0.8
+  }
+}

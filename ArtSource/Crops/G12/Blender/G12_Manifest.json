@@ -1,0 +1,170 @@
+{
+  "group": "G12",
+  "revision": "R01 reference Phalaenopsis, closed fleshy spatial leaves and articulated flowers",
+  "plants": [
+    "Orchid"
+  ],
+  "atlas": "NP_Plants_Orchid_Source_01",
+  "material": "NP_Plants_Orchid_Source_01",
+  "phaseAppearances": 6,
+  "uniqueNewExports": 6,
+  "counts": {
+    "Orchid": {
+      "Seed": {
+        "leaves": 0,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Sprout": {
+        "leaves": 2,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "Young": {
+        "leaves": 4,
+        "flowers": 0,
+        "buds": 0,
+        "petals": 0
+      },
+      "BudForming": {
+        "leaves": 5,
+        "flowers": 0,
+        "buds": 5,
+        "petals": 0
+      },
+      "Ready": {
+        "leaves": 5,
+        "flowers": 4,
+        "buds": 2,
+        "petals": 28
+      },
+      "Harvest": {
+        "leaves": 0,
+        "flowers": 2,
+        "buds": 2,
+        "petals": 14
+      }
+    }
+  },
+  "exports": [
+    {
+      "name": "NP_Orchid_Seed",
+      "plant": "Orchid",
+      "stage": "Seed",
+      "triangles": 880,
+      "lodTriangles": 352,
+      "bounds": [
+        [
+          -0.0693376436829567,
+          0.0010000000474974513,
+          -0.05139920860528946
+        ],
+        [
+          0.06886313110589981,
+          0.018596192821860313,
+          0.04929018020629883
+        ]
+      ]
+    },
+    {
+      "name": "NP_Orchid_Sprout",
+      "plant": "Orchid",
+      "stage": "Sprout",
+      "triangles": 5494,
+      "lodTriangles": 2196,
+      "bounds": [
+        [
+          -0.16057246923446655,
+          0.0010000000474974513,
+          -0.09283246845006943
+        ],
+        [
+          0.16077013313770294,
+          0.22259970009326935,
+          0.10029161721467972
+        ]
+      ]
+    },
+    {
+      "name": "NP_Orchid_Young",
+      "plant": "Orchid",
+      "stage": "Young",
+      "triangles": 8038,
+      "lodTriangles": 2800,
+      "bounds": [
+        [
+          -0.2948930859565735,
+          0.0010000000474974513,
+          -0.19254864752292633
+        ],
+        [
+          0.29858943819999695,
+          0.3234853148460388,
+          0.19708897173404694
+        ]
+      ]
+    },
+    {
+      "name": "NP_Orchid_BudForming",
+      "plant": "Orchid",
+      "stage": "BudForming",
+      "triangles": 14416,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.3849661946296692,
+          0.0010000000474974513,
+          -0.251350462436676
+        ],
+        [
+          0.5172525644302368,
+          0.883268415927887,
+          0.25730130076408386
+        ]
+      ]
+    },
+    {
+      "name": "NP_Orchid_Ready",
+      "plant": "Orchid",
+      "stage": "Ready",
+      "triangles": 25999,
+      "lodTriangles": 2799,
+      "bounds": [
+        [
+          -0.40952903032302856,
+          0.0010000000474974513,
+          -0.2673238217830658
+        ],
+        [
+          0.9011135101318359,
+          1.0733811855316162,
+          0.2737228572368622
+        ]
+      ]
+    },
+    {
+      "name": "NP_Orchid_Harvest",
+      "plant": "Orchid",
+      "stage": "Harvest",
+      "triangles": 16992,
+      "lodTriangles": 2800,
+      "bounds": [
+        [
+          -0.43855953216552734,
+          0.0010000000474974513,
+          -0.1362360268831253
+        ],
+        [
+          0.511344313621521,
+          0.1880204677581787,
+          0.26165735721588135
+        ]
+      ]
+    }
+  ],
+  "nearTriangleBudget": 26000,
+  "distanceTriangleBudget": 2800,
+  "integration": "Visual assets; existing gameplay retained"
+}

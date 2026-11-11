@@ -1,0 +1,288 @@
+{
+  "group": "G10",
+  "status": "Applied to 25-crop gameplay and seed-store integration; Editor/Play Mode validation recorded separately",
+  "material": "NP_Plants_Unified_01",
+  "plants": {
+    "Sunflower": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Sunflower_Seed.prefab",
+        "guid": "fbcdaa2620ee4873ab4782d0ed7b5104",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Sunflower_Sprout.prefab",
+        "guid": "303b47a13aa5411bb21054e7f73093ed",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Sunflower_Young.prefab",
+        "guid": "5aff1357c5214ec2aaca4504f294608d",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Sunflower_BudForming.prefab",
+        "guid": "6232d842918449b3b71986e15c218bc1",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Sunflower_Ready.prefab",
+        "guid": "e69a408cd0c64efd97c0e9043503288f",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Sunflower_Harvest.prefab",
+        "guid": "78a55354cc214e7eafcdd64efbda4870",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Chrysanthemum": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Chrysanthemum_Seed.prefab",
+        "guid": "e8bb741bcc1a42f8897c3976841a0f14",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Chrysanthemum_Sprout.prefab",
+        "guid": "33a3a5fa54a94ec288dbb6d519152edd",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Chrysanthemum_Young.prefab",
+        "guid": "1c7274d60b5542a7983cdbc9b249dd0c",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Chrysanthemum_BudForming.prefab",
+        "guid": "09ff9110bc3e462ea7e491ebe255d381",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Chrysanthemum_Ready.prefab",
+        "guid": "fee775d2cf49418db583aa0801d12db9",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Chrysanthemum_Harvest.prefab",
+        "guid": "e1f84668e5a14c18ad9e1c00bd91b087",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Dahlia": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Dahlia_Seed.prefab",
+        "guid": "d2a76d24c86e42f185ed4762968e78da",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Dahlia_Sprout.prefab",
+        "guid": "c41a3848d14c46b8852e5af9efa97d8c",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Dahlia_Young.prefab",
+        "guid": "d238aed515314e7a81a0193a3985bcc1",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Dahlia_BudForming.prefab",
+        "guid": "ef5d3d1d0a934eaba87efb3cf0cfc807",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Dahlia_Ready.prefab",
+        "guid": "4811dfaf9b5c49a4b3dcb324a3359b28",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Dahlia_Harvest.prefab",
+        "guid": "c0dc50bf7d0d4381a5440c9b897e5863",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "Marigold": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Marigold_Seed.prefab",
+        "guid": "1e443365b3724b1ca79ee1f35304b2ee",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Marigold_Sprout.prefab",
+        "guid": "69d7aaac93aa4f5d9f498abcd1d75908",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Marigold_Young.prefab",
+        "guid": "2fad2b3448864a55b47935cad8f2f257",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Marigold_BudForming.prefab",
+        "guid": "ecf5068f3fae4aa7af42bc054a8a7a95",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Marigold_Ready.prefab",
+        "guid": "3622baaa68844482aadcdc5a55444ac5",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G10\\NP_Marigold_Harvest.prefab",
+        "guid": "bffaa845a0e540019538d447707dc632",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  "gameplayIntegration": "ArtSource/Crops/Integration/Manifest.json",
+  "profiles": {
+    "Sunflower": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Sunflower Crop.asset",
+    "Chrysanthemum": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Chrysanthemum Crop.asset",
+    "Dahlia": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Dahlia Crop.asset",
+    "Marigold": "Assets/Nature  Paradaise/Resources/Profiles/Farming/Marigold Crop.asset"
+  },
+  "authoringMaterial": "NP_Plants_RadialFlowers_01",
+  "runtimeAtlas": "ArtSource/Crops/Unified/AtlasRegistry.json"
+}

@@ -1,0 +1,144 @@
+{
+  "status": "APPLIED_AND_CHECKED",
+  "revision": "G11 R03",
+  "scope": "Radial leaf frames, front/back leaf placement, individually rolled and cupped blades; same accepted flowers and textures",
+  "artChecks": 3448,
+  "spatialChecks": 3218,
+  "integrationChecks": 6579,
+  "protectedFiles": 3109,
+  "changedFiles": 35,
+  "nonLeafComponentsRetained": 71,
+  "preserved": "Flower/stalk/bulb shapes, all textures/materials/icons and GUIDs, other 25 crops, gameplay balance and interaction hints",
+  "masterSha256": "b723720eeaaa5d8c49fd0301c365658b4215d82ff33225afca1a2bc256ac578c",
+  "bindingManifestSha256": "9cc3070b3422d39c80242688561ac234678512c3ad32d1f5bce301ab36387d60",
+  "preview": "ArtSource/Crops/Previews/G11_R03_SpatialReview.png",
+  "previewSha256": "fc6e81529ae34b49de50e763e36af22c2541be474d75d86e0164ac25208efb40",
+  "metrics": {
+    "Sprout": {
+      "projectedTopFrontRatio": 0.24106739811114714,
+      "projectedSideFrontRatio": 0.9246702065517944,
+      "depthWidthRatio": 1.0597731636601715,
+      "leaves": [
+        {
+          "index": 0,
+          "projectedAreasYZ_XZ_XY": [
+            0.011631184326396959,
+            0.0102471932369054,
+            0.0037334682870956786
+          ],
+          "planarityRatio": 0.06605781872972764
+        },
+        {
+          "index": 1,
+          "projectedAreasYZ_XZ_XY": [
+            0.019781773105865617,
+            0.023724872922125776,
+            0.004456089310321718
+          ],
+          "planarityRatio": 0.051750139688373706
+        }
+      ]
+    },
+    "Young": {
+      "projectedTopFrontRatio": 0.8254373902257194,
+      "projectedSideFrontRatio": 1.1630866544021035,
+      "depthWidthRatio": 0.919693071454982,
+      "leaves": [
+        {
+          "index": 0,
+          "projectedAreasYZ_XZ_XY": [
+            0.04832770156378976,
+            0.08510286821367463,
+            0.0570910042145569
+          ],
+          "planarityRatio": 0.06105329722084244
+        },
+        {
+          "index": 1,
+          "projectedAreasYZ_XZ_XY": [
+            0.10920129761091861,
+            0.06878460667813707,
+            0.03847762051151095
+          ],
+          "planarityRatio": 0.06167425433552657
+        },
+        {
+          "index": 2,
+          "projectedAreasYZ_XZ_XY": [
+            0.06940005330323992,
+            0.04122185047019536,
+            0.065481907609448
+          ],
+          "planarityRatio": 0.052614242328980106
+        }
+      ]
+    },
+    "BudForming": {
+      "projectedTopFrontRatio": 0.36100467408494435,
+      "projectedSideFrontRatio": 0.7501652409269964,
+      "depthWidthRatio": 0.5598553339584923,
+      "leaves": [
+        {
+          "index": 0,
+          "projectedAreasYZ_XZ_XY": [
+            0.08533346972605498,
+            0.12083881040862583,
+            0.06061454817858859
+          ],
+          "planarityRatio": 0.06321312527368397
+        },
+        {
+          "index": 1,
+          "projectedAreasYZ_XZ_XY": [
+            0.10436144468719173,
+            0.1320320293264122,
+            0.030673006905545013
+          ],
+          "planarityRatio": 0.06594588860131984
+        }
+      ]
+    },
+    "Ready": {
+      "projectedTopFrontRatio": 0.36100467408494435,
+      "projectedSideFrontRatio": 0.7501652409269964,
+      "depthWidthRatio": 0.5598553339584923,
+      "leaves": [
+        {
+          "index": 0,
+          "projectedAreasYZ_XZ_XY": [
+            0.08533346972605498,
+            0.12083881040862583,
+            0.06061454817858859
+          ],
+          "planarityRatio": 0.06321312527368397
+        },
+        {
+          "index": 1,
+          "projectedAreasYZ_XZ_XY": [
+            0.10436144468719173,
+            0.1320320293264122,
+            0.030673006905545013
+          ],
+          "planarityRatio": 0.06594588860131984
+        }
+      ]
+    },
+    "Harvest": {
+      "projectedTopFrontRatio": 3.606571073116332,
+      "projectedSideFrontRatio": 0.5979078786527897,
+      "depthWidthRatio": 0.6977805165623822,
+      "leaves": [
+        {
+          "index": 0,
+          "projectedAreasYZ_XZ_XY": [
+            0.012790955463783503,
+            0.021392853181002022,
+            0.0771548454540266
+          ],
+          "planarityRatio": 0.05584147002130906
+        }
+      ]
+    }
+  },
+  "unityPlayMode": "NOT_RUN_BY_AGENT"
+}

@@ -1,0 +1,87 @@
+{
+  "status": "APPLIED_AND_CODE_CHECKED",
+  "rootPlanting": [
+    {
+      "plant": "Radish",
+      "phase": "RootForming",
+      "burialInModelUnits": 0.15625,
+      "aboveSoilFraction": 0.5
+    },
+    {
+      "plant": "Radish",
+      "phase": "Ready",
+      "burialInModelUnits": 0.25,
+      "aboveSoilFraction": 0.5
+    },
+    {
+      "plant": "Onion",
+      "phase": "BulbForming",
+      "burialInModelUnits": 0.1458,
+      "aboveSoilFraction": 0.5000000000000001
+    },
+    {
+      "plant": "Onion",
+      "phase": "Ready",
+      "burialInModelUnits": 0.27,
+      "aboveSoilFraction": 0.49999999999999994
+    }
+  ],
+  "selectedTarget": "Published prompt owner and exact anchor; captured harvest field/tile",
+  "ringColors": {
+    "collectible": "green",
+    "otherInteraction": "yellow"
+  },
+  "discovery": {
+    "radiusMetres": 12,
+    "maxVisibleSources": 12,
+    "occlusionIndependent": true,
+    "sources": [
+      "loose and placed item pickups",
+      "harvest-ready field crops",
+      "available gathering resources",
+      "ready fruit trees",
+      "visible manure piles"
+    ],
+    "glintsPerObject": 1,
+    "referenceHalfSizeAt720p": 7,
+    "mobileSizeMultiplier": 1.2,
+    "fullVisibilityRadiusFraction": 0.8,
+    "twinklePeriodSeconds": 5,
+    "twinkleDurationSeconds": 0.85,
+    "interactionReachChanged": false,
+    "minimumOpacity": 0,
+    "maximumOpacity": 1,
+    "persistentBaseMarker": false,
+    "quietIntervalSeconds": 4.15
+  },
+  "checks": {
+    "runtimeCompilation": "PASS",
+    "editorCompilation": "PASS",
+    "cropStageTests": "PASS 4829 crop debug checks; 21 authored crop schedules. Engine boundaries stubbed; no Play Mode.",
+    "interactionOwnerAndRangeAssertions": 48,
+    "distanceFadeAssertions": 641,
+    "assetIntegration": 3296,
+    "promptProducersAudited": 41
+  },
+  "sourceHashes": {
+    "Assets/Nature  Paradaise/Script/Core/WorldInteractionVisuals.cs": "20cb707d643a81ca8016f36afa7da6229a2b1afa26546dc8b6e83a3933263ba3",
+    "Assets/Nature  Paradaise/Script/Core/CollectibleClueRules.cs": "812f84a9823f620aba6bdc28b193a1c76554d2a61f89218eb71cca318aa7789d",
+    "Assets/Nature  Paradaise/Script/Core/WorldInteractionPrompt.cs": "f7c166dabc23ed33e7977f7a2dce6a56671c0c8b0e0594d7306e3d623dbf5f36",
+    "Assets/Nature  Paradaise/Script/Player/Item/HoeTool.cs": "a23a8108f1d745bb19e2afdb977f4e1f943a4639c4dbf96e8eb536bdcd3614f3",
+    "Assets/Nature  Paradaise/Script/World/Field/FieldCropView.cs": "c3fcc07d4138f65245851a167b5abc0560ef657c704bfda4885d9a5ec9d3a4ca",
+    "Assets/Nature  Paradaise/Material/WorldInteractionClue.shader": "f2ea5e18ce24989e6a5b1d0a03867555cb3c4ba1dd19786e6fce937279b0871a",
+    "Assets/Nature  Paradaise/Resources/UI/Interaction/WorldInteractionClue.mat": "428662851a6e651ed7bea833c262c300c9660049c59ecacecda9b9c93d1b189a",
+    "Assets/Nature  Paradaise/Resources/Profiles/Farming/Onion Crop.asset": "8ce375840121c8a0371c201dc371cae3bcf460891ce448c8bf371fc24e1a4616",
+    "Assets/Nature  Paradaise/Resources/Profiles/Farming/Radish Crop.asset": "82368fc4796d22a6e8c1cd410856c94cfd5b1bf76d34bc9e10a6145ad811441c",
+    "Tests/InteractionTargetTests.cs": "3edcde6dd4d10f7d4851a0e970df7b8007fd9b8f679a899ada8646c7a24a98b8",
+    "Tests/CollectibleClueRulesTests.cs": "7fa38301762a27cd6aff456ca5b4ec5a71576dcb9983a55b79bd61f4fd7a1d77"
+  },
+  "unityVisualPlayMode": "NOT_RUN_BY_AGENT",
+  "note": "Code/stub/asset checks do not establish live rendering; the user Editor is left under user control.",
+  "targetRingStyle": {
+    "strokeWidthMetres": 0.022,
+    "maximumOpacity": 0.55,
+    "halo": false,
+    "opacityPulse": false
+  }
+}

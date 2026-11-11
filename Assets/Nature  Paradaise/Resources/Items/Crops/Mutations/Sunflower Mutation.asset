@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Sunflower Mutation
+  m_EditorClassIdentifier: 
+  itemId: item.sunflower_mutation
+  itemName: Bunga Matahari Mutasi
+  icon: {fileID: 21300000, guid: 01bcdf3751da455991795d4a2d679de5, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: 01bcdf3751da455991795d4a2d679de5, type: 3}
+  inventoryDescription: Hasil panen Bunga Matahari. Mutasi langka; harga mengikuti aturan mutasi.
+  buyPrice: 0
+  sellPrice: 12
+  category: 2
+  feedKind: 0
+  isAnimalProduct: 0
+  isKeyItem: 0
+  isNotSellable: 0
+  requiresSellConfirmation: 0
+  maxStack: 16
+  equippedTool: 0
+  animalMedicineLevel: 0
+  seedCrop: {fileID: 0}
+  fertilizerLevel: 0
+  requiredVillageLevel: 1
+  soilRestoreAmount: 0
+  soilRestorationDays: 0
+  cropBoosterLevel: 1
+  cropBoosterDurationDays: 1
+  isMutatedCrop: 1
+  cropBoosterPercent: 0
+  canDropToWorld: 1
+  canPlaceInWorld: 0
+  worldPrefab: {fileID: 100, guid: 78a55354cc214e7eafcdd64efbda4870, type: 3}
+  worldScale: {x: 0.4, y: 0.4, z: 0.4}
+  sprinklerLevel: 0
+  treeDefinition: {fileID: 0}
+  isEdible: 0
+  foodPreparation: 0
+  healthRestore: 0
+  staminaRestore: 0
+  hungerRestore: 0
+  refrigeratorCategory: 0
+  storageDestination: 0
+  increasesStaminaTier: 0
+  fishingBaitLevel: 0
+  baitBiteSpeedBonus: 0
+  baitUncommonWeightMultiplier: 1
+  baitRareWeightMultiplier: 1
+  baitLegendaryWeightMultiplier: 1
+  baitJunkReduction: 0
+  requiredFishingLevel: 1
+  mutationSourceItem: {fileID: 11400000, guid: 113bbdc66bdf4951a7c7f41f5793ffdc, type: 2}

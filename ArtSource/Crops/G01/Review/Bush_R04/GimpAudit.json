@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "masters": [
+    {
+      "atlas": "NP_Plants_Berries_Source_01",
+      "map": "BaseColor",
+      "layers": 14,
+      "size": [
+        1024,
+        512
+      ]
+    },
+    {
+      "atlas": "NP_Plants_Berries_Source_01",
+      "map": "Normal",
+      "layers": 4,
+      "size": [
+        1024,
+        512
+      ]
+    },
+    {
+      "atlas": "NP_Plants_Raspberry_Source_01",
+      "map": "BaseColor",
+      "layers": 11,
+      "size": [
+        1024,
+        512
+      ]
+    },
+    {
+      "atlas": "NP_Plants_Raspberry_Source_01",
+      "map": "Normal",
+      "layers": 5,
+      "size": [
+        1024,
+        512
+      ]
+    }
+  ],
+  "changedSurfaces": [
+    "BlueberryLeaf",
+    "BlackberryLeaf",
+    "RaspberryLeaf"
+  ],
+  "surfaceMaskUnchanged": true
+}

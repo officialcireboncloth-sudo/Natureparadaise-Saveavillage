@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "checks": 9615,
+  "meshes": 380,
+  "prefabs": 190,
+  "runtimeMaterials": 1,
+  "atlasSize": [
+    4096,
+    4096
+  ],
+  "surfaces": 154,
+  "freePercent": 3.41,
+  "protectedFiles": 2635,
+  "primaryTexturePixelsRetained": true,
+  "geometryAndGuidsRetained": true,
+  "textureMetrics": {
+    "BaseColor": {
+      "sha256": "dc1d983d43687b0aca6ca084184705cc9a1a59eb384c32df9731aca04cddeff6",
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    "Normal": {
+      "sha256": "10291f4be56531ed10577c0c8a51a11ac6f04619c4a6ac8817e105df2ced6223",
+      "size": [
+        4096,
+        4096
+      ]
+    },
+    "SurfaceMask": {
+      "sha256": "b27c7919edfef941dcfb1bb83d735dbf275c3d570d2972e27fdbcab971597b9b",
+      "size": [
+        4096,
+        4096
+      ]
+    }
+  },
+  "futureCapacity": "Remaining groups simulated without moving existing allocations",
+  "unityPlayMode": "NOT_RUN_BY_AGENT",
+  "mobileProfiling": "NOT_RUN",
+  "sourceHashes": {
+    "ArtSource/Crops/Scripts/finalize_unified_plant_atlas.py": "99ae82d44e92edecbd8d1c9c8c91c28d2c1141848e72bf78ca5992f7c26f2608",
+    "ArtSource/Crops/Scripts/prepare_unified_plant_atlas.py": "387e96a075bcc6385ddafee4a027a278fa1eab356bef2678ce1fe8c68c118e9b",
+    "ArtSource/Crops/Scripts/publish_unified_plant_atlas.py": "1d72f6fb49f405d4d87af5ac1833c945f53e4ef13f477d28aad234d3a58f6c6b",
+    "ArtSource/Crops/Scripts/render_unified_plant_atlas.py": "9d4c18a7ef4562d41e94abd2ee41a4924d8fcc9f3fa915aa314ca7b26f2a5df0",
+    "ArtSource/Crops/Scripts/review_unified_plant_atlas_gimp.py": "dd83e7a10ba5d8a2aff35c768fb1b95e7cc95b5b50a9931a401deb3e8069c19f",
+    "ArtSource/Crops/Scripts/unified_plant_atlas.py": "95f981e9e6e682bc71637b6a3e17d40e71b6b62ef8b8c2a8f3cda104319c2718",
+    "ArtSource/Crops/Scripts/verify_unified_plant_atlas.py": "2faeb0777ba7834d9b0db2e2733ab5ef625644ffebe4121ebdcc40aa58406d6f",
+    "ArtSource/Crops/Scripts/prepare_plant_unity.py": "ca1b6606aaae4823ae97b4237e15de7f454034c28536680ad2c6c8d2a530321a",
+    "ArtSource/Crops/Scripts/plant_library.py": "81364e5c1e094ce07ae36f8752f29419d621c4d0fc27be74ec760595a383876c",
+    "ArtSource/Crops/Scripts/audit_crop_extension.py": "175150c56abb8606f67ba048731df7100f69b936268ea2f0743731ef30a357de",
+    "ArtSource/Crops/Scripts/compile_crop_integration.py": "4cf24093e924585bab6594edc2ef1b51a56dfd4e1c7f78bff42284fe930e877a"
+  }
+}

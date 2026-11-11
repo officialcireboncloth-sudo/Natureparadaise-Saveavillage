@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Wheat Mutation
+  itemId: item.wheat_mutation
+  itemName: Gandum Mutasi
+  category: 3
+  buyPrice: 0
+  sellPrice: 4
+  maxStack: 99
+  canDropToWorld: 1
+  refrigeratorCategory: 5
+  icon: {fileID: 21300000, guid: bf9fb086f99048878be8962ae9c15d2c, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: bf9fb086f99048878be8962ae9c15d2c, type: 3}
+  worldPrefab: {fileID: 100, guid: 062b715c7a384e5ea5a412162a49b8d9, type: 3}
+  inventoryDescription: Hasil panen Gandum. Mutasi langka; harga mengikuti aturan mutasi.
+  mutationSourceItem: {fileID: 11400000, guid: d1060000000040008000000000000012, type: 2}
+  isMutatedCrop: 1

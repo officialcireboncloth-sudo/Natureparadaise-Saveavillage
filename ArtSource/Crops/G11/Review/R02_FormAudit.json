@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "revision": "G11 R02",
+  "checks": 3207,
+  "protectedFiles": 3112,
+  "forms": {
+    "BudForming": {
+      "leafTipHeightDifference": 0.07499998807907104,
+      "leafTipDepthDifference": 0.06599999964237213
+    },
+    "Ready": {
+      "leafTipHeightDifference": 0.07499998807907104,
+      "leafTipDepthDifference": 0.06599999964237213
+    }
+  },
+  "masterSha256": "87753481dbcf1770381f6665ac84a9c6214e6714837f25c92b2677fa9561c95d",
+  "technicalScope": "Actual closed forms, elliptical tips, curved/asymmetric leaves, registered surface revision, retained palette regions and binding scope; artistic match reviewed from model renders",
+  "sourceHashes": {
+    "ArtSource/Crops/Scripts/g11_r02_geometry.py": "7f7907efaa19b279dde068fe25c33c9c5ad3747f9198c66c517cae2655847f02",
+    "ArtSource/Crops/Scripts/paint_g11_r02_gimp.py": "36467d9aae14df3050831babf211e3ad21b80a6f002de4835961966695332ee3"
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "status": "PASS",
+  "newPackets": 9,
+  "newProduceSprites": 9,
+  "newMutationSprites": 9,
+  "seedMastersReopened": 9,
+  "produceMastersReopened": 9,
+  "source": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+  "sourceSha256": "471a248991c5ccfb357194cffa77a25638bb0e129692a089ba789bb100555cca",
+  "records": [
+    {
+      "plant": "radish",
+      "label": "LOBAK",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_radish.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_radish.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_radish.png",
+      "seedSha256": "63698065fcc2a44f96041af92109688173b59583f4095969b2e59660875d12e5",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        0,
+        0,
+        429,
+        429
+      ]
+    },
+    {
+      "plant": "onion",
+      "label": "BAWANG BOMBAY",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_onion.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_onion.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_onion.png",
+      "seedSha256": "5aec1431d922d315f90340d63b4559cd7a79760fcb43a3d8a041498947db6e94",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        429,
+        0,
+        389,
+        429
+      ]
+    },
+    {
+      "plant": "spinach",
+      "label": "BAYAM",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_spinach.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_spinach.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_spinach.png",
+      "seedSha256": "03e561063e024411b1bd2f8377dbfb070736e0629cc3de6c1c1f012907d498bc",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        818,
+        0,
+        436,
+        429
+      ]
+    },
+    {
+      "plant": "water_spinach",
+      "label": "KANGKUNG",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_water_spinach.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_water_spinach.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_water_spinach.png",
+      "seedSha256": "81bb0ba7d9dd18a67641a42dc1bd6364e419a6c65bd29e964a655a7ccd7a9816",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        0,
+        429,
+        429,
+        376
+      ]
+    },
+    {
+      "plant": "rice",
+      "label": "PADI",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_rice.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_rice.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_rice.png",
+      "seedSha256": "d3c5f634065cca3c9ce16e781dd9fa6b5d688a584619137fbc6201474dbae58d",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        429,
+        429,
+        389,
+        376
+      ]
+    },
+    {
+      "plant": "wheat",
+      "label": "GANDUM",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_wheat.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_wheat.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_wheat.png",
+      "seedSha256": "0fa70b7995da1897fd0be0afa230e85017911a0009b4ae5ffc552d91b3fef7f0",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        818,
+        429,
+        436,
+        376
+      ]
+    },
+    {
+      "plant": "rose",
+      "label": "MAWAR",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_rose.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_rose.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_rose.png",
+      "seedSha256": "76dc2e57c9455e2f9531008bfe82cf99a2a1c4e145054ea91739ee392117e704",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        0,
+        805,
+        429,
+        449
+      ]
+    },
+    {
+      "plant": "hibiscus",
+      "label": "KEMBANG SEPATU",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_hibiscus.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_hibiscus.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_hibiscus.png",
+      "seedSha256": "a5f3f34c099d199ebcb0321c4e037997a96aca717cf4f82ab425f43dc06c326c",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        429,
+        805,
+        389,
+        449
+      ]
+    },
+    {
+      "plant": "jasmine",
+      "label": "MELATI",
+      "size": [
+        256,
+        256
+      ],
+      "seedMaster": "ArtSource/UIIcons/Seeds/Masters/Seed_jasmine.xcf",
+      "produceMaster": "ArtSource/UIIcons/Seeds/Masters/Crop_jasmine.xcf",
+      "layers": 22,
+      "seed": "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_jasmine.png",
+      "seedSha256": "0a2a2230ecb27689b4b0b5ace64dfe6c3fdf553cd2a593e341a5bada11bf096c",
+      "illustrationSource": "ArtSource/UIIcons/Seeds/Generated/G06_G09_Illustrations.png",
+      "atlasCell": [
+        818,
+        805,
+        436,
+        449
+      ]
+    }
+  ]
+}

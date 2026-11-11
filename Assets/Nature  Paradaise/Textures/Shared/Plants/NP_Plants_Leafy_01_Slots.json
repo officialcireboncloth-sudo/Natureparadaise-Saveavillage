@@ -1,0 +1,192 @@
+{
+  "name": "NP_Plants_Leafy_01",
+  "colorSize": [
+    2048,
+    2048
+  ],
+  "normalSize": [
+    2048,
+    2048
+  ],
+  "maskSize": [
+    2048,
+    2048
+  ],
+  "revision": "G07 R02",
+  "surfaceMaskChannels": {
+    "R": "metallic zero",
+    "A": "smoothness"
+  },
+  "slots": [
+    {
+      "name": "LeafOrchid",
+      "index": 0,
+      "pixelRectTopLeft": [
+        0,
+        0,
+        1024,
+        1024
+      ],
+      "uvSafe": [
+        0.01171875,
+        0.51171875,
+        0.48828125,
+        0.98828125
+      ],
+      "smoothness": 0.52
+    },
+    {
+      "name": "LeafWaterSpinach",
+      "index": 1,
+      "pixelRectTopLeft": [
+        1024,
+        0,
+        1024,
+        1024
+      ],
+      "uvSafe": [
+        0.51171875,
+        0.51171875,
+        0.98828125,
+        0.98828125
+      ],
+      "smoothness": 0.46
+    },
+    {
+      "name": "LeafYoungSpinach",
+      "index": 2,
+      "pixelRectTopLeft": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.005859375,
+        0.255859375,
+        0.244140625,
+        0.494140625
+      ],
+      "smoothness": 0.45
+    },
+    {
+      "name": "LeafYoungWaterSpinach",
+      "index": 3,
+      "pixelRectTopLeft": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.255859375,
+        0.255859375,
+        0.494140625,
+        0.494140625
+      ],
+      "smoothness": 0.43
+    },
+    {
+      "name": "StemPale",
+      "index": 4,
+      "pixelRectTopLeft": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.505859375,
+        0.255859375,
+        0.744140625,
+        0.494140625
+      ],
+      "smoothness": 0.4
+    },
+    {
+      "name": "HollowStem",
+      "index": 5,
+      "pixelRectTopLeft": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.755859375,
+        0.255859375,
+        0.994140625,
+        0.494140625
+      ],
+      "smoothness": 0.24
+    },
+    {
+      "name": "SeedTan",
+      "index": 6,
+      "pixelRectTopLeft": [
+        0,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.005859375,
+        0.005859375,
+        0.244140625,
+        0.244140625
+      ],
+      "smoothness": 0.18
+    },
+    {
+      "name": "SeedBrown",
+      "index": 7,
+      "pixelRectTopLeft": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.255859375,
+        0.005859375,
+        0.494140625,
+        0.244140625
+      ],
+      "smoothness": 0.17
+    },
+    {
+      "name": "CutStem",
+      "index": 8,
+      "pixelRectTopLeft": [
+        1024,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.505859375,
+        0.005859375,
+        0.744140625,
+        0.244140625
+      ],
+      "smoothness": 0.36
+    },
+    {
+      "name": "LeafUnderside",
+      "index": 9,
+      "pixelRectTopLeft": [
+        1536,
+        1536,
+        512,
+        512
+      ],
+      "uvSafe": [
+        0.755859375,
+        0.005859375,
+        0.994140625,
+        0.244140625
+      ],
+      "smoothness": 0.3
+    }
+  ]
+}

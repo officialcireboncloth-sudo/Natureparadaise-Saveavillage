@@ -1,0 +1,75 @@
+{
+  "group": "G13",
+  "status": "Prepared visual assets; existing crop profiles not modified",
+  "material": "NP_Plants_Unified_01",
+  "plants": {
+    "Lavender": [
+      {
+        "stage": "Seed",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G13\\NP_Lavender_Seed.prefab",
+        "guid": "aca90ce420254abdb51f7c155bb21d28",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Sprout",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G13\\NP_Lavender_Sprout.prefab",
+        "guid": "ecd4108bc6a7468a95b84cb191ea9b7d",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Young",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G13\\NP_Lavender_Young.prefab",
+        "guid": "94676392d6534d248433af12a6762a53",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "BudForming",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G13\\NP_Lavender_BudForming.prefab",
+        "guid": "0ad1f2c47fff4e2883ed1e7cf3a28ac1",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Ready",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G13\\NP_Lavender_Ready.prefab",
+        "guid": "23373f73c912451a9a73ffc28d2df8ff",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "stage": "Harvest",
+        "prefab": "Assets\\Nature  Paradaise\\Prefabs\\Crops\\G13\\NP_Lavender_Harvest.prefab",
+        "guid": "fa39973f872d4b87a68de5daf97165d6",
+        "fileID": 100,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "status": "APPLIED_SCOPED_EXTENSION",
+  "scope": "Seed and G01 produce artwork",
+  "authorizedChanges": {
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Crops/icon_crop_blueberry.png": {
+      "before": "ff851b97a222a08a7100be645c7349338e41cc664710ba9d831544291919eeec",
+      "after": "44f8001ba5ced5bb29b80c9cdbbb5febf0eda17a60b3b4cda00a618df01c0f8c"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Crops/icon_crop_blueberry_mutation.png": {
+      "before": "b7c5689a4b3b042cffa3a6f634c595755c7817591323598895c8f9dbd2990059",
+      "after": "6ccc27d489cd7e3517864ccb305434c1996a45c08be095e1004c06320502ab7e"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Crops/icon_crop_raspberry.png": {
+      "before": "580b77f41f489ccb36d24f9119fb9706b76c985a4055d2dbd07aaf12c726bc6d",
+      "after": "d27e2e12f92189e3662f4703d0b28b1b5cc3b261bf0cb9b3eeda6b03b8b6e309"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Crops/icon_crop_raspberry_mutation.png": {
+      "before": "14ef438318ed0570e54f61c1c9c5aebe9b4b67d37bf26ddc4212e6804d6b710a",
+      "after": "70e0b531e030aa33659952d79ed661f4abaae5dbc9b925a1a5b83c7794e29ff6"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Crops/icon_crop_blackberry.png": {
+      "before": "36735a750231a8f9b3329ee7bd1c527ada6298fb39eb8ec5a679bae5afc7a60e",
+      "after": "133895988cb30a081ef7d274343586b5cea2870442cff40b45df3a488d534e6f"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Crops/icon_crop_blackberry_mutation.png": {
+      "before": "a2936b44b2a5bf4223d2521e1aab99340ce86a8c7665e3312c25044e131674d6",
+      "after": "804e46b0dd63bdeb14e8b6db220c1acf7d3eb80c122152e0a9d0792ec827dfee"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_watermelon.png": {
+      "before": "78d2bf6550a3524e3a112088220ec5c2a8c0726538009b06eabea43475d0a7f8",
+      "after": "ecfef61ab8f5fbe25cdf0ed33c9ec555c0ebea3740ec5ed49c2b8c002fd45b22"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_melon.png": {
+      "before": "bbd7e8d94503b281db17fb054aff37ddd39a516a2463dc9bee3ab4a1900ec682",
+      "after": "8f8eb1964fa4dba26d52cd72c695fc95052291cdf81424c9e2ded7fc2dca90dd"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_zucchini.png": {
+      "before": "03e14cb836f4735a3beb9e130794eb77cead784f1e62ef56f23d52250e069fbb",
+      "after": "585f194a91a2091c3c85c8a2ae91f263524b308798f1151fb29049e0e565e4ea"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_cucumber.png": {
+      "before": "10efcdcc391929864e42d566f4bb7e26646eb2a2491269dbb0267edc29043bf6",
+      "after": "b10858b994a8668d56ba90fbe31ec27720a40519c8f963418ec78695e55b49ae"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_pea.png": {
+      "before": "85eb513a3ca403e4f6de3095a52b8f7171be35d2d4f84b920a1983971a48697c",
+      "after": "5b6b7e11d848e23cba0d89959a95594ad10ef81908a24138707e888c634e0c5a"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_kiwi.png": {
+      "before": "4024ee19b3f1acb38a4ba0c02fed00b97f0b29ce839c861921b27ddbfc17b723",
+      "after": "52e292b8f47ec72930ca486c5d109445051d9ef14d3f827657835a64dc2567e9"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_green_bean.png": {
+      "before": "a6edd6f2851ec536922c4f769cf85a4e4596634b97dba797dde14273dc7adc4d",
+      "after": "4e4fffa9305894d039da167b1cc80c760fa4aad55e4e841ce63b20277a05075f"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_chili_pepper.png": {
+      "before": "cd44e5a288033abe27e29889b26bc9556a47f1828ee787af3cd30c165dd03a9a",
+      "after": "7476e6f182a85a2d44788de396c956e98a42e73b1c88973dea03ccc905753015"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_eggplant.png": {
+      "before": "4a552214b36415dbd891b18afbeb346d1c8977e395bdca7f28e559461bfe33c1",
+      "after": "f7bd5519271ed9bd4277d645aa9a58b3a9ead3f5c3a50c307ed0f3e2105f194f"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_cabbage.png": {
+      "before": "41742dbbdb090284b872c9f733932d415673e55667565306fe1b28606f6b33a3",
+      "after": "66362f10d91a312c20f90c54db735a9f34d7e2439b2456a0a369e2d3444a1057"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_broccoli.png": {
+      "before": "7d34df48b9edd0cc8eea753c4e7860a3716b3d833f2310059f28b3417f1bc4cf",
+      "after": "a1d8dbde18e0c401f54367264945fecc90253ff7961b41c01404bc290d019c55"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_cauliflower.png": {
+      "before": "82c8457f46d6913f398408a4d6761d16a525c82a8656413abd2c9df74aab46dd",
+      "after": "e8be82a8cd2208c904558bf15770d3f963eff3fb4d568b89e159ed1e8b8221eb"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_radish.png": {
+      "before": "63698065fcc2a44f96041af92109688173b59583f4095969b2e59660875d12e5",
+      "after": "efe02d4bddcbd5a9758b48033f36b19dd317731f8f4b68396ca4dfc6e22c7749"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_onion.png": {
+      "before": "5aec1431d922d315f90340d63b4559cd7a79760fcb43a3d8a041498947db6e94",
+      "after": "eec933187bedf4176e2772374bed2d11106991898dfa041af7d9bb41d86f0189"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_spinach.png": {
+      "before": "03e561063e024411b1bd2f8377dbfb070736e0629cc3de6c1c1f012907d498bc",
+      "after": "e86f03be9786a5aee9c9025c267222143d02084964af1fca3c0a9ebfc21dab33"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_water_spinach.png": {
+      "before": "81bb0ba7d9dd18a67641a42dc1bd6364e419a6c65bd29e964a655a7ccd7a9816",
+      "after": "0fe7ae8570c89748b3e5c6f0c76d388c310d8b3dc615c0034403699dae670389"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_rice.png": {
+      "before": "d3c5f634065cca3c9ce16e781dd9fa6b5d688a584619137fbc6201474dbae58d",
+      "after": "aa42a7c3fe41988aa7c3750eb5eb8717bf28e2c0dcb802dd2e095554c1974dcc"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_wheat.png": {
+      "before": "0fa70b7995da1897fd0be0afa230e85017911a0009b4ae5ffc552d91b3fef7f0",
+      "after": "02a9638e8be0f01f5382624b40cb4425f1311fec9487272b61b75971013dc6ad"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_rose.png": {
+      "before": "76dc2e57c9455e2f9531008bfe82cf99a2a1c4e145054ea91739ee392117e704",
+      "after": "b88734adeaa3b0de2486b685a2a1c4ac69ae1347fadbce829972313c6e5ade29"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_hibiscus.png": {
+      "before": "a5f3f34c099d199ebcb0321c4e037997a96aca717cf4f82ab425f43dc06c326c",
+      "after": "abbad1c998b87d42b16240f968ec383c3217552352190e499f4389b92185e206"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_jasmine.png": {
+      "before": "0a2a2230ecb27689b4b0b5ace64dfe6c3fdf553cd2a593e341a5bada11bf096c",
+      "after": "01b0fcfd7af9bc6b0c919c5b689c9080a564cc9f714f41faedaa7eeb28f526e4"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_sunflower.png": {
+      "before": "6f9d90eec3f3d75505883fbd0b5daf2074512c21ffa57d3f0ecb0515167b8dfa",
+      "after": "2ebfc25a9ca5b0c07684551b9769e272b4ee98fb8be03736cf0112cff87a68f4"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_chrysanthemum.png": {
+      "before": "4c707f3a3b1fcf070a5d0f2f9e9b253d437fd8ce0537ca0da9ed2489833e8481",
+      "after": "d22053ea2e9c1aeaa9afc04534f0838bba4393f304fefd255b29a1cd05ab8e8c"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_dahlia.png": {
+      "before": "2dda797db8cfc13091d9b57c3bb7a0bbc6f96574b8940307cc2408553e7977b1",
+      "after": "d03758e4f048255ac14bdaecc655eaa29f2cc8b60b2fb8418553db54fc6d813f"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_marigold.png": {
+      "before": "04820953d78c905408afd2134ce9a6b37fa6943e72c6d1ec999939537fdf53ab",
+      "after": "d0741061d4e41896f519e7ced684425e3360febeb3edb3ae3fd8438772902fc8"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_tulip.png": {
+      "before": "e0a0c1e66daf6b346408ba3507dee4e33f00cdfdbc3236d5b9539fb694e836a5",
+      "after": "f6478df954e0c263195ebafe4f9a4ec529b1699a20585a1130f8e66468b80667"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_orchid.png": {
+      "before": "d424b024c73c0547887b1e4df675ad60a40aa3099ccdb4583c0ab813f5451b41",
+      "after": "59720ae511106e71728f8002e1aa4f0677196007cabe13115d696841c73675cb"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_lavender.png": {
+      "before": "210080e2efde6eb3a8ec3040e5092ba0eb2394318129ca3af2858b99350e01d9",
+      "after": "1cb7613d1742b26c462726d43db587e2f4f31cefb6cb98ba51dcc81d05cc09ff"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_blueberry.png": {
+      "before": "1d8385b275af27e71dac294e79bd5045fc450466fd017c84ea8e8d574acacfc8",
+      "after": "5d70040253b19e5a967261f07b41a032e960954be44fe83913e5104454c8eb80"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_blackberry.png": {
+      "before": "e05a4c8862fce6e93fc435be6500a2bc416f982e0378493d8932484e6323804e",
+      "after": "44b26605f3bed20a910fbcdcb206a9b50b773922b596e16936ed3eef31e390f9"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_raspberry.png": {
+      "before": "f25d92143725ca7c1918b1614c576e2605a93c5b4e72a63c2ab5d68a3ed08e31",
+      "after": "44c439368a22a473d16b6a2b7f820124179d3e6e2985f2839f3121ae9510ed92"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_daisy.png": {
+      "before": "2933c28e629c44502fff7efaaefc16006741a631be3c0e8e536d4c4d8f0df655",
+      "after": "62e82b50b25622e1e4ee1c129772f5ef4b26fd7dcd833412e8386732e53ff985"
+    },
+    "Assets/Nature  Paradaise/Textures/UI/Icons/Seeds/icon_seed_moonflower.png": {
+      "before": "50b46455ad90cdd48c13227cf11fd8ec2fc0fe738491bd7afc4d5aadfcfce1af",
+      "after": "09c361b428ab46119a9ec4e9941b1e6910c97f74ae4d4c87e5ebe5d51d1f63b9"
+    }
+  }
+}

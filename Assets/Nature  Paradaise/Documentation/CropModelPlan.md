@@ -1,8 +1,18 @@
+G01 R05: profil daun Raspberry/Blackberry diukur dari gambar pengguna dan diberi gerigi kecil terarah; kontur dipertahankan pada near mesh. Warna/normal daun Blueberry dipulihkan persis dari sumber sebelum R04. Ranting, bunga, buah dan geometri Blueberry tetap; satu atlas/material dengan 153 permukaan lain serta ikon tetap. Bukti: ArtSource/Crops/G01/Review/Leaf_R05/Completion.json. Catatan berikut merupakan riwayat.
+
+G01 R04: tajuk berry lebih rapat melalui batang melengkung dan ranting pendek yang tersambung; daun Rubus berkelompok tiga, tekstur daun dibedakan per jenis, buah tersebar dalam kedalaman. Tetap satu atlas/material dan 154 alokasi; hanya tiga permukaan daun direvisi, 151 permukaan lain serta ikon, item dan balance tetap. Bukti: ArtSource/Crops/G01/Review/Bush_R04/Completion.json. Catatan berikut merupakan riwayat.
+
+G01 R03: bentuk/proporsi daun, UV urat daun, sudut dan arah daun ketiga berry diperbaiki. Blueberry pada tanaman dikecilkan menjadi 84% dan tangkainya disambung ulang. Atlas/material yang sama dipakai; piksel atlas, ikon dan binding 31 crop tetap. Bukti terbaru: ArtSource/Crops/G01/Review/Leaf_R03/Completion.json. Catatan berikut merupakan riwayat sebelumnya.
+
+Status G01 R02 (2026-11-11): Blueberry, Raspberry dan Blackberry lengkap. Seluruh 31 tanaman sudah terhubung ke profil, hasil normal/mutasi dan toko Benih, dengan 156 binding fase dan 93 sprite. Semua 380 mesh dan 190 prefab memakai satu atlas/material NP_Plants_Unified_01. Raspberry memakai daun bergerigi dalam ruang, 53 butiran per buah dan rongga panen 3D. Sebanyak 30 crop serta 146 alokasi/piksel atlas sebelumnya dipertahankan. Bukti: ArtSource/Crops/Integration/G01_Raspberry_Completion.json. Kompilasi/audit lulus; Unity Editor, Play Mode dan profiling HP belum dijalankan. Catatan di bawah adalah riwayat.
+
+Status G01: Blueberry dan Blackberry sudah dibuat dari referensi dan dihubungkan ke profil, bibit paper bag, hasil normal/mutasi dan toko. Total 30/31 tanaman bereferensi, 151 binding fase, 90 sprite, 368 mesh dan 184 prefab; semua memakai satu atlas/material NP_Plants_Unified_01. Seluruh 28 crop sebelumnya dan 134 alokasi UV/piksel atlas dipertahankan. Raspberry masih menunggu referensinya karena lampiran Blueberry terkirim dua kali. Lihat ArtSource/Crops/Integration/G01_Completion.json dan ArtSource/Crops/G01/README.md. Kompilasi serta audit file/aturan crop terpisah dari Editor, Play Mode dan profiling HP.
+
 # Rencana model dan atlas tanaman field
 
 Tanggal audit: 8 November 2026. Sumber: daftar tanaman awal, 20 gambar Part 1, 11 gambar Part 2, serta aset project yang diperiksa pada tanggal ini.
 
-Status terkini: G02, G03, G04 dan G05 sudah terhubung ke 12 profil tanaman gameplay, item bibit/hasil panen dan katalog toko bibit. Ikon kemasan kertas 256px dibuat di GIMP. Lihat `CropGameplayIntegration.md` untuk binding, nilai awal CSV dan status validasi. Bagian di bawah menyimpan rencana serta catatan pengerjaan art sebelumnya.
+Status terkini: G02-G13 sudah terhubung ke 28 profil tanaman dan katalog toko bibit. Seluruh 344 mesh dan 172 prefab memakai satu atlas 4096 x 4096 dan satu material runtime `NP_Plants_Unified_01`, termasuk LOD serta hasil panen. G13 Lavender mengikuti referensi dengan daun sage bervolume dan sembilan kepala bunga ungu bertingkat; ikon bibit memakai paper bag yang sama. Data dan artwork 27 tanaman sebelumnya serta 130 alokasi UV/piksel atlas dipertahankan. G01 Blueberry, Raspberry dan Blackberry masih menunggu produksi. Lihat `ArtSource/Crops/G13/README.md`, `ArtSource/Crops/Integration/G13_Completion.json` dan `ArtSource/Crops/Unified/README.md`. Pemeriksaan file/compiler terpisah dari Unity Editor, Play Mode dan profiling HP. Bagian berikut menyimpan rencana dan riwayat art.
 
 ## 1. Jumlah dan cakupan
 
@@ -262,3 +272,47 @@ Aset visual: `mesh/Crops/G02/` dan `Prefabs/Crops/G02/` di root project Nature P
 Laporan: `ArtSource/Crops/G02/Review/ArtAudit.json` dan `BlenderReopenAudit.json`.
 
 Total art tanaman yang disiapkan: 6 dari 31 referensi bergambar (G05 + G02). Profil/balance/gameplay aktif belum ditambah oleh batch model ini.
+
+## 12. G06: Radish dan Onion
+
+G06 mengikuti dua referensi yang diunggah ulang pengguna. Masing-masing memiliki Seed, Sprout, Young, RootForming/BulbForming, Ready, Harvest, ditambah model potongan setengah. Ada 14 model dasar, 14 LOD1 dan 14 prefab visual. Master berada di `ArtSource/Crops/G06/Blender/G06_RootVegetables_Master.blend`.
+
+Daun Radish lebar berlekuk dan melengkung; umbi bulat merah-putih memiliki akar runcing. Onion mempunyai tunas melingkar, daun tabung berongga, kulit keemasan berserat, akar serabut krem serta leher kering pada hasil panen. Kanopi diperiksa melalui render depan/samping/belakang/atas. Detail halus memakai tekstur/normal terdaftar.
+
+Batch ini memakai tujuh slot Trellis 2048 yang sebelumnya tidak digunakan G03/G04 dan mempertahankan pixel di luar slot, koordinat UV serta aset grup sebelumnya. Source Blender/GIMP dan laporan pemeriksaan disimpan bersama struktur tanaman existing. Lihat `ArtSource/Crops/G06/README.md` untuk daftar keluaran dan pembuatan ulang.
+
+Total model tanaman yang telah disiapkan menjadi **14 dari 31** (G02, G03, G04, G05, G06). Integrasi gameplay tetap mencakup 12 tanaman G02-G05; G06 masih berupa aset visual. Import melalui Unity Editor dan Play Mode untuk G06 belum dijalankan.
+
+## 13. G07: Spinach dan Water Spinach
+
+G07 mengikuti dua gambar referensi bayam dan kangkung yang diunggah langsung pengguna. Setiap tanaman memiliki Seed, Sprout, Young, LeafGrowth, Ready dan Harvest. Dua model tambahan menyediakan daun bayam lepas serta ranting kangkung dengan dua daun. Total 14 model dasar, 14 LOD1 dan 14 prefab visual disimpan dalam struktur G07.
+
+Bayam berupa roset rendah dengan daun oval lebar, halus dan melengkung. Kangkung berupa rumpun lebih tinggi dengan daun lanset, ruas, percabangan dan ujung batang panen berongga secara geometris. Daun disusun radial, warna serta urat tersimpan pada albedo/normal terdaftar, dan volume diperiksa lewat empat arah. Revisi R02 memakai atlas independen NP_Plants_Leafy_01 berukuran 2048, dengan dua daerah daun 1024 dan delapan daerah pendukung 512. Daun bayam dibuat lebih berisi, warna/urat memakai sumber baru yang terdaftar, dan batang kangkung menjadi tipis serta melengkung dengan bekas ruas halus. Atlas Trellis dikembalikan persis ke keadaan sebelum G07.
+
+Master: `ArtSource/Crops/G07/Blender/G07_LeafyVegetables_Master.blend`. Preview tahap, empat arah, panen serta detail berada di `ArtSource/Crops/Previews/G07_*.png`. Daftar keluaran dan pembuatan ulang ada di `ArtSource/Crops/G07/README.md`.
+
+Total tanaman dengan model menjadi **16 dari 31**. Integrasi gameplay masih mencakup 12 tanaman G02-G05; G06 dan G07 berupa aset visual yang telah disiapkan. Import melalui Unity Editor dan Play Mode G07 belum dijalankan.
+
+## 14. G08: Rice dan Wheat
+
+G08 mengikuti dua referensi padi dan gandum dari pengguna, dengan arahan model tegas, detail jelas dan warna hidup. Masing-masing mempunyai Seed, Sprout, Young, Heading, Ready dan Harvest. Tiga model tambahan menyediakan tumpukan sekam padi, beras putih dan biji gandum. Total 15 model dasar, 15 LOD1 dan 15 prefab visual.
+
+Padi memakai lima malai bercabang dan merunduk, dengan sekam beralur individual pada pedisel halus. Gandum memakai tiga kepala hijau pada Heading dan enam kepala tegak keemasan pada Ready, dengan spikelet berisi, belahan biji dan serabut halus. Rumpun memiliki daun pita terlipat yang disusun radial, daun pangkal rapat dan posisi kepala yang tersebar. Hasil panen masing-masing mempunyai tiga tangkai potong.
+
+Revisi R02 menyelaraskan sumbu kepala gandum Heading/Harvest dengan ujung batang, merapikan pangkal/pucuk bulir dan menyusun tangkai panen sebagai satu berkas. Tahap dan tanaman lain serta atlas dipertahankan; preview sebelum-sesudah dan tiga arah disimpan sebagai `G08_Wheat_R02_*.png`.
+
+Atlas independen `NP_Plants_Cereal_01` berukuran 2048, dengan 16 daerah 512px dan inset UV 16px. Sumber warna serat baru dipadukan dengan detail alur terdaftar di GIMP. Tiga map packed berada dalam master Blender. Halaman atlas dan sumber grup sebelumnya dipertahankan.
+
+Master: `ArtSource/Crops/G08/Blender/G08_Cereals_Master.blend`. Preview: `ArtSource/Crops/Previews/G08_*.png`. Panduan sumber, keluaran, pemeriksaan dan pembuatan ulang: `ArtSource/Crops/G08/README.md`.
+
+Total tanaman dengan model yang disiapkan menjadi **18 dari 31**. Integrasi gameplay tetap mencakup 12 tanaman G02-G05. G06-G08 masih berupa aset visual; import Unity Editor dan Play Mode G08 belum dijalankan.
+
+## 15. G09: Rose, Hibiscus dan Jasmine
+
+G09 mengikuti tiga gambar referensi langsung dari pengguna dengan prioritas bentuk tegas, detail tekstur jelas dan warna hidup. Setiap jenis mempunyai Seed, Sprout, Young, BudForming, Ready dan Harvest. Total 18 model dasar, 18 LOD1 dan 18 prefab visual.
+
+Mawar memakai kelopak merah berlapis, hati spiral tergulung, daun majemuk bergerigi dan duri. Hibiscus memakai lima kelopak merah bercorong, kolom benang sari kuning dan lima ujung stigma merah. Jasmine memakai semak oval hijau dengan bunga putih krem berlapis serta kuncup lancip. Jumlah bunga matang adalah tiga Rose, tiga Hibiscus dan lima Jasmine; hasil potong mempunyai satu, satu dan dua bunga. Tangkai dan calyx diselaraskan secara geometris.
+
+Atlas baru `NP_Plants_ShrubFlowers_01` berukuran 2048, dengan 16 daerah 512px. Serat kelopak dan urat daun memakai sumber baru dalam tiga master GIMP berlapis. Seluruh halaman atlas dan aset lama dipertahankan. Master Blender berisi tiga map packed di `ArtSource/Crops/G09/Blender/G09_FloweringShrubs_Master.blend`; panduan dan laporan berada di grup G09, dan preview di `ArtSource/Crops/Previews/G09_*.png`.
+
+Total model tanaman yang disiapkan menjadi **21 dari 31**. Integrasi gameplay tetap mencakup 12 tanaman G02-G05. G09 adalah batch aset visual; import Unity Editor dan Play Mode belum dijalankan.
