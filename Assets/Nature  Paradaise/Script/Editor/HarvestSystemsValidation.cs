@@ -74,6 +74,17 @@ public static class HarvestSystemsValidation
             Empty(bag);Check(tree.TryHarvestFruit(bag),"Actual five-star fruit harvest succeeds");
             Check(bag.GetCount(normal)==19&&bag.GetCount(mutant)==1&&bag.slots.Where(s=>s?.item==normal||s?.item==mutant).All(s=>s.qualityStars==5),"Actual tree yields 19 normal plus one five-star mutation");
             Check(progress.Care.days==0&&!progress.Care.mutationRollReady&&progress.fruitStage==TreeFruitStage.Flowering,"Harvest starts fresh care and fruit interval");
+            definition.fruitSeasons = CropSeason.None;
+            Check(tree.DebugAdvanceFruitStage(false) && progress.fruitStage == TreeFruitStage.Growing,
+                "Debug advances one fruit visual stage");
+            Check(tree.DebugAdvanceFruitStage(true) && tree.IsHarvestHintAvailable && progress.Care.days == 0,
+                "Debug readies fruit outside the season without counting skipped days as care");
+            Empty(bag);
+            Check(tree.TryHarvestFruit(bag) && bag.GetCount(normal) == 5,
+                "Debug fruit uses the normal manual harvest and yield");
+            progress.fruitStage = TreeFruitStage.Ready;
+            Check(!tree.IsHarvestHintAvailable && !tree.TryHarvestFruit(bag),
+                "The seasonal debug permission ends after a single harvest");
             Debug.Log("[HARVEST VALIDATION] PASS "+checks+" native integration checks");
         }
         finally

@@ -48,6 +48,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     Inventory inventory;
     InventoryHotbarUI hotbarUI;
     PlayerController movement;
+    FarmingTool farming;
     GameObject heldVisual;
     GameObject previewVisual;
     Material previewMaterial;
@@ -58,6 +59,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     Vector3 placementPoint;
     Quaternion placementRotation = Quaternion.identity;
     bool placementValid;
+    bool hasTreePlacementTarget;
     float nextPreviewRefresh;
     bool actionBusy;
     bool animalCarrySuppressed;
@@ -72,6 +74,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         inventory = GetComponent<Inventory>();
         hotbarUI = GetComponent<InventoryHotbarUI>();
         movement = GetComponent<PlayerController>();
+        farming = GetComponent<FarmingTool>();
         EnsureHandAnchor();
     }
 
@@ -130,7 +133,8 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         }
         bool canDrop = CanDrop(selected);
         bool canPlace = CanPlace(selected);
-        if (previewVisual != null) previewVisual.SetActive(canPlace);
+        bool plantingTree = selected?.item?.treeDefinition != null;
+        if (previewVisual != null) previewVisual.SetActive(canPlace && (!plantingTree || hasTreePlacementTarget));
         if (rangePreview != null) rangePreview.SetActive(canPlace);
         if (!canDrop && !canPlace) return;
 
@@ -144,20 +148,35 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         // memakai interval terpisah agar prompt stabil tanpa menambah beban physics.
         RequestActionPrompt(selected.item, canDrop, canPlace);
 
-        if (canDrop && PlayerInteractionTarget.PressPrompt(this, dropKey)) DropSelected(GameplayInput.GetKey(wholeStackModifier));
-        else if (canPlace && PlayerInteractionTarget.PressPrompt(this, placeKey)) PlaceSelected(GameplayInput.GetKey(wholeStackModifier));
+        if (canDrop && PressHeldAction(dropKey, plantingTree))
+            DropSelected(GameplayInput.GetKey(wholeStackModifier));
+        else if (canPlace && (PressHeldAction(placeKey, plantingTree) ||
+                              plantingTree && PlayerInteractionTarget.PressAction(this, KeyCode.F)))
+            PlaceSelected(GameplayInput.GetKey(wholeStackModifier));
+    }
+
+    bool PressHeldAction(KeyCode key, bool treeSeedling) => treeSeedling
+        ? PlayerInteractionTarget.PressAction(this, key)
+        : PlayerInteractionTarget.PressPrompt(this, key);
+
+    bool CanRequestHeldAction()
+    {
+        bool treeSeedling = GetSelectedStack()?.item?.treeDefinition != null;
+        return treeSeedling ? WorldInteractionPrompt.AllowsAction(this) : WorldInteractionPrompt.IsDisplayedFor(this);
     }
 
     /// <summary>Dipakai UI mobile untuk menjatuhkan satu item atau seluruh stack.</summary>
-    public void RequestDrop(bool wholeStack = false) { if (WorldInteractionPrompt.IsDisplayedFor(this)) DropSelected(wholeStack); }
+    public void RequestDrop(bool wholeStack = false) { if (CanRequestHeldAction()) DropSelected(wholeStack); }
 
     /// <summary>Dipakai UI mobile untuk meletakkan satu item atau seluruh stack.</summary>
-    public void RequestPlace(bool wholeStack = false) { if (WorldInteractionPrompt.IsDisplayedFor(this)) PlaceSelected(wholeStack); }
+    public void RequestPlace(bool wholeStack = false) { if (CanRequestHeldAction()) PlaceSelected(wholeStack); }
+
+    bool CanStartHeldAction => isActiveAndEnabled && !actionBusy && (movement == null || !movement.IsMovementLocked);
 
     void DropSelected(bool wholeStack)
     {
         ItemStack stack = GetSelectedStack();
-        if (!CanDrop(stack) || UsesFeedingTrough(stack)) return;
+        if (!CanStartHeldAction || !CanDrop(stack) || UsesFeedingTrough(stack)) return;
         int amount = wholeStack ? stack.count : 1;
         ItemSO item = stack.item;
         Vector3 facing = GetFacing();
@@ -169,11 +188,14 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     void PlaceSelected(bool wholeStack)
     {
         ItemStack stack = GetSelectedStack();
-        if (!CanPlace(stack) || UsesFeedingTrough(stack)) return;
+        if (!CanStartHeldAction || !CanPlace(stack) || UsesFeedingTrough(stack)) return;
+        bool plantingTree = stack.item.treeDefinition != null;
         RefreshPlacementPreview(stack.item);
         if (!placementValid)
         {
-            SaveLoadFeedback.Instance?.ShowMessage("Permukaan tidak valid untuk menaruh item");
+            SaveLoadFeedback.Instance?.ShowMessage(plantingTree
+                ? hasTreePlacementTarget ? "Petak ini terisi, terkunci, atau terhalang." : "Hadap ke petak kebun untuk menanam bibit pohon."
+                : "Permukaan tidak valid untuk menaruh item");
             return;
         }
 
@@ -191,16 +213,20 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         float fishSizeCm,float fishWeightKg,Vector3 position,Quaternion rotation,Vector3 dropDirection)
     {
         actionBusy=true;
+        bool plantingTree = controlledPlace && item.treeDefinition != null;
+        if (plantingTree) movement?.FaceTowardsInteraction(position);
         movement?.AcquireMovementLock(this);
         movement?.SetHoldingItemAnimation(false);
-        movement?.PlayPlaceItemAnimation();
+        if (plantingTree) movement?.PlayPlantingAnimation();
+        else movement?.PlayPlaceItemAnimation();
         if(placeImpactDelay>0f) yield return new WaitForSeconds(placeImpactDelay);
 
         ItemStack current=GetSelectedStack();
-        if(current==null || current.item!=item || current.count<amount ||
+        bool treeTileAvailable = !plantingTree || CanStillPlantTree(position);
+        if(!treeTileAvailable || current==null || current.item!=item || current.count<amount ||
            !inventory.RemoveFromSlot(hotbarUI.SelectedIndex,amount))
         {
-            SaveLoadFeedback.Instance?.ShowMessage("Item yang dipegang sudah berubah");
+            SaveLoadFeedback.Instance?.ShowMessage(treeTileAvailable ? "Item yang dipegang sudah berubah" : "Petak sudah tidak bisa ditanami.");
             float failedRemaining=Mathf.Max(0f,placeActionDuration-placeImpactDelay);
             if(failedRemaining>0f) yield return new WaitForSeconds(failedRemaining);
             FinishPlaceAction();
@@ -227,7 +253,8 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         else if(item.IsSprinkler && FieldArea.TryGetAt(position,out FieldArea field,out _,out _))
             FarmPlacement.WaterField(field);
 
-        SaveLoadFeedback.Instance?.ShowMessage($"{(controlledPlace?"Place":"Drop")} {item.itemName} x{amount}");
+        SaveLoadFeedback.Instance?.ShowMessage(plantingTree ? $"{item.itemName} berhasil ditanam."
+            : $"{(controlledPlace?"Place":"Drop")} {item.itemName} x{amount}");
         float remaining=Mathf.Max(0f,placeActionDuration-placeImpactDelay);
         if(remaining>0f) yield return new WaitForSeconds(remaining);
         FinishPlaceAction();
@@ -243,6 +270,11 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
     void RefreshPlacementPreview(ItemSO item)
     {
         EnsurePreview(item);
+        if (item.treeDefinition != null)
+        {
+            RefreshTreePlacementPreview();
+            return;
+        }
         Vector3 desired = transform.position + GetFacing() * placementDistance;
         Vector3 origin = desired + Vector3.up * rayHeight;
         placementValid = Physics.Raycast(origin, Vector3.down, out RaycastHit hit, rayHeight * 2f, placementMask, QueryTriggerInteraction.Ignore);
@@ -275,6 +307,24 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         previewMaterial.color = placementValid ? validPreviewColor : invalidPreviewColor;
         RefreshRange(item);
     }
+
+    void RefreshTreePlacementPreview()
+    {
+        placementValid = hasTreePlacementTarget = false;
+        if (farming != null && farming.TryGetCurrentTile(out var field, out int x, out int z))
+        {
+            hasTreePlacementTarget = true;
+            placementPoint = field.PlantingSurfacePosition(x, z);
+            placementRotation = Quaternion.identity;
+            placementValid = farming.CanPlantTreeAt(field, x, z);
+            previewVisual.transform.SetPositionAndRotation(placementPoint, placementRotation);
+        }
+        previewVisual.SetActive(hasTreePlacementTarget);
+        previewMaterial.color = placementValid ? validPreviewColor : invalidPreviewColor;
+    }
+
+    bool CanStillPlantTree(Vector3 position) => farming != null &&
+        FieldArea.TryGetAt(position, out var field, out int x, out int z) && farming.CanPlantTreeAt(field, x, z);
 
     void RefreshRange(ItemSO item)
     {
@@ -330,6 +380,18 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         if (item == null)
             return;
 
+        if (item.treeDefinition != null && canPlace)
+        {
+            Transform treeAnchor = hasTreePlacementTarget ? previewVisual.transform : heldVisual?.transform;
+            string action = placementValid ? $"{placeKey} / F: tanam bibit pohon"
+                : hasTreePlacementTarget ? "Petak tidak bisa ditanami" : "Hadap ke petak kebun";
+            if (canDrop) action += $"  |  {dropKey}: jatuhkan";
+            float distance = hasTreePlacementTarget ? Vector3.Distance(transform.position, placementPoint) : 50f;
+            WorldInteractionPrompt.Request(this, treeAnchor, $"{item.itemName}\n{action}", distance, 0.65f,
+                placementValid ? () => RequestPlace() : null);
+            return;
+        }
+
         string actions;
         if (canDrop && canPlace)
             actions = $"{placeKey}: Place  |  {dropKey}: Drop";
@@ -368,7 +430,7 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
 
         EnsureHandAnchor();
         heldVisual = HeldItemVisuals.Create(item, handAnchor, $"Held_{item.itemName}");
-        if (item.treeDefinition != null) heldVisual.transform.localScale *= 0.15f;
+        if (item.treeDefinition != null && item.worldPrefab == null) heldVisual.transform.localScale *= 0.15f;
         heldVisual.transform.localPosition = Vector3.zero;
         heldVisual.transform.localRotation = Quaternion.identity;
         if(isHeldPitchfork)
@@ -413,7 +475,8 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         // Preview memakai model item asli supaya footprint dan orientasinya mudah dinilai.
         GameObject visual = CreateVisual(item, previewVisual.transform, $"PreviewMesh_{item.itemName}");
         visual.transform.localPosition = item.IsSprinkler ? Vector3.zero : Vector3.up * 0.35f;
-        if (item.treeDefinition != null) visual.transform.localPosition = Vector3.up * visual.transform.localScale.y * 0.5f;
+        if (item.treeDefinition != null)
+            visual.transform.localPosition = item.worldPrefab != null ? Vector3.zero : Vector3.up * visual.transform.localScale.y * 0.5f;
 
         Shader shader = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Sprites/Default");
         previewMaterial = new Material(shader);
@@ -511,6 +574,8 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         }
         previewVisual = null;
         previewMaterial = null;
+        placementValid = hasTreePlacementTarget = false;
+        nextPreviewRefresh = 0f;
     }
 
     static GameObject CreateVisual(ItemSO item, Transform parent, string objectName)
@@ -520,6 +585,8 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
 
     ItemStack GetSelectedStack()
     {
+        if (hotbarUI == null && TryGetComponent(out hotbarUI))
+            hotbarUI.SelectionChanged += HandleSlotChanged;
         if (inventory == null || hotbarUI == null) return null;
         return inventory.GetSlot(hotbarUI.SelectedIndex);
     }
@@ -582,11 +649,4 @@ public sealed class HeldItemPlacementSystem : MonoBehaviour
         HeldItemVisuals.NormalizeAnchor(handAnchor);
     }
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-    static void EnsureExists()
-    {
-        Inventory inventory = FindFirstObjectByType<Inventory>();
-        if (inventory != null && inventory.GetComponent<HeldItemPlacementSystem>() == null)
-            inventory.gameObject.AddComponent<HeldItemPlacementSystem>();
-    }
 }

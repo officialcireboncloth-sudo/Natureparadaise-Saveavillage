@@ -1,0 +1,300 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public enum AquariumSize : byte { Small, Medium, Large, Grand }
+
+[Serializable]
+public sealed class AquariumFishData
+{
+    public string itemId;
+    public string assetName;
+    public string itemName;
+    public int qualityStars;
+    public float sizeCm;
+    public float weightKg;
+}
+
+[Serializable]
+public sealed class AquariumSaveData
+{
+    public string aquariumId;
+    public AquariumSize size;
+    public string sceneName;
+    public Vector3 position;
+    public Vector3 eulerAngles;
+    public string background = "Blue";
+    public string substrate = "Gravel";
+    public string plant = "None";
+    public string rock = "None";
+    public string decoration = "None";
+    public List<AquariumFishData> fish = new();
+}
+
+/// <summary>Data seluruh Aquarium tetap hidup saat HouseInterior di-unload.</summary>
+public static class AquariumService
+{
+    static readonly Dictionary<string, AquariumSaveData> Records = new(StringComparer.OrdinalIgnoreCase);
+    public static event Action Changed;
+
+    public static AquariumSaveData GetOrCreate(string id, AquariumSize size, Transform owner)
+    {
+        if (!Records.TryGetValue(id, out AquariumSaveData record))
+        {
+            record = new AquariumSaveData { aquariumId = id, size = size };
+            Records[id] = record;
+        }
+        record.size = size;
+        if (owner != null)
+        {
+            record.sceneName = owner.gameObject.scene.name;
+            record.position = owner.position;
+            record.eulerAngles = owner.eulerAngles;
+        }
+        record.fish ??= new List<AquariumFishData>();
+        return record;
+    }
+
+    public static int Capacity(AquariumSize size) => size switch
+    { AquariumSize.Small => 5, AquariumSize.Medium => 10, AquariumSize.Large => 20, AquariumSize.Grand => 30, _ => 5 };
+
+    public static int GetStoredCount(ItemSO item) => item == null ? 0 : Records.Values.Sum(record =>
+        (record.fish ?? new List<AquariumFishData>()).Count(fish => fish != null &&
+            string.Equals(fish.itemId, item.Id, StringComparison.OrdinalIgnoreCase)));
+
+    public static List<AquariumSaveData> Capture() => Records.Values.Select(Clone).ToList();
+    public static void Restore(List<AquariumSaveData> saved)
+    {
+        Records.Clear();
+        foreach (AquariumSaveData data in saved ?? new List<AquariumSaveData>())
+            if (data != null && !string.IsNullOrWhiteSpace(data.aquariumId)) Records[data.aquariumId] = Clone(data);
+        Changed?.Invoke();
+    }
+    public static void NotifyChanged() => Changed?.Invoke();
+    public static void Clear() { Records.Clear(); Changed?.Invoke(); }
+
+    static AquariumSaveData Clone(AquariumSaveData source) => new()
+    {
+        aquariumId = source.aquariumId, size = source.size, sceneName = source.sceneName,
+        position = source.position, eulerAngles = source.eulerAngles,
+        background = source.background, substrate = source.substrate, plant = source.plant,
+        rock = source.rock, decoration = source.decoration,
+        fish = (source.fish ?? new List<AquariumFishData>()).Where(value => value != null).Select(value => new AquariumFishData
+        {
+            itemId = value.itemId, assetName = value.assetName, itemName = value.itemName,
+            qualityStars = value.qualityStars, sizeCm = value.sizeCm, weightKg = value.weightKg
+        }).ToList()
+    };
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatics() { Records.Clear(); Changed = null; }
+}
+
+/// <summary>Furniture Aquarium interaktif. Mesh root dapat diganti tanpa memindahkan data ikan.</summary>
+[DisallowMultipleComponent]
+public sealed class Aquarium : MonoBehaviour
+{
+    [SerializeField] string aquariumId;
+    [SerializeField] AquariumSize aquariumSize = AquariumSize.Medium;
+    [SerializeField, Range(1, 12)] int maximumVisibleFish = 10;
+    [SerializeField, Min(0.5f)] float interactionRadius = 2.6f;
+    [SerializeField] KeyCode interactKey = KeyCode.E;
+    [SerializeField, Min(0f)] float promptHeight = 1.5f;
+
+    readonly List<Transform> visualFish = new();
+    readonly List<Vector3> visualOrigins = new();
+
+    Inventory inventory;
+    PlayerController player;
+    AquariumSaveData record;
+    Transform visualRoot;
+    bool panelOpen;
+    float feedAnimationUntil;
+    string feedback = string.Empty;
+
+    public string AquariumId => aquariumId;
+    public int Capacity => AquariumService.Capacity(aquariumSize);
+    public int FishCount => record?.fish?.Count ?? 0;
+
+    void Awake()
+    {
+        if (string.IsNullOrWhiteSpace(aquariumId)) aquariumId = BuildStableId();
+        if (!Application.isPlaying) return;
+        ResolvePlayer(); ResolveRecord(); RebuildVisuals();
+    }
+    void OnEnable() { if (!Application.isPlaying) return; AquariumService.Changed += HandleServiceChanged; ResolveRecord(); RebuildVisuals(); }
+    void OnDisable() { if (!Application.isPlaying) return; AquariumService.Changed -= HandleServiceChanged; ClosePanel(); }
+
+    public void Configure(string id, AquariumSize size)
+    {
+        aquariumId = string.IsNullOrWhiteSpace(id) ? BuildStableId() : id;
+        aquariumSize = size;
+        if (Application.isPlaying) { ResolveRecord(); RebuildVisuals(); }
+    }
+
+    void Update()
+    {
+        AnimateFish(); ResolvePlayer();
+        if (inventory == null) return;
+        if (panelOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey)) ClosePanel();
+            return;
+        }
+        if (!CanInteract(inventory.transform)) return;
+        float distance = PlayerInteractionTarget.SurfaceDistance(inventory.transform, transform);
+        WorldInteractionPrompt.Request(this, transform, $"{interactKey}: Aquarium — {FishCount}/{Capacity} fish", distance, promptHeight);
+        if (PlayerInteractionTarget.PressPrompt(this, interactKey)) OpenPanel();
+    }
+
+    /// <summary>Nearby tank access must not cross the bedroom partition or other solid furniture.</summary>
+    public bool CanInteract(Transform actor)
+    {
+        if (!PlayerInteractionTarget.ContainsPickup(actor, transform, interactionRadius)) return false;
+        if (!Physics.Linecast(actor.position + Vector3.up * .9f, transform.position,
+            out RaycastHit hit, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore)) return true;
+        Transform obstacle = hit.collider.transform;
+        // The authored tank collider can live on the normalized interaction's parent.
+        return obstacle.IsChildOf(transform) || transform.IsChildOf(obstacle) || obstacle.IsChildOf(actor);
+    }
+
+    public void AddFish(int slotIndex)
+    {
+        ItemStack stack = inventory?.GetSlot(slotIndex);
+        if (stack?.item == null || stack.item.category != ItemCategory.Fish || FishCount >= Capacity) return;
+        ItemSO item = stack.item; int quality = stack.qualityStars; float size = Mathf.Max(1f, stack.fishSizeCm);
+        float weight = stack.fishWeightKg > 0f ? stack.fishWeightKg : FishMeasurement.EstimateWeightKg(item, size);
+        if (!inventory.RemoveFromSlot(slotIndex, 1)) return;
+        record.fish.Add(new AquariumFishData { itemId = item.Id, assetName = item.name, itemName = item.itemName,
+            qualityStars = quality, sizeCm = size, weightKg = weight });
+        feedback = $"{item.itemName} dimasukkan ke Aquarium."; Commit();
+    }
+
+    public void TakeFish(int index)
+    {
+        if (record?.fish == null || index < 0 || index >= record.fish.Count || inventory == null) return;
+        AquariumFishData fish = record.fish[index];
+        ItemSO item = ItemCatalog.Resolve(fish.itemId, fish.assetName, fish.itemName);
+        if (item == null) { feedback = "Asset ikan tidak ditemukan."; return; }
+        if (!inventory.CanAdd(item, 1, fish.qualityStars, fish.sizeCm, fish.weightKg)) { feedback = "Inventory penuh."; return; }
+        if (!inventory.Add(item, 1, fish.qualityStars, fish.sizeCm, fish.weightKg)) return;
+        record.fish.RemoveAt(index); feedback = $"{item.itemName} diambil kembali."; Commit();
+    }
+
+    void Commit()
+    {
+        record.position = transform.position; record.eulerAngles = transform.eulerAngles;
+        AquariumService.NotifyChanged(); RebuildVisuals();
+    }
+
+    void ResolveRecord() => record = AquariumService.GetOrCreate(aquariumId, aquariumSize, transform);
+    void HandleServiceChanged() { ResolveRecord(); RebuildVisuals(); }
+
+    void RebuildVisuals()
+    {
+        if (visualRoot != null) Destroy(visualRoot.gameObject);
+        visualFish.Clear(); visualOrigins.Clear();
+        visualRoot = new GameObject("FishVisuals_Runtime").transform;
+        visualRoot.SetParent(transform, false);
+        ApplyDecorationVisual();
+        if (record?.fish == null) return;
+        int visible = Mathf.Min(maximumVisibleFish, record.fish.Count);
+        for (int index = 0; index < visible; index++)
+        {
+            AquariumFishData fish = record.fish[index];
+            ItemSO item = ItemCatalog.Resolve(fish.itemId, fish.assetName, fish.itemName);
+            GameObject model = item != null && item.worldPrefab != null ? Instantiate(item.worldPrefab) : GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            model.name = $"FishVisual_{index}_{fish.itemName}"; model.transform.SetParent(visualRoot, false);
+            foreach (Collider collider in model.GetComponentsInChildren<Collider>(true)) collider.enabled = false;
+            float scale = SizeScale(item, fish.sizeCm);
+            model.transform.localScale = new Vector3(0.18f, 0.08f, 0.08f) * scale;
+            model.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
+            Vector3 origin = new(-0.38f + (index % 4) * 0.25f, -0.1f + (index % 3) * 0.12f, -0.42f);
+            model.transform.localPosition = origin; visualFish.Add(model.transform); visualOrigins.Add(origin);
+            Renderer renderer = model.GetComponentInChildren<Renderer>();
+            if (renderer != null && item?.worldPrefab == null) renderer.material.color = Color.HSVToRGB(Mathf.Abs((item?.Id ?? fish.itemName).GetHashCode() % 1000) / 1000f, 0.65f, 0.95f);
+        }
+    }
+
+    void ApplyDecorationVisual()
+    {
+        Transform old = transform.Find("AquariumDecor_Runtime");
+        if (old != null) Destroy(old.gameObject);
+        Transform decor = new GameObject("AquariumDecor_Runtime").transform;
+        decor.SetParent(transform, false);
+        Color water = record.background switch
+        { "River" => new Color(0.18f, 0.65f, 0.48f), "Ocean" => new Color(0.06f, 0.42f, 0.85f),
+          "Dark" => new Color(0.05f, 0.08f, 0.16f), _ => new Color(0.12f, 0.7f, 0.9f) };
+        Renderer tank = GetComponent<Renderer>();
+        if (tank != null) { tank.material.color = new Color(water.r, water.g, water.b, 0.72f); }
+        Color baseColor = record.substrate == "Sand" ? new Color(0.78f, 0.65f, 0.38f) :
+            record.substrate == "Black Sand" ? new Color(0.08f, 0.08f, 0.09f) : new Color(0.35f, 0.32f, 0.3f);
+        DecorCube(decor, "Substrate", new Vector3(0f, -0.43f, -0.02f), new Vector3(0.9f, 0.09f, 0.82f), baseColor);
+        if (record.plant != "None")
+            DecorCube(decor, $"Plant_{record.plant}", new Vector3(0.3f, -0.24f, -0.18f), new Vector3(0.06f, 0.38f, 0.06f), Color.green);
+        if (record.rock != "None")
+            DecorCube(decor, $"Rock_{record.rock}", new Vector3(-0.28f, -0.32f, -0.16f), new Vector3(0.2f, 0.2f, 0.18f), Color.gray);
+        if (record.decoration != "None")
+            DecorCube(decor, $"Decoration_{record.decoration}", new Vector3(0f, -0.28f, 0.1f), new Vector3(0.16f, 0.28f, 0.16f), new Color(0.85f, 0.56f, 0.15f));
+    }
+
+    static void DecorCube(Transform parent, string objectName, Vector3 position, Vector3 scale, Color color)
+    {
+        GameObject result = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        result.name = objectName; result.transform.SetParent(parent, false);
+        result.transform.localPosition = position; result.transform.localScale = scale;
+        Collider collider = result.GetComponent<Collider>(); if (collider != null) collider.enabled = false;
+        Renderer renderer = result.GetComponent<Renderer>(); if (renderer != null) renderer.material.color = color;
+    }
+
+    void AnimateFish()
+    {
+        float speed = Time.unscaledTime < feedAnimationUntil ? 3.2f : 1f;
+        for (int index = 0; index < visualFish.Count; index++)
+        {
+            Transform fish = visualFish[index]; if (fish == null) continue;
+            Vector3 origin = visualOrigins[index]; float phase = Time.unscaledTime * speed + index * 0.83f;
+            fish.localPosition = origin + new Vector3(Mathf.Sin(phase) * 0.14f, Mathf.Sin(phase * 1.7f) * 0.035f, 0f);
+            Vector3 scale = fish.localScale; scale.x = Mathf.Abs(scale.x) * (Mathf.Cos(phase) >= 0f ? 1f : -1f); fish.localScale = scale;
+        }
+    }
+
+    public IReadOnlyList<AquariumFishData> Fish => record != null ? record.fish : Array.Empty<AquariumFishData>();
+    public Inventory PlayerInventory { get { ResolvePlayer(); return inventory; } }
+    public string Feedback => feedback;
+    public void FeedFish() { feedAnimationUntil = Time.unscaledTime + 4f; feedback = "Ikan berkumpul. Memberi makan tidak wajib."; }
+    public void CycleDecoration(string field)
+    {
+        if (record == null) return;
+        switch(field) {
+         case "Background": record.background=Next(record.background,"Blue","River","Ocean","Dark");break;
+         case "Base": record.substrate=Next(record.substrate,"Gravel","Sand","Black Sand");break;
+         case "Plant": record.plant=Next(record.plant,"None","Grass","Fern","Coral");break;
+         case "Rock": record.rock=Next(record.rock,"None","Small","Cave");break;
+         case "Decor": record.decoration=Next(record.decoration,"None","Wood","Castle","Treasure");break;
+        }
+        Commit();
+    }
+    public void OpenPanel()
+    {
+        if(panelOpen) return;
+        ResolvePlayer();ResolveRecord();panelOpen = true;
+        player?.AcquireMovementLock(this); TimeManager.Instance?.AcquirePause(this); WorldInteractionPrompt.AcquireSuppression(this);
+        AquariumUI.Show(this);
+    }
+    public void ClosePanel()
+    {
+        if (!panelOpen) return; panelOpen = false;
+        AquariumUI.Hide(this);player?.ReleaseMovementLock(this); TimeManager.Instance?.ReleasePause(this); WorldInteractionPrompt.ReleaseSuppression(this);
+        GameplayInput.ConsumeCurrentFrame();
+    }
+    void ResolvePlayer() { if (inventory == null) inventory = FindFirstObjectByType<Inventory>(); if (player == null && inventory != null) player = inventory.GetComponent<PlayerController>(); }
+    string BuildStableId() => $"aquarium.{gameObject.scene.name}.{TransformPath(transform)}".ToLowerInvariant().Replace(' ', '_');
+    static string TransformPath(Transform value) { string path = value.name; while (value.parent != null) { value = value.parent; path = value.name + "/" + path; } return path; }
+    static string FishLabel(ItemSO item, int quality, float size) => $"{item.itemName} | {QualityLabel(quality)} | {FishMeasurement.GetSizeTier(item, size)} | {FishMeasurement.EstimateWeightKg(item, size):0.00} kg";
+    static string QualityLabel(int quality) => quality <= 0 ? "Normal" : $"{Mathf.Clamp(quality, 1, 5)}★";
+    static float SizeScale(ItemSO item, float size) => FishMeasurement.GetSizeTier(item, size) switch
+    { FishSizeTier.Small => 0.7f, FishSizeTier.Medium => 1f, FishSizeTier.Large => 1.3f, _ => 1.6f };
+    static string Next(string current, params string[] values) { int index = Array.IndexOf(values, current); return values[(index + 1 + values.Length) % values.Length]; }
+}

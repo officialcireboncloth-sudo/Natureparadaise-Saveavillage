@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Pike
+  m_EditorClassIdentifier:
+  itemId: item.pike
+  itemName: Pike
+  icon: {fileID: 0}
+  buyPrice: 0
+  sellPrice: 280
+  category: 6
+  maxStack: 16
+  equippedTool: 0
+  canDropToWorld: 1
+  canPlaceInWorld: 0
+  worldPrefab: {fileID: 1754134652064946, guid: 8904be5d4678137488ffd85162cd05e3, type: 3}
+  worldScale: {x: 0.65, y: 0.65, z: 0.65}
+  refrigeratorCategory: 3

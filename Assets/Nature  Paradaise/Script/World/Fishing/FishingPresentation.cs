@@ -127,6 +127,7 @@ public sealed class FishingPresentation : MonoBehaviour
         {
             GameObject visual=HeldItemVisuals.Create(item,catchVisual,"Caught item model");
             HeldItemVisuals.Fit(visual,item);
+            if (item.category == ItemCategory.Fish) AnimateCaughtFish(visual, item.worldPrefab);
         }
         else if(item.category==ItemCategory.Fish)
         {
@@ -150,6 +151,29 @@ public sealed class FishingPresentation : MonoBehaviour
         foreach(var renderer in catchVisual.GetComponentsInChildren<Renderer>(true))renderer.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
         LateUpdate();
     }
+
+    void AnimateCaughtFish(GameObject visual, GameObject prefab)
+    {
+        if (!prefab.TryGetComponent(out Animator source) || source.runtimeAnimatorController == null) return;
+
+        FishRarity rarity = owner?.ActiveFish?.rarity ?? FishRarity.Common;
+        if (rarity == FishRarity.Legendary)
+        {
+            visual.transform.localScale *= 1.45f;
+            visual.transform.localPosition *= 1.45f;
+        }
+
+        Animator fishAnimator = visual.AddComponent<Animator>();
+        fishAnimator.avatar = source.avatar;
+        fishAnimator.runtimeAnimatorController = source.runtimeAnimatorController;
+        fishAnimator.applyRootMotion = false;
+        if (rarity < FishRarity.Rare) return;
+
+        int fastSwim = Animator.StringToHash($"{fishAnimator.GetLayerName(0)}.fastswim");
+        if (fishAnimator.HasState(0, fastSwim))
+            fishAnimator.Play(fastSwim, 0, 0f);
+    }
+
     public void StyleBobber(GameObject bobber)
     {
         if (bobberMaterial == null)

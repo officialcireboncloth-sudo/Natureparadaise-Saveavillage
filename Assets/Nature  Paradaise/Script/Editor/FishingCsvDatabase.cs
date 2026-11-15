@@ -13,6 +13,7 @@ public static class FishingCsvDatabase
 {
     const string CsvPath = "Assets/Nature  Paradaise/Data/Balance/Fish.csv";
     const string NewAssetFolder = "Assets/Nature  Paradaise/Resources/Fishing/CSV";
+    const string FishingZonePrefabPath = "Assets/Nature  Paradaise/Prefabs/World/FishingZone.prefab";
     static readonly string[] Columns = {
         "fish_id","asset_path","item_id","rarity","water_types","seasons","weather",
         "start_hour","end_hour","required_rod_level","encounter_weight","minimum_bite_wait",
@@ -112,20 +113,27 @@ public static class FishingCsvDatabase
         Debug.Log($"[FISH CSV] Import selesai: {created} baru, {updated} diperbarui.");
     }
 
-    [MenuItem("Nature Paradise/Fishing/Mark Selected Water as Fishing Spot")]
-    static void MarkSelectedWater()
+    [MenuItem("Nature Paradise/Fishing/Create Fishing Zone")]
+    static void CreateFishingZone()
     {
-        GameObject selected = Selection.activeGameObject;
-        if (selected == null || selected.GetComponent<Collider>() == null)
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(FishingZonePrefabPath);
+        if (prefab == null)
         {
-            EditorUtility.DisplayDialog("Fishing Spot", "Pilih GameObject air yang memiliki Collider.", "OK");
+            Debug.LogError($"[FISHING] Prefab zona tidak ditemukan di {FishingZonePrefabPath}");
             return;
         }
-        FishingSpot spot = selected.GetComponent<FishingSpot>();
-        if (spot == null) spot = Undo.AddComponent<FishingSpot>(selected);
-        EditorGUIUtility.PingObject(spot);
-        Selection.activeObject = spot;
-        Debug.Log($"[FISHING] '{selected.name}' siap sebagai Fishing Spot. Atur Water Type dan pool melalui Inspector.");
+        string zoneName = GameObjectUtility.GetUniqueNameForSibling(null, "Fishing Zone");
+        GameObject zone = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+        zone.name = zoneName;
+        PrefabUtility.RecordPrefabInstancePropertyModifications(zone);
+        if (SceneView.lastActiveSceneView != null)
+        {
+            zone.transform.position = SceneView.lastActiveSceneView.pivot;
+            PrefabUtility.RecordPrefabInstancePropertyModifications(zone.transform);
+        }
+        Undo.RegisterCreatedObjectUndo(zone, "Create Fishing Zone");
+        Selection.activeGameObject = zone;
+        EditorGUIUtility.PingObject(zone);
     }
 
     [MenuItem("Nature Paradise/Fishing/Open Fishing Test Scene")]
@@ -154,7 +162,7 @@ public static class FishingCsvDatabase
         if (rod == null) Debug.LogError("[FISHING] Fishing Rod ItemSO tidak ditemukan.");
         if (fish.Length == 0) Debug.LogError("[FISHING] Belum ada FishDefinitionSO.");
         if (rod != null && fish.Length > 0)
-            Debug.Log($"[FISHING] Setup data valid: rod '{rod.itemName}', {fish.Length} definisi ikan. Water bernama 'Water' dipetakan otomatis saat runtime.");
+            Debug.Log($"[FISHING] Setup data valid: rod '{rod.itemName}', {fish.Length} definisi ikan. Atur posisi, radius, dan Fish Pool pada tiap zona.");
     }
 
     static bool TryRead(out List<Row> rows, out List<string> errors)

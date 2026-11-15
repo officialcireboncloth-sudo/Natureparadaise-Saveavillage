@@ -1,0 +1,439 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+[Serializable]
+public sealed class MarketStandListing
+{
+    public ItemSO item;
+    [Min(1)] public int count = 1;
+    [Range(0, 5)] public int qualityStars;
+    [Min(0f)] public float fishSizeCm;
+    public int listedAbsoluteHour;
+
+    public int UnitPrice => item != null ? item.GetMarketSellPrice(qualityStars, fishSizeCm) : 0;
+    public string DisplayName => item == null ? "Item hilang" : new ItemStack
+    {
+        item = item,
+        count = count,
+        qualityStars = qualityStars,
+        fishSizeCm = fishSizeCm
+    }.DisplayName;
+}
+
+[Serializable]
+public sealed class MarketStandListingSaveData
+{
+    public string itemId;
+    public string assetName;
+    public string itemName;
+    public int count;
+    public int qualityStars;
+    public float fishSizeCm;
+    public int listedAbsoluteHour;
+}
+
+[Serializable]
+public sealed class MarketStandSaveData
+{
+    public string id;
+    public List<MarketStandListingSaveData> listings;
+    public int lastProcessedAbsoluteHour;
+    public int lifetimeRevenue;
+}
+
+/// <summary>
+/// Storage jual pasif. Player menitipkan item sellable, lalu satu simulasi calon
+/// pembeli berjalan setiap jam pasar walaupun player berada jauh dari stand.
+/// </summary>
+[DisallowMultipleComponent]
+public sealed class MarketStand : MonoBehaviour
+{
+    static readonly List<MarketStand> Active = new();
+
+    [Header("Identity")]
+    [SerializeField] string standId = "village-market-stand-01";
+    [Header("Atlas Stand Presentation")]
+    [Tooltip("Pertahankan ukuran prefab atlas dalam meter saat Play, termasuk instance Map lama yang masih memakai scale 2x.")]
+    [SerializeField] bool normalizeAtlasWorldScale;
+
+    [Header("Interaction")]
+    [SerializeField] Inventory playerInventory;
+    [SerializeField] KeyCode interactKey = KeyCode.E;
+    [SerializeField, Min(0f)] float promptHeight = 2.2f;
+
+    [Header("Storage")]
+    [SerializeField, Min(1)] int listingCapacity = 12;
+    [SerializeField] List<MarketStandListing> listings = new();
+
+    [Header("Buyer Simulation")]
+    [SerializeField, Range(0f, 1f)] float baseHourlyBuyerChance = 0.24f;
+    [SerializeField, Range(0f, 0.25f)] float chancePerVillageLevel = 0.06f;
+    [SerializeField, Range(0, 23)] int marketOpenHour = 6;
+    [SerializeField, Range(0, 23)] int marketCloseHour = 20;
+    [SerializeField, Min(1)] int maximumItemsPerSale = 3;
+
+    [Header("Runtime State")]
+    [SerializeField] int lastProcessedAbsoluteHour = -1;
+    [SerializeField, Min(0)] int lifetimeRevenue;
+
+    bool panelOpen;
+    MarketStandUI marketUI; bool previousCursorVisible; CursorLockMode previousCursorLock;
+    string feedback = string.Empty;
+    MarketCartSchedule cartSchedule;
+
+    public static bool IsAnyOpen => Active.Any(s=>s!=null&&s.panelOpen);
+    public Inventory PlayerInventory => playerInventory;
+    public int ListingCapacity => listingCapacity;
+    public string Feedback => feedback;
+    public static bool IsTradingWeather(WeatherType weather) => weather == WeatherType.Sunny ||
+        weather == WeatherType.PartlyCloudy || weather == WeatherType.Cloudy || weather == WeatherType.Heatwave;
+    public bool IsScheduledOpen => (TimeManager.Instance == null ||
+        TimeManager.Instance.hour >= marketOpenHour && TimeManager.Instance.hour < marketCloseHour) &&
+        (WeatherSystem.Instance == null || IsTradingWeather(WeatherSystem.Instance.CurrentWeather));
+    public bool CanTrade => IsScheduledOpen && (cartSchedule == null || cartSchedule.IsParked) &&
+        (SaveManager.Instance == null || !SaveManager.Instance.IsLoading);
+    public string OpeningHoursLabel => $"{(CanTrade ? "Pasar buka" : IsScheduledOpen ? "Gerobak sedang datang" : "Pasar tutup")}  •  {marketOpenHour:00}:00–{marketCloseHour:00}:00";
+    public bool CanDepositFromSlot(int slotIndex)
+    {var stack=playerInventory!=null?playerInventory.GetSlot(slotIndex):null;return CanTrade&&stack?.item!=null&&stack.count>0&&stack.item.CanSellAtMarket&&(listings.Count<listingCapacity||FindCompatible(stack.item,stack.qualityStars,stack.fishSizeCm)!=null);}
+    public string StandId => standId;
+    public IReadOnlyList<MarketStandListing> Listings => listings;
+    public int LifetimeRevenue => lifetimeRevenue;
+    public int TotalItemCount => listings.Sum(entry => entry != null ? Mathf.Max(0, entry.count) : 0);
+    public float CurrentBuyerChance => Mathf.Clamp01(baseHourlyBuyerChance +
+        Mathf.Max(0, CurrentVillageLevel - 1) * chancePerVillageLevel);
+    int CurrentVillageLevel => VillageProgressionService.Instance != null
+        ? VillageProgressionService.Instance.VillageLevel : 1;
+    int CurrentAbsoluteHour => TimeManager.Instance == null ? 0 :
+        Mathf.Max(0, (TimeManager.Instance.day - 1) * 24 + TimeManager.Instance.hour);
+
+    public static bool BlocksWorldPointer
+    {
+        get
+        {
+
+            return IsAnyOpen;
+        }
+    }
+
+    void Awake()
+    {
+        if(normalizeAtlasWorldScale)
+        {
+            Vector3 parentScale=transform.parent!=null?transform.parent.lossyScale:Vector3.one;
+            if(Mathf.Abs(parentScale.x)>.0001f&&Mathf.Abs(parentScale.y)>.0001f&&Mathf.Abs(parentScale.z)>.0001f)
+                transform.localScale=new Vector3(1f/parentScale.x,1f/parentScale.y,1f/parentScale.z);
+        }
+        ResolveInventory();
+        NormalizeListings();
+        cartSchedule = GetComponent<MarketCartSchedule>() ?? gameObject.AddComponent<MarketCartSchedule>();
+
+
+        if (lastProcessedAbsoluteHour < 0)
+            lastProcessedAbsoluteHour = CurrentAbsoluteHour;
+    }
+
+    void OnEnable()
+    {
+        if (!Active.Contains(this))
+            Active.Add(this);
+    }
+
+    void Start() => ProcessElapsedSales();
+
+    void OnDisable()
+    {
+        Active.Remove(this);
+        ClosePanel();
+    }
+
+    void Update()
+    {
+        // Run after the clock/weather events have both settled, including sleep/day changes.
+        ProcessElapsedSales();
+        if (!CanTrade) { ClosePanel(); return; }
+        ResolveInventory();
+        if (playerInventory == null)
+            return;
+
+        if (panelOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(interactKey))
+                ClosePanel();
+            return;
+        }
+
+        if (!PlayerInteractionTarget.Contains(playerInventory.transform, transform))
+            return;
+
+        float distance = Vector3.Distance(playerInventory.transform.position, transform.position);
+        WorldInteractionPrompt.Request(this, transform,
+            $"{interactKey}: Market Stand | Stok {TotalItemCount} item", distance, promptHeight, OpenFromPrompt);
+        if (PlayerInteractionTarget.PressPrompt(this, interactKey))
+            OpenPanel();
+    }
+
+    void OpenFromPrompt()
+    {
+        ResolveInventory();
+        var movement=playerInventory!=null?playerInventory.GetComponent<PlayerController>():null;
+        if(playerInventory!=null&&!WorldInteractionPrompt.IsSuppressed&&
+            (movement==null||!movement.IsMovementLocked)&&PlayerInteractionTarget.Contains(playerInventory.transform,transform))OpenPanel();
+    }
+
+    public bool TryDepositFromSlot(int slotIndex, int amount)
+    {
+        if (!CanTrade) { feedback = OpeningHoursLabel; return false; }
+        ResolveInventory();
+        ItemStack stack = playerInventory != null ? playerInventory.GetSlot(slotIndex) : null;
+        if (stack == null || stack.item == null || stack.count <= 0 || amount <= 0 || !stack.item.CanSellAtMarket)
+        {
+            feedback = "Barang ini tidak dapat dijual di Market Stand.";
+            return false;
+        }
+
+        int moved = Mathf.Min(amount, stack.count);
+        MarketStandListing listing = FindCompatible(stack.item, stack.qualityStars, stack.fishSizeCm);
+        if (listing == null && listings.Count >= listingCapacity)
+        {
+            feedback = "Slot Market Stand penuh.";
+            return false;
+        }
+
+        ItemSO item = stack.item;
+        int quality = stack.qualityStars;
+        float fishSize = stack.fishSizeCm;
+        if (!playerInventory.RemoveFromSlot(slotIndex, moved))
+            return false;
+
+        if (listing == null)
+        {
+            listing = new MarketStandListing
+            {
+                item = item,
+                count = 0,
+                qualityStars = quality,
+                fishSizeCm = fishSize,
+                listedAbsoluteHour = CurrentAbsoluteHour
+            };
+            listings.Add(listing);
+        }
+
+        listing.count += moved;
+        feedback = $"{listing.DisplayName} x{moved} sekarang For Sale — {listing.UnitPrice} G/item.";
+        return true;
+    }
+
+    public bool TryWithdraw(int listingIndex, int amount)
+    {
+        if (!CanTrade) { feedback = OpeningHoursLabel; return false; }
+        ResolveInventory();
+        if (playerInventory == null || listingIndex < 0 || listingIndex >= listings.Count || amount <= 0)
+            return false;
+
+        MarketStandListing listing = listings[listingIndex];
+        if (listing == null || listing.item == null || listing.count <= 0)
+            return false;
+
+        int moved = Mathf.Min(amount, listing.count);
+        if (!playerInventory.CanAdd(listing.item, moved, listing.qualityStars, listing.fishSizeCm))
+        {
+            feedback = "Tas tidak mempunyai ruang untuk mengambil barang ini.";
+            return false;
+        }
+
+        playerInventory.Add(listing.item, moved, listing.qualityStars, listing.fishSizeCm);
+        listing.count -= moved;
+        feedback = $"{listing.DisplayName} x{moved} dikembalikan ke Inventory.";
+        if (listing.count <= 0)
+            listings.RemoveAt(listingIndex);
+        return true;
+    }
+
+    void ProcessElapsedSales()
+    {
+        if (TimeManager.Instance == null || ScoreManager.Instance == null)
+            return;
+
+        int now = CurrentAbsoluteHour;
+        if (lastProcessedAbsoluteHour < 0 || lastProcessedAbsoluteHour > now)
+            lastProcessedAbsoluteHour = now;
+
+        if (now == lastProcessedAbsoluteHour) return;
+        lastProcessedAbsoluteHour = now;
+        // No weather history exists in a stand save. Never replay missed hours using
+        // today's weather (or pay out while loading, closed, or still travelling).
+        if (!CanTrade || WeatherSystem.Instance != null &&
+            WeatherSystem.Instance.CurrentWeatherDay != TimeManager.Instance.day) return;
+        SimulateBuyer(true);
+
+        // Semua listing yang mencapai batas tujuh hari diselesaikan pada tick yang sama.
+        // Dengan begitu beberapa stack yang dipasang bersamaan tidak melewati deadline.
+        int overdueCount = listings.Count(entry => entry != null && now - entry.listedAbsoluteHour >= 7 * 24);
+        for (int i = 0; i < overdueCount; i++)
+            SimulateBuyer(true);
+
+        lastProcessedAbsoluteHour = now;
+    }
+
+    void SimulateBuyer(bool notify)
+    {
+        NormalizeListings();
+        if (listings.Count == 0)
+            return;
+
+        int listingIndex = listings.FindIndex(entry => entry != null &&
+            CurrentAbsoluteHour - entry.listedAbsoluteHour >= 7 * 24);
+        bool guaranteedSale = listingIndex >= 0;
+        if (!guaranteedSale)
+        {
+            // Barang minimal menginap satu hari agar tidak langsung laku sesaat setelah ditaruh.
+            List<int> eligible = new();
+            for (int i = 0; i < listings.Count; i++)
+                if (CurrentAbsoluteHour - listings[i].listedAbsoluteHour >= 24) eligible.Add(i);
+            if (eligible.Count == 0 || UnityEngine.Random.value > CurrentBuyerChance) return;
+            listingIndex = eligible[UnityEngine.Random.Range(0, eligible.Count)];
+        }
+        MarketStandListing listing = listings[listingIndex];
+        int sold = guaranteedSale ? listing.count :
+            UnityEngine.Random.Range(1, Mathf.Min(maximumItemsPerSale, listing.count) + 1);
+        int revenue = listing.UnitPrice * sold;
+        if (revenue <= 0)
+            return;
+
+        listing.count -= sold;
+        lifetimeRevenue += revenue;
+        ScoreManager.Instance.AddPoints(revenue);
+        string soldName = listing.DisplayName;
+        QuestEventHub.Publish(QuestObjectiveType.MarketSale, listing.item.name, sold, listing.item);
+        if (listing.count <= 0)
+            listings.RemoveAt(listingIndex);
+
+        if (notify)
+            SaveLoadFeedback.Instance?.ShowMessage($"Market: {soldName} x{sold} terjual — +{revenue} G");
+        Debug.Log($"[MARKET] {soldName} x{sold} sold for {revenue} G. Remaining stock: {TotalItemCount}.");
+    }
+
+    public void OpenPanel()
+    {
+        if (!CanTrade) return;
+        if (ShopFront.IsAnyOpen) return;
+        if (panelOpen)
+            return;
+        foreach(var other in Active.ToArray())if(other!=null&&other!=this)other.ClosePanel();
+        ResolveInventory();
+        feedback = string.Empty;
+        panelOpen = true;
+        previousCursorVisible=Cursor.visible;previousCursorLock=Cursor.lockState;Cursor.visible=true;Cursor.lockState=CursorLockMode.None;
+        marketUI=GetComponent<MarketStandUI>()??gameObject.AddComponent<MarketStandUI>();marketUI.Show(this);
+        GameplayInput.ConsumeCurrentFrame();
+        feedback = string.Empty;
+
+        WorldInteractionPrompt.AcquireSuppression(this);
+        TimeManager.Instance?.AcquirePause(this);
+        playerInventory?.GetComponent<PlayerController>()?.AcquireMovementLock(this);
+    }
+
+    public void ClosePanel()
+    {
+        if (!panelOpen)
+            return;
+        panelOpen = false;
+        marketUI?.Hide();Cursor.visible=previousCursorVisible;Cursor.lockState=previousCursorLock;
+        GameplayInput.ConsumeCurrentFrame();
+        WorldInteractionPrompt.ReleaseSuppression(this);
+        TimeManager.Instance?.ReleasePause(this);
+        playerInventory?.GetComponent<PlayerController>()?.ReleaseMovementLock(this);
+    }
+
+void ResolveInventory()
+    {
+        if (playerInventory == null)
+            playerInventory = FindFirstObjectByType<Inventory>();
+    }
+
+    void NormalizeListings()
+    {
+        listings ??= new List<MarketStandListing>();
+        listings.RemoveAll(entry => entry == null || entry.item == null || entry.count <= 0 || !entry.item.CanSellAtMarket);
+        listingCapacity = Mathf.Max(1, listingCapacity);
+    }
+
+    MarketStandListing FindCompatible(ItemSO item, int qualityStars, float fishSizeCm) => listings.Find(entry =>
+        entry != null && entry.item == item && entry.qualityStars == qualityStars &&
+        Mathf.Abs(entry.fishSizeCm - fishSizeCm) < 0.01f);
+
+    public MarketStandSaveData Capture()
+    {
+        NormalizeListings();
+        return new MarketStandSaveData
+        {
+            id = standId,
+            lastProcessedAbsoluteHour = lastProcessedAbsoluteHour,
+            lifetimeRevenue = lifetimeRevenue,
+            listings = listings.Select(entry => new MarketStandListingSaveData
+            {
+                itemId = entry.item.Id,
+                assetName = entry.item.name,
+                itemName = entry.item.itemName,
+                count = entry.count,
+                qualityStars = entry.qualityStars,
+                fishSizeCm = entry.fishSizeCm,
+                listedAbsoluteHour = entry.listedAbsoluteHour
+            }).ToList()
+        };
+    }
+
+    public void Restore(MarketStandSaveData data)
+    {
+        listings.Clear();
+        if (data?.listings != null)
+        {
+            foreach (MarketStandListingSaveData saved in data.listings)
+            {
+                if (saved == null || saved.count <= 0)
+                    continue;
+                ItemSO item = ItemCatalog.Resolve(saved.itemId, saved.assetName, saved.itemName);
+                if (item == null || !item.CanSellAtMarket)
+                    continue;
+                listings.Add(new MarketStandListing
+                {
+                    item = item,
+                    count = saved.count,
+                    qualityStars = Mathf.Clamp(saved.qualityStars, 0, 5),
+                    fishSizeCm = Mathf.Max(0f, saved.fishSizeCm),
+                    listedAbsoluteHour = saved.listedAbsoluteHour > 0 ? saved.listedAbsoluteHour : CurrentAbsoluteHour
+                });
+            }
+        }
+
+        lastProcessedAbsoluteHour = data != null ? data.lastProcessedAbsoluteHour : CurrentAbsoluteHour;
+        lifetimeRevenue = Mathf.Max(0, data?.lifetimeRevenue ?? 0);
+        NormalizeListings();
+        // A load restores exactly the recorded stock/revenue, without offline sales.
+        lastProcessedAbsoluteHour = CurrentAbsoluteHour;
+        cartSchedule?.RestorePresentation();
+    }
+
+    public static List<MarketStandSaveData> CaptureAll() =>
+        FindObjectsByType<MarketStand>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+            .Select(stand => stand.Capture()).ToList();
+
+    public static void RestoreAll(List<MarketStandSaveData> saved)
+    {
+        foreach (MarketStand stand in FindObjectsByType<MarketStand>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            MarketStandSaveData data = saved?.Find(entry => entry != null && entry.id == stand.standId);
+            stand.Restore(data);
+        }
+    }
+
+    void OnValidate()
+    {
+        listingCapacity = Mathf.Max(1, listingCapacity);
+        maximumItemsPerSale = Mathf.Max(1, maximumItemsPerSale);
+        marketOpenHour = Mathf.Clamp(marketOpenHour, 0, 22);
+        marketCloseHour = Mathf.Clamp(marketCloseHour, marketOpenHour + 1, 23);
+    }
+}

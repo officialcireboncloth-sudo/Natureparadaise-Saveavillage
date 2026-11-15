@@ -54,6 +54,18 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 03264907485546518016d0eee6bb8909, type: 2}
     - {fileID: 11400000, guid: 1085eb9ae3ed45f7b46b1611cc41cf4b, type: 2}
     animals: []
+  - title: Bibit Pohon
+    background: {fileID: 0}
+    sellInventory: 0
+    items:
+    - {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000074, type: 2}
+    - {fileID: 11400000, guid: 9bd7d238739645679e90c1b2d6401850, type: 2}
+    - {fileID: 11400000, guid: c3ba9123dbb04583afe99c0591449cd2, type: 2}
+    - {fileID: 11400000, guid: 3067717d28cd49a7b3a2fe9259f31f47, type: 2}
+    - {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000077, type: 2}
+    - {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000071, type: 2}
+    - {fileID: 11400000, guid: ad726a9495424bacbe3aa0100000007a, type: 2}
+    animals: []
   - title: Pupuk
     background: {fileID: 0}
     sellInventory: 0

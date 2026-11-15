@@ -100,7 +100,7 @@ public sealed class FishDefinitionSO : ScriptableObject
     [Min(0.01f)] public float encounterWeight = 1f;
 
     [Header("Cast Distance")]
-    [Tooltip("Minimum reach within the contiguous water in front of the player. 0.65 requires a far cast.")]
+    [Tooltip("Minimum cast reach within the targeted fishing zone. 0.65 requires a far cast.")]
     [Range(0f, 1f)] public float minimumCastPower;
 
     public float RollSize(float reach)
@@ -154,15 +154,19 @@ public sealed class FishDefinitionSO : ScriptableObject
         _ => PondJumboSizeCm
     };
 
-    public bool IsAvailable(FishingWaterType waterType, int day, int hour, WeatherType currentWeather, int rodLevel)
+    internal bool CanSpawnIn(FishingWaterType waterType)
     {
         FishingWaterMask location = (FishingWaterMask)(1 << (int)waterType);
+        return item != null && item.category == ItemCategory.Fish && (waterTypes & location) != 0;
+    }
+
+    public bool IsAvailable(FishingWaterType waterType, int day, int hour, WeatherType currentWeather, int rodLevel)
+    {
         CropSeason season = CropDataSO.GetSeasonForDay(Mathf.Max(1, day));
         bool timeAllowed = startHour <= endHour
             ? hour >= startHour && hour < endHour
             : hour >= startHour || hour < endHour;
-        return item != null && item.category == ItemCategory.Fish &&
-               (waterTypes & location) != 0 && (seasons & season) != 0 &&
+        return CanSpawnIn(waterType) && (seasons & season) != 0 &&
                // Existing cloudy-day fish retain their availability with the new overcast weather.
                ((weather & (FishingWeatherMask)(1 << (int)currentWeather)) != 0 ||
                 currentWeather == WeatherType.Cloudy && (weather & FishingWeatherMask.PartlyCloudy) != 0) &&

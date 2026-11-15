@@ -33,6 +33,19 @@
 # Keep the scanner's canonical editable sources and previews after consolidation.
 !/ArtSource/
 /ArtSource/*
+!/ArtSource/FruitTrees/
+/ArtSource/FruitTrees/*
+!/ArtSource/FruitTrees/AtlasRegistry.json
+!/ArtSource/FruitTrees/Blender/
+!/ArtSource/FruitTrees/Textures/
+!/ArtSource/FruitTrees/Icons/
+!/ArtSource/FruitTrees/Scripts/
+!/ArtSource/FruitTrees/Previews/
+/ArtSource/FruitTrees/Blender/*.blend[0-9]*
+/ArtSource/FruitTrees/Textures/*.xcf~
+/ArtSource/FruitTrees/Icons/*.xcf~
+/ArtSource/FruitTrees/Scripts/__pycache__/
+/tmp/FruitTreeApple/
 !/ArtSource/SoilScanner/
 /ArtSource/SoilScanner/*
 !/ArtSource/SoilScanner/Blender/

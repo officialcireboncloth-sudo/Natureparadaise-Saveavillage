@@ -1,0 +1,803 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+[Serializable]
+public sealed class FishPondFishData
+{
+    public string itemId;
+    public string assetName;
+    public string itemName;
+    public int qualityStars;
+    public float sizeCm;
+    public float weightKg;
+    public int growthDays;
+    public int daysWithoutFood;
+    public bool sick;
+}
+
+[Serializable]
+public sealed class FishPondSaveData
+{
+    public string pondId;
+    public int level = 1;
+    public bool fedForGrowth;
+    public int feedUnitsUsed;
+    public int feedStock;
+    public int lastGrowthDay;
+    public Vector3 position;
+    public Vector3 eulerAngles;
+    public List<FishPondFishData> fish = new();
+}
+
+/// <summary>State persisten dan simulasi harian seluruh Fish Pond, termasuk saat scene Map tidak aktif.</summary>
+public static class FishPondService
+{
+    public const int SmallGrowthDays = 30;
+    public const int MediumGrowthDays = 40;
+    public const int SicknessStartsAfterDays = 3;
+    public const int StarvationDeathDays = 7;
+
+    static readonly Dictionary<string, FishPondSaveData> Records = new(StringComparer.Ordinal);
+    public static event Action Changed;
+
+    static BuildingDefinitionSO capacityDefinition;
+    public static int Capacity(int level)
+    {
+        level = Mathf.Clamp(level, 1, 3);
+        if (capacityDefinition == null) capacityDefinition = Resources.Load<BuildingDefinitionSO>("Buildings/Fish Pond Building");
+        BuildingLevelDefinition data = capacityDefinition != null ? capacityDefinition.GetLevel(level) : null;
+        return data != null ? Mathf.Max(1, data.capacity) : level == 1 ? 50 : level == 2 ? 100 : 250;
+    }
+
+    // Setiap pond hanya memiliki satu slot Fish Food. Slot harus diisi lagi
+    // setelah pakan dipakai pada reset harian.
+    public static int FeedCapacity(int level) => 1;
+
+    public static int GrowthDaysNeeded(FishSizeTier tier) => tier switch
+    {
+        FishSizeTier.Small => SmallGrowthDays,
+        FishSizeTier.Medium => MediumGrowthDays,
+        _ => 0
+    };
+
+    public static FishPondSaveData GetOrCreate(string pondId, int level, Transform owner)
+    {
+        if (!Records.TryGetValue(pondId, out FishPondSaveData record))
+        {
+            record = new FishPondSaveData { pondId = pondId };
+            Records.Add(pondId, record);
+        }
+        record.level = Mathf.Clamp(level, 1, 3);
+        record.feedStock = Mathf.Clamp(record.feedStock, 0, FeedCapacity(record.level));
+        if (owner != null) { record.position = owner.position; record.eulerAngles = owner.eulerAngles; }
+        record.fish ??= new List<FishPondFishData>();
+        return record;
+    }
+
+    public static bool HasFishForSite(string siteId) =>
+        Records.TryGetValue(IdForSite(siteId), out FishPondSaveData record) && record.fish?.Count > 0;
+
+    public static void TransferSite(string sourceSiteId, string destinationSiteId)
+    {
+        string sourceId = IdForSite(sourceSiteId);
+        string destinationId = IdForSite(destinationSiteId);
+        if (sourceId == destinationId || !Records.TryGetValue(sourceId, out FishPondSaveData record)) return;
+        Records.Remove(sourceId);
+        record.pondId = destinationId;
+        Records[destinationId] = record;
+        Changed?.Invoke();
+    }
+
+    public static void RemoveForSite(string siteId)
+    {
+        Records.Remove(IdForSite(siteId));
+        Changed?.Invoke();
+    }
+
+    public static string IdForSite(string siteId) => $"fishpond.{siteId}";
+
+    public static void AdvanceDay(int completedDay)
+    {
+        int grown = 0;
+        int newlySick = 0;
+        int died = 0;
+        foreach (FishPondSaveData pond in Records.Values)
+        {
+            if (pond == null || pond.lastGrowthDay >= completedDay) continue;
+            pond.lastGrowthDay = completedDay;
+            int fishCount = pond.fish?.Count ?? 0;
+            // Satu pack Fish Feed memberi makan seluruh ikan di satu kolam selama satu hari.
+            int feedNeeded = fishCount > 0 ? 1 : 0;
+            bool hasFeed = fishCount > 0 && pond.feedStock >= feedNeeded;
+            if (hasFeed)
+            {
+                pond.feedStock -= feedNeeded;
+                pond.feedUnitsUsed = feedNeeded;
+            }
+            if (fishCount == 0)
+            {
+                pond.fedForGrowth = false;
+                pond.feedUnitsUsed = 0;
+                continue;
+            }
+
+            pond.fedForGrowth = hasFeed;
+            if (!hasFeed) pond.feedUnitsUsed = 0;
+
+            // Satu kolam diproses sebagai satu kelompok: semua ikan makan dan tumbuh,
+            // atau seluruh progres berhenti bila stok tidak cukup untuk semua ikan.
+            for (int index = pond.fish.Count - 1; index >= 0; index--)
+            {
+                FishPondFishData fish = pond.fish[index];
+                if (!hasFeed)
+                {
+                    fish.daysWithoutFood++;
+                    if (fish.daysWithoutFood >= StarvationDeathDays)
+                    {
+                        pond.fish.RemoveAt(index);
+                        died++;
+                        continue;
+                    }
+                    if (!fish.sick && fish.daysWithoutFood >= SicknessStartsAfterDays)
+                    {
+                        fish.sick = true;
+                        newlySick++;
+                    }
+                    continue;
+                }
+
+                fish.daysWithoutFood = 0;
+                if (fish.sick) continue;
+                ItemSO item = ItemCatalog.Resolve(fish.itemId, fish.assetName, fish.itemName);
+                FishSizeTier tier = FishMeasurement.GetSizeTier(item, fish.sizeCm);
+                int needed = GrowthDaysNeeded(tier);
+                // Large dan Jumbo merupakan ukuran maksimal untuk pembesaran di pond.
+                if (needed <= 0) continue;
+                FishDefinitionSO definition = FishMeasurement.FindDefinition(item);
+                fish.growthDays++;
+                if (fish.growthDays < needed) continue;
+                fish.sizeCm = definition != null ? definition.GetNextPondSize(tier) :
+                    tier == FishSizeTier.Small ? 22f : 35f;
+                fish.weightKg = FishMeasurement.EstimateWeightKg(item, fish.sizeCm);
+                fish.growthDays = 0;
+                grown++;
+            }
+        }
+        List<string> results = new();
+        if (grown > 0) results.Add($"{grown} ikan naik ukuran");
+        if (newlySick > 0) results.Add($"{newlySick} ikan sakit");
+        if (died > 0) results.Add($"{died} ikan mati karena 7 hari tanpa pakan");
+        if (results.Count > 0) SaveLoadFeedback.Instance?.ShowMessage($"Fish Pond: {string.Join(" | ", results)}");
+        Changed?.Invoke();
+    }
+
+    public static List<FishPondSaveData> Capture() => Records.Values.Select(Clone).ToList();
+
+    public static void Restore(List<FishPondSaveData> saved)
+    {
+        Records.Clear();
+        foreach (FishPondSaveData source in saved ?? new List<FishPondSaveData>())
+            if (source != null && !string.IsNullOrWhiteSpace(source.pondId)) Records[source.pondId] = Clone(source);
+        Changed?.Invoke();
+    }
+
+    public static void Clear() { Records.Clear(); Changed?.Invoke(); }
+    public static void NotifyChanged() => Changed?.Invoke();
+
+    static FishPondSaveData Clone(FishPondSaveData source)
+    {
+        FishPondSaveData clone = new()
+        {
+            pondId = source.pondId,
+            level = Mathf.Clamp(source.level, 1, 3),
+            fedForGrowth = source.fedForGrowth,
+            feedUnitsUsed = source.feedUnitsUsed,
+            feedStock = source.feedStock,
+            lastGrowthDay = source.lastGrowthDay,
+            position = source.position,
+            eulerAngles = source.eulerAngles
+        };
+        foreach (FishPondFishData fish in source.fish ?? new List<FishPondFishData>())
+            clone.fish.Add(new FishPondFishData
+            {
+                itemId = fish.itemId, assetName = fish.assetName, itemName = fish.itemName,
+                qualityStars = fish.qualityStars, sizeCm = fish.sizeCm,
+                weightKg = fish.weightKg, growthDays = fish.growthDays,
+                daysWithoutFood = fish.daysWithoutFood, sick = fish.sick
+            });
+        return clone;
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void RegisterDailyGrowth()
+    {
+        Records.Clear();
+        Changed = null;
+        TimeManager.OnBeforeDayChange -= HandleBeforeDayChange;
+        TimeManager.OnBeforeDayChange += HandleBeforeDayChange;
+    }
+
+    static void HandleBeforeDayChange() => AdvanceDay(TimeManager.Instance != null ? TimeManager.Instance.day : 1);
+}
+
+/// <summary>Storage ikan hidup dan UI pond. Data dimiliki service agar aman saat visual level diganti.</summary>
+[DisallowMultipleComponent]
+[DefaultExecutionOrder(-200)]
+public sealed class FishPond : MonoBehaviour
+{
+    static readonly List<FishPond> ActivePonds=new();
+    [SerializeField] string pondId;
+    [SerializeField, Range(1, 3)] int fallbackLevel = 1;
+    [SerializeField] ItemSO fishFeed;
+    [SerializeField, Range(1, 18)] int maximumVisibleFish = 8;
+    [SerializeField, Min(0.5f)] float interactionRadius = 3.5f;
+    [SerializeField] KeyCode interactKey = KeyCode.E;
+    [Header("Editable Feed Stations")]
+    [SerializeField] Transform feedingPoint;
+    [SerializeField] FeedMaker feedMaker;
+    [SerializeField, Min(1f)] float feedInteractionRadius = 2.4f;
+    [Header("Feed Scattering")]
+    [SerializeField,Min(.05f)] float feedScatterImpactDelay=.45f;
+    [SerializeField,Min(.1f)] float feedScatterDuration=1.2f;
+    Coroutine feedRoutine;
+    PlayerController feedingPlayer;
+
+    readonly List<Transform> visualFish = new();
+    readonly List<Vector3> visualOrigins = new();
+    FishPondSaveData record;
+    Inventory inventory;
+    PlayerController player;
+    PropertySite site;
+    Transform visualRoot;
+    FishPondExterior exterior;
+    bool panelOpen;
+    string feedback = string.Empty;
+    public FeedMaker FeedMachine => feedMaker;
+    public Vector3 OverviewPoint => exterior!=null&&exterior.InteractionPoint!=null ? exterior.InteractionPoint.position : transform.position;
+    public static FishPond NearestOverview(Vector3 position,float range)
+    {
+        FishPond nearest=null;float best=range*range;
+        foreach(var pond in ActivePonds)
+        {
+            if(pond==null||!pond.isActiveAndEnabled)continue;
+            Vector3 delta=pond.OverviewPoint-position;delta.y=0;
+            if(delta.sqrMagnitude>=best)continue;best=delta.sqrMagnitude;nearest=pond;
+        }
+        return nearest;
+    }
+
+    public Inventory PlayerInventory => inventory;
+    public IReadOnlyList<FishPondFishData> Fish => record?.fish;
+    public string Feedback => feedback;
+    public bool IsPanelOpen => panelOpen;
+    public int Level => Mathf.Clamp(site != null && site.CurrentLevel > 0 ? site.CurrentLevel : fallbackLevel, 1, 3);
+    public int Capacity => FishPondService.Capacity(Level);
+    public int FishCount => record?.fish?.Count ?? 0;
+    int FeedNeeded => FishCount > 0 ? 1 : 0;
+    public int FeedCapacity => FishPondService.FeedCapacity(Level);
+    public int FeedStock => record?.feedStock ?? 0;
+    public int FeedSpace => Mathf.Max(0, FeedCapacity - FeedStock);
+
+    void Awake()
+    {
+        site = GetComponentInParent<PropertySite>();
+        exterior = GetComponent<FishPondExterior>();
+        if (fishFeed == null) fishFeed = Resources.Load<ItemSO>("Items/Fish/Fish Feed");
+        if (string.IsNullOrWhiteSpace(pondId)) pondId = site != null
+            ? FishPondService.IdForSite(site.SiteId)
+            : $"fishpond.{gameObject.scene.name}.{TransformPath(transform)}".ToLowerInvariant().Replace(' ', '_');
+        if (!Application.isPlaying) return;
+        EnsureFeedStations();
+        ResolvePlayer(); ResolveRecord(); RebuildVisuals();
+    }
+
+    void OnEnable()
+    {
+        if (!Application.isPlaying) return;
+        if(!ActivePonds.Contains(this))ActivePonds.Add(this);
+        FishPondService.Changed += HandleChanged;
+        ResolveRecord(); RebuildVisuals();
+        FishPondHUD.Ensure();
+    }
+
+    void OnDisable()
+    {
+        if (!Application.isPlaying) return;
+        ActivePonds.Remove(this);
+        if(feedRoutine!=null)StopCoroutine(feedRoutine);
+        FinishFeeding();
+        FishPondService.Changed -= HandleChanged;
+        ClosePanel();
+    }
+
+    public void Configure(string id, int level, ItemSO feed)
+    {
+        pondId = id;
+        fallbackLevel = Mathf.Clamp(level, 1, 3);
+        fishFeed = feed;
+    }
+
+#if UNITY_EDITOR
+    public void EditorConfigureFeedStations(Transform trough, FeedMaker machine)
+    {
+        feedingPoint = trough;
+        feedMaker = machine;
+    }
+#endif
+
+    void Update()
+    {
+        AnimateFish(); ResolvePlayer();
+        if (inventory == null || feedRoutine!=null) return;
+        if (panelOpen)
+        {
+            return;
+        }
+        float troughDistance = feedingPoint != null
+            ? HorizontalSurfaceDistance(feedingPoint,inventory.transform.position) : float.PositiveInfinity;
+        float makerDistance = feedMaker != null
+            ? Vector3.Distance(inventory.transform.position, feedMaker.transform.position) : float.PositiveInfinity;
+        InventoryHotbarUI hotbar=inventory.GetComponent<InventoryHotbarUI>();
+        ItemStack heldStack=hotbar!=null ? hotbar.SelectedStack : null;
+        bool holdingFishFeed=IsFishFeed(heldStack);
+        bool holdingAnyFeed=FeedTypes.Kind(heldStack?.item)!=FeedKind.None;
+        bool feedingInRange=InFeedingRange(inventory.transform);
+        if (feedMaker != null && makerDistance <= feedInteractionRadius && makerDistance <= troughDistance && !(holdingAnyFeed&&feedingInRange))
+        {
+            WorldInteractionPrompt.Request(this, feedMaker.transform,
+                $"E: Kelola Fish Feed Maker\nF: Ambil 1 Fish Feed — Ready {feedMaker.FishFeedOutput}",
+                makerDistance, 1.3f);
+            if (PlayerInteractionTarget.PressPrompt(this, feedMaker.transform, KeyCode.F))
+            {
+                if(!feedMaker.CollectAnimated(inventory,true,feedMaker.transform))
+                    SaveLoadFeedback.Instance?.ShowMessage("Fish Feed belum ready / Inventory penuh.");
+            }
+            else if (PlayerInteractionTarget.PressPrompt(this, feedMaker.transform, interactKey))
+                feedMaker.OpenFor(inventory);
+            return;
+        }
+
+        // Kolam berukuran besar membuat player sering lebih dekat ke collider kolam
+        // daripada marker trough. Saat Fish Feed sedang dipegang, prioritaskan aksi
+        // memberi pakan di seluruh area interaksi kolam dan jangan membuka UI ikan.
+        Transform pondTarget = exterior != null && exterior.InteractionPoint != null ? exterior.InteractionPoint : transform;
+        float pondSurfaceDistance=HorizontalSurfaceDistance(pondTarget,inventory.transform.position);
+        bool pondInRange=pondSurfaceDistance<=interactionRadius;
+        if(holdingAnyFeed && feedingInRange)
+        {
+            Transform target=feedingPoint!=null ? feedingPoint : transform;
+            float targetDistance=Mathf.Min(troughDistance,pondSurfaceDistance);
+            string action=FeedSpace>0 ? "F: Tabur Pakan Ikan" : "F: Tempat pakan ikan penuh";
+            WorldInteractionPrompt.Request(this,target,
+                $"{action}\nTempat Pakan Ikan — {FeedStock}/{FeedCapacity} | Butuh {FeedNeeded}/hari | {FeedRemainingText()}",
+                targetDistance,1.25f,FeedSelected);
+            if(PlayerInteractionTarget.PressPrompt(this, target, KeyCode.F))
+                FeedSelected();
+            return;
+        }
+        if (feedingPoint != null && troughDistance <= feedInteractionRadius && (holdingFishFeed || !pondInRange))
+        {
+            string action=FeedSpace<=0
+                ? "Tempat pakan ikan penuh"
+                : holdingFishFeed
+                    ? "F: Masukkan 1 Fish Feed"
+                    : "Pilih Fish Feed di hotbar lalu tekan F";
+            WorldInteractionPrompt.Request(this, feedingPoint,
+                $"{action}\nTempat Pakan Ikan — {FeedStock}/{FeedCapacity} | Butuh {FeedNeeded}/hari | {FeedRemainingText()}",
+                troughDistance, 1.25f,FeedSelected);
+            if (PlayerInteractionTarget.PressPrompt(this, feedingPoint, KeyCode.F))
+            {
+                FeedSelected();
+            }
+            return;
+        }
+        if (!PlayerInteractionTarget.ContainsPickup(inventory.transform, pondTarget, interactionRadius)) return;
+        float distance = Vector3.Distance(inventory.transform.position, pondTarget.position);
+        WorldInteractionPrompt.Request(this, pondTarget,
+            $"{interactKey}: Kelola Kolam",
+            distance, 1.2f,OpenPanel);
+        if (PlayerInteractionTarget.PressPrompt(this, pondTarget, interactKey)) OpenPanel();
+    }
+
+    public void AddFish(int slotIndex)
+    {
+        ItemStack stack = inventory?.GetSlot(slotIndex);
+        if (stack?.item == null || stack.item.category != ItemCategory.Fish || FishCount >= Capacity) return;
+        ItemSO item = stack.item;
+        int quality = stack.qualityStars;
+        FishDefinitionSO definition = FishMeasurement.FindDefinition(item);
+        float size = stack.fishSizeCm > 0f ? stack.fishSizeCm : definition != null ? definition.minimumSizeCm : 15f;
+        float weight = stack.fishWeightKg > 0f ? stack.fishWeightKg : FishMeasurement.EstimateWeightKg(item, size);
+        if (!inventory.RemoveFromSlot(slotIndex, 1)) return;
+        record.fish.Add(new FishPondFishData
+        {
+            itemId = item.Id, assetName = item.name, itemName = item.itemName,
+            qualityStars = quality, sizeCm = size, weightKg = weight
+        });
+        feedback = $"{item.itemName} dimasukkan ke pond.";
+        Commit();
+    }
+
+    public void TakeFish(int index)
+    {
+        if (record?.fish == null || index < 0 || index >= record.fish.Count || inventory == null) return;
+        FishPondFishData fish = record.fish[index];
+        ItemSO item = ItemCatalog.Resolve(fish.itemId, fish.assetName, fish.itemName);
+        if (item == null) { feedback = "Asset ikan tidak ditemukan."; return; }
+        if (!inventory.CanAdd(item, 1, fish.qualityStars, fish.sizeCm, fish.weightKg)) { feedback = "Inventory penuh."; return; }
+        if (!inventory.Add(item, 1, fish.qualityStars, fish.sizeCm, fish.weightKg)) return;
+        record.fish.RemoveAt(index);
+        feedback = $"{item.itemName} diambil kembali.";
+        Commit();
+    }
+
+    public void TreatFish(int index)
+    {
+        if (record?.fish == null || index < 0 || index >= record.fish.Count || inventory == null) return;
+        FishPondFishData fish = record.fish[index];
+        if (!fish.sick) { feedback = "Ikan ini sehat dan tidak membutuhkan obat."; return; }
+
+        AnimalCareCatalog catalog = AnimalCareCatalog.Load();
+        ItemSO medicine = null;
+        for (int level = (int)AnimalMedicineLevel.Basic; level <= (int)AnimalMedicineLevel.Premium; level++)
+        {
+            ItemSO candidate = catalog != null ? catalog.Medicine((AnimalMedicineLevel)level) : null;
+            if (candidate != null && inventory.GetCount(candidate) > 0)
+            {
+                medicine = candidate;
+                break;
+            }
+        }
+        if (medicine == null || !inventory.Remove(medicine, 1))
+        {
+            feedback = "Animal Medicine tidak tersedia di Inventory.";
+            return;
+        }
+
+        fish.sick = false;
+        fish.daysWithoutFood = 0;
+        feedback = $"{fish.itemName} sudah diobati. Progres pertumbuhan dapat berjalan lagi saat diberi pakan.";
+        PlayerPickupNotification.Show(inventory.transform, $"{medicine.itemName} x1 → Ikan diobati");
+        Commit();
+    }
+
+    public void DebugAdvanceGrowth(bool completeCurrentStage)
+    {
+        if (record?.fish == null || record.fish.Count == 0)
+        {
+            feedback = "DEBUG: Pond masih kosong.";
+            return;
+        }
+
+        int progressed = 0;
+        int grown = 0;
+        foreach (FishPondFishData fish in record.fish)
+        {
+            if (fish == null || fish.sick) continue;
+            ItemSO item = ItemCatalog.Resolve(fish.itemId, fish.assetName, fish.itemName);
+            FishSizeTier tier = FishMeasurement.GetSizeTier(item, fish.sizeCm);
+            int needed = FishPondService.GrowthDaysNeeded(tier);
+            if (needed <= 0) continue;
+            fish.growthDays = completeCurrentStage ? needed : Mathf.Min(needed, fish.growthDays + 1);
+            progressed++;
+            if (fish.growthDays < needed) continue;
+
+            FishDefinitionSO definition = FishMeasurement.FindDefinition(item);
+            fish.sizeCm = definition != null ? definition.GetNextPondSize(tier) :
+                tier == FishSizeTier.Small ? 22f : 35f;
+            fish.weightKg = FishMeasurement.EstimateWeightKg(item, fish.sizeCm);
+            fish.growthDays = 0;
+            grown++;
+        }
+
+        feedback = progressed <= 0
+            ? "DEBUG: Tidak ada ikan sehat yang masih dapat tumbuh."
+            : grown > 0
+                ? $"DEBUG: {grown} ikan naik ke ukuran berikutnya."
+                : $"DEBUG: Growth +1 hari untuk {progressed} ikan.";
+        Commit();
+    }
+
+    public void DepositFeed(int slotIndex, int amount)
+    {
+        if(amount>0)TryFeedFromSlot(slotIndex);
+    }
+
+    static float HorizontalSurfaceDistance(Transform target,Vector3 position)
+    {
+        if(target==null) return float.PositiveInfinity;
+        float best=float.PositiveInfinity;
+        foreach(Renderer renderer in target.GetComponentsInChildren<Renderer>(true))
+        {
+            if(renderer==null || !renderer.enabled) continue;
+            Vector3 point=renderer.bounds.ClosestPoint(position);
+            point.y=position.y;
+            best=Mathf.Min(best,Vector3.Distance(position,point));
+        }
+        if(float.IsPositiveInfinity(best))
+        {
+            Vector3 delta=target.position-position;
+            delta.y=0f;
+            best=delta.magnitude;
+        }
+        return best;
+    }
+
+    public bool IsFishFeed(ItemStack stack) => stack?.item!=null && stack.count>0 && FeedTypes.Kind(stack.item)==FeedKind.Fish;
+
+    void FeedSelected()
+    {
+        ResolvePlayer();
+        var hotbar=inventory!=null?inventory.GetComponent<InventoryHotbarUI>():null;
+        if(hotbar!=null)TryFeedFromSlot(hotbar.SelectedIndex);
+    }
+
+    /// <summary>Feeding reach is independent of facing and shared by desktop, touch and preview suppression.</summary>
+    public bool InFeedingRange(Transform actor)
+    {
+        if(!isActiveAndEnabled || actor==null || Mathf.Abs(actor.position.y-transform.position.y)>2f)return false;
+        if(site!=null && (site.CurrentLevel<=0 || site.State==BuildingConstructionState.Available))return false;
+        Transform pondTarget=exterior!=null&&exterior.InteractionPoint!=null?exterior.InteractionPoint:transform;
+        return HorizontalSurfaceDistance(pondTarget,actor.position)<=interactionRadius ||
+            feedingPoint!=null&&HorizontalSurfaceDistance(feedingPoint,actor.position)<=feedInteractionRadius;
+    }
+
+    /// <summary>Any held feed near a pond belongs to feeding, including invalid feed that must show the rejection notice.</summary>
+    public static bool UsesFeedingContext(Transform actor,ItemSO item)
+    {
+        if(FeedTypes.Kind(item)==FeedKind.None)return false;
+        foreach(var pond in ActivePonds)if(pond!=null&&pond.InFeedingRange(actor))return true;
+        return false;
+    }
+
+    /// <summary>Starts a scattering action; one fish-feed unit is committed only at the validated hand-release moment.</summary>
+    public bool TryFeedFromSlot(int slotIndex)
+    {
+        ResolvePlayer();
+        if(feedRoutine!=null || inventory==null || player==null || !InFeedingRange(player.transform) ||
+            player.HasMovementLockOtherThan(this) || WorldInteractionPrompt.IsSuppressedExcept(this) || GameplayPauseMenu.BlocksGameplayInput)return false;
+        ItemStack stack=inventory.GetSlot(slotIndex);
+        if(stack?.item!=null&&stack.count>0&&!IsFishFeed(stack))
+        {feedback=FeedTypes.WrongTypeMessage;GameplayInfoPanel.NotifyBesideTools(feedback);return false;}
+        if(!IsFishFeed(stack)){feedback="Pilih Pakan Ikan dari hotbar.";GameplayInfoPanel.Notify(feedback);return false;}
+        if(FeedSpace<=0){feedback="Tempat pakan sudah penuh";GameplayInfoPanel.NotifyBesideTools(feedback);return false;}
+        if(!StaminaBalance.Can(inventory,"feed_fish")){feedback="Stamina tidak cukup.";GameplayInfoPanel.Notify(feedback);return false;}
+        ItemSO item=stack.item;
+        ClosePanel();
+        feedRoutine=StartCoroutine(ScatterFeedRoutine(inventory,slotIndex,item));
+        return true;
+    }
+
+    System.Collections.IEnumerator ScatterFeedRoutine(Inventory source,int slotIndex,ItemSO item)
+    {
+        feedingPlayer=source.GetComponent<PlayerController>();
+        Vector3 target=exterior!=null?exterior.FeedingWaterPoint(feedingPlayer.transform.position):transform.position+Vector3.up*.3f;
+        feedingPlayer.FaceTowardsInteraction(target);
+        feedingPlayer.AcquireMovementLock(this);
+        WorldInteractionPrompt.AcquireSuppression(this);
+        source.GetComponent<HeldItemPlacementSystem>()?.SetExternalActionSuppressed(this,true);
+        feedingPlayer.PlayHandOverAnimation();
+        yield return new WaitForSeconds(Mathf.Min(feedScatterImpactDelay,feedScatterDuration));
+        ItemStack stack=source!=null?source.GetSlot(slotIndex):null;
+        bool valid=source!=null&&feedingPlayer!=null&&InFeedingRange(feedingPlayer.transform)&&
+            !feedingPlayer.HasMovementLockOtherThan(this)&&!WorldInteractionPrompt.IsSuppressedExcept(this)&&
+            stack?.item==item&&IsFishFeed(stack)&&FeedSpace>0&&StaminaBalance.Can(source,"feed_fish");
+        if(valid&&source.RemoveFromSlot(slotIndex,1))
+        {
+            StaminaBalance.Spend(source,"feed_fish");
+            record.feedStock++;
+            Commit();
+            FarmActionEffects.ScatterFeed(feedingPlayer,target);
+            feedback="Pakan Ikan x1 ditaburkan";
+            GameplayInfoPanel.Notify(feedback);
+        }
+        else {feedback="Pakan belum berhasil digunakan.";GameplayInfoPanel.Notify(feedback);}
+        yield return new WaitForSeconds(Mathf.Max(.05f,feedScatterDuration-feedScatterImpactDelay));
+        FinishFeeding();
+    }
+
+    void FinishFeeding()
+    {
+        if(feedingPlayer!=null)
+        {
+            feedingPlayer.GetComponent<HeldItemPlacementSystem>()?.SetExternalActionSuppressed(this,false);
+            feedingPlayer.ReleaseMovementLock(this);
+        }
+        WorldInteractionPrompt.ReleaseSuppression(this);
+        feedingPlayer=null;feedRoutine=null;
+    }
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]static void ResetFeedingRegistry()=>ActivePonds.Clear();
+
+    void WithdrawFeed()
+    {
+        if (fishFeed == null || inventory == null || FeedStock <= 0 || !inventory.Add(fishFeed, FeedStock))
+        { feedback = "Stok kosong atau Inventory penuh."; return; }
+        int moved = FeedStock;
+        record.feedStock = 0;
+        feedback = $"Fish Feed x{moved} dikembalikan ke Inventory.";
+        Commit();
+    }
+
+    string PondFeedStatus()
+    {
+        if (FishCount <= 0) return "EMPTY";
+        return FeedStock >= FeedNeeded
+            ? $"FEED READY {FeedStock}/{FeedNeeded}"
+            : $"NEEDS FEED {FeedStock}/{FeedNeeded}";
+    }
+
+    void Commit()
+    {
+        record.level = Level;
+        record.position = transform.position;
+        record.eulerAngles = transform.eulerAngles;
+        FishPondService.NotifyChanged();
+        RebuildVisuals();
+    }
+
+    void ResolveRecord() => record = FishPondService.GetOrCreate(pondId, Level, transform);
+    void HandleChanged() { ResolveRecord(); RebuildVisuals(); }
+
+    void RebuildVisuals()
+    {
+        if (visualRoot != null) { visualRoot.gameObject.SetActive(false); Destroy(visualRoot.gameObject); }
+        visualFish.Clear(); visualOrigins.Clear();
+        visualRoot = new GameObject("FishVisuals_Runtime").transform;
+        visualRoot.SetParent(transform, false);
+        if (record?.fish == null) return;
+        int visible = Mathf.Min(maximumVisibleFish, record.fish.Count);
+        for (int index = 0; index < visible; index++)
+        {
+            FishPondFishData fish = record.fish[index];
+            ItemSO item = ItemCatalog.Resolve(fish.itemId, fish.assetName, fish.itemName);
+            GameObject model = item != null && item.worldPrefab != null
+                ? Instantiate(item.worldPrefab)
+                : GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            model.name = $"FishVisual_{index}_{fish.itemName}";
+            if (item?.worldPrefab == null) model.name += "_Placeholder";
+            model.transform.SetParent(visualRoot, false);
+            foreach (Collider collider in model.GetComponentsInChildren<Collider>(true)) collider.enabled = false;
+            foreach (Rigidbody body in model.GetComponentsInChildren<Rigidbody>(true)) { body.isKinematic=true;body.useGravity=false; }
+            float scale = FishMeasurement.GetSizeTier(item, fish.sizeCm) switch
+            { FishSizeTier.Small => 0.7f, FishSizeTier.Medium => 1f, FishSizeTier.Large => 1.3f, _ => 1.6f };
+            if (exterior != null)
+            {
+                // Normalize real item prefab bounds instead of stretching every species into a capsule.
+                model.transform.localRotation = item?.worldPrefab == null ? Quaternion.Euler(0,0,90) : Quaternion.identity;
+                Bounds b = new(Vector3.zero,Vector3.zero);bool first=true;
+                foreach (Renderer r in model.GetComponentsInChildren<Renderer>())
+                {
+                    for(int x=-1;x<=1;x+=2)for(int y=-1;y<=1;y+=2)for(int z=-1;z<=1;z+=2)
+                    {
+                        Vector3 q=transform.InverseTransformPoint(r.bounds.center+Vector3.Scale(r.bounds.extents,new Vector3(x,y,z)));
+                        if(first){b=new Bounds(q,Vector3.zero);first=false;}else b.Encapsulate(q);
+                    }
+                }
+                float factor=Mathf.Min(Mathf.Clamp(.6f*scale,.45f,.9f)/Mathf.Max(.001f,Mathf.Max(b.size.x,b.size.z)),.18f/Mathf.Max(.001f,b.size.y));
+                model.transform.localScale *= factor;
+            }
+            else
+            {
+                model.transform.localScale = new Vector3(0.32f, 0.12f, 0.12f) * scale;
+                model.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
+            }
+            float angle = index / (float)Mathf.Max(1, visible) * Mathf.PI * 2f;
+            Vector3 origin = exterior != null ? exterior.SwimOrigin(index) : new(Mathf.Cos(angle) * 0.32f, 0.05f, Mathf.Sin(angle) * 0.32f);
+            model.transform.localPosition = origin;
+            visualFish.Add(model.transform); visualOrigins.Add(origin);
+            Renderer renderer = model.GetComponentInChildren<Renderer>();
+            if (renderer != null && item?.worldPrefab == null)
+                renderer.material.color = Color.HSVToRGB(StableHue(item?.Id ?? fish.itemName), 0.62f, 0.95f);
+        }
+    }
+
+    void AnimateFish()
+    {
+        for (int index = 0; index < visualFish.Count; index++)
+        {
+            Transform fish = visualFish[index]; if (fish == null) continue;
+            float phase = Time.unscaledTime * (0.65f + index * 0.035f) + index;
+            Vector3 origin = visualOrigins[index];
+            Vector3 position = origin + new Vector3(Mathf.Sin(phase) * 0.18f, Mathf.Sin(phase * 1.4f) * 0.02f, Mathf.Cos(phase) * 0.12f);
+            fish.localPosition = exterior == null || exterior.IsSwimPoint(position) ? position : origin;
+            bool placeholder = fish.name.EndsWith("_Placeholder");
+            fish.localRotation = Quaternion.Euler(0f, -phase * Mathf.Rad2Deg, exterior == null || placeholder ? 90f : 0f);
+        }
+    }
+
+    void ResolvePlayer()
+    {
+        if (inventory == null) inventory = FindFirstObjectByType<Inventory>();
+        if (player == null && inventory != null) player = inventory.GetComponent<PlayerController>();
+    }
+
+    void EnsureFeedStations()
+    {
+        if (feedingPoint == null) feedingPoint = transform.Find("FishFeedTrough_Editable");
+        if (feedingPoint == null)
+        {
+            GameObject trough = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            trough.name = "FishFeedTrough_Editable";
+            trough.transform.SetParent(transform, false);
+            trough.transform.localPosition = new Vector3(3.25f + (Level - 1) * 0.35f, 0.35f, -1.75f);
+            trough.transform.localScale = new Vector3(1.15f, 0.7f, 1.35f);
+            feedingPoint = trough.transform;
+        }
+        if (feedMaker == null) feedMaker = GetComponentInChildren<FeedMaker>(true);
+        if (feedMaker == null)
+        {
+            GameObject machine = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            machine.name = "FishPondFeedMaker_Editable";
+            machine.transform.SetParent(transform, false);
+            machine.transform.localPosition = new Vector3(3.25f + (Level - 1) * 0.35f, 0.8f, 1.75f);
+            machine.transform.localScale = new Vector3(1.2f, 1.6f, 1.2f);
+            feedMaker = machine.AddComponent<FeedMaker>();
+        }
+        feedMaker.Configure($"feedmaker.{pondId}", Resources.Load<FeedMakerCatalog>("Catalogs/FeedMakerCatalog"));
+        feedMaker.SetContextLabel("FISH POND");
+        feedMaker.SetDedicatedOutput(true);
+        feedMaker.SetExternalInteraction(true);
+        feedMaker.SetWorldDebugVisible(false);
+        Transform oldFeedLabel = feedingPoint.Find("FishFeed_DebugLabel");
+        if (oldFeedLabel != null) oldFeedLabel.gameObject.SetActive(false);
+        Transform oldPondLabel=transform.Find("FishPond_DebugLabel");
+        if(oldPondLabel!=null)oldPondLabel.gameObject.SetActive(false);
+    }
+
+    string FeedRemainingText()
+    {
+        if (FishCount <= 0) return "Tidak berkurang (kolam kosong)";
+        if (FeedStock < FeedNeeded) return $"Kurang {FeedNeeded - FeedStock}; tidak cukup untuk 00:00";
+        int fullDays = FeedStock / FeedNeeded;
+        int untilReset = TimeManager.Instance == null ? 0 :
+            24 * 60 - (TimeManager.Instance.hour * 60 + TimeManager.Instance.minute);
+        int totalMinutes = Mathf.Max(0, untilReset) + Mathf.Max(0, fullDays - 1) * 24 * 60;
+        return $"Habis sekitar {GameTimeDebugText.FormatMinutes(totalMinutes)} ({fullDays} hari pakan)";
+    }
+
+    string FeedEstimateShort()
+    {
+        if (FishCount <= 0) return "-";
+        if (FeedStock < FeedNeeded) return "< 1 hari";
+        int fullDays = FeedStock / FeedNeeded;
+        int untilReset = TimeManager.Instance == null ? 0 :
+            24 * 60 - (TimeManager.Instance.hour * 60 + TimeManager.Instance.minute);
+        int minutes = Mathf.Max(0, untilReset) + Mathf.Max(0, fullDays - 1) * 24 * 60;
+        return GameTimeDebugText.FormatMinutes(minutes);
+    }
+
+    public void OpenPanel()
+    {
+        if(panelOpen)return;
+        ResolvePlayer();ResolveRecord();if(inventory==null)return;
+        if(FishPondUI.Instance!=null)FishPondUI.Instance.Pond?.ClosePanel();
+        panelOpen=true;
+        player?.AcquireMovementLock(this);TimeManager.Instance?.AcquirePause(this);WorldInteractionPrompt.AcquireSuppression(this);
+        FishPondUI.Show(this);GameplayInput.ConsumeCurrentFrame();
+    }
+
+    public void ClosePanel()
+    {
+        if(!panelOpen)return;
+        panelOpen=false;
+        FishPondUI.Hide(this);
+        player?.ReleaseMovementLock(this);TimeManager.Instance?.ReleasePause(this);WorldInteractionPrompt.ReleaseSuppression(this);
+        GameplayInput.ConsumeCurrentFrame();
+    }
+    static float StableHue(string value)
+    {
+        uint hash = 2166136261;
+        foreach (char character in value ?? string.Empty) hash = (hash ^ character) * 16777619;
+        return hash % 1000 / 1000f;
+    }
+
+    static string QualityLabel(int quality) => quality <= 0 ? "Normal" : $"{Mathf.Clamp(quality, 1, 5)}★";
+    static string TransformPath(Transform value)
+    {
+        string path = value.name;
+        while (value.parent != null) { value = value.parent; path = value.name + "/" + path; }
+        return path;
+    }
+}

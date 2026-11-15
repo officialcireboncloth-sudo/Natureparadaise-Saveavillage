@@ -1,0 +1,652 @@
+using System.Collections;
+using UnityEngine;
+
+/// <summary>
+/// Menampilkan item hotbar terpilih di tangan dan menyediakan dua aksi terpisah:
+/// Drop (fisika) serta Place (stabil dengan preview permukaan).
+/// </summary>
+[DisallowMultipleComponent]
+[RequireComponent(typeof(Inventory))]
+[DefaultExecutionOrder(1150)]
+public sealed class HeldItemPlacementSystem : MonoBehaviour
+{
+    [Header("Input PC")]
+    [SerializeField] KeyCode dropKey = KeyCode.G;
+    [SerializeField] KeyCode placeKey = KeyCode.P;
+    [Tooltip("Tahan tombol ini bersama Drop/Place untuk mengeluarkan seluruh stack.")]
+    [SerializeField] KeyCode wholeStackModifier = KeyCode.LeftShift;
+
+    [Header("Placement")]
+    [SerializeField, Min(0.5f)] float placementDistance = 1.6f;
+    [SerializeField, Min(0.5f)] float rayHeight = 2.5f;
+    [SerializeField, Range(0f, 1f)] float minimumSurfaceUpDot = 0.65f;
+    [SerializeField] LayerMask placementMask = ~0;
+    [SerializeField, Min(0.02f)] float previewRefreshInterval = 0.05f;
+    [Tooltip("Jika aktif, permukaan harus memiliki ItemPlacementSurface. Matikan agar terrain/lantai datar biasa tetap valid.")]
+    [SerializeField] bool requireSurfaceMarker;
+    [Tooltip("Ruang tambahan di sekitar model ketika memeriksa tabrakan placement.")]
+    [SerializeField, Min(0f)] float clearancePadding = 0.025f;
+
+    [Header("Drop Physics")]
+    [Tooltip("Jarak awal item dari pusat player ketika dijatuhkan.")]
+    [SerializeField, Min(0.25f)] float dropForwardOffset = 1.05f;
+    [Tooltip("Ketinggian awal item agar dapat jatuh secara natural.")]
+    [SerializeField, Min(0f)] float dropHeight = 0.85f;
+    [Tooltip("Dorongan horizontal ringan ketika item dilepas.")]
+    [SerializeField, Min(0f)] float dropForwardVelocity = 0.8f;
+
+    [Header("Animation Impact Timing")]
+    [SerializeField, Min(0f)] float placeImpactDelay = 0.65f;
+    [SerializeField, Min(0f)] float placeActionDuration = 1.15f;
+
+    [Header("Held Visual Slot")]
+    [Tooltip("Anchor tangan opsional. Jika kosong dibuat otomatis pada Player.")]
+    [SerializeField] Transform handAnchor;
+    [SerializeField] Color validPreviewColor = new(0.2f, 1f, 0.35f, 0.55f);
+    [SerializeField] Color invalidPreviewColor = new(1f, 0.18f, 0.12f, 0.55f);
+
+    Inventory inventory;
+    InventoryHotbarUI hotbarUI;
+    PlayerController movement;
+    FarmingTool farming;
+    GameObject heldVisual;
+    GameObject previewVisual;
+    Material previewMaterial;
+    GameObject rangePreview;
+    readonly System.Collections.Generic.List<LineRenderer> rangeLines = new();
+    readonly System.Collections.Generic.List<GameObject> rangeFills = new();
+    ItemSO shownItem;
+    Vector3 placementPoint;
+    Quaternion placementRotation = Quaternion.identity;
+    bool placementValid;
+    bool hasTreePlacementTarget;
+    float nextPreviewRefresh;
+    bool actionBusy;
+    bool animalCarrySuppressed;
+    readonly System.Collections.Generic.HashSet<Object> externalActionOwners = new();
+    readonly Collider[] placementOverlapBuffer = new Collider[24];
+
+    /// <summary>Item world-action yang saat ini divisualkan di tangan player.</summary>
+    public ItemSO HeldItem => shownItem;
+
+    void Awake()
+    {
+        inventory = GetComponent<Inventory>();
+        hotbarUI = GetComponent<InventoryHotbarUI>();
+        movement = GetComponent<PlayerController>();
+        farming = GetComponent<FarmingTool>();
+        EnsureHandAnchor();
+    }
+
+    void OnEnable()
+    {
+        if (inventory != null) inventory.OnInventoryChanged += RefreshHeldVisual;
+        if (hotbarUI != null) hotbarUI.SelectionChanged += HandleSlotChanged;
+        if(inventory!=null)RefreshHeldVisual();
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
+        if (inventory != null) inventory.OnInventoryChanged -= RefreshHeldVisual;
+        if (hotbarUI != null) hotbarUI.SelectionChanged -= HandleSlotChanged;
+        movement?.ReleaseMovementLock(this);
+        movement?.SetHoldingItemAnimation(false);
+        actionBusy=false;
+        if(heldVisual!=null)heldVisual.SetActive(false);
+        if(previewVisual!=null)previewVisual.SetActive(false);
+        if(rangePreview!=null)rangePreview.SetActive(false);
+    }
+
+    void OnDestroy()
+    {
+        DestroyPreview();
+        if(heldVisual!=null)Destroy(heldVisual);
+    }
+
+    void Start()
+    {
+        EnsureHandAnchor();
+        RefreshHeldVisual();
+    }
+    void LateUpdate()
+    {
+        EnsureHandAnchor();
+        HeldItemVisuals.NormalizeAnchor(handAnchor);
+    }
+
+    void Update()
+    {
+        if(actionBusy) return;
+        if (movement != null && movement.IsMovementLocked)
+        {
+            if (previewVisual != null) previewVisual.SetActive(false);
+            if (rangePreview != null) rangePreview.SetActive(false);
+            return;
+        }
+        ItemStack selected = GetSelectedStack();
+        if (UsesFeedingTrough(selected))
+        {
+            if (previewVisual != null) previewVisual.SetActive(false);
+            if (rangePreview != null) rangePreview.SetActive(false);
+            return;
+        }
+        bool canDrop = CanDrop(selected);
+        bool canPlace = CanPlace(selected);
+        bool plantingTree = selected?.item?.treeDefinition != null;
+        if (previewVisual != null) previewVisual.SetActive(canPlace && (!plantingTree || hasTreePlacementTarget));
+        if (rangePreview != null) rangePreview.SetActive(canPlace);
+        if (!canDrop && !canPlace) return;
+
+        if (canPlace && Time.unscaledTime >= nextPreviewRefresh)
+        {
+            nextPreviewRefresh = Time.unscaledTime + previewRefreshInterval;
+            RefreshPlacementPreview(selected.item);
+        }
+
+        // WorldInteractionPrompt membutuhkan request setiap frame. Validasi raycast tetap
+        // memakai interval terpisah agar prompt stabil tanpa menambah beban physics.
+        RequestActionPrompt(selected.item, canDrop, canPlace);
+
+        if (canDrop && PressHeldAction(dropKey, plantingTree))
+            DropSelected(GameplayInput.GetKey(wholeStackModifier));
+        else if (canPlace && (PressHeldAction(placeKey, plantingTree) ||
+                              plantingTree && PlayerInteractionTarget.PressAction(this, KeyCode.F)))
+            PlaceSelected(GameplayInput.GetKey(wholeStackModifier));
+    }
+
+    bool PressHeldAction(KeyCode key, bool treeSeedling) => treeSeedling
+        ? PlayerInteractionTarget.PressAction(this, key)
+        : PlayerInteractionTarget.PressPrompt(this, key);
+
+    bool CanRequestHeldAction()
+    {
+        bool treeSeedling = GetSelectedStack()?.item?.treeDefinition != null;
+        return treeSeedling ? WorldInteractionPrompt.AllowsAction(this) : WorldInteractionPrompt.IsDisplayedFor(this);
+    }
+
+    /// <summary>Dipakai UI mobile untuk menjatuhkan satu item atau seluruh stack.</summary>
+    public void RequestDrop(bool wholeStack = false) { if (CanRequestHeldAction()) DropSelected(wholeStack); }
+
+    /// <summary>Dipakai UI mobile untuk meletakkan satu item atau seluruh stack.</summary>
+    public void RequestPlace(bool wholeStack = false) { if (CanRequestHeldAction()) PlaceSelected(wholeStack); }
+
+    bool CanStartHeldAction => isActiveAndEnabled && !actionBusy && (movement == null || !movement.IsMovementLocked);
+
+    void DropSelected(bool wholeStack)
+    {
+        ItemStack stack = GetSelectedStack();
+        if (!CanStartHeldAction || !CanDrop(stack) || UsesFeedingTrough(stack)) return;
+        int amount = wholeStack ? stack.count : 1;
+        ItemSO item = stack.item;
+        Vector3 facing = GetFacing();
+        Vector3 position = transform.position + facing * dropForwardOffset + Vector3.up * dropHeight;
+        StartCoroutine(PlaceOrDropRoutine(false,item,amount,stack.qualityStars,
+            stack.fishSizeCm,stack.fishWeightKg,position,Quaternion.identity,facing));
+    }
+
+    void PlaceSelected(bool wholeStack)
+    {
+        ItemStack stack = GetSelectedStack();
+        if (!CanStartHeldAction || !CanPlace(stack) || UsesFeedingTrough(stack)) return;
+        bool plantingTree = stack.item.treeDefinition != null;
+        RefreshPlacementPreview(stack.item);
+        if (!placementValid)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage(plantingTree
+                ? hasTreePlacementTarget ? "Petak ini terisi, terkunci, atau terhalang." : "Hadap ke petak kebun untuk menanam bibit pohon."
+                : "Permukaan tidak valid untuk menaruh item");
+            return;
+        }
+
+        int amount = wholeStack && !stack.item.IsFarmPlacement ? stack.count : 1;
+        ItemSO item = stack.item;
+        StartCoroutine(PlaceOrDropRoutine(true,item,amount,stack.qualityStars,
+            stack.fishSizeCm,stack.fishWeightKg,placementPoint,placementRotation,Vector3.zero));
+    }
+
+    bool UsesFeedingTrough(ItemStack stack) => stack?.item!=null &&
+        (BarnInteriorSceneController.Instance!=null &&
+        BarnInteriorSceneController.Instance.IsFeedingInRange(transform,stack.item) || FishPond.UsesFeedingContext(transform,stack.item));
+
+    IEnumerator PlaceOrDropRoutine(bool controlledPlace,ItemSO item,int amount,int qualityStars,
+        float fishSizeCm,float fishWeightKg,Vector3 position,Quaternion rotation,Vector3 dropDirection)
+    {
+        actionBusy=true;
+        bool plantingTree = controlledPlace && item.treeDefinition != null;
+        if (plantingTree) movement?.FaceTowardsInteraction(position);
+        movement?.AcquireMovementLock(this);
+        movement?.SetHoldingItemAnimation(false);
+        if (plantingTree) movement?.PlayPlantingAnimation();
+        else movement?.PlayPlaceItemAnimation();
+        if(placeImpactDelay>0f) yield return new WaitForSeconds(placeImpactDelay);
+
+        ItemStack current=GetSelectedStack();
+        bool treeTileAvailable = !plantingTree || CanStillPlantTree(position);
+        if(!treeTileAvailable || current==null || current.item!=item || current.count<amount ||
+           !inventory.RemoveFromSlot(hotbarUI.SelectedIndex,amount))
+        {
+            SaveLoadFeedback.Instance?.ShowMessage(treeTileAvailable ? "Item yang dipegang sudah berubah" : "Petak sudah tidak bisa ditanami.");
+            float failedRemaining=Mathf.Max(0f,placeActionDuration-placeImpactDelay);
+            if(failedRemaining>0f) yield return new WaitForSeconds(failedRemaining);
+            FinishPlaceAction();
+            yield break;
+        }
+
+        PlacedWorldItem worldItem=PlacedWorldItem.Spawn(item,amount,position,rotation,
+            !controlledPlace,qualityStars,fishSizeCm,fishWeightKg);
+        if(worldItem==null)
+        {
+            inventory.Add(item,amount,qualityStars,fishSizeCm,fishWeightKg);
+            SaveLoadFeedback.Instance?.ShowMessage(controlledPlace?"Place item gagal":"Drop item gagal");
+            float failedRemaining=Mathf.Max(0f,placeActionDuration-placeImpactDelay);
+            if(failedRemaining>0f) yield return new WaitForSeconds(failedRemaining);
+            FinishPlaceAction();
+            yield break;
+        }
+
+        if(!controlledPlace)
+        {
+            Rigidbody body=worldItem.GetComponent<Rigidbody>();
+            if(body!=null) body.linearVelocity=dropDirection*dropForwardVelocity;
+        }
+        else if(item.IsSprinkler && FieldArea.TryGetAt(position,out FieldArea field,out _,out _))
+            FarmPlacement.WaterField(field);
+
+        SaveLoadFeedback.Instance?.ShowMessage(plantingTree ? $"{item.itemName} berhasil ditanam."
+            : $"{(controlledPlace?"Place":"Drop")} {item.itemName} x{amount}");
+        float remaining=Mathf.Max(0f,placeActionDuration-placeImpactDelay);
+        if(remaining>0f) yield return new WaitForSeconds(remaining);
+        FinishPlaceAction();
+    }
+
+    void FinishPlaceAction()
+    {
+        movement?.ReleaseMovementLock(this);
+        actionBusy=false;
+        RefreshHeldVisual();
+    }
+
+    void RefreshPlacementPreview(ItemSO item)
+    {
+        EnsurePreview(item);
+        if (item.treeDefinition != null)
+        {
+            RefreshTreePlacementPreview();
+            return;
+        }
+        Vector3 desired = transform.position + GetFacing() * placementDistance;
+        Vector3 origin = desired + Vector3.up * rayHeight;
+        placementValid = Physics.Raycast(origin, Vector3.down, out RaycastHit hit, rayHeight * 2f, placementMask, QueryTriggerInteraction.Ignore);
+        if (placementValid)
+        {
+            ItemPlacementSurface surface = hit.collider.GetComponentInParent<ItemPlacementSurface>();
+            placementValid = hit.normal.y >= minimumSurfaceUpDot &&
+                             (!requireSurfaceMarker || surface != null) &&
+                             (surface == null || surface.AllowItemPlacement) &&
+                             hit.collider.GetComponentInParent<PlacedWorldItem>() == null &&
+                             hit.collider.GetComponentInParent<PlayerController>() == null;
+            placementPoint = hit.point + Vector3.up * 0.02f;
+            placementRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
+        }
+        else
+        {
+            placementPoint = desired;
+            placementRotation = Quaternion.identity;
+        }
+
+        if (placementValid && item.IsFarmPlacement)
+        {
+            placementValid = FarmPlacement.CanPlace(item, ref placementPoint);
+            placementRotation = Quaternion.identity;
+        }
+        previewVisual.transform.SetPositionAndRotation(placementPoint, placementRotation);
+        if (placementValid)
+            placementValid = HasPlacementClearance(hit.collider);
+
+        previewMaterial.color = placementValid ? validPreviewColor : invalidPreviewColor;
+        RefreshRange(item);
+    }
+
+    void RefreshTreePlacementPreview()
+    {
+        placementValid = hasTreePlacementTarget = false;
+        if (farming != null && farming.TryGetCurrentTile(out var field, out int x, out int z))
+        {
+            hasTreePlacementTarget = true;
+            placementPoint = field.PlantingSurfacePosition(x, z);
+            placementRotation = Quaternion.identity;
+            placementValid = farming.CanPlantTreeAt(field, x, z);
+            previewVisual.transform.SetPositionAndRotation(placementPoint, placementRotation);
+        }
+        previewVisual.SetActive(hasTreePlacementTarget);
+        previewMaterial.color = placementValid ? validPreviewColor : invalidPreviewColor;
+    }
+
+    bool CanStillPlantTree(Vector3 position) => farming != null &&
+        FieldArea.TryGetAt(position, out var field, out int x, out int z) && farming.CanPlantTreeAt(field, x, z);
+
+    void RefreshRange(ItemSO item)
+    {
+        if (!item.IsSprinkler) return;
+        if (rangePreview == null) rangePreview = new GameObject("SprinklerRange_Runtime");
+        foreach (LineRenderer existing in rangeLines) existing.gameObject.SetActive(false);
+        if (!FieldArea.TryGetAt(placementPoint, out FieldArea field, out int x, out int z)) return;
+        int lineIndex = 0;
+        foreach (Vector2Int offset in FarmPlacement.Offsets(item.sprinklerLevel))
+        {
+            Vector3 center = field.GridToWorld(x + offset.x, z + offset.y) + Vector3.up * 0.06f;
+            if (!field.CanReceiveSprinkler(x + offset.x, z + offset.y)) continue;
+            if (lineIndex == rangeLines.Count)
+            {
+                GameObject cell = new("RangeTile");
+                cell.transform.SetParent(rangePreview.transform, false);
+                LineRenderer created = cell.AddComponent<LineRenderer>();
+                created.sharedMaterial = previewMaterial;
+                created.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+                created.receiveShadows=false;
+                created.widthMultiplier = 0.025f;
+                created.loop = true;
+                created.positionCount = 4;
+                rangeLines.Add(created);
+                GameObject fill = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                fill.name = "CoverageFill";
+                fill.transform.SetParent(cell.transform, false);
+                Destroy(fill.GetComponent<Collider>());
+                Renderer renderer = fill.GetComponent<Renderer>();
+                renderer.sharedMaterial = previewMaterial;
+                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                renderer.receiveShadows = false;
+                rangeFills.Add(fill);
+            }
+            GameObject filledTile = rangeFills[lineIndex];
+            filledTile.transform.SetPositionAndRotation(center, field.transform.rotation * Quaternion.Euler(90f, 0f, 0f));
+            filledTile.transform.localScale = new Vector3(field.CellSize * field.transform.lossyScale.x * 0.92f,
+                field.CellSize * field.transform.lossyScale.z * 0.92f, 1f);
+            LineRenderer line = rangeLines[lineIndex++];
+            line.gameObject.SetActive(true);
+            float half = field.CellSize * 0.46f;
+            Vector3 right = field.transform.TransformVector(Vector3.right * half);
+            Vector3 forward = field.transform.TransformVector(Vector3.forward * half);
+            line.SetPosition(0, center - right - forward);
+            line.SetPosition(1, center + right - forward);
+            line.SetPosition(2, center + right + forward);
+            line.SetPosition(3, center - right + forward);
+        }
+    }
+
+    void RequestActionPrompt(ItemSO item, bool canDrop, bool canPlace)
+    {
+        if (item == null)
+            return;
+
+        if (item.treeDefinition != null && canPlace)
+        {
+            Transform treeAnchor = hasTreePlacementTarget ? previewVisual.transform : heldVisual?.transform;
+            string action = placementValid ? $"{placeKey} / F: tanam bibit pohon"
+                : hasTreePlacementTarget ? "Petak tidak bisa ditanami" : "Hadap ke petak kebun";
+            if (canDrop) action += $"  |  {dropKey}: jatuhkan";
+            float distance = hasTreePlacementTarget ? Vector3.Distance(transform.position, placementPoint) : 50f;
+            WorldInteractionPrompt.Request(this, treeAnchor, $"{item.itemName}\n{action}", distance, 0.65f,
+                placementValid ? () => RequestPlace() : null);
+            return;
+        }
+
+        string actions;
+        if (canDrop && canPlace)
+            actions = $"{placeKey}: Place  |  {dropKey}: Drop";
+        else if (canPlace)
+            actions = $"{placeKey}: Place";
+        else
+            actions = $"{dropKey}: Drop";
+
+        Transform anchor = canPlace && previewVisual != null ? previewVisual.transform : heldVisual?.transform;
+        if (anchor != null)
+        {
+            // Hint held-item berprioritas rendah. Prompt kasur, TV, pickup, atau tanaman
+            // yang sedang didekati boleh menggantikannya tanpa saling berkedip.
+            WorldInteractionPrompt.Request(this, anchor, $"{item.itemName}  -  {actions}  |  Shift: semua", 50f, 0.65f);
+        }
+    }
+
+    void HandleSlotChanged(int _) => RefreshHeldVisual();
+
+    void RefreshHeldVisual()
+    {
+        externalActionOwners.RemoveWhere(owner=>owner==null);
+        ItemStack stack = GetSelectedStack();
+        bool hasWorldAction = HasHeldWorldAction(stack);
+        bool isHeldPitchfork = IsHeldPitchfork(stack);
+        ItemSO item = !animalCarrySuppressed && externalActionOwners.Count == 0 && (hasWorldAction || isHeldPitchfork) ? stack.item : null;
+        // Imported tools, including Pitchfork, are owned by PlayerHeldTools.
+        // Tool use must not enable Hold Item and overwrite the action's arm animation.
+        movement?.SetHoldingItemAnimation(hasWorldAction && item != null && !actionBusy);
+        if (shownItem == item){if(heldVisual!=null)heldVisual.SetActive(isActiveAndEnabled);return;}
+        shownItem = item;
+        if (heldVisual != null){heldVisual.SetActive(false);Destroy(heldVisual);}
+        DestroyPreview();
+        heldVisual = null;
+        if (item == null) return;
+
+        EnsureHandAnchor();
+        heldVisual = HeldItemVisuals.Create(item, handAnchor, $"Held_{item.itemName}");
+        if (item.treeDefinition != null && item.worldPrefab == null) heldVisual.transform.localScale *= 0.15f;
+        heldVisual.transform.localPosition = Vector3.zero;
+        heldVisual.transform.localRotation = Quaternion.identity;
+        if(isHeldPitchfork)
+        {
+            // The Generic player has no Humanoid hand anchor; use the same bone socket as imported tools.
+            Transform grip=GetComponent<PlayerHeldTools>()?.GripPoint;
+            if(grip!=null)
+            {
+                heldVisual.transform.SetParent(grip,false);
+                heldVisual.transform.localPosition=new Vector3(.02f,.08f,.12f);
+                heldVisual.transform.localRotation=Quaternion.Euler(0f,90f,90f);
+            }
+        }
+        if (item.canPlaceInWorld)
+            EnsurePreview(item);
+        HeldItemVisuals.Fit(heldVisual,item);
+    }
+
+    public void SetAnimalCarrySuppressed(bool suppressed)
+    {
+        if(animalCarrySuppressed==suppressed) return;
+        animalCarrySuppressed=suppressed;
+        RefreshHeldVisual();
+    }
+
+    /// <summary>Menyembunyikan item dan preview selama aksi eksternal tanpa mengubah slot inventory.</summary>
+    public void SetExternalActionSuppressed(Object owner, bool suppressed)
+    {
+        if (owner == null) return;
+        if (suppressed) externalActionOwners.Add(owner);
+        else externalActionOwners.Remove(owner);
+        RefreshHeldVisual();
+    }
+
+    void EnsurePreview(ItemSO item)
+    {
+        if (previewVisual != null) return;
+
+        previewVisual = new GameObject();
+        previewVisual.name = $"PlacementPreview_{item.itemName}";
+
+        // Preview memakai model item asli supaya footprint dan orientasinya mudah dinilai.
+        GameObject visual = CreateVisual(item, previewVisual.transform, $"PreviewMesh_{item.itemName}");
+        visual.transform.localPosition = item.IsSprinkler ? Vector3.zero : Vector3.up * 0.35f;
+        if (item.treeDefinition != null)
+            visual.transform.localPosition = item.worldPrefab != null ? Vector3.zero : Vector3.up * visual.transform.localScale.y * 0.5f;
+
+        Shader shader = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Sprites/Default");
+        previewMaterial = new Material(shader);
+        ConfigureTransparentPreviewMaterial(previewMaterial);
+
+        foreach (Renderer itemRenderer in previewVisual.GetComponentsInChildren<Renderer>(true))
+        {
+            int materialCount = Mathf.Max(1, itemRenderer.sharedMaterials.Length);
+            Material[] ghostMaterials = new Material[materialCount];
+            for (int index = 0; index < materialCount; index++)
+                ghostMaterials[index] = previewMaterial;
+            itemRenderer.sharedMaterials = ghostMaterials;
+            itemRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            itemRenderer.receiveShadows = false;
+        }
+    }
+
+    /// <summary>
+    /// Memastikan bounds visual preview tidak bertabrakan dengan bangunan, item lain,
+    /// atau obstacle. Collider permukaan yang terkena raycast sengaja diabaikan.
+    /// </summary>
+    bool HasPlacementClearance(Collider surfaceCollider)
+    {
+        Renderer[] renderers = previewVisual.GetComponentsInChildren<Renderer>(true);
+        if (renderers.Length == 0)
+            return false;
+
+        Bounds bounds = renderers[0].bounds;
+        for (int index = 1; index < renderers.Length; index++)
+            bounds.Encapsulate(renderers[index].bounds);
+
+        Vector3 extents = bounds.extents + Vector3.one * clearancePadding;
+        int hitCount = Physics.OverlapBoxNonAlloc(
+            bounds.center,
+            extents,
+            placementOverlapBuffer,
+            Quaternion.identity,
+            placementMask,
+            QueryTriggerInteraction.Ignore
+        );
+
+        ItemPlacementSurface acceptedSurface = surfaceCollider != null
+            ? surfaceCollider.GetComponentInParent<ItemPlacementSurface>()
+            : null;
+
+        for (int index = 0; index < hitCount; index++)
+        {
+            Collider obstacle = placementOverlapBuffer[index];
+            placementOverlapBuffer[index] = null;
+            if (obstacle == null || obstacle == surfaceCollider)
+                continue;
+            if (acceptedSurface != null && obstacle.GetComponentInParent<ItemPlacementSurface>() == acceptedSurface)
+                continue;
+            if (obstacle.transform.IsChildOf(transform))
+                continue;
+            // Collider lantai tetangga di bawah model bukan obstacle. Ini penting untuk
+            // permukaan yang tersusun dari beberapa tile/collider terpisah.
+            if (obstacle.bounds.max.y <= bounds.min.y + clearancePadding * 2f + 0.02f)
+                continue;
+            return false;
+        }
+
+        return true;
+    }
+
+    static void ConfigureTransparentPreviewMaterial(Material material)
+    {
+        if (material == null)
+            return;
+
+        // URP Unlit perlu dipindahkan ke transparent queue agar alpha warna ghost bekerja.
+        material.SetFloat("_Surface", 1f);
+        material.SetFloat("_SrcBlend", (float)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        material.SetFloat("_DstBlend", (float)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        material.SetFloat("_ZWrite", 0f);
+        material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+        material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+    }
+
+    void DestroyPreview()
+    {
+        if (rangePreview != null) Destroy(rangePreview);
+        rangePreview = null;
+        rangeLines.Clear();
+        rangeFills.Clear();
+        if (previewVisual != null)
+        {
+            if (Application.isPlaying) Destroy(previewVisual);
+            else DestroyImmediate(previewVisual);
+        }
+        if (previewMaterial != null)
+        {
+            if (Application.isPlaying) Destroy(previewMaterial);
+            else DestroyImmediate(previewMaterial);
+        }
+        previewVisual = null;
+        previewMaterial = null;
+        placementValid = hasTreePlacementTarget = false;
+        nextPreviewRefresh = 0f;
+    }
+
+    static GameObject CreateVisual(ItemSO item, Transform parent, string objectName)
+    {
+        return HeldItemVisuals.Create(item,parent,objectName);
+    }
+
+    ItemStack GetSelectedStack()
+    {
+        if (hotbarUI == null && TryGetComponent(out hotbarUI))
+            hotbarUI.SelectionChanged += HandleSlotChanged;
+        if (inventory == null || hotbarUI == null) return null;
+        return inventory.GetSlot(hotbarUI.SelectedIndex);
+    }
+
+    static bool HasHeldWorldAction(ItemStack stack) =>
+        stack?.item != null && stack.count > 0 && stack.item.HasHeldWorldAction &&
+        stack.item.category != ItemCategory.Tool &&
+        (stack.item.equippedTool == PlayerToolType.None || stack.item.IsSeed);
+
+    bool IsHeldPitchfork(ItemStack stack) =>
+        stack?.item != null && stack.count > 0 && stack.item.equippedTool == PlayerToolType.Pitchfork &&
+        stack.item.worldPrefab != null && GetComponent<PlayerHeldTools>()?.Catalog?.Find(PlayerToolType.Pitchfork)==null;
+
+    static bool CanDrop(ItemStack stack) =>
+        HasHeldWorldAction(stack) && stack.item.canDropToWorld;
+
+    static bool CanPlace(ItemStack stack) =>
+        HasHeldWorldAction(stack) && (stack.item.canPlaceInWorld || stack.item.canDropToWorld);
+
+    Vector3 GetFacing()
+    {
+        Vector3 facing = movement != null ? movement.FacingDirection : transform.forward;
+        facing.y = 0f;
+        return facing.sqrMagnitude > 0.01f ? facing.normalized : Vector3.forward;
+    }
+
+    void EnsureHandAnchor()
+    {
+        if(handAnchor==null)
+        {
+            GameObject anchor=new("HeldItemAnchor");
+            handAnchor=anchor.transform;
+            handAnchor.SetParent(transform,false);
+        }
+        var grip=GetComponent<PlayerHeldTools>()?.GripPoint;
+        if(grip!=null)
+        {
+            handAnchor.SetParent(grip,false);
+            handAnchor.localPosition=new Vector3(.02f,.08f,.12f);
+            handAnchor.localRotation=Quaternion.Euler(0,90,90);
+            HeldItemVisuals.NormalizeAnchor(handAnchor);
+            return;
+        }
+        Animator rig=movement!=null?movement.CharacterAnimator:GetComponentInChildren<Animator>();
+        Transform rightHand=rig!=null && rig.isHuman?rig.GetBoneTransform(HumanBodyBones.RightHand):null;
+        // Rig Generic player memakai socket yang sama dengan alat, bukan anchor mengambang di depan badan.
+        if (rightHand == null) rightHand = GetComponent<PlayerHeldTools>()?.GripPoint?.parent;
+        if(rightHand!=null)
+        {
+            handAnchor.SetParent(rightHand,false);
+            handAnchor.localPosition=new Vector3(0.02f,0.08f,0.12f);
+            handAnchor.localRotation=Quaternion.Euler(0f,90f,90f);
+        }
+        else
+        {
+            handAnchor.SetParent(transform,false);
+            handAnchor.localPosition=new Vector3(0f,1.35f,0.42f);
+            handAnchor.localRotation=Quaternion.identity;
+        }
+        HeldItemVisuals.NormalizeAnchor(handAnchor);
+    }
+
+}

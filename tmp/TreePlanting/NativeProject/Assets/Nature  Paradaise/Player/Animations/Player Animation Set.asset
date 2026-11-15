@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4246f316153145b79f8c79a54e334747, type: 3}
+  m_Name: Player Animation Set
+  m_EditorClassIdentifier: 
+  idle: {fileID: -5454629452173119452, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  walk: {fileID: 8819496158110851111, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  run: {fileID: 4833136374775544009, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  sprint: {fileID: 4833136374775544009, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  jump: {fileID: 3524808045567037439, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  jumpForward: {fileID: -194435023806878823, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  pickUpFromFloor: {fileID: -7976805209828147623, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  pickUpWaist: {fileID: 5449177365614692158, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  knockOut: {fileID: -783363220724145041, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  wakeUpFromKnockOut: {fileID: -4896561111684098806, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  milkingAnimal: {fileID: -876661375394692293, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  pushingObject: {fileID: -3584311706192487711, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  wateringPlant: {fileID: 740851086853187737, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  hoeing: {fileID: -8903175093930751107, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  choppingTree: {fileID: -2811228533014995028, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  hammeringRock: {fileID: -3511301934833622176, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  planting: {fileID: 2863269179572130414, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  sickle: {fileID: 2640142083781784587, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  weedPulling: {fileID: -5632883448891393638, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  refillWateringCan: {fileID: 4704649933729360119, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  handOverOneHand: {fileID: -284556183510743159, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  handOverTwoHands: {fileID: -3193247658001857963, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  fishingCharge: {fileID: -7615953301388159313, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  fishingCastLow: {fileID: -7383405690129451347, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  fishingCastHigh: {fileID: 233032357699593338, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  fishingCatch: {fileID: 8126174188307188997, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  fishingCast: {fileID: 5306710315522710120, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  fishingIdle: {fileID: -5009833763842701632, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  fishingReel: {fileID: -5456926833712276210, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  holdItem: {fileID: 4568950972607533283, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  placeItem: {fileID: -4103768073627725877, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  brushAnimal: {fileID: 4924011376040736305, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  mountHorse: {fileID: -7057181869050297873, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  dismountHorse: {fileID: 1839172437212857128, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  ridingIdle: {fileID: 2981009514922316926, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  pickUpChicken: {fileID: -6162829858411045482, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  holdTwoHands: {fileID: -5430714255674267531, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  placeChicken: {fileID: -8075513173677459222, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  scoopManure: {fileID: 7309876159087531020, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  shearSheep: {fileID: 8887851543611172275, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  tiredPose: {fileID: 4043359865351424286, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  wakeUpBed: {fileID: -3930033212182054491, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  yawn: {fileID: -8096512243761804825, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  staggerOverlay: {fileID: 1061936109910866809, guid: 001cc6c64ca31b14d9b707d408d7efc0, type: 3}
+  useTool: {fileID: 0}

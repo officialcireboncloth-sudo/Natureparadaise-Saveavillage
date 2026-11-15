@@ -11,7 +11,8 @@ public enum FarmShopCategory
     Animals,
     Sell,
     Equipment,
-    Bait
+    Bait,
+    Trees
 }
 
 /// <summary>
@@ -49,6 +50,17 @@ public class ShopUI : MonoBehaviour
     static readonly Color MidWood = new(0.42f, 0.24f, 0.11f, 1f);
     static readonly Color LeafGreen = new(0.28f, 0.52f, 0.20f, 1f);
     static readonly Color Cream = new(1f, 0.96f, 0.81f, 1f);
+    static readonly (FarmShopCategory category, string label)[] ShopCategories =
+    {
+        (FarmShopCategory.Seeds, "SEEDS"),
+        (FarmShopCategory.Trees, "BIBIT POHON"),
+        (FarmShopCategory.Fertilizer, "FERTILIZER"),
+        (FarmShopCategory.Booster, "BOOSTER"),
+        (FarmShopCategory.Animals, "ANIMALS"),
+        (FarmShopCategory.Sell, "SELL"),
+        (FarmShopCategory.Equipment, "EQUIPMENT"),
+        (FarmShopCategory.Bait, "BAIT")
+    };
 
     void Awake()
     {
@@ -90,8 +102,8 @@ public class ShopUI : MonoBehaviour
 
         if (GameplayInput.GetKeyDown(KeyCode.Tab))
         {
-            int next = ((int)currentCategory + 1) % 7;
-            SelectCategory((FarmShopCategory)next);
+            int index = System.Array.FindIndex(ShopCategories, tab => tab.category == currentCategory);
+            SelectCategory(ShopCategories[(index + 1) % ShopCategories.Length].category);
         }
         else if (GameplayInput.GetKeyDown(KeyCode.LeftArrow)) MoveSelection(-1);
         else if (GameplayInput.GetKeyDown(KeyCode.RightArrow)) MoveSelection(1);
@@ -153,24 +165,12 @@ public class ShopUI : MonoBehaviour
 
     void BuildCategoryBar()
     {
-        FarmShopCategory[] categories =
+        for (int i = 0; i < ShopCategories.Length; i++)
         {
-            FarmShopCategory.Seeds,
-            FarmShopCategory.Fertilizer,
-            FarmShopCategory.Booster,
-            FarmShopCategory.Animals,
-            FarmShopCategory.Sell,
-            FarmShopCategory.Equipment,
-            FarmShopCategory.Bait
-        };
-        string[] labels = { "SEEDS", "FERTILIZER", "BOOSTER", "ANIMALS", "SELL", "EQUIPMENT", "BAIT" };
-
-        for (int i = 0; i < categories.Length; i++)
-        {
-            FarmShopCategory category = categories[i];
+            var (category, label) = ShopCategories[i];
             Button button = CreateButton(
-                $"Category_{category}", runtimeRoot, labels[i],
-                new Vector2(24f + i * 138f, -72f), new Vector2(130f, 48f),
+                $"Category_{category}", runtimeRoot, label,
+                new Vector2(24f + i * 122f, -72f), new Vector2(114f, 48f),
                 () => SelectCategory(category));
             categoryButtons[category] = button;
         }
@@ -250,7 +250,9 @@ public class ShopUI : MonoBehaviour
         switch (currentCategory)
         {
             case FarmShopCategory.Seeds:
-                AddProduct(shop.seedItem, false);
+                if (shop.seedItem?.treeDefinition == null) AddProduct(shop.seedItem, false);
+                break;
+            case FarmShopCategory.Trees:
                 if (shop.sellsFarmEquipment)
                     foreach (ItemSO seed in shop.treeSeedItems) AddProduct(seed, false);
                 break;

@@ -21,7 +21,7 @@ MonoBehaviour:
   startHour: 0
   endHour: 24
   requiredRodLevel: 3
-  encounterWeight: 0.5
+  encounterWeight: 0.1
   minimumCastPower: 0
   minimumBiteWait: 2
   maximumBiteWait: 5

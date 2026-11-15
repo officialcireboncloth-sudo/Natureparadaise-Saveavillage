@@ -1,0 +1,403 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.0/staging' branch; Version is '6000.0.81f1 (6238fec1e98f) revision 6437118'; Using compiler version '193933523'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26300) Professional' Language: 'en' Physical Memory: 16212 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+System  architecture: x64
+[Licensing::IpcConnector] Channel LicenseClient-h doesn't exist
+Process architecture: x64
+Date: 2026-11-14T20:28:20Z
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.0.81f1\Editor\Unity.exe
+-batchmode
+-quit
+-force-d3d11
+-projectPath
+C:\GitHub\Natureparadaise-Saveavillage\tmp\AngryMeshUrpRepair\UnityProbe
+-logFile
+C:\GitHub\Natureparadaise-Saveavillage\tmp\AngryMeshUrpRepair\UnityProbe.log
+Successfully changed project path to: C:\GitHub\Natureparadaise-Saveavillage\tmp\AngryMeshUrpRepair\UnityProbe
+C:/GitHub/Natureparadaise-Saveavillage/tmp/AngryMeshUrpRepair/UnityProbe
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [11896]  Target information:
+
+Player connection [11896]  * "[IP] 192.168.1.6 [Port] 55505 [Flags] 2 [Guid] 4160636494 [EditorId] 4160636494 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-DSRU0R5) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [11896] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [11896] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Licensing::Module] Successfully launched the LicensingClient (PId: 19004)
+[Package Manager] Connected to IPC stream "Upm-6404" after 0.8 seconds.
+Library Redirect Path: Library/
+Rebuilding Library because the asset database could not be found!
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Refreshing native plugins compatible for Editor in 0.00 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 6000.0.81f1 (6238fec1e98f)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/GitHub/Natureparadaise-Saveavillage/tmp/AngryMeshUrpRepair/UnityProbe/Assets
+Forcing GfxDevice: Direct3D 11
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 2060 (ID=0x1f03)
+    Vendor:   NVIDIA
+    VRAM:     12061 MB
+    Driver:   32.0.16.1088
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56404
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.81f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::Module] Error: Timed-out after 60.00s, waiting for Licensing to initialize
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Timed-out after 60.07s, waiting for channel: "LicenseClient-h"
+[Licensing::Module] Error: Licensing initialization failed after 74.88s
+[Licensing::Module] Licensing is initialized (took 3.96s).
+[Licensing::Module] Error: The connection with the Unity Licensing Client has been lost. Attempting to reconnect.
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Successfully launched the LicensingClient (PId: 26896)
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Timed-out after 60.00s, waiting for channel: "LicenseClient-h"
+[Licensing::Module] The re-connection attempt was UN-successful.
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Registered in 139.110695 seconds.
+- Loaded All Assemblies, in 148.475 seconds
+Native extension for WindowsStandalone target not found
+Package Manager log level set to [2]
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.273 seconds
+Domain Reload Profiling: 148742ms
+	BeginReloadAssembly (8992ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (34ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (139163ms)
+	LoadAllAssembliesAndSetupDomain (270ms)
+		LoadAssemblies (8986ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (267ms)
+			TypeCache.Refresh (266ms)
+				TypeCache.ScanAssembly (250ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (274ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (245ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (20ms)
+			SetLoadedEditorAssemblies (4ms)
+			BeforeProcessingInitializeOnLoad (48ms)
+			ProcessInitializeOnLoadAttributes (127ms)
+			ProcessInitializeOnLoadMethodAttributes (45ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Module] Error: The connection with the Unity Licensing Client has been lost. Attempting to reconnect.
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Successfully launched the LicensingClient (PId: 30532)
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Timed-out after 60.00s, waiting for channel: "LicenseClient-h"
+[Licensing::Module] The re-connection attempt was UN-successful.
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Module] Error: The connection with the Unity Licensing Client has been lost. Attempting to reconnect.
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Successfully launched the LicensingClient (PId: 9440)
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Timed-out after 60.00s, waiting for channel: "LicenseClient-h"
+[Licensing::Module] The re-connection attempt was UN-successful.
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Done resolving packages in 64.56 seconds
+[Licensing::Module] Error: The connection with the Unity Licensing Client has been lost. Attempting to reconnect.
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Successfully launched the LicensingClient (PId: 17204)
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Timed-out after 60.00s, waiting for channel: "LicenseClient-h"
+[Licensing::Module] The re-connection attempt was UN-successful.
+[Package Manager] Unknown entitlement status [0] for package [com.unity.render-pipelines.universal]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.modules.animation]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.modules.imageconversion]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.modules.particlesystem]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.modules.physics]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.modules.terrain]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.modules.terrainphysics]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.render-pipelines.core]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.shadergraph]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.render-pipelines.universal-config]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.searcher]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.burst]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.mathematics]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.ugui]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.collections]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.modules.jsonserialize]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.rendering.light-transport]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.nuget.mono-cecil]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.test-framework]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.test-framework.performance]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.modules.ui]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.modules.imgui]
+[Package Manager] Unknown entitlement status [0] for package [com.unity.ext.nunit]
+[Package Manager] Lock file was modified
+[Package Manager] The following packages were not registered because your license doesn't allow it.
+  com.unity.render-pipelines.universal@17.0.4
+  com.unity.modules.animation@1.0.0
+  com.unity.modules.imageconversion@1.0.0
+  com.unity.modules.particlesystem@1.0.0
+  com.unity.modules.physics@1.0.0
+  com.unity.modules.terrain@1.0.0
+  com.unity.modules.terrainphysics@1.0.0
+  com.unity.render-pipelines.core@17.0.4
+  com.unity.shadergraph@17.0.4
+  com.unity.render-pipelines.universal-config@17.0.3
+  com.unity.searcher@4.9.3
+  com.unity.burst@1.8.30
+  com.unity.mathematics@1.3.2
+  com.unity.ugui@2.0.0
+  com.unity.collections@2.6.8
+  com.unity.modules.jsonserialize@1.0.0
+  com.unity.rendering.light-transport@1.0.1
+  com.unity.nuget.mono-cecil@1.11.6
+  com.unity.test-framework@1.6.0
+  com.unity.test-framework.performance@3.5.0
+  com.unity.modules.ui@1.0.0
+  com.unity.modules.imgui@1.0.0
+  com.unity.ext.nunit@2.0.5
+[Package Manager] Registered 0 packages:
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.00 seconds
+AssetDatabase: script compilation time: 0.000218s
+Begin MonoManager ReloadAssembly
+[Licensing::Module] Error: The connection with the Unity Licensing Client has been lost. Attempting to reconnect.
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Successfully launched the LicensingClient (PId: 900)
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Timed-out after 60.00s, waiting for channel: "LicenseClient-h"
+[Licensing::Module] The re-connection attempt was UN-successful.
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+- Loaded All Assemblies, in 75.165 seconds
+Start importing Assets using Guid(00000000000000001000000000000000) (DefaultImporter) -> (artifact id: '4b55c7cb15071bfc086d0e52a7664a41') in 0.0203764 seconds
+Start importing ProjectSettings/InputManager.asset using Guid(00000000000000002000000000000000) (LibraryAssetImporter) -> (artifact id: '3d278bdfa729973ecf92c670ca181c88') in 0.004364 seconds
+Start importing ProjectSettings/TagManager.asset using Guid(00000000000000003000000000000000) (LibraryAssetImporter) -> (artifact id: '4aa03ef27a83f311e598313a3ec2fbc3') in 0.0031856 seconds
+Start importing ProjectSettings/ProjectSettings.asset using Guid(00000000000000004000000000000000) (LibraryAssetImporter) -> (artifact id: 'f9536144e77e5b7003c549b6bd587acb') in 0.0059041 seconds
+Start importing ProjectSettings/AudioManager.asset using Guid(00000000000000006000000000000000) (LibraryAssetImporter) -> (artifact id: '22ffb3fe371a5950e3f1d63c04f3be40') in 0.0026549 seconds
+Start importing ProjectSettings/TimeManager.asset using Guid(00000000000000007000000000000000) (LibraryAssetImporter) -> (artifact id: '52c307e924e96ceef905bcc2cea85a00') in 0.0028536 seconds
+Start importing ProjectSettings/DynamicsManager.asset using Guid(00000000000000008000000000000000) (LibraryAssetImporter) -> (artifact id: 'be5c3cc4d9346f9e8fa2ddaee90dd709') in 0.0028133 seconds
+Start importing ProjectSettings/QualitySettings.asset using Guid(00000000000000009000000000000000) (LibraryAssetImporter) -> (artifact id: 'f44ba1262e818bbe4262433f49247514') in 0.0027983 seconds
+Start importing ProjectSettings/EditorBuildSettings.asset using Guid(0000000000000000b000000000000000) (LibraryAssetImporter) -> (artifact id: '1923232d45cb936aef47cec131f33975') in 0.0024177 seconds
+Start importing ProjectSettings/EditorSettings.asset using Guid(0000000000000000c000000000000000) (LibraryAssetImporter) -> (artifact id: 'fdcca38f5f1944c9bec0b9f00395ab39') in 0.0024334 seconds
+Start importing ProjectSettings/NavMeshAreas.asset using Guid(00000000000000004100000000000000) (LibraryAssetImporter) -> (artifact id: '4ba0a6bb5cc18b1619eb3b3f4ce570d1') in 0.003203 seconds
+Start importing ProjectSettings/Physics2DSettings.asset using Guid(00000000000000005100000000000000) (LibraryAssetImporter) -> (artifact id: 'b9a798d8579cfd14a9d003bd527e0b64') in 0.0026589 seconds
+Start importing ProjectSettings/GraphicsSettings.asset using Guid(00000000000000006100000000000000) (LibraryAssetImporter) -> (artifact id: '73a0d0504a18325c463e244f56ec4944') in 0.003143 seconds
+Start importing ProjectSettings/ClusterInputManager.asset using Guid(00000000000000007100000000000000) (LibraryAssetImporter) -> (artifact id: '5a028a71a6163b7bc9a46219c48662ec') in 0.0028717 seconds
+Start importing ProjectSettings/UnityConnectSettings.asset using Guid(0000000000000000a100000000000000) (LibraryAssetImporter) -> (artifact id: '5a6e69f8200d884ded3f19f546ea756a') in 0.0034261 seconds
+Start importing ProjectSettings/PresetManager.asset using Guid(0000000000000000b100000000000000) (LibraryAssetImporter) -> (artifact id: '669bd2cb5cdf99ef516d1350fa42393e') in 0.0027419 seconds
+Start importing ProjectSettings/VFXManager.asset using Guid(0000000000000000c100000000000000) (LibraryAssetImporter) -> (artifact id: 'd96b989647555359bde1f89c35e57424') in 0.0023161 seconds
+Start importing ProjectSettings/VersionControlSettings.asset using Guid(0000000000000000d100000000000000) (LibraryAssetImporter) -> (artifact id: 'b89f810c452b248c014f182ae5caa680') in 0.0022093 seconds
+Start importing ProjectSettings/MemorySettings.asset using Guid(0000000000000000f100000000000000) (LibraryAssetImporter) -> (artifact id: '19f032dc933bd79e61da5c81f7ddd1ac') in 0.0022117 seconds
+Start importing ProjectSettings/MultiplayerManager.asset using Guid(00000000000000000200000000000000) (LibraryAssetImporter) -> (artifact id: '2f864bba7a58beddb6fbf79980c9a838') in 0.0025945 seconds
+Start importing Library/BuildInstructions using Guid(00000000000000002300000000000000) (DefaultImporter) -> (artifact id: 'ade3aeda13ad9960ede0e143cb33502a') in 0.0007292 seconds
+Start importing Assets/Editor using Guid(4b3129b38c88ddc48973f31df492b96f) (DefaultImporter) -> (artifact id: '7f861466e0f6b749cb5cfd35313095b5') in 0.0114156 seconds
+Refreshing native plugins compatible for Editor in 0.00 ms, found 0 plugins.
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.366 seconds
+Domain Reload Profiling: 75524ms
+	BeginReloadAssembly (75077ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (8ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (37ms)
+	RebuildCommonClasses (34ms)
+	RebuildNativeTypeToScriptingClass (11ms)
+	initialDomainReloadingComplete (28ms)
+	LoadAllAssembliesAndSetupDomain (8ms)
+		LoadAssemblies (176ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (4ms)
+			TypeCache.Refresh (3ms)
+				TypeCache.ScanAssembly (0ms)
+			BuildScriptInfoCaches (0ms)
+			ResolveRequiredComponents (0ms)
+	FinalizeReload (367ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (257ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (18ms)
+			SetLoadedEditorAssemblies (3ms)
+			BeforeProcessingInitializeOnLoad (88ms)
+			ProcessInitializeOnLoadAttributes (114ms)
+			ProcessInitializeOnLoadMethodAttributes (17ms)
+			AfterProcessingInitializeOnLoad (17ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (9ms)
+Start importing Library/BuildPlayer.prefs using Guid(00000000000000005000000000000000) (DefaultImporter) -> (artifact id: '083d37eb6b0e82b8f5c1ec86344d848d') in 0.0263237 seconds
+Loading style catalogs (6)
+	StyleSheets/Extensions/base/common.uss
+	UIPackageResources/StyleSheets/Default/Variables/Public/common.uss
+	StyleSheets/Northstar/common.uss
+	StyleSheets/Extensions/fonts/inter.uss
+	StyleSheets/Extensions/base/dark.uss
+	UIPackageResources/StyleSheets/Default/Northstar/Palette/dark.uss
+Refreshing native plugins compatible for Editor in 0.00 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=a4c1f5aaa1444f842baeaee65c463085): Total: 215.448 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=23 (actual=23, local cache=0, cache server=0)
+		Asset DB Process Time: managed=4 ms, native=717 ms
+		Asset DB Callback time: managed=145 ms, native=139389 ms
+		Scripting: domain reloads=1, domain reload time=75165 ms, compile time=4 ms, other=22 ms
+		Project Asset Count: scripts=22, non-scripts=1
+		Asset File Changes: new=23, changed=23, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.002ms
+	InvokePackagesCallback: 139389.802ms
+	ApplyChangesToAssetFolders: 0.455ms
+	Scan: 149.873ms
+	OnSourceAssetsModified: 1.159ms
+	CategorizeAssetsWithTransientArtifact: 0.018ms
+	ProcessAssetsWithTransientArtifactChanges: 0.035ms
+	CategorizeAssets: 0.621ms
+	ImportOutOfDateAssets: 494.386ms (365.315ms without children)
+		ImportManagerImport: 124.827ms (5.976ms without children)
+			ImportInProcess: 118.802ms
+			UpdateCategorizedAssets: 0.049ms
+		CompileScripts: 3.803ms
+		ReloadNativeAssets: 0.001ms
+		UnloadImportedAssets: 0.254ms
+		ReloadImportedAssets: 0.002ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.005ms
+		InitializingProgressBar: 0.019ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.007ms
+		OnDemandSchedulerStart: 0.152ms
+	PostProcessAllAssets: 146.471ms
+	Hotreload: 0.923ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.002ms
+	UnloadStreamsBegin: 0.176ms
+	PersistCurrentRevisions: 0.042ms
+	UnloadStreamsEnd: 0.001ms
+	GenerateScriptTypeHashes: 0.001ms
+	Untracked: 75263.962ms
+
+Application.AssetDatabase Initial Refresh End
+Scanning for USB devices : 1.459ms
+Initializing Unity extensions:
+Assertion failed on expression: 'SUCCEEDED(hr)'
+Assertion failed on expression: 'wmiOpened'
+Assertion failed on expression: 'ERROR_SUCCESS == status'
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-UnityProbe
+[Licensing::Module] Error: The connection with the Unity Licensing Client has been lost. Attempting to reconnect.
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Successfully launched the LicensingClient (PId: 22892)
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Timed-out after 60.00s, waiting for channel: "LicenseClient-h"
+[Licensing::Module] The re-connection attempt was UN-successful.
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Module] Error: The connection with the Unity Licensing Client has been lost. Attempting to reconnect.
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Successfully launched the LicensingClient (PId: 19320)
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Timed-out after 60.00s, waiting for channel: "LicenseClient-h"
+[Licensing::Module] The re-connection attempt was UN-successful.
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Curl error 6: getaddrinfo() thread failed to start
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Assertion failed on expression: 'SUCCEEDED(hr)'
+Failed to open WMI
+Curl error 6: getaddrinfo() thread failed to start
+[Licensing::Module] Error: The connection with the Unity Licensing Client has been lost. Attempting to reconnect.
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Successfully launched the LicensingClient (PId: 16736)
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Timed-out after 60.00s, waiting for channel: "LicenseClient-h"
+[Licensing::Module] The re-connection attempt was UN-successful.
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Unloading 15 unused Assets / (0.7 MB). Loaded Objects now: 529.
+Memory consumption went from 84.9 MB to 84.2 MB.
+Total: 6.731300 ms (FindLiveObjects: 0.037600 ms CreateObjectMapping: 0.003900 ms MarkObjects: 6.297300 ms  DeleteObjects: 0.390500 ms)
+
+[Licensing::Module] Error: The connection with the Unity Licensing Client has been lost. Attempting to reconnect.
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Successfully launched the LicensingClient (PId: 17708)
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Timed-out after 60.00s, waiting for channel: "LicenseClient-h"
+[Licensing::Module] The re-connection attempt was UN-successful.
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Module] Error: The connection with the Unity Licensing Client has been lost. Attempting to reconnect.
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Successfully launched the LicensingClient (PId: 21044)
+[Licensing::IpcConnector] Connection to channel LicenseClient-h refused
+[Licensing::Module] Timed-out after 60.01s, waiting for channel: "LicenseClient-h"
+[Licensing::Module] The re-connection attempt was UN-successful.
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Batchmode quit successfully invoked - shutting down!
+[Physics::Module] Cleanup current backned.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

@@ -46,11 +46,14 @@ public sealed class WorldTree : MonoBehaviour
     Vector3 matureVisualScale;
     GameObject stageModel;
     int shownStage = -2;
+    int debugHarvestDay = -1;
     Inventory fruitInventory;
     public TreeProgress Progress => progress;
     public bool IsHarvestHintAvailable => isActiveAndEnabled && state == TreeGrowthState.Standing && progress != null &&
         definition != null && definition.fruitItem != null && progress.fruitStage == TreeFruitStage.Ready &&
-        (definition.fruitSeasons & CropDataSO.GetSeasonForDay(CurrentDay)) != 0;
+        CanHarvestFruitInSeason;
+    bool CanHarvestFruitInSeason => (definition.fruitSeasons & CropDataSO.GetSeasonForDay(CurrentDay)) != 0 ||
+        PropertySite.DebugShortcutsEnabled && debugHarvestDay == CurrentDay;
     public bool CanApplyQualityFertilizer=>definition!=null&&definition.UsesFruitCare&&progress!=null&&
         state==TreeGrowthState.Standing&&progress.fruitStage!=TreeFruitStage.Ready&&!progress.Care.FertilizerActive;
     public bool TryApplyQualityFertilizer(int level,int days)=>CanApplyQualityFertilizer&&progress.Care.ApplyFertilizer(level,days);
@@ -501,6 +504,7 @@ public sealed class WorldTree : MonoBehaviour
     public void Restore(TreeSaveData data)
     {
         if (data == null) return;
+        debugHarvestDay = -1;
         treeId = data.id;
         progress = data.progress?.Copy() ?? TreeProgress.Create(definition, CurrentDay, true);
         StopAllCoroutines();
@@ -519,19 +523,30 @@ public sealed class WorldTree : MonoBehaviour
 
     public void InitializePlanted(string id, TreeDefinition profile)
     {
+        debugHarvestDay = -1;
         treeId = id;
         definition = profile;
         woodItem = profile.woodItem;
         canRespawn = profile.wildTree;
         progress = TreeProgress.Create(profile, CurrentDay, false);
+        // Planted stage prefabs are authored with their origin at ground level.
+        if (standingVisual != null && standingVisual != transform &&
+            profile.stages is { Length: > 0 } && profile.stages[0]?.model != null)
+            standingVisual.localPosition = Vector3.zero;
         if (stumpVisual == null)
         {
-            GameObject stump = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            stump.name = "Stump_Runtime";
-            stump.transform.SetParent(transform, false);
-            stump.transform.localPosition = Vector3.up * 0.25f;
-            stump.transform.localScale = new Vector3(0.6f, 0.25f, 0.6f);
-            stump.GetComponent<Collider>().enabled = false;
+            GameObject stump = profile.stumpModel != null
+                ? Instantiate(profile.stumpModel, transform)
+                : GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            if (profile.stumpModel == null)
+            {
+                stump.name = "Stump_Runtime";
+                stump.transform.SetParent(transform, false);
+                stump.transform.localPosition = Vector3.up * 0.25f;
+                stump.transform.localScale = new Vector3(0.6f, 0.25f, 0.6f);
+            }
+            foreach (Collider collider in stump.GetComponentsInChildren<Collider>(true))
+                collider.enabled = false;
             stumpVisual = stump.transform;
         }
         shownStage = -2;
@@ -544,6 +559,25 @@ public sealed class WorldTree : MonoBehaviour
         progress.Advance(definition, CurrentDay, WeatherSystem.Instance != null ? WeatherSystem.Instance.CurrentWeather : WeatherType.Sunny,
               FarmPlacement.Covered(transform.position), UnityEngine.Random.value,SampleCareSoil(transform.position,CurrentDay));
         ApplyStateVisual();
+    }
+
+    /// <summary>Skips fruit-tree stages and allows the resulting ripe fruit to be picked today.</summary>
+    public bool DebugAdvanceFruitStage(bool harvestReady)
+    {
+        if (!PropertySite.DebugShortcutsEnabled || !isActiveAndEnabled || state != TreeGrowthState.Standing ||
+            transitioning || definition == null || !definition.UsesFruitCare || progress == null)
+            return false;
+        if (FieldArea.TryGetAt(transform.position, out var field, out _, out _) && field.IsSoilLocked)
+            return false;
+
+        if (!progress.TryDebugAdvanceFruitStage(definition, harvestReady) &&
+            (!harvestReady || progress.fruitStage != TreeFruitStage.Ready || CanHarvestFruitInSeason))
+            return false;
+
+        if (progress.fruitStage == TreeFruitStage.Ready)
+            debugHarvestDay = CurrentDay;
+        ApplyStateVisual();
+        return true;
     }
 
     public static bool WaterAt(Vector3 point, float radius)
@@ -574,8 +608,7 @@ public sealed class WorldTree : MonoBehaviour
             if (farming == null || !farming.IsCurrentTileTarget(transform.position)) return;
         }
         else if (!PlayerInteractionTarget.Contains(fruitInventory.transform, transform)) return;
-        if (progress.fruitStage == TreeFruitStage.Ready && definition.fruitItem != null &&
-            (definition.fruitSeasons & CropDataSO.GetSeasonForDay(CurrentDay)) != 0)
+        if (IsHarvestHintAvailable)
         {
                 WorldInteractionPrompt.Request(this, transform, "E - Panen " + definition.fruitItem.itemName+
                     (definition.UsesFruitCare?$" | {definition.HarvestAmount(progress.Care.Stars)} buah, ★{progress.Care.Stars}":""), 1f, promptHeight);
@@ -594,7 +627,7 @@ public sealed class WorldTree : MonoBehaviour
     public bool TryHarvestFruit(Inventory inventory)
     {
         if (inventory == null || definition == null || definition.fruitItem == null || state != TreeGrowthState.Standing ||
-            progress.fruitStage != TreeFruitStage.Ready || (definition.fruitSeasons & CropDataSO.GetSeasonForDay(CurrentDay)) == 0) return false;
+            progress == null || progress.fruitStage != TreeFruitStage.Ready || !CanHarvestFruitInSeason) return false;
         int stars=definition.UsesFruitCare?progress.Care.Stars:0;
         int amount=definition.HarvestAmount(stars);
           if(definition.UsesFruitCare&&!progress.Care.mutationRollReady)
@@ -606,6 +639,7 @@ public sealed class WorldTree : MonoBehaviour
         if(mutation)output.Add(new ItemStack{item=definition.mutationFruitItem,count=1,qualityStars=stars});
         if (!StaminaBalance.Can(inventory,"harvest") || !inventory.TryAddBatch(output)) return false;
         StaminaBalance.Spend(inventory,"harvest");
+        debugHarvestDay = -1;
         progress.fruitProgress = 0;
         progress.fruitStage = TreeFruitStage.Flowering;
         if(definition.UsesFruitCare)progress.care=progress.Care.NextCycle();

@@ -1,0 +1,17 @@
+Assets\Nature  Paradaise\Script\World\ShippingBinPresentation.cs(12,15): warning CS0108: 'ShippingBinPresentation.animation' hides inherited member 'Component.animation'. Use the new keyword if hiding was intended.
+Assets\Nature  Paradaise\Script\Effect\SickleBladeTrail.cs(15,18): warning CS0108: 'SickleBladeTrail.renderer' hides inherited member 'Component.renderer'. Use the new keyword if hiding was intended.
+Assets\Nature  Paradaise\Script\Player\PlayerLifeCycle.cs(26,37): warning CS0414: The field 'PlayerLifeCycle.bedWakeAnimationTime' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Player\PlayerController.cs(56,11): warning CS0414: The field 'PlayerController.sprintDrainPerSecond' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Entity\Companion\PersonalAnimal.cs(93,56): warning CS0414: The field 'PersonalAnimal.dismountGroundFrame' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Player\Item\PlayerGatheringTool.cs(24,54): warning CS0414: The field 'PlayerGatheringTool.sickleCost' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Core\WorldInteractablePromptSource.cs(11,40): warning CS0414: The field 'WorldInteractablePromptSource.interactionRadius' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Player\Item\WateringCanSystem.cs(11,37): warning CS0414: The field 'WateringCanSystem.labelHeight' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Entity\Companion\PersonalAnimal.cs(91,56): warning CS0414: The field 'PersonalAnimal.dismountMoveStartFrame' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Player\Item\PlayerGatheringTool.cs(25,54): warning CS0414: The field 'PlayerGatheringTool.hammerCost' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\World\Building\BuildingSite.cs(60,39): warning CS0414: The field 'BuildingSite.interactionRadius' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Entity\NPC\CarpenterNPC.cs(15,39): warning CS0414: The field 'CarpenterNPC.interactionRadius' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Entity\Companion\PersonalAnimal.cs(89,56): warning CS0414: The field 'PersonalAnimal.mountSeatFrame' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Entity\Companion\PersonalAnimal.cs(87,56): warning CS0414: The field 'PersonalAnimal.mountMoveStartFrame' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\World\Fishing\FishingSystem.cs(17,54): warning CS0414: The field 'FishingSystem.castStaminaCost' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Player\Item\PlayerGatheringTool.cs(26,54): warning CS0414: The field 'PlayerGatheringTool.axeCost' is assigned but its value is never used
+Assets\Nature  Paradaise\Script\Player\Item\HoeTool.cs(57,63): warning CS0414: The field 'FarmingTool.upgradedStaminaEfficiency' is assigned but its value is never used

@@ -39,8 +39,8 @@ MonoBehaviour:
   cropBoosterPercent: 0
   canDropToWorld: 1
   canPlaceInWorld: 0
-  worldPrefab: {fileID: 0}
-  worldScale: {x: 0.4, y: 0.4, z: 0.4}
+  worldPrefab: {fileID: 1748946944915498, guid: 9b37844427900714bac5b352dbd931d0, type: 3}
+  worldScale: {x: 0.65, y: 0.65, z: 0.65}
   sprinklerLevel: 0
   treeDefinition: {fileID: 0}
   isEdible: 0

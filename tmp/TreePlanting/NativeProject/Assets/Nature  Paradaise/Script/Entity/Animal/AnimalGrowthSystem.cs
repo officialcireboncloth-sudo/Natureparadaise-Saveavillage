@@ -1,0 +1,1349 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public enum AnimalFoodSource : byte
+{
+    None,
+    HandFeed,
+    FeedingTrough,
+    Grazing,
+    AutoFeeder
+}
+
+public enum AnimalTestAction { Heal, MakeAdult, FillNeeds, ReadyProduct, MakeSick, MakeFemale, MakeMale, ClearProduct }
+
+[Serializable]
+public sealed class AnimalSceneStageVisual
+{
+    public AnimalGrowthStage stage;
+    public GameObject visual;
+}
+
+[Serializable]
+public sealed class AnimalSaveData
+{
+    public string incubatorId;
+    public string animalId;
+    public string animalName;
+    public AnimalHeartState heart;
+    public int productQuality;
+    public string homeId;
+    public bool housed;
+    public bool returningHome;
+    public AnimalType animalType;
+    public string variantId;
+    public AnimalGender gender;
+    public AnimalBirthSource birthSource;
+    public int birthDay;
+    public int ageDays;
+    public int ageSeasons;
+    public int lastCalendarSeasonIndex;
+    public bool hasVariableSeasonCalendar;
+    public int growthDays;
+    public int prenatalDays;
+    public bool hasBeenBorn;
+    public AnimalHealthState health;
+    public AnimalHealthProgress healthProgress;
+    public float fullness;
+    public float happiness;
+    public float friendship;
+    public bool fedToday;
+    public AnimalFoodSource foodSource;
+    public int lastFedDay = -1;
+    public bool pettedToday;
+    public bool interactedToday;
+    public bool sheltered;
+    public bool productReady;
+    public int lastProductionDay;
+    public int lastShearedDay = -1;
+    public string inheritedTrait;
+    public bool runtimePurchased;
+    public float x;
+    public float y;
+    public float z;
+}
+
+/// <summary>
+/// Menangani umur, pertumbuhan harian, care, health, visual stage, production gate,
+/// trait, dan persistence satu hewan. Interaksi item tetap ditangani AnimalController.
+/// </summary>
+[DisallowMultipleComponent]
+[RequireComponent(typeof(AnimalController))]
+public sealed class AnimalGrowthSystem : MonoBehaviour
+{
+    static readonly List<AnimalGrowthSystem> Registry = new();
+    static readonly List<AnimalGrowthSystem> SceneTemplates = new();
+    public static IReadOnlyList<AnimalGrowthSystem> OwnedAnimals => Registry;
+
+    // Scene examples are restoration templates, not free starting livestock. Quarantine before Start/render.
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    static void PrepareSceneLivestock()
+    {
+        SceneManager.sceneLoaded -= SuspendSceneLivestock;
+        SceneManager.sceneLoaded += SuspendSceneLivestock;
+        for(int i=0;i<SceneManager.sceneCount;i++)SuspendSceneLivestock(SceneManager.GetSceneAt(i),LoadSceneMode.Single);
+    }
+
+    static void SuspendSceneLivestock(Scene scene,LoadSceneMode mode)
+    {
+        SceneTemplates.RemoveAll(animal=>animal==null);
+        foreach(var root in scene.GetRootGameObjects())
+            foreach(var animal in root.GetComponentsInChildren<AnimalGrowthSystem>(true))
+            {
+                if(animal.runtimePurchased)continue;
+                if(!SceneTemplates.Contains(animal))SceneTemplates.Add(animal);
+                animal.gameObject.SetActive(false);
+            }
+    }
+
+    [Header("Identity & Species")]
+    [SerializeField] string animalId = "animal-cow-001";
+    [SerializeField] string animalName;
+    [Header("Heart (100 Points = 1 Heart)")]
+    [SerializeField] AnimalHeartRules heartRules = new();
+    [SerializeField] AnimalHeartState heart;
+    [SerializeField] AnimalType animalType = AnimalType.Cow;
+    [SerializeField] AnimalGender gender = AnimalGender.Female;
+    [SerializeField] AnimalBirthSource birthSource = AnimalBirthSource.PurchasedYoung;
+    [SerializeField] AnimalGrowthProfileSO growthProfile;
+    [Header("Animal Sale Price")]
+    [Tooltip("Aktif untuk memakai harga lokal, bukan harga dari Growth Profile.")]
+    [SerializeField] bool overrideSalePrice;
+    [Tooltip("Dipakai jika override aktif atau Growth Profile belum dipasang.")]
+    [SerializeField] AnimalSalePriceSettings localSalePrice = new();
+    [SerializeField] string inheritedTrait;
+    [SerializeField] bool runtimePurchased;
+
+    [Header("Age & Growth")]
+    [SerializeField] int birthDay = 1;
+    [SerializeField, Min(0)] int ageDays;
+    [SerializeField, Min(0)] int ageSeasons;
+    [SerializeField] int lastCalendarSeasonIndex = -1;
+    [SerializeField, Min(0)] int growthDays = 28;
+    [SerializeField, Min(0)] int prenatalDays;
+    [SerializeField] bool hasBeenBorn = true;
+    [SerializeField] string incubatorId;
+    public string IncubatorId => incubatorId;
+    public bool IsInIncubator => !string.IsNullOrEmpty(incubatorId);
+
+    [Header("Daily Care")]
+    [SerializeField, Range(0f, 100f)] float fullness = 50f;
+    [SerializeField, Min(0f)] float dailyFullnessLoss = 35f;
+    [SerializeField] bool fedToday;
+    [SerializeField] AnimalFoodSource foodSource;
+    [SerializeField] int lastFedDay = -1;
+    [SerializeField] bool pettedToday;
+    [SerializeField] bool interactedToday;
+    [SerializeField] bool sheltered = true;
+
+    [Header("Condition")]
+    [Tooltip("Status kompatibilitas lama: Sick juga mencakup masa pemulihan. Tahap detail ada di Health Progress.")]
+    [SerializeField] AnimalHealthState health = AnimalHealthState.Healthy;
+    [Tooltip("Durasi dalam hari game; peluang sakit 0..1. Konfigurasi per hewan/prefab.")]
+    [SerializeField] AnimalHealthRules healthRules = new();
+    [Tooltip("State runtime yang disimpan: tahap penyakit, streak, pemulihan, dan kekebalan.")]
+    [SerializeField] AnimalHealthProgress healthProgress = new();
+    [SerializeField, Range(0f, 100f)] float happiness = 50f;
+    [SerializeField, Range(0f, 100f)] float friendship;
+    [Header("Condition Visual Overrides (Optional)")]
+    [SerializeField] List<AnimalConditionVisualSlot> conditionVisualOverrides = new();
+
+    [Header("Production")]
+    [SerializeField] bool productReady;
+    [SerializeField, Range(1, 5)] int productQuality = 1;
+    [SerializeField] int lastProductionDay = -1000;
+    [SerializeField] int lastShearedDay = -1;
+
+    [Header("Stage Visual Slots (Optional)")]
+    [SerializeField] Transform visualAnchor;
+    [SerializeField] List<AnimalGrowthStageSlot> stageOverrides = new();
+    [SerializeField] Vector3 hatchlingOrNewbornScale = new(0.45f, 0.45f, 0.45f);
+    [SerializeField] Vector3 babyScale = new(0.6f, 0.6f, 0.6f);
+    [SerializeField] Vector3 youngScale = new(0.78f, 0.78f, 0.78f);
+    [SerializeField] Vector3 adolescentScale = new(0.9f, 0.9f, 0.9f);
+    [SerializeField] Vector3 adultScale = Vector3.one;
+
+    [Header("Editable Stage Objects")]
+    [Tooltip("Use saved child objects for growth stages. Missing/deleted objects stay missing; no model or dummy is spawned.")]
+    [SerializeField] bool useSceneStageVisuals;
+    [SerializeField] List<AnimalSceneStageVisual> sceneStageVisuals = new();
+
+    [Header("Dummy Visual Fallback")]
+    [Tooltip("Mamalia tanpa model menggunakan Capsule.")]
+    [SerializeField] Vector3 mammalDummyShapeScale = new(0.65f, 0.85f, 0.65f);
+    [Tooltip("Unggas tanpa model menggunakan Sphere yang dipipihkan seperti lingkaran.")]
+    [SerializeField] Vector3 birdDummyShapeScale = new(0.8f, 0.55f, 0.8f);
+    [SerializeField] Vector3 eggDummyShapeScale = new(0.55f, 0.72f, 0.55f);
+
+    GameObject spawnedStageModel;
+    public Transform CurrentAnimationRoot
+    {
+        get
+        {
+            if (useSceneStageVisuals)
+            {
+                foreach (AnimalSceneStageVisual entry in sceneStageVisuals)
+                    if (entry != null && entry.visual != null && entry.stage == GrowthStage && entry.visual.activeInHierarchy)
+                        return entry.visual.transform;
+                return null;
+            }
+            if (spawnedConditionModel != null && spawnedConditionModel.activeInHierarchy) return spawnedConditionModel.transform;
+            if (spawnedStageModel != null && spawnedStageModel.activeInHierarchy) return spawnedStageModel.transform;
+            return visualAnchor;
+        }
+    }
+    GameObject spawnedConditionModel;
+    AnimalIllnessStage appliedCondition = (AnimalIllnessStage)(-1);
+    Animator conditionAnimator;
+    RuntimeAnimatorController originalConditionAnimator;
+    Renderer[] fallbackRenderers;
+    Vector3 originalVisualScale = Vector3.one;
+    AnimalGrowthStage appliedStage = (AnimalGrowthStage)(-1);
+
+    public string AnimalId => animalId;
+    public AnimalType Type => growthProfile != null ? growthProfile.animalType : animalType;
+    /// <summary>Species walking pace, including legacy chickens without an assigned profile.</summary>
+    public float WalkingSpeedMultiplier => growthProfile != null
+        ? Mathf.Max(0.1f, growthProfile.walkingSpeedMultiplier)
+        : Type == AnimalType.Chicken ? 0.5f : 1f;
+    public AnimalBirthSource BirthSource => birthSource;
+    public int BirthDay => birthDay;
+    public int AgeDays => ageDays;
+    public int AgeSeasons => ageSeasons;
+    public AnimalGender Gender => gender;
+    public int GrowthDays => growthDays;
+    public int AdultGrowthDays => growthProfile != null
+        ? growthProfile.bornToAdultDays
+        : AnimalGrowthProfileSO.DefaultBornToAdultDays(Type);
+    public AnimalGrowthStage GrowthStage => ResolveGrowthStage();
+    public AnimalHealthState Health => health;
+    public AnimalIllnessStage IllnessStage => healthProgress?.stage ?? AnimalIllnessStage.Healthy;
+    public bool CanReceiveMedicine => hasBeenBorn && healthProgress.CanTreat && healthProgress.treatmentDay != CurrentDay;
+    public string HealthSummary => healthProgress.stage == AnimalIllnessStage.Recovering
+        ? $"Recovering ({healthProgress.recoveryRemaining} care days)"
+        : healthProgress.Healthy && healthProgress.immunityRemaining > 0
+            ? $"Healthy (Immune {healthProgress.immunityRemaining} days)"
+            : healthProgress.stage == AnimalIllnessStage.Mild ? "Unwell"
+            : healthProgress.stage == AnimalIllnessStage.Severe ? "Sick"
+            : healthProgress.stage == AnimalIllnessStage.Critical ? "Severely Sick"
+            : "Healthy";
+    public float Fullness => fullness;
+    public float Happiness => happiness;
+    public float Friendship => HeartPoints / 10f;
+    public int HeartPoints => heart != null ? heart.points : Mathf.RoundToInt(friendship * 10f);
+    public int HeartLevel => Mathf.Clamp(HeartPoints / 100, 0, 10);
+    public int CowHeartLevel => Mathf.Clamp(HeartPoints / 200, 0, 5);
+    public int CowCarePercent => Mathf.Clamp(HeartPoints / 10, 0, 100);
+    public string AnimalName => string.IsNullOrWhiteSpace(animalName) ? AnimalRosterCatalog.Load()?.Find(VariantId)?.displayName??Type.ToString() : animalName;
+    public bool PetToday => pettedToday;
+    public bool GrazedToday => heart != null && heart.grazingDay == CurrentDay;
+    public bool HasBeenBorn => hasBeenBorn;
+    AnimalSalePriceSettings SalePriceSettings => !overrideSalePrice && growthProfile != null && growthProfile.salePrice != null
+        ? growthProfile.salePrice : (localSalePrice ??= new AnimalSalePriceSettings());
+    public float AnimalValueMultiplier => SalePriceSettings.Multiplier(HeartLevel);
+    public string VariantId=>growthProfile!=null?growthProfile.variantId:null;
+    public bool ProducesProducts=>growthProfile==null||growthProfile.productionEnabled;
+    public int AnimalSellPrice => growthProfile!=null&&growthProfile.sellOnlyAsAdult&&!IsAdult?0:SalePriceSettings.Calculate(HeartLevel);
+    public string InfoSummary => Type == AnimalType.Cow ? CowInfoSummary : Type == AnimalType.Sheep ? SheepInfoSummary :
+        $"{AnimalName} — {Type}\nHeart: {HeartLevel}/10 | Happiness: {(happiness >= 70 ? "Happy" : happiness >= 35 ? "Calm" : "Stressed")}\n" +
+        $"Health: {HealthSummary} | Fed: {(fedToday ? $"Yes ({FoodSourceLabel})" : "No")} | Pet: {(pettedToday ? "Yes" : "No")}\n" +
+        $"Growth: {GrowthStage} | Production: {(productReady ? "Ready" : "Not Ready")}\n" +
+        $"Sell Value: {AnimalSellPrice} G (Heart x{AnimalValueMultiplier:0.##})";
+    public bool FedToday => fedToday;
+    public bool InteractedToday => interactedToday;
+    public string CowDailyCareSummary => $"Makan {(fedToday ? "✓" : "✗")} | Gosok {(pettedToday ? "✓" : "✗")} | Interaksi {(interactedToday ? "✓" : "✗")}";
+    public AnimalFoodSource FoodSource => fedToday ? foodSource : AnimalFoodSource.None;
+    public int LastFedDay => lastFedDay;
+    public int HungryDays => healthProgress?.hungryDays ?? 0;
+    public bool IsSheltered => sheltered;
+    public bool IsAdult => hasBeenBorn && GrowthStage == AnimalGrowthStage.Adult;
+    public bool IsFemale => gender == AnimalGender.Female;
+    public string GenderLabel => IsFemale ? "Betina" : "Jantan";
+    public string GenderSymbol => IsFemale ? "♀" : "♂";
+    public string AgeLabel
+    {
+        get
+        {
+            int years = Mathf.Max(0, ageSeasons) / 4;
+            int seasons = Mathf.Max(0, ageSeasons) % 4;
+            if (years <= 0) return $"{seasons} Musim";
+            return seasons > 0 ? $"{years} Tahun {seasons} Musim" : $"{years} Tahun";
+        }
+    }
+    public string CowGrowthLabel => GrowthStage switch
+    {
+        AnimalGrowthStage.Baby or AnimalGrowthStage.Newborn => "Anak Sapi",
+        AnimalGrowthStage.Young => "Sapi Muda",
+        AnimalGrowthStage.Adolescent => "Sapi Remaja",
+        AnimalGrowthStage.Adult => "Sapi Dewasa",
+        _ => GrowthStage.ToString()
+    };
+    public string MilkSizeLabel => !IsFemale ? "Tidak menghasilkan susu" : !IsAdult ? "Belum produktif" :
+        CowHeartLevel >= 5 ? "Premium / Large" : CowHeartLevel >= 4 ? "Large" : CowHeartLevel >= 3 ? "Medium" : "Small";
+    string CowInfoSummary => $"{AnimalName} {GenderSymbol}\n" +
+        $"Umur: {AgeLabel} ({CowGrowthLabel})\n" +
+        $"Heart: {HeartGlyphs}  {CowCarePercent}%\n" +
+        $"Jenis Kelamin: {GenderLabel}\n" +
+        $"Ukuran Susu: {MilkSizeLabel}\n" +
+        $"Perawatan Hari Ini: {CowDailyCareSummary}";
+    string SheepInfoSummary => $"{AnimalName} {GenderSymbol}\n" +
+        $"Umur: {AgeLabel} ({GrowthStage})\n" +
+        $"Heart: {HeartLevel}/10 | Happiness: {(happiness >= 70 ? "Happy" : happiness >= 35 ? "Calm" : "Stressed")}\n" +
+        $"Wol: {SheepWoolStageLabel} ({SheepWoolGrowthDay}/{SheepWoolRegrowthDays} hari)\n" +
+        $"Kondisi: {HealthSummary}\n" +
+        $"Perawatan: Makan {(fedToday ? "✓" : "✗")} | Gosok {(pettedToday ? "✓" : "✗")}\n" +
+        SheepShearingSummary;
+    public int SheepWoolDaysRemaining => Mathf.Max(0,SheepWoolRegrowthDays-SheepWoolGrowthDay);
+    public string SheepShearingSummary
+    {
+        get
+        {
+            if (!IsAdult) return "Cukur: Belum siap — tunggu dewasa\nCooldown: dimulai setelah dicukur";
+            if (productReady) return "Cukur: Siap dicukur — 5 Wool\nCooldown: selesai";
+            if (SheepWoolDaysRemaining > 0)
+            {
+                var clock=TimeManager.Instance;
+                int minutes=SheepWoolDaysRemaining*24*60-(clock!=null ? clock.hour*60+clock.minute : 0);
+                return $"Cukur: Belum siap\nCooldown: {minutes/(24*60)} hari {GameTimeDebugText.FormatMinutes(minutes%(24*60))} (waktu game)";
+            }
+            return "Cukur: Belum siap — menunggu kondisi/produksi\nCooldown: selesai";
+        }
+    }
+    string HeartGlyphs => new string('♥', CowHeartLevel) + new string('♡', 5 - CowHeartLevel);
+    public static int ActiveAnimalCount => Registry.Count;
+    public static IReadOnlyList<AnimalGrowthSystem> ActiveAnimals => Registry;
+    public void SetAnimalName(string value)
+    {
+        value = value?.Replace("<", "").Replace(">", "").Replace("\n", " ").Replace("\r", " ").Trim();
+        animalName = string.IsNullOrEmpty(value) ? Type.ToString() : value.Substring(0, Mathf.Min(24, value.Length));
+    }
+    public bool HasProductReady => productReady;
+    public bool ProducesMilk => ProducesProducts&&Type is AnimalType.Cow or AnimalType.Goat;
+    /// <summary>Explains the first unmet milk production requirement using the same gates as normal production.</summary>
+    public string MilkProductionBlockReason
+    {
+        get
+        {
+            if (ProducesMilk && !IsFemale) return Type == AnimalType.Cow
+                ? "Sapi jantan tidak menghasilkan susu" : "Kambing jantan tidak menghasilkan susu";
+            if (productReady) return string.Empty;
+            if (!IsAdult) return "Belum dewasa";
+            if (health != AnimalHealthState.Healthy) return "Sedang sakit / pemulihan";
+            int interval = growthProfile != null ? growthProfile.productionIntervalDays : 1;
+            if (CurrentDay - lastProductionDay < Mathf.Max(1, interval)) return "Sudah diperah; tunggu jadwal produksi berikutnya";
+            if (!fedToday || fullness <= 0f) return "Belum makan; beri pakan hari ini";
+            if (happiness < 20f) return "Sedang stres; rawat hewan dulu";
+            if (!sheltered && !CanGrazeToday) return "Kembalikan ke kandang saat cuaca buruk";
+            return "Susu sedang diproduksi; tunggu sebentar";
+        }
+    }
+    public int ProductQualityLevel => Mathf.Clamp(productQuality, 1, 5);
+    public string ProductQualityLabel => Type == AnimalType.Cow ? MilkSizeForQuality(ProductQualityLevel) : AnimalCareCatalog.QualityName(ProductQualityLevel);
+    public const int SheepWoolRegrowthDays = 12;
+    public int SheepWoolGrowthDay => Type != AnimalType.Sheep || lastShearedDay < 0
+        ? SheepWoolRegrowthDays
+        : Mathf.Clamp(CurrentDay - lastShearedDay, 0, SheepWoolRegrowthDays);
+    public float SheepWoolGrowth01 => SheepWoolGrowthDay / (float)SheepWoolRegrowthDays;
+    public bool IsSheepWoolReady => Type == AnimalType.Sheep && IsAdult && SheepWoolGrowthDay >= SheepWoolRegrowthDays;
+    public string SheepWoolStageLabel => Type == AnimalType.Sheep && !IsAdult
+        ? "Belum dewasa"
+        : SheepWoolGrowthDay switch
+    {
+        <= 3 => "Hampir botak",
+        <= 6 => "Bulu tipis",
+        <= 9 => "Bulu mulai tebal",
+        <= 11 => "Hampir penuh",
+        _ => "Penuh / siap dicukur"
+    };
+
+    static string MilkSizeForQuality(int quality) => quality switch
+    {
+        >= 5 => "Premium / Large",
+        4 => "Large",
+        3 => "Medium",
+        _ => "Small"
+    };
+
+    public bool IsProductionEligible
+    {
+        get
+        {
+            if(!ProducesProducts)return false;
+            int currentDay = TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
+            int interval = growthProfile != null ? growthProfile.productionIntervalDays : 1;
+            bool genderAllowsProduct = !ProducesMilk&&!AnimalGrowthProfileSO.IsBird(Type)||IsFemale;
+            if (Type == AnimalType.Sheep)
+                return IsSheepWoolReady && health == AnimalHealthState.Healthy && !productReady;
+            return genderAllowsProduct && IsAdult && fedToday && happiness >= 20f && (sheltered || CanGrazeToday) && health == AnimalHealthState.Healthy &&
+                   currentDay - lastProductionDay >= Mathf.Max(1, interval);
+        }
+    }
+
+    public string StatusSummary =>
+        $"{Type} | {GenderLabel} | {GrowthStage} | Age {ageDays}d\n" +
+        $"Growth {growthDays}/{AdultGrowthDays} | Fed: {(fedToday ? $"Yes ({FoodSourceLabel})" : "No")}\n" +
+        $"Health: {HealthSummary} | Happy {Mathf.RoundToInt(happiness)} | Heart {HeartPoints}/1000";
+
+    void Awake()
+    {
+        heart ??= new AnimalHeartState { points = Mathf.Clamp(Mathf.RoundToInt(friendship * 10f), 0, 1000) };
+        heartRules ??= new AnimalHeartRules();
+        healthRules ??= new AnimalHealthRules();
+        healthProgress ??= new AnimalHealthProgress();
+        if (health == AnimalHealthState.Sick && healthProgress.Healthy) healthProgress.stage = AnimalIllnessStage.Mild;
+        SyncHealth();
+        if (string.IsNullOrWhiteSpace(animalId))
+        {
+            animalId = $"{gameObject.scene.name}-{gameObject.name}-" +
+                       $"{Mathf.RoundToInt(transform.position.x * 10f)}-{Mathf.RoundToInt(transform.position.z * 10f)}";
+        }
+
+        if (visualAnchor == null)
+        {
+            Transform runtimeVisual = transform.Find("AnimalVisual");
+            visualAnchor = runtimeVisual != null ? runtimeVisual : transform;
+        }
+        originalVisualScale = visualAnchor.localScale;
+        fallbackRenderers = visualAnchor.GetComponentsInChildren<Renderer>(true);
+
+        if (birthSource == AnimalBirthSource.PurchasedYoung && growthDays <= 0)
+            growthDays = Mathf.Max(0, AdultGrowthDays - PurchasedYoungGrowthDays());
+
+        if (Type == AnimalType.Cow && ageSeasons <= 0 && growthDays > 0)
+            ageSeasons = Mathf.Clamp(Mathf.CeilToInt(growthDays / Mathf.Max(1f, AdultGrowthDays) * 4f), 0, 4);
+        if (lastCalendarSeasonIndex < 0)
+            lastCalendarSeasonIndex = CalendarSeasonIndex(CurrentDay);
+
+        ApplyGrowthVisual(true);
+    }
+
+    void OnEnable()
+    {
+        if (Registry.Exists(animal => animal != null && animal != this && animal.animalId == animalId))
+        {
+            string baseId = FormattableString.Invariant($"{gameObject.scene.name}/{gameObject.name}/{transform.position.x:R}/{transform.position.z:R}");
+            animalId = baseId;
+            int suffix = 1;
+            while (Registry.Exists(animal => animal != null && animal != this && animal.animalId == animalId))
+                animalId = baseId + "/" + suffix++;
+        }
+        if (!Registry.Contains(this)) Registry.Add(this);
+        TimeManager.OnBeforeDayChange += HandleDailyReset;
+        ApplyGrowthVisual(false);
+    }
+
+    void OnDisable()
+    {
+        Registry.Remove(this);
+        TimeManager.OnBeforeDayChange -= HandleDailyReset;
+    }
+
+    void HandleDailyReset()
+    {
+        // Incubator owns the only prenatal clock. Protected nest occupants do not eat,
+        // get sick or age into an adult while waiting for the player to remove them.
+        if(IsInIncubator)return;
+        GetComponent<AnimalRoutine>()?.PrepareDailyCare();
+        int currentDay = TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
+        if (heart.lastDailyDay >= currentDay) return;
+
+        if (!hasBeenBorn)
+        {
+            heart.lastDailyDay = currentDay;
+            prenatalDays++;
+            int requiredDays = growthProfile != null ? growthProfile.incubationOrPregnancyDays : 7;
+            if (prenatalDays >= requiredDays)
+            {
+                hasBeenBorn = true;
+                birthDay = currentDay + 1;
+                ageDays = 0;
+                growthDays = 0;
+                ApplyGrowthVisual(true);
+            }
+            return;
+        }
+
+        ageDays++;
+        int nextCalendarSeasonIndex = CalendarSeasonIndex(currentDay + 1);
+        if (nextCalendarSeasonIndex > lastCalendarSeasonIndex)
+        {
+            ageSeasons += nextCalendarSeasonIndex - lastCalendarSeasonIndex;
+            lastCalendarSeasonIndex = nextCalendarSeasonIndex;
+        }
+        bool healthyDuringDay = healthProgress.Healthy;
+        WeatherType dailyWeather = WeatherSystem.Instance != null ? WeatherSystem.Instance.CurrentWeather : WeatherType.Sunny;
+        RecordHealthExposure();
+        healthProgress.EndDay(healthRules, currentDay, fedToday, sheltered, healthRules.stormSicknessChance,
+            healthRules.nightSicknessChance,
+            new System.Random(unchecked(StableHash(animalId) * 397 ^ currentDay)).NextDouble());
+        SyncHealth();
+        ApplyConditionVisual(false);
+        bool rain = WeatherSystem.Instance != null && WeatherSystem.Instance.IsRainToday;
+        bool storm = WeatherSystem.Instance != null && WeatherSystem.Instance.IsStormToday;
+        int weatherPenalty = WeatherSystem.GetOutdoorAnimalRelationshipPenalty(dailyWeather);
+        // Hewan yang sedang diobati tidak lagi dianggap sakit tanpa penanganan.
+        if (Type == AnimalType.Cow)
+            heart.EndCowCareDay(currentDay, fedToday, pettedToday, interactedToday);
+        else
+            heart.EndDay(heartRules, currentDay, fedToday, pettedToday,
+                healthProgress.Healthy || healthProgress.stage == AnimalIllnessStage.Recovering,
+                !sheltered, rain, storm, weatherPenalty);
+
+        // Growth hanya maju jika kebutuhan hari yang baru selesai semuanya terpenuhi.
+        if (!IsAdult && fedToday && (sheltered || CanGrazeToday) && healthyDuringDay && health == AnimalHealthState.Healthy)
+            growthDays = Mathf.Min(AdultGrowthDays, growthDays + 1);
+
+        happiness = Mathf.Clamp(
+            happiness + (fedToday ? 1f : -5f) + (pettedToday ? 2f : 0f) + (!sheltered && (rain || storm) ? -8f : 0f) +
+            (healthProgress.stage == AnimalIllnessStage.Critical ? -9f : healthProgress.stage == AnimalIllnessStage.Severe ? -6f : healthProgress.stage == AnimalIllnessStage.Mild ? -3f : healthProgress.stage == AnimalIllnessStage.Recovering ? -1f : 0f),
+            0f,
+            100f
+        );
+        fullness = Mathf.Max(0f, fullness - dailyFullnessLoss);
+        GetComponent<AnimalController>().RestoreProduction(fullness);
+        fedToday = false;
+        foodSource = AnimalFoodSource.None;
+        pettedToday = false;
+        interactedToday = false;
+        ApplyGrowthVisual(false);
+    }
+
+    void Update()
+    {
+        if (Time.timeScale <= 0 || (TimeManager.Instance != null && TimeManager.Instance.IsPaused)) return;
+        RecordHealthExposure();
+    }
+
+    void RecordHealthExposure()
+    {
+        if (!hasBeenBorn || sheltered || WeatherSystem.Instance == null) return;
+        WeatherType weather = WeatherSystem.Instance.CurrentWeather;
+        float risk = WeatherSystem.GetOutdoorAnimalSicknessChance(weather);
+        bool extreme = weather is WeatherType.Heatwave or WeatherType.Cyclone or WeatherType.Blizzard;
+        healthProgress.ExposeWeather(WeatherSystem.Instance.IsRainToday, WeatherSystem.Instance.IsStormToday, risk, extreme);
+        if (TimeManager.Instance != null && TimeManager.Instance.hour >= Mathf.Clamp(healthRules.nightRiskStartsAtHour, 0, 23))
+            healthProgress.ExposeNight();
+    }
+
+    void SyncHealth() => health = healthProgress.Healthy ? AnimalHealthState.Healthy : AnimalHealthState.Sick;
+
+    static int StableHash(string value)
+    {
+        unchecked
+        {
+            int hash = 17;
+            if (value == null) return hash;
+            for (int i = 0; i < value.Length; i++) hash = hash * 31 + value[i];
+            return hash;
+        }
+    }
+
+    public bool RegisterFeeding(float fullnessAmount, AnimalFoodSource source = AnimalFoodSource.HandFeed)
+    {
+        if (!hasBeenBorn || fedToday || fullnessAmount <= 0f) return false;
+        fullness = Mathf.Clamp(fullness + Mathf.Max(0f, fullnessAmount), 0f, 100f);
+        fedToday = true;
+        foodSource = source;
+        lastFedDay = CurrentDay;
+        if (Type == AnimalType.Cow)
+        {
+            heart.lastFeedDay = CurrentDay;
+            happiness = Mathf.Min(100f, happiness + 2f);
+        }
+        else if (heart.RewardOnce(ref heart.lastFeedDay, CurrentDay, heartRules.feedingPoints))
+            happiness = Mathf.Min(100f, happiness + 2f);
+        if (TryRewardCompletedCowCare())
+            ShowCowCareCompleted();
+        return true;
+    }
+
+    public void Pet()
+    {
+        if (!hasBeenBorn || pettedToday || heart.lastPetDay == CurrentDay) return;
+        if (Type == AnimalType.Cow) heart.lastPetDay = CurrentDay;
+        else if (!heart.RewardOnce(ref heart.lastPetDay, CurrentDay, heartRules.petPoints)) return;
+        pettedToday = true;
+        happiness = Mathf.Min(100f, happiness + 3f);
+        bool cowCareCompleted = TryRewardCompletedCowCare();
+        SaveLoadFeedback.Instance?.ShowMessage(cowCareCompleted
+            ? CowCareCompletedMessage()
+            : Type == AnimalType.Cow
+                ? $"{AnimalName} selesai digosok. {CowDailyCareSummary}. Lengkapi ketiganya untuk +1% Heart."
+            : $"{AnimalName} senang dielus. Heart {HeartLevel}/10");
+    }
+
+    public bool Interact()
+    {
+        if (!hasBeenBorn || interactedToday || heart.lastInteractionDay == CurrentDay) return false;
+        interactedToday = true;
+        heart.lastInteractionDay = CurrentDay;
+        happiness = Mathf.Min(100f, happiness + 1f);
+        bool cowCareCompleted = TryRewardCompletedCowCare();
+        SaveLoadFeedback.Instance?.ShowMessage(cowCareCompleted
+            ? CowCareCompletedMessage()
+            : $"{AnimalName} senang diajak berinteraksi. {CowDailyCareSummary}. " +
+              "Lengkapi ketiganya untuk +1% Heart.");
+        return true;
+    }
+
+    bool TryRewardCompletedCowCare() => Type == AnimalType.Cow &&
+        heart.TryRewardCowDailyCare(CurrentDay, fedToday, pettedToday, interactedToday);
+
+    void ShowCowCareCompleted() => SaveLoadFeedback.Instance?.ShowMessage(CowCareCompletedMessage());
+
+    string CowCareCompletedMessage() =>
+        $"Perawatan {AnimalName} lengkap! Heart +1% menjadi {CowCarePercent}%. {CowDailyCareSummary}.";
+
+    public void SetSheltered(bool value) => sheltered = value;
+
+    public void TreatWithMedicine()
+    {
+        TreatWithMedicine(AnimalMedicineLevel.Basic);
+    }
+
+    public AnimalMedicineResult TreatWithMedicine(AnimalMedicineLevel medicineLevel)
+    {
+        if (!CanReceiveMedicine) return AnimalMedicineResult.Rejected;
+        AnimalMedicineResult result = healthProgress.Treat(healthRules, CurrentDay, medicineLevel);
+        if (result == AnimalMedicineResult.Rejected) return result;
+        SyncHealth();
+        ApplyConditionVisual(false);
+        SaveLoadFeedback.Instance?.ShowMessage(result == AnimalMedicineResult.Recovering
+            ? $"{AnimalName} mulai recovery. Beri pakan dan istirahatkan di kandang."
+            : $"Kondisi {AnimalName} membaik menjadi {HealthSummary}. Berikan obat yang sesuai besok.");
+        return result;
+    }
+
+    public void MarkProductCollected()
+    {
+        productReady = false;
+        lastProductionDay = TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
+        if (Type == AnimalType.Sheep) lastShearedDay = CurrentDay;
+    }
+
+    public void RefreshSheepWoolReadiness()
+    {
+        if (Type != AnimalType.Sheep || productReady || !IsSheepWoolReady) return;
+        SetProductReady(true);
+    }
+
+    public void SetProductReady(bool value)
+    {
+        if(value&&!ProducesProducts)return;
+        if (value && (ProducesMilk||AnimalGrowthProfileSO.IsBird(Type)) && !IsFemale) return;
+        if (value && !productReady)
+        {
+            if (!IsProductionEligible) return;
+            RollProductQuality();
+        }
+        productReady = value;
+    }
+
+    void RollProductQuality() => productQuality = Type == AnimalType.Cow
+        ? CowMilkQuality()
+        : heart.RollQuality(happiness, new System.Random(unchecked(StableHash(animalId) * 397 ^ CurrentDay)).NextDouble());
+
+    int CowMilkQuality()
+    {
+        int level = Mathf.Max(1, CowHeartLevel);
+        return level <= 2 ? 1 : level;
+    }
+
+    static int CalendarSeasonIndex(int day) => GameScheduleData.SeasonIndex(day);
+
+    int CurrentDay => TimeManager.Instance != null ? TimeManager.Instance.day : birthDay + ageDays;
+    public bool CanGrazeToday => WeatherSystem.Instance == null ||
+        WeatherSystem.Instance.CurrentWeather is WeatherType.Sunny or WeatherType.PartlyCloudy or WeatherType.Snow;
+    public bool CanReceiveTreat => hasBeenBorn && heart.lastTreatDay != CurrentDay;
+    public bool GiveFavoriteTreat()
+    {
+        if (!CanReceiveTreat) return false;
+        heart.RewardOnce(ref heart.lastTreatDay, CurrentDay, heartRules.favoriteTreatPoints);
+        happiness = Mathf.Min(100f, happiness + 5f);
+        return true;
+    }
+
+    /// <summary>Hook grazing setelah makan rumput; tidak memberi reward hanya karena keluar kandang.</summary>
+    public bool RegisterGrazing()
+    {
+        if (!hasBeenBorn || fedToday || sheltered || !CanGrazeToday || health != AnimalHealthState.Healthy || heart.grazingDay == CurrentDay) return false;
+        heart.grazingDay = CurrentDay;
+        return RegisterFeeding(35f, AnimalFoodSource.Grazing);
+    }
+
+    public void InitializePurchasedYoung(int currentDay)
+    {
+        birthSource = AnimalBirthSource.PurchasedYoung;
+        hasBeenBorn = true;
+        birthDay = currentDay - Mathf.Max(0, AdultGrowthDays - PurchasedYoungGrowthDays());
+        growthDays = Mathf.Max(0, AdultGrowthDays - PurchasedYoungGrowthDays());
+        ageDays = growthDays;
+        ageSeasons = Type == AnimalType.Cow ? 2 : Mathf.Max(0,CalendarSeasonIndex(currentDay)-CalendarSeasonIndex(currentDay-ageDays));
+        lastCalendarSeasonIndex = CalendarSeasonIndex(currentDay);
+        ApplyGrowthVisual(true);
+        ApplyConditionVisual(true);
+    }
+
+    public void ConfigureShopPurchase(
+        AnimalType purchasedType,
+        AnimalGrowthProfileSO profile,
+        AnimalShopOfferKind offerKind,
+        int currentDay)
+    {
+        animalId = Guid.NewGuid().ToString("N");
+        heart = new AnimalHeartState();
+        animalName = string.Empty;
+        fedToday = pettedToday = interactedToday = false;
+        healthProgress = new AnimalHealthProgress();
+        health = AnimalHealthState.Healthy;
+        happiness = fullness = 50f;
+        animalType = purchasedType;
+        growthProfile = profile;
+        runtimePurchased = true;
+        prenatalDays = 0;
+        ageDays = 0;
+        growthDays = 0;
+        ageSeasons = 0;
+        lastCalendarSeasonIndex = CalendarSeasonIndex(currentDay);
+        gender = UnityEngine.Random.value < 0.5f ? AnimalGender.Female : AnimalGender.Male;
+        if(profile!=null&&offerKind==AnimalShopOfferKind.Young&&profile.purchaseSex!=AnimalSexPolicy.Any)
+            gender=profile.purchaseSex==AnimalSexPolicy.Male?AnimalGender.Male:AnimalGender.Female;
+        productReady = false;
+        lastProductionDay = -1000;
+        lastShearedDay = -1;
+
+        if (offerKind == AnimalShopOfferKind.Egg)
+        {
+            birthSource = AnimalBirthSource.PurchasedEgg;
+            hasBeenBorn = false;
+            birthDay = currentDay;
+        }
+        else
+        {
+            InitializePurchasedYoung(currentDay);
+            return;
+        }
+
+        ApplyGrowthVisual(true);
+        ApplyConditionVisual(true);
+    }
+
+    public void PrepareRestoreProfile(AnimalType savedType, AnimalGrowthProfileSO profile)
+    {
+        animalType = savedType;
+        growthProfile = profile;
+    }
+
+    public void InitializeIncubatorEgg(string id,int day)
+    {
+        if(visualAnchor==null)Awake();
+        InitializeBreeding(day);incubatorId=id;runtimePurchased=true;
+        if(isActiveAndEnabled&&!Registry.Contains(this))OnEnable();
+    }
+    public void HatchInIncubator(int day)
+    {
+        if(!IsInIncubator||hasBeenBorn)return;
+        hasBeenBorn=true;birthDay=day;ageDays=growthDays=prenatalDays=0;
+        lastCalendarSeasonIndex=CalendarSeasonIndex(day);ApplyGrowthVisual(true);
+    }
+    public void LeaveIncubator()
+    {
+        incubatorId=null;birthDay=CurrentDay;
+        if(heart!=null)heart.lastDailyDay=CurrentDay-1;
+        ApplyGrowthVisual(true); // Remove nest-only presentation scaling before normal care/carry.
+    }
+    public void FitIncubatorDisplay(float height,float currentHeight)
+    {
+        if(IsInIncubator&&hasBeenBorn&&spawnedStageModel!=null&&currentHeight>.001f)
+            spawnedStageModel.transform.localScale*=Mathf.Clamp(height/currentHeight,.1f,10f);
+    }
+
+    public void InitializeBreeding(int currentDay, string trait = "")
+    {
+        animalId = Guid.NewGuid().ToString("N");
+        heart = new AnimalHeartState();
+        fedToday = pettedToday = interactedToday = false;
+        productReady = false;
+        healthProgress = new AnimalHealthProgress();
+        health = AnimalHealthState.Healthy;
+        happiness = fullness = 50f;
+        birthSource = AnimalGrowthProfileSO.IsBird(Type)
+            ? AnimalBirthSource.HatchedOnFarm
+            : AnimalBirthSource.BornOnFarm;
+        inheritedTrait = trait;
+        birthDay = currentDay;
+        prenatalDays = 0;
+        ageDays = 0;
+        growthDays = 0;
+        ageSeasons = 0;
+        lastCalendarSeasonIndex = CalendarSeasonIndex(currentDay);
+        gender = UnityEngine.Random.value < 0.5f ? AnimalGender.Female : AnimalGender.Male;
+        hasBeenBorn = false;
+        ApplyGrowthVisual(true);
+    }
+
+    int PurchasedYoungGrowthDays() => growthProfile != null
+        ? growthProfile.purchasedYoungToAdultDays
+        : AnimalGrowthProfileSO.DefaultPurchasedToAdultDays(Type);
+
+    AnimalGrowthStage ResolveGrowthStage()
+    {
+        if (!hasBeenBorn)
+            return AnimalGrowthProfileSO.IsBird(Type) ? AnimalGrowthStage.Egg : AnimalGrowthStage.Pregnancy;
+
+        if (Type == AnimalType.Cow)
+        {
+            if (ageSeasons >= 4) return AnimalGrowthStage.Adult;
+            if (ageSeasons == 3) return AnimalGrowthStage.Adolescent;
+            if (ageSeasons == 2) return AnimalGrowthStage.Young;
+            return AnimalGrowthStage.Baby;
+        }
+
+        AnimalGrowthStageSlot bestSlot = FindStageSlotForDay(growthDays);
+        if (bestSlot != null && growthDays < AdultGrowthDays)
+            return bestSlot.stage;
+        return AnimalGrowthProfileSO.DefaultStage(Type, growthDays, AdultGrowthDays);
+    }
+
+    AnimalGrowthStageSlot FindStageSlotForDay(int day)
+    {
+        IReadOnlyList<AnimalGrowthStageSlot> slots = growthProfile != null
+            ? growthProfile.stageSlots
+            : stageOverrides;
+        AnimalGrowthStageSlot best = null;
+        if (slots == null) return null;
+
+        for (int i = 0; i < slots.Count; i++)
+        {
+            AnimalGrowthStageSlot candidate = slots[i];
+            if (candidate != null &&
+                candidate.stage is not AnimalGrowthStage.Egg and not AnimalGrowthStage.Pregnancy &&
+                candidate.startsOnGrowthDay <= day &&
+                (best == null || candidate.startsOnGrowthDay > best.startsOnGrowthDay))
+                best = candidate;
+        }
+        return best;
+    }
+
+    AnimalGrowthStageSlot FindExactStageSlot(AnimalGrowthStage stage)
+    {
+        AnimalGrowthStageSlot profileSlot = growthProfile != null ? growthProfile.GetStageSlot(stage) : null;
+        if (profileSlot != null) return profileSlot;
+        for (int i = 0; i < stageOverrides.Count; i++)
+            if (stageOverrides[i] != null && stageOverrides[i].stage == stage)
+                return stageOverrides[i];
+        return null;
+    }
+
+    AnimalConditionVisualSlot FindConditionSlot(AnimalIllnessStage condition)
+    {
+        AnimalConditionVisualSlot slot = growthProfile != null ? growthProfile.GetConditionSlot(condition) : null;
+        if (slot != null) return slot;
+        if (conditionVisualOverrides == null) return null;
+        for (int i = 0; i < conditionVisualOverrides.Count; i++)
+            if (conditionVisualOverrides[i] != null && conditionVisualOverrides[i].condition == condition)
+                return conditionVisualOverrides[i];
+        return null;
+    }
+
+    void ApplyConditionVisual(bool force)
+    {
+        // Authored visuals belong to the scene/prefab; condition changes must not replace them.
+        if (useSceneStageVisuals) return;
+        AnimalIllnessStage condition = healthProgress?.stage ?? AnimalIllnessStage.Healthy;
+        if (!force && condition == appliedCondition) return;
+        appliedCondition = condition;
+
+        if (conditionAnimator != null) conditionAnimator.runtimeAnimatorController = originalConditionAnimator;
+        conditionAnimator = null;
+        originalConditionAnimator = null;
+        if (spawnedConditionModel != null) {if(Application.isPlaying)Destroy(spawnedConditionModel);else DestroyImmediate(spawnedConditionModel);}
+        spawnedConditionModel = null;
+        if (spawnedStageModel != null) spawnedStageModel.SetActive(true);
+        if (condition == AnimalIllnessStage.Healthy) return;
+
+        AnimalConditionVisualSlot slot = FindConditionSlot(condition);
+        if (slot == null) return;
+        if (slot.modelPrefab != null)
+        {
+            try { spawnedConditionModel = Instantiate(slot.modelPrefab, visualAnchor); }
+            catch (InvalidCastException exception)
+            {
+                Debug.LogWarning($"[ANIMAL] Model kondisi {Type}/{condition} tidak valid; visual growth dipertahankan. {exception.Message}");
+            }
+            if (spawnedConditionModel != null)
+            {
+                spawnedConditionModel.name = $"Condition_{Type}_{condition}";
+                spawnedConditionModel.transform.SetLocalPositionAndRotation(slot.localOffset, Quaternion.Euler(slot.localEulerAngles));
+                spawnedConditionModel.transform.localScale = slot.scale;
+                foreach (Collider generated in spawnedConditionModel.GetComponentsInChildren<Collider>(true)) Destroy(generated);
+                if (spawnedStageModel != null) spawnedStageModel.SetActive(false);
+                conditionAnimator = spawnedConditionModel.GetComponentInChildren<Animator>();
+            }
+        }
+        else if (spawnedStageModel != null)
+        {
+            conditionAnimator = spawnedStageModel.GetComponentInChildren<Animator>();
+        }
+        if (conditionAnimator != null && slot.animatorController != null)
+        {
+            originalConditionAnimator = conditionAnimator.runtimeAnimatorController;
+            conditionAnimator.runtimeAnimatorController = slot.animatorController;
+        }
+    }
+
+    void ApplyGrowthVisual(bool force)
+    {
+        AnimalGrowthStage stage = GrowthStage;
+        if (!force && stage == appliedStage) return;
+        appliedStage = stage;
+
+        if (useSceneStageVisuals)
+        {
+            // Only switch the saved stage objects. Keep authored transforms and deletions intact.
+            foreach (AnimalSceneStageVisual entry in sceneStageVisuals)
+                if (entry != null && entry.visual != null)
+                {
+                    entry.visual.SetActive(entry.stage == stage);
+                    if(entry.stage==stage)FitCowCollider(entry.visual);
+                }
+            return;
+        }
+
+        // Model kondisi bergantung pada model growth aktif, jadi bangun ulang sesudah stage berubah.
+        if (spawnedConditionModel != null) Destroy(spawnedConditionModel);
+        spawnedConditionModel = null;
+        conditionAnimator = null;
+        originalConditionAnimator = null;
+        if (spawnedStageModel != null) {if(Application.isPlaying)Destroy(spawnedStageModel);else DestroyImmediate(spawnedStageModel);}
+        spawnedStageModel = null;
+        visualAnchor.localScale = originalVisualScale;
+
+        AnimalGrowthStageSlot slot = FindExactStageSlot(stage);
+        bool hasAuthoredModel = spawnedStageModel == null && fallbackRenderers != null && fallbackRenderers.Length > 0;
+        if (slot == null && hasAuthoredModel)
+        {
+            SetFallbackRenderersVisible(true);
+            visualAnchor.localScale = Vector3.Scale(originalVisualScale, GetDefaultScale(stage));
+            FitCowCollider(visualAnchor.gameObject);
+            ApplyConditionVisual(true);
+            return;
+        }
+        // Renderer dummy lama disembunyikan; collider root tetap aktif untuk interaksi.
+        SetFallbackRenderersVisible(false);
+
+        if (slot != null && slot.modelPrefab != null)
+        {
+            try
+            {
+                spawnedStageModel = Instantiate(slot.modelPrefab, visualAnchor);
+            }
+            catch (InvalidCastException exception)
+            {
+                Debug.LogWarning($"[ANIMAL] Model stage {Type}/{stage} tidak valid; memakai primitive. {exception.Message}");
+            }
+        }
+
+        if (spawnedStageModel != null)
+        {
+            spawnedStageModel.transform.SetLocalPositionAndRotation(
+                slot.localOffset,
+                Quaternion.Euler(slot.localEulerAngles)
+            );
+            spawnedStageModel.transform.localScale = slot.scale;
+            FitCowCollider(spawnedStageModel);
+            Animator animator = spawnedStageModel.GetComponentInChildren<Animator>();
+            if (animator != null && slot.animatorController != null)
+                animator.runtimeAnimatorController = slot.animatorController;
+            ApplyConditionVisual(true);
+            return;
+        }
+
+        SpawnPrimitiveDummy(stage, slot != null ? slot.scale : GetDefaultScale(stage));
+        ApplyConditionVisual(true);
+    }
+
+    // Legacy Map cows attach growth to a raw pack model, rather than the authored
+    // Cow prefab. Keep that actor's old collider from remaining giant after a stage swap.
+    void FitCowCollider(GameObject model)
+    {
+        if(Type!=AnimalType.Cow || model==null)return;
+        var capsule=GetComponent<CapsuleCollider>();if(capsule==null)return;
+        bool found=false;Bounds bounds=default;
+        foreach(var renderer in model.GetComponentsInChildren<Renderer>(true))
+        {
+            if(!renderer.enabled || !renderer.gameObject.activeInHierarchy ||
+                renderer is not MeshRenderer && renderer is not SkinnedMeshRenderer ||
+                renderer.GetComponent<TMPro.TMP_Text>()!=null || renderer.GetComponent<TextMesh>()!=null)continue;
+            if(!found){bounds=renderer.bounds;found=true;}else bounds.Encapsulate(renderer.bounds);
+        }
+        if(!found || bounds.size.y<.01f)return;
+        float height=bounds.size.y/Mathf.Max(.001f,Mathf.Abs(transform.lossyScale.y));
+        capsule.direction=1;
+        capsule.radius=Mathf.Clamp(height*.27f,.08f,.5f);
+        capsule.height=Mathf.Max(height,capsule.radius*2f);
+        capsule.center=transform.InverseTransformPoint(bounds.center);
+    }
+
+    void SpawnPrimitiveDummy(AnimalGrowthStage stage, Vector3 growthScale)
+    {
+        bool isEgg = stage == AnimalGrowthStage.Egg;
+        bool isBird = AnimalGrowthProfileSO.IsBird(Type);
+        PrimitiveType primitiveType = isBird || isEgg ? PrimitiveType.Sphere : PrimitiveType.Capsule;
+        Vector3 shapeScale = isEgg
+            ? eggDummyShapeScale
+            : isBird ? birdDummyShapeScale : mammalDummyShapeScale;
+
+        spawnedStageModel = GameObject.CreatePrimitive(primitiveType);
+        spawnedStageModel.name = isBird || isEgg
+            ? $"Dummy_{Type}_Circle_{stage}"
+            : $"Dummy_{Type}_Capsule_{stage}";
+        spawnedStageModel.transform.SetParent(visualAnchor, false);
+        spawnedStageModel.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        spawnedStageModel.transform.localScale = Vector3.Scale(shapeScale, growthScale);
+
+        // Collider utama animal tetap menjadi satu-satunya area interaksi.
+        Collider generatedCollider = spawnedStageModel.GetComponent<Collider>();
+        if (generatedCollider != null) Destroy(generatedCollider);
+
+        Renderer dummyRenderer = spawnedStageModel.GetComponent<Renderer>();
+        Material fallbackMaterial = FindFallbackMaterial();
+        if (dummyRenderer != null && fallbackMaterial != null)
+            dummyRenderer.sharedMaterial = fallbackMaterial;
+    }
+
+    /// <summary>
+    /// Melompat ke stage visual berikutnya untuk QA. Hanya aktif saat master Debug Clues menyala;
+    /// waktu game dan jalur pertumbuhan normal tidak diubah.
+    /// </summary>
+    public void DebugAdvanceToNextStage()
+    {
+        if (!HUDManager.DebugCluesEnabled)
+            return;
+
+        if (!hasBeenBorn)
+        {
+            int requiredDays = growthProfile != null ? growthProfile.incubationOrPregnancyDays : 7;
+            prenatalDays = Mathf.Max(prenatalDays, requiredDays);
+            hasBeenBorn = true;
+            ageDays = 0;
+            growthDays = 0;
+            ApplyGrowthVisual(true);
+            SaveLoadFeedback.Instance?.ShowMessage($"DEBUG {Type}: menetas/lahir → {GrowthStage}");
+            return;
+        }
+
+        int nextGrowthDay = AdultGrowthDays;
+        IReadOnlyList<AnimalGrowthStageSlot> slots = growthProfile != null
+            ? growthProfile.stageSlots
+            : stageOverrides;
+        if (slots != null)
+        {
+            for (int index = 0; index < slots.Count; index++)
+            {
+                AnimalGrowthStageSlot candidate = slots[index];
+                if (candidate != null && candidate.startsOnGrowthDay > growthDays)
+                    nextGrowthDay = Mathf.Min(nextGrowthDay, candidate.startsOnGrowthDay);
+            }
+        }
+
+        growthDays = Mathf.Clamp(nextGrowthDay, 0, AdultGrowthDays);
+        ageDays = Mathf.Max(ageDays, growthDays);
+        ApplyGrowthVisual(true);
+        SaveLoadFeedback.Instance?.ShowMessage($"DEBUG {Type}: {GrowthStage} ({growthDays}/{AdultGrowthDays})");
+    }
+
+    /// <summary>Explicit testing controls; refreshes real health/growth visuals and production state without advancing the calendar.</summary>
+    public bool ApplyTestAction(AnimalTestAction action)
+    {
+        if (!PropertySite.DebugShortcutsEnabled || !gameObject.activeInHierarchy) return false;
+        if (IsInIncubator && action is AnimalTestAction.MakeAdult or AnimalTestAction.ReadyProduct) return false;
+        if (action == AnimalTestAction.ReadyProduct && ProducesMilk && !IsFemale) return false;
+        GetComponent<AnimalController>()?.CancelCareAction(false);
+        if (action is AnimalTestAction.MakeFemale or AnimalTestAction.MakeMale)
+        {
+            AnimalGender nextGender = action == AnimalTestAction.MakeFemale ? AnimalGender.Female : AnimalGender.Male;
+            if (gender != nextGender)
+            {
+                gender = nextGender;
+                if (ProducesMilk) MarkProductCollected();
+                GetComponent<AnimalController>()?.RestoreProduction(fullness);
+            }
+            return true;
+        }
+        if (action == AnimalTestAction.ClearProduct)
+        {
+            // Hold the unavailable state for the normal cooldown; the production timer
+            // must not immediately undo the OFF switch. No product is awarded.
+            MarkProductCollected();
+            GetComponent<AnimalController>()?.RestoreProduction(fullness);
+            ApplyGrowthVisual(true);
+            return true;
+        }
+        if (action is AnimalTestAction.Heal or AnimalTestAction.ReadyProduct)
+        {
+            healthProgress = new AnimalHealthProgress { lastDailyDay = CurrentDay };
+            SyncHealth();
+        }
+        if (action is AnimalTestAction.MakeAdult or AnimalTestAction.ReadyProduct)
+        {
+            hasBeenBorn = true;
+            growthDays = AdultGrowthDays;
+            ageDays = Mathf.Max(ageDays, growthDays);
+            if (Type == AnimalType.Cow) ageSeasons = Mathf.Max(ageSeasons, 4);
+        }
+        if (action is AnimalTestAction.FillNeeds or AnimalTestAction.ReadyProduct)
+        {
+            fullness = 100f; happiness = 100f; fedToday = true;
+            foodSource = AnimalFoodSource.HandFeed; lastFedDay = CurrentDay;
+        }
+        if (action == AnimalTestAction.MakeSick)
+        {
+            healthProgress = new AnimalHealthProgress { stage = AnimalIllnessStage.Severe, lastDailyDay = CurrentDay };
+            productReady = false; SyncHealth();
+        }
+        ApplyGrowthVisual(true);
+        ApplyConditionVisual(true);
+        if (action == AnimalTestAction.ReadyProduct)
+        {
+            lastProductionDay = CurrentDay - Mathf.Max(1, growthProfile != null ? growthProfile.productionIntervalDays : 1);
+            lastShearedDay = CurrentDay - SheepWoolRegrowthDays;
+            // Explicit debug override also works outdoors in rain. Normal production
+            // still enforces shelter, weather and cooldown; milk still requires a female.
+            RollProductQuality();
+            productReady = true;
+            GetComponent<AnimalController>()?.RestoreProduction(fullness);
+            return productReady;
+        }
+        return true;
+    }
+
+    Material FindFallbackMaterial()
+    {
+        if (fallbackRenderers == null) return null;
+        for (int i = 0; i < fallbackRenderers.Length; i++)
+            if (fallbackRenderers[i] != null && fallbackRenderers[i].sharedMaterial != null)
+                return fallbackRenderers[i].sharedMaterial;
+        return null;
+    }
+
+    Vector3 GetDefaultScale(AnimalGrowthStage stage)
+    {
+        // Domba pack mempunyai ukuran visual berbeda dari dummy/growth generik.
+        // Gunakan target ukuran per tahap agar Young sudah terbaca jelas di samping player.
+        if (Type == AnimalType.Sheep)
+        {
+            float sheepScale = stage switch
+            {
+                AnimalGrowthStage.Hatchling or AnimalGrowthStage.Newborn => 0.7f,
+                AnimalGrowthStage.Baby => 0.85f,
+                AnimalGrowthStage.Young => 1.1f,
+                AnimalGrowthStage.Adolescent => 1.18f,
+                _ => 1.25f
+            };
+            return Vector3.one * sheepScale;
+        }
+
+        Vector3 stageScale = stage switch
+        {
+            AnimalGrowthStage.Egg => Vector3.one,
+            AnimalGrowthStage.Pregnancy => adultScale,
+            AnimalGrowthStage.Hatchling or AnimalGrowthStage.Newborn => hatchlingOrNewbornScale,
+            AnimalGrowthStage.Baby => babyScale,
+            AnimalGrowthStage.Young => youngScale,
+            AnimalGrowthStage.Adolescent => adolescentScale,
+            _ => adultScale
+        };
+
+        // Sedikit koreksi spesies; pivot/tinggi kaki ditangani oleh AnimalVisual,
+        // sehingga scale tidak perlu dibesarkan ekstrem untuk menutupi model tenggelam.
+        if (Type == AnimalType.Goat)
+            stageScale *= 1.1f;
+        return stageScale;
+    }
+
+    void SetFallbackRenderersVisible(bool visible)
+    {
+        if (fallbackRenderers == null) return;
+        for (int i = 0; i < fallbackRenderers.Length; i++)
+            if (fallbackRenderers[i] != null)
+                fallbackRenderers[i].enabled = visible;
+    }
+
+    public AnimalSaveData Capture() => new()
+    {
+        incubatorId = incubatorId,
+        animalId = animalId,
+        animalName = animalName,
+        heart = heart?.Copy(),
+        productQuality = productQuality,
+        homeId = GetComponent<AnimalRoutine>()?.HomeId,
+        housed = GetComponent<AnimalRoutine>()?.IsHoused ?? false,
+        returningHome = GetComponent<AnimalRoutine>()?.Returning ?? false,
+        animalType = Type,
+        variantId = VariantId,
+        gender = gender,
+        birthSource = birthSource,
+        birthDay = birthDay,
+        ageDays = ageDays,
+        ageSeasons = ageSeasons,
+        lastCalendarSeasonIndex = lastCalendarSeasonIndex,
+        hasVariableSeasonCalendar = true,
+        growthDays = growthDays,
+        prenatalDays = prenatalDays,
+        hasBeenBorn = hasBeenBorn,
+        health = health,
+        healthProgress = healthProgress.Copy(),
+        fullness = fullness,
+        happiness = happiness,
+        friendship = Friendship,
+        fedToday = fedToday,
+        foodSource = foodSource,
+        lastFedDay = lastFedDay,
+        pettedToday = pettedToday,
+        interactedToday = interactedToday,
+        sheltered = sheltered,
+        productReady = productReady,
+        lastProductionDay = lastProductionDay,
+        lastShearedDay = lastShearedDay,
+        inheritedTrait = inheritedTrait,
+        runtimePurchased = runtimePurchased,
+        x = transform.position.x,
+        y = transform.position.y,
+        z = transform.position.z
+    };
+
+    public void Restore(AnimalSaveData data)
+    {
+        if (data == null) return;
+        if(visualAnchor==null)Awake();
+        incubatorId=data.incubatorId;
+        animalId = data.animalId;
+        animalName = data.animalName;
+        heart = data.heart?.Copy() ?? new AnimalHeartState { points = Mathf.Clamp(Mathf.RoundToInt(data.friendship * 10f), 0, 1000) };
+        heart.Add(0);
+        productQuality = Mathf.Clamp(data.productQuality, 1, 5);
+        animalType = data.animalType;
+        if(!string.IsNullOrEmpty(data.variantId))
+        {
+            var variant=AnimalRosterCatalog.Load()?.Find(data.variantId);
+            if(variant?.growthProfile!=null&&variant.hasRuntimeType&&variant.runtimeType==data.animalType)growthProfile=variant.growthProfile;
+        }
+        gender = data.gender;
+        birthSource = data.birthSource;
+        birthDay = data.birthDay;
+        ageDays = Mathf.Max(0, data.ageDays);
+        ageSeasons = Mathf.Max(0, data.ageSeasons);
+        if (Type == AnimalType.Cow && ageSeasons == 0 && data.growthDays > 0)
+            ageSeasons = Mathf.Clamp(Mathf.CeilToInt(data.growthDays / Mathf.Max(1f, AdultGrowthDays) * 4f), 0, 4);
+        lastCalendarSeasonIndex = data.hasVariableSeasonCalendar && data.lastCalendarSeasonIndex >= 0
+            ? data.lastCalendarSeasonIndex
+            : CalendarSeasonIndex(CurrentDay);
+        growthDays = Mathf.Clamp(data.growthDays, 0, AdultGrowthDays);
+        prenatalDays = Mathf.Max(0, data.prenatalDays);
+        hasBeenBorn = data.hasBeenBorn;
+        healthProgress = data.healthProgress?.Copy() ?? new AnimalHealthProgress
+        { stage = data.health == AnimalHealthState.Sick ? AnimalIllnessStage.Mild : AnimalIllnessStage.Healthy };
+        SyncHealth();
+        fullness = Mathf.Clamp(data.fullness, 0f, 100f);
+        happiness = Mathf.Clamp(data.happiness, 0f, 100f);
+        friendship = Mathf.Clamp(data.friendship, 0f, 100f);
+        fedToday = data.fedToday;
+        foodSource = data.fedToday
+            ? data.foodSource == AnimalFoodSource.None ? AnimalFoodSource.FeedingTrough : data.foodSource
+            : AnimalFoodSource.None;
+        lastFedDay = data.lastFedDay > 0 ? data.lastFedDay : heart.lastFeedDay;
+        pettedToday = data.pettedToday;
+        interactedToday = data.interactedToday;
+        sheltered = data.sheltered;
+        productReady = data.productReady && ProducesProducts && (!(ProducesMilk||AnimalGrowthProfileSO.IsBird(Type)) || IsFemale);
+        lastProductionDay = data.lastProductionDay;
+        // Save lama belum mempunyai field ini dan terbaca sebagai 0. Hari game dimulai
+        // dari 1, jadi 0 aman dimigrasikan sebagai "belum pernah dicukur".
+        lastShearedDay = data.lastShearedDay <= 0 ? -1 : data.lastShearedDay;
+        inheritedTrait = data.inheritedTrait;
+        runtimePurchased = data.runtimePurchased;
+        transform.position = new Vector3(data.x, data.y, data.z);
+        GetComponent<AnimalController>().RestoreProduction(fullness);
+        ApplyGrowthVisual(true);
+        AnimalRoutine routine = GetComponent<AnimalRoutine>();
+        if (routine == null) routine = gameObject.AddComponent<AnimalRoutine>();
+        routine.RestoreHome(data.homeId, data.housed, data.returningHome);
+        if(!Registry.Contains(this))OnEnable();
+    }
+
+    public static List<AnimalSaveData> CaptureAll()
+    {
+        List<AnimalSaveData> result = new(Registry.Count);
+        for (int i = 0; i < Registry.Count; i++)
+            if (Registry[i] != null)
+                result.Add(Registry[i].Capture());
+        return result;
+    }
+
+    public static void RestoreAll(List<AnimalSaveData> data)
+    {
+        if (data == null) return;
+        Dictionary<string, AnimalSaveData> byId = new();
+        for (int i = 0; i < data.Count; i++)
+            if (data[i] != null && !string.IsNullOrWhiteSpace(data[i].animalId))
+                byId[data[i].animalId] = data[i];
+
+        HashSet<string> restoredIds = new();
+        var existing = new List<AnimalGrowthSystem>(Registry);
+        foreach(var template in SceneTemplates)
+            if(template!=null&&!existing.Contains(template))existing.Add(template);
+        foreach(var animal in existing)
+        {
+            if (animal == null)
+                continue;
+            if (!byId.TryGetValue(animal.animalId, out AnimalSaveData saved))
+            {
+                if(!animal.runtimePurchased&&!SceneTemplates.Contains(animal))SceneTemplates.Add(animal);
+                animal.gameObject.SetActive(false);
+                if (animal.runtimePurchased)Destroy(animal.gameObject);
+                continue;
+            }
+            animal.Restore(saved);
+            animal.gameObject.SetActive(true);
+            restoredIds.Add(saved.animalId);
+        }
+
+        // Missing legacy scene livestock also restore through the species catalog.
+        ShopManager shop = ShopManager.AnimalService;
+        for (int i = 0; i < data.Count; i++)
+            if (data[i] != null && !string.IsNullOrWhiteSpace(data[i].animalId) && !restoredIds.Contains(data[i].animalId))
+            {
+                if(shop?.RestoreAnimal(data[i])!=null)restoredIds.Add(data[i].animalId);
+            }
+    }
+
+    void OnValidate()
+    {
+        dailyFullnessLoss = Mathf.Max(0f, dailyFullnessLoss);
+        fullness = Mathf.Clamp(fullness, 0f, 100f);
+        happiness = Mathf.Clamp(happiness, 0f, 100f);
+        friendship = Mathf.Clamp(friendship, 0f, 100f);
+        ClampMinimumScale(ref mammalDummyShapeScale);
+        ClampMinimumScale(ref birdDummyShapeScale);
+        ClampMinimumScale(ref eggDummyShapeScale);
+    }
+
+    static void ClampMinimumScale(ref Vector3 scale)
+    {
+        scale.x = Mathf.Max(0.01f, scale.x);
+        scale.y = Mathf.Max(0.01f, scale.y);
+        scale.z = Mathf.Max(0.01f, scale.z);
+    }
+
+    string FoodSourceLabel => foodSource switch
+    {
+        AnimalFoodSource.HandFeed => "Hand Feed",
+        AnimalFoodSource.FeedingTrough => "Trough",
+        AnimalFoodSource.Grazing => "Grazing",
+        AnimalFoodSource.AutoFeeder => "Auto Feeder",
+        _ => "Unknown"
+    };
+}

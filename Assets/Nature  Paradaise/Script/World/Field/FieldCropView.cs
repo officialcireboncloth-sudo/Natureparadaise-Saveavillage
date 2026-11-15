@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
+[DefaultExecutionOrder(100)]
 /// <summary>
 /// View ringan satu tanaman field. Pertumbuhan dihitung terpusat oleh <see cref="FieldArea"/>
 /// sehingga komponen ini hanya memperbarui mesh, skala, dan stage visual.
@@ -29,6 +30,12 @@ public sealed class FieldCropView : MonoBehaviour
     MaterialPropertyBlock propertyBlock;
     GameObject stageVisual;
     GameObject activeStagePrefab;
+    Quaternion authoredStageRotation;
+    Vector3 authoredFront;
+    Vector3 lastLocalFacing;
+    bool faceGameplayCamera;
+    static Camera frameCamera;
+    static int sampledCameraFrame = -1;
     TextMesh growthDebugLabel;
     int gridX;
     int gridZ;
@@ -86,10 +93,6 @@ public sealed class FieldCropView : MonoBehaviour
             if (stageVisual != null)
             {
                 stageVisual.name = $"Stage_{stage}_{definition.GetStageName(stage)}";
-                stageVisual.transform.SetLocalPositionAndRotation(
-                    definition.GetStageOffset(stage),
-                    definition.GetStageRotation(stage)
-                );
                 stageVisual.transform.localScale = Vector3.one;
                 FieldGroundSurface.DisableVisualColliders(stageVisual);
                 clueRenderer = stageVisual.GetComponentInChildren<Renderer>(true);
@@ -103,11 +106,20 @@ public sealed class FieldCropView : MonoBehaviour
 
         // Tiny seeds otherwise reach the prefab's cull threshold at normal camera
         // distance. Keep their cheapest LOD visible; FieldArea still hides distant fields.
+        faceGameplayCamera = stageVisual != null && stage > 0 && definition.faceGameplayCamera;
         if (stageVisual != null)
         {
             if (clueRenderer == null) clueRenderer = stageVisual.GetComponentInChildren<Renderer>(true);
             // Also refresh placement when two visual slots share one prefab or Inspector values change.
-            stageVisual.transform.SetLocalPositionAndRotation(definition.GetStageOffset(stage), definition.GetStageRotation(stage));
+            authoredStageRotation = definition.GetStageRotation(stage);
+            stageVisual.transform.SetLocalPositionAndRotation(definition.GetStageOffset(stage), authoredStageRotation);
+            lastLocalFacing = Vector3.zero;
+            if (faceGameplayCamera)
+            {
+                authoredFront = authoredStageRotation * Quaternion.Euler(0f, definition.modelFrontYaw, 0f) * Vector3.forward;
+                authoredFront.y = 0f;
+                ApplyCameraFacing(GetFrameCamera());
+            }
             foreach (LODGroup lod in stageVisual.GetComponentsInChildren<LODGroup>(true))
                 lod.ForceLOD(stage == 0 && lod.lodCount > 0 ? lod.lodCount - 1 : -1);
         }
@@ -142,15 +154,43 @@ public sealed class FieldCropView : MonoBehaviour
 
     void LateUpdate()
     {
-        if (growthDebugLabel == null || !growthDebugLabel.gameObject.activeInHierarchy) return;
+        bool showDebugLabel = growthDebugLabel != null && growthDebugLabel.gameObject.activeInHierarchy;
+        if (!faceGameplayCamera && !showDebugLabel) return;
+        Camera camera = GetFrameCamera();
+        if (faceGameplayCamera) ApplyCameraFacing(camera);
+        if (!showDebugLabel) return;
         growthDebugLabel.transform.position = transform.position + Vector3.up * 1.35f;
-        Camera camera = Camera.main;
         if (camera != null) growthDebugLabel.transform.rotation = camera.transform.rotation;
         Vector3 scale = transform.lossyScale;
         growthDebugLabel.transform.localScale = new Vector3(
             1f / Mathf.Max(0.001f, Mathf.Abs(scale.x)),
             1f / Mathf.Max(0.001f, Mathf.Abs(scale.y)),
             1f / Mathf.Max(0.001f, Mathf.Abs(scale.z)));
+    }
+
+    static Camera GetFrameCamera()
+    {
+        if (sampledCameraFrame != Time.frameCount)
+        {
+            frameCamera = Camera.main;
+            sampledCameraFrame = Time.frameCount;
+        }
+        return frameCamera;
+    }
+
+    void ApplyCameraFacing(Camera camera)
+    {
+        if (camera == null || stageVisual == null) return;
+        // In orthographic view, every crop faces the same viewing direction as rows scroll past.
+        Vector3 toCamera = camera.orthographic ? -camera.transform.forward : camera.transform.position - transform.position;
+        Vector3 localFacing = transform.InverseTransformDirection(toCamera);
+        localFacing.y = 0f;
+        if (localFacing.sqrMagnitude < 0.0001f || authoredFront.sqrMagnitude < 0.0001f) return;
+        localFacing.Normalize();
+        if ((localFacing - lastLocalFacing).sqrMagnitude < 0.00001f) return;
+        lastLocalFacing = localFacing;
+        float yaw = Vector3.SignedAngle(authoredFront, localFacing, Vector3.up);
+        stageVisual.transform.localRotation = Quaternion.AngleAxis(yaw, Vector3.up) * authoredStageRotation;
     }
 
     void RefreshGrowthDebug(CropLifecycleState state)

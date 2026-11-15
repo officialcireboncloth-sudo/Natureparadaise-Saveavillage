@@ -1,0 +1,635 @@
+Optional template material M_RoadDecal_01_Bend_01.mat missing texture GUIDs: []
+Optional template material M_RoadDecal_01_Bend_02.mat missing texture GUIDs: []
+Optional template material M_RoadDecal_01.mat missing texture GUIDs: []
+Optional template material M_RoadDecal_02_Bend_01.mat missing texture GUIDs: []
+Optional template material M_RoadDecal_02_Bend_02.mat missing texture GUIDs: []
+Optional template material M_RoadDecal_02.mat missing texture GUIDs: []
+Optional template material M_TerrainLit_URP.mat missing texture GUIDs: []
+Original materials outside template: []
+Existing assets with vendor URP changes: {'.shader': 8, '.mat': 88}
+Changed terrain layers: []
+SM_ASP_Global_Settings models: [('Default',)] chosen prefab: Stylized Pack - Common/ASP Global Settings/ASP_Global_Settings.prefab
+  ASP_Global_Settings - => ['M_ASP_Global_Settings']
+SM_Hill_01 models: [('Material',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Background/Background - Summer/P_Hill_01_Summer.prefab
+  SM_Hill_01_LOD0 ['Material'] => ['M_Hill_01_Summer']
+  SM_Hill_01_LOD1 ['Material'] => ['M_Hill_01_Summer']
+  SM_Hill_01_LOD2 ['Material'] => ['M_Hill_01_Summer']
+SM_Hill_02 models: [('Material',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Background/Background - Summer/P_Hill_02_Summer.prefab
+  SM_Hill_02_LOD0 ['Material'] => ['M_Hill_02_Summer']
+  SM_Hill_02_LOD1 ['Material'] => ['M_Hill_02_Summer']
+  SM_Hill_02_LOD2 ['Material'] => ['M_Hill_02_Summer']
+SM_Mountain_01 models: [('Material',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Background/Background - Summer/P_Mountain_01_Summer.prefab
+  SM_Mountain_01_LOD0 ['Material'] => ['M_Mountain_01_Summer']
+  SM_Mountain_01_LOD1 ['Material'] => ['M_Mountain_01_Summer']
+  SM_Mountain_01_LOD2 ['Material'] => ['M_Mountain_01_Summer']
+SM_Mountain_02 models: [('Material',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Background/Background - Summer/P_Mountain_02_Summer.prefab
+  SM_Mountain_02_LOD0 ['Material'] => ['M_Mountain_02_Summer']
+  SM_Mountain_02_LOD1 ['Material'] => ['M_Mountain_02_Summer']
+  SM_Mountain_02_LOD2 ['Material'] => ['M_Mountain_02_Summer']
+SM_Mountain_03 models: [('Material',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Background/Background - Summer/P_Mountain_03_Summer.prefab
+  SM_Mountain_03_LOD0 ['Material'] => ['M_Mountain_03_Summer']
+  SM_Mountain_03_LOD1 ['Material'] => ['M_Mountain_03_Summer']
+  SM_Mountain_03_LOD2 ['Material'] => ['M_Mountain_03_Summer']
+SM_Mountain_04 models: [('Material',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Background/Background - Summer/P_Mountain_04_Summer.prefab
+  SM_Mountain_04_LOD0 ['Material'] => ['M_Mountain_04_Summer']
+  SM_Mountain_04_LOD1 ['Material'] => ['M_Mountain_04_Summer']
+  SM_Mountain_04_LOD2 ['Material'] => ['M_Mountain_04_Summer']
+SM_CoverPlant_01 models: [('Cover Plants',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/CoverPlants/CoverPlants - Summer/P_CoverPlant_01_Summer.prefab
+  SM_CoverPlant_01_LOD0 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+  SM_CoverPlant_01_LOD1 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+  SM_CoverPlant_01_LOD2 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+SM_CoverPlant_02 models: [('Cover Plants',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/CoverPlants/CoverPlants - Summer/P_CoverPlant_02_Summer.prefab
+  SM_CoverPlant_02_LOD0 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+  SM_CoverPlant_02_LOD1 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+  SM_CoverPlant_02_LOD2 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+SM_CoverPlant_03 models: [('Cover Plants',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/CoverPlants/CoverPlants - Summer/P_CoverPlant_03_Summer.prefab
+  SM_CoverPlant_03_LOD0 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+  SM_CoverPlant_03_LOD1 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+  SM_CoverPlant_03_LOD2 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+SM_CoverPlant_04 models: [('Cover Plants',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/CoverPlants/CoverPlants - Summer/P_CoverPlant_04_Summer.prefab
+  SM_CoverPlant_04_LOD0 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+  SM_CoverPlant_04_LOD1 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+  SM_CoverPlant_04_LOD2 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+SM_CoverPlant_05 models: [('Cover Plants',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/CoverPlants/CoverPlants - Summer/P_CoverPlant_05_Summer.prefab
+  SM_CoverPlant_05_LOD0 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+  SM_CoverPlant_05_LOD1 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+  SM_CoverPlant_05_LOD2 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+SM_CoverPlant_06 models: [('Cover Plants',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/CoverPlants/CoverPlants - Summer/P_CoverPlant_06_Summer.prefab
+  SM_CoverPlant_06_LOD0 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+  SM_CoverPlant_06_LOD1 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+  SM_CoverPlant_06_LOD2 ['Cover Plants'] => ['M_CoverPlants_01_Summer']
+SM_Flower_01_01 models: [('Flowers_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_01_01.prefab
+  SM_Flower_01_01_LOD0 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_01_01_LOD1 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_01_01_LOD2 ['Flowers_01'] => ['M_Flowers_01']
+SM_Flower_01_02 models: [('Flowers_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_01_02.prefab
+  SM_Flower_01_02_LOD0 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_01_02_LOD1 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_01_02_LOD2 ['Flowers_01'] => ['M_Flowers_01']
+SM_Flower_01_03 models: [('Flowers_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_01_03.prefab
+  SM_Flower_01_03_LOD0 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_01_03_LOD1 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_01_03_LOD2 ['Flowers_01'] => ['M_Flowers_01']
+SM_Flower_02_01 models: [('Flowers_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_02_01.prefab
+  SM_Flower_02_01_LOD0 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_02_01_LOD1 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_02_01_LOD2 ['Flowers_01'] => ['M_Flowers_01']
+SM_Flower_02_02 models: [('Flowers_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_02_02.prefab
+  SM_Flower_02_02_LOD0 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_02_02_LOD1 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_02_02_LOD2 ['Flowers_01'] => ['M_Flowers_01']
+SM_Flower_02_03 models: [('Flowers_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_02_03.prefab
+  SM_Flower_02_03_LOD0 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_02_03_LOD1 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_02_03_LOD2 ['Flowers_01'] => ['M_Flowers_01']
+SM_Flower_03_01 models: [('Flowers_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_03_01.prefab
+  SM_Flower_03_01_LOD0 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_03_01_LOD1 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_03_01_LOD2 ['Flowers_01'] => ['M_Flowers_01']
+SM_Flower_03_02 models: [('Flowers_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_03_02.prefab
+  SM_Flower_03_02_LOD0 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_03_02_LOD1 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_03_02_LOD2 ['Flowers_01'] => ['M_Flowers_01']
+SM_Flower_03_03 models: [('Flowers_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_03_03.prefab
+  SM_Flower_03_03_LOD0 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_03_03_LOD1 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_03_03_LOD2 ['Flowers_01'] => ['M_Flowers_01']
+SM_Flower_04_01 models: [('Flowers_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_04_01.prefab
+  SM_Flower_04_01_LOD0 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_04_01_LOD1 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_04_01_LOD2 ['Flowers_01'] => ['M_Flowers_01']
+SM_Flower_04_02 models: [('Flowers_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_04_02.prefab
+  SM_Flower_04_02_LOD0 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_04_02_LOD1 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_04_02_LOD2 ['Flowers_01'] => ['M_Flowers_01']
+SM_Flower_04_03 models: [('Flowers_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_04_03.prefab
+  SM_Flower_04_03_LOD0 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_04_03_LOD1 ['Flowers_01'] => ['M_Flowers_01']
+  SM_Flower_04_03_LOD2 ['Flowers_01'] => ['M_Flowers_01']
+SM_Flower_05_01 models: [('Flowers_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_05_01.prefab
+  SM_Flower_05_01_LOD0 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_05_01_LOD1 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_05_01_LOD2 ['Flowers_02'] => ['M_Flowers_02']
+SM_Flower_05_02 models: [('Flowers_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_05_02.prefab
+  SM_Flower_05_02_LOD0 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_05_02_LOD1 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_05_02_LOD2 ['Flowers_02'] => ['M_Flowers_02']
+SM_Flower_05_03 models: [('Flowers_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_05_03.prefab
+  SM_Flower_05_03_LOD0 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_05_03_LOD1 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_05_03_LOD2 ['Flowers_02'] => ['M_Flowers_02']
+SM_Flower_06_01 models: [('Flowers_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_06_01.prefab
+  SM_Flower_06_01_LOD0 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_06_01_LOD1 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_06_01_LOD2 ['Flowers_02'] => ['M_Flowers_02']
+SM_Flower_06_02 models: [('Flowers_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_06_02.prefab
+  SM_Flower_06_02_LOD0 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_06_02_LOD1 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_06_02_LOD2 ['Flowers_02'] => ['M_Flowers_02']
+SM_Flower_06_03 models: [('Flowers_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_06_03.prefab
+  SM_Flower_06_03_LOD0 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_06_03_LOD1 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_06_03_LOD2 ['Flowers_02'] => ['M_Flowers_02']
+SM_Flower_07_01 models: [('Flowers_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_07_01.prefab
+  SM_Flower_07_01_LOD0 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_07_01_LOD1 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_07_01_LOD2 ['Flowers_02'] => ['M_Flowers_02']
+SM_Flower_07_02 models: [('Flowers_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_07_02.prefab
+  SM_Flower_07_02_LOD0 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_07_02_LOD1 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_07_02_LOD2 ['Flowers_02'] => ['M_Flowers_02']
+SM_Flower_07_03 models: [('Flowers_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_07_03.prefab
+  SM_Flower_07_03_LOD0 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_07_03_LOD1 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_07_03_LOD2 ['Flowers_02'] => ['M_Flowers_02']
+SM_Flower_08_01 models: [('Flowers_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_08_01.prefab
+  SM_Flower_08_01_LOD0 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_08_01_LOD1 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_08_01_LOD2 ['Flowers_02'] => ['M_Flowers_02']
+SM_Flower_08_02 models: [('Flowers_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_08_02.prefab
+  SM_Flower_08_02_LOD0 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_08_02_LOD1 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_08_02_LOD2 ['Flowers_02'] => ['M_Flowers_02']
+SM_Flower_08_03 models: [('Flowers_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_08_03.prefab
+  SM_Flower_08_03_LOD0 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_08_03_LOD1 ['Flowers_02'] => ['M_Flowers_02']
+  SM_Flower_08_03_LOD2 ['Flowers_02'] => ['M_Flowers_02']
+SM_Flower_09_01 models: [('Flowers_03',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_09_01.prefab
+  SM_Flower_09_01_LOD0 ['Flowers_03'] => ['M_Flowers_03']
+  SM_Flower_09_01_LOD1 ['Flowers_03'] => ['M_Flowers_03']
+  SM_Flower_09_01_LOD2 ['Flowers_03'] => ['M_Flowers_03']
+SM_Flower_09_02 models: [('Flowers_03',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_09_02.prefab
+  SM_Flower_09_02_LOD0 ['Flowers_03'] => ['M_Flowers_03']
+  SM_Flower_09_02_LOD1 ['Flowers_03'] => ['M_Flowers_03']
+  SM_Flower_09_02_LOD2 ['Flowers_03'] => ['M_Flowers_03']
+SM_Flower_09_03 models: [('Flowers_03',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_09_03.prefab
+  SM_Flower_09_03_LOD0 ['Flowers_03'] => ['M_Flowers_03']
+  SM_Flower_09_03_LOD1 ['Flowers_03'] => ['M_Flowers_03']
+  SM_Flower_09_03_LOD2 ['Flowers_03'] => ['M_Flowers_03']
+SM_Flower_10_01 models: [('Flowers_03',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_10_01.prefab
+  SM_Flower_10_01_LOD0 ['Flowers_03'] => ['M_Flowers_03']
+  SM_Flower_10_01_LOD1 ['Flowers_03'] => ['M_Flowers_03']
+  SM_Flower_10_01_LOD2 ['Flowers_03'] => ['M_Flowers_03']
+SM_Flower_10_02 models: [('Flowers_03',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_10_02.prefab
+  SM_Flower_10_02_LOD0 ['Flowers_03'] => ['M_Flowers_03']
+  SM_Flower_10_02_LOD1 ['Flowers_03'] => ['M_Flowers_03']
+  SM_Flower_10_02_LOD2 ['Flowers_03'] => ['M_Flowers_03']
+SM_Flower_10_03 models: [('Flowers_03',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Flowers/P_Flower_10_03.prefab
+  SM_Flower_10_03_LOD0 ['Flowers_03'] => ['M_Flowers_03']
+  SM_Flower_10_03_LOD1 ['Flowers_03'] => ['M_Flowers_03']
+  SM_Flower_10_03_LOD2 ['Flowers_03'] => ['M_Flowers_03']
+SM_Grass_01_01 models: [('Grass_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Grass/Grass - Summer/P_Grass_01_Summer_01.prefab
+  SM_Grass_01_01_LOD0 ['Grass_01'] => ['M_Grass_01_Summer']
+  SM_Grass_01_01_LOD1 ['Grass_01'] => ['M_Grass_01_Summer']
+  SM_Grass_01_01_LOD2 ['Grass_01'] => ['M_Grass_01_Summer']
+  SM_Grass_01_01_LOD3 ['Grass_01'] => ['M_Grass_01_Summer']
+SM_Grass_01_02 models: [('Grass_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Grass/Grass - Summer/P_Grass_01_Summer_02.prefab
+  SM_Grass_01_02_LOD0 ['Grass_01'] => ['M_Grass_01_Summer']
+  SM_Grass_01_02_LOD1 ['Grass_01'] => ['M_Grass_01_Summer']
+  SM_Grass_01_02_LOD2 ['Grass_01'] => ['M_Grass_01_Summer']
+  SM_Grass_01_02_LOD3 ['Grass_01'] => ['M_Grass_01_Summer']
+SM_Grass_01_03 models: [('Grass_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Grass/Grass - Summer/P_Grass_01_Summer_03.prefab
+  SM_Grass_01_03_LOD0 ['Grass_01'] => ['M_Grass_01_Summer']
+  SM_Grass_01_03_LOD1 ['Grass_01'] => ['M_Grass_01_Summer']
+  SM_Grass_01_03_LOD2 ['Grass_01'] => ['M_Grass_01_Summer']
+  SM_Grass_01_03_LOD3 ['Grass_01'] => ['M_Grass_01_Summer']
+SM_Grass_02_01 models: [('Grass_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Grass/Grass - Summer/P_Grass_02_Summer_01.prefab
+  SM_Grass_02_01_LOD0 ['Grass_02'] => ['M_Grass_02_Summer']
+  SM_Grass_02_01_LOD1 ['Grass_02'] => ['M_Grass_02_Summer']
+  SM_Grass_02_01_LOD2 ['Grass_02'] => ['M_Grass_02_Summer']
+  SM_Grass_02_01_LOD3 ['Grass_02'] => ['M_Grass_02_Summer']
+SM_Grass_02_02 models: [('Grass_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Grass/Grass - Summer/P_Grass_02_Summer_02.prefab
+  SM_Grass_02_02_LOD0 ['Grass_02'] => ['M_Grass_02_Summer']
+  SM_Grass_02_02_LOD1 ['Grass_02'] => ['M_Grass_02_Summer']
+  SM_Grass_02_02_LOD2 ['Grass_02'] => ['M_Grass_02_Summer']
+  SM_Grass_02_02_LOD3 ['Grass_02'] => ['M_Grass_02_Summer']
+SM_Grass_02_03 models: [('Grass_02',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Grass/Grass - Summer/P_Grass_02_Summer_03.prefab
+  SM_Grass_02_03_LOD0 ['Grass_02'] => ['M_Grass_02_Summer']
+  SM_Grass_02_03_LOD1 ['Grass_02'] => ['M_Grass_02_Summer']
+  SM_Grass_02_03_LOD2 ['Grass_02'] => ['M_Grass_02_Summer']
+  SM_Grass_02_03_LOD3 ['Grass_02'] => ['M_Grass_02_Summer']
+SM_Grass_03_01 models: [('Grass_03',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Grass/Grass - Summer/P_Grass_03_Summer_01.prefab
+  SM_Grass_03_01_LOD0 ['Grass_03'] => ['M_Grass_03_Summer']
+  SM_Grass_03_01_LOD1 ['Grass_03'] => ['M_Grass_03_Summer']
+  SM_Grass_03_01_LOD2 ['Grass_03'] => ['M_Grass_03_Summer']
+  SM_Grass_03_01_LOD3 ['Grass_03'] => ['M_Grass_03_Summer']
+SM_Grass_03_02 models: [('Grass_03',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Grass/Grass - Summer/P_Grass_03_Summer_02.prefab
+  SM_Grass_03_02_LOD0 ['Grass_03'] => ['M_Grass_03_Summer']
+  SM_Grass_03_02_LOD1 ['Grass_03'] => ['M_Grass_03_Summer']
+  SM_Grass_03_02_LOD2 ['Grass_03'] => ['M_Grass_03_Summer']
+  SM_Grass_03_02_LOD3 ['Grass_03'] => ['M_Grass_03_Summer']
+SM_Grass_03_03 models: [('Grass_03',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Grass/Grass - Summer/P_Grass_03_Summer_03.prefab
+  SM_Grass_03_03_LOD0 ['Grass_03'] => ['M_Grass_03_Summer']
+  SM_Grass_03_03_LOD1 ['Grass_03'] => ['M_Grass_03_Summer']
+  SM_Grass_03_03_LOD2 ['Grass_03'] => ['M_Grass_03_Summer']
+  SM_Grass_03_03_LOD3 ['Grass_03'] => ['M_Grass_03_Summer']
+SM_Leaves_BirchTree_01 models: [('Plants',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Leaves/Leaves - Summer/P_Leaves_BirchTree_01_Summer.prefab
+  SM_Leaves_BirchTree_01_LOD0 ['Plants'] => ['M_Leaves_BirchTree_01_Summer']
+  SM_Leaves_BirchTree_01_LOD1 ['Plants'] => ['M_Leaves_BirchTree_01_Summer']
+  SM_Leaves_BirchTree_01_LOD2 ['Plants'] => ['M_Leaves_BirchTree_01_Summer']
+SM_Leaves_BirchTree_02 models: [('Plants',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Leaves/Leaves - Summer/P_Leaves_BirchTree_02_Summer.prefab
+  SM_Leaves_BirchTree_02_LOD0 ['Plants'] => ['M_Leaves_BirchTree_01_Summer']
+  SM_Leaves_BirchTree_02_LOD1 ['Plants'] => ['M_Leaves_BirchTree_01_Summer']
+  SM_Leaves_BirchTree_02_LOD2 ['Plants'] => ['M_Leaves_BirchTree_01_Summer']
+SM_Leaves_OakTree_01 models: [('Plants',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Leaves/Leaves - Summer/P_Leaves_OakTree_01_Summer.prefab
+  SM_Leaves_OakTree_01_LOD0 ['Plants'] => ['M_Leaves_OakTree_01_Summer']
+  SM_Leaves_OakTree_01_LOD1 ['Plants'] => ['M_Leaves_OakTree_01_Summer']
+  SM_Leaves_OakTree_01_LOD2 ['Plants'] => ['M_Leaves_OakTree_01_Summer']
+SM_Leaves_OakTree_02 models: [('Plants',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Leaves/Leaves - Summer/P_Leaves_OakTree_02_Summer.prefab
+  SM_Leaves_OakTree_02_LOD0 ['Plants'] => ['M_Leaves_OakTree_01_Summer']
+  SM_Leaves_OakTree_02_LOD1 ['Plants'] => ['M_Leaves_OakTree_01_Summer']
+  SM_Leaves_OakTree_02_LOD2 ['Plants'] => ['M_Leaves_OakTree_01_Summer']
+SM_Mushroom_01 models: [('Mushroom',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Mushrooms/Mushrooms - Summer/P_Mushroom_Brown_01_Summer.prefab
+  SM_Mushroom_01_LOD0 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_01_LOD1 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_01_LOD2 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+SM_Mushroom_02 models: [('Mushroom',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Mushrooms/Mushrooms - Summer/P_Mushroom_Brown_02_Summer.prefab
+  SM_Mushroom_02_LOD0 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_02_LOD1 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_02_LOD2 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+SM_Mushroom_03 models: [('Mushroom',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Mushrooms/Mushrooms - Summer/P_Mushroom_Brown_03_Summer.prefab
+  SM_Mushroom_03_LOD0 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_03_LOD1 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_03_LOD2 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+SM_Mushroom_04 models: [('Mushroom',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Mushrooms/Mushrooms - Summer/P_Mushroom_Brown_04_Summer.prefab
+  SM_Mushroom_04_LOD0 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_04_LOD1 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_04_LOD2 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+SM_Mushroom_05 models: [('Mushroom',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Mushrooms/Mushrooms - Summer/P_Mushroom_Brown_05_Summer.prefab
+  SM_Mushroom_05_LOD0 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_05_LOD1 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_05_LOD2 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+SM_Mushroom_06 models: [('Mushroom',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Mushrooms/Mushrooms - Summer/P_Mushroom_Brown_06_Summer.prefab
+  SM_Mushroom_06_LOD0 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_06_LOD1 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_06_LOD2 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+SM_Mushroom_07 models: [('Mushroom',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Mushrooms/Mushrooms - Summer/P_Mushroom_Brown_07_Summer.prefab
+  SM_Mushroom_07_LOD0 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_07_LOD1 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_07_LOD2 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+SM_Mushroom_08 models: [('Mushroom',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Mushrooms/Mushrooms - Summer/P_Mushroom_Brown_08_Summer.prefab
+  SM_Mushroom_08_LOD0 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_08_LOD1 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_08_LOD2 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+SM_Mushroom_09 models: [('Mushroom',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Mushrooms/Mushrooms - Summer/P_Mushroom_Brown_09_Summer.prefab
+  SM_Mushroom_09_LOD0 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_09_LOD1 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_09_LOD2 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+SM_Mushroom_10 models: [('Mushroom',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Mushrooms/Mushrooms - Summer/P_Mushroom_Brown_10_Summer.prefab
+  SM_Mushroom_10_LOD0 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_10_LOD1 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_10_LOD2 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+SM_Mushroom_11 models: [('Mushroom',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Mushrooms/Mushrooms - Summer/P_Mushroom_Brown_11_Summer.prefab
+  SM_Mushroom_11_LOD0 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_11_LOD1 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_11_LOD2 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+SM_Mushroom_12 models: [('Mushroom',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Mushrooms/Mushrooms - Summer/P_Mushroom_Brown_12_Summer.prefab
+  SM_Mushroom_12_LOD0 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_12_LOD1 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+  SM_Mushroom_12_LOD2 ['Mushroom'] => ['M_Mushroom_Brown_01_Summer']
+SM_Plant_01_01 models: [('Plants_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Plants/Plants - Summer/P_Plant_01_Summer_01.prefab
+  SM_Plant_01_01_LOD0 ['Plants_01'] => ['M_Plants_01_Summer']
+  SM_Plant_01_01_LOD1 ['Plants_01'] => ['M_Plants_01_Summer']
+  SM_Plant_01_01_LOD2 ['Plants_01'] => ['M_Plants_01_Summer']
+SM_Plant_01_02 models: [('Plants_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Plants/Plants - Summer/P_Plant_01_Summer_02.prefab
+  SM_Plant_01_02_LOD0 ['Plants_01'] => ['M_Plants_01_Summer']
+  SM_Plant_01_02_LOD1 ['Plants_01'] => ['M_Plants_01_Summer']
+  SM_Plant_01_02_LOD2 ['Plants_01'] => ['M_Plants_01_Summer']
+SM_Plant_01_03 models: [('Plants_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Plants/Plants - Summer/P_Plant_01_Summer_03.prefab
+  SM_Plant_01_03_LOD0 ['Plants_01'] => ['M_Plants_01_Summer']
+  SM_Plant_01_03_LOD1 ['Plants_01'] => ['M_Plants_01_Summer']
+  SM_Plant_01_03_LOD2 ['Plants_01'] => ['M_Plants_01_Summer']
+SM_Plant_02_01 models: [('Plants_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Plants/Plants - Summer/P_Plant_02_Summer_01.prefab
+  SM_Plant_02_01_LOD0 ['Plants_01'] => ['M_Plants_01_Summer']
+  SM_Plant_02_01_LOD1 ['Plants_01'] => ['M_Plants_01_Summer']
+  SM_Plant_02_01_LOD2 ['Plants_01'] => ['M_Plants_01_Summer']
+SM_Plant_02_02 models: [('Plants_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Plants/Plants - Summer/P_Plant_02_Summer_02.prefab
+  SM_Plant_02_02_LOD0 ['Plants_01'] => ['M_Plants_01_Summer']
+  SM_Plant_02_02_LOD1 ['Plants_01'] => ['M_Plants_01_Summer']
+  SM_Plant_02_02_LOD2 ['Plants_01'] => ['M_Plants_01_Summer']
+SM_Plant_02_03 models: [('Plants_01',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Plants/Plants - Summer/P_Plant_02_Summer_03.prefab
+  SM_Plant_02_03_LOD0 ['Plants_01'] => ['M_Plants_01_Summer']
+  SM_Plant_02_03_LOD1 ['Plants_01'] => ['M_Plants_01_Summer']
+  SM_Plant_02_03_LOD2 ['Plants_01'] => ['M_Plants_01_Summer']
+SM_AMStatue_ME_01 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_AMStatue_ME_01_Summer.prefab
+  SM_AMStatue_ME_01_LOD0 ['Props'] => ['M_AMStatue_ME_01_Summer']
+  SM_AMStatue_ME_01_LOD1 ['Props'] => ['M_AMStatue_ME_01_Summer']
+  SM_AMStatue_ME_01_LOD2 ['Props'] => ['M_AMStatue_ME_01_Summer']
+SM_Fence_01 models: [('Plank', 'Ivy')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Fence_01_Summer.prefab
+  SM_Fence_01_LOD0 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+  SM_Fence_01_LOD1 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+  SM_Fence_01_LOD2 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+SM_Fence_02 models: [('Plank', 'Ivy')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Fence_02_Summer.prefab
+  SM_Fence_02_LOD0 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+  SM_Fence_02_LOD1 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+  SM_Fence_02_LOD2 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+SM_Fence_03 models: [('Plank', 'Ivy')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Fence_03_Summer.prefab
+  SM_Fence_03_LOD0 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+  SM_Fence_03_LOD1 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+  SM_Fence_03_LOD2 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+SM_Fence_04 models: [('Plank', 'Ivy')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Fence_04_Summer.prefab
+  SM_Fence_04_LOD0 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+  SM_Fence_04_LOD1 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+  SM_Fence_04_LOD2 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+SM_Fence_05 models: [('Plank', 'Ivy')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Fence_05_Summer.prefab
+  SM_Fence_05_LOD0 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+  SM_Fence_05_LOD1 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+  SM_Fence_05_LOD2 ['Plank', 'Ivy'] => ['M_Plank_01_Summer']
+SM_Fence_06 models: [('Plank', 'Ivy')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Fence_06_Summer.prefab
+  SM_Fence_06_LOD0 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+  SM_Fence_06_LOD1 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+  SM_Fence_06_LOD2 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+  SM_Fence_06_LOD3 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+SM_Fence_07 models: [('Plank', 'Ivy')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Fence_07_Summer.prefab
+  SM_Fence_07_LOD0 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+  SM_Fence_07_LOD1 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+  SM_Fence_07_LOD2 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+  SM_Fence_07_LOD3 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+SM_Fence_08 models: [('Plank', 'Ivy')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Fence_08_Summer.prefab
+  SM_Fence_08_LOD0 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+  SM_Fence_08_LOD1 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+  SM_Fence_08_LOD2 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+  SM_Fence_08_LOD3 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+SM_Fence_09 models: [('Plank', 'Ivy')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Fence_09_Summer.prefab
+  SM_Fence_09_LOD0 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+  SM_Fence_09_LOD1 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+  SM_Fence_09_LOD2 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+  SM_Fence_09_LOD3 ['Plank', 'Ivy'] => ['M_Plank_01_Summer', 'M_FenceIvy_01_Summer']
+SM_Log_01 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Log_01_Summer.prefab
+  SM_Log_01_LOD0 ['Props'] => ['M_Log_01_Summer']
+  SM_Log_01_LOD1 ['Props'] => ['M_Log_01_Summer']
+  SM_Log_01_LOD2 ['Props'] => ['M_Log_01_Summer']
+  SM_Log_01_LOD3 ['Props'] => ['M_Log_01_Summer']
+SM_Log_02 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Log_02_Summer.prefab
+  SM_Log_02_LOD0 ['Props'] => ['M_Log_02_Summer']
+  SM_Log_02_LOD1 ['Props'] => ['M_Log_02_Summer']
+  SM_Log_02_LOD2 ['Props'] => ['M_Log_02_Summer']
+  SM_Log_02_LOD3 ['Props'] => ['M_Log_02_Summer']
+SM_Plank_01 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_01_Summer.prefab
+  SM_Plank_01_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_01_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_01_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_02 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_02_Summer.prefab
+  SM_Plank_02_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_02_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_02_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_03 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_03_Summer.prefab
+  SM_Plank_03_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_03_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_03_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_04 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_04_Summer.prefab
+  SM_Plank_04_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_04_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_04_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_Group_01 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_Group_01_Summer.prefab
+  SM_Plank_Group_01_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_01_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_01_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_Group_02 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_Group_02_Summer.prefab
+  SM_Plank_Group_02_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_02_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_02_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_Group_03 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_Group_03_Summer.prefab
+  SM_Plank_Group_03_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_03_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_03_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_Group_04 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_Group_04_Summer.prefab
+  SM_Plank_Group_04_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_04_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_04_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_Group_05 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_Group_05_Summer.prefab
+  SM_Plank_Group_05_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_05_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_05_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_Group_06 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_Group_06_Summer.prefab
+  SM_Plank_Group_06_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_06_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_06_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_Group_07 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_Group_07_Summer.prefab
+  SM_Plank_Group_07_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_07_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_07_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_Group_08 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_Group_08_Summer.prefab
+  SM_Plank_Group_08_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_08_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_08_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_Group_09 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_Group_09_Summer.prefab
+  SM_Plank_Group_09_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_09_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_09_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_Group_10 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_Group_10_Summer.prefab
+  SM_Plank_Group_10_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_10_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_10_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_Group_11 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_Group_11_Summer.prefab
+  SM_Plank_Group_11_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_11_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_11_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Plank_Group_12 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Plank_Group_12_Summer.prefab
+  SM_Plank_Group_12_LOD0 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_12_LOD1 ['Props'] => ['M_Plank_01_Summer']
+  SM_Plank_Group_12_LOD2 ['Props'] => ['M_Plank_01_Summer']
+SM_Stump_01 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Stump_01_Summer.prefab
+  SM_Stump_01_LOD0 ['Props'] => ['M_Stump_01_Summer']
+  SM_Stump_01_LOD1 ['Props'] => ['M_Stump_01_Summer']
+  SM_Stump_01_LOD2 ['Props'] => ['M_Stump_01_Summer']
+SM_Stump_02 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Props/Props - Summer/P_Stump_02_Summer.prefab
+  SM_Stump_02_LOD0 ['Props'] => ['M_Stump_02_Summer']
+  SM_Stump_02_LOD1 ['Props'] => ['M_Stump_02_Summer']
+  SM_Stump_02_LOD2 ['Props'] => ['M_Stump_02_Summer']
+SM_Rock_01 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/Rocks - Summer/P_Rock_01_Summer.prefab
+  SM_Rock_01_LOD0 ['Props'] => ['M_Rock_01_Summer']
+  SM_Rock_01_LOD1 ['Props'] => ['M_Rock_01_Summer']
+  SM_Rock_01_LOD2 ['Props'] => ['M_Rock_01_Summer']
+SM_Rock_02 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/Rocks - Summer/P_Rock_02_Summer.prefab
+  SM_Rock_02_LOD0 ['Props'] => ['M_Rock_02_Summer']
+  SM_Rock_02_LOD1 ['Props'] => ['M_Rock_02_Summer']
+  SM_Rock_02_LOD2 ['Props'] => ['M_Rock_02_Summer']
+SM_Rock_03 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/Rocks - Summer/P_Rock_03_Summer.prefab
+  SM_Rock_03_LOD0 ['Props'] => ['M_Rock_03_Summer']
+  SM_Rock_03_LOD1 ['Props'] => ['M_Rock_03_Summer']
+  SM_Rock_03_LOD2 ['Props'] => ['M_Rock_03_Summer']
+SM_Rock_04 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/Rocks - Summer/P_Rock_04_Summer.prefab
+  SM_Rock_04_LOD0 ['Props'] => ['M_Rock_04_Summer']
+  SM_Rock_04_LOD1 ['Props'] => ['M_Rock_04_Summer']
+  SM_Rock_04_LOD2 ['Props'] => ['M_Rock_04_Summer']
+SM_Rock_05 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/Rocks - Summer/P_Rock_05_Summer.prefab
+  SM_Rock_05_LOD0 ['Props'] => ['M_Rock_05_Summer']
+  SM_Rock_05_LOD1 ['Props'] => ['M_Rock_05_Summer']
+  SM_Rock_05_LOD2 ['Props'] => ['M_Rock_05_Summer']
+SM_Rock_06 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/Rocks - Summer/P_Rock_06_Summer.prefab
+  SM_Rock_06_LOD0 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_06_LOD1 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_06_LOD2 ['Props'] => ['M_Rock_06_Summer']
+SM_Rock_07 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/Rocks - Summer/P_Rock_07_Summer.prefab
+  SM_Rock_07_LOD0 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_07_LOD1 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_07_LOD2 ['Props'] => ['M_Rock_06_Summer']
+SM_Rock_08 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/Rocks - Summer/P_Rock_08_Summer.prefab
+  SM_Rock_08_LOD0 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_08_LOD1 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_08_LOD2 ['Props'] => ['M_Rock_06_Summer']
+SM_Rock_09 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/Rocks - Summer/P_Rock_09_Summer.prefab
+  SM_Rock_09_LOD0 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_09_LOD1 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_09_LOD2 ['Props'] => ['M_Rock_06_Summer']
+SM_Rock_10 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/Rocks - Summer/P_Rock_10_Summer.prefab
+  SM_Rock_10_LOD0 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_10_LOD1 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_10_LOD2 ['Props'] => ['M_Rock_06_Summer']
+SM_Rock_11 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/Rocks - Summer/P_Rock_11_Summer.prefab
+  SM_Rock_11_LOD0 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_11_LOD1 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_11_LOD2 ['Props'] => ['M_Rock_06_Summer']
+SM_Rock_12 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/Rocks - Summer/P_Rock_12_Summer.prefab
+  SM_Rock_12_LOD0 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_12_LOD1 ['Props'] => ['M_Rock_06_Summer']
+  SM_Rock_12_LOD2 ['Props'] => ['M_Rock_06_Summer']
+SM_RockGroup_01 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/RockGroup - Summer/P_RockGroup_01_Summer.prefab
+  SM_RocksGroup_01_LOD0 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_01_LOD1 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_01_LOD2 - => ['M_RockGroup_01_Summer']
+SM_RockGroup_02 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/RockGroup - Summer/P_RockGroup_02_Summer.prefab
+  SM_RocksGroup_02_LOD0 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_02_LOD1 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_02_LOD2 - => ['M_RockGroup_01_Summer']
+SM_RockGroup_03 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/RockGroup - Summer/P_RockGroup_03_Summer.prefab
+  SM_RocksGroup_03_LOD0 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_03_LOD1 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_03_LOD2 - => ['M_RockGroup_01_Summer']
+SM_RockGroup_04 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/RockGroup - Summer/P_RockGroup_04_Summer.prefab
+  SM_RocksGroup_04_LOD0 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_04_LOD1 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_04_LOD2 - => ['M_RockGroup_01_Summer']
+SM_RockGroup_05 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/RockGroup - Summer/P_RockGroup_05_Summer.prefab
+  SM_RocksGroup_05_LOD0 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_05_LOD1 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_05_LOD2 - => ['M_RockGroup_01_Summer']
+SM_RockGroup_06 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/RockGroup - Summer/P_RockGroup_06_Summer.prefab
+  SM_RocksGroup_06_LOD0 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_06_LOD1 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_06_LOD2 - => ['M_RockGroup_01_Summer']
+SM_RockGroup_07 models: [('Props',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Rocks/RockGroup - Summer/P_RockGroup_07_Summer.prefab
+  SM_RocksGroup_07_LOD0 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_07_LOD1 - => ['M_RockGroup_01_Summer']
+  SM_RocksGroup_07_LOD2 - => ['M_RockGroup_01_Summer']
+SM_BirchBush_01 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_BirchBush_01_Summer.prefab
+  SM_BirchBush_01_LOD0 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_01_LOD1 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_01_LOD2 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_01_LOD3 ['Bark', 'Leaf'] => ['M_BirchTree_Leaf_01_Summer']
+SM_BirchBush_02 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_BirchBush_02_Summer.prefab
+  SM_BirchBush_02_LOD0 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_02_LOD1 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_02_LOD2 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_02_LOD3 ['Bark', 'Leaf'] => ['M_BirchTree_Leaf_01_Summer']
+SM_BirchBush_03 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_BirchBush_03_Summer.prefab
+  SM_BirchBush_03_LOD0 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_03_LOD1 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_03_LOD2 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_03_LOD3 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+SM_BirchBush_04 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_BirchBush_04_Summer.prefab
+  SM_BirchBush_04_LOD0 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_04_LOD1 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_04_LOD2 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_04_LOD3 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+SM_BirchBush_05 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_BirchBush_05_Summer.prefab
+  SM_BirchBush_05_LOD0 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_05_LOD1 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_05_LOD2 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchBush_05_LOD3 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+SM_BirchTree_01 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_BirchTree_01_Summer.prefab
+  SM_BirchTree_01_LOD0 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_02_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_01_LOD1 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_02_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_01_LOD2 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_02_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_01_LOD3 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_02_Summer', 'M_BirchTree_Leaf_01_Summer']
+SM_BirchTree_02 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_BirchTree_02_Summer.prefab
+  SM_BirchTree_02_LOD0 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_02_LOD1 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_02_LOD2 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_02_LOD3 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+SM_BirchTree_03 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_BirchTree_03_Summer.prefab
+  SM_BirchTree_03_LOD0 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_03_LOD1 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_03_LOD2 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_03_LOD3 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+SM_BirchTree_04 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_BirchTree_04_Summer.prefab
+  SM_BirchTree_04_LOD0 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_02_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_04_LOD1 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_02_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_04_LOD2 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_02_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_04_LOD3 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_02_Summer', 'M_BirchTree_Leaf_01_Summer']
+SM_BirchTree_05 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_BirchTree_05_Summer.prefab
+  SM_BirchTree_05_LOD0 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_05_LOD1 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_05_LOD2 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_05_LOD3 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+SM_BirchTree_06 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_BirchTree_06_Summer.prefab
+  SM_BirchTree_06_LOD0 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_06_LOD1 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_06_LOD2 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_06_LOD3 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_01_Summer', 'M_BirchTree_Leaf_01_Summer']
+SM_BirchTree_07 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_BirchTree_07_Summer.prefab
+  SM_BirchTree_07_LOD0 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_02_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_07_LOD1 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_02_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_07_LOD2 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_02_Summer', 'M_BirchTree_Leaf_01_Summer']
+  SM_BirchTree_07_LOD3 ['Bark', 'Leaf'] => ['M_BirchTree_Bark_02_Summer', 'M_BirchTree_Leaf_01_Summer']
+SM_OakTree_01 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_OakTree_01_Summer.prefab
+  SM_OakTree_01_LOD0 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_01_LOD1 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_01_LOD2 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_01_LOD3 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+SM_OakTree_01_Ivy models: [('Bark', 'Leaf', 'Ivy')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_OakTree_01_Summer_Ivy.prefab
+  SM_OakTree_01_Ivy_LOD0 ['Bark', 'Leaf', 'Ivy'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer', 'M_OakTree_IvyLeaf_01_Summer']
+  SM_OakTree_01_Ivy_LOD1 ['Bark', 'Leaf', 'Ivy'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer', 'M_OakTree_IvyLeaf_01_Summer']
+  SM_OakTree_01_Ivy_LOD2 ['Bark', 'Leaf', 'Ivy'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer', 'M_OakTree_IvyLeaf_01_Summer']
+  SM_OakTree_01_Ivy_LOD3 ['Bark', 'Leaf', 'Ivy'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+SM_OakTree_02 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_OakTree_02_Summer.prefab
+  SM_OakTree_02_LOD0 ['Bark', 'Leaf'] => ['M_OakTree_Bark_02_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_02_LOD1 ['Bark', 'Leaf'] => ['M_OakTree_Bark_02_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_02_LOD2 ['Bark', 'Leaf'] => ['M_OakTree_Bark_02_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_02_LOD3 ['Bark', 'Leaf'] => ['M_OakTree_Bark_02_Summer', 'M_OakTree_Leaf_01_Summer']
+SM_OakTree_02_Ivy models: [('Bark', 'Leaf'), ('Bark', 'Leaf', 'Ivy')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_OakTree_02_Summer_Ivy.prefab
+  SM_OakTree_02_Ivy_LOD0 ['Bark', 'Leaf', 'Ivy'] => ['M_OakTree_Bark_02_Summer', 'M_OakTree_Leaf_01_Summer', 'M_OakTree_IvyLeaf_01_Summer']
+  SM_OakTree_02_Ivy_LOD1 ['Bark', 'Leaf', 'Ivy'] => ['M_OakTree_Bark_02_Summer', 'M_OakTree_Leaf_01_Summer', 'M_OakTree_IvyLeaf_01_Summer']
+  SM_OakTree_02_Ivy_LOD2 ['Bark', 'Leaf', 'Ivy'] => ['M_OakTree_Bark_02_Summer', 'M_OakTree_Leaf_01_Summer', 'M_OakTree_IvyLeaf_01_Summer']
+  SM_OakTree_02_Ivy_LOD3 ['Bark', 'Leaf'] => ['M_OakTree_Bark_02_Summer', 'M_OakTree_Leaf_01_Summer']
+SM_OakTree_03 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_OakTree_03_Summer.prefab
+  SM_OakTree_03_LOD0 ['Bark', 'Leaf'] => ['M_OakTree_Bark_02_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_03_LOD1 ['Bark', 'Leaf'] => ['M_OakTree_Bark_02_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_03_LOD2 ['Bark', 'Leaf'] => ['M_OakTree_Bark_02_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_03_LOD3 ['Bark', 'Leaf'] => ['M_OakTree_Bark_02_Summer', 'M_OakTree_Leaf_01_Summer']
+SM_OakTree_04 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_OakTree_04_Summer.prefab
+  SM_OakTree_04_LOD0 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_04_LOD1 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_04_LOD2 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_04_LOD3 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+SM_OakTree_04_Ivy models: [('Bark', 'Leaf'), ('Bark', 'Leaf', 'Ivy')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_OakTree_04_Summer_Ivy.prefab
+  SM_OakTree_04_Ivy_LOD0 ['Bark', 'Leaf', 'Ivy'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer', 'M_OakTree_IvyLeaf_01_Summer']
+  SM_OakTree_04_Ivy_LOD1 ['Bark', 'Leaf', 'Ivy'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer', 'M_OakTree_IvyLeaf_01_Summer']
+  SM_OakTree_04_Ivy_LOD2 ['Bark', 'Leaf', 'Ivy'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer', 'M_OakTree_IvyLeaf_01_Summer']
+  SM_OakTree_04_Ivy_LOD3 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+SM_OakTree_05 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_OakTree_05_Summer.prefab
+  SM_OakTree_05_LOD0 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_05_LOD1 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_05_LOD2 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_05_LOD3 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+SM_OakTree_06 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_OakTree_06_Summer.prefab
+  SM_OakTree_06_LOD0 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_06_LOD1 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_06_LOD2 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_06_LOD3 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+SM_OakTree_07 models: [('Bark', 'Leaf')] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/Trees/Trees - Summer/P_OakTree_07_Summer.prefab
+  SM_OakTree_07_LOD0 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_07_LOD1 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_07_LOD2 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+  SM_OakTree_07_LOD3 ['Bark', 'Leaf'] => ['M_OakTree_Bark_01_Summer', 'M_OakTree_Leaf_01_Summer']
+SM_VFX_Bird_01 models: [('Bird',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/VFX/P_VFX_Bird_01.prefab
+  P_VFX_Bird_01 - => ['M_VFX_Bird_01']
+SM_VFX_Butterfly_01 models: [('ButterFly',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/VFX/P_VFX_Butterfly_01.prefab
+  P_VFX_Butterfly_01 - => ['M_VFX_Butterfly_01']
+SM_VFX_LeafPlane_01 models: [('VFXMaterial',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/VFX/P_VFX_FallLeaves_BirchTree_01_Summer.prefab
+  P_VFX_FallLeaves_BirchTree_01_Summer - => ['M_VFX_FallLeaves_BirchTree_01_Summer']
+SM_VFX_WindMesh_01 models: [('VFXMaterial',)] chosen prefab: Stylized Pack - Meadow Environment/Prefabs/VFX/P_VFX_Wind_01.prefab
+  P_VFX_Wind_01 - => ['M_VFX_Wind_01']
+SM_VFX_WindMesh_02 models: [('VFXMaterial',)] chosen prefab: NONE
+SM_VFX_WindMesh_03 models: [('VFXMaterial',)] chosen prefab: NONE

@@ -63,13 +63,20 @@ public static class ShopPresentation
   if(safe.Find("Availability") == null)CommerceUIStyle.Label("Availability",safe,"",19,.755f,.17f,.20f,.09f).color=CommerceUIStyle.Muted;
   var availability=safe.Find("Availability")?.GetComponent<TMP_Text>();
   if(availability!=null)availability.textWrappingMode=TextWrappingModes.Normal;
-  foreach(var tab in f.tabs)
+  for(int i=0;i<f.tabs.Count;i++)
   {
+   var tab=f.tabs[i];
    var label=tab.GetComponentInChildren<TMP_Text>();
    if(label==null)continue;
    label.textWrappingMode=TextWrappingModes.NoWrap;
    label.fontSize=label.fontSizeMax=22;
-   if(label.text.Length>10)
+   if(f.catalog?.kind==ShopKind.Crops&&i<f.catalog.tabs.Count)
+   {
+    label.text=f.catalog.tabs[i].title;
+    label.enableAutoSizing=true;
+    label.fontSizeMin=14;
+   }
+   else if(label.text.Length>10)
    {var r=(RectTransform)tab.transform;r.anchorMax=new Vector2(Mathf.Max(r.anchorMax.x,r.anchorMin.x+.09f),r.anchorMax.y);}
   }
   if(f.catalog!=null&&f.catalog.kind==ShopKind.Minimarket)

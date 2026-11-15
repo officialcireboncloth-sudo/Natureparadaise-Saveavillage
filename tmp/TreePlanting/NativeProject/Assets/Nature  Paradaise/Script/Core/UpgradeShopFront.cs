@@ -1,0 +1,164 @@
+using System.Collections.Generic;
+using System.Text;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public enum UpgradeShopKind { Blacksmith, Lumber }
+[DisallowMultipleComponent] public sealed class UpgradeShopFront : MonoBehaviour
+{
+ public static UpgradeShopFront Active {get;private set;}
+ public UpgradeShopKind kind;
+ public BlacksmithCatalog catalog;
+ public ShopFront materialShop;
+ public BuildingDefinitionSO housePreviewDefinition;
+ public List<Sprite> houseLevelIllustrations=new();
+ public GameObject uiRoot;
+ public Image background,merchantPortrait,hero;
+ public TMP_Text heading,gold,selectionTitle,comparison,benefits,requirements,timing,feedback,balance;
+ public Button confirm,close,materialsTab,upgradeTab;
+ public List<Button> cards=new();
+ public List<Image> cardImages=new();
+ public List<TMP_Text> cardLabels=new();
+ public float interactionRadius=2.5f;
+ [Header("Construction services (Lumber)")]
+ [Tooltip("Editable catalog for new structures ordered here.")]
+ public BuildingCatalogSO constructionCatalog;
+ [Tooltip("Ground-level departure point outside the seller collider. Empty uses a point in front of Lumber Store.")]
+ public Transform builderDeparturePoint;
+ public Button structureBuild,structureUpgrade;
+ Inventory inventory;PlayerController player;PlayerStatusSystem status;TimeManager clock;
+ string notice="";
+ int index;bool bound,cursorVisible;CursorLockMode cursorLock;
+ Button boundHouseTab,boundBuildTab,boundUpgradeTab;
+ LumberStoreOwner lumberOwner;
+ public Transform InteractionAnchor
+ {
+  get
+  {
+   if(kind!=UpgradeShopKind.Lumber)return transform;
+   if(lumberOwner==null&&Application.isPlaying)lumberOwner=LumberStoreOwner.Ensure(this);
+   return lumberOwner!=null?lumberOwner.InteractionAnchor:transform;
+  }
+ }
+ public bool CanInteractWith(PlayerController actor)=>actor!=null&&!actor.IsMovementLocked&&
+  PlayerInteractionTarget.ContainsPickup(actor.transform,InteractionAnchor,interactionRadius);
+ void Awake(){if(uiRoot!=null)uiRoot.SetActive(false);Bind();if(kind==UpgradeShopKind.Lumber)LumberStoreOwner.Ensure(this);}
+ void Resolve(){player=FindFirstObjectByType<PlayerController>();inventory=player?.GetComponent<Inventory>();status=player?.GetComponent<PlayerStatusSystem>();clock=TimeManager.Instance;}
+ void Bind(){EnsureConstructionTabs();BindConstructionTabs();if(bound)return;bound=true;confirm?.onClick.AddListener(Confirm);close?.onClick.AddListener(Close);materialsTab?.onClick.AddListener(()=>{Close();materialShop?.Open();});if(kind!=UpgradeShopKind.Lumber)upgradeTab?.onClick.AddListener(()=>Select(0));for(int n=0;n<cards.Count;n++){int i=n;cards[n].onClick.AddListener(()=>Select(i));}}
+ /// <summary>Repairs construction tabs on the active UI, including older scene overrides of the shop prefab.</summary>
+ public void EnsureConstructionTabs()
+ {
+  if(kind!=UpgradeShopKind.Lumber||uiRoot==null)return;
+  var safe=uiRoot.transform.Find("SafeArea");if(safe==null)return;
+  safe.Find("SelectedCategory")?.gameObject.SetActive(false);safe.Find("Category")?.gameObject.SetActive(false);
+  // Scene-local UI overrides can leave these references pointing at an inactive prefab canvas.
+  upgradeTab=ConstructionTab(upgradeTab,safe,"HouseTab","Rumah",.525f,.132f,true);
+  structureBuild=ConstructionTab(structureBuild,safe,"BuildStructures","Bangun",.67f,.132f);
+  structureUpgrade=ConstructionTab(structureUpgrade,safe,"UpgradeStructures","Upgrade",.815f,.135f);
+ }
+ Button ConstructionTab(Button current,Transform safe,string name,string label,float x,float width,bool primary=false)
+ {
+  if(current==null||!current.transform.IsChildOf(safe))current=safe.Find(name)?.GetComponent<Button>();
+  if(current==null)current=CommerceUIStyle.Button(name,safe,label,x,.805f,width,.06f,primary);
+  var rect=(RectTransform)current.transform;rect.anchorMin=new Vector2(x,.805f);rect.anchorMax=new Vector2(x+width,.865f);rect.offsetMin=rect.offsetMax=Vector2.zero;
+  current.gameObject.SetActive(true);current.GetComponentInChildren<TMP_Text>().text=label;return current;
+ }
+ void BindConstructionTabs()
+ {
+  if(kind!=UpgradeShopKind.Lumber)return;
+  if(boundHouseTab!=upgradeTab){boundHouseTab?.onClick.RemoveListener(ShowHouse);boundHouseTab=upgradeTab;boundHouseTab?.onClick.AddListener(ShowHouse);}
+  if(boundBuildTab!=structureBuild){boundBuildTab?.onClick.RemoveListener(ShowBuild);boundBuildTab=structureBuild;boundBuildTab?.onClick.AddListener(ShowBuild);}
+  if(boundUpgradeTab!=structureUpgrade){boundUpgradeTab?.onClick.RemoveListener(ShowStructureUpgrade);boundUpgradeTab=structureUpgrade;boundUpgradeTab?.onClick.AddListener(ShowStructureUpgrade);}
+ }
+ void ShowHouse()=>Select(0);
+ void ShowBuild()=>OpenConstruction(false);
+ void ShowStructureUpgrade()=>OpenConstruction(true);
+ public void OpenConstruction(bool upgrade)
+ {
+  if(!Application.isPlaying||kind!=UpgradeShopKind.Lumber)return;Resolve();Close();if(player==null)return;
+  var menu=player.GetComponent<LumberConstructionMenu>();if(menu==null)menu=player.gameObject.AddComponent<LumberConstructionMenu>();
+  menu.Show(this,upgrade);
+ }
+ void Update()
+ {
+  if(Active==this){if(Input.GetKeyDown(KeyCode.Escape)||Input.GetKeyDown(KeyCode.E)){Close();return;}if(Input.GetKeyDown(KeyCode.A))Select(index-1);if(Input.GetKeyDown(KeyCode.D))Select(index+1);if(Input.GetKeyDown(KeyCode.Return))Confirm();Refresh();return;}
+  if(Active!=null||ShopFront.IsAnyOpen||MarketStand.IsAnyOpen||GameplayPauseMenu.BlocksGameplayInput)return;
+  Resolve();if(!CanInteractWith(player))return;
+  var anchor=InteractionAnchor;
+  WorldInteractionPrompt.Request(this,anchor,"E: "+(kind==UpgradeShopKind.Blacksmith?"Pandai Besi":"Lumber Store"),Vector3.Distance(player.transform.position,anchor.position),2.2f,OpenFromPrompt);
+  if(PlayerInteractionTarget.PressPrompt(this,anchor,KeyCode.E))OpenFromPrompt();
+ }
+ void OpenFromPrompt()
+ {
+  Resolve();
+  if(Active!=null||ShopFront.IsAnyOpen||MarketStand.IsAnyOpen||GameplayPauseMenu.BlocksGameplayInput||!CanInteractWith(player))return;
+  Open();
+ }
+ [ContextMenu("Open Upgrade Shop For Testing")] public void Open()
+ {
+  if(!Application.isPlaying){Preview();return;}
+  if(uiRoot==null||GameplayPauseMenu.BlocksGameplayInput||ShopFront.IsAnyOpen||MarketStand.IsAnyOpen)return;
+  if(Active!=null)Active.Close();Resolve();Bind();Active=this;index=0;
+  player?.AcquireMovementLock(this);clock?.AcquirePause(this);WorldInteractionPrompt.AcquireSuppression(this);
+  cursorVisible=Cursor.visible;cursorLock=Cursor.lockState;Cursor.visible=true;Cursor.lockState=CursorLockMode.None;
+  uiRoot.SetActive(true);notice="";feedback.text="";Refresh();GameplayInput.ConsumeCurrentFrame();
+ }
+ public void Preview(){Resolve();Bind();uiRoot.SetActive(true);Refresh();}
+ public void Close(){if(uiRoot!=null)uiRoot.SetActive(false);if(Active!=this)return;Active=null;player?.ReleaseMovementLock(this);clock?.ReleasePause(this);WorldInteractionPrompt.ReleaseSuppression(this);Cursor.visible=cursorVisible;Cursor.lockState=cursorLock;GameplayInput.ConsumeCurrentFrame();}
+ void OnDisable()=>Close();void OnDestroy()=>Close();
+ [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]static void Reset()=>Active=null;
+ void Select(int value){int count=catalog?.tools.Count??0;index=count>0?(value+count)%count:0;notice="";feedback.text="";Refresh();}
+ void Paint(Image image,Sprite sprite){if(image==null)return;image.sprite=sprite;image.color=sprite!=null?Color.white:Color.clear;}
+ public void Refresh()
+ {
+  bool smith=kind==UpgradeShopKind.Blacksmith;heading.text=smith?"PANDAI BESI":"LUMBER STORE";int money=ScoreManager.Instance!=null?ScoreManager.Instance.points:0;gold.text=$"{money:N0} G";
+  Paint(background,smith?catalog?.background:background.sprite);Paint(merchantPortrait,smith?catalog?.merchantPortrait:merchantPortrait.sprite);
+  BuildingLevelDefinition next=null;bool available=false;string reason="";
+  if(smith)
+  {
+   var offer=catalog!=null&&catalog.tools.Count>0?catalog.tools[Mathf.Clamp(index,0,catalog.tools.Count-1)]:null;
+   int level=offer!=null&&status!=null?status.GetToolLevel(offer.item.equippedTool):1;
+   next=offer!=null&&level<offer.maximumLevel?offer.Next(level):null;
+   selectionTitle.text=offer?.displayName??"Upgrade Tools";comparison.text=next!=null?$"Level {level}   →   <color=#A8D4AC>Level {next.level}</color>":$"Level {level}  ·  Maksimum";
+   benefits.text="Bawa alat dan bahan yang dibutuhkan.\nAku akan meningkatkan alat pilihanmu.";
+   Paint(hero,offer?.illustration??offer?.item?.inventoryIllustration??offer?.item?.icon);
+   for(int n=0;n<cards.Count;n++){bool valid=n<(catalog?.tools.Count??0);cards[n].gameObject.SetActive(valid);if(!valid)continue;var t=catalog.tools[n];cardLabels[n].text=t.displayName;Paint(cardImages[n],t.illustration??t.item?.inventoryIllustration??t.item?.icon);CommerceUIStyle.Selection(cards[n],index==n);}
+   available=status!=null&&next!=null&&BuildingCostUtility.CanAfford(next,inventory,out reason);if(status==null)reason="Player belum tersedia";
+   timing.text="Upgrade langsung diterapkan";
+  }
+  else
+  {
+   var house=PlayerHouseController.Instance;int level=house!=null?house.CurrentLevel:1;next=house!=null?house.NextLevel:housePreviewDefinition?.GetLevel(level+1);
+   selectionTitle.text=next!=null?$"UPGRADE RUMAH LEVEL {next.level}":"RUMAH LEVEL MAKSIMUM";
+   comparison.text=$"Level {level}   →   <color=#A8D4AC>{(next!=null?"Level "+next.level:"MAX")}</color>";
+   int target=next?.level??level;Paint(hero,target<=houseLevelIllustrations.Count?houseLevelIllustrations[target-1]:null);
+   benefits.text=HouseBenefits(target);timing.text=house!=null&&house.IsUnderConstruction?(house.Construction!=null?$"{house.Construction.Status}\nProgres {house.Construction.Progress:P0}":"Konstruksi berjalan"):next!=null?$"Waktu pengerjaan   {next.constructionDays} hari kerja":"Semua fasilitas rumah telah terbuka";
+   available=house!=null&&!house.IsUnderConstruction&&next!=null&&BuildingCostUtility.CanAfford(next,inventory,out reason);
+   if(house==null)reason="Rumah player belum tersedia";else if(house.IsUnderConstruction)reason="Upgrade sedang dikerjakan";
+  }
+  requirements.text=next!=null?RequirementLabel(next):"Tidak ada upgrade berikutnya";
+  confirm.interactable=Application.isPlaying&&available;confirm.GetComponentInChildren<TMP_Text>().text=smith?"Upgrade Tool":"Upgrade Rumah";
+  balance.text=$"Sisa uang setelah upgrade  {Mathf.Max(0,money-(next?.goldCost??0)):N0} G";
+  feedback.text=!string.IsNullOrEmpty(notice)?notice:available?"Semua bahan tersedia":reason; feedback.color=available?new Color(.65f,.82f,.68f):new Color(.91f,.65f,.61f);
+ }
+ string RequirementLabel(BuildingLevelDefinition level)
+ {
+  var label=new StringBuilder("<b>BAHAN DIPERLUKAN</b>\n");
+  foreach(var cost in BuildingCostUtility.Aggregate(level)){int owned=inventory!=null?inventory.GetCount(cost.Key):0;label.Append("<color=").Append(owned>=cost.Value?"#A8D4AC":"#E7A6A0").Append('>').Append(cost.Key.itemName).Append("   ").Append(owned).Append(" / ").Append(cost.Value).Append("</color>\n");}
+  label.Append("<color=#EFC061>Biaya   ").Append(level.goldCost.ToString("N0")).Append(" G</color>");
+  if(level.requiredVillageLevel>0)label.Append("\nDesa Level ").Append(level.requiredVillageLevel);
+  return label.ToString();
+ }
+ public static string HouseBenefits(int level)=>level<=2?"YANG KAMU DAPATKAN\n\nTV & kulkas\nPenyimpanan makanan terpisah\nRuang makan dan kasur standar":level==3?"YANG KAMU DAPATKAN\n\nKitchen set\nKamar terpisah\nAquarium\nLemari perkakas":level==4?"YANG KAMU DAPATKAN\n\nKasur jumbo\nKamar anak\nDapur & aquarium\nLemari perkakas":"YANG KAMU DAPATKAN\n\nTV & kulkas maksimum\nAquarium jumbo\nKasur jumbo & kamar anak\nKitchen set & lemari perkakas";
+ public void Confirm()
+ {
+  if(Active!=this)return;Resolve();
+  if(kind==UpgradeShopKind.Lumber){var house=PlayerHouseController.Instance;if(house!=null&&house.TryStartNextUpgrade(out var reason)){Close();return;}else notice=house!=null?HouseFailure(house):"Rumah player belum tersedia";}
+  else if(catalog!=null&&index<catalog.tools.Count&&status!=null){var offer=catalog.tools[index];if(BlacksmithUpgradeService.TryUpgrade(offer,status,inventory,out var reason)){SaveManager.Instance?.SaveGame();notice="Alat berhasil ditingkatkan.";}else notice=reason??"Transaksi gagal";}
+  Refresh();GameplayInput.ConsumeCurrentFrame();
+ }
+ string HouseFailure(PlayerHouseController house)=>house.IsUnderConstruction?"Upgrade sedang dikerjakan":BuildingCostUtility.CanAfford(house.NextLevel,inventory,out var reason)?"Transaksi gagal":reason;
+}
+
+

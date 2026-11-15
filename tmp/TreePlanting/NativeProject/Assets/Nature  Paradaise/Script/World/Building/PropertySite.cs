@@ -1,0 +1,1740 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+/// <summary>State save satu slot properti yang dapat diisi, dipindahkan, atau dikosongkan.</summary>
+[Serializable]
+public sealed class PropertySiteSaveData
+{
+    public string siteId;
+    public string buildingId;
+    public BuildingConstructionState state;
+    public int currentLevel;
+    public int pendingLevel;
+    public int completionDay;
+    public ConstructionJobData constructionJob;
+    public bool unlocked;
+    public bool hasPlacementPose;
+    public Vector3 placementPosition;
+    public Quaternion placementRotation;
+}
+
+/// <summary>
+/// Controller state satu bangunan dari BuildingCatalogSO. Instance global dibuat oleh Build Menu
+/// milik Player, lalu menyimpan konstruksi, posisi, upgrade, relocation, dan demolition.
+/// </summary>
+[DisallowMultipleComponent]
+public sealed class PropertySite : MonoBehaviour
+{
+    const string GlobalSitePrefix = "farm-world-building-";
+    const string LegacyFishPondSiteId = "farm-fish-pond-builder-01";
+    static readonly List<PropertySite> Registry = new();
+    static PropertySite relocationSource;
+
+    [Header("Identity")]
+    [Tooltip("ID lokasi permanen untuk Save/Load. Harus unik dan tidak berubah setelah production save.")]
+    [SerializeField] string siteId = "farm-property-01";
+    [Tooltip("Daftar jenis bangunan yang dapat dipilih pada site kosong.")]
+    [SerializeField] BuildingCatalogSO catalog;
+    [SerializeField] bool unlocked = true;
+    [SerializeField, HideInInspector] bool globalBuildInstance;
+    [SerializeField] bool startsCompleted;
+    [Tooltip("Bangunan awal hanya dipakai bila Starts Completed aktif.")]
+    [SerializeField] BuildingDefinitionSO startingBuilding;
+    [SerializeField, Min(1)] int startingLevel = 1;
+
+    [Header("Placement")]
+    [Tooltip("Anchor posisi/rotasi bangunan. Jika kosong memakai transform site.")]
+    [SerializeField] Transform buildingAnchor;
+    [Tooltip("Mode opsional untuk site khusus. Nonaktif berarti bangunan terkunci pada anchor site.")]
+    [SerializeField] bool allowFreePlacement;
+    [Tooltip("Jarak preview dari player ketika Free Placement aktif.")]
+    [SerializeField, Min(1f)] float freePlacementDistance = 4f;
+    [Tooltip("Ukuran grid snap dunia untuk menjaga posisi bangunan tetap rapi.")]
+    [SerializeField, Min(0.25f)] float placementGridSize = 1f;
+    [Tooltip("Rotasi preview setiap kali tombol Rotate ditekan.")]
+    [SerializeField, Range(15f, 180f)] float rotationStep = 90f;
+    [SerializeField] KeyCode rotatePreviewKey = KeyCode.T;
+    [Tooltip("Aktifkan bila site berada di FieldArea dan harus memblokir tile farming.")]
+    [SerializeField] bool reserveFieldFootprint = true;
+    [SerializeField] FieldArea fieldArea;
+
+    [Header("Placement Collision")]
+    [Tooltip("Tinggi volume validasi di atas footprint. Floor/terrain diabaikan kecuali memiliki BuildingPlacementBlocker.")]
+    [SerializeField, Min(0.5f)] float placementCheckHeight = 4f;
+    [SerializeField] LayerMask placementCheckMask = ~0;
+
+    [Header("Editable Scene Visuals")]
+    [Tooltip("Marker site kosong. Mesh dapat diganti langsung dari Scene View.")]
+    [SerializeField] GameObject availableMarker;
+    [Tooltip("Menampilkan lokasi yang disediakan untuk membangun selama site masih kosong.")]
+    [SerializeField] bool showAvailableMarker = true;
+    [Tooltip("Warna marker lokasi build. Material scene asli tidak diubah.")]
+    [SerializeField] Color availableMarkerColor = new(0.18f, 0.9f, 0.32f, 0.58f);
+    [Tooltip("Visual selama konstruksi berlangsung.")]
+    [SerializeField] GameObject constructionVisual;
+    [Tooltip("Visual fallback per level apabila definition tidak mempunyai Completed Prefab.")]
+    [SerializeField] List<GameObject> completedLevelVisuals = new();
+    [SerializeField] Color validPreviewColor = new(0.2f, 0.95f, 0.4f, 0.48f);
+    [SerializeField] Color invalidPreviewColor = new(1f, 0.18f, 0.12f, 0.55f);
+
+    [Header("Interaction")]
+    [Tooltip("Membuka pilihan build atau menerima relocate pada site kosong.")]
+    [SerializeField] KeyCode interactKey = KeyCode.E;
+    [SerializeField] KeyCode previousBuildingKey = KeyCode.Q;
+    [SerializeField] KeyCode nextBuildingKey = KeyCode.R;
+    [SerializeField] KeyCode confirmKey = KeyCode.C;
+    [SerializeField] KeyCode debugConfirmKey = KeyCode.F9;
+    [SerializeField] KeyCode upgradeKey = KeyCode.U;
+    [SerializeField] KeyCode relocateKey = KeyCode.M;
+    [SerializeField] KeyCode demolishKey = KeyCode.X;
+    [SerializeField] KeyCode cancelKey = KeyCode.Escape;
+    [SerializeField, Min(0.5f)] float interactionRadius = 3f;
+    [SerializeField, Min(0f)] float promptHeight = 2.2f;
+
+    Inventory playerInventory;
+    Transform playerTransform;
+    BuildingDefinitionSO activeDefinition;
+    BuildingConstructionState state;
+    int currentLevel;
+    int pendingLevel;
+    int completionDay;
+    ConstructionProject constructionProject;
+    public ConstructionProject Construction => constructionProject;
+
+    bool previewActive;
+    bool previewIsRelocation;
+    bool previewRelocatesSelf;
+    bool previewAllowsCatalogNavigation;
+    bool previewDebugFree;
+    bool cameraFacingPoseReady;
+    int previewStartedFrame = -1;
+    int previewLevel;
+    int previewCatalogIndex;
+    BuildingDefinitionSO previewDefinition;
+    bool previewLocationValid;
+    string previewLocationReason = string.Empty;
+    bool previewUsesFreePlacement;
+    Vector3 previewPlacementPosition;
+    Quaternion previewPlacementRotation = Quaternion.identity;
+    bool demolishConfirmationActive;
+    GameObject previewObject;
+    Material previewMaterial;
+    Material availableMarkerMaterial;
+    GameObject runtimeCompletedVisual;
+    readonly Collider[] placementOverlapBuffer = new Collider[48];
+
+    public string SiteId => siteId;
+    public static IReadOnlyList<PropertySite> ActiveSites => Registry;
+    public Transform BuildingAnchor => buildingAnchor != null ? buildingAnchor : transform;
+    /// <summary>Visual bangunan selesai yang benar-benar dimiliki site, bukan child runtime milik sistem lain.</summary>
+    public Transform CompletedVisualRoot
+    {
+        get
+        {
+            if (runtimeCompletedVisual != null && runtimeCompletedVisual.activeInHierarchy) return runtimeCompletedVisual.transform;
+            if (state != BuildingConstructionState.Completed) return null;
+            int index = currentLevel - 1;
+            return index >= 0 && index < completedLevelVisuals.Count && completedLevelVisuals[index] != null &&
+                completedLevelVisuals[index].activeInHierarchy ? completedLevelVisuals[index].transform : null;
+        }
+    }
+    public BuildingCatalogSO Catalog => catalog;
+    public BuildingDefinitionSO ActiveDefinition => activeDefinition;
+    public BuildingConstructionState State => state;
+    public int CurrentLevel => currentLevel;
+    public int CompletionDay => completionDay;
+    public bool IsUnlocked => unlocked;
+    public bool IsEmpty => state == BuildingConstructionState.Available && activeDefinition == null;
+    public bool IsPreviewActive => previewActive;
+    public bool IsGlobalBuildInstance => globalBuildInstance;
+    public static bool DebugShortcutsEnabled => Application.isEditor || Debug.isDebugBuild;
+    static bool DebugFinishModifierHeld => GameplayInput.GetKey(KeyCode.LeftShift) || GameplayInput.GetKey(KeyCode.RightShift);
+
+    public static bool TryGetAvailableBuildSite(out PropertySite result)
+    {
+        result = null;
+        for (int index = 0; index < Registry.Count; index++)
+        {
+            PropertySite candidate = Registry[index];
+            if (candidate == null || !candidate.unlocked || !candidate.IsEmpty ||
+                candidate.catalog == null || candidate.catalog.Count == 0)
+                continue;
+
+            if (result == null || string.CompareOrdinal(candidate.siteId, result.siteId) < 0)
+                result = candidate;
+        }
+        return result != null;
+    }
+
+    public static bool HasActivePlacementPreview()
+    {
+        for (int index = 0; index < Registry.Count; index++)
+            if (Registry[index] != null && Registry[index].previewActive)
+                return true;
+        return false;
+    }
+
+    /// <summary>
+    /// Menyediakan controller dunia kosong untuk satu placement dari Build Menu milik Player.
+    /// Controller yang sudah berisi bangunan tetap hidup sebagai pemilik state/save instance itu.
+    /// </summary>
+    public static PropertySite GetOrCreateGlobalBuildSite(BuildingCatalogSO sharedCatalog, Vector3 playerPosition)
+    {
+        if (sharedCatalog == null || sharedCatalog.Count == 0)
+            return null;
+
+        for (int index = 0; index < Registry.Count; index++)
+        {
+            PropertySite candidate = Registry[index];
+            if (candidate == null || !candidate.globalBuildInstance || !candidate.IsEmpty || candidate.previewActive)
+                continue;
+            candidate.catalog = sharedCatalog;
+            candidate.transform.position = playerPosition;
+            return candidate;
+        }
+
+        return CreateGlobalBuildSite(NextGlobalSiteId(), sharedCatalog, playerPosition);
+    }
+
+    static PropertySite CreateGlobalBuildSite(string id, BuildingCatalogSO sharedCatalog, Vector3 position)
+    {
+        GameObject root = GameObject.Find("PlacedFarmBuildings_Runtime");
+        if (root == null)
+        {
+            root = new GameObject("PlacedFarmBuildings_Runtime");
+            GameObject buildings = GameObject.Find("30_WORLD/Buildings");
+            if (buildings != null)
+                root.transform.SetParent(buildings.transform, false);
+        }
+
+        GameObject instance = new($"FarmBuilding_{id}");
+        instance.transform.SetParent(root.transform, false);
+        instance.transform.position = position;
+        PropertySite site = instance.AddComponent<PropertySite>();
+        site.siteId = id;
+        site.catalog = sharedCatalog;
+        site.globalBuildInstance = true;
+        site.allowFreePlacement = true;
+        site.reserveFieldFootprint = false;
+        site.fieldArea = null;
+        site.buildingAnchor = instance.transform;
+        site.showAvailableMarker = false;
+        site.availableMarker = null;
+        site.unlocked = true;
+        site.startsCompleted = false;
+        site.activeDefinition = null;
+        site.state = BuildingConstructionState.Available;
+        site.currentLevel = 0;
+        site.ApplyVisualState();
+        return site;
+    }
+
+    static string NextGlobalSiteId()
+    {
+        int next = 1;
+        for (int index = 0; index < Registry.Count; index++)
+        {
+            string id = Registry[index] != null ? Registry[index].siteId : null;
+            if (string.IsNullOrEmpty(id) || !id.StartsWith(GlobalSitePrefix, StringComparison.Ordinal))
+                continue;
+            if (int.TryParse(id.Substring(GlobalSitePrefix.Length), out int value))
+                next = Mathf.Max(next, value + 1);
+        }
+        return $"{GlobalSitePrefix}{next:D4}";
+    }
+
+    static bool IsDynamicWorldSiteId(string id) =>
+        !string.IsNullOrWhiteSpace(id) &&
+        (id.StartsWith(GlobalSitePrefix, StringComparison.Ordinal) || id == LegacyFishPondSiteId);
+
+    void Awake()
+    {
+        if (buildingAnchor == null)
+            buildingAnchor = transform;
+
+        playerInventory = FindFirstObjectByType<Inventory>();
+        playerTransform = playerInventory != null ? playerInventory.transform : null;
+
+        ConfigureAvailableMarkerVisual();
+
+        activeDefinition = startsCompleted ? startingBuilding : null;
+        state = startsCompleted && activeDefinition != null
+            ? BuildingConstructionState.Completed
+            : BuildingConstructionState.Available;
+        currentLevel = state == BuildingConstructionState.Completed ? Mathf.Max(1, startingLevel) : 0;
+        ApplyVisualState();
+    }
+
+    void OnEnable()
+    {
+        if (!Registry.Contains(this))
+            Registry.Add(this);
+        TimeManager.OnDay += HandleDayChanged;
+    }
+
+    void OnDisable()
+    {
+        TimeManager.OnDay -= HandleDayChanged;
+        Registry.Remove(this);
+        if (relocationSource == this)
+            relocationSource = null;
+        CancelPreview();
+    }
+
+    void OnDestroy()
+    {
+        DestroySafely(availableMarkerMaterial);
+        availableMarkerMaterial = null;
+    }
+
+    void Update()
+    {
+        ResolvePlayerIfNeeded();
+        // Repair older Lumber placements once after load, using the world camera rather than an interior camera.
+        if (!cameraFacingPoseReady && globalBuildInstance && state == BuildingConstructionState.Completed &&
+            activeDefinition != null && activeDefinition.faceCameraOnPlacement && Camera.main != null &&
+            (SceneTransitionManager.Instance == null || !SceneTransitionManager.Instance.IsInsideInterior) && !previewActive)
+        {
+            buildingAnchor.rotation = CameraFacingRotation(activeDefinition);
+            cameraFacingPoseReady = true;
+        }
+        if (playerTransform == null)
+            return;
+
+        if (previewActive && previewUsesFreePlacement)
+        {
+            UpdateFreePlacementPreview();
+            float previewDistance = previewObject != null
+                ? Vector3.Distance(playerTransform.position, previewObject.transform.position)
+                : freePlacementDistance;
+            HandlePreviewInteraction(previewDistance);
+            return;
+        }
+
+        // Instance kosong ini hanya dikontrol oleh Build Menu global pada Player.
+        if (globalBuildInstance && IsEmpty)
+            return;
+
+        // Relocate harus dapat dibatalkan walaupun player sudah berjalan menjauhi source site.
+        if (relocationSource == this && PlayerInteractionTarget.PressAction(this, cancelKey))
+        {
+            CancelRelocationMode();
+            return;
+        }
+
+        Transform interactionAnchor = IsEmpty ? transform : buildingAnchor;
+        float squaredDistance = (playerTransform.position - interactionAnchor.position).sqrMagnitude;
+        if (!previewActive && !demolishConfirmationActive && !PlayerInteractionTarget.Contains(playerTransform, interactionAnchor))
+        {
+            if (previewActive)
+                CancelPreview();
+            demolishConfirmationActive = false;
+            return;
+        }
+
+        HandleInteraction(Mathf.Sqrt(squaredDistance));
+    }
+
+    void ResolvePlayerIfNeeded()
+    {
+        if (playerTransform != null)
+            return;
+        playerInventory = FindFirstObjectByType<Inventory>();
+        playerTransform = playerInventory != null ? playerInventory.transform : null;
+    }
+
+    void HandleInteraction(float distance)
+    {
+        if (!unlocked)
+            return;
+
+        if (demolishConfirmationActive)
+        {
+            WorldInteractionPrompt.Request(
+                this,
+                buildingAnchor,
+                $"Demolish {activeDefinition?.displayName}?  {confirmKey}: Ya  {cancelKey}: Batal",
+                distance,
+                promptHeight
+            );
+            if (PlayerInteractionTarget.PressPrompt(this, confirmKey))
+                ConfirmDemolish();
+            else if (PlayerInteractionTarget.PressPrompt(this, cancelKey))
+                demolishConfirmationActive = false;
+            return;
+        }
+
+        if (previewActive)
+        {
+            HandlePreviewInteraction(distance);
+            return;
+        }
+
+        if (IsEmpty)
+            HandleEmptySiteInteraction(distance);
+        else if (state == BuildingConstructionState.UnderConstruction)
+            HandleConstructionInteraction(distance);
+        else if (state == BuildingConstructionState.Completed)
+            HandleCompletedInteraction(distance);
+    }
+
+    void HandleEmptySiteInteraction(float distance)
+    {
+        if (relocationSource != null && relocationSource != this)
+        {
+            string buildingName = relocationSource.activeDefinition != null
+                ? relocationSource.activeDefinition.displayName
+                : "Bangunan";
+            WorldInteractionPrompt.Request(
+                this,
+                buildingAnchor,
+                $"{interactKey}: Pindahkan {buildingName} ke sini  {cancelKey}: Batal",
+                distance,
+                promptHeight
+            );
+            if (PlayerInteractionTarget.PressPrompt(this, interactKey))
+                BeginRelocationPreview();
+            else if (PlayerInteractionTarget.PressPrompt(this, cancelKey))
+                CancelRelocationMode();
+            return;
+        }
+
+        // Keep placement/relocation APIs for Lumber orders and existing saves, but remove
+        // the old independent animal-housing menu from vacant world sites.
+        if (catalog != null && catalog.ContainsAnimalHousing)
+            return;
+
+        string firstName = FirstCatalogDefinition != null ? FirstCatalogDefinition.displayName : "Catalog kosong";
+        string actionLabel = allowFreePlacement
+            ? $"{interactKey}: Buka Construction Menu ({firstName})"
+            : $"{interactKey}: Build di sini ({firstName})";
+        WorldInteractionPrompt.Request(
+            this,
+            buildingAnchor,
+            actionLabel,
+            distance,
+            promptHeight
+        );
+        if (!PlayerInteractionTarget.PressPrompt(this, interactKey))
+            return;
+
+        PlayerBuildMenu menu = playerInventory != null
+            ? playerInventory.GetComponent<PlayerBuildMenu>()
+            : null;
+        if (menu != null)
+            menu.OpenForSite(this);
+        else
+            BeginBuildSelection();
+    }
+
+    void HandleConstructionInteraction(float distance)
+    {
+        int remaining = Mathf.Max(0, completionDay - CurrentDay);
+        string debugFinish = DebugShortcutsEnabled ? $"  Shift+{debugConfirmKey}: DEBUG lewati proses" : string.Empty;
+        WorldInteractionPrompt.Request(
+            this,
+            buildingAnchor,
+            constructionProject != null ? $"{constructionProject.Status} · {constructionProject.Progress:P0}{debugFinish}" :
+                $"{activeDefinition?.displayName ?? "Construction"}: {remaining} hari lagi{debugFinish}",
+            distance,
+            promptHeight
+        );
+        if (DebugShortcutsEnabled && DebugFinishModifierHeld && PlayerInteractionTarget.PressPrompt(this, debugConfirmKey))
+        {
+            CompleteConstruction();
+            SaveManager.Instance?.SaveGame();
+        }
+    }
+
+    void HandleCompletedInteraction(float distance)
+    {
+        string upgrade = activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel)
+            ? $"{upgradeKey}: Upgrade  "
+            : string.Empty;
+        string relocate = activeDefinition != null && activeDefinition.canRelocate
+            ? $"{relocateKey}: Pindah  "
+            : string.Empty;
+        string demolish = activeDefinition != null && activeDefinition.canDemolish
+            ? $"{demolishKey}: Demolish"
+            : string.Empty;
+        string debugUpgrade = DebugShortcutsEnabled && activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel)
+            ? $"  {debugConfirmKey}: DEBUG Upgrade Gratis (pakai tukang)"
+            : string.Empty;
+
+        WorldInteractionPrompt.Request(
+            this,
+            buildingAnchor,
+            $"{activeDefinition?.displayName ?? "Building"} Lv.{currentLevel}  {upgrade}{relocate}{demolish}{debugUpgrade}",
+            distance,
+            promptHeight
+        );
+
+        if (DebugShortcutsEnabled && PlayerInteractionTarget.PressPrompt(this, debugConfirmKey) &&
+            activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel))
+        {
+            if (BeginUpgradePreview()) ConfirmPreview(debugFree: true);
+        }
+        else if (PlayerInteractionTarget.PressPrompt(this, upgradeKey) && activeDefinition != null && activeDefinition.HasUpgradeAfter(currentLevel))
+            BeginUpgradePreview();
+        else if (PlayerInteractionTarget.PressPrompt(this, relocateKey) && activeDefinition != null && activeDefinition.canRelocate)
+        {
+            if (globalBuildInstance && allowFreePlacement)
+                BeginSelfRelocationPreview();
+            else
+                BeginRelocationMode();
+        }
+        else if (PlayerInteractionTarget.PressPrompt(this, demolishKey) && activeDefinition != null && activeDefinition.canDemolish)
+            demolishConfirmationActive = true;
+    }
+
+    void HandlePreviewInteraction(float distance)
+    {
+        BuildingLevelDefinition level = previewDefinition != null
+            ? previewDefinition.GetLevel(previewLevel)
+            : null;
+        bool canAfford = previewIsRelocation || previewDebugFree || CanAfford(level, out _);
+        string validity = !previewLocationValid
+            ? "TEMPAT TIDAK VALID"
+            : canAfford ? "VALID" : "RESOURCE KURANG";
+        string requirements = previewIsRelocation
+            ? "<color=#58D982>Tanpa biaya relocate</color>"
+            : previewDebugFree
+                ? "<color=#58D982>DEBUG: biaya 0 · tetap dikerjakan tukang</color>"
+                : BuildRequirementLabel(level);
+        string navigation = previewAllowsCatalogNavigation
+            ? $"{previousBuildingKey}/{nextBuildingKey}: Pilih  "
+            : string.Empty;
+
+        Transform promptAnchor = previewObject != null ? previewObject.transform : buildingAnchor;
+        int previewYaw = Mathf.RoundToInt(Mathf.Repeat(previewPlacementRotation.eulerAngles.y, 360f));
+        string placementControls = previewUsesFreePlacement
+            ? previewDefinition.faceCameraOnPlacement ? "Gerakkan player: Pindah preview · Pintu menghadap kamera\n" : $"Gerakkan player: Pindah preview  {rotatePreviewKey}: Putar  Arah: {previewYaw} derajat\n"
+            : string.Empty;
+        string debugControls = DebugShortcutsEnabled && !previewDebugFree && !previewIsRelocation
+            ? $"  {debugConfirmKey}: Aktifkan DEBUG Gratis"
+            : string.Empty;
+        WorldInteractionPrompt.Request(
+            this,
+            promptAnchor,
+            $"{previewDefinition?.displayName ?? "Building"} Lv.{previewLevel} [{validity}]\n" +
+            (!previewLocationValid && !string.IsNullOrEmpty(previewLocationReason) ? $"{previewLocationReason}\n" : string.Empty) + $"{requirements}\n" +
+            $"{placementControls}{navigation}{confirmKey}: Konfirmasi{debugControls}  {cancelKey}: Batal",
+            distance,
+            promptHeight
+        );
+
+        // Tombol C/Enter dari menu pemilihan tidak boleh sekaligus mengonfirmasi preview
+        // pada frame yang sama; player harus melihat siluet sebelum membangun.
+        if (Time.frameCount == previewStartedFrame)
+            return;
+
+        if (previewAllowsCatalogNavigation && PlayerInteractionTarget.PressPrompt(this, previousBuildingKey))
+            CycleCatalog(-1);
+        else if (previewAllowsCatalogNavigation && PlayerInteractionTarget.PressPrompt(this, nextBuildingKey))
+            CycleCatalog(1);
+        else if (DebugShortcutsEnabled && PlayerInteractionTarget.PressPrompt(this, debugConfirmKey))
+        {
+            previewDebugFree = true;
+            ApplyPreviewColor(previewLocationValid);
+            SaveLoadFeedback.Instance?.ShowMessage("DEBUG gratis aktif; tukang tetap bekerja. Pilih lokasi lalu tekan C.");
+        }
+        else if (PlayerInteractionTarget.PressPrompt(this, confirmKey))
+            ConfirmPreview();
+        else if (PlayerInteractionTarget.PressPrompt(this, cancelKey))
+        {
+            if (previewIsRelocation)
+                CancelRelocationMode();
+            else
+                CancelPreview();
+        }
+    }
+
+    /// <summary>Membuka pilihan bangunan catalog pada site kosong.</summary>
+    public bool BeginBuildSelection()
+    {
+        if (!IsEmpty || catalog == null || catalog.Count == 0)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Building Catalog kosong");
+            return false;
+        }
+
+        previewCatalogIndex = Mathf.Clamp(previewCatalogIndex, 0, catalog.Count - 1);
+        previewDefinition = catalog.GetAt(previewCatalogIndex);
+        previewLevel = 1;
+        previewAllowsCatalogNavigation = true;
+        previewIsRelocation = false;
+        previewRelocatesSelf = false;
+        previewDebugFree = false;
+        previewUsesFreePlacement = allowFreePlacement;
+        InitializeFreePlacementPose();
+        return RefreshPreview();
+    }
+
+    /// <summary>Membuka placement langsung pada pilihan katalog dari menu site.</summary>
+    public bool BeginBuildSelection(int catalogIndex)
+    {
+        int maximumIndex = catalog != null ? Mathf.Max(0, catalog.Count - 1) : 0;
+        previewCatalogIndex = Mathf.Clamp(catalogIndex, 0, maximumIndex);
+        return BeginBuildSelection();
+    }
+
+    /// <summary>Memulai placement dari Player Build Menu pada level yang dipilih.</summary>
+    public bool BeginBuildSelection(int catalogIndex, int targetLevel, bool debugFree)
+    {
+        if (!IsEmpty || catalog == null || catalog.Count == 0)
+            return false;
+        previewCatalogIndex = Mathf.Clamp(catalogIndex, 0, catalog.Count - 1);
+        previewDefinition = catalog.GetAt(previewCatalogIndex);
+        previewLevel = Mathf.Max(1, targetLevel);
+        if (previewDefinition == null || previewDefinition.GetLevel(previewLevel) == null)
+            return false;
+        previewAllowsCatalogNavigation = false;
+        previewIsRelocation = false;
+        previewRelocatesSelf = false;
+        previewDebugFree = debugFree && DebugShortcutsEnabled;
+        previewUsesFreePlacement = allowFreePlacement;
+        InitializeFreePlacementPose();
+        return RefreshPreview();
+    }
+
+    /// <summary>Memulai preview upgrade level berikutnya pada site yang sama.</summary>
+    public bool BeginUpgradePreview()
+    {
+        if (state != BuildingConstructionState.Completed || activeDefinition == null ||
+            !activeDefinition.HasUpgradeAfter(currentLevel))
+            return false;
+
+        previewDefinition = activeDefinition;
+        previewLevel = currentLevel + 1;
+        previewAllowsCatalogNavigation = false;
+        previewIsRelocation = false;
+        previewRelocatesSelf = false;
+        previewDebugFree = false;
+        previewUsesFreePlacement = false;
+        return RefreshPreview();
+    }
+
+    /// <summary>Waives the active project's cost in editor/development testing; placement and worker stages still apply.</summary>
+    public bool EnableFreeDebugPreview()
+    {
+        if (!DebugShortcutsEnabled || !previewActive || previewIsRelocation) return false;
+        previewDebugFree = true;
+        ApplyPreviewColor(previewLocationValid);
+        return true;
+    }
+
+    /// <summary>Menandai bangunan selesai sebagai source untuk dipindahkan ke site kosong.</summary>
+    public bool BeginRelocationMode()
+    {
+        if (state != BuildingConstructionState.Completed || activeDefinition == null || !activeDefinition.canRelocate)
+            return false;
+
+        relocationSource = this;
+        SaveLoadFeedback.Instance?.ShowMessage($"Pilih Property Site kosong untuk {activeDefinition.displayName}");
+        return true;
+    }
+
+    Vector3 selfRelocationOriginalPosition;
+    Quaternion selfRelocationOriginalRotation;
+    FieldArea selfRelocationOriginalField;
+
+    bool BeginSelfRelocationPreview()
+    {
+        if (!IsRelocatableNow || !allowFreePlacement)
+            return false;
+
+        selfRelocationOriginalPosition = buildingAnchor.position;
+        selfRelocationOriginalRotation = buildingAnchor.rotation;
+        selfRelocationOriginalField = fieldArea;
+        ReleaseFootprint();
+        previewDefinition = activeDefinition;
+        previewLevel = currentLevel;
+        previewAllowsCatalogNavigation = false;
+        previewIsRelocation = true;
+        previewRelocatesSelf = true;
+        previewDebugFree = false;
+        previewUsesFreePlacement = true;
+        if (runtimeCompletedVisual != null)
+            runtimeCompletedVisual.SetActive(false);
+        InitializeFreePlacementPose();
+        if (RefreshPreview())
+            return true;
+        CancelPreview();
+        return false;
+    }
+
+    /// <summary>Menampilkan preview bangunan source pada destination site ini.</summary>
+    public bool BeginRelocationPreview()
+    {
+        if (!IsEmpty || relocationSource == null || relocationSource == this ||
+            relocationSource.activeDefinition == null)
+            return false;
+
+        previewDefinition = relocationSource.activeDefinition;
+        previewLevel = relocationSource.currentLevel;
+        previewAllowsCatalogNavigation = false;
+        previewIsRelocation = true;
+        previewRelocatesSelf = false;
+        previewDebugFree = false;
+        previewUsesFreePlacement = allowFreePlacement;
+        InitializeFreePlacementPose();
+        return RefreshPreview();
+    }
+
+    /// <summary>Menjalankan transaksi build/upgrade atau transfer relocate dari preview aktif.</summary>
+    public bool ConfirmPreview(bool debugInstant = false, bool debugFree = false)
+    {
+        if (!previewActive || !previewLocationValid || previewDefinition == null)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage(string.IsNullOrEmpty(previewLocationReason) ? "Lokasi bangunan tidak valid" : previewLocationReason);
+            return false;
+        }
+
+        if (previewIsRelocation)
+            return previewRelocatesSelf ? ConfirmSelfRelocation() : ConfirmRelocation();
+
+        // Explicit debugInstant is retained for isolated regression fixtures. The F9 player UI
+        // sets debugFree instead: waive the transaction, NEVER skip dispatch/work/reveal.
+        bool instant = debugInstant && DebugShortcutsEnabled;
+        bool useDebug = (debugFree || previewDebugFree || instant) && DebugShortcutsEnabled;
+        int minimumWorkDays = useDebug && !instant ? 1 : 0;
+        BuildingLevelDefinition targetLevel = previewDefinition.GetLevel(previewLevel);
+        string reason = null;
+        if (targetLevel == null || (!useDebug && !CanAfford(targetLevel, out reason)))
+        {
+            SaveLoadFeedback.Instance?.ShowMessage(reason ?? "Resource tidak cukup");
+            return false;
+        }
+
+        bool isNewBuilding = IsEmpty;
+        bool needsFieldReservation = !previewUsesFreePlacement ||
+                                     previewDefinition.placementArea == BuildingPlacementArea.FieldOnly ||
+                                     (previewDefinition.placementArea == BuildingPlacementArea.Anywhere && fieldArea != null);
+        bool expandsPond = !isNewBuilding && previewDefinition.buildingId == "building.fish-pond" && previewLevel > currentLevel;
+        Action rollbackReservation = null;
+        if ((isNewBuilding || expandsPond) && needsFieldReservation && !TryReserveFootprint(
+                previewDefinition,
+                previewUsesFreePlacement ? previewPlacementPosition : buildingAnchor.position, out rollbackReservation))
+        {
+            previewLocationValid = false;
+            ApplyPreviewColor(false);
+            SaveLoadFeedback.Instance?.ShowMessage("Footprint bangunan terhalang");
+            return false;
+        }
+
+        if (!useDebug && !SpendCost(targetLevel))
+        {
+            rollbackReservation?.Invoke();
+            SaveLoadFeedback.Instance?.ShowMessage("Transaksi konstruksi gagal");
+            return false;
+        }
+
+        activeDefinition = previewDefinition;
+        pendingLevel = previewLevel;
+        completionDay = CurrentDay + (instant ? 0 : Mathf.Max(minimumWorkDays, targetLevel.constructionDays));
+        state = BuildingConstructionState.UnderConstruction;
+        if (previewUsesFreePlacement)
+            buildingAnchor.SetPositionAndRotation(previewPlacementPosition, previewPlacementRotation);
+        CancelPreview();
+        if (!instant && (useDebug || targetLevel.constructionDays > 0))
+            StartWorker(targetLevel, minimumWorkDays: minimumWorkDays);
+        ApplyVisualState();
+
+        if (instant || (!useDebug && targetLevel.constructionDays <= 0))
+        {
+            CompleteConstruction();
+            if (instant)
+                SaveLoadFeedback.Instance?.ShowMessage($"[DEBUG] {activeDefinition.displayName} Lv.{currentLevel} gratis dan langsung selesai");
+        }
+        else
+            SaveLoadFeedback.Instance?.ShowMessage(useDebug
+                ? $"[DEBUG GRATIS] Builder berangkat untuk {activeDefinition.displayName}; proses animasi tetap berjalan"
+                : $"Builder berangkat untuk {activeDefinition.displayName}");
+
+        SaveManager.Instance?.SaveGame();
+        return true;
+    }
+
+    /// <summary>Membatalkan preview tanpa mengubah inventory, gold, atau occupancy.</summary>
+    public void CancelPreview()
+    {
+        if (previewRelocatesSelf)
+        {
+            buildingAnchor.SetPositionAndRotation(selfRelocationOriginalPosition, selfRelocationOriginalRotation);
+            fieldArea = selfRelocationOriginalField;
+            if (activeDefinition != null)
+                TryReserveFootprint(activeDefinition, selfRelocationOriginalPosition);
+            if (runtimeCompletedVisual != null)
+                runtimeCompletedVisual.SetActive(true);
+        }
+        previewActive = false;
+        previewIsRelocation = false;
+        previewRelocatesSelf = false;
+        previewAllowsCatalogNavigation = false;
+        previewDebugFree = false;
+        previewUsesFreePlacement = false;
+        previewLevel = 0;
+        previewDefinition = null;
+        DestroyPreviewVisual();
+    }
+
+    void CycleCatalog(int direction)
+    {
+        if (catalog == null || catalog.Count == 0)
+            return;
+
+        previewCatalogIndex = (previewCatalogIndex + direction) % catalog.Count;
+        if (previewCatalogIndex < 0)
+            previewCatalogIndex += catalog.Count;
+        previewDefinition = catalog.GetAt(previewCatalogIndex);
+        InitializeFreePlacementRotation();
+        RefreshPreview();
+    }
+
+    bool RefreshPreview()
+    {
+        DestroyPreviewVisual();
+        if (previewDefinition == null || previewDefinition.GetLevel(previewLevel) == null)
+            return false;
+
+        previewActive = true;
+        previewStartedFrame = Time.frameCount;
+        previewLocationValid = ValidatePreviewLocation(previewDefinition);
+        CreatePreviewVisual(
+            previewDefinition,
+            previewLevel,
+            previewLocationValid && CanAffordPreview()
+        );
+        return true;
+    }
+
+    void InitializeFreePlacementPose()
+    {
+        if (!previewUsesFreePlacement || playerTransform == null)
+            return;
+
+        InitializeFreePlacementRotation();
+        UpdateFreePlacementPose();
+    }
+
+    void InitializeFreePlacementRotation()
+    {
+        if (!previewUsesFreePlacement)
+            return;
+        if (previewDefinition != null && previewDefinition.faceCameraOnPlacement)
+        {
+            previewPlacementRotation = CameraFacingRotation(previewDefinition);
+            return;
+        }
+
+        // Relocate mempertahankan arah bangunan asal. Bangunan baru selalu memakai
+        // arah default definition sehingga hasilnya tidak bergantung pada arah player.
+        float yaw = previewIsRelocation && relocationSource != null && relocationSource.buildingAnchor != null
+            ? relocationSource.buildingAnchor.eulerAngles.y
+            : previewDefinition != null ? previewDefinition.defaultPlacementYaw : 0f;
+        previewPlacementRotation = Quaternion.Euler(0f, yaw, 0f);
+    }
+
+    void UpdateFreePlacementPreview()
+    {
+        bool facesCamera = previewDefinition != null && previewDefinition.faceCameraOnPlacement;
+        if (facesCamera) previewPlacementRotation = CameraFacingRotation(previewDefinition);
+        if (!facesCamera && PlayerInteractionTarget.PressPrompt(this, rotatePreviewKey))
+        {
+            float nextYaw = Mathf.Repeat(previewPlacementRotation.eulerAngles.y + rotationStep, 360f);
+            previewPlacementRotation = Quaternion.Euler(0f, nextYaw, 0f);
+            SaveLoadFeedback.Instance?.ShowMessage($"Arah bangunan: {Mathf.RoundToInt(nextYaw)} derajat");
+        }
+
+        UpdateFreePlacementPose();
+        previewLocationValid = ValidatePreviewLocation(previewDefinition);
+        ApplyPreviewTransform();
+        ApplyPreviewColor(previewLocationValid && CanAffordPreview());
+    }
+
+    static Quaternion CameraFacingRotation(BuildingDefinitionSO definition)
+    {
+        Camera camera = Camera.main;
+        Vector3 towardCamera = camera != null ? -camera.transform.forward : Vector3.forward;
+        towardCamera.y = 0f;
+        if (towardCamera.sqrMagnitude < .0001f && camera != null) towardCamera = -camera.transform.up;
+        towardCamera.y = 0f;
+        float yaw = towardCamera.sqrMagnitude > .0001f ? Mathf.Atan2(towardCamera.x, towardCamera.z) * Mathf.Rad2Deg : 0f;
+        return Quaternion.Euler(0f, yaw + definition.defaultPlacementYaw, 0f);
+    }
+
+    bool CanAffordPreview()
+    {
+        if (previewIsRelocation)
+            return true;
+        if (previewDebugFree && DebugShortcutsEnabled)
+            return true;
+        BuildingLevelDefinition level = previewDefinition?.GetLevel(previewLevel);
+        return CanAfford(level, out _);
+    }
+
+    void UpdateFreePlacementPose()
+    {
+        Vector3 forward = playerTransform.forward;
+        forward.y = 0f;
+        if (forward.sqrMagnitude < 0.001f)
+            forward = Vector3.forward;
+        forward.Normalize();
+
+        Vector3 candidate = playerTransform.position + forward * freePlacementDistance;
+        candidate.x = Mathf.Round(candidate.x / placementGridSize) * placementGridSize;
+        candidate.z = Mathf.Round(candidate.z / placementGridSize) * placementGridSize;
+        candidate.y = ResolvePlacementHeight(candidate, buildingAnchor.position.y);
+        if (previewDefinition?.placementArea == BuildingPlacementArea.FieldOnly)
+        {
+            FieldArea targetField = fieldArea;
+            if (targetField != null && targetField.WorldToGrid(candidate, out int fieldX, out int fieldZ))
+                candidate = targetField.GridToWorld(fieldX, fieldZ);
+            else if (FieldArea.TryGetAt(candidate, out targetField, out fieldX, out fieldZ))
+            {
+                fieldArea = targetField;
+                candidate = targetField.GridToWorld(fieldX, fieldZ);
+            }
+        }
+        else if (previewDefinition?.placementArea == BuildingPlacementArea.Anywhere)
+        {
+            if (FieldArea.TryGetAt(candidate, out FieldArea targetField, out int fieldX, out int fieldZ))
+            {
+                fieldArea = targetField;
+                candidate = targetField.GridToWorld(fieldX, fieldZ);
+            }
+            else
+                fieldArea = null;
+        }
+        previewPlacementPosition = candidate;
+    }
+
+    static float ResolvePlacementHeight(Vector3 position, float fallbackHeight)
+    {
+        Terrain[] terrains = Terrain.activeTerrains;
+        for (int index = 0; index < terrains.Length; index++)
+        {
+            Terrain terrain = terrains[index];
+            if (terrain == null || terrain.terrainData == null)
+                continue;
+
+            Vector3 origin = terrain.transform.position;
+            Vector3 size = terrain.terrainData.size;
+            if (position.x < origin.x || position.x > origin.x + size.x ||
+                position.z < origin.z || position.z > origin.z + size.z)
+                continue;
+
+            return terrain.SampleHeight(position) + origin.y;
+        }
+        return fallbackHeight;
+    }
+
+    void ApplyPreviewTransform()
+    {
+        if (previewObject == null)
+            return;
+
+        float verticalOffset = previewDefinition != null &&
+                               previewDefinition.GetLevel(previewLevel)?.completedPrefab == null
+            ? 0.5f
+            : 0f;
+        previewObject.transform.SetPositionAndRotation(
+            previewPlacementPosition + Vector3.up * verticalOffset,
+            previewPlacementRotation
+        );
+    }
+
+    bool ConfirmRelocation()
+    {
+        PropertySite source = relocationSource;
+        if (source == null || source == this || !source.IsRelocatableNow || !IsEmpty)
+        {
+            CancelRelocationMode();
+            SaveLoadFeedback.Instance?.ShowMessage("Relocate tidak lagi valid");
+            return false;
+        }
+
+        BuildingDefinitionSO movedDefinition = source.activeDefinition;
+        bool needsFieldReservation = !previewUsesFreePlacement ||
+                                     movedDefinition.placementArea == BuildingPlacementArea.FieldOnly ||
+                                     (movedDefinition.placementArea == BuildingPlacementArea.Anywhere && fieldArea != null);
+        if (needsFieldReservation && !TryReserveFootprint(
+                movedDefinition,
+                previewUsesFreePlacement ? previewPlacementPosition : buildingAnchor.position))
+        {
+            previewLocationValid = false;
+            ApplyPreviewColor(false);
+            SaveLoadFeedback.Instance?.ShowMessage("Destination site terhalang");
+            return false;
+        }
+
+        int movedLevel = source.currentLevel;
+        Vector3 destinationPosition = previewUsesFreePlacement
+            ? previewPlacementPosition
+            : buildingAnchor.position;
+        Quaternion destinationRotation = previewUsesFreePlacement
+            ? previewPlacementRotation
+            : buildingAnchor.rotation;
+        source.ReleaseFootprint();
+        source.ResetToEmpty(false);
+
+        buildingAnchor.SetPositionAndRotation(destinationPosition, destinationRotation);
+        activeDefinition = movedDefinition;
+        currentLevel = movedLevel;
+        pendingLevel = 0;
+        completionDay = 0;
+        state = BuildingConstructionState.Completed;
+        CancelPreview();
+        relocationSource = null;
+        ApplyVisualState();
+
+        AnimalHome.Transfer(source.SiteId, this);
+        FishPondService.TransferSite(source.SiteId, SiteId);
+        SaveLoadFeedback.Instance?.ShowMessage($"{activeDefinition.displayName} berhasil dipindahkan");
+        SaveManager.Instance?.SaveGame();
+        return true;
+    }
+
+    bool ConfirmSelfRelocation()
+    {
+        if (!previewRelocatesSelf || activeDefinition == null || !previewLocationValid)
+            return false;
+        if (!TryReserveFootprint(activeDefinition, previewPlacementPosition))
+        {
+            previewLocationValid = false;
+            ApplyPreviewColor(false);
+            SaveLoadFeedback.Instance?.ShowMessage("Lokasi pindah terhalang");
+            return false;
+        }
+
+        previewRelocatesSelf = false;
+        buildingAnchor.SetPositionAndRotation(previewPlacementPosition, previewPlacementRotation);
+        CancelPreview();
+        if (runtimeCompletedVisual != null)
+            runtimeCompletedVisual.SetActive(true);
+        SaveLoadFeedback.Instance?.ShowMessage($"{activeDefinition.displayName} berhasil dipindahkan");
+        SaveManager.Instance?.SaveGame();
+        return true;
+    }
+
+    void CancelRelocationMode()
+    {
+        for (int index = 0; index < Registry.Count; index++)
+        {
+            PropertySite site = Registry[index];
+            if (site != null && site.previewIsRelocation)
+                site.CancelPreview();
+        }
+        relocationSource = null;
+        SaveLoadFeedback.Instance?.ShowMessage("Relocate dibatalkan");
+    }
+
+    void ConfirmDemolish()
+    {
+        if (FishPondService.HasFishForSite(siteId))
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Ambil seluruh ikan dari Fish Pond sebelum demolish");
+            demolishConfirmationActive = false;
+            return;
+        }
+        if (AnimalHome.HasResidents(siteId) || (AnimalHome.Find(siteId)?.TotalFeed ?? 0) > 0)
+        {
+            SaveLoadFeedback.Instance?.ShowMessage("Pindahkan hewan dan ambil sisa pakan sebelum demolish");
+            demolishConfirmationActive = false;
+            return;
+        }
+        if (state != BuildingConstructionState.Completed || activeDefinition == null || !activeDefinition.canDemolish)
+            return;
+
+        string buildingName = activeDefinition.displayName;
+        bool wasFishPond = activeDefinition.buildingId == "building.fish-pond";
+        ReleaseFootprint();
+        ResetToEmpty(false);
+        if (wasFishPond) FishPondService.RemoveForSite(siteId);
+        demolishConfirmationActive = false;
+        SaveLoadFeedback.Instance?.ShowMessage($"{buildingName} sudah didemolish");
+        SaveManager.Instance?.SaveGame();
+    }
+
+    void ResetToEmpty(bool releaseFootprint)
+    {
+        if (releaseFootprint)
+            ReleaseFootprint();
+        CancelPreview();
+        activeDefinition = null;
+        state = BuildingConstructionState.Available;
+        currentLevel = 0;
+        pendingLevel = 0;
+        completionDay = 0;
+        ApplyVisualState();
+    }
+
+    void HandleDayChanged()
+    {
+        constructionProject?.RefreshClock();
+        if (state == BuildingConstructionState.UnderConstruction && constructionProject == null && CurrentDay >= completionDay)
+            CompleteConstruction();
+    }
+
+    void StartWorker(BuildingLevelDefinition target, ConstructionJobData saved = null, int minimumWorkDays = 0)
+    {
+        constructionProject = ConstructionProject.Begin(gameObject, BuildingAnchor, activeDefinition, target,
+            GetCompletedPrefab(target.level), currentLevel > 0, CompleteConstruction, saved, minimumWorkDays: minimumWorkDays);
+    }
+
+    void CompleteConstruction()
+    {
+        if (state != BuildingConstructionState.UnderConstruction) return;
+        constructionProject?.FinishVisuals();
+        currentLevel = Mathf.Max(1, pendingLevel);
+        pendingLevel = 0;
+        completionDay = 0;
+        state = BuildingConstructionState.Completed;
+        ApplyVisualState();
+        SaveLoadFeedback.Instance?.ShowMessage($"{activeDefinition?.displayName ?? "Bangunan"} Lv.{currentLevel} selesai");
+    }
+
+    bool ValidatePreviewLocation(BuildingDefinitionSO definition)
+    {
+        previewLocationReason = string.Empty;
+        if (previewUsesFreePlacement)
+        {
+            if (definition.placementArea == BuildingPlacementArea.FieldOnly)
+            {
+                if (!TryResolveFieldCoordinates(definition, previewPlacementPosition,
+                        out FieldArea pondField, out int startX, out int startZ))
+                { previewLocationReason = "Pilih lokasi di dalam field"; return false; }
+                FieldFootprint(definition, pondField, out int width, out int depth);
+                if (!pondField.ValidateBuildingFootprint(startX, startZ, width, depth, null, out previewLocationReason)) return false;
+                return !HasPhysicalPlacementBlocker(
+                    definition,
+                    pondField.CellSize,
+                    previewPlacementPosition,
+                    previewPlacementRotation
+                );
+            }
+            if (definition.placementArea == BuildingPlacementArea.Anywhere && fieldArea != null)
+            {
+                if (!TryResolveFieldCoordinates(definition, previewPlacementPosition,
+                        out FieldArea targetField, out int startX, out int startZ) ||
+                    !targetField.CanPlaceBuilding(startX, startZ, definition.footprintWidth, definition.footprintDepth))
+                    return false;
+                return !HasPhysicalPlacementBlocker(
+                    definition,
+                    targetField.CellSize,
+                    previewPlacementPosition,
+                    previewPlacementRotation);
+            }
+            if (definition.placementArea == BuildingPlacementArea.Anywhere &&
+                OverlapsAnyFieldArea(definition, previewPlacementPosition, previewPlacementRotation))
+                return false;
+            // OutsideField keeps the whole footprint clear of the crop field, including ponds.
+            if (definition.placementArea == BuildingPlacementArea.OutsideField &&
+                OverlapsAnyFieldArea(definition, previewPlacementPosition, previewPlacementRotation))
+            { previewLocationReason = "Tapak harus berada di luar ladang"; return false; }
+            return !HasPhysicalPlacementBlocker(
+                definition,
+                1f,
+                previewPlacementPosition,
+                previewPlacementRotation
+            );
+        }
+
+        if (state == BuildingConstructionState.Completed && definition == activeDefinition && definition.buildingId != "building.fish-pond")
+            return true;
+        float cellSize = fieldArea != null ? fieldArea.CellSize : 1f;
+        if (reserveFieldFootprint || definition.placementArea == BuildingPlacementArea.FieldOnly)
+        {
+            if (!TryResolveFieldCoordinates(definition, out FieldArea area, out int startX, out int startZ))
+                return false;
+            FieldFootprint(definition, area, out int width, out int depth);
+            if (!area.ValidateBuildingFootprint(startX, startZ, width, depth, definition == activeDefinition ? siteId : null, out previewLocationReason)) return false;
+            cellSize = area.CellSize;
+        }
+
+        return !HasPhysicalPlacementBlocker(definition, cellSize, buildingAnchor.position, buildingAnchor.rotation);
+    }
+
+    static bool OverlapsAnyFieldArea(
+        BuildingDefinitionSO definition,
+        Vector3 position,
+        Quaternion rotation)
+    {
+        if (definition == null)
+            return true;
+
+        float halfWidth = Mathf.Max(0.5f, definition.footprintWidth * 0.5f);
+        float halfDepth = Mathf.Max(0.5f, definition.footprintDepth * 0.5f);
+        const float sampleSpacing = 0.5f;
+        int widthSamples = Mathf.Max(1, Mathf.CeilToInt(halfWidth * 2f / sampleSpacing));
+        int depthSamples = Mathf.Max(1, Mathf.CeilToInt(halfDepth * 2f / sampleSpacing));
+
+        for (int x = 0; x <= widthSamples; x++)
+        {
+            float localX = Mathf.Lerp(-halfWidth, halfWidth, x / (float)widthSamples);
+            for (int z = 0; z <= depthSamples; z++)
+            {
+                float localZ = Mathf.Lerp(-halfDepth, halfDepth, z / (float)depthSamples);
+                Vector3 sample = position + rotation * new Vector3(localX, 0f, localZ);
+                if (FieldArea.TryGetAt(sample, out _, out _, out _))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// NonAlloc overlap hanya menolak object gameplay yang memang memblokir pembangunan.
+    /// Terrain/floor biasa tidak ditolak sehingga project tidak membutuhkan layer ground khusus.
+    /// </summary>
+    bool HasPhysicalPlacementBlocker(
+        BuildingDefinitionSO definition,
+        float cellSize,
+        Vector3 position,
+        Quaternion rotation)
+    {
+        if (definition == null || buildingAnchor == null)
+            return true;
+        Vector2 metres = PlacementMetres(definition, cellSize);
+        Vector3 halfExtents = new(
+            metres.x * 0.5f,
+            placementCheckHeight * 0.5f,
+            metres.y * 0.5f);
+        Vector3 center = position + rotation * Vector3.up * halfExtents.y;
+        int count = Physics.OverlapBoxNonAlloc(
+            center,
+            halfExtents,
+            placementOverlapBuffer,
+            rotation,
+            placementCheckMask,
+            QueryTriggerInteraction.Ignore);
+
+        for (int index = 0; index < count; index++)
+        {
+            Collider candidate = placementOverlapBuffer[index];
+            placementOverlapBuffer[index] = null;
+            if (candidate == null || candidate.transform.IsChildOf(transform))
+                continue;
+            if (candidate.GetComponentInParent<PlayerController>() != null)
+                continue;
+
+            PropertySite otherSite = candidate.GetComponentInParent<PropertySite>();
+            if (otherSite != null)
+            {
+                if (otherSite != this && !otherSite.IsEmpty)
+                { previewLocationReason = "Tapak terhalang bangunan lain"; return true; }
+                continue;
+            }
+            BuildingSite fixedSite = candidate.GetComponentInParent<BuildingSite>();
+            if (fixedSite != null && fixedSite.State != BuildingConstructionState.Available)
+                return true;
+            WorldTree tree = candidate.GetComponentInParent<WorldTree>();
+            if (tree != null && tree.IsAvailable)
+            { previewLocationReason = "Tapak terhalang pohon"; return true; }
+            WorldGatherable gatherable = candidate.GetComponentInParent<WorldGatherable>();
+            if (gatherable != null && gatherable.IsAvailable)
+            { previewLocationReason = "Bersihkan rumput, batu, atau resource di tapak"; return true; }
+            if (candidate.GetComponentInParent<PlacedWorldItem>() != null ||
+                candidate.GetComponentInParent<BuildingPlacementBlocker>() != null)
+                return true;
+        }
+        return false;
+    }
+
+    bool TryReserveFootprint(BuildingDefinitionSO definition, Vector3 position)
+        => TryReserveFootprint(definition, position, out _);
+
+    bool TryReserveFootprint(BuildingDefinitionSO definition, Vector3 position, out Action rollback)
+    {
+        rollback = null;
+        bool anywhereOnField = definition.placementArea == BuildingPlacementArea.Anywhere && fieldArea != null;
+        if (!reserveFieldFootprint && definition.placementArea != BuildingPlacementArea.FieldOnly && !anywhereOnField)
+            return true;
+        if (!TryResolveFieldCoordinates(definition, position, out FieldArea area, out int x, out int z)) return false;
+        FieldFootprint(definition, area, out int width, out int depth);
+        return area.TryPlaceBuilding(x, z, width, depth, siteId, definition == activeDefinition, out rollback);
+    }
+
+    void ReleaseFootprint()
+    {
+        if ((reserveFieldFootprint || activeDefinition?.placementArea == BuildingPlacementArea.FieldOnly ||
+             activeDefinition?.placementArea == BuildingPlacementArea.Anywhere) && fieldArea != null)
+            fieldArea.TryRemoveBuilding(siteId);
+    }
+
+    bool TryResolveFieldCoordinates(
+        BuildingDefinitionSO definition,
+        out FieldArea area,
+        out int startX,
+        out int startZ)
+        => TryResolveFieldCoordinates(
+            definition,
+            buildingAnchor != null ? buildingAnchor.position : transform.position,
+            out area,
+            out startX,
+            out startZ);
+
+    bool TryResolveFieldCoordinates(
+        BuildingDefinitionSO definition,
+        Vector3 position,
+        out FieldArea area,
+        out int startX,
+        out int startZ)
+    {
+        area = fieldArea;
+        int centerX;
+        int centerZ;
+
+        if (area != null)
+        {
+            if (!area.WorldToGrid(position, out centerX, out centerZ))
+            {
+                startX = startZ = 0;
+                return false;
+            }
+        }
+        else if (!FieldArea.TryGetAt(position, out area, out centerX, out centerZ))
+        {
+            startX = startZ = 0;
+            return false;
+        }
+
+        fieldArea = area;
+        FieldFootprint(definition, area, out int width, out int depth);
+        startX = centerX - width / 2;
+        startZ = centerZ - depth / 2;
+        return true;
+    }
+
+    Vector2 PlacementMetres(BuildingDefinitionSO definition, float cellSize)
+    {
+        int level = previewActive && previewDefinition == definition ? previewLevel : pendingLevel > 0 ? pendingLevel : Mathf.Max(1,currentLevel);
+        return definition.buildingId == "building.fish-pond" ? FishPondExterior.PlacementSizeMeters(level) :
+            new Vector2(definition.footprintWidth*cellSize, definition.footprintDepth*cellSize);
+    }
+
+    void FieldFootprint(BuildingDefinitionSO definition, FieldArea area, out int width, out int depth)
+    {
+        width = definition.footprintWidth; depth = definition.footprintDepth;
+        if (definition.buildingId != "building.fish-pond") return;
+        Vector2 metres = PlacementMetres(definition,area.CellSize);
+        Quaternion rotation = previewActive && previewUsesFreePlacement ? previewPlacementRotation : buildingAnchor.rotation;
+        Vector3 right = area.transform.InverseTransformDirection(rotation*Vector3.right);
+        Vector3 forward = area.transform.InverseTransformDirection(rotation*Vector3.forward);
+        width = Mathf.CeilToInt((Mathf.Abs(right.x)*metres.x+Mathf.Abs(forward.x)*metres.y)/area.CellSize-.0001f);
+        depth = Mathf.CeilToInt((Mathf.Abs(right.z)*metres.x+Mathf.Abs(forward.z)*metres.y)/area.CellSize-.0001f);
+        // Placement is snapped to a tile centre. Odd counts keep both halves covered;
+        // an even count would shift the reserved rectangle by half a tile.
+        if (width % 2 == 0) width++;
+        if (depth % 2 == 0) depth++;
+    }
+
+    bool CanAfford(BuildingLevelDefinition level, out string reason)
+        => BuildingCostUtility.CanAfford(level, playerInventory, out reason);
+
+    bool SpendCost(BuildingLevelDefinition level)
+        => BuildingCostUtility.TrySpend(level, playerInventory);
+
+    static Dictionary<ItemSO, int> AggregateCosts(BuildingLevelDefinition level)
+    {
+        Dictionary<ItemSO, int> totals = new();
+        if (level?.materialCosts == null)
+            return totals;
+
+        for (int index = 0; index < level.materialCosts.Count; index++)
+        {
+            BuildingMaterialCost cost = level.materialCosts[index];
+            if (cost?.item == null || cost.amount <= 0)
+                continue;
+            totals.TryGetValue(cost.item, out int current);
+            totals[cost.item] = current + cost.amount;
+        }
+        return totals;
+    }
+
+    static string BuildCostLabel(BuildingLevelDefinition level)
+    {
+        if (level == null)
+            return "data biaya tidak tersedia";
+        Dictionary<ItemSO, int> totals = AggregateCosts(level);
+        return totals.Count > 0
+            ? $"{level.goldCost}G + {totals.Count} material"
+            : $"{level.goldCost}G";
+    }
+
+    /// <summary>
+    /// Membuat daftar resource real-time untuk preview build/upgrade. Merah berarti kurang,
+    /// sedangkan hijau berarti jumlah milik player telah memenuhi requirement.
+    /// </summary>
+    string BuildRequirementLabel(BuildingLevelDefinition level)
+        => BuildingCostUtility.BuildRequirementLabel(level, playerInventory);
+
+    void ApplyVisualState()
+    {
+        DestroyRuntimeCompletedVisual();
+
+        if (availableMarker != null)
+            availableMarker.SetActive(IsEmpty && showAvailableMarker &&
+                (catalog == null || !catalog.ContainsAnimalHousing));
+        if (constructionVisual != null)
+            constructionVisual.SetActive(state == BuildingConstructionState.UnderConstruction && constructionProject == null);
+
+        for (int index = 0; index < completedLevelVisuals.Count; index++)
+        {
+            GameObject visual = completedLevelVisuals[index];
+            if (visual != null)
+                visual.SetActive(state == BuildingConstructionState.Completed && index == currentLevel - 1 &&
+                                 GetCompletedPrefab(currentLevel) == null);
+        }
+
+        GameObject completedPrefab = GetCompletedPrefab(currentLevel);
+        if (state == BuildingConstructionState.Completed && completedPrefab != null)
+        {
+            try
+            {
+                runtimeCompletedVisual = Instantiate(
+                    completedPrefab,
+                    buildingAnchor.position,
+                    buildingAnchor.rotation,
+                    buildingAnchor
+                );
+                runtimeCompletedVisual.name = $"{activeDefinition.displayName}_Lv{currentLevel}_Runtime";
+            }
+            catch (InvalidCastException exception)
+            {
+                Debug.LogWarning($"[BUILDING] Prefab final {activeDefinition.displayName} tidak valid. {exception.Message}");
+            }
+        }
+        // Free builds, normal builds and restored completed sites share this lifecycle.
+        // Register before the construction callback can autosave or the player reaches the door.
+        if(state==BuildingConstructionState.Completed)AnimalHusbandrySystem.EnsureHousing(this);
+    }
+
+    /// <summary>
+    /// Marker memakai material runtime agar lokasi build mudah dibaca tanpa mengubah material
+    /// dummy yang telah dipasang manual pada scene.
+    /// </summary>
+    void ConfigureAvailableMarkerVisual()
+    {
+        if (availableMarker == null)
+            return;
+
+        foreach (Collider markerCollider in availableMarker.GetComponentsInChildren<Collider>(true))
+            markerCollider.enabled = false;
+
+        Shader shader = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Sprites/Default");
+        if (shader == null)
+            return;
+
+        availableMarkerMaterial = new Material(shader)
+        {
+            name = $"{name}_BuildSiteMarker_Runtime"
+        };
+        ConfigurePreviewMaterial(availableMarkerMaterial);
+        availableMarkerMaterial.color = availableMarkerColor;
+        if (availableMarkerMaterial.HasProperty("_BaseColor"))
+            availableMarkerMaterial.SetColor("_BaseColor", availableMarkerColor);
+
+        foreach (Renderer markerRenderer in availableMarker.GetComponentsInChildren<Renderer>(true))
+        {
+            int materialCount = Mathf.Max(1, markerRenderer.sharedMaterials.Length);
+            Material[] materials = new Material[materialCount];
+            for (int index = 0; index < materialCount; index++)
+                materials[index] = availableMarkerMaterial;
+            markerRenderer.sharedMaterials = materials;
+            markerRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            markerRenderer.receiveShadows = false;
+        }
+    }
+
+    GameObject GetCompletedPrefab(int level)
+    {
+        return activeDefinition?.GetLevel(level)?.completedPrefab;
+    }
+
+    void CreatePreviewVisual(BuildingDefinitionSO definition, int targetLevel, bool valid)
+    {
+        GameObject source = definition.GetLevel(targetLevel)?.completedPrefab;
+        if (source == null && targetLevel - 1 >= 0 && targetLevel - 1 < completedLevelVisuals.Count)
+            source = completedLevelVisuals[targetLevel - 1];
+
+        Vector3 position = previewUsesFreePlacement ? previewPlacementPosition : buildingAnchor.position;
+        Quaternion rotation = previewUsesFreePlacement ? previewPlacementRotation : buildingAnchor.rotation;
+        bool usedFallbackPrimitive = false;
+
+        if (source != null)
+        {
+            try
+            {
+                // Reuse construction's visual-only clone. Inactive staging prevents Awake,
+                // OnEnable, persistent records and interaction UI before scripts are stripped.
+                var staging = new GameObject("PlacementPreview_Staging");
+                staging.SetActive(false);
+                try
+                {
+                    previewObject = ConstructionProjectVisuals.VisualClone(source, staging.transform);
+                    foreach (var body in previewObject.GetComponentsInChildren<Rigidbody>(true)) DestroyImmediate(body);
+                    previewObject.transform.SetPositionAndRotation(position, rotation);
+                    previewObject.transform.SetParent(null, true);
+                }
+                finally { Destroy(staging); }
+            }
+            catch (InvalidCastException exception)
+            {
+                Debug.LogWarning($"[BUILDING] Prefab {definition.displayName} tidak valid; memakai preview cube. {exception.Message}");
+            }
+        }
+
+        if (previewObject == null)
+        {
+            previewObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            usedFallbackPrimitive = true;
+        }
+        previewObject.name = $"BuildingPreview_{definition.displayName}_Lv{targetLevel}";
+        previewObject.SetActive(true);
+
+        if (usedFallbackPrimitive)
+        {
+            previewObject.transform.SetPositionAndRotation(position + Vector3.up * 0.5f, rotation);
+            previewObject.transform.localScale = new Vector3(definition.footprintWidth, 1f, definition.footprintDepth);
+        }
+
+        if (previewUsesFreePlacement)
+            CreatePreviewDirectionIndicator(definition, previewObject.transform);
+
+        foreach (Collider itemCollider in previewObject.GetComponentsInChildren<Collider>(true))
+            itemCollider.enabled = false;
+
+        Shader shader = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Sprites/Default");
+        previewMaterial = new Material(shader);
+        ConfigurePreviewMaterial(previewMaterial);
+        foreach (Renderer itemRenderer in previewObject.GetComponentsInChildren<Renderer>(true))
+        {
+            int count = Mathf.Max(1, itemRenderer.sharedMaterials.Length);
+            Material[] materials = new Material[count];
+            for (int index = 0; index < count; index++)
+                materials[index] = previewMaterial;
+            itemRenderer.sharedMaterials = materials;
+            itemRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        }
+        ApplyPreviewColor(valid);
+    }
+
+    static void CreatePreviewDirectionIndicator(BuildingDefinitionSO definition, Transform parent)
+    {
+        // Dummy Fish Pond berbentuk simetris. Penanda ini membuat perubahan arah
+        // tetap terlihat saat preview diputar, dan menunjukkan sisi depan bangunan.
+        float forwardEdge = Mathf.Max(0.5f, definition.footprintDepth * 0.5f);
+
+        GameObject shaft = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        shaft.name = "PreviewDirection_Forward";
+        shaft.transform.SetParent(parent, false);
+        shaft.transform.localPosition = new Vector3(0f, 1.25f, forwardEdge + 0.45f);
+        shaft.transform.localScale = new Vector3(0.18f, 0.12f, 0.9f);
+
+        GameObject head = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        head.name = "PreviewDirection_ArrowHead";
+        head.transform.SetParent(parent, false);
+        head.transform.localPosition = new Vector3(0f, 1.25f, forwardEdge + 0.95f);
+        head.transform.localScale = new Vector3(0.65f, 0.14f, 0.35f);
+    }
+
+    void ApplyPreviewColor(bool valid)
+    {
+        if (previewMaterial != null)
+            previewMaterial.color = valid ? validPreviewColor : invalidPreviewColor;
+    }
+
+    static void ConfigurePreviewMaterial(Material material)
+    {
+        material.SetFloat("_Surface", 1f);
+        material.SetFloat("_SrcBlend", (float)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        material.SetFloat("_DstBlend", (float)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        material.SetFloat("_ZWrite", 0f);
+        material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+        material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+    }
+
+    void DestroyPreviewVisual()
+    {
+        DestroySafely(previewObject);
+        DestroySafely(previewMaterial);
+        previewObject = null;
+        previewMaterial = null;
+    }
+
+    void DestroyRuntimeCompletedVisual()
+    {
+        if (runtimeCompletedVisual != null) runtimeCompletedVisual.SetActive(false);
+        DestroySafely(runtimeCompletedVisual);
+        runtimeCompletedVisual = null;
+    }
+
+    static void DestroySafely(UnityEngine.Object target)
+    {
+        if (target == null)
+            return;
+        if (Application.isPlaying)
+            Destroy(target);
+        else
+            DestroyImmediate(target);
+    }
+
+    BuildingDefinitionSO FirstCatalogDefinition => catalog != null && catalog.Count > 0 ? catalog.GetAt(0) : null;
+    bool IsRelocatableNow => state == BuildingConstructionState.Completed && activeDefinition != null && activeDefinition.canRelocate;
+    int CurrentDay => TimeManager.Instance != null ? TimeManager.Instance.day : 1;
+
+    /// <summary>Mengambil snapshot seluruh Property Site aktif untuk SaveManager.</summary>
+    public static List<PropertySiteSaveData> CaptureAll()
+    {
+        List<PropertySiteSaveData> result = new(Registry.Count);
+        for (int index = 0; index < Registry.Count; index++)
+        {
+            PropertySite site = Registry[index];
+            if (site == null || string.IsNullOrWhiteSpace(site.siteId) ||
+                (site.globalBuildInstance && site.IsEmpty))
+                continue;
+            result.Add(new PropertySiteSaveData
+            {
+                siteId = site.siteId,
+                buildingId = site.activeDefinition != null ? site.activeDefinition.buildingId : string.Empty,
+                state = site.state,
+                currentLevel = site.currentLevel,
+                pendingLevel = site.pendingLevel,
+                completionDay = site.completionDay,
+                constructionJob = site.constructionProject?.Capture(),
+                unlocked = site.unlocked,
+                hasPlacementPose = true,
+                placementPosition = site.buildingAnchor.position,
+                placementRotation = site.buildingAnchor.rotation
+            });
+        }
+        return result;
+    }
+
+    /// <summary>Memulihkan state dan pose free placement berdasarkan Site ID.</summary>
+    public static void RestoreAll(List<PropertySiteSaveData> data)
+    {
+        if (data == null)
+            return;
+
+        BuildingCatalogSO sharedCatalog = Resources.Load<BuildingCatalogSO>("Buildings/Field Building Catalog");
+        for (int dataIndex = 0; dataIndex < data.Count; dataIndex++)
+        {
+            PropertySiteSaveData saved = data[dataIndex];
+            bool found = false;
+            for (int siteIndex = 0; siteIndex < Registry.Count; siteIndex++)
+            {
+                PropertySite site = Registry[siteIndex];
+                if (site == null || !site.MatchesSavedSite(saved.siteId))
+                    continue;
+                site.Restore(saved);
+                found = true;
+                break;
+            }
+            if (!found && IsDynamicWorldSiteId(saved.siteId) && sharedCatalog != null)
+            {
+                PropertySite created = CreateGlobalBuildSite(
+                    saved.siteId,
+                    sharedCatalog,
+                    saved.hasPlacementPose ? saved.placementPosition : Vector3.zero);
+                created.Restore(saved);
+            }
+        }
+    }
+
+    void Restore(PropertySiteSaveData data)
+    {
+        cameraFacingPoseReady = false;
+        CancelPreview();
+        demolishConfirmationActive = false;
+        unlocked = data.unlocked;
+        activeDefinition = ResolveDefinition(data.buildingId);
+        state = activeDefinition == null ? BuildingConstructionState.Available : data.state;
+        currentLevel = activeDefinition != null ? Mathf.Max(0, data.currentLevel) : 0;
+        pendingLevel = activeDefinition != null ? Mathf.Max(0, data.pendingLevel) : 0;
+        // Approved pond now has three stages. Preserve the site/fish IDs and all contents.
+        if (activeDefinition != null && activeDefinition.buildingId == "building.fish-pond")
+        {
+            currentLevel = Mathf.Min(currentLevel, 3);
+            pendingLevel = Mathf.Min(pendingLevel, 3);
+        }
+        completionDay = activeDefinition != null ? Mathf.Max(0, data.completionDay) : 0;
+        constructionProject?.Cancel();
+        constructionProject = null;
+        if (data.hasPlacementPose && activeDefinition != null)
+            buildingAnchor.SetPositionAndRotation(data.placementPosition, data.placementRotation);
+        if (activeDefinition?.placementArea == BuildingPlacementArea.Anywhere &&
+            FieldArea.TryGetAt(buildingAnchor.position, out FieldArea restoredField, out _, out _))
+            fieldArea = restoredField;
+
+        // Save yang dibuka setelah construction day langsung diselesaikan.
+        var target = activeDefinition?.GetLevel(pendingLevel > 0 ? pendingLevel : currentLevel);
+        if (data.constructionJob != null && data.constructionJob.ShouldRestoreFor(state) && target != null)
+            StartWorker(target, data.constructionJob);
+        else if (state == BuildingConstructionState.UnderConstruction && target != null && CurrentDay < completionDay)
+            StartWorker(target, ConstructionProject.MigrateLegacy(target, completionDay, BuildingAnchor.position));
+        if (state == BuildingConstructionState.UnderConstruction && constructionProject == null && CurrentDay >= completionDay)
+            CompleteConstruction();
+        else
+            ApplyVisualState();
+    }
+
+    BuildingDefinitionSO ResolveDefinition(string buildingId)
+    {
+        BuildingDefinitionSO local = catalog != null ? catalog.FindById(buildingId) : null;
+        if (local != null)
+            return local;
+        foreach (var front in FindObjectsByType<UpgradeShopFront>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            var definition = front.constructionCatalog != null ? front.constructionCatalog.FindById(buildingId) : null;
+            if (definition != null) return definition;
+        }
+        foreach (var definition in Resources.LoadAll<BuildingDefinitionSO>("Buildings"))
+            if (definition.buildingId == buildingId) return definition;
+
+        // Fallback lintas-site membantu migrasi save bila catalog dipindah ke shared asset lain.
+        for (int index = 0; index < Registry.Count; index++)
+        {
+            BuildingCatalogSO candidateCatalog = Registry[index] != null ? Registry[index].catalog : null;
+            BuildingDefinitionSO candidate = candidateCatalog != null ? candidateCatalog.FindById(buildingId) : null;
+            if (candidate != null)
+                return candidate;
+        }
+        return null;
+    }
+
+    bool MatchesSavedSite(string savedSiteId)
+    {
+        if (siteId == savedSiteId)
+            return true;
+
+        // Migrasi prototype lama: fixed Shed site menjadi Property Site pertama.
+        return siteId == "farm-property-01" && savedSiteId == "farm-shed-site-01";
+    }
+
+    void OnValidate()
+    {
+        interactionRadius = Mathf.Max(0.5f, interactionRadius);
+        promptHeight = Mathf.Max(0f, promptHeight);
+        startingLevel = Mathf.Max(1, startingLevel);
+        freePlacementDistance = Mathf.Max(1f, freePlacementDistance);
+        placementGridSize = Mathf.Max(0.25f, placementGridSize);
+        rotationStep = Mathf.Clamp(rotationStep, 15f, 180f);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Transform anchor = buildingAnchor != null ? buildingAnchor : transform;
+        BuildingDefinitionSO definition = activeDefinition != null ? activeDefinition : FirstCatalogDefinition;
+        int width = definition != null ? Mathf.Max(1, definition.footprintWidth) : 3;
+        int depth = definition != null ? Mathf.Max(1, definition.footprintDepth) : 3;
+        Gizmos.color = unlocked
+            ? new Color(0.2f, 0.9f, 0.4f, 0.35f)
+            : new Color(1f, 0.2f, 0.15f, 0.35f);
+        Gizmos.matrix = Matrix4x4.TRS(anchor.position, anchor.rotation, Vector3.one);
+        Gizmos.DrawCube(Vector3.up * 0.05f, new Vector3(width, 0.1f, depth));
+        Gizmos.DrawWireCube(Vector3.up * 0.5f, new Vector3(width, 1f, depth));
+    }
+}

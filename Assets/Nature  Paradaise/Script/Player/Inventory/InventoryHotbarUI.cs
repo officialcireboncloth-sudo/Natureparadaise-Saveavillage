@@ -63,6 +63,9 @@ public sealed class InventoryHotbarUI : MonoBehaviour
         if (inventory != null) inventory.OnInventoryChanged += Refresh;
         if (wateringCan != null) wateringCan.Changed += RefreshActionHint;
         if (toolHotbar != null) toolHotbar.SelectionChanged += ToolChanged;
+        // The first scene can be MainMenu. Attach to the player when their hotbar actually loads.
+        if (Application.isPlaying && !TryGetComponent<HeldItemPlacementSystem>(out _))
+            gameObject.AddComponent<HeldItemPlacementSystem>();
     }
 
     void OnDisable()
@@ -223,6 +226,7 @@ public sealed class InventoryHotbarUI : MonoBehaviour
             _ when FeedTypes.Kind(item)==FeedKind.Fish => "F: tabur Pakan Ikan ke kolam",
             _ when item != null && animalCare != null && item == animalCare.treat => "Dekati hewan lalu tekan F: beri treat",
             _ when item != null && item.category == ItemCategory.Food => "C: makan item terpilih",
+            _ when item != null && item.treeDefinition != null && item.canPlaceInWorld => "P / F: tanam bibit pohon  |  G: jatuhkan",
             _ when item != null && item.canPlaceInWorld && item.canDropToWorld => "P: letakkan  |  G: jatuhkan  |  Shift: seluruh stack",
             _ when item != null && item.canPlaceInWorld => "P: letakkan item",
             _ when item != null && item.canDropToWorld => "G: jatuhkan item",

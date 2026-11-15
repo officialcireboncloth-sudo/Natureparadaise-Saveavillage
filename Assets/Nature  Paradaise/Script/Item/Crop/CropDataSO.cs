@@ -119,6 +119,10 @@ public class CropDataSO : ScriptableObject
     [Range(0f, 1f)] public float healthWeight = 0.15f;
 
     [Header("Modular Visual Stages")]
+    [Tooltip("Arahkan sisi depan visual tanaman di field ke kamera gameplay mulai dari fase tunas.")]
+    public bool faceGameplayCamera = true;
+    [Tooltip("Sudut sisi depan mesh terhadap +Z lokal, sebelum rotasi tambahan pada masing-masing stage.")]
+    [Range(-180f, 180f)] public float modelFrontYaw = 180f;
     [Tooltip("Satu slot per state. Model kosong memakai dummy bawaan dengan scale dari slot ini.")]
     public CropVisualStage[] visualStages =
     {

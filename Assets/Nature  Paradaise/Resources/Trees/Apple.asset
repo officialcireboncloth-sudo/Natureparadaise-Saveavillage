@@ -28,21 +28,22 @@ MonoBehaviour:
   stages:
   - stage: 0
     fromGrowthDay: 0
-    model: {fileID: 0}
-    scale: {x: 0.06, y: 0.06, z: 0.06}
+    model: {fileID: 100, guid: 4412ad4e210f485c90d1f43152a61a63, type: 3}
+    scale: {x: 0.09, y: 0.09, z: 0.09}
   - stage: 1
     fromGrowthDay: 6
-    model: {fileID: 0}
-    scale: {x: 0.16, y: 0.16, z: 0.16}
+    model: {fileID: 100, guid: d3b4b0a6da0e443798d2fff3ef08963b, type: 3}
+    scale: {x: 0.3, y: 0.3, z: 0.3}
   - stage: 3
     fromGrowthDay: 20
-    model: {fileID: 0}
+    model: {fileID: 100, guid: bbdcd8af16c04eedafd7708897260ba1, type: 3}
     scale: {x: 1, y: 1, z: 1}
   - stage: 6
     fromGrowthDay: 60
-    model: {fileID: 0}
+    model: {fileID: 100, guid: 39a74c05f99b4e9095d3c5646a6e6749, type: 3}
     scale: {x: 1, y: 1, z: 1}
   - stage: 7
     fromGrowthDay: 60
-    model: {fileID: 0}
+    model: {fileID: 100, guid: aeed230640ea4fcd811479eb13619bdf, type: 3}
     scale: {x: 1, y: 1, z: 1}
+  stumpModel: {fileID: 100, guid: d350a142f73146cdb910c954432aa6ed, type: 3}

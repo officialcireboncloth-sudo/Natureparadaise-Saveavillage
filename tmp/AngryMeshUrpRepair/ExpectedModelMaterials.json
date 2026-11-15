@@ -1,0 +1,489 @@
+{
+  "Assets/ANGRY MESH/Stylized Pack - Common/Sources/Meshes/SM_ASP_Global_Settings.fbx": {
+    "Default": "Assets/ANGRY MESH/Stylized Pack - Common/Sources/Materials/M_ASP_Global_Settings.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Background/SM_Hill_01.fbx": {
+    "Material": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Background/M_Hill_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Background/SM_Hill_02.fbx": {
+    "Material": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Background/M_Hill_02_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Background/SM_Mountain_01.fbx": {
+    "Material": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Background/M_Mountain_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Background/SM_Mountain_02.fbx": {
+    "Material": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Background/M_Mountain_02_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Background/SM_Mountain_03.fbx": {
+    "Material": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Background/M_Mountain_03_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Background/SM_Mountain_04.fbx": {
+    "Material": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Background/M_Mountain_04_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/CoverPlants/SM_CoverPlant_01.fbx": {
+    "Cover Plants": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/CoverPlants/M_CoverPlants_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/CoverPlants/SM_CoverPlant_02.fbx": {
+    "Cover Plants": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/CoverPlants/M_CoverPlants_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/CoverPlants/SM_CoverPlant_03.fbx": {
+    "Cover Plants": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/CoverPlants/M_CoverPlants_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/CoverPlants/SM_CoverPlant_04.fbx": {
+    "Cover Plants": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/CoverPlants/M_CoverPlants_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/CoverPlants/SM_CoverPlant_05.fbx": {
+    "Cover Plants": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/CoverPlants/M_CoverPlants_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/CoverPlants/SM_CoverPlant_06.fbx": {
+    "Cover Plants": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/CoverPlants/M_CoverPlants_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_01_01.fbx": {
+    "Flowers_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_01_02.fbx": {
+    "Flowers_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_01_03.fbx": {
+    "Flowers_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_02_01.fbx": {
+    "Flowers_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_02_02.fbx": {
+    "Flowers_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_02_03.fbx": {
+    "Flowers_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_03_01.fbx": {
+    "Flowers_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_03_02.fbx": {
+    "Flowers_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_03_03.fbx": {
+    "Flowers_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_04_01.fbx": {
+    "Flowers_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_04_02.fbx": {
+    "Flowers_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_04_03.fbx": {
+    "Flowers_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_05_01.fbx": {
+    "Flowers_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_02.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_05_02.fbx": {
+    "Flowers_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_02.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_05_03.fbx": {
+    "Flowers_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_02.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_06_01.fbx": {
+    "Flowers_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_02.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_06_02.fbx": {
+    "Flowers_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_02.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_06_03.fbx": {
+    "Flowers_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_02.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_07_01.fbx": {
+    "Flowers_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_02.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_07_02.fbx": {
+    "Flowers_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_02.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_07_03.fbx": {
+    "Flowers_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_02.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_08_01.fbx": {
+    "Flowers_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_02.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_08_02.fbx": {
+    "Flowers_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_02.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_08_03.fbx": {
+    "Flowers_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_02.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_09_01.fbx": {
+    "Flowers_03": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_03.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_09_02.fbx": {
+    "Flowers_03": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_03.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_09_03.fbx": {
+    "Flowers_03": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_03.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_10_01.fbx": {
+    "Flowers_03": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_03.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_10_02.fbx": {
+    "Flowers_03": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_03.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Flowers/SM_Flower_10_03.fbx": {
+    "Flowers_03": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Flowers/M_Flowers_03.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Grass/SM_Grass_01_01.fbx": {
+    "Grass_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Grass/M_Grass_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Grass/SM_Grass_01_02.fbx": {
+    "Grass_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Grass/M_Grass_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Grass/SM_Grass_01_03.fbx": {
+    "Grass_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Grass/M_Grass_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Grass/SM_Grass_02_01.fbx": {
+    "Grass_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Grass/M_Grass_02_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Grass/SM_Grass_02_02.fbx": {
+    "Grass_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Grass/M_Grass_02_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Grass/SM_Grass_02_03.fbx": {
+    "Grass_02": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Grass/M_Grass_02_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Grass/SM_Grass_03_01.fbx": {
+    "Grass_03": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Grass/M_Grass_03_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Grass/SM_Grass_03_02.fbx": {
+    "Grass_03": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Grass/M_Grass_03_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Grass/SM_Grass_03_03.fbx": {
+    "Grass_03": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Grass/M_Grass_03_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Leaves/SM_Leaves_BirchTree_01.fbx": {
+    "Plants": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Leaves/M_Leaves_BirchTree_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Leaves/SM_Leaves_BirchTree_02.fbx": {
+    "Plants": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Leaves/M_Leaves_BirchTree_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Leaves/SM_Leaves_OakTree_01.fbx": {
+    "Plants": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Leaves/M_Leaves_OakTree_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Leaves/SM_Leaves_OakTree_02.fbx": {
+    "Plants": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Leaves/M_Leaves_OakTree_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Mushrooms/SM_Mushroom_01.fbx": {
+    "Mushroom": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Mushrooms/M_Mushroom_Brown_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Mushrooms/SM_Mushroom_02.fbx": {
+    "Mushroom": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Mushrooms/M_Mushroom_Brown_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Mushrooms/SM_Mushroom_03.fbx": {
+    "Mushroom": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Mushrooms/M_Mushroom_Brown_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Mushrooms/SM_Mushroom_04.fbx": {
+    "Mushroom": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Mushrooms/M_Mushroom_Brown_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Mushrooms/SM_Mushroom_05.fbx": {
+    "Mushroom": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Mushrooms/M_Mushroom_Brown_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Mushrooms/SM_Mushroom_06.fbx": {
+    "Mushroom": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Mushrooms/M_Mushroom_Brown_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Mushrooms/SM_Mushroom_07.fbx": {
+    "Mushroom": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Mushrooms/M_Mushroom_Brown_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Mushrooms/SM_Mushroom_08.fbx": {
+    "Mushroom": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Mushrooms/M_Mushroom_Brown_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Mushrooms/SM_Mushroom_09.fbx": {
+    "Mushroom": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Mushrooms/M_Mushroom_Brown_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Mushrooms/SM_Mushroom_10.fbx": {
+    "Mushroom": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Mushrooms/M_Mushroom_Brown_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Mushrooms/SM_Mushroom_11.fbx": {
+    "Mushroom": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Mushrooms/M_Mushroom_Brown_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Mushrooms/SM_Mushroom_12.fbx": {
+    "Mushroom": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Mushrooms/M_Mushroom_Brown_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Plants/SM_Plant_01_01.fbx": {
+    "Plants_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Plants/M_Plants_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Plants/SM_Plant_01_02.fbx": {
+    "Plants_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Plants/M_Plants_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Plants/SM_Plant_01_03.fbx": {
+    "Plants_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Plants/M_Plants_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Plants/SM_Plant_02_01.fbx": {
+    "Plants_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Plants/M_Plants_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Plants/SM_Plant_02_02.fbx": {
+    "Plants_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Plants/M_Plants_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Plants/SM_Plant_02_03.fbx": {
+    "Plants_01": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Plants/M_Plants_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_AMStatue_ME_01.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_AMStatue_ME_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Fence_01.fbx": {
+    "Plank": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat",
+    "Ivy": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_FenceIvy_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Fence_02.fbx": {
+    "Plank": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat",
+    "Ivy": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_FenceIvy_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Fence_03.fbx": {
+    "Plank": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat",
+    "Ivy": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_FenceIvy_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Fence_04.fbx": {
+    "Plank": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat",
+    "Ivy": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_FenceIvy_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Fence_05.fbx": {
+    "Plank": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat",
+    "Ivy": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_FenceIvy_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Fence_06.fbx": {
+    "Plank": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat",
+    "Ivy": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_FenceIvy_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Fence_07.fbx": {
+    "Plank": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat",
+    "Ivy": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_FenceIvy_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Fence_08.fbx": {
+    "Plank": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat",
+    "Ivy": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_FenceIvy_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Fence_09.fbx": {
+    "Plank": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat",
+    "Ivy": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_FenceIvy_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Log_01.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Log_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Log_02.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Log_02_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_01.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_02.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_03.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_04.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_Group_01.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_Group_02.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_Group_03.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_Group_04.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_Group_05.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_Group_06.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_Group_07.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_Group_08.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_Group_09.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_Group_10.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_Group_11.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Plank_Group_12.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Plank_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Stump_01.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Stump_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Props/SM_Stump_02.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Props/M_Stump_02_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_Rock_01.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_Rock_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_Rock_02.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_Rock_02_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_Rock_03.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_Rock_03_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_Rock_04.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_Rock_04_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_Rock_05.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_Rock_05_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_Rock_06.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_Rock_06_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_Rock_07.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_Rock_06_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_Rock_08.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_Rock_06_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_Rock_09.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_Rock_06_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_Rock_10.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_Rock_06_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_Rock_11.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_Rock_06_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_Rock_12.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_Rock_06_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_RockGroup_01.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_RockGroup_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_RockGroup_02.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_RockGroup_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_RockGroup_03.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_RockGroup_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_RockGroup_04.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_RockGroup_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_RockGroup_05.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_RockGroup_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_RockGroup_06.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_RockGroup_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Rocks/SM_RockGroup_07.fbx": {
+    "Props": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Rocks/M_RockGroup_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_BirchBush_01.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_BirchBush_02.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_BirchBush_03.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_BirchBush_04.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_BirchBush_05.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_BirchTree_01.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Bark_02_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_BirchTree_02.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_BirchTree_03.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_BirchTree_04.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Bark_02_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_BirchTree_05.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_BirchTree_06.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_BirchTree_07.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Bark_02_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_BirchTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_OakTree_01.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_OakTree_01_Ivy.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Leaf_01_Summer.mat",
+    "Ivy": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_IvyLeaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_OakTree_02.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Bark_02_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_OakTree_02_Ivy.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Bark_02_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Leaf_01_Summer.mat",
+    "Ivy": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_IvyLeaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_OakTree_03.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Bark_02_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_OakTree_04.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_OakTree_04_Ivy.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Leaf_01_Summer.mat",
+    "Ivy": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_IvyLeaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_OakTree_05.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_OakTree_06.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/Trees/SM_OakTree_07.fbx": {
+    "Bark": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Bark_01_Summer.mat",
+    "Leaf": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/Trees/M_OakTree_Leaf_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/VFX/SM_VFX_Bird_01.fbx": {
+    "Bird": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/VFX/M_VFX_Bird_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/VFX/SM_VFX_Butterfly_01.fbx": {
+    "ButterFly": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/VFX/M_VFX_Butterfly_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/VFX/SM_VFX_LeafPlane_01.fbx": {
+    "VFXMaterial": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/VFX/M_VFX_FallLeaves_BirchTree_01_Summer.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/VFX/SM_VFX_WindMesh_01.fbx": {
+    "VFXMaterial": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/VFX/M_VFX_Wind_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/VFX/SM_VFX_WindMesh_02.fbx": {
+    "VFXMaterial": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/VFX/M_VFX_Wind_01.mat"
+  },
+  "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Meshes/VFX/SM_VFX_WindMesh_03.fbx": {
+    "VFXMaterial": "Assets/ANGRY MESH/Stylized Pack - Meadow Environment/Sources/Materials/VFX/M_VFX_Wind_01.mat"
+  }
+}

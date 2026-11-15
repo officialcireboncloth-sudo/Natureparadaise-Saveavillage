@@ -1,0 +1,36 @@
+{
+  "name": "NP_FruitTrees_Unified_01",
+  "size": 4096,
+  "tileSize": 512,
+  "padding": 16,
+  "commonSlots": {
+    "Bark": 0,
+    "Twig": 1,
+    "AppleSeed": 2,
+    "CutWood": 3,
+    "BananaSheath": 4,
+    "PapayaStem": 5,
+    "DragonFruitCane": 6,
+    "GreenStem": 7,
+    "RambutanBristle": 60,
+    "DurianSpine": 61,
+    "DragonFruitScale": 62,
+    "StoneSeed": 63
+  },
+  "speciesSlots": {
+    "Apple": 8,
+    "Orange": 12,
+    "Mango": 16,
+    "Guava": 20,
+    "Pear": 24,
+    "Peach": 28,
+    "Cherry": 32,
+    "Avocado": 36,
+    "Papaya": 40,
+    "Banana": 44,
+    "Dragon Fruit": 48,
+    "Rambutan": 52,
+    "Durian": 56
+  },
+  "slotOffsets": ["Leaf", "LeafAccent", "FruitForming", "FruitReady"]
+}

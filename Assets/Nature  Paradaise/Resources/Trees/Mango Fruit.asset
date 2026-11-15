@@ -14,5 +14,7 @@ MonoBehaviour:
   equippedTool: 0
   foodPreparation: 1
   canDropToWorld: 1
-  worldScale: {x: 0.25, y: 0.25, z: 0.25}
+  worldScale: {x: 1, y: 1, z: 1}
   refrigeratorCategory: 2
+  worldPrefab: {fileID: 100, guid: 7107010121d24deaa474dcfdaf1a4b41, type: 3}
+  icon: {fileID: 21300000, guid: bdc658ba5eb74f79bebc64504fe4c533, type: 3}

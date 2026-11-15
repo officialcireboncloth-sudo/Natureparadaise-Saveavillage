@@ -41,6 +41,7 @@ public sealed class TreeDefinition : ScriptableObject
     public CropSeason acceleratedSeasons;
     [Min(1f)] public float seasonalGrowthMultiplier = 1.15f;
     public TreeStageVisual[] stages;
+    public GameObject stumpModel;
 
     public int StageIndex(float progress,TreeFruitStage fruit=TreeFruitStage.Dormant)
     {
@@ -99,6 +100,35 @@ public sealed class TreeProgress
         lastProcessedDay = day - 1,
         growth = mature && definition != null ? definition.matureDays : 0
     };
+
+    internal bool TryDebugAdvanceFruitStage(TreeDefinition definition, bool harvestReady)
+    {
+        if (!definition.UsesFruitCare || definition.stages is not { Length: >= 5 } ||
+            fruitStage == TreeFruitStage.Ready)
+            return false;
+
+        int nextStage = harvestReady ? 4 : definition.StageIndex(growth, fruitStage) + 1;
+        // Capture legacy care before changing growth so skipped days don't affect quality.
+        _ = Care;
+        switch (nextStage)
+        {
+            case 1:
+            case 2:
+                growth = Mathf.Max(growth, definition.stages[nextStage].fromGrowthDay);
+                break;
+            case 3:
+                growth = Mathf.Max(growth, definition.matureDays);
+                fruitProgress = definition.floweringDays;
+                fruitStage = TreeFruitStage.Growing;
+                break;
+            case 4:
+                growth = Mathf.Max(growth, definition.matureDays);
+                fruitProgress = definition.floweringDays + definition.fruitGrowthDays;
+                fruitStage = TreeFruitStage.Ready;
+                break;
+        }
+        return true;
+    }
 
     public void Advance(TreeDefinition definition, int day, WeatherType weather, bool sprinkler, float damageRoll,int soilFertility=0)
     {

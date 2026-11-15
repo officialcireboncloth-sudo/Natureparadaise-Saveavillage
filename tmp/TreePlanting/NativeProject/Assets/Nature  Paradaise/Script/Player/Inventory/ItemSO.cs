@@ -1,0 +1,291 @@
+using UnityEngine;
+
+/// <summary>Kategori item untuk sorting inventory dan aturan gameplay.</summary>
+public enum ItemCategory
+{
+    General,
+    Seed,
+    Food,
+    Material,
+    Tool,
+    Weapon,
+    Fish,
+    AnimalProduct,
+    Quest,
+    Bait
+}
+
+/// <summary>Status kesiapan makanan yang menentukan apakah item dapat langsung dikonsumsi.</summary>
+public enum FoodPreparation
+{
+    NotFood,
+    Raw,
+    ReadyToEat
+}
+
+public enum HomeStorageDestination { Auto, House, Refrigerator, Never }
+
+/// <summary>Kelompok item pada Refrigerator UI dan aturan bahan Kitchen.</summary>
+public enum RefrigeratorCategory : byte
+{
+    None,
+    Crop,
+    Fruit,
+    Fish,
+    AnimalProduct,
+    Ingredient,
+    CookedFood,
+    Drink
+}
+
+/// <summary>Level pupuk yang menentukan kenaikan level durability tanah.</summary>
+public enum FertilizerLevel : byte
+{
+    None,
+    Basic,
+    Quality,
+    Premium,
+    Deluxe,
+    Divine
+}
+
+/// <summary>Kekuatan obat ternak. None berarti item biasa.</summary>
+public enum AnimalMedicineLevel : byte
+{
+    None,
+    Basic,
+    Strong,
+    Premium
+}
+
+/// <summary>Tingkat umpan pancing. None berarti item bukan bait.</summary>
+public enum FishingBaitLevel : byte
+{
+    None,
+    Basic,
+    Quality,
+    Premium,
+    Deluxe
+}
+
+[CreateAssetMenu(menuName = "Game/Item")]
+/// <summary>
+/// Sumber data utama item untuk inventory, icon UI, stack, harga, tool mapping,
+/// model world/held, dan efek makanan. Asset ini direferensikan oleh save melalui identitasnya.
+/// </summary>
+public class ItemSO : ScriptableObject
+{
+    [Header("Identity")]
+    [Tooltip("ID stabil untuk CSV dan save data. Gunakan format item.nama_item dan jangan diubah setelah dirilis.")]
+    public string itemId;
+    [Tooltip("Nama yang ditampilkan pada inventory, prompt pickup, dan feedback gameplay.")]
+    public string itemName;
+    [Tooltip("Sprite untuk slot inventory, hotbar, dan drag preview.")]
+    public Sprite icon;
+    [Tooltip("Ilustrasi besar pada detail inventory. Kosong memakai Icon bila tersedia.")]
+    public Sprite inventoryIllustration;
+    [TextArea(2, 5)] public string inventoryDescription;
+    [Tooltip("Harga beli satu item. Nilai 0 berarti tidak dijual.")]
+    public int buyPrice;
+    [Tooltip("Harga jual satu item. Nilai 0 berarti tidak dapat dijual normal.")]
+    public int sellPrice;
+    [Tooltip("Harga tepat bintang 1-5 dari data balance. Kosong memakai harga legacy.")]
+    public int[] sellPricesByStars;
+    [Tooltip("Item normal asal mutasi. Harga mutasi adalah 3x harga item ini pada bintang yang sama.")]
+    public ItemSO mutationSourceItem;
+
+    [Header("Inventory")]
+    [Tooltip("Dipakai untuk sorting dan validasi fitur seperti eating atau tool selection.")]
+    public ItemCategory category = ItemCategory.General;
+    [Tooltip("Only the matching animal trough or fish pond accepts this feed. None is an ordinary item.")]
+    public FeedKind feedKind;
+    public bool isAnimalProduct;
+    [Tooltip("Key Item tidak dapat dijual melalui shop, shipping, atau Market Stand.")]
+    public bool isKeyItem;
+    [Tooltip("Blokir item ini dari seluruh sistem penjualan meskipun Sell Price lebih dari 0.")]
+    public bool isNotSellable;
+    [Tooltip("Minta konfirmasi sebelum item dimasukkan ke Shipping Bin.")]
+    public bool requiresSellConfirmation;
+    [Tooltip("Jumlah maksimum dalam satu slot inventory.")]
+    [Min(1)] public int maxStack = 16;
+    [Tooltip("Jika item ini diletakkan di hotbar, tool ini yang aktif. None untuk item biasa.")]
+    public PlayerToolType equippedTool = PlayerToolType.None;
+
+    [Header("Animal Medicine")]
+    [Tooltip("Level obat ternak. Basic untuk Unwell, Strong untuk Sick, Premium untuk Severely Sick.")]
+    public AnimalMedicineLevel animalMedicineLevel = AnimalMedicineLevel.None;
+
+    [Header("Seed")]
+    [Tooltip("Tanaman yang dihasilkan oleh bibit ini. Isi untuk setiap ItemSO berkategori Seed.")]
+    public CropDataSO seedCrop;
+
+    [Header("Fertilizer")]
+    [Tooltip("Tingkat pupuk tanah. Quality adalah Organic pada asset lama.")]
+    public FertilizerLevel fertilizerLevel = FertilizerLevel.None;
+    [Tooltip("Village Level minimum agar pupuk ini dapat dibeli dan digunakan.")]
+    [Min(1)] public int requiredVillageLevel = 1;
+
+    [Min(0)] public int soilRestoreAmount;
+
+    [Header("Terra / Whole Field Restoration")]
+    [Tooltip("Hari game untuk memulihkan satu Field ke 80 melalui scanner. 0 = bukan penyubur Terra.")]
+    [Min(0)] public int soilRestorationDays;
+    public bool IsSoilRestorer => soilRestorationDays > 0;
+
+    [Header("Crop Quality Booster")]
+    [Range(1, 5)] public int cropBoosterLevel = 1;
+    [Tooltip("Hari efek pupuk kualitas aktif, termasuk hari pemakaian.")]
+    [Min(1)] public int cropBoosterDurationDays = 1;
+    public bool isMutatedCrop;
+    // Field legacy dipertahankan untuk kompatibilitas asset, tidak memengaruhi growth.
+    [HideInInspector] public int cropBoosterPercent;
+    public int SoilRestoreAmount => soilRestoreAmount > 0 ? soilRestoreAmount :
+        fertilizerLevel switch { FertilizerLevel.Basic => 10, FertilizerLevel.Quality => 20,
+            FertilizerLevel.Premium => 35, FertilizerLevel.Deluxe => 50, FertilizerLevel.Divine => 80, _ => 0 };
+
+    [Header("Held / World Actions")]
+    [Tooltip("Izinkan stack item ini dijatuhkan dari hotbar sebagai object physics.")]
+    public bool canDropToWorld;
+    [Tooltip("Izinkan item ini diletakkan secara stabil memakai placement preview.")]
+    public bool canPlaceInWorld;
+
+    [Header("World / Held Visual")]
+    [Tooltip("Prefab opsional saat item dipegang, dijatuhkan, atau diletakkan. Jika kosong digunakan mesh debug sederhana.")]
+    public GameObject worldPrefab;
+    [Tooltip("Skala model saat dipegang, dijatuhkan, atau diletakkan di dunia.")]
+    public Vector3 worldScale = Vector3.one * 0.4f;
+
+    [Header("Farm Placement")]
+    [Range(0, 5)] public int sprinklerLevel;
+    public TreeDefinition treeDefinition;
+    public bool IsSprinkler => sprinklerLevel > 0;
+    public bool IsFarmPlacement => IsSprinkler || treeDefinition != null;
+
+    [Header("Eating")]
+    [Tooltip("Menandai item sebagai kandidat makanan; category tetap harus Food.")]
+    public bool isEdible;
+    [Tooltip("Hanya ReadyToEat yang dapat dikonsumsi langsung.")]
+    public FoodPreparation foodPreparation = FoodPreparation.NotFood;
+    [Tooltip("HP yang dipulihkan per satu item.")]
+    [Min(0f)] public float healthRestore;
+    [Tooltip("Stamina yang dipulihkan per satu item.")]
+    [Min(0f)] public float staminaRestore;
+    [Tooltip("Hunger/fullness yang dipulihkan per satu item.")]
+    [Min(0f)] public float hungerRestore;
+
+    [Header("Home Storage")]
+    [Tooltip("Kategori makanan/bahan untuk Kitchen dan pengelompokan storage. Auto membaca kategori ini bersama Food Preparation.")]
+    public RefrigeratorCategory refrigeratorCategory = RefrigeratorCategory.None;
+    [Tooltip("Auto: makanan matang/minuman ke kulkas; hasil tani mentah, seed, tools dan bahan ke storage rumah. Dapat diatur melalui storage_destination di Items.csv.")]
+    public HomeStorageDestination storageDestination = HomeStorageDestination.Auto;
+
+    public int StackLimit => Mathf.Max(1, maxStack);
+    public string Id => string.IsNullOrWhiteSpace(itemId) ? ItemCatalog.LegacyId(name) : itemId.Trim();
+    [Header("Permanent Stamina Berry") ]
+    public bool increasesStaminaTier;
+
+    public bool CanConsume =>
+        category == ItemCategory.Food &&
+        isEdible &&
+        foodPreparation == FoodPreparation.ReadyToEat;
+
+    public bool IsRawFood =>
+        category == ItemCategory.Food && foodPreparation == FoodPreparation.Raw;
+
+    public bool IsFertilizer =>
+        equippedTool == PlayerToolType.Fertilizer && fertilizerLevel != FertilizerLevel.None;
+
+    public bool IsCropBooster =>
+        equippedTool == PlayerToolType.CropBooster && cropBoosterLevel > 0;
+
+    public bool IsSeed =>
+        category == ItemCategory.Seed || equippedTool == PlayerToolType.Seed;
+
+    public bool IsAnimalMedicine => animalMedicineLevel != AnimalMedicineLevel.None;
+
+    [Header("Fishing Bait")]
+    [Tooltip("Level bait. Item bait harus memakai category Bait.")]
+    public FishingBaitLevel fishingBaitLevel = FishingBaitLevel.None;
+    [Tooltip("0.10 berarti waktu tunggu bite 10% lebih cepat.")]
+    [Range(0f, 1f)] public float baitBiteSpeedBonus;
+    [Min(0.01f)] public float baitUncommonWeightMultiplier = 1f;
+    [Min(0.01f)] public float baitRareWeightMultiplier = 1f;
+    [Min(0.01f)] public float baitLegendaryWeightMultiplier = 1f;
+    [Tooltip("Disiapkan untuk loot sampah fishing. 0.25 berarti peluang sampah berkurang 25%.")]
+    [Range(0f, 1f)] public float baitJunkReduction;
+    [Min(1)] public int requiredFishingLevel = 1;
+
+    public bool IsFishingBait => category == ItemCategory.Bait && fishingBaitLevel != FishingBaitLevel.None;
+
+    public float GetBaitRarityMultiplier(FishRarity rarity)
+    {
+        if (!IsFishingBait) return 1f;
+        return rarity switch
+        {
+            FishRarity.Uncommon => Mathf.Max(0.01f, baitUncommonWeightMultiplier),
+            FishRarity.Rare => Mathf.Max(0.01f, baitRareWeightMultiplier),
+            FishRarity.Legendary => Mathf.Max(0.01f, baitLegendaryWeightMultiplier),
+            _ => 1f
+        };
+    }
+
+    /// <summary>Aturan tunggal item Refrigerator; key item, seed, tool, dan furniture tetap ditolak.</summary>
+    public bool CanStoreInRefrigerator =>
+        (storageDestination == HomeStorageDestination.Refrigerator ||
+         storageDestination == HomeStorageDestination.Auto &&
+         (refrigeratorCategory == RefrigeratorCategory.CookedFood || refrigeratorCategory == RefrigeratorCategory.Drink ||
+          refrigeratorCategory == RefrigeratorCategory.None && foodPreparation == FoodPreparation.ReadyToEat)) &&
+        !isKeyItem &&
+        category != ItemCategory.Tool &&
+        category != ItemCategory.Seed &&
+        category != ItemCategory.Quest &&
+        equippedTool == PlayerToolType.None;
+
+    /// <summary>Tool penting yang boleh dipindahkan ke Tool Storage Chest.</summary>
+    public bool CanStoreInToolStorage =>
+        category == ItemCategory.Tool && equippedTool != PlayerToolType.None;
+
+    /// <summary>Aturan tunggal untuk barang yang boleh dititipkan pada Market Stand.</summary>
+    public bool CanSellAtMarket =>
+        HasSellPrice &&
+        !isKeyItem &&
+        !isNotSellable &&
+        category != ItemCategory.Tool &&
+        category != ItemCategory.Quest &&
+        equippedTool == PlayerToolType.None;
+
+    /// <summary>
+    /// Harga eksplisit per bintang bila tersedia; fallback legacy +20% per bintang.
+    /// Mutasi memakai 3x harga normal pada bintang yang sama; ikan mengikuti ukuran.
+    /// </summary>
+    public int GetMarketSellPrice(int qualityStars = 0, float fishSizeCm = 0f)
+    {
+        if (!CanSellAtMarket)
+            return 0;
+
+        if (isMutatedCrop && mutationSourceItem != null && mutationSourceItem != this)
+            return (int)System.Math.Min(int.MaxValue, 3L * mutationSourceItem.NormalSellPrice(qualityStars, fishSizeCm));
+        return NormalSellPrice(qualityStars, fishSizeCm);
+    }
+
+    bool HasOwnSellPrice => sellPrice > 0 || sellPricesByStars != null && sellPricesByStars.Length == 5 &&
+        System.Array.Exists(sellPricesByStars, value => value > 0);
+    bool HasSellPrice => isMutatedCrop && mutationSourceItem != null && mutationSourceItem != this
+        ? mutationSourceItem.HasOwnSellPrice : HasOwnSellPrice;
+
+    int NormalSellPrice(int qualityStars, float fishSizeCm)
+    {
+        int stars = Mathf.Clamp(qualityStars, 0, 5);
+        bool explicitPrice = stars > 0 && sellPricesByStars != null && sellPricesByStars.Length == 5;
+        int qualitySteps=Mathf.Max(0,stars-(isAnimalProduct||category==ItemCategory.AnimalProduct?1:0));
+        float price = explicitPrice ? Mathf.Max(0, sellPricesByStars[stars - 1]) : sellPrice * (1f + qualitySteps * .2f);
+        float sizeMultiplier = 1f;
+        if (category == ItemCategory.Fish && fishSizeCm > 0f)
+            sizeMultiplier = FishMeasurement.SizePriceMultiplier(this, fishSizeCm);
+
+        return price <= 0 ? 0 : Mathf.Max(1, Mathf.RoundToInt(price * sizeMultiplier));
+    }
+
+    /// <summary>True jika item memiliki setidaknya satu aksi world dan perlu divisualkan di tangan.</summary>
+    public bool HasHeldWorldAction => canDropToWorld || canPlaceInWorld || IsSeed;
+}

@@ -14,7 +14,7 @@ public sealed class TestingDebugMenu : MonoBehaviour
     public static TestingDebugMenu Instance { get; private set; }
     public static bool IsOpen => Instance != null && Instance.open;
     public static bool Available => PropertySite.DebugShortcutsEnabled;
-    public static readonly string[] Categories = { "Player", "Item & Tools", "Hewan", "Waktu & Cuaca", "Kebun & Kolam", "Bangunan", "Progres & Aktivitas", "Save / Load", "Gerobak Pasar", "Kesuburan Tanah" };
+    public static readonly string[] Categories = { "Player", "Item & Tools", "Hewan", "Waktu & Cuaca", "Kebun & Kolam", "Bangunan", "Progres & Aktivitas", "Save / Load", "Gerobak Pasar", "Kesuburan Tanah", "Fishing" };
     GameObject canvasObject, overlay, launcher;
     RectTransform rows;
     TMP_Text heading, feedback;
@@ -31,6 +31,8 @@ public sealed class TestingDebugMenu : MonoBehaviour
     AnimalGrowthSystem selectedAnimal;
     enum CropStageTarget { PlayerTile, Nearby, Field }
     CropStageTarget cropStageTarget = CropStageTarget.Nearby;
+    bool targetFruitTrees;
+    const float NearbyFruitTreeRadius = 4f;
     string CropStageTargetLabel => cropStageTarget switch
     {
         CropStageTarget.PlayerTile => "Tile player",
@@ -175,10 +177,32 @@ public sealed class TestingDebugMenu : MonoBehaviour
             case 6: ProgressPage();break; case 7: SavesPage();break;
             case 8: MarketCartPage();break;
             case 9: SoilPage();break;
+            case 10: FishingPage();break;
         }
         Canvas.ForceUpdateCanvases(); scroll.verticalNormalizedPosition=1;
     }
     void RefreshPage() => SelectCategory(category);
+
+    void FishingPage()
+    {
+        var fishing = player.GetComponent<FishingSystem>();
+        if (fishing == null)
+        {
+            Note("Fishing belum tersedia untuk player di scene ini.");
+            return;
+        }
+
+        string mode = fishing.GuaranteeRareFishForTesting ? "ON" : "OFF";
+        Action($"Garansi Rare / Legendary — {mode}", () =>
+        {
+            fishing.GuaranteeRareFishForTesting = !fishing.GuaranteeRareFishForTesting;
+            RefreshPage();
+            feedback.text = fishing.GuaranteeRareFishForTesting ? "Garansi aktif untuk lemparan berikutnya." : "Undian tangkapan normal aktif.";
+        });
+        Note("ON memilih ikan Rare atau Legendary dari pool spot. Syarat kemunculan dilewati dan sampah tidak diundi. Hook dan minigame tetap dimainkan.", 80);
+        Note("OFF memakai peluang normal. Pengaturan ini hanya berlaku selama tes dan tidak masuk save.", 62);
+    }
+
     void PlayerPage()
     {
         var status=player.GetComponent<PlayerStatusSystem>();
@@ -295,17 +319,29 @@ public sealed class TestingDebugMenu : MonoBehaviour
         var seedShop = FindObjectsByType<ShopFront>(FindObjectsSortMode.None)
             .FirstOrDefault(s => cropCatalog != null && s.catalog == cropCatalog);
         if (seedShop != null) Launch("Buka toko bibit", seedShop.Open);
-        Note("Skip fase mengikuti tanaman pada tiap tile. Siap panen tetap dipetik manual; tanaman layu / mati dilewati.");
-        Action("Target fase · " + CropStageTargetLabel, () =>
+        Action($"Jenis untuk skip fase: {(targetFruitTrees ? "Pohon buah" : "Tanaman")}", () =>
         {
-            cropStageTarget = (CropStageTarget)(((int)cropStageTarget + 1) % 3);
+            targetFruitTrees = !targetFruitTrees;
             RefreshPage();
         });
         bool onField = FieldArea.TryGetAt(player.transform.position, out _, out _, out _);
-        var stages = Row("Fase tanaman", 58);
-        ButtonAt(stages, "Naik 1 fase", Vector2.zero, new(.49f, 1), () => AdvanceCropStages(false)).interactable = onField;
-        ButtonAt(stages, "Siap panen", new(.51f, 0), Vector2.one, () => AdvanceCropStages(true)).interactable = onField;
-        if (!onField) Note("Berdiri di dalam field untuk memakai tombol fase tanaman.", 38);
+        bool targetNearestTree = targetFruitTrees && !onField;
+        bool canAdvance = onField || targetNearestTree &&
+            WorldTree.TryFindFruitTree(player.transform.position, NearbyFruitTreeRadius, out _);
+        if (targetFruitTrees)
+            Note("Siap panen: tutup debug dan tekan E untuk memetik. Pohon yang disiapkan lewat debug bisa dipetik hari ini di luar musim.", 66);
+        else
+            Note("Skip fase mengikuti tanaman pada tiap tile. Siap panen tetap dipetik manual; tanaman layu / mati dilewati.");
+        Action("Target fase · " + (targetNearestTree ? "Pohon terdekat" : CropStageTargetLabel), () =>
+        {
+            cropStageTarget = (CropStageTarget)(((int)cropStageTarget + 1) % 3);
+            RefreshPage();
+        }, !targetNearestTree);
+        var stages = Row("Skip fase", 58);
+        ButtonAt(stages, "Naik 1 fase", Vector2.zero, new(.49f, 1), () => AdvanceFarmStages(false)).interactable = canAdvance;
+        ButtonAt(stages, "Siap panen", new(.51f, 0), Vector2.one, () => AdvanceFarmStages(true)).interactable = canAdvance;
+        if (targetNearestTree) Note("Di luar field, targetnya pohon buah terdekat dalam 4 m.", 44);
+        else if (!onField) Note("Berdiri di dalam field untuk memakai tombol fase tanaman.", 38);
         Note("Aksi kebun berlaku pada petak yang sudah dicangkul dalam radius 2 petak dari player; bangunan dan tanaman tetap ada.");
         Action("Sirami petak di sekitar player",()=>ApplyNearby(false));
         Action("Pupuk petak di sekitar player",()=>ApplyNearby(true));
@@ -375,11 +411,18 @@ public sealed class TestingDebugMenu : MonoBehaviour
         }
         Note("Untuk menguji durasi, gunakan Waktu & Cuaca → Hari berikutnya atau tidur. Timer mengikuti hari game, bukan waktu nyata.", 80);
     }
-    void AdvanceCropStages(bool harvestReady)
+    void AdvanceFarmStages(bool harvestReady)
     {
         if (!FieldArea.TryGetAt(player.transform.position, out var field, out int x, out int z))
         {
-            feedback.text = "Player belum berada di field";
+            if (!targetFruitTrees)
+                feedback.text = "Player belum berada di field";
+            else if (!WorldTree.TryFindFruitTree(player.transform.position, NearbyFruitTreeRadius, out var tree))
+                feedback.text = "Dekati pohon buah untuk memakai skip fase.";
+            else if (tree.DebugAdvanceFruitStage(harvestReady))
+                ShowFruitTreeStage(tree);
+            else
+                feedback.text = "Fase pohon buah terdekat tidak berubah.";
             return;
         }
         int radius = cropStageTarget == CropStageTarget.PlayerTile ? 0 : 2;
@@ -388,6 +431,25 @@ public sealed class TestingDebugMenu : MonoBehaviour
         int minZ = cropStageTarget == CropStageTarget.Field ? 0 : Mathf.Max(0, z - radius);
         int maxZ = cropStageTarget == CropStageTarget.Field ? field.Rows - 1 : Mathf.Min(field.Rows - 1, z + radius);
         int changed = 0;
+        if (targetFruitTrees)
+        {
+            WorldTree last = null;
+            foreach (WorldTree tree in WorldTree.Active)
+            {
+                if (tree == null || !field.WorldToGrid(tree.transform.position, out int tx, out int tz) ||
+                    tx < minX || tx > maxX || tz < minZ || tz > maxZ || !tree.DebugAdvanceFruitStage(harvestReady))
+                    continue;
+                last = tree;
+                changed++;
+            }
+            if (changed == 1)
+                ShowFruitTreeStage(last);
+            else
+                feedback.text = changed > 0
+                    ? $"{changed} pohon buah {(harvestReady ? "siap dipanen" : "naik 1 fase")} ({CropStageTargetLabel})."
+                    : "Fase pohon buah tidak berubah. Cek target, pohon yang sudah matang buah, atau field terkunci.";
+            return;
+        }
         for (int tz = minZ; tz <= maxZ; tz++)
             for (int tx = minX; tx <= maxX; tx++)
                 if (field.DebugAdvanceCropStage(tx, tz, harvestReady)) changed++;
@@ -399,6 +461,19 @@ public sealed class TestingDebugMenu : MonoBehaviour
                 ? $"{changed} tanaman · {(harvestReady ? "Siap dipanen" : "Naik 1 fase")} · {CropStageTargetLabel}"
                 : "Tidak ada tanaman yang bisa dinaikkan · kosong, sudah siap panen, layu / mati, atau field terkunci";
     }
+    void ShowFruitTreeStage(WorldTree tree)
+    {
+        string phase = tree.definition.StageIndex(tree.Progress.growth, tree.Progress.fruitStage) switch
+        {
+            0 => "Biji",
+            1 => "Tunas",
+            2 => "Pohon muda",
+            3 => "Buah terbentuk",
+            _ => "Siap dipanen"
+        };
+        feedback.text = $"{tree.definition.treeType}: {phase}";
+    }
+
     void ApplyNearby(bool fertilizer)
     {
         if(!FieldArea.TryGetAt(player.transform.position,out var field,out int x,out int z)){feedback.text="Player belum berada di field";return;}

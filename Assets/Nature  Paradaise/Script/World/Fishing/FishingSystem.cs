@@ -104,6 +104,7 @@ public sealed class FishingSystem : MonoBehaviour
     Vector3 bobberBasePosition;
 
     public FishingState State { get; private set; }
+    internal bool GuaranteeRareFishForTesting { get; set; }
     public KeyCode ReelKey => reelKey;
     public FishDefinitionSO ActiveFish => activeFish;
     public string ActiveCatchLabel => activeJunk != null ? activeJunk.itemName : activeFish != null ? activeFish.item.itemName : "Fishing";
@@ -237,7 +238,7 @@ public sealed class FishingSystem : MonoBehaviour
         if (movement == null || movement.IsMovementLocked ||
             (gathering != null && gathering.IsCarrying) || (animalCarry != null && animalCarry.HasAnimal)) return;
         if (!FishingSpot.TryFindCastPoint(transform, movement.FacingDirection, out _, out _))
-        { SaveLoadFeedback.Instance?.ShowMessage("Tidak ada Fishing Spot di arah lempar."); return; }
+        { SaveLoadFeedback.Instance?.ShowMessage("Dekati zona mancing dan arahkan pancing ke lingkarannya."); return; }
         chargeElapsed = 0f;
         CastPower = 0f;
         UpdateCastPreview();
@@ -261,7 +262,7 @@ public sealed class FishingSystem : MonoBehaviour
         Vector3 facing = movement.FacingDirection;
         if (!FishingSpot.TryFindCastPoint(transform, facing, CastPower, out activeSpot, out Vector3 castPoint, out castReach))
         {
-            SaveLoadFeedback.Instance?.ShowMessage("Tidak ada Fishing Spot di arah lempar.");
+            SaveLoadFeedback.Instance?.ShowMessage("Arahkan pancing ke lingkaran spot yang terjangkau.");
             CleanupSession(true);
             return;
         }
@@ -269,16 +270,28 @@ public sealed class FishingSystem : MonoBehaviour
         int day = TimeManager.Instance != null ? TimeManager.Instance.day : 1;
         int hour = TimeManager.Instance != null ? TimeManager.Instance.hour : 12;
         WeatherType weather = WeatherSystem.Instance != null ? WeatherSystem.Instance.CurrentWeather : WeatherType.Sunny;
-        List<FishDefinitionSO> candidates = activeSpot.GetEligibleFish(day, hour, weather, rodLevel);
         ItemSO castBait = ResolveEquippedBait();
-        candidates.RemoveAll(fish => castReach + 0.001f < fish.minimumCastPower);
-        activeSpot.TryRollJunk(castBait, out activeJunk);
+        bool guaranteeRare = TestingDebugMenu.Available && GuaranteeRareFishForTesting;
+        List<FishDefinitionSO> candidates;
+        if (guaranteeRare)
+        {
+            candidates = activeSpot.GetRareFishForTesting();
+            activeJunk = null;
+        }
+        else
+        {
+            candidates = activeSpot.GetEligibleFish(day, hour, weather, rodLevel);
+            candidates.RemoveAll(fish => castReach + 0.001f < fish.minimumCastPower);
+            activeSpot.TryRollJunk(castBait, out activeJunk);
+        }
         activeFish = PickWeighted(candidates, castBait, fishingLevel);
         // Junk uses an existing fish's minigame balance even when no species is eligible.
         if(activeFish==null && activeJunk!=null) activeFish=Resources.Load<FishDefinitionSO>("Fishing/Tilapia");
         if (activeFish == null)
         {
-            SaveLoadFeedback.Instance?.ShowMessage("Tidak ada ikan aktif untuk lokasi, waktu, dan jarak ini.");
+            SaveLoadFeedback.Instance?.ShowMessage(guaranteeRare
+                ? $"Debug Fishing: tidak ada ikan Rare atau Legendary di {activeSpot.LocationName}."
+                : "Tidak ada ikan aktif untuk lokasi, waktu, dan jarak ini.");
             CleanupSession(true);
             return;
         }

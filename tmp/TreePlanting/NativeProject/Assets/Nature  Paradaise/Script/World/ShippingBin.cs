@@ -1,0 +1,413 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+
+[Serializable]
+public sealed class ShippingBinListing
+{
+    public ItemSO item;
+    [Min(1)] public int count = 1;
+    [Range(0, 5)] public int qualityStars;
+    [Min(0f)] public float fishSizeCm;
+    [Min(1)] public int unitPriceSnapshot = 1;
+    [Min(1)] public int shippingDay = 1;
+
+    public int EstimatedTotal => Mathf.Max(0, count) * Mathf.Max(0, unitPriceSnapshot);
+    public string DisplayName => item == null ? "Item hilang" : new ItemStack
+    {
+        item = item,
+        count = count,
+        qualityStars = qualityStars,
+        fishSizeCm = fishSizeCm
+    }.DisplayName;
+}
+
+[Serializable]
+public sealed class ShippingBinListingSaveData
+{
+    public string itemId;
+    public string assetName;
+    public string itemName;
+    public int count;
+    public int qualityStars;
+    public float fishSizeCm;
+    public int unitPriceSnapshot;
+    public int shippingDay;
+}
+
+[Serializable]
+public sealed class ShippingBinSaveData
+{
+    public string id;
+    public List<ShippingBinListingSaveData> listings;
+    public int lastProcessedDay;
+    public int lastCropSales;
+    public int lastFishSales;
+    public int lastAnimalProductSales;
+    public int lastOtherSales;
+    public int lastShippingTotal;
+    public int lifetimeRevenue;
+}
+
+/// <summary>
+/// Penjualan harian dekat rumah. Barang bisa ditarik kembali selama hari berjalan,
+/// lalu seluruh isi dikunci, dijual, dan dibayar saat Daily Reset.
+/// </summary>
+[DisallowMultipleComponent]
+public sealed class ShippingBin : MonoBehaviour
+{
+    static readonly List<ShippingBin> Active = new();
+
+    [Header("Identity")]
+    [SerializeField] string binId = "player-home-shipping-bin-01";
+
+    [Header("Interaction")]
+    [SerializeField] Inventory playerInventory;
+    [SerializeField] KeyCode interactKey = KeyCode.E;
+    [SerializeField, Min(0f)] float promptHeight = 1.4f;
+
+    [Header("Valuable Item Confirmation")]
+    [SerializeField, Min(1)] int highValueUnitPrice = 1000;
+
+    [Header("Pending Shipping")]
+    [SerializeField] List<ShippingBinListing> listings = new();
+
+    [Header("Last Daily Shipping")]
+    [SerializeField] int lastProcessedDay;
+    [SerializeField] int lastCropSales;
+    [SerializeField] int lastFishSales;
+    [SerializeField] int lastAnimalProductSales;
+    [SerializeField] int lastOtherSales;
+    [SerializeField] int lastShippingTotal;
+    [SerializeField] int lifetimeRevenue;
+
+    bool panelOpen;
+    string feedback = string.Empty;
+    int confirmationSlot = -1;
+    int confirmationAmount;
+    Coroutine summaryRoutine;
+
+    public string BinId => binId;
+    public IReadOnlyList<ShippingBinListing> Listings => listings;
+    public int PendingItemCount => listings.Sum(entry => entry != null ? Mathf.Max(0, entry.count) : 0);
+    public int PendingEstimatedValue => listings.Sum(entry => entry != null ? entry.EstimatedTotal : 0);
+    public int LastShippingTotal => lastShippingTotal;
+    public int LifetimeRevenue => lifetimeRevenue;
+    public Inventory PlayerInventory { get { ResolveInventory(); return playerInventory; } }
+    public string Feedback => feedback;
+    public bool AwaitingConfirmation => confirmationSlot >= 0;
+    public string ConfirmationDescription => playerInventory?.GetSlot(confirmationSlot)?.DisplayName + " x" + confirmationAmount;
+    public void ConfirmDeposit() { if(!AwaitingConfirmation)return; int slot=confirmationSlot, amount=confirmationAmount; ClearConfirmation(); TryDeposit(slot,amount); }
+    public void CancelDeposit() => ClearConfirmation();
+
+    public static bool BlocksWorldPointer => StorageChestUI.Instance != null && StorageChestUI.Instance.Bin != null;
+
+    void Awake()
+    {
+        ResolveInventory();
+        NormalizeListings();
+
+
+    }
+
+    void OnEnable()
+    {
+        if (!Active.Contains(this)) Active.Add(this);
+        TimeManager.OnBeforeDayChange += ProcessDailyShipping;
+        TimeManager.OnDay += ShowDailySummary;
+    }
+
+    void OnDisable()
+    {
+        TimeManager.OnBeforeDayChange -= ProcessDailyShipping;
+        TimeManager.OnDay -= ShowDailySummary;
+        Active.Remove(this);
+        if (summaryRoutine != null) StopCoroutine(summaryRoutine);
+        summaryRoutine = null;
+        ClosePanel();
+    }
+
+    void Update()
+    {
+        ResolveInventory();
+        if (playerInventory == null) return;
+
+        if (panelOpen)
+        {
+            if (GameplayInput.GetKeyDown(KeyCode.Escape) || GameplayInput.GetKeyDown(interactKey)) ClosePanel();
+            return;
+        }
+
+        if (!PlayerInteractionTarget.Contains(playerInventory.transform, transform)) return;
+        float distance = Vector3.Distance(playerInventory.transform.position, transform.position);
+        WorldInteractionPrompt.Request(this, transform,
+            $"{interactKey}: Shipping Bin | {PendingItemCount} item | Est. {PendingEstimatedValue} G",
+            distance, promptHeight, OpenFromPrompt);
+        if (PlayerInteractionTarget.PressPrompt(this, interactKey)) OpenPanel();
+    }
+
+    void OpenFromPrompt()
+    {
+        ResolveInventory();
+        var movement=playerInventory!=null?playerInventory.GetComponent<PlayerController>():null;
+        if(playerInventory!=null&&!WorldInteractionPrompt.IsSuppressed&&
+            (movement==null||!movement.IsMovementLocked)&&PlayerInteractionTarget.Contains(playerInventory.transform,transform))OpenPanel();
+    }
+
+    public void RequestDeposit(int slotIndex, int amount)
+    {
+        ItemStack stack = playerInventory != null ? playerInventory.GetSlot(slotIndex) : null;
+        if (stack == null || stack.item == null || amount <= 0) return;
+        int unitPrice = stack.item.GetMarketSellPrice(stack.qualityStars, stack.fishSizeCm);
+        if (stack.item.requiresSellConfirmation || unitPrice >= highValueUnitPrice)
+        {
+            confirmationSlot = slotIndex;
+            confirmationAmount = Mathf.Min(amount, stack.count);
+            return;
+        }
+        TryDeposit(slotIndex, amount);
+    }
+
+    public bool TryDeposit(int slotIndex, int amount)
+    {
+        ResolveInventory();
+        ItemStack stack = playerInventory != null ? playerInventory.GetSlot(slotIndex) : null;
+        if (stack == null || stack.item == null || stack.count <= 0 || amount <= 0 || !stack.item.CanSellAtMarket)
+        {
+            feedback = "Barang ini tidak dapat dijual melalui Shipping Bin.";
+            return false;
+        }
+
+        int moved = Mathf.Min(amount, stack.count);
+        ItemSO item = stack.item;
+        int quality = stack.qualityStars;
+        float fishSize = stack.fishSizeCm;
+        int priceSnapshot = item.GetMarketSellPrice(quality, fishSize);
+        int day = TimeManager.Instance != null ? Mathf.Max(1, TimeManager.Instance.day) : 1;
+        if (!playerInventory.RemoveFromSlot(slotIndex, moved)) return false;
+
+        ShippingBinListing listing = FindCompatible(item, quality, fishSize, priceSnapshot);
+        if (listing == null)
+        {
+            listing = new ShippingBinListing
+            {
+                item = item,
+                count = 0,
+                qualityStars = quality,
+                fishSizeCm = fishSize,
+                unitPriceSnapshot = priceSnapshot,
+                shippingDay = day
+            };
+            listings.Add(listing);
+        }
+        listing.count += moved;
+        feedback = $"{listing.DisplayName} x{moved} dimasukkan — estimasi {priceSnapshot * moved} G.";
+        return true;
+    }
+
+    public bool TryWithdraw(int listingIndex, int amount)
+    {
+        ResolveInventory();
+        if (playerInventory == null || listingIndex < 0 || listingIndex >= listings.Count || amount <= 0) return false;
+        ShippingBinListing listing = listings[listingIndex];
+        if (listing == null || listing.item == null || listing.count <= 0) return false;
+        int moved = Mathf.Min(amount, listing.count);
+        if (!playerInventory.CanAdd(listing.item, moved, listing.qualityStars, listing.fishSizeCm))
+        {
+            feedback = "Tas tidak mempunyai ruang untuk mengambil barang ini.";
+            return false;
+        }
+        if (!playerInventory.Add(listing.item, moved, listing.qualityStars, listing.fishSizeCm)) return false;
+
+        string itemName = listing.DisplayName;
+        listing.count -= moved;
+        if (listing.count <= 0) listings.RemoveAt(listingIndex);
+        feedback = $"{itemName} x{moved} dikembalikan ke Inventory.";
+        return true;
+    }
+
+    void ProcessDailyShipping()
+    {
+        NormalizeListings();
+        int day = TimeManager.Instance != null ? Mathf.Max(1, TimeManager.Instance.day) : lastProcessedDay + 1;
+        if (lastProcessedDay == day) return;
+        if (listings.Count > 0 && ScoreManager.Instance == null)
+        {
+            Debug.LogWarning("[SHIPPING] Pembayaran ditunda karena ScoreManager belum tersedia.");
+            return;
+        }
+
+        lastCropSales = lastFishSales = lastAnimalProductSales = lastOtherSales = 0;
+        foreach (ShippingBinListing listing in listings)
+        {
+            if (listing == null || listing.item == null || listing.count <= 0) continue;
+            int value = listing.EstimatedTotal;
+            QuestEventHub.Publish(QuestObjectiveType.Ship, listing.item.name, listing.count, listing.item);
+            switch (SummaryCategory(listing.item))
+            {
+                case 0: lastCropSales += value; break;
+                case 1: lastFishSales += value; break;
+                case 2: lastAnimalProductSales += value; break;
+                default: lastOtherSales += value; break;
+            }
+        }
+
+        lastShippingTotal = lastCropSales + lastFishSales + lastAnimalProductSales + lastOtherSales;
+        if (lastShippingTotal > 0)
+        {
+            ScoreManager.Instance?.AddPoints(lastShippingTotal);
+            lifetimeRevenue += lastShippingTotal;
+        }
+        listings.Clear();
+        lastProcessedDay = day;
+        ClearConfirmation();
+        Debug.Log($"[SHIPPING] Day {day}: sold for {lastShippingTotal} G.");
+    }
+
+    void ShowDailySummary()
+    {
+        if (lastShippingTotal <= 0) return;
+        if (summaryRoutine != null) StopCoroutine(summaryRoutine);
+        summaryRoutine = StartCoroutine(ShowSummaryAfterWakeMessage());
+    }
+
+    IEnumerator ShowSummaryAfterWakeMessage()
+    {
+        // PlayerLifeCycle menampilkan "Bangun" pada frame yang sama dengan OnDay.
+        // Tunda laporan agar pesan bangun tidak menimpa rincian penjualan.
+        yield return new WaitForSecondsRealtime(0.2f);
+        SaveLoadFeedback.Instance?.ShowMessage(BuildSummary());
+        summaryRoutine = null;
+    }
+
+    public string BuildSummary()
+    {
+        StringBuilder result = new("DAILY SHIPPING");
+        if (lastCropSales > 0) result.Append($"\nCrops: {lastCropSales:N0} G");
+        if (lastFishSales > 0) result.Append($"\nFish: {lastFishSales:N0} G");
+        if (lastAnimalProductSales > 0) result.Append($"\nAnimal Products: {lastAnimalProductSales:N0} G");
+        if (lastOtherSales > 0) result.Append($"\nOther: {lastOtherSales:N0} G");
+        result.Append($"\nTotal Sales: {lastShippingTotal:N0} G");
+        return result.ToString();
+    }
+
+    static int SummaryCategory(ItemSO item)
+    {
+        if (item.category == ItemCategory.Fish) return 1;
+        if (item.category == ItemCategory.AnimalProduct || item.isAnimalProduct) return 2;
+        if (item.category == ItemCategory.Food || item.category == ItemCategory.Seed) return 0;
+        return 3;
+    }
+
+    ShippingBinListing FindCompatible(ItemSO item, int quality, float fishSize, int price) => listings.Find(entry =>
+        entry != null && entry.item == item && entry.qualityStars == quality &&
+        Mathf.Abs(entry.fishSizeCm - fishSize) < 0.01f && entry.unitPriceSnapshot == price);
+
+    void NormalizeListings()
+    {
+        listings ??= new List<ShippingBinListing>();
+        listings.RemoveAll(entry => entry == null || entry.item == null || entry.count <= 0 || !entry.item.CanSellAtMarket);
+    }
+
+    void ResolveInventory()
+    {
+        if (playerInventory == null) playerInventory = FindFirstObjectByType<Inventory>();
+    }
+
+    public void OpenPanel()
+    {
+        if(panelOpen || GameplayPauseMenu.BlocksGameplayInput)return;
+        ResolveInventory();feedback=string.Empty;StorageChestUI.Show(this);
+        panelOpen=StorageChestUI.Instance!=null&&StorageChestUI.Instance.Bin==this;
+        GetComponentInChildren<ShippingBinPresentation>(true)?.SetOpen(panelOpen);
+    }
+    public void ClosePanel()
+    {
+        panelOpen=false;ClearConfirmation();
+        GetComponentInChildren<ShippingBinPresentation>(true)?.SetOpen(false);
+        if(StorageChestUI.Instance!=null&&StorageChestUI.Instance.Bin==this)StorageChestUI.Instance.Close();
+        GameplayInput.ConsumeCurrentFrame();
+    }
+    void ClearConfirmation()
+    {
+        confirmationSlot = -1;
+        confirmationAmount = 0;
+    }
+
+    public ShippingBinSaveData Capture()
+    {
+        NormalizeListings();
+        return new ShippingBinSaveData
+        {
+            id = binId,
+            lastProcessedDay = lastProcessedDay,
+            lastCropSales = lastCropSales,
+            lastFishSales = lastFishSales,
+            lastAnimalProductSales = lastAnimalProductSales,
+            lastOtherSales = lastOtherSales,
+            lastShippingTotal = lastShippingTotal,
+            lifetimeRevenue = lifetimeRevenue,
+            listings = listings.Select(entry => new ShippingBinListingSaveData
+            {
+                itemId = entry.item.Id,
+                assetName = entry.item.name,
+                itemName = entry.item.itemName,
+                count = entry.count,
+                qualityStars = entry.qualityStars,
+                fishSizeCm = entry.fishSizeCm,
+                unitPriceSnapshot = entry.unitPriceSnapshot,
+                shippingDay = entry.shippingDay
+            }).ToList()
+        };
+    }
+
+    public void Restore(ShippingBinSaveData data)
+    {
+        listings.Clear();
+        if (data?.listings != null)
+        {
+            foreach (ShippingBinListingSaveData saved in data.listings)
+            {
+                if (saved == null || saved.count <= 0) continue;
+                ItemSO item = ItemCatalog.Resolve(saved.itemId, saved.assetName, saved.itemName);
+                if (item == null || !item.CanSellAtMarket) continue;
+                listings.Add(new ShippingBinListing
+                {
+                    item = item,
+                    count = saved.count,
+                    qualityStars = Mathf.Clamp(saved.qualityStars, 0, 5),
+                    fishSizeCm = Mathf.Max(0f, saved.fishSizeCm),
+                    unitPriceSnapshot = saved.unitPriceSnapshot > 0
+                        ? saved.unitPriceSnapshot
+                        : item.GetMarketSellPrice(saved.qualityStars, saved.fishSizeCm),
+                    shippingDay = Mathf.Max(1, saved.shippingDay)
+                });
+            }
+        }
+        lastProcessedDay = data?.lastProcessedDay ?? 0;
+        lastCropSales = Mathf.Max(0, data?.lastCropSales ?? 0);
+        lastFishSales = Mathf.Max(0, data?.lastFishSales ?? 0);
+        lastAnimalProductSales = Mathf.Max(0, data?.lastAnimalProductSales ?? 0);
+        lastOtherSales = Mathf.Max(0, data?.lastOtherSales ?? 0);
+        lastShippingTotal = Mathf.Max(0, data?.lastShippingTotal ?? 0);
+        lifetimeRevenue = Mathf.Max(0, data?.lifetimeRevenue ?? 0);
+        NormalizeListings();
+    }
+
+    public static List<ShippingBinSaveData> CaptureAll() =>
+        FindObjectsByType<ShippingBin>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+            .Select(bin => bin.Capture()).ToList();
+
+    public static void RestoreAll(List<ShippingBinSaveData> saved)
+    {
+        foreach (ShippingBin bin in FindObjectsByType<ShippingBin>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            bin.Restore(saved?.Find(entry => entry != null && entry.id == bin.binId));
+    }
+
+    void OnValidate() => highValueUnitPrice = Mathf.Max(1, highValueUnitPrice);
+}
+
+

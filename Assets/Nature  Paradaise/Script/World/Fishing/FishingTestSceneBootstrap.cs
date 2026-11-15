@@ -53,9 +53,11 @@ public sealed class FishingTestSceneBootstrap : MonoBehaviour
         Transform environment = new GameObject("30_WORLD").transform;
         environment.SetParent(layout, false);
         BuildGround(environment, grass, bank);
-        GameObject water = Cube("Fishing_Water_Pond", environment, new Vector3(0f, -0.42f, 7f), new Vector3(10f, 0.25f, 8f), waterMaterial);
-        water.name = "Fishing_Water_Pond";
-        EnsureFishingRegions(water.AddComponent<FishingSpot>());
+        Vector3 waterCenter = new(0f, -0.42f, 7f);
+        Vector3 waterSize = new(10f, 0.25f, 8f);
+        Cube("Fishing_Water_Pond", environment, waterCenter, waterSize, waterMaterial);
+        Vector3 spotCenter = waterCenter + Vector3.up * (waterSize.y * 0.5f);
+        CreateFishingRegions(environment, spotCenter, waterCenter.z - waterSize.z * 0.5f - 0.65f);
 
         Transform cameraLighting = new GameObject("20_CAMERA_LIGHTING").transform;
         cameraLighting.SetParent(layout, false);
@@ -162,22 +164,20 @@ public sealed class FishingTestSceneBootstrap : MonoBehaviour
         return material;
     }
 
-    public static void EnsureFishingRegions(FishingSpot water)
+    static void CreateFishingRegions(Transform environment, Vector3 center, float signZ)
     {
-        if(water==null || water.transform.Find("FishingRegions_Editable")!=null) return;
         Transform regions=new GameObject("FishingRegions_Editable").transform;
-        regions.SetParent(water.transform,false);
+        regions.SetParent(environment,false);
         FishingWaterType[] types={FishingWaterType.River,FishingWaterType.Lake,FishingWaterType.Ocean};
         string[] names={"Sungai Uji","Danau Uji","Laut Uji"};
-        Bounds bounds=water.GetComponent<Collider>().bounds;
         for(int i=0;i<3;i++)
         {
             GameObject region=new(names[i]); region.transform.SetParent(regions,false);
-            region.transform.localPosition=new Vector3((i-1)/3f,0.025f,0f);
-            BoxCollider collider=region.AddComponent<BoxCollider>(); collider.size=new Vector3(1f/3f,1f,1f);
-            region.AddComponent<FishingSpot>().ConfigureLocation(types[i],names[i]);
-            GameObject sign=new("Fishing Area - "+names[i]); sign.transform.SetParent(water.transform.parent,false);
-            sign.transform.position=new Vector3(bounds.center.x+(i-1)*bounds.size.x/3f,0.6f,bounds.min.z-0.65f);
+            float x = center.x + (i - 1) * 3.15f;
+            region.transform.position = new Vector3(x, center.y, center.z);
+            region.AddComponent<FishingSpot>().ConfigureLocation(types[i],names[i],1.25f);
+            GameObject sign=new("Fishing Area - "+names[i]); sign.transform.SetParent(environment,false);
+            sign.transform.position=new Vector3(x,0.6f,signZ);
             sign.transform.rotation=Quaternion.Euler(70f,0f,0f);
             TextMesh label=sign.AddComponent<TextMesh>(); label.text=names[i]; label.anchor=TextAnchor.MiddleCenter;
             label.alignment=TextAlignment.Center; label.fontSize=40; label.characterSize=0.075f; label.color=Color.white;

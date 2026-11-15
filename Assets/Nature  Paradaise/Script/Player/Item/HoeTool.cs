@@ -260,6 +260,9 @@ public class FarmingTool : MonoBehaviour
             field.WorldToGrid(worldPosition, out int targetX, out int targetZ) && x == targetX && z == targetZ;
     }
 
+    public bool CanPlantTreeAt(FieldArea field, int x, int z) =>
+        field != null && field.isActiveAndEnabled && field.CanPlaceFarmItem(x, z) && !HasBlockingObject(field, x, z);
+
     public void SetUpgradeTier(int tier)
     {
         upgradeTier = (HoeUpgradeTier)Mathf.Clamp(tier, 0, (int)HoeUpgradeTier.Gold);
@@ -717,7 +720,9 @@ public class FarmingTool : MonoBehaviour
     void RefreshIndicators(bool force = false)
     {
         PlayerToolType selectedTool = hotbar != null ? hotbar.SelectedTool : PlayerToolType.None;
-        bool supportedTool = selectedTool == PlayerToolType.Hoe ||
+        if (inventoryHotbar == null) inventoryHotbar = GetComponent<InventoryHotbarUI>();
+        bool holdingTree = inventoryHotbar?.SelectedItem?.treeDefinition != null;
+        bool supportedTool = holdingTree || selectedTool == PlayerToolType.Hoe ||
                              selectedTool == PlayerToolType.Seed ||
                              selectedTool == PlayerToolType.WateringCan ||
                              selectedTool == PlayerToolType.Fertilizer ||
@@ -730,7 +735,12 @@ public class FarmingTool : MonoBehaviour
             return;
         }
 
-        if (selectedTool == PlayerToolType.Seed)
+        if (holdingTree)
+        {
+            hoeTargets.Clear();
+            hoeTargets.Add(new HoeTileTarget(currentField, currentX, currentZ, CanPlantTreeAt(currentField, currentX, currentZ)));
+        }
+        else if (selectedTool == PlayerToolType.Seed)
         {
             if (seedTool == null) seedTool = GetComponent<SeedTool>();
             hoeTargets.Clear();

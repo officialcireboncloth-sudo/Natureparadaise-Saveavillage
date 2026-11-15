@@ -1,0 +1,789 @@
+using UnityEngine;
+using UnityEngine.Rendering;
+
+[DisallowMultipleComponent]
+/// <summary>
+/// Menggerakkan matahari dan mengubah ambient lighting berdasarkan waktu 24 jam.
+/// Modifier cuaca diterima terpisah agar jadwal cuaca tidak bergantung pada implementasi lighting.
+/// </summary>
+public sealed class DayNightCycle : MonoBehaviour
+{
+    [Header("References")]
+    [SerializeField] TimeManager timeManager;
+    [SerializeField] Light sun;
+    [SerializeField] GardenLightingProfile gardenLighting;
+    Material gardenSkybox;
+
+    [Header("Sun")]
+    [SerializeField, Range(0f, 360f)] float sunYaw = 170f;
+    [SerializeField, Min(0f)] float dayIntensity = 1.5f;
+    [Tooltip("Intensitas cahaya bulan. Cukup untuk membaca medan, tetapi tetap jauh lebih redup dari siang.")]
+    [SerializeField, Min(0f)] float nightIntensity = 0.16f;
+    [SerializeField] Color sunriseColor = new(1f, 0.48f, 0.25f, 1f);
+    [SerializeField] Color noonColor = new(1f, 0.96f, 0.84f, 1f);
+    [SerializeField] Color moonColor = new(0.30f, 0.38f, 0.62f, 1f);
+
+    [Header("Environment")]
+    [SerializeField] Color dayAmbient = new(0.68f, 0.75f, 0.83f, 1f);
+    [SerializeField] Color sunsetAmbient = new(0.42f, 0.25f, 0.22f, 1f);
+    [SerializeField] Color nightAmbient = new(0.09f, 0.12f, 0.2f, 1f);
+    [SerializeField, Range(0f, 2f)] float dayReflectionIntensity = 1f;
+    [SerializeField, Range(0f, 2f)] float nightReflectionIntensity = 0.08f;
+    [SerializeField, Range(0.05f, 1f)] float nightSkyExposure = 0.3f;
+
+    float weatherSunMultiplier = 1f;
+    float weatherAmbientMultiplier = 1f;
+    float weatherExposureMultiplier = 1f;
+    Color weatherTint = Color.white;
+    float targetWeatherSunMultiplier = 1f;
+    float targetWeatherAmbientMultiplier = 1f;
+    float targetWeatherExposureMultiplier = 1f;
+    Color targetWeatherTint = Color.white;
+    float weatherFogDensity;
+    float targetWeatherFogDensity;
+    float cloudShadowWeight;
+    float targetCloudShadowWeight;
+    RuntimeTerrainCloudShadow terrainCloudShadow;
+    bool receivedWeatherState;
+    Light interiorLight;
+    bool suppressingWorldSun;
+    bool worldSunWasEnabled;
+    bool receivedSeasonState;
+    Color seasonSunTint = Color.white, seasonAmbientTint = Color.white, seasonNightTint = Color.white;
+    float seasonSunMultiplier = 1, seasonAmbientMultiplier = 1, seasonExposureMultiplier = 1;
+    float seasonNightSunMultiplier = 1, seasonNightAmbientMultiplier = 1, seasonNightExposureMultiplier = 1;
+    float seasonShadowMultiplier = 1, seasonElevationMultiplier = 1, seasonSunrise = 6, seasonSunset = 18;
+
+    void Awake()
+    {
+        ResolveReferences();
+        if (gardenLighting == null) gardenLighting = Resources.Load<GardenLightingProfile>("World/Garden Lighting");
+        if (gardenLighting != null)
+        {
+            dayIntensity = gardenLighting.sunIntensity;
+            noonColor = gardenLighting.sunColor;
+            sunriseColor = Color.Lerp(noonColor, new Color(1f, .75f, .5f), .35f);
+            dayAmbient = gardenLighting.ambientSky;
+            dayReflectionIntensity = gardenLighting.reflectionIntensity;
+            nightReflectionIntensity = gardenLighting.nightReflectionIntensity;
+            if (gardenLighting.updateAmbientProbe)
+            {
+                nightAmbient = gardenLighting.stylizedNightAmbient;
+                nightIntensity = gardenLighting.stylizedMoonIntensity;
+            }
+            if (gardenLighting.skybox != null) gardenSkybox = new Material(gardenLighting.skybox);
+            if (sun != null)
+            {
+                sun.shadows = LightShadows.Soft;
+                sun.shadowStrength = gardenLighting.shadowStrength;
+                sun.shadowBias = gardenLighting.shadowBias;
+                sun.shadowNormalBias = gardenLighting.shadowNormalBias;
+            }
+        }
+        if (sun != null)
+        {
+            RenderSettings.sun = sun;
+            // Time/weather palettes already specify the final colour. A second 5000 K
+            // filter makes cream plaster and wood excessively yellow.
+            sun.useColorTemperature = false;
+            // Bersihkan cookie eksperimen lama; shadow terrain ditangani overlay noise di bawah.
+            sun.cookie = null;
+        }
+        EnsureTerrainCloudShadow();
+        if (GetComponent<OutdoorNightLighting>() == null) gameObject.AddComponent<OutdoorNightLighting>();
+    }
+
+    void OnEnable()
+    {
+        WeatherImpactFlow.LightingUpdated += HandleWeatherImpact;
+        WeatherImpactFlow.SkyUpdated += HandleWeatherImpact;
+        if (WeatherImpactFlow.HasCurrent) HandleWeatherImpact(WeatherImpactFlow.Current);
+    }
+
+    void OnDisable()
+    {
+        WeatherImpactFlow.LightingUpdated -= HandleWeatherImpact;
+        WeatherImpactFlow.SkyUpdated -= HandleWeatherImpact;
+        if (terrainCloudShadow != null) terrainCloudShadow.SetWeight(0f);
+        RestoreWorldSun();
+    }
+
+    void OnDestroy()
+    {
+        if (gardenSkybox != null) Destroy(gardenSkybox);
+        if (terrainCloudShadow != null)
+            Destroy(terrainCloudShadow.gameObject);
+    }
+
+    void HandleWeatherImpact(WeatherImpactSnapshot impact)
+    {
+        targetWeatherSunMultiplier = impact.SunMultiplier;
+        targetWeatherAmbientMultiplier = impact.AmbientMultiplier;
+        targetWeatherExposureMultiplier = impact.SkyExposureMultiplier;
+        targetWeatherTint = impact.LightingTint;
+        targetWeatherFogDensity = impact.FogDensity;
+        targetCloudShadowWeight = impact.Weather switch
+        {
+            WeatherType.Sunny => 0.38f,
+            WeatherType.PartlyCloudy => 0.78f,
+            WeatherType.Cloudy => 0.9f,
+            WeatherType.Drizzle => 0.8f,
+            WeatherType.Rain => 0.9f,
+            WeatherType.HeavyRain or WeatherType.WindRainStorm or WeatherType.Cyclone or WeatherType.Thunderstorm => 1f,
+            WeatherType.Snow => 0.62f,
+            WeatherType.Blizzard => 1f,
+            _ => 0f
+        };
+        if (!receivedWeatherState)
+        {
+            receivedWeatherState = true;
+            weatherSunMultiplier = targetWeatherSunMultiplier;
+            weatherAmbientMultiplier = targetWeatherAmbientMultiplier;
+            weatherExposureMultiplier = targetWeatherExposureMultiplier;
+            weatherTint = targetWeatherTint;
+            weatherFogDensity = targetWeatherFogDensity;
+            cloudShadowWeight = targetCloudShadowWeight;
+        }
+    }
+
+    void Update()
+    {
+        if (!WeatherSystem.IsPlayerOutdoors())
+        {
+            ApplyInteriorLighting();
+            return;
+        }
+        RestoreWorldSun();
+        if (timeManager == null || sun == null)
+        {
+            ResolveReferences();
+            if (timeManager == null || sun == null)
+                return;
+        }
+
+        ApplyLighting(timeManager.CurrentTimeHours);
+    }
+
+    void ApplyInteriorLighting()
+    {
+        ResolveReferences();
+        var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        if (sun != null && sun.gameObject.scene != scene && !suppressingWorldSun)
+        {
+            worldSunWasEnabled = sun.enabled;
+            suppressingWorldSun = true;
+            sun.enabled = false;
+        }
+        if (interiorLight == null || interiorLight.gameObject.scene != scene)
+        {
+            interiorLight = sun != null && sun.gameObject.scene == scene ? sun : null;
+            foreach (Light candidate in FindObjectsByType<Light>(FindObjectsSortMode.None))
+                if (candidate != sun && candidate.type == LightType.Directional && candidate.gameObject.scene == scene)
+                {
+                    interiorLight = candidate;
+                    break;
+                }
+        }
+        RenderSettings.sun = interiorLight;
+        RenderSettings.fog = false;
+        RenderSettings.fogDensity = 0f;
+        RenderSettings.skybox = null;
+        RenderSettings.ambientMode = AmbientMode.Trilight;
+        RenderSettings.ambientSkyColor = new Color(0.68f, 0.72f, 0.78f);
+        RenderSettings.ambientEquatorColor = new Color(0.52f, 0.55f, 0.60f);
+        RenderSettings.ambientGroundColor = new Color(0.30f, 0.32f, 0.35f);
+        RenderSettings.reflectionIntensity = 0.65f;
+        UpdateAmbientProbe();
+        if (terrainCloudShadow != null) terrainCloudShadow.SetWeight(0f);
+    }
+
+    void RestoreWorldSun()
+    {
+        if (!suppressingWorldSun) return;
+        if (sun != null) sun.enabled = worldSunWasEnabled;
+        suppressingWorldSun = false;
+    }
+
+    void ResolveReferences()
+    {
+        if (timeManager == null)
+            timeManager = TimeManager.Instance != null
+                ? TimeManager.Instance
+                : FindFirstObjectByType<TimeManager>();
+        if (sun == null)
+            sun = GetComponent<Light>();
+    }
+
+    void ApplyLighting(float hour)
+    {
+        RenderSettings.sun = sun;
+        float blend = 1f - Mathf.Exp(-Time.unscaledDeltaTime * 1.25f);
+        weatherSunMultiplier = Mathf.Lerp(weatherSunMultiplier, targetWeatherSunMultiplier, blend);
+        weatherAmbientMultiplier = Mathf.Lerp(weatherAmbientMultiplier, targetWeatherAmbientMultiplier, blend);
+        weatherExposureMultiplier = Mathf.Lerp(weatherExposureMultiplier, targetWeatherExposureMultiplier, blend);
+        weatherTint = Color.Lerp(weatherTint, targetWeatherTint, blend);
+        weatherFogDensity = Mathf.Lerp(weatherFogDensity, targetWeatherFogDensity, blend);
+        cloudShadowWeight = Mathf.Lerp(cloudShadowWeight, targetCloudShadowWeight, blend);
+
+        BlendSeasonLighting(blend);
+        bool softPalette = gardenLighting != null && gardenLighting.useTimeOfDayPalette;
+        float sunrise = softPalette ? gardenLighting.dawnHour : seasonSunrise;
+        float sunset = softPalette ? gardenLighting.duskHour : seasonSunset;
+        float dayProgress = Mathf.Repeat(hour, 24f) / 24f;
+        float solarAngle = dayProgress * 360f - 90f;
+        float dayPhase = Mathf.InverseLerp(sunrise, sunset, hour);
+        float sunHeight = hour >= sunrise && hour <= sunset
+            ? Mathf.Sin(dayPhase * Mathf.PI)
+            : -0.2f;
+        float daylight = GetDaylightWeight(hour, sunrise, sunset);
+        Color seasonalLightTint = Color.Lerp(seasonNightTint, seasonSunTint, daylight);
+        float noonWeight = Mathf.Clamp01(sunHeight);
+        float noonPeak = softPalette ? GetNoonPeakWeight(hour) : 0f;
+        float morningWeight = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(8f, 10f, hour));
+        float eveningWeight = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(sunset - 3f, sunset - .25f, hour));
+
+        // Pada malam hari sumber directional beralih ke sisi bulan. Tanpa rotasi lawan ini,
+        // light mengarah dari bawah terrain sehingga menaikkan intensity tidak memberi cahaya nyata.
+        // Moon and sun are exactly 180 degrees apart. Quaternion.Slerp's shortest
+        // arc is ambiguous at that angle: floating-point rounding can switch the
+        // arc between frames and flip the light above/below the ground at twilight.
+        // Interpolate the explicit angle so the transition always takes one path.
+        float lightingAngle = solarAngle + (1f - daylight) * 180f;
+        if (gardenLighting != null)
+        {
+            // Demo sun reaches ~49 degrees at noon. Rotating it by the original
+            // 90-degree orbital offset placed it below terrain at 08:00.
+            // Keep demo azimuth/roll and vary positive elevation through sun/moon arcs.
+            Vector3 demoAngles = gardenLighting.noonRotation.eulerAngles;
+            float nightPhase = Mathf.Repeat(hour - sunset, 24f) / (24f - (sunset - sunrise));
+            float arcHeight = hour >= sunrise && hour <= sunset ? Mathf.Max(0, sunHeight)
+                : Mathf.Max(0, Mathf.Sin(nightPhase * Mathf.PI));
+            float minimumElevation = softPalette ? gardenLighting.minimumDayElevation
+                : Mathf.Lerp(3f, gardenLighting.minimumDayElevation, daylight);
+            float elevation = Mathf.Lerp(minimumElevation, demoAngles.x, arcHeight);
+            elevation = Mathf.Lerp(elevation, gardenLighting.noonElevation, noonPeak);
+            elevation *= Mathf.Lerp(1, seasonElevationMultiplier, daylight);
+            sun.transform.rotation = Quaternion.Euler(elevation, demoAngles.y, Mathf.LerpAngle(demoAngles.z, 0f, noonPeak));
+        }
+        else sun.transform.rotation = Quaternion.Euler(lightingAngle, sunYaw, 0f);
+        EnsureTerrainCloudShadow();
+        WeatherSystem weather = WeatherSystem.Instance;
+        bool cloudEnabled = weather == null || weather.TerrainCloudShadowEnabled;
+        if (terrainCloudShadow != null)
+        {
+            terrainCloudShadow.Configure(
+                weather != null ? weather.TerrainCloudShadowOpacity : 0.34f,
+                weather != null ? weather.TerrainCloudNoiseWorldScale : 80f,
+                weather != null ? weather.TerrainCloudDriftSpeed : new Vector2(0.012f, 0.007f));
+            // Overlay awan tetap terasa saat malam, tetapi tidak boleh menumpuk menjadi lapisan hitam.
+            float nighttimeCloudVisibility = Mathf.Lerp(0.42f, 1f, daylight);
+            float sunnyStrength = gardenLighting != null && weather != null && weather.CurrentWeather == WeatherType.Sunny
+                ? gardenLighting.sunnyCloudStrength : 1f;
+            terrainCloudShadow.SetWeight(cloudEnabled ? cloudShadowWeight * nighttimeCloudVisibility * sunnyStrength : 0f);
+        }
+        float passingCloud = Mathf.PerlinNoise(Time.unscaledTime * 0.04f, 17.35f);
+        float cloudSunMultiplier = Mathf.Lerp(1f, Mathf.Lerp(0.72f, 0.9f, passingCloud), cloudShadowWeight);
+        float daylightIntensity = dayIntensity * weatherSunMultiplier;
+        if (softPalette) daylightIntensity *= Mathf.Lerp(1f, gardenLighting.noonSunMultiplier, noonPeak);
+        // Awan mengurangi cahaya bulan, tetapi minimum ini menjaga siluet medan dan karakter terbaca.
+        float moonWeatherMultiplier = Mathf.Lerp(0.62f, 1f, Mathf.Clamp01(weatherSunMultiplier));
+        float moonlightIntensity = nightIntensity * moonWeatherMultiplier;
+        sun.intensity = Mathf.Lerp(moonlightIntensity, daylightIntensity, daylight) *
+                        Mathf.Lerp(seasonNightSunMultiplier, seasonSunMultiplier, daylight) * cloudSunMultiplier;
+
+        Color horizonToNoon = Color.Lerp(sunriseColor, noonColor, noonWeight);
+        if (gardenLighting != null) sun.shadowStrength = gardenLighting.shadowStrength;
+        if (softPalette)
+        {
+            horizonToNoon = Color.Lerp(noonColor, gardenLighting.morningSun, morningWeight);
+            horizonToNoon = Color.Lerp(horizonToNoon, gardenLighting.eveningSun, eveningWeight);
+            sun.shadowStrength = Mathf.Lerp(gardenLighting.nightShadowStrength,
+                Mathf.Lerp(gardenLighting.shadowStrength, .5f, Mathf.Max(morningWeight, eveningWeight)), daylight);
+            sun.shadowStrength = Mathf.Lerp(sun.shadowStrength, gardenLighting.noonShadowStrength, noonPeak);
+        }
+        if (gardenLighting != null)
+            sun.shadowStrength *= Mathf.Lerp(1, seasonShadowMultiplier, daylight);
+        // Heat is a daytime warmth, never a yellow filter over the moon or night fill.
+        Color effectiveWeatherTint = Color.Lerp(Color.white, weatherTint,
+            weather != null && weather.CurrentWeather == WeatherType.Heatwave ? daylight : 1f);
+        sun.color = Color.Lerp(softPalette ? gardenLighting.moonColor : moonColor, horizonToNoon, daylight) * effectiveWeatherTint *
+                    seasonalLightTint;
+
+        float dawnTwilight = 1f - Mathf.Clamp01(Mathf.Abs(hour - sunrise) / 1.1f);
+        float duskTwilight = 1f - Mathf.Clamp01(Mathf.Abs(hour - sunset) / 1.1f);
+        float twilight = Mathf.Max(dawnTwilight, duskTwilight);
+        Color daylightAmbient = Color.Lerp(dayAmbient, sunsetAmbient, twilight);
+        float cloudAmbientMultiplier = Mathf.Lerp(1f, 0.92f, cloudShadowWeight);
+        Color seasonalFillTint = Color.Lerp(seasonNightTint, seasonAmbientTint, daylight) *
+            Mathf.Lerp(seasonNightAmbientMultiplier, seasonAmbientMultiplier, daylight);
+        Color ambient = Color.Lerp(nightAmbient, daylightAmbient, daylight) * effectiveWeatherTint * weatherAmbientMultiplier *
+                        seasonalFillTint * cloudAmbientMultiplier;
+        // Cuaca ekstrem masih meredupkan malam, tetapi tidak boleh menghapus seluruh informasi visual.
+        float nightVisibility = Mathf.Lerp(0.68f, 1f, Mathf.Clamp01(weatherAmbientMultiplier));
+        Color nightVisibilityFloor = nightAmbient * nightVisibility * seasonNightTint * seasonNightAmbientMultiplier;
+        ambient = MaxColor(ambient, nightVisibilityFloor * (1f - daylight));
+
+        RenderSettings.ambientMode = AmbientMode.Trilight;
+        RenderSettings.ambientSkyColor = ambient;
+        RenderSettings.ambientEquatorColor = Color.Lerp(ambient * 0.7f, ambient, daylight);
+        RenderSettings.ambientGroundColor = ambient * 0.45f;
+        if (gardenLighting != null)
+        {
+            // Preserve demo's separate sky/equator/ground fill at noon, fading to the original night lighting.
+            Color fillTint = effectiveWeatherTint * weatherAmbientMultiplier * seasonalFillTint * cloudAmbientMultiplier;
+            RenderSettings.ambientEquatorColor = Color.Lerp(nightAmbient * .7f,
+                Color.Lerp(gardenLighting.ambientEquator, sunsetAmbient * .7f, twilight) * fillTint, daylight);
+            RenderSettings.ambientGroundColor = Color.Lerp(nightAmbient * .45f,
+                Color.Lerp(gardenLighting.ambientGround, sunsetAmbient * .3f, twilight) * fillTint, daylight);
+            if (gardenSkybox != null) RenderSettings.skybox = gardenSkybox;
+        }
+        if (softPalette)
+        {
+            // Broad afternoon warmth begins three hours before sunset instead of a dark dusk spike.
+            // Independent fill colours keep every period bright without exposing the night like daytime.
+            Color fillTint = effectiveWeatherTint * weatherAmbientMultiplier * seasonalFillTint * cloudAmbientMultiplier;
+            Color sky = Color.Lerp(gardenLighting.ambientSky, gardenLighting.morningSky, morningWeight);
+            Color equator = Color.Lerp(gardenLighting.ambientEquator, gardenLighting.morningEquator, morningWeight);
+            Color ground = Color.Lerp(gardenLighting.ambientGround, gardenLighting.morningGround, morningWeight);
+            sky = Color.Lerp(sky, gardenLighting.eveningSky, eveningWeight);
+            equator = Color.Lerp(equator, gardenLighting.eveningEquator, eveningWeight);
+            ground = Color.Lerp(ground, gardenLighting.eveningGround, eveningWeight);
+            sky = Color.Lerp(sky, gardenLighting.noonSky, noonPeak);
+            equator = Color.Lerp(equator, gardenLighting.noonEquator, noonPeak);
+            ground = Color.Lerp(ground, gardenLighting.noonGround, noonPeak);
+            RenderSettings.ambientSkyColor = Color.Lerp(nightAmbient, sky, daylight) * fillTint;
+            RenderSettings.ambientEquatorColor = Color.Lerp(nightAmbient * .85f, equator, daylight) * fillTint;
+            RenderSettings.ambientGroundColor = Color.Lerp(nightAmbient * .65f, ground, daylight) * fillTint;
+            ambient = RenderSettings.ambientSkyColor;
+        }
+        // The time-of-day palette must retain the same readable night floor as the legacy fill.
+        RenderSettings.ambientSkyColor = MaxColor(RenderSettings.ambientSkyColor, nightVisibilityFloor * (1 - daylight));
+        RenderSettings.ambientEquatorColor = MaxColor(RenderSettings.ambientEquatorColor, nightVisibilityFloor * .7f * (1 - daylight));
+        RenderSettings.ambientGroundColor = MaxColor(RenderSettings.ambientGroundColor, nightVisibilityFloor * .45f * (1 - daylight));
+        ambient = RenderSettings.ambientSkyColor;
+        RenderSettings.reflectionIntensity = Mathf.Lerp(nightReflectionIntensity, dayReflectionIntensity, daylight);
+        float lightning=WeatherSystem.Instance!=null?WeatherSystem.Instance.CurrentLightningFlash:0;
+        if(lightning>0)
+        {
+            sun.intensity+=lightning*1.8f;
+            sun.color=Color.Lerp(sun.color,new Color(.85f,.91f,1),lightning);
+            RenderSettings.ambientSkyColor+=new Color(.24f,.28f,.34f)*lightning;
+            RenderSettings.ambientEquatorColor+=new Color(.19f,.22f,.28f)*lightning;
+            RenderSettings.ambientGroundColor+=new Color(.12f,.15f,.19f)*lightning;
+        }
+        UpdateAmbientProbe();
+        float morningFog = WeatherSystem.Instance != null
+            ? WeatherSystem.Instance.GetSeasonalMorningFogDensity(hour)
+            : 0f;
+        float resolvedFogDensity = Mathf.Max(weatherFogDensity, morningFog);
+        RenderSettings.fog = resolvedFogDensity > 0.0001f;
+        RenderSettings.fogMode = FogMode.ExponentialSquared;
+        RenderSettings.fogDensity = resolvedFogDensity;
+        Color fogSky = Color.Lerp(nightAmbient, effectiveWeatherTint * .65f, daylight);
+        RenderSettings.fogColor = Color.Lerp(ambient, fogSky, .35f);
+
+        Material skybox = RenderSettings.skybox;
+        if (skybox != null && skybox.HasProperty("_Exposure"))
+        {
+            float weatherNightExposure = nightSkyExposure *
+                Mathf.Lerp(0.68f, 1f, Mathf.Clamp01(weatherExposureMultiplier));
+            float weatherDayExposure = weatherExposureMultiplier;
+            skybox.SetFloat("_Exposure", Mathf.Lerp(weatherNightExposure, weatherDayExposure, daylight) *
+                                           Mathf.Lerp(seasonNightExposureMultiplier, seasonExposureMultiplier, daylight) *
+                                           Mathf.Lerp(1f, 0.88f, cloudShadowWeight));
+        }
+    }
+
+    void BlendSeasonLighting(float blend)
+    {
+        SeasonVisualProfile profile = SeasonVisualController.CurrentProfile;
+        GetDaylightWindow(SeasonVisualController.CurrentSeason, out float sunrise, out float sunset);
+        float t = receivedSeasonState ? blend : 1;
+        receivedSeasonState = true;
+        seasonSunTint = Color.Lerp(seasonSunTint, profile != null ? profile.lightingTint : Color.white, t);
+        seasonAmbientTint = Color.Lerp(seasonAmbientTint, profile != null ? profile.ambientTint : Color.white, t);
+        seasonNightTint = Color.Lerp(seasonNightTint, profile != null ? profile.nightTint : Color.white, t);
+        seasonSunMultiplier = Mathf.Lerp(seasonSunMultiplier, profile != null ? profile.sunMultiplier : 1, t);
+        seasonAmbientMultiplier = Mathf.Lerp(seasonAmbientMultiplier, profile != null ? profile.ambientMultiplier : 1, t);
+        seasonExposureMultiplier = Mathf.Lerp(seasonExposureMultiplier, profile != null ? profile.skyExposureMultiplier : 1, t);
+        seasonNightSunMultiplier = Mathf.Lerp(seasonNightSunMultiplier, profile != null ? profile.nightSunMultiplier : 1, t);
+        seasonNightAmbientMultiplier = Mathf.Lerp(seasonNightAmbientMultiplier, profile != null ? profile.nightAmbientMultiplier : 1, t);
+        seasonNightExposureMultiplier = Mathf.Lerp(seasonNightExposureMultiplier, profile != null ? profile.nightSkyExposureMultiplier : 1, t);
+        seasonShadowMultiplier = Mathf.Lerp(seasonShadowMultiplier, profile != null ? profile.shadowStrengthMultiplier : 1, t);
+        seasonElevationMultiplier = Mathf.Lerp(seasonElevationMultiplier, profile != null ? profile.sunElevationMultiplier : 1, t);
+        seasonSunrise = Mathf.Lerp(seasonSunrise, sunrise, t);
+        seasonSunset = Mathf.Lerp(seasonSunset, sunset, t);
+    }
+
+    // A broad, smooth peak centred at 12:00. Returns zero outside 09:30..14:30.
+    public static float GetNoonPeakWeight(float hour) =>
+        1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(Mathf.Abs(hour - 12f) / 2.5f));
+
+    public static float GetDaylightWeight(float hour, float sunrise = 5f, float sunset = 18f)
+    {
+        hour = Mathf.Repeat(hour, 24f);
+        float dawn = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(sunrise - .45f, sunrise + .6f, hour));
+        float dusk = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(sunset - .6f, sunset + .45f, hour));
+        return dawn * dusk;
+    }
+
+    void UpdateAmbientProbe()
+    {
+        if (gardenLighting == null || !gardenLighting.updateAmbientProbe) return;
+        // Supply a diffuse sky fill for runtime worlds without baked environment lighting.
+        // Directional contributions keep the cool sky / warm ground separation through weather and night.
+        var probe = new SphericalHarmonicsL2();
+        probe.AddAmbientLight(RenderSettings.ambientEquatorColor.linear * .7f);
+        probe.AddDirectionalLight(Vector3.up, RenderSettings.ambientSkyColor.linear, .45f);
+        probe.AddDirectionalLight(Vector3.down, RenderSettings.ambientGroundColor.linear, .35f);
+        RenderSettings.ambientProbe = probe;
+    }
+
+    static Color MaxColor(Color value, Color minimum) => new(
+        Mathf.Max(value.r, minimum.r),
+        Mathf.Max(value.g, minimum.g),
+        Mathf.Max(value.b, minimum.b),
+        Mathf.Max(value.a, minimum.a));
+
+    static void GetDaylightWindow(CropSeason season, out float sunrise, out float sunset)
+    {
+        var profile = SeasonVisualController.CurrentProfile;
+        if (profile != null && profile.season == season)
+        {
+            sunrise = Mathf.Clamp(profile.sunriseHour, 4, 9);
+            sunset = Mathf.Clamp(profile.sunsetHour, 16, 21);
+            return;
+        }
+        switch (season)
+        {
+            case CropSeason.Summer:
+                sunrise = 5.25f;
+                sunset = 19.25f;
+                break;
+            default:
+                sunrise = 6f;
+                sunset = 18f;
+                break;
+        }
+    }
+
+    void EnsureTerrainCloudShadow()
+    {
+        if (terrainCloudShadow != null) return;
+        GameObject overlay = new("Runtime Terrain Cloud Shadows");
+        // Harus tetap world-space; transform DayNightCycle berputar mengikuti matahari.
+        overlay.transform.SetParent(null, false);
+        terrainCloudShadow = overlay.AddComponent<RuntimeTerrainCloudShadow>();
+        WeatherSystem weather = WeatherSystem.Instance;
+        terrainCloudShadow.Configure(
+            weather != null ? weather.TerrainCloudShadowOpacity : 0.34f,
+            weather != null ? weather.TerrainCloudNoiseWorldScale : 80f,
+            weather != null ? weather.TerrainCloudDriftSpeed : new Vector2(0.012f, 0.007f));
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void RegisterSceneLoads()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= HandleSceneLoaded;
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += HandleSceneLoaded;
+    }
+
+    static void HandleSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+        => EnsureCycleExists();
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    static void EnsureCycleExists()
+    {
+        if (FindFirstObjectByType<DayNightCycle>() != null)
+            return;
+
+        var player = FindFirstObjectByType<PlayerController>();
+        // MainMenu has no world player. Install the controller when its gameplay scene loads,
+        // including Continue/New Game, rather than only on the first scene of the process.
+        if (player == null) return;
+        Light[] lights = FindObjectsByType<Light>(FindObjectsSortMode.None);
+        Light directional = null;
+        for (int i = 0; i < lights.Length; i++)
+        {
+            if (lights[i].type != LightType.Directional)
+                continue;
+            if (player != null && lights[i].gameObject.scene != player.gameObject.scene)
+                continue;
+            if (directional == null || lights[i].intensity > directional.intensity)
+                directional = lights[i];
+        }
+
+        if (directional == null)
+        {
+            GameObject sunObject = new("NatureParadise_Sun");
+            directional = sunObject.AddComponent<Light>();
+            directional.type = LightType.Directional;
+            directional.shadows = LightShadows.Soft;
+        }
+
+        directional.gameObject.AddComponent<DayNightCycle>();
+        Debug.Log("[TIME] Day/night cycle aktif dan matahari mengikuti jam 24 jam.");
+    }
+}
+
+/// <summary>
+/// Overlay noise transparan yang mengikuti tinggi Terrain. Mesh dibangun ulang hanya ketika kamera
+/// berpindah/zoom, sementara gerakan awan cukup menggeser UV material.
+/// </summary>
+sealed class RuntimeTerrainCloudShadow : MonoBehaviour
+{
+    const int GridResolution = 32;
+    const float RebuildDistance = 3f;
+    const float HeightOffset = 0.08f;
+
+    Mesh mesh;
+    Material material;
+    Texture2D noiseTexture;
+    Camera targetCamera;
+    float maximumOpacity = 0.28f;
+    float noiseWorldScale = 80f;
+    Vector2 driftSpeed = new(0.012f, 0.007f);
+    float weight;
+    float nextRebuildTime;
+    Vector3 lastCenter = new(float.PositiveInfinity, 0f, float.PositiveInfinity);
+    float lastCameraSize = -1f;
+
+    public void Configure(float opacity, float worldScale, Vector2 speed)
+    {
+        maximumOpacity = Mathf.Clamp(opacity, 0.05f, 0.6f);
+        float nextWorldScale = Mathf.Clamp(worldScale, 30f, 180f);
+        if (!Mathf.Approximately(noiseWorldScale, nextWorldScale))
+        {
+            noiseWorldScale = nextWorldScale;
+            lastCameraSize = -1f;
+            nextRebuildTime = 0f;
+        }
+        driftSpeed = speed;
+        EnsureResources();
+    }
+
+    public void SetWeight(float value)
+    {
+        weight = Mathf.Clamp01(value);
+        if (material != null)
+            SetMaterialColor(new Color(0.055f, 0.075f, 0.085f, maximumOpacity * weight));
+        gameObject.SetActive(weight > 0.01f);
+    }
+
+    void Update()
+    {
+        EnsureResources();
+        if (material == null || weight <= 0.01f) return;
+        float time = Time.unscaledTime;
+        Vector2 drift = driftSpeed * time;
+        if (material.HasProperty("_BaseMap")) material.SetTextureOffset("_BaseMap", drift);
+        if (material.HasProperty("_MainTex")) material.SetTextureOffset("_MainTex", drift);
+        if (time >= nextRebuildTime) RebuildForCamera();
+    }
+
+    void EnsureResources()
+    {
+        if (mesh != null && material != null) return;
+        MeshFilter filter = gameObject.GetComponent<MeshFilter>();
+        if (filter == null) filter = gameObject.AddComponent<MeshFilter>();
+        MeshRenderer renderer = gameObject.GetComponent<MeshRenderer>();
+        if (renderer == null) renderer = gameObject.AddComponent<MeshRenderer>();
+        mesh = new Mesh { name = "Runtime Terrain Cloud Shadow Mesh" };
+        mesh.MarkDynamic();
+        filter.sharedMesh = mesh;
+        // 128x128 cukup untuk bayangan lembut dan menghindari spike saat load di mobile.
+        noiseTexture = BuildNoiseTexture(128);
+
+        Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
+        if (shader == null) shader = Shader.Find("Unlit/Transparent");
+        if (shader == null) return;
+        material = new Material(shader)
+        {
+            name = "Runtime Terrain Cloud Shadow Material",
+            hideFlags = HideFlags.HideAndDontSave,
+            renderQueue = 2995
+        };
+        material.SetOverrideTag("RenderType", "Transparent");
+        if (material.HasProperty("_Surface")) material.SetFloat("_Surface", 1f);
+        if (material.HasProperty("_SrcBlend")) material.SetFloat("_SrcBlend", (float)BlendMode.SrcAlpha);
+        if (material.HasProperty("_DstBlend")) material.SetFloat("_DstBlend", (float)BlendMode.OneMinusSrcAlpha);
+        if (material.HasProperty("_ZWrite")) material.SetFloat("_ZWrite", 0f);
+        material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+        if (material.HasProperty("_BaseMap")) material.SetTexture("_BaseMap", noiseTexture);
+        if (material.HasProperty("_MainTex")) material.SetTexture("_MainTex", noiseTexture);
+        SetMaterialColor(new Color(0.055f, 0.075f, 0.085f, 0f));
+        renderer.sharedMaterial = material;
+        renderer.shadowCastingMode = ShadowCastingMode.Off;
+        renderer.receiveShadows = false;
+        targetCamera = Camera.main;
+        RebuildForCamera(true);
+    }
+
+    void RebuildForCamera(bool force = false)
+    {
+        nextRebuildTime = Time.unscaledTime + 0.35f;
+        if (targetCamera == null) targetCamera = Camera.main;
+        if (targetCamera == null || mesh == null) return;
+
+        Vector3 center = FindGroundCenter(targetCamera);
+        float cameraSize = targetCamera.orthographic
+            ? targetCamera.orthographicSize
+            : Vector3.Distance(targetCamera.transform.position, center) * 0.55f;
+        if (!force && Vector3.SqrMagnitude(center - lastCenter) < RebuildDistance * RebuildDistance &&
+            Mathf.Abs(cameraSize - lastCameraSize) < 0.1f) return;
+        lastCenter = center;
+        lastCameraSize = cameraSize;
+
+        // Overlay dibuat jauh melampaui viewport agar tepi mesh tidak pernah terlihat sebagai kotak.
+        float depth = Mathf.Clamp(cameraSize * 4f + 80f, 110f, 260f);
+        float width = Mathf.Clamp(cameraSize * 4f * Mathf.Max(1f, targetCamera.aspect) + 80f, 140f, 320f);
+        BuildTerrainMesh(center, width, depth);
+    }
+
+    static Vector3 FindGroundCenter(Camera camera)
+    {
+        Ray ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        Plane plane = new(Vector3.up, Vector3.zero);
+        if (plane.Raycast(ray, out float distance)) return ray.GetPoint(distance);
+        return camera.transform.position + camera.transform.forward * 20f;
+    }
+
+    void BuildTerrainMesh(Vector3 center, float width, float depth)
+    {
+        int row = GridResolution + 1;
+        Vector3[] vertices = new Vector3[row * row];
+        Vector2[] uv = new Vector2[vertices.Length];
+        bool[] valid = new bool[vertices.Length];
+        for (int z = 0; z < row; z++)
+        {
+            for (int x = 0; x < row; x++)
+            {
+                int index = z * row + x;
+                float worldX = center.x + (x / (float)GridResolution - 0.5f) * width;
+                float worldZ = center.z + (z / (float)GridResolution - 0.5f) * depth;
+                valid[index] = TrySampleTerrain(worldX, worldZ, out float worldY);
+                vertices[index] = new Vector3(worldX, worldY + HeightOffset, worldZ);
+                uv[index] = new Vector2(worldX / noiseWorldScale, worldZ / noiseWorldScale);
+            }
+        }
+
+        System.Collections.Generic.List<int> triangles = new(GridResolution * GridResolution * 6);
+        for (int z = 0; z < GridResolution; z++)
+        {
+            for (int x = 0; x < GridResolution; x++)
+            {
+                int a = z * row + x;
+                int b = a + 1;
+                int c = a + row;
+                int d = c + 1;
+                if (!valid[a] || !valid[b] || !valid[c] || !valid[d]) continue;
+                triangles.Add(a); triangles.Add(c); triangles.Add(b);
+                triangles.Add(b); triangles.Add(c); triangles.Add(d);
+            }
+        }
+
+        mesh.Clear();
+        mesh.vertices = vertices;
+        mesh.uv = uv;
+        mesh.SetTriangles(triangles, 0, true);
+        mesh.RecalculateBounds();
+    }
+
+    static bool TrySampleTerrain(float x, float z, out float height)
+    {
+        foreach (Terrain terrain in Terrain.activeTerrains)
+        {
+            if (terrain == null || terrain.terrainData == null) continue;
+            Vector3 origin = terrain.transform.position;
+            Vector3 size = terrain.terrainData.size;
+            if (x < origin.x || x > origin.x + size.x || z < origin.z || z > origin.z + size.z) continue;
+            height = terrain.SampleHeight(new Vector3(x, 0f, z)) + origin.y;
+            return true;
+        }
+        height = -1000f;
+        return false;
+    }
+
+    static Texture2D BuildNoiseTexture(int resolution)
+    {
+        Texture2D texture = new(resolution, resolution, TextureFormat.RGBA32, false, true)
+        {
+            name = "Runtime Cloud Shadow Noise",
+            wrapMode = TextureWrapMode.Repeat,
+            filterMode = FilterMode.Bilinear,
+            hideFlags = HideFlags.HideAndDontSave
+        };
+        float[] alphaMap = new float[resolution * resolution];
+        for (int y = 0; y < resolution; y++)
+        {
+            for (int x = 0; x < resolution; x++)
+            {
+                float u = x / (float)resolution;
+                float v = y / (float)resolution;
+                float broad = SampleTileablePerlin(u, v, 2.25f, 8.7f, 14.2f);
+                float medium = SampleTileablePerlin(u, v, 4.5f, 27.1f, 3.8f);
+                float detail = SampleTileablePerlin(u, v, 9f, 51.4f, 36.6f);
+                float cloud = broad * 0.68f + medium * 0.24f + detail * 0.08f;
+                alphaMap[y * resolution + x] = Mathf.SmoothStep(0.43f, 0.69f, cloud);
+            }
+        }
+
+        // Blur wrapping mempertahankan tile seamless sekaligus menghilangkan bentuk pixel/kotak.
+        float[] blurred = new float[alphaMap.Length];
+        for (int pass = 0; pass < 2; pass++)
+        {
+            for (int y = 0; y < resolution; y++)
+            {
+                for (int x = 0; x < resolution; x++)
+                {
+                    float sum = 0f;
+                    float weightSum = 0f;
+                    for (int oy = -1; oy <= 1; oy++)
+                    {
+                        for (int ox = -1; ox <= 1; ox++)
+                        {
+                            float sampleWeight = (ox == 0 ? 2f : 1f) * (oy == 0 ? 2f : 1f);
+                            int sx = (x + ox + resolution) % resolution;
+                            int sy = (y + oy + resolution) % resolution;
+                            sum += alphaMap[sy * resolution + sx] * sampleWeight;
+                            weightSum += sampleWeight;
+                        }
+                    }
+                    blurred[y * resolution + x] = sum / weightSum;
+                }
+            }
+            (alphaMap, blurred) = (blurred, alphaMap);
+        }
+
+        Color[] colors = new Color[resolution * resolution];
+        for (int index = 0; index < colors.Length; index++)
+            colors[index] = new Color(1f, 1f, 1f, alphaMap[index]);
+        texture.SetPixels(colors);
+        texture.Apply(false, true);
+        return texture;
+    }
+
+    static float SampleTileablePerlin(float u, float v, float frequency, float offsetX, float offsetY)
+    {
+        float x = u * frequency;
+        float y = v * frequency;
+        float a = Mathf.PerlinNoise(x + offsetX, y + offsetY);
+        float b = Mathf.PerlinNoise(x - frequency + offsetX, y + offsetY);
+        float c = Mathf.PerlinNoise(x + offsetX, y - frequency + offsetY);
+        float d = Mathf.PerlinNoise(x - frequency + offsetX, y - frequency + offsetY);
+        return Mathf.Lerp(Mathf.Lerp(a, b, u), Mathf.Lerp(c, d, u), v);
+    }
+
+    void SetMaterialColor(Color color)
+    {
+        if (material.HasProperty("_BaseColor")) material.SetColor("_BaseColor", color);
+        if (material.HasProperty("_Color")) material.SetColor("_Color", color);
+    }
+
+    void OnDestroy()
+    {
+        if (mesh != null) Destroy(mesh);
+        if (material != null) Destroy(material);
+        if (noiseTexture != null) Destroy(noiseTexture);
+    }
+}

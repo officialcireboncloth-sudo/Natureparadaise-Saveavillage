@@ -11,6 +11,7 @@ using UnityEngine;
 /// </summary>
 public sealed partial class FieldArea : MonoBehaviour
 {
+    const float FieldSurfaceLift = 0.02f;
     const float HoedSurfaceLift = 0.035f;
     const float CropSurfaceClearance = 0.002f;
 
@@ -869,6 +870,18 @@ public sealed partial class FieldArea : MonoBehaviour
         return blendGroundSurface && !protectedFromWeather ? FieldGroundSurface.GroundPosition(world) : world;
     }
 
+    public Vector3 PlantingSurfacePosition(int x, int z)
+    {
+        Vector3 surfaceUp = blendGroundSurface && !protectedFromWeather ? Vector3.up : transform.up;
+        float lift = 0.01f;
+        if (blendedTileMaterial != null)
+        {
+            bool unhoed = TryGetIndex(x, z, out int index) && tiles[index].state == TileState.Empty;
+            lift = (unhoed ? FieldSurfaceLift : HoedSurfaceLift) + CropSurfaceClearance;
+        }
+        return GridToWorld(x, z) + surfaceUp * lift;
+    }
+
     /// <summary>Mengubah world-space ke koordinat tile jika masih berada dalam area.</summary>
     public bool WorldToGrid(Vector3 worldPosition, out int x, out int z)
     {
@@ -1328,9 +1341,7 @@ public sealed partial class FieldArea : MonoBehaviour
         view.transform.SetParent(visualRoot, true);
         // Seed meshes are only a few millimetres high; anchor them above the
         // hoed overlay rather than the terrain underneath it, including on load/pool reuse.
-        Vector3 surfaceUp = blendGroundSurface && !protectedFromWeather ? Vector3.up : transform.up;
-        float lift = blendedTileMaterial != null ? HoedSurfaceLift + CropSurfaceClearance : 0.01f;
-        view.transform.SetPositionAndRotation(GridToWorld(x, z) + surfaceUp * lift, transform.rotation);
+        view.transform.SetPositionAndRotation(PlantingSurfacePosition(x, z), transform.rotation);
         view.gameObject.SetActive(true);
         view.Initialize(this, x, z, tiles[index].crop, tiles[index].growthStage, tiles[index].cropState);
         cropViews[index] = view;
@@ -1706,7 +1717,7 @@ public sealed partial class FieldArea : MonoBehaviour
         // Keeping the grid centred preserves crop positions, local-metre UVs and old saves.
         float border = Mathf.Max(0, soilVisualProfile != null ? soilVisualProfile.fieldBorderPadding : .3f);
         Vector2 surfaceSize = WorldSize + Vector2.one * (border * 2);
-        blendedFieldMesh = FieldGroundSurface.CreateMesh(ground.transform, surfaceSize, !protectedFromWeather, .02f, 4);
+        blendedFieldMesh = FieldGroundSurface.CreateMesh(ground.transform, surfaceSize, !protectedFromWeather, FieldSurfaceLift, 4);
         ground.GetComponent<MeshFilter>().sharedMesh = blendedFieldMesh;
         var renderer = ground.GetComponent<MeshRenderer>(); renderer.sharedMaterial = blendedFieldMaterial;
         FieldGroundSurface.ApplyEdges(renderer, surfaceSize,

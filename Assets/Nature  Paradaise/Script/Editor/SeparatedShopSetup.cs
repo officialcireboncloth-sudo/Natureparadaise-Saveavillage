@@ -42,7 +42,14 @@ public static class SeparatedShopSetup
  static ShopCatalogTab Tab(ShopCatalogSO catalog,string title,IEnumerable<ItemSO> items=null){var tab=new ShopCatalogTab{title=title};if(items!=null)tab.items.AddRange(items.Where(i=>i!=null));catalog.tabs.Add(tab);return tab;}
  static void Stock(ShopCatalogSO c,List<ItemSO> items,ShopManager source)
  {
-  if(c.kind==ShopKind.Crops){Tab(c,"Benih",items.Where(i=>i.category==ItemCategory.Seed));Tab(c,"Pupuk",items.Where(i=>i.IsFertilizer));Tab(c,"Alat",items.Where(i=>i.category==ItemCategory.Tool&&!AnimalTool(i)));Tab(c,"Lainnya",items.Where(i=>i.IsCropBooster||i.IsSprinkler));}
+  if(c.kind==ShopKind.Crops)
+  {
+   Tab(c,"Benih",items.Where(i=>i.category==ItemCategory.Seed&&i.treeDefinition==null));
+   Tab(c,"Bibit Pohon",items.Where(i=>i.treeDefinition is { wildTree:false, fruitItem:not null }));
+   Tab(c,"Pupuk",items.Where(i=>i.IsFertilizer));
+   Tab(c,"Alat",items.Where(i=>i.category==ItemCategory.Tool&&!AnimalTool(i)));
+   Tab(c,"Lainnya",items.Where(i=>i.IsCropBooster||i.IsSprinkler));
+  }
   else if(c.kind==ShopKind.Animal)
   {
    var ayam=Tab(c,"Ayam");var bebek=Tab(c,"Bebek");var ternak=Tab(c,"Ternak");var care=AnimalCareCatalog.Load();Tab(c,"Perlengkapan",items.Where(i=>i.IsAnimalMedicine||AnimalTool(i)||i==care?.fodder||i==care?.treat||i.itemName=="Fish Feed"));

@@ -1,12 +1,12 @@
 # Fishing: power cast and catch presentation
 
-Use the Fishing Rod, face the water, hold F to charge, and release F to cast.
+Use the Fishing Rod, face a marked fishing zone, hold F to charge, and release F to cast.
 Press F when BITE appears; hold/release F to control the existing reel minigame.
 
-FishingTestScene includes editable River (left), Lake (middle), and Ocean (right)
-water zones under Fishing_Water_Pond/FishingRegions_Editable. Walk along the
-bank to switch location; face the water before casting. The Ocean pool includes
-Tuna, which requires at least 67% reach within the available water.
+FishingTestScene includes compact River (left), Lake (middle), and Ocean (right)
+zones under 30_WORLD/FishingRegions_Editable. Walk along the bank to
+switch zones. The Ocean pool includes Tuna, which requires at least 67% reach
+within the targeted zone.
 
 ## Player animation clips
 
@@ -24,14 +24,26 @@ Tuna, which requires at least 67% reach within the available water.
 
 - Player > FishingSystem: chargeDuration (1.8s), bobberFlightDuration (0.7s),
   castReleaseNormalizedTime (0.45), resultDisplayDuration (3s).
-- Water > FishingSpot: waterType, locationName, fishPool, junkPool,
-  baseJunkChance (12%), maximumCastDistance (12m).
+- Fishing Zone > Transform: Position (X/Z center and Y landing height).
+- Fishing Zone > FishingSpot: Radius (meters), Water Type, Location Name, Fish
+  Pool, Junk Pool, Base Junk Chance (12%), and Maximum Cast Distance (12m).
 - FishDefinitionSO: waterTypes, minimumCastPower, size range, time, season,
   weather and existing minigame balance. CSV supports minimum_cast_power.
 
-Cast distance interpolates between the first reachable water and the end of the
-continuous water surface. Adjacent fish regions do not shorten the throw;
-the landing region selects the fish pool. Land stops the scan.
+In Edit Mode, drag `Prefabs/World/FishingZone.prefab` into the scene or choose
+**Nature Paradise → Fishing → Create Fishing Zone**. Move the new GameObject
+into place and set its Position Y to the local surface
+height. Duplicate it for additional spots. A single decorative water mesh can
+cover several spots, with each spot keeping its own position, radius, and fish
+pool. Water Type filters the fish list and needs no water object or collider.
+Assign Fish Definition assets from `Resources/Fishing` to Fish Pool. An empty
+list uses all definitions matching the zone's Water Type. Selecting a zone in
+the Scene view shows its cyan outline and diameter over the water and terrain.
+
+The cast targets the first reachable zone along the player's facing direction.
+Charge moves the landing point from the near edge toward the far edge of that
+zone at its configured height. Place zones in clear locations within casting
+distance of where players can stand.
 Charging shows a landing ring on the water and target distance in meters;
 the cast panel keeps the actual distance after release. The orange bobber
 uses an unlit material so it remains visible under changing daylight.

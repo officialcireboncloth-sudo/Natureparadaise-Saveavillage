@@ -16,4 +16,6 @@ MonoBehaviour:
   canDropToWorld: 1
   canPlaceInWorld: 1
   treeDefinition: {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000073, type: 2}
-  worldScale: {x: 1.5, y: 3, z: 1.5}
+  worldPrefab: {fileID: 100, guid: 4412ad4e210f485c90d1f43152a61a63, type: 3}
+  worldScale: {x: 0.09, y: 0.09, z: 0.09}
+  icon: {fileID: 21300000, guid: 767bd76d52735c15883b8c164d8a6c98, type: 3}
