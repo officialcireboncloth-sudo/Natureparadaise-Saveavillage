@@ -8,7 +8,7 @@ MonoBehaviour:
   itemId: item.guava_fruit
   itemName: Guava
   buyPrice: 0
-  sellPrice: 100
+  sellPrice: 30
   category: 2
   maxStack: 16
   equippedTool: 0
@@ -18,3 +18,5 @@ MonoBehaviour:
   worldScale: {x: 1, y: 1, z: 1}
   refrigeratorCategory: 2
   icon: {fileID: 21300000, guid: 2b0d7e85e25049c39fdce4eb088a4c59, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: 2b0d7e85e25049c39fdce4eb088a4c59, type: 3}
+  sellPricesByStars: 1e000000240000002d0000003600000042000000

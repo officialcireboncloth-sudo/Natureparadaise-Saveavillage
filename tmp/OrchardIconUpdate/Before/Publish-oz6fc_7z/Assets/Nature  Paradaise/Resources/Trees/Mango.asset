@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad726a9495424bacbe3aa01000000001, type: 3}
+  m_Name: Mango
+  treeType: Mango
+  matureDays: 60
+  wildTree: 0
+  woodItem: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+  fruitItem: {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000075, type: 2}
+  useFruitCare: 1
+  mutationFruitItem: {fileID: 11400000, guid: bcb672ec8a6145cab954ac2963cf9c24, type: 2}
+  fruitMutationChance: 0.01
+  fruitAmountsByStars: 05000000070000000a0000000f00000014000000
+  fruitSeasons: 2
+  floweringDays: 2
+  fruitGrowthDays: 3
+  fruitAmount: 5
+  waterUntilGrowthDay: 63
+  dryGraceDays: 1
+  dryGrowthMultiplier: 0.25
+  youngStormDamageChance: 0.15
+  stormDamage: 10
+  acceleratedSeasons: 0
+  seasonalGrowthMultiplier: 1.15
+  stages:
+  - stage: 0
+    fromGrowthDay: 0
+    model: {fileID: 100, guid: beafc0af40a1407e82da8b6f4e5961e4, type: 3}
+    scale: {x: 0.1, y: 0.1, z: 0.1}
+  - stage: 1
+    fromGrowthDay: 6
+    model: {fileID: 100, guid: 9325836482e14b47bf3d709dc371db44, type: 3}
+    scale: {x: 0.26, y: 0.26, z: 0.26}
+  - stage: 3
+    fromGrowthDay: 20
+    model: {fileID: 100, guid: 9a7e06aac10f4c899530731143570c09, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  - stage: 6
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: a3a3d79c69454f7daccc011e42f3d0f0, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  - stage: 7
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: acb8366eb3504df08369eaaf695a6846, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  stumpModel: {fileID: 100, guid: b3784bad38d24fc9a5dd18460f13f26a, type: 3}

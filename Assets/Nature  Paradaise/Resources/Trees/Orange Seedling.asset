@@ -7,7 +7,7 @@ MonoBehaviour:
   m_Name: Orange Seedling
   itemId: item.orange_seedling
   itemName: Orange Seedling
-  buyPrice: 750
+  buyPrice: 300
   sellPrice: 0
   category: 0
   maxStack: 16
@@ -16,5 +16,7 @@ MonoBehaviour:
   canDropToWorld: 1
   canPlaceInWorld: 1
   treeDefinition: {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000070, type: 2}
-  worldScale: {x: 1.5, y: 3, z: 1.5}
+  worldScale: {x: 1, y: 1, z: 1}
   icon: {fileID: 21300000, guid: 1da0bdd661ec553c95a92c8f03dc605c, type: 3}
+  worldPrefab: {fileID: 100, guid: 38182f639c8e4f8db864dbbee2b09144, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: 1da0bdd661ec553c95a92c8f03dc605c, type: 3}

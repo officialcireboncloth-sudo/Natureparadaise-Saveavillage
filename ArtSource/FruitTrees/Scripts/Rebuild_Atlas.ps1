@@ -2,7 +2,8 @@ param(
     [string]$Gimp,
     [switch]$Repaint,
     [string[]]$Slots,
-    [string]$StageDirectory
+    [string]$StageDirectory,
+    [ValidateSet('Orchard','OilPalm')][string]$AtlasVariant = 'Orchard'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -44,17 +45,20 @@ $gimpProfile = $env:GIMP3_DIRECTORY
 $oldStage = $env:NP_TREE_ATLAS_STAGE
 $oldRefresh = $env:NP_TREE_ATLAS_REFRESH
 $oldSlots = $env:NP_TREE_ATLAS_SLOTS
+$oldVariant = $env:NP_TREE_ATLAS_VARIANT
 try {
     $env:GIMP3_DIRECTORY = Join-Path $scratch 'GimpProfile'
     $env:NP_TREE_ATLAS_STAGE = $stage
     $env:NP_TREE_ATLAS_REFRESH = if ($Repaint) { '1' } else { '0' }
     $env:NP_TREE_ATLAS_SLOTS = $Slots -join ','
+    $env:NP_TREE_ATLAS_VARIANT = $AtlasVariant
     $paint = (Join-Path $PSScriptRoot 'paint_fruit_tree_atlas_gimp.py').Replace('\', '/').Replace("'", "\'")
     $batch = "exec(compile(open('$paint',encoding='utf-8').read(),'$paint','exec'),{'__file__':'$paint'})"
     & $Gimp -n -i --batch-interpreter=python-fu-eval --batch $batch --quit
     if ($LASTEXITCODE -ne 0) { throw 'GIMP could not export the fruit-tree atlas.' }
 
     $atlas = Get-Content -LiteralPath (Join-Path $source 'AtlasRegistry.json') -Raw | ConvertFrom-Json
+    if ($AtlasVariant -eq 'OilPalm') { $atlas.name = 'NP_OilPalm_01' }
     $maps = 'BaseColor', 'Normal', 'SurfaceMask'
     foreach ($map in $maps) {
         foreach ($extension in 'xcf', 'png') {
@@ -82,4 +86,5 @@ finally {
     $env:NP_TREE_ATLAS_STAGE = $oldStage
     $env:NP_TREE_ATLAS_REFRESH = $oldRefresh
     $env:NP_TREE_ATLAS_SLOTS = $oldSlots
+    $env:NP_TREE_ATLAS_VARIANT = $oldVariant
 }

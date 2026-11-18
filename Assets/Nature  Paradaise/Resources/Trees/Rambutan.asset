@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad726a9495424bacbe3aa01000000001, type: 3}
+  m_Name: Rambutan
+  treeType: Rambutan
+  matureDays: 60
+  wildTree: 0
+  woodItem: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+  fruitItem: {fileID: 11400000, guid: c38e4174935b457bab757efa1805778e, type: 2}
+  useFruitCare: 1
+  mutationFruitItem: {fileID: 11400000, guid: 752b6510798e42648763eaed48360423, type: 2}
+  fruitMutationChance: 0.01
+  fruitAmountsByStars: 05000000070000000a0000000f00000014000000
+  fruitSeasons: 2
+  floweringDays: 2
+  fruitGrowthDays: 2
+  fruitAmount: 5
+  waterUntilGrowthDay: 42
+  dryGraceDays: 1
+  dryGrowthMultiplier: 0.25
+  youngStormDamageChance: 0.15
+  stormDamage: 10
+  acceleratedSeasons: 0
+  seasonalGrowthMultiplier: 1.15
+  stages:
+  - stage: 0
+    fromGrowthDay: 0
+    model: {fileID: 100, guid: 2c911df413744fe6a96ed019133f3ae5, type: 3}
+    scale: {x: 0.1, y: 0.1, z: 0.1}
+  - stage: 1
+    fromGrowthDay: 6
+    model: {fileID: 100, guid: 1ba6edb221b94c18bf0785f1148a9ca4, type: 3}
+    scale: {x: 0.26, y: 0.26, z: 0.26}
+  - stage: 3
+    fromGrowthDay: 20
+    model: {fileID: 100, guid: 0522450c2b0344cd894bb51690a0c225, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  - stage: 6
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: 986b928ddf144c1fbccab99eb72e7e4d, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  - stage: 7
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: 31e5e7cfff5f49ab91b0dfa406d4e57a, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  stumpModel: {fileID: 100, guid: fd0f287067ed40a5b6c1647a5bc67638, type: 3}

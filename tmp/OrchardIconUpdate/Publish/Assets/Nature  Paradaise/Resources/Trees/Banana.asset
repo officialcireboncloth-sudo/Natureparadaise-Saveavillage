@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad726a9495424bacbe3aa01000000001, type: 3}
+  m_Name: Banana
+  treeType: Banana
+  matureDays: 60
+  wildTree: 0
+  woodItem: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+  fruitItem: {fileID: 11400000, guid: 19041c41e5d4487d815340beba490a6d, type: 2}
+  useFruitCare: 1
+  mutationFruitItem: {fileID: 11400000, guid: fc1e4ec0b1704de38a2a0f4a9d9a1d6f, type: 2}
+  fruitMutationChance: 0.01
+  fruitAmountsByStars: 05000000070000000a0000000f00000014000000
+  fruitSeasons: 2
+  floweringDays: 2
+  fruitGrowthDays: 3
+  fruitAmount: 5
+  waterUntilGrowthDay: 42
+  dryGraceDays: 1
+  dryGrowthMultiplier: 0.25
+  youngStormDamageChance: 0.15
+  stormDamage: 10
+  acceleratedSeasons: 0
+  seasonalGrowthMultiplier: 1.15
+  stages:
+  - stage: 0
+    fromGrowthDay: 0
+    model: {fileID: 100, guid: 997a571d3b034c02873498e066307268, type: 3}
+    scale: {x: 0.34, y: 0.34, z: 0.34}
+  - stage: 1
+    fromGrowthDay: 6
+    model: {fileID: 100, guid: 3a54fe28400e4698962b3ae336979f61, type: 3}
+    scale: {x: 0.62, y: 0.62, z: 0.62}
+  - stage: 3
+    fromGrowthDay: 20
+    model: {fileID: 100, guid: 91daaf48148448afa495cdc06f03663c, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  - stage: 6
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: 6dfb56d8844640f49d196d90356409b0, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  - stage: 7
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: df7fa3891c7e449fa46168ef3e811f56, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  stumpModel: {fileID: 100, guid: 772833974ef24ffdb54d57f15f355112, type: 3}

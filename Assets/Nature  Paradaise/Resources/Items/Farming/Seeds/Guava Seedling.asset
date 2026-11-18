@@ -7,7 +7,7 @@ MonoBehaviour:
   m_Name: Guava Seedling
   itemId: item.guava_seedling
   itemName: Guava Seedling
-  buyPrice: 750
+  buyPrice: 250
   sellPrice: 0
   category: 0
   maxStack: 16
@@ -19,3 +19,4 @@ MonoBehaviour:
   worldPrefab: {fileID: 100, guid: a8f5639ef1984e3faf299ad9f524464c, type: 3}
   worldScale: {x: 1, y: 1, z: 1}
   icon: {fileID: 21300000, guid: f93851564bb34a20a97d5a94ffd152d6, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: f93851564bb34a20a97d5a94ffd152d6, type: 3}

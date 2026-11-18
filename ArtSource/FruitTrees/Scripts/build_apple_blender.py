@@ -65,7 +65,7 @@ class Geometry:
         for face, (slot, coords) in zip(mesh.polygons, self.surfaces):
             face.use_smooth = True
             for loop, (u, v) in zip(face.loop_indices, coords):
-                uv_layer.data[loop].uv = atlas_uv(slot, u, v)
+                uv_layer.data[loop].uv = atlas_uv(slot, u, v, material.name)
         return obj
 
 
@@ -554,8 +554,8 @@ def collection(name):
     return group
 
 
-def material_atlas(atlas_folder=ATLAS_INPUT):
-    material = bpy.data.materials.new(ATLAS)
+def material_atlas(atlas_folder=ATLAS_INPUT, atlas_name=ATLAS):
+    material = bpy.data.materials.new(atlas_name)
     material.use_nodes = True
     nodes, links = material.node_tree.nodes, material.node_tree.links
     shader = nodes.get('Principled BSDF')
@@ -565,7 +565,7 @@ def material_atlas(atlas_folder=ATLAS_INPUT):
         tex = nodes.new('ShaderNodeTexImage')
         tex.label = 'Shared fruit tree ' + suffix
         tex.location = location
-        path = atlas_folder / f'{ATLAS}_{suffix}.png'
+        path = atlas_folder / f'{atlas_name}_{suffix}.png'
         tex.image = bpy.data.images.load(str(path))
         if suffix == 'BaseColor':
             color_texture = tex

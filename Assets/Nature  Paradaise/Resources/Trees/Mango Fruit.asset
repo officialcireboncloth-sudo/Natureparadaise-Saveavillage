@@ -8,7 +8,7 @@ MonoBehaviour:
   itemId: item.mango_fruit
   itemName: Mango
   buyPrice: 0
-  sellPrice: 100
+  sellPrice: 60
   category: 2
   maxStack: 16
   equippedTool: 0
@@ -18,3 +18,5 @@ MonoBehaviour:
   refrigeratorCategory: 2
   worldPrefab: {fileID: 100, guid: 7107010121d24deaa474dcfdaf1a4b41, type: 3}
   icon: {fileID: 21300000, guid: bdc658ba5eb74f79bebc64504fe4c533, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: bdc658ba5eb74f79bebc64504fe4c533, type: 3}
+  sellPricesByStars: 3c000000480000005a0000006c00000084000000

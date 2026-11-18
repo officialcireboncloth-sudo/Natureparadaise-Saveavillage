@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Rambutan Seedling
+  itemId: item.rambutan_seedling
+  itemName: Rambutan Seedling
+  buyPrice: 350
+  sellPrice: 0
+  category: 0
+  maxStack: 16
+  equippedTool: 0
+  requiredVillageLevel: 1
+  canDropToWorld: 1
+  canPlaceInWorld: 1
+  treeDefinition: {fileID: 11400000, guid: 647682df430b452b8302f8f869fa7f23, type: 2}
+  worldPrefab: {fileID: 100, guid: ba01b0fc059a492d9ca9392887979595, type: 3}
+  worldScale: {x: 1, y: 1, z: 1}
+  icon: {fileID: 21300000, guid: 4bdbd8cc155f4abaa0faf5ad8520b6dd, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: 4bdbd8cc155f4abaa0faf5ad8520b6dd, type: 3}

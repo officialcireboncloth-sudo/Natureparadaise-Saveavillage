@@ -40,11 +40,11 @@ def leaf_card(species, mesh, base, heading, length, width, roll, accent, *, spra
     mesh.add(vertices, [(face, [uv[i] for i in face]) for face in faces], slot, anchor=base)
 
 
-def shade_sprays(obj, runtime_scale, *, species):
+def shade_sprays(obj, runtime_scale, *, species, rect=SPRAY_RECT, strength=.74):
     """Blend the curved card normals toward the crown, leaving the bark and fruit untouched."""
     mesh = obj.data
     uvs = mesh.uv_layers.active.data
-    left, top, right, bottom = SPRAY_RECT
+    left, top, right, bottom = rect
     rectangles = [
         (atlas_uv(slot, left / 256, bottom / 256), atlas_uv(slot, right / 256, top / 256))
         for slot in (f'{species}/Leaf', f'{species}/LeafAccent')
@@ -58,7 +58,7 @@ def shade_sprays(obj, runtime_scale, *, species):
             continue
         x, y, z = mesh.vertices[loop.vertex_index].co * runtime_scale
         radial = Vector(((x - .06) * .67, (y - .045) * .67, .83 + (z - 1.72) * .27)).normalized()
-        normals[loop.index] = normals[loop.index].lerp(radial, .74).normalized()
+        normals[loop.index] = normals[loop.index].lerp(radial, strength).normalized()
         has_sprays = True
     if has_sprays:
         mesh.normals_split_custom_set(normals)

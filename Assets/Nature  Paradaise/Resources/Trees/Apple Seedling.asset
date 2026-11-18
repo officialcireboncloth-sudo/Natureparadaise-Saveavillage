@@ -7,7 +7,7 @@ MonoBehaviour:
   m_Name: Apple Seedling
   itemId: item.apple_seedling
   itemName: Apple Seedling
-  buyPrice: 750
+  buyPrice: 450
   sellPrice: 0
   category: 0
   maxStack: 16
@@ -19,3 +19,4 @@ MonoBehaviour:
   worldPrefab: {fileID: 100, guid: 4412ad4e210f485c90d1f43152a61a63, type: 3}
   worldScale: {x: 0.09, y: 0.09, z: 0.09}
   icon: {fileID: 21300000, guid: 767bd76d52735c15883b8c164d8a6c98, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: 767bd76d52735c15883b8c164d8a6c98, type: 3}

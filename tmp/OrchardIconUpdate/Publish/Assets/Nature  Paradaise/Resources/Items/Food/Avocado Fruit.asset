@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Avocado Fruit
+  itemId: item.avocado_fruit
+  itemName: Avocado
+  buyPrice: 0
+  sellPrice: 65
+  category: 2
+  maxStack: 16
+  equippedTool: 0
+  foodPreparation: 1
+  canDropToWorld: 1
+  worldPrefab: {fileID: 100, guid: d07817de5d5844e4ad72e3e3abb5cd8c, type: 3}
+  worldScale: {x: 1, y: 1, z: 1}
+  refrigeratorCategory: 2
+  icon: {fileID: 21300000, guid: 107952e8c5814eb982c59174b94d92e5, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: 107952e8c5814eb982c59174b94d92e5, type: 3}
+  sellPricesByStars: 410000004e00000062000000750000008f000000

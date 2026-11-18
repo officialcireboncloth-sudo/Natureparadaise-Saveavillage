@@ -7,7 +7,7 @@ MonoBehaviour:
   m_Name: Cherry Seedling
   itemId: item.cherry_seedling
   itemName: Cherry Seedling
-  buyPrice: 750
+  buyPrice: 450
   sellPrice: 0
   category: 0
   maxStack: 16
@@ -19,3 +19,4 @@ MonoBehaviour:
   worldPrefab: {fileID: 100, guid: fcbd7c67276246e8bad3de8d5b199f33, type: 3}
   worldScale: {x: 1, y: 1, z: 1}
   icon: {fileID: 21300000, guid: 2edc905918884eea91693d91b04d2968, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: 2edc905918884eea91693d91b04d2968, type: 3}

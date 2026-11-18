@@ -8,12 +8,15 @@ MonoBehaviour:
   itemId: item.orange_fruit
   itemName: Orange
   buyPrice: 0
-  sellPrice: 100
+  sellPrice: 40
   category: 2
   maxStack: 16
   equippedTool: 0
   foodPreparation: 1
   canDropToWorld: 1
-  worldScale: {x: 0.25, y: 0.25, z: 0.25}
+  worldScale: {x: 1, y: 1, z: 1}
   refrigeratorCategory: 2
   icon: {fileID: 21300000, guid: 420d2fedd1d55911a2944c42f23df75b, type: 3}
+  worldPrefab: {fileID: 100, guid: 72b7d0eaacb64b54a0ee07ce7ec51c1d, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: 420d2fedd1d55911a2944c42f23df75b, type: 3}
+  sellPricesByStars: 28000000300000003c0000004800000058000000

@@ -11,10 +11,10 @@ MonoBehaviour:
   woodItem: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
   fruitItem: {fileID: 11400000, guid: a18013b778504bde8d605216d139c0d8, type: 2}
   useFruitCare: 1
-  mutationFruitItem: {fileID: 0}
-  fruitMutationChance: 0
+  mutationFruitItem: {fileID: 11400000, guid: 79d0c95833394dadabe9b4bc4d783106, type: 2}
+  fruitMutationChance: 0.01
   fruitAmountsByStars: 05000000070000000a0000000f00000014000000
-  fruitSeasons: 15
+  fruitSeasons: 1
   floweringDays: 2
   fruitGrowthDays: 3
   fruitAmount: 5

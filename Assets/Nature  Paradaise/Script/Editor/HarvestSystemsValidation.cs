@@ -51,12 +51,15 @@ public static class HarvestSystemsValidation
             Check(saved.Stars==5&&saved.fertilizerDaysRemaining==6&&saved.mutationRollReady&&saved.mutationRoll==care.mutationRoll,"JSON preserves fruit care, duration and retry roll");
             var legacy=JsonUtility.FromJson<CropQualityCare>("{\"qualityVersion\":1}");
             Check(!legacy.harvestRollsReady,"Old crop save requests fresh harvest rolls");
-            foreach(string species in new[]{"Apple","Mango","Orange","Coconut"})
+            foreach(string species in new[]{"Apple","Avocado","Banana","Cherry","Coconut","Durian","Guava",
+                                            "Mango","OilPalm","Orange","Pear","Rambutan"})
             {
                 var profile=Resources.Load<TreeDefinition>("Trees/"+species);
                 Check(profile!=null&&profile.UsesFruitCare&&profile.matureDays==60,"Configured fruit care "+species);
                 Check(profile.stages.Length==5&&profile.HarvestAmount(5)==20,"Five stages and yield "+species);
                 Check(profile.mutationFruitItem!=null&&profile.mutationFruitItem.mutationSourceItem==profile.fruitItem,"Mutation binding "+species);
+                foreach(var item in new[]{profile.fruitItem,profile.mutationFruitItem})
+                    Check(item.icon!=null&&item.inventoryIllustration==item.icon,"Inventory and shop sprite "+item.name);
                 Check(ItemCatalog.Resolve(profile.mutationFruitItem.Id)==profile.mutationFruitItem,"Mutation save identity "+species);
             }
             // The actual WorldTree path must leave progress and normal fruit untouched on full inventory.

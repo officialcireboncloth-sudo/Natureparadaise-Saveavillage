@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad726a9495424bacbe3aa01000000001, type: 3}
+  m_Name: Durian
+  treeType: Durian
+  matureDays: 60
+  wildTree: 0
+  woodItem: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+  fruitItem: {fileID: 11400000, guid: b080e4f0108b41cbbb4590e3e01b29d4, type: 2}
+  useFruitCare: 1
+  mutationFruitItem: {fileID: 11400000, guid: 6bc76b9de35b466fa90e3be9d737b254, type: 2}
+  fruitMutationChance: 0.01
+  fruitAmountsByStars: 05000000070000000a0000000f00000014000000
+  fruitSeasons: 2
+  floweringDays: 2
+  fruitGrowthDays: 4
+  fruitAmount: 5
+  waterUntilGrowthDay: 42
+  dryGraceDays: 1
+  dryGrowthMultiplier: 0.25
+  youngStormDamageChance: 0.15
+  stormDamage: 10
+  acceleratedSeasons: 0
+  seasonalGrowthMultiplier: 1.15
+  stages:
+  - stage: 0
+    fromGrowthDay: 0
+    model: {fileID: 100, guid: 6fb4188afeb849b7a3d83de4b02189e1, type: 3}
+    scale: {x: 0.1, y: 0.1, z: 0.1}
+  - stage: 1
+    fromGrowthDay: 6
+    model: {fileID: 100, guid: dce1eaf071d043d1932569583542c097, type: 3}
+    scale: {x: 0.26, y: 0.26, z: 0.26}
+  - stage: 3
+    fromGrowthDay: 20
+    model: {fileID: 100, guid: bcf092fbe1df4a5681983a59981f469c, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  - stage: 6
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: a18055fe1c714721872d8c614a93632e, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  - stage: 7
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: affe67f8432a47abaa37b8f6c8c3d350, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  stumpModel: {fileID: 100, guid: 27c5dd117def4bd4b3a5a687347036ac, type: 3}

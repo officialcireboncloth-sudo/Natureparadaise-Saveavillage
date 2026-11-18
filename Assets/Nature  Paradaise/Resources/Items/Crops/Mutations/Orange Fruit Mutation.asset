@@ -8,15 +8,17 @@ MonoBehaviour:
   itemId: item.orange_fruit_mutation
   itemName: Orange Mutasi
   buyPrice: 0
-  sellPrice: 100
+  sellPrice: 40
   category: 2
   maxStack: 16
   equippedTool: 0
   foodPreparation: 1
   canDropToWorld: 1
-  worldScale: {x: 0.25, y: 0.25, z: 0.25}
+  worldScale: {x: 1, y: 1, z: 1}
   refrigeratorCategory: 2
   isMutatedCrop: 1
   mutationSourceItem: {fileID: 11400000, guid: ad726a9495424bacbe3aa0100000006f, type: 2}
   inventoryDescription: Mutasi langka dari panen pohon bintang 5. Harga jual 3x buah normal bintang yang sama.
   icon: {fileID: 21300000, guid: 9ba1805bdb1e5cae8f76becb722fa036, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: 9ba1805bdb1e5cae8f76becb722fa036, type: 3}
+  worldPrefab: {fileID: 100, guid: 72b7d0eaacb64b54a0ee07ce7ec51c1d, type: 3}

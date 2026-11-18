@@ -8,7 +8,7 @@ MonoBehaviour:
   itemId: item.avocado_fruit
   itemName: Avocado
   buyPrice: 0
-  sellPrice: 100
+  sellPrice: 65
   category: 2
   maxStack: 16
   equippedTool: 0
@@ -18,3 +18,5 @@ MonoBehaviour:
   worldScale: {x: 1, y: 1, z: 1}
   refrigeratorCategory: 2
   icon: {fileID: 21300000, guid: 107952e8c5814eb982c59174b94d92e5, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: 107952e8c5814eb982c59174b94d92e5, type: 3}
+  sellPricesByStars: 410000004e00000062000000750000008f000000

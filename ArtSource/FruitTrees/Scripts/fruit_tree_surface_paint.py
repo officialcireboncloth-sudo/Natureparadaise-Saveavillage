@@ -4,8 +4,14 @@ import math
 import random
 
 from fruit_tree_atlas import (
+    BANANA_BLOSSOM_UV, BANANA_GREEN_PEEL_WIDTH,
+    DURIAN_BARK_UV, DURIAN_PEEL_WIDTH, DURIAN_PULP_RECT, DURIAN_SECTION_CENTER, DURIAN_SECTION_RADIUS,
+    DURIAN_SEED_RECT,
     CUTOUT_SPECIES, GUAVA_PEEL_WIDTH, GUAVA_SECTION_CENTER, GUAVA_SECTION_RADIUS,
     MANGO_PEEL_WIDTH, MANGO_SECTION_CENTER, MANGO_SECTION_RADIUS, MANGO_SEED_CENTER, MANGO_SEED_RADII,
+    ORANGE_PEEL_WIDTH, ORANGE_SECTION_CENTER, ORANGE_SECTION_RADIUS, ORANGE_SEED_RECT,
+    PEAR_BARK_UV, PEAR_PEEL_WIDTH, PEAR_PROFILE, PEAR_SECTION_CENTER, PEAR_SECTION_SCALE,
+    RAMBUTAN_PEEL_WIDTH, RAMBUTAN_SECTION_CENTER, RAMBUTAN_SECTION_RADIUS, RAMBUTAN_SEED_RECT,
     PADDING, SINGLE_LEAF_RECT, SPRAY_ROOT, TILE,
 )
 
@@ -94,6 +100,12 @@ def leaf_cutouts(paint, species, accent):
         elif species == 'guava':
             edge = 33.5 * arch**.58
             tooth = 1
+        elif species == 'orange':
+            edge = 32.5 * arch**.74 * (1.10 - .25 * t)
+            tooth = 1
+        elif species == 'rambutan':
+            edge = 28.5 * arch**.76 * (1.24 - .44 * t)
+            tooth = 1
         elif mango:
             edge = 17.8 * arch**1.12 * (1.26 - .48 * t)
             tooth = 1
@@ -144,6 +156,19 @@ def leaf_cutouts(paint, species, accent):
             (116, 111, -51, .92, 2), (116, 111, 53, .91, 1),
             (114, 85, -8, .69, 2),
         )
+    elif species == 'orange':
+        leaves = (
+            (109, 204, -75, .86, 0), (109, 204, 71, .90, 1),
+            (112, 159, -62, .97, 1), (112, 159, 58, .98, 2),
+            (115, 118, -39, .96, 0), (115, 118, 43, 1.02, 1),
+            (115, 105, -4, .92, 2),
+        )
+    elif species == 'rambutan':
+        leaves = (
+            (109, 210, -68, .94, 0), (109, 207, 68, .98, 1),
+            (111, 166, -61, 1.02, 1), (111, 164, 61, 1.02, 2),
+            (115, 121, -49, .94, 2), (115, 119, 49, .95, 1),
+        )
     elif mango:
         leaves = (
             (110, 203, -76, .91, 0), (110, 203, 68, .87, 1),
@@ -174,19 +199,153 @@ def leaf_cutouts(paint, species, accent):
 
 # Pairs, lamina width, vein sweep and vein contrast vary with the leaf geometry.
 VENATION = {
-    'orange': (6, 95, 41, .25),
     'pear': (7, 99, 37, .33),
     'peach': (11, 75, 37, .35),
-    'banana': (28, 135, 24, .34),
-    'rambutan': (8, 85, 42, .34),
-    'durian': (9, 80, 45, .32),
 }
 
 
+def durian_leaf(paint, accent):
+    """Paint the center ridge at the blade's middle UV and fan the veins toward its margins."""
+    paint.ground(((0, 2), (.24, 1), (.65, 1), (1, 0)))
+    paint.wash(80, 99, 79, 158, 2, .72)
+    paint.wash(201, 155, 103, 160, 0, .54)
+    paint.wash(145, 69, 57, 89, 2, .39)
+    shade = '#4b381b' if accent else '#152f1c'
+    veins = '#ba945c' if accent else '#7b9850'
+    midrib = '#e0bc7a' if accent else '#a5b96a'
+    for side in (-1, 1):
+        for index, root in enumerate((50, 79, 108, 138, 168, 197, 224)):
+            y = root + (2.4 if side == 1 else -1.8)
+            spread = (79 + 22 * math.sin(math.pi * index / 7)) * side
+            # Broader tonal folds hold the pattern when the small veins are mip-filtered.
+            curve = (128, y, 128 + spread*.32, y-6, 128 + spread*.76, y-28,
+                     128 + spread, y-52)
+            paint.stroke(curve, 0, 13.0, .34, None if paint.relief else shade)
+            paint.stroke(tuple(value - 2.9 if coordinate % 2 else value
+                               for coordinate, value in enumerate(curve)),
+                         2, 7.3, .39)
+            paint.stroke(curve, 3, 3.9, .76, None if paint.relief else veins)
+            branch = (128 + spread*.48, y-15, 128 + spread*.68, y-18, 128 + spread*.84, y-29)
+            paint.stroke(branch, 2, 2.0, .40)
+    spine = (128, 257, 126, 183, 130, 83, 128, 0)
+    paint.stroke(spine, 0, 17.0, .59, None if paint.relief else shade)
+    paint.stroke(spine, 2, 10.0, .96)
+    light = (126, 255, 124, 183, 128, 83, 126, 2)
+    paint.stroke(light, 3, 5.8, .82, None if paint.relief else midrib)
+    if not paint.relief:
+        for _ in range(105):
+            x, y = paint.rng.uniform(12, 244), paint.rng.uniform(8, 245)
+            length = paint.rng.uniform(2.3, 7.8)
+            paint.stroke((x, y, x + length * .63, y - length), paint.rng.choice((0, 2)),
+                         paint.rng.uniform(.57, 1.5), .21)
+
+
 def leaf(paint, species, accent):
-    if species.capitalize() in CUTOUT_SPECIES:
+    if species == 'banana':
+        banana_leaf(paint, accent)
+    elif species.capitalize() in CUTOUT_SPECIES:
         leaf_cutouts(paint, species, accent)
-        return
+    elif species == 'durian':
+        durian_leaf(paint, accent)
+    else:
+        layered_leaf(paint, species, accent)
+
+
+def banana_leaf(paint, accent):
+    # Irregular cuts follow the veins and open through the outer edge of the older blades.
+    splits = (((.13, .18), (.26, .45), (.40, .31), (.54, .54), (.69, .31), (.80, .21)),
+              ((.13, .24), (.24, .32), (.36, .49), (.50, .32), (.64, .44), (.77, .28)))
+
+    def edge(t, side):
+        width = 114 * math.sin(math.pi * t)**.53 * (.91 + .18 * t)
+        return 128 + side * width + 1.9 * math.sin(t * 9) * math.sin(math.pi * t), 9 + 222 * t
+
+    sides = []
+    for side, cuts in zip((-1, 1), splits):
+        cuts = () if accent else cuts
+        samples = [i / 64 for i in range(65)]
+        points = [(t, edge(t, side)) for t in samples
+                  if not any(at - .007 <= t <= at + .021 for at, _ in cuts)]
+        for at, depth in cuts:
+            start, inner, end = at - .007, at + .003, at + .021
+            x, y = edge(inner, side)
+            points.extend(((start, edge(start, side)), (inner, (x + (128 - x) * depth, y)),
+                           (end, edge(end, side))))
+        sides.append([point for _, point in sorted(points)])
+    outline = ' '.join(f'{x:.2f},{y:.2f}' for x, y in (*sides[0], *reversed(sides[1][1:-1])))
+    paint.definitions.append(f'<clipPath id="banana-edge"><polygon points="{outline}"/></clipPath>')
+    if paint.relief:
+        paint.elements.append(f'<rect x="-24" y="-24" width="304" height="304" fill="{paint.palette[1]}"/>')
+    paint.elements.append('<g clip-path="url(#banana-edge)">')
+    paint.ground(((0, 2), (.30, 1), (.69, 1), (1, 0)))
+    paint.wash(79, 109, 77, 113, 2, .90)
+    paint.wash(172, 153, 64, 106, 0, .55)
+    paint.wash(240, 100, 54, 133, 3, .70)
+    paint.wash(28, 151, 29, 96, 3, .49)
+    for side in (-1, 1):
+        for index in range(43):
+            t = .07 + .87 * index / 42
+            x, y = edge(max(.01, t - .09), side)
+            ridge_y = 9 + t * 222 + paint.rng.uniform(-1.6, 1.6)
+            reach = x - 128
+            curve = (128, ridge_y, 128 + reach * .27, ridge_y - 3,
+                     x - reach * .13, y + 7, x, y)
+            paint.stroke(curve, 0, 2.0, .20)
+            highlight = tuple(value - .89 if j % 2 else value for j, value in enumerate(curve))
+            paint.stroke(highlight, 2 if index % 4 else 3, .86, .32)
+    rib = (128, 232, 126, 163, 131, 83, 128, 10)
+    paint.stroke(rib, 0, 7.4, .37)
+    paint.stroke(rib, 3, 3.6, .77)
+    paint.stroke((127, 231, 126, 181, 128, 146), 3, 5.1, .55)
+    paint.elements.append('</g>')
+    paint.stroke((128, 250, 127, 241, 128, 230), 1, 6.3, 1)
+    paint.stroke((127, 248, 127, 239, 128, 230), 3, 2.6, .75)
+
+
+def banana_sheath(paint):
+    rng = paint.rng
+    paint.ground(((0, 2), (.35, 1), (.66, 1), (.85, 1), (1, 0)))
+    # Long, shallow folds catch a thin rim of light next to each darker overlap.
+    for x, tilt in ((12, -12), (51, 8), (96, 19), (139, 11), (193, -10), (236, 12)):
+        paint.wash(x - 5, 109, 27, 118, 2, .69, wrap=True)
+        paint.wash(x + 13, 169, 15, 110, 0, .59, wrap=True)
+        paint.wash(x + 5, 243, 20, 74, 3, .79, wrap=True)
+        for xx in wrapped(x, abs(tilt) + 14):
+            fold = (xx, 268, xx + tilt * .25 + 3, 187, xx + tilt * .84 - 3, 81, xx + tilt, -12)
+            paint.stroke(fold, 0, 7.0, .22)
+            paint.stroke(fold, 0, 2.9, .49)
+            lip = tuple(value - 2.7 if i % 2 == 0 else value for i, value in enumerate(fold))
+            paint.stroke(lip, 2, 2.5, .56)
+
+    # The fibers vary in length and fade across the soft patches of pigment.
+    for _ in range(164):
+        x, y = rng.uniform(0, 256), rng.uniform(-28, 259)
+        length, bend = rng.uniform(8, 66), rng.uniform(-4.7, 4.7)
+        width, opacity = rng.uniform(.55, 1.3), rng.uniform(.15, .43)
+        tone = rng.choice((0, 2, 2))
+        for xx in wrapped(x, abs(bend) + 2):
+            curve = (xx, y, xx + bend * .27, y + length * .58, xx + bend, y + length)
+            paint.stroke(curve, tone, width, opacity)
+
+    for _ in range(105):
+        x, y = rng.uniform(0, 256), rng.uniform(26, 260)
+        width, height = rng.uniform(.36, 1.1), rng.uniform(.8, 3.5)
+        opacity = rng.uniform(.13, .34) * (.47 + .66 * y / 256)
+        for xx in wrapped(x, width + 1):
+            paint.dab(xx, y, width, height, 0, opacity)
+            paint.dab(xx - .51, y - .21, width * .51, height * .67, 2, opacity * .52)
+
+    # Warm, short scuffs are concentrated where the lowest sheaths age.
+    if not paint.relief:
+        for _ in range(22):
+            x, y = rng.uniform(0, 256), rng.uniform(159, 256)
+            width, height = rng.uniform(1.4, 4.7), rng.uniform(3.3, 15)
+            paint.wash(x, y, width * 2.7, height * 1.5, 3, .56, wrap=True)
+            for xx in wrapped(x, width + 2):
+                paint.dab(xx, y, width, height, 0, rng.uniform(.18, .35), '#82602b')
+
+
+def layered_leaf(paint, species, accent):
 
     rng = paint.rng
     paint.ground(((0, 2), (.36, 1), (.70, 1), (1, 0)))
@@ -206,9 +365,8 @@ def leaf(paint, species, accent):
         paint.wash(x, y, rng.uniform(12, 38), rng.uniform(16, 51), rng.choice((0, 2)), rng.uniform(.12, .31))
 
     ridge = (127.5, 267, 122, 192, 135, 97, 128, -11)
-    main_width = 6.4 if species == 'banana' else 3.7
-    paint.stroke(ridge, 0, main_width + 3.8, .37)
-    paint.stroke(ridge, 3, main_width, .67 if accent else .52)
+    paint.stroke(ridge, 0, 7.5, .37)
+    paint.stroke(ridge, 3, 3.7, .67 if accent else .52)
     for side in (-1, 1):
         for vein in range(pairs):
             t = vein / (pairs - 1)
@@ -219,16 +377,15 @@ def leaf(paint, species, accent):
             end_y = y - sweep * rng.uniform(.86, 1.11)
             curve = (center, y, center + side * spread * .39, y - sweep * .37,
                      target_x - side * 15, end_y + 14, target_x, end_y)
-            paint.stroke(curve, 0, 2.4 if species == 'banana' else 3, opacity * .67)
+            paint.stroke(curve, 0, 3, opacity * .67)
             light_curve = tuple(value - 1 if i % 2 else value for i, value in enumerate(curve))
             paint.stroke(light_curve, 3, 1.28, opacity)
-            if species != 'banana':
-                for branch in (.43, .65, .82):
-                    bx = center + side * spread * branch
-                    by = y + (end_y - y) * branch
-                    paint.stroke((bx, by, bx + side * 8, by - 11, bx + side * 18, by - 17),
-                                 2, .72, opacity * .73)
-    for _ in range(165 if species == 'banana' else 105):
+            for branch in (.43, .65, .82):
+                bx = center + side * spread * branch
+                by = y + (end_y - y) * branch
+                paint.stroke((bx, by, bx + side * 8, by - 11, bx + side * 18, by - 17),
+                             2, .72, opacity * .73)
+    for _ in range(105):
         x, y = rng.uniform(0, 256), rng.uniform(0, 256)
         length = rng.uniform(2, 10)
         reach = length * (1 if x > 128 else -1)
@@ -337,7 +494,6 @@ def bark(paint, surface):
     rng = paint.rng
     paint.ground(((0, 1), (.29, 1), (.51, 2), (.81, 1), (1, 1)))
     plate_count, crack_count, stretch = {
-        'BananaSheath': (38, 92, 1.72),
         'PapayaStem': (12, 38, .74),
         'GreenStem': (27, 48, 1.45),
         'StoneSeed': (76, 62, .87),
@@ -363,11 +519,6 @@ def bark(paint, surface):
         for xx in wrapped(x, abs(bend) + 2):
             paint.stroke((xx, y, xx + bend, y + span * .46, xx + bend * .32, y + span),
                          0, width, .30)
-    if surface == 'BananaSheath':
-        for x in (-25, 61, 166):
-            for xx in wrapped(x % 256, 83):
-                paint.stroke((xx, 269, xx+16, 214, xx+80, 110, xx+105, 21), 2, 6.8, .59)
-                paint.stroke((xx+5, 269, xx+22, 214, xx+87, 110, xx+109, 21), 0, 4, .37)
     if surface == 'PapayaStem':
         for row in range(7):
             for x in range(17 - 16 * (row % 2), 263, 56):
@@ -421,8 +572,6 @@ PEELS = {
     'papaya': ('fleck', 16, 1.15),
     'banana': ('fleck', 18, .82),
     'dragon': ('scale', 27, 8.7),
-    'rambutan': ('root', 12.8, 2.25),
-    'durian': ('facet', 16, 5.8),
 }
 
 
@@ -611,25 +760,446 @@ def mango_sections(paint):
                      i % 2 + 2, .76 + i % 3 * .26, .66, color)
 
 
+def orange_section(paint):
+    x, y = ORANGE_SECTION_CENTER
+    radius = ORANGE_SECTION_RADIUS
+    left, top, right, bottom = ORANGE_SEED_RECT
+    if paint.relief:
+        paint.dab(x, y, radius + 3, radius + 3, 1, 1)
+        paint.elements.append(f'<rect x="{left}" y="{top}" width="{right-left}" height="{bottom-top}" fill="#808080"/>')
+        return
+
+    paint.definitions.extend((
+        '<radialGradient id="citrusPulp"><stop stop-color="#ffb43c"/>'
+        '<stop offset=".72" stop-color="#f78d16"/><stop offset="1" stop-color="#ffba40"/></radialGradient>',
+        '<linearGradient id="citrusSeed" x1="0" y1="0" x2=".22" y2="1" gradientUnits="objectBoundingBox">'
+        '<stop stop-color="#c6a678"/><stop offset=".46" stop-color="#e9ce9a"/>'
+        '<stop offset="1" stop-color="#f7e4bc"/></linearGradient>',
+    ))
+    paint.elements.append(f'<rect x="{left-2}" y="{top-2}" width="{right-left+4}" height="{bottom-top+4}" '
+                          'fill="url(#citrusSeed)"/>')
+    paint.dab(x, y, radius + 3, radius + 3, 2, 1, '#f08718')
+    paint.dab(x, y, radius - .7, radius - .7, 3, 1, '#ffe0a0')
+    for index in range(10):
+        turn = 5 + index * 36
+        paint.elements.append(f'<g transform="translate({x} {y}) rotate({turn})">')
+        paint.elements.append('<path d="M 0 -4 Q -7 -12 -12 -36 Q -12 -41 -5 -43 '
+                              'Q 5 -45 12 -39 Q 14 -36 10 -28 Q 4 -12 0 -4 Z" fill="url(#citrusPulp)"/>')
+        for row, count in ((13, 2), (20, 3), (27, 4), (35, 5), (40, 4)):
+            for tooth in range(count):
+                px = (tooth - (count - 1) * .5) * (2.2 + .06 * row) + paint.rng.uniform(-.85, .85)
+                py = -row + paint.rng.uniform(-2, 2)
+                paint.dab(px, py, .71, 1.40, 3, .42, '#ffe186')
+        paint.elements.append('</g>')
+    paint.dab(x, y, 4.3, 3.75, 3, 1, '#ffe6ad')
+
+
+RIPE_SECTIONS = {
+    'guava': (GUAVA_PEEL_WIDTH, guava_section),
+    'mango': (MANGO_PEEL_WIDTH, mango_sections),
+    'orange': (ORANGE_PEEL_WIDTH, orange_section),
+}
+
+
+def rambutan_hair_paths(length, bend, radius, hook):
+    """Build tapered contours for the shadowed edge, raised shaft and lit crest."""
+    contours = [[], [], []]
+    for index in range(15):
+        t = index / 14
+        a = 1 - t
+        x = bend * (1.94 * a * t * t + t**3)
+        y = -length * (1.46 * a*a*t + 3.13 * a*t*t + hook * t**3)
+        dx = bend * (3.88 * a*t + 1.06 * t*t)
+        dy = -length * (1.46 * a*a + 3.34 * a*t + (3 * hook - 3.13) * t*t)
+        slope = math.hypot(dx, dy)
+        width = radius * a**.79 * (.90 + .37 * t)
+        ux, uy = -dy / slope * width, dx / slope * width
+        for contour, (outer, inner) in zip(contours, ((1, -1), (.78, -.61), (.45, -.18))):
+            contour.append(((x + ux * outer, y + uy * outer), (x + ux * inner, y + uy * inner)))
+
+    outlines = []
+    for contour in contours:
+        left, right = zip(*contour)
+        outlines.append(' '.join(f'{x:.2f},{y:.2f}' for x, y in (*left, *reversed(right))))
+    return outlines
+
+
+def rambutan_skin(paint):
+    paint.ground(((0, 0), (.18, 1), (.39, 2), (.72, 1), (1, 0)))
+    paint.wash(76, 100, 123, 152, 2, .71, wrap=True)
+    paint.wash(184, 155, 98, 109, 0, .46, wrap=True)
+    rng = random.Random('rambutan peel grain')
+    for _ in range(73):
+        x, y = rng.uniform(0, 256), rng.uniform(-9, 265)
+        width, height = rng.uniform(4, 21), rng.uniform(4, 16)
+        paint.wash(x, y, width, height, rng.choice((0, 2, 3)), rng.uniform(.13, .48), wrap=True)
+    for _ in range(1060):
+        x, y = rng.uniform(0, 256), rng.uniform(-2, 258)
+        size = rng.uniform(.37, 1.28)
+        tone = rng.choice((0, 2, 3))
+        for xx in wrapped(x, size):
+            paint.dab(xx, y, size, size * .76, tone, rng.uniform(.08, .24))
+
+
+def rambutan_hairs(paint, ripe):
+    rng = random.Random('rambutan peel bristles')
+    if paint.relief:
+        edge = ('#858585', '#939393', '#999999')
+        shaft = ('#929292', '#a8a8a8', '#a1a1a1')
+        crest = ('#a8a8a8', '#c1c1c1', '#acacac')
+        root_dark, root_mid, root_light = '#747474', '#939393', '#b3b3b3'
+    elif ripe:
+        edge = ('#7e1125', '#a12c27', '#766832')
+        shaft = ('#ad152a', '#c52d31', '#b9a064')
+        crest = ('#d52839', '#dc413b', '#e4cb8b')
+        root_dark, root_mid, root_light = '#510c20', '#aa1a2b', '#ed4c4e'
+    else:
+        edge = ('#4b5620', '#6b7828', '#777638')
+        shaft = ('#60752a', '#8c9a3e', '#aeac5a')
+        crest = ('#859434', '#a8b14a', '#d0c275')
+        root_dark, root_mid, root_light = '#414c1d', '#728536', '#adb651'
+
+    for name, colors in (('hairEdge', edge), ('hairShaft', shaft), ('hairCrest', crest)):
+        stops = ''.join(f'<stop offset="{offset}" stop-color="{color}"/>'
+                        for offset, color in zip((0, .82, 1), colors))
+        paint.definitions.append(f'<linearGradient id="{name}" x1="0" y1="1" x2="0" y2="0">'
+                                 + stops + '</linearGradient>')
+
+    hairs = []
+    for row in range(23):
+        for column in range(26):
+            x = ((column + .5 * (row % 2)) * 256 / 26 + rng.uniform(-4.4, 4.4)) % 256
+            y = (row + .5) * 256 / 23 + rng.uniform(-5.1, 5.1)
+            length = rng.uniform(9, 17) if rng.random() < .49 else rng.uniform(17, 29)
+            radius = rng.uniform(.68, 1.20) + length * .017
+            flow = 21 * math.sin(x * math.tau / 128 + y * .047)
+            hairs.append((x, y, length, rng.uniform(2, 11) * rng.choice((-1, 1)),
+                          radius, flow + rng.uniform(-118, 118), rng.uniform(.64, 1.03)))
+
+    # Place all follicles first so the ends of neighbouring hairs can overlap them.
+    for x, y, _, _, radius, _, _ in hairs:
+        for xx in wrapped(x, radius * 3.5):
+            paint.dab(xx + .63, y + .83, radius * 2.65, radius * 1.98, 0, .51, root_dark)
+            paint.dab(xx - .13, y - .26, radius * 2.0, radius * 1.66, 1, .88, root_mid)
+            paint.dab(xx - .84, y - .87, radius * 1.40, radius * 1.04, 2, .61, root_light)
+
+    for x, y, length, bend, radius, angle, hook in sorted(hairs, key=lambda hair: hair[1]):
+        body, shaft, highlight = rambutan_hair_paths(length, bend, radius, hook)
+        for xx in wrapped(x, length + abs(bend)):
+            if not paint.relief:
+                paint.elements.append(f'<polygon points="{body}" fill="{root_dark}" opacity=".37" '
+                                      f'transform="translate({xx+.94:.2f} {y+1.51:.2f}) '
+                                      f'scale(.87 1) rotate({angle:.2f})"/>')
+            paint.elements.append(f'<g transform="translate({xx:.2f} {y:.2f}) scale(.87 1) rotate({angle:.2f})">')
+            paint.elements.append(f'<polygon points="{body}" fill="url(#hairEdge)"/>')
+            paint.elements.append(f'<polygon points="{shaft}" fill="url(#hairShaft)"/>')
+            paint.elements.append(f'<polygon points="{highlight}" fill="url(#hairCrest)" opacity=".80"/>')
+            paint.elements.append('</g>')
+
+
+def rambutan_swatch(paint, ripe):
+    width = RAMBUTAN_PEEL_WIDTH
+    paint.elements.append(f'<rect width="256" height="256" fill="{paint.palette[1]}"/>')
+    paint.elements.append(f'<g transform="scale({width} 1)">')
+    rambutan_skin(paint)
+    rambutan_hairs(paint, ripe)
+    paint.elements.append('</g>')
+    if paint.relief or not ripe:
+        return
+
+    x, y = RAMBUTAN_SECTION_CENTER
+    radius = RAMBUTAN_SECTION_RADIUS
+    paint.definitions.extend((
+        '<radialGradient id="aril" cx=".43" cy=".29" r=".70"><stop stop-color="#fff6dc"/>'
+        '<stop offset=".48" stop-color="#f2e2bf"/><stop offset="1" stop-color="#d6bc93"/></radialGradient>',
+        '<linearGradient id="rambutanSeed" x2=".18" y2="1"><stop stop-color="#b78d55"/>'
+        '<stop offset=".45" stop-color="#d8b481"/><stop offset="1" stop-color="#e8c898"/></linearGradient>',
+    ))
+    paint.dab(x, y, radius + 3, radius + 3, 1, 1, '#bc3b28')
+    paint.dab(x, y, radius - 3, radius - 3, 1, 1, '#df815c')
+    paint.dab(x, y, radius - 8, radius - 8, 1, 1, 'url(#aril)')
+    paint.wash(x - 13, y - 19, 19, 10, 3, .19)
+    left, top, right, bottom = RAMBUTAN_SEED_RECT
+    paint.elements.append(f'<rect x="{left-2}" y="{top-2}" width="{right-left+4}" height="{bottom-top+4}" '
+                          'fill="url(#rambutanSeed)"/>')
+    for row in range(6):
+        sy = top + 5 + row * 7
+        paint.stroke((left + 1, sy, left + 26, sy - 3, right - 10, sy + 3, right - 1, sy - 1),
+                     1, .8, .45, '#a4784a')
+
+
+def durian_peel(paint, ripe):
+    paint.elements.append(f'<rect x="-24" y="-24" width="304" height="304" fill="{paint.palette[1]}"/>')
+    paint.elements.append(f'<g transform="scale({DURIAN_PEEL_WIDTH} 1)">')
+    paint.ground(((0, 2), (.32, 1), (.66, 1), (1, 0)))
+    for _ in range(122):
+        x, y = paint.rng.uniform(0, 256), paint.rng.uniform(-3, 259)
+        size = paint.rng.uniform(.64, 5.2)
+        tone = paint.rng.choice((0, 2, 3))
+        for xx in wrapped(x, size):
+            paint.dab(xx, y, size, size * .82, tone, paint.rng.uniform(.07, .23))
+    paint.elements.append('</g>')
+    if not ripe:
+        wood = Swatch('Durian wood', ('#543e29', '#805c3d', '#a87d53', '#c39a69'), paint.relief)
+        orchard_wood(wood, 'Bark')
+        if not paint.relief:
+            wood.wash(65, 224, 117, 67, 1, .38, wrap=True)
+            for _ in range(50):
+                x, y = wood.rng.uniform(0, 256), wood.rng.uniform(197, 254)
+                width = wood.rng.uniform(1.0, 4.5)
+                for xx in wrapped(x, width):
+                    wood.dab(xx, y, width, width * .49, 1, .33, '#6a663e')
+        paint.definitions.extend(definition.replace('id="', 'id="durianBark-') for definition in wood.definitions)
+        left, right = DURIAN_BARK_UV
+        paint.elements.append(f'<g transform="translate({left * 256} 0) scale({right-left} 1)">')
+        paint.elements.extend(element.replace('url(#', 'url(#durianBark-') for element in wood.elements)
+        paint.elements.append('</g>')
+        return
+
+    if paint.relief:
+        return
+    x, y = DURIAN_SECTION_CENTER
+    radius = DURIAN_SECTION_RADIUS
+    paint.dab(x, y, radius + 4, radius + 4, 0, 1, '#81753d')
+    paint.dab(x, y, radius - 1, radius - 1, 1, 1, '#d2b97b')
+    paint.dab(x, y, radius - 5, radius - 5, 3, 1, '#f0deb0')
+    paint.dab(x + 2, y + 1, radius - 12, radius - 10, 3, 1, '#e0c78f')
+    for offset in (-16, 14):
+        paint.stroke((x + offset, y - 33, x + offset - 4, y + 2, x + offset + 5, y + 31),
+                     3, 2.2, .82, '#fff0ce')
+    for name, rect, tones in (
+        ('durianPulp', DURIAN_PULP_RECT, ('#edc255', '#dfa137', '#bf771e')),
+        ('durianSeed', DURIAN_SEED_RECT, ('#bc804b', '#9f5f31', '#713c22')),
+    ):
+        left, top, right, bottom = rect
+        stops = ''.join(f'<stop offset="{at}" stop-color="{tone}"/>' for at, tone in zip((0,.50,1), tones))
+        paint.definitions.append(f'<linearGradient id="{name}" x2=".32" y2="1">{stops}</linearGradient>')
+        paint.elements.append(f'<rect x="{left-2}" y="{top-2}" width="{right-left+4}" height="{bottom-top+4}" '
+                              f'fill="url(#{name})"/>')
+        tone = '#f6d079' if name == 'durianPulp' else '#d19557'
+        for _ in range(38):
+            x, y = paint.rng.uniform(left + 2, right - 17), paint.rng.uniform(top + 3, bottom - 6)
+            length = paint.rng.uniform(7, 14)
+            paint.stroke((x, y, x + length * .61, y - 1.5, x + length, y + 1.7), 3, .85, .30, tone)
+
+
+def pear_leaf(paint):
+    def margin(t, side):
+        width = 104 * math.sin(math.pi * t)**.91 * (.73 + .55 * t)
+        return 126 + 12 * math.sin(math.pi * t) + side * width, 12 + 220 * t
+
+    # The entire silhouette, including the teeth, comes from the texture's alpha.
+    edges = []
+    for side in (-1, 1):
+        points = [margin(0, side)]
+        for index in range(1, 14):
+            t = (index - (.18 if side == 1 else 0)) / 14
+            x, y = margin(t, side)
+            tooth = 5.8 * math.sin(math.pi * t)**.68 * (1 + .18 * math.sin(2.65 * index + side))
+            before = margin(t - .023, side)
+            points.extend(((before[0] - side * tooth * .29, before[1]),
+                           (x + tooth * side, y - 2.0), (x - tooth * side * .57, y + 4.8)))
+        edges.append(points + [margin(1, side)])
+    points = [*edges[0][:-1], *reversed(edges[1][1:])]
+    outline = f'M{points[0][0]:.2f},{points[0][1]:.2f}'
+    for index, (x, y) in enumerate(points[1:], 1):
+        if index == len(edges[0]) - 1:
+            outline += f'L{x:.2f},{y:.2f}'
+            continue
+        x0, y0 = points[index - 1]
+        x1, y1 = points[(index + 1) % len(points)]
+        outline += (f'L{x + (x0 - x) * .21:.2f},{y + (y0 - y) * .21:.2f}'
+                    f'Q{x:.2f},{y:.2f} {x + (x1 - x) * .21:.2f},{y + (y1 - y) * .21:.2f}')
+    paint.definitions.append(f'<clipPath id="pear-blade"><path d="{outline}Z"/></clipPath>')
+    if paint.relief:
+        paint.ground(((0, 1), (1, 1)))
+    paint.elements.append('<g clip-path="url(#pear-blade)">')
+    paint.ground(((0, 0), (.22, 1), (.54, 1), (.90, 1), (1, 0)))
+    paint.wash(108, 132, 71, 103, 2, .88)
+    paint.wash(198, 149, 68, 117, 0, .64)
+    paint.wash(129, 76, 25, 62, 3, .39)
+    paint.wash(107, 187, 43, 38, 3, .25)
+    for _ in range(150):
+        x, y = paint.rng.uniform(25, 230), paint.rng.uniform(21, 229)
+        paint.wash(x, y, paint.rng.uniform(2.4, 10), paint.rng.uniform(4, 15),
+                   paint.rng.choice((0, 2)), paint.rng.uniform(.05, .14))
+    for side in (-1, 1):
+        for index in range(9):
+            t = .24 + index * .08 + paint.rng.uniform(-.021, .021)
+            root_x, y = margin(t, 0)
+            end_x, end_y = margin(t - .164, side)
+            reach = (end_x - root_x) * (.88 + .035 * math.cos(index * 1.3))
+            end_x = root_x + reach
+            controls = (root_x, y, root_x + reach * .46, y - 11, end_x - reach * .10, end_y + 16, end_x, end_y)
+            paint.stroke(controls, 0, 5, .16)
+            paint.stroke(controls, 0, 2.25, .48)
+            color = tuple(value - 1.05 if i % 2 else value for i, value in enumerate(controls))
+            paint.stroke(color, 3, 1.38, .48)
+            paint.stroke((root_x, y, root_x + reach * .25, y - 5, root_x + reach * .56, y - 15),
+                         3, 1.55, .40)
+            for offset in (.53, .73):
+                x = root_x + reach * offset
+                start_y = y + (end_y - y) * offset + 4.0 * math.sin(math.pi * offset)
+                paint.stroke((x, start_y, x + reach * .13, start_y - 4, x + reach * .18, start_y - 12),
+                             2, .82, .40)
+    rib = (127, 233, 140, 178, 142, 85, 126, 12)
+    paint.stroke(rib, 0, 5.6, .33)
+    paint.stroke(rib, 3, 2.45, .72)
+    paint.stroke((127, 233, 134, 207, 136, 159), 3, 3.60, .74)
+    paint.stroke((136, 150, 139, 106, 133, 58, 126, 16), 2, 1.25, .57)
+    paint.elements.append('</g>')
+    paint.stroke((128, 248, 124, 241, 127, 231), 1, 5.2, 1)
+    paint.stroke((127, 248, 123, 240, 127, 231), 2, 1.5, .59)
+
+
+def pear_swatch(paint, ripe):
+    paint.ground(((0, 1), (1, 1)))
+    paint.elements.append(f'<g transform="scale({PEAR_PEEL_WIDTH} 1)">')
+    peel(paint, 'pear', ripe)
+    paint.elements.append('</g>')
+    if not ripe:
+        left, right = PEAR_BARK_UV
+        x, width = (left - .012) * 256, (right - left + .036) * 256
+        bark = Swatch('Pear bark', ('#4b2d1e', '#714726', '#996338', '#af784a'), paint.relief)
+        orchard_wood(bark, 'Bark')
+        # The peel and the bark each keep their own horizontal UV seam and gutters.
+        paint.definitions.extend(definition.replace('id="ground"', 'id="bark-ground"')
+                                 .replace('id="wash', 'id="bark-wash') for definition in bark.definitions)
+        body = ''.join(bark.elements).replace('url(#ground)', 'url(#bark-ground)').replace('url(#wash', 'url(#bark-wash')
+        paint.definitions.append(f'<clipPath id="pear-bark"><rect x="{x}" y="-15" width="{width}" height="286"/></clipPath>')
+        paint.elements.append(f'<g clip-path="url(#pear-bark)"><g transform="translate({left * 256}) scale({right - left} 1)">'
+                              f'{body}</g></g>')
+        return
+
+    if paint.relief:
+        return
+    x, y = PEAR_SECTION_CENTER
+    across, rise = PEAR_SECTION_SCALE
+    points = [(x + side * radius * across, y - z * rise) for side in (-1, 1)
+              for z, radius in (PEAR_PROFILE if side == -1 else reversed(PEAR_PROFILE))]
+    outline = ' '.join(f'{px:.2f},{py:.2f}' for px, py in points)
+    paint.elements.append(f'<polygon points="{outline}" fill="#e7c958" stroke="#cfa742" stroke-width="4"/>'
+                          f'<polygon points="{outline}" transform="translate({x * .05} {y * .05}) scale(.95)" fill="#f1dfb5"/>')
+    paint.wash(x - 8, y, 37, 46, 3, .32)
+    paint.dab(x, y + 10, 13, 19, 0, .19, '#b7955c')
+    paint.stroke((x, y - 54, x - 2, y - 4, x + 5, y + 34), 0, 1, .30, '#b6976f')
+    for side in (-1, 1):
+        seed_x = x + 5 * side
+        paint.dab(seed_x, y + 12, 2.50, 6.2, 0, .95, '#785136')
+        paint.dab(seed_x - .55, y + 10, .82, 2.8, 2, .67, '#bd8c57')
+
+
+def banana_green_fruit(paint):
+    paint.elements.append(f'<g transform="scale({BANANA_GREEN_PEEL_WIDTH} 1)">')
+    peel(paint, 'banana', False)
+    paint.elements.append('</g>')
+    left, right = BANANA_BLOSSOM_UV
+    x = (left - .029) * 256
+    width = (right - left + .10) * 256
+    if paint.relief:
+        fill = paint.palette[1]
+    else:
+        paint.definitions.append('<linearGradient id="banana-bud" x2=".45" y2="1">'
+                                 '<stop stop-color="#6d3a59"/><stop offset=".46" stop-color="#883e67"/>'
+                                 '<stop offset="1" stop-color="#4f293f"/></linearGradient>')
+        fill = 'url(#banana-bud)'
+    paint.elements.append(f'<rect x="{x}" y="-17" width="{width}" height="290" fill="{fill}"/>')
+    for i in range(8):
+        u = left * 256 + 9.8 * i
+        curve = (u, 259, u + 12, 186, u - 12, 73, u + 4, -3)
+        paint.stroke(curve, 0, 2.8, .28, None if paint.relief else '#4d253e')
+        paint.stroke(tuple(value + 1.2 if j % 2 == 0 else value for j, value in enumerate(curve)),
+                     2, 1.25, .36, None if paint.relief else '#b66d89')
+
+
+def oil_palm_surface(paint, surface):
+    rng = paint.rng
+    if surface == 'Leaf':
+        paint.ground(((0, 2), (.42, 2), (.78, 1), (1, 0)))
+        paint.wash(65, 92, 57, 127, 3, .48)
+        paint.wash(188, 130, 63, 130, 1, .65)
+        paint.wash(24, 176, 23, 123, 0, .51)
+        for y in range(34, 249, 11):
+            for side in (-1, 1):
+                sweep = rng.uniform(26, 44)
+                end = 128 + side * 115
+                stroke = (128, y, 128 + side * 45, y - 11, end, y - sweep)
+                paint.stroke(stroke, 0, 1.6, .15)
+                paint.stroke(tuple(p - .8 if i % 2 else p for i, p in enumerate(stroke)), 3, .9, .21)
+        paint.stroke((128, 256, 125, 158, 130, 81, 128, 0), 0, 5.4, .44)
+        paint.stroke((127, 256, 124, 158, 129, 81, 127, 0), 3, 2.6, .74)
+        return
+
+    if surface == 'Bark':
+        paint.ground(((0, 1), (.22, 2), (.56, 1), (1, 0)))
+        paint.wash(82, 93, 46, 86, 2, .65)
+        paint.wash(27, 177, 22, 66, 0, .71)
+        for _ in range(95):
+            x, y = rng.uniform(-3, 151), rng.uniform(-14, 254)
+            width, length = rng.uniform(.6, 3.7), rng.uniform(10, 62)
+            curve = (x, y, x + rng.uniform(-10, 10), y + length * .52, x + rng.uniform(-7, 7), y + length)
+            paint.stroke(curve, 0, width, .44)
+            lip = tuple(coord - 2 if i % 2 == 0 else coord for i, coord in enumerate(curve))
+            paint.stroke(lip, 2, width * .56, .46)
+        # A separate patch supplies the lighter exposed cut on each old leaf base.
+        cut = paint.palette[3]
+        paint.elements.append(f'<rect x="163" y="-16" width="110" height="288" fill="{cut}"/>')
+        paint.wash(210, 109, 43, 55, 2, .65)
+        paint.wash(241, 205, 32, 58, 1, .76)
+        for _ in range(29):
+            x, y = rng.uniform(164, 260), rng.uniform(-5, 260)
+            run = rng.uniform(22, 54)
+            paint.stroke((x, y, x-6, y+run*.54, x-19, y+run), 0,
+                         rng.uniform(.5, 1.35), rng.uniform(.18, .46))
+        for i in range(9):
+            x = 186 + i * 6
+            paint.stroke((x-6, 214, x+5, 166, x-1, 121, x-8, 57), 1, rng.uniform(1.1, 2.9), .25)
+        for _ in range(59):
+            x, y = rng.uniform(163, 261), rng.uniform(-14, 254)
+            run = rng.uniform(5, 30)
+            paint.stroke((x, y, x + 4, y + run * .52, x + rng.uniform(-8, 7), y + run),
+                         rng.choice((0, 1, 2)), rng.uniform(.53, 1.77), rng.uniform(.16, .44))
+        return
+
+    # Oil-palm fruits carry a dark tip, a red shoulder, and warmer pigment toward the attachment.
+    paint.ground(((0, 0), (.13, 0), (.37, 1), (.68, 2), (.94, 3), (1, 3)))
+    paint.wash(70, 153, 97, 82, 2, .42, wrap=True)
+    paint.wash(174, 75, 79, 84, 0, .37, wrap=True)
+    for _ in range(32):
+        x, y = rng.uniform(0, 256), rng.uniform(41, 245)
+        for xx in wrapped(x, 2):
+            paint.dab(xx, y, rng.uniform(.47, 1.5), rng.uniform(.6, 2.3), 0, .24)
+
+
 def draw_surface(slot, pattern, palette, relief=False):
     stage = slot.partition('/')[2]
     accent = stage == 'LeafAccent'
     # Color variants of a surface share the same underlying brushwork and relief.
     paint = Swatch(slot.split('/')[0] if stage else slot, palette, relief)
-    if stage in {'Leaf', 'LeafAccent'}:
-        leaf(paint, pattern, accent)
+    if pattern == 'oil_palm':
+        oil_palm_surface(paint, stage)
+    elif stage in {'Leaf', 'LeafAccent'}:
+        if pattern == 'pear':
+            pear_leaf(paint)
+        else:
+            leaf(paint, pattern, accent)
     elif stage in {'FruitForming', 'FruitReady'}:
         ripe = stage == 'FruitReady'
-        if ripe and pattern in ('guava', 'mango'):
-            width = GUAVA_PEEL_WIDTH if pattern == 'guava' else MANGO_PEEL_WIDTH
+        if pattern == 'rambutan':
+            rambutan_swatch(paint, ripe)
+        elif pattern == 'durian':
+            durian_peel(paint, ripe)
+        elif pattern == 'pear':
+            pear_swatch(paint, ripe)
+        elif pattern == 'banana' and not ripe:
+            banana_green_fruit(paint)
+        elif ripe and pattern in RIPE_SECTIONS:
+            width, section = RIPE_SECTIONS[pattern]
             paint.elements.append(f'<rect x="-24" y="-24" width="304" height="304" fill="{paint.palette[1]}"/>')
             paint.elements.append(f'<g transform="scale({width} 1)">')
             peel(paint, pattern, True)
             paint.elements.append('</g>')
-            if pattern == 'guava':
-                guava_section(paint)
-            else:
-                mango_sections(paint)
+            section(paint)
         else:
             peel(paint, pattern, ripe)
     elif slot == 'DragonFruitCane':
@@ -643,6 +1213,8 @@ def draw_surface(slot, pattern, palette, relief=False):
         brown_seed(paint)
     elif slot in {'Bark', 'Twig'}:
         orchard_wood(paint, slot)
+    elif slot == 'BananaSheath':
+        banana_sheath(paint)
     else:
         bark(paint, slot)
     return paint.svg()

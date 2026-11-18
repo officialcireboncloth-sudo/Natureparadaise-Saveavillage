@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55c10e2725161542914225fad98164a, type: 3}
+  m_Name: Durian Fruit
+  itemId: item.durian_fruit
+  itemName: Durian
+  buyPrice: 0
+  sellPrice: 180
+  category: 2
+  maxStack: 16
+  equippedTool: 0
+  foodPreparation: 1
+  canDropToWorld: 1
+  worldPrefab: {fileID: 100, guid: 4943c3cb4c5e47c1af51523aa004f7c2, type: 3}
+  worldScale: {x: 1, y: 1, z: 1}
+  refrigeratorCategory: 2
+  icon: {fileID: 21300000, guid: d232550a199c409fb745adad3f86239d, type: 3}
+  sellPricesByStars: b4000000d80000000e010000440100008c010000

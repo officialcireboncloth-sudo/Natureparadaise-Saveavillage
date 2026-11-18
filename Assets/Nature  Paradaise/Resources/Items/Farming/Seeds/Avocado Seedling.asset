@@ -7,7 +7,7 @@ MonoBehaviour:
   m_Name: Avocado Seedling
   itemId: item.avocado_seedling
   itemName: Avocado Seedling
-  buyPrice: 750
+  buyPrice: 500
   sellPrice: 0
   category: 0
   maxStack: 16
@@ -19,3 +19,4 @@ MonoBehaviour:
   worldPrefab: {fileID: 100, guid: c770e44a5a634ae6b2d40ab3450c7284, type: 3}
   worldScale: {x: 1, y: 1, z: 1}
   icon: {fileID: 21300000, guid: 1244fbf5945843a59bcbf0ddcfbb4ccd, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: 1244fbf5945843a59bcbf0ddcfbb4ccd, type: 3}

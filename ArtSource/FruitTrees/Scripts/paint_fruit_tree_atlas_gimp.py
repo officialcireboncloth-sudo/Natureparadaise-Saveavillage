@@ -11,9 +11,17 @@ gi.require_version('Gegl', '0.4')
 from gi.repository import Gegl, Gimp, Gio
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fruit_tree_atlas import ATLAS, CUTOUT_SPECIES, REGISTRY, SCRATCH, SIZE, SLOTS, SOURCE, TILE, tile_origin
+from fruit_tree_atlas import (
+    ATLAS, CUTOUT_SPECIES, OIL_PALM_ATLAS, OIL_PALM_SIZE, OIL_PALM_SLOTS,
+    PADDING, RAMBUTAN_PEEL_WIDTH, REGISTRY, SCRATCH, SIZE, SLOTS, SOURCE, TILE,
+    tile_origin,
+)
 from fruit_tree_surface_paint import draw_surface
 
+
+OIL_PALM = os.environ.get('NP_TREE_ATLAS_VARIANT') == 'OilPalm'
+if OIL_PALM:
+    ATLAS, SIZE, SLOTS = OIL_PALM_ATLAS, OIL_PALM_SIZE, OIL_PALM_SLOTS
 
 # Shade, base pigment, soft light and ridge pigment in top-to-bottom tile UVs.
 SPECIES = {
@@ -23,10 +31,10 @@ SPECIES = {
         ('#44572b', '#728c41', '#a4b250', '#ded68e', '#bdb34f'),
         ('#862934', '#b84840', '#d76a4e', '#efb48c', '#d39a62'), .36),
     'Orange': ('orange',
-        ('#214939', '#3f6c4b', '#648a53', '#a2af76'),
-        ('#3b563a', '#647e46', '#8fa25e', '#b8bd80'),
-        ('#3a531d', '#708734', '#9faa4c', '#bdc365'),
-        ('#ab4b1e', '#de7425', '#f0a235', '#fec756'), .38),
+        ('#294a28', '#44712d', '#64963b', '#8ab34e'),
+        ('#38572a', '#5c842f', '#78a43b', '#a1bf53'),
+        ('#3f641e', '#6c922d', '#9eb83a', '#c8d167'),
+        ('#b34c12', '#e77516', '#fa9b26', '#ffcc58'), .39),
     'Mango': ('mango',
         ('#293e26', '#43592c', '#62793a', '#8c9954'),
         ('#724830', '#9b6239', '#ba7a47', '#d59f63'),
@@ -38,10 +46,10 @@ SPECIES = {
         ('#425c28', '#6e8c3d', '#8da648', '#b8c46a'),
         ('#748734', '#aab94c', '#c5cd62', '#e0df8d'), .32),
     'Pear': ('pear',
-        ('#305040', '#536f48', '#7b8f55', '#adb47c'),
-        ('#445839', '#73874d', '#9eaa63', '#bfc384'),
-        ('#4d6229', '#829947', '#b0bd66', '#c8cd80'),
-        ('#85592e', '#c9a743', '#ebca60', '#f2d77b'), .33),
+        ('#253d17', '#3c5b20', '#577b2c', '#799640'),
+        ('#3a4918', '#586f23', '#78962e', '#9eae45'),
+        ('#536529', '#839544', '#adba63', '#c4cb7a'),
+        ('#996622', '#c89a28', '#e8ba32', '#f5d661'), .35),
     'Peach': ('peach',
         ('#365240', '#5a7849', '#7e9556', '#acb876'),
         ('#51643a', '#7d914c', '#a3ad64', '#c8ca86'),
@@ -63,25 +71,25 @@ SPECIES = {
         ('#435935', '#6c894a', '#91a95a', '#bcc47f'),
         ('#986526', '#d49039', '#edb550', '#f3ce72'), .34),
     'Banana': ('banana',
-        ('#2b5240', '#4e774c', '#759959', '#adb377'),
-        ('#46613d', '#708c4c', '#9ab062', '#c6c782'),
-        ('#4e622c', '#778e38', '#a0ae4d', '#bbbf6f'),
-        ('#a48232', '#d8b447', '#f0d16a', '#f4db82'), .37),
+        ('#114320', '#215e20', '#39851f', '#9cbc24'),
+        ('#2b5718', '#477a19', '#6da528', '#b9d336'),
+        ('#456600', '#72970b', '#a5bd25', '#c4d754'),
+        ('#a67a00', '#dcad04', '#f5ca12', '#ffdf30'), .39),
     'Dragon Fruit': ('dragon',
         ('#305445', '#568363', '#7a9e73', '#aabd8c'),
         ('#446343', '#6e9059', '#97ac70', '#c0c58b'),
         ('#4c623d', '#798b4e', '#a0a65d', '#c4be79'),
         ('#68263e', '#ab3356', '#c94f69', '#e98087'), .39),
     'Rambutan': ('rambutan',
-        ('#304c3b', '#50724a', '#759355', '#acb777'),
-        ('#465b39', '#6d854b', '#98a95f', '#bfc784'),
-        ('#57632e', '#83953f', '#b3ba59', '#c8c877'),
-        ('#762d27', '#ae4233', '#cc5b42', '#e58c5b'), .31),
+        ('#244727', '#3b6734', '#598449', '#83a65a'),
+        ('#365427', '#567c35', '#749b42', '#9bb45b'),
+        ('#4f6321', '#788e31', '#a4b341', '#c3c767'),
+        ('#640e20', '#a51a29', '#c52a34', '#ea463c'), .31),
     'Durian': ('durian',
-        ('#2c473d', '#486b55', '#6a8a65', '#9fad78'),
-        ('#584732', '#876a47', '#ae8a5a', '#c9af78'),
-        ('#4c532b', '#74803d', '#a2a05a', '#bdb678'),
-        ('#66552d', '#9f8a48', '#c4a95b', '#d9bf78'), .28),
+        ('#1e3624', '#315931', '#537944', '#849b53'),
+        ('#514329', '#765b32', '#99804b', '#b89c64'),
+        ('#354823', '#627536', '#87954a', '#aab861'),
+        ('#514e24', '#817739', '#aa9950', '#d4b869'), .28),
 }
 
 # SurfaceMask stores normal weight in G and smoothness in A. All tiles are dielectric.
@@ -90,7 +98,7 @@ COMMON = {
     'Twig': (('#473b35', '#6f554a', '#927361', '#ad907b'), .15, .54),
     'AppleSeed': (('#4e2e26', '#794631', '#9f6546', '#bf845d'), .32, .44),
     'CutWood': (('#94643e', '#c9915a', '#e2b981', '#eac78d'), .23, .61),
-    'BananaSheath': (('#435236', '#718549', '#9eaa66', '#b9b578'), .28, .81),
+    'BananaSheath': (('#3b551e', '#659423', '#a2bb31', '#be9f35'), .31, .51),
     'PapayaStem': (('#47523d', '#748263', '#a2a885', '#c2bb90'), .24, .77),
     'DragonFruitCane': (('#274c3b', '#4c8060', '#78a473', '#a6bf86'), .35, .62),
     'GreenStem': (('#384c2c', '#5b7742', '#8aa258', '#abb56b'), .30, .51),
@@ -111,9 +119,13 @@ RGBA_FORMAT = "R'G'B'A u8"
 WORK = Path(os.environ.get('NP_TREE_ATLAS_STAGE', str(SCRATCH / 'AtlasStage')))
 REFRESH = os.environ.get('NP_TREE_ATLAS_REFRESH') == '1'
 REPAINT_SLOTS = set(filter(None, os.environ.get('NP_TREE_ATLAS_SLOTS', '').split(',')))
+RAMBUTAN_BAKE = Path(os.environ.get('NP_RAMBUTAN_PEEL_BAKE', SOURCE / 'Textures/RambutanPeel'))
+DURIAN_LEAF_BAKE = Path(os.environ.get('NP_DURIAN_LEAF_BAKE', SOURCE / 'Textures/DurianLeaf'))
 DEEPER_RELIEF = {
     'Bark': 2.12, 'Twig': 1.45, 'Apple/Leaf': 1.37, 'Apple/LeafAccent': 1.28,
     'Apple/FruitForming': 1.16, 'Apple/FruitReady': 1.13,
+    'Rambutan/FruitForming': 1.59, 'Rambutan/FruitReady': 1.59,
+    'Durian/Leaf': 1.40, 'Durian/LeafAccent': 1.34, 'Durian/FruitForming': 1.52,
 }
 
 
@@ -171,6 +183,31 @@ def draw_normal(image, slot, parent, drawing, scale):
     relief.merge_filter(effect)
 
 
+def baked_surface(slot, suffix):
+    if suffix not in ('BaseColor', 'Normal') or REPAINT_SLOTS and slot not in REPAINT_SLOTS:
+        return None
+    if slot in ('Rambutan/FruitForming', 'Rambutan/FruitReady'):
+        folder, label = RAMBUTAN_BAKE, 'baked peel'
+        width = round((TILE - 2 * PADDING) * RAMBUTAN_PEEL_WIDTH) + 2 * PADDING
+    elif slot in ('Durian/Leaf', 'Durian/LeafAccent'):
+        folder, label, width = DURIAN_LEAF_BAKE, 'baked leaf', TILE
+    else:
+        return None
+    filename = 'Normal.png' if suffix == 'Normal' else f'{slot.split("/")[-1]}_BaseColor.png'
+    path = folder / filename
+    return (path, f'{slot} / {label}', width) if path.is_file() else None
+
+
+def add_baked_surface(image, slot, parent, bake):
+    path, name, width = bake
+    layer = Gimp.file_load_layer(Gimp.RunMode.NONINTERACTIVE, image, Gio.File.new_for_path(str(path)))
+    if layer is None or (layer.get_width(), layer.get_height()) != (width, TILE):
+        raise RuntimeError(f'Unexpected baked texture dimensions for {path.name}')
+    image.insert_layer(layer, parent, 0)
+    layer.set_offsets(*tile_origin(slot))
+    layer.set_name(name)
+
+
 def draw_mask(image, slot, parent, smoothness, normal_weight):
     layer = Gimp.Layer.new(image, slot, TILE, TILE, Gimp.ImageType.RGBA_IMAGE, 100, Gimp.LayerMode.NORMAL)
     image.insert_layer(layer, parent, 0)
@@ -217,14 +254,31 @@ def named_layers(layers):
 
 
 def defaults():
+    if OIL_PALM:
+        for surface, palette, smoothness, relief in (
+            ('Leaf', ('#132b12', '#28571e', '#4b7826', '#869d39'), .38, .31),
+            ('Bark', ('#302119', '#594031', '#756047', '#9e8058'), .23, .61),
+            ('FruitForming', ('#261113', '#461818', '#6a2219', '#843324'), .30, .24),
+            ('FruitReady', ('#361b25', '#7d2330', '#c6471e', '#f39224'), .60, .16),
+        ):
+            yield f'OilPalm/{surface}', 'Oil palm', 'oil_palm', palette, smoothness, relief
+        return
     for slot, (palette, smoothness, normal_weight) in COMMON.items():
         collection = 'Shared fruit details' if SLOTS[slot] >= 60 else 'Shared wood, stems and seed'
         yield slot, collection, slot, palette, smoothness, normal_weight
     for species, (pattern, leaf, accent, forming, ready, smoothness) in SPECIES.items():
         weight = FRUIT_RELIEF.get(pattern, .48)
-        if species in CUTOUT_SPECIES:
+        if species in ('Banana', 'Pear'):
+            weight_leaf = .56 if species == 'Pear' else .34
+            smoothness_leaf = .26 if species == 'Pear' else .32
+            yield f'{species}/Leaf', species, pattern, leaf, smoothness_leaf, weight_leaf
+            yield f'{species}/LeafAccent', species, pattern, accent, smoothness_leaf - .01, weight_leaf
+        elif species in CUTOUT_SPECIES:
             yield f'{species}/Leaf', species, pattern, leaf, .23, 0
             yield f'{species}/LeafAccent', species, pattern, accent, .21, 0
+        elif species == 'Durian':
+            yield f'{species}/Leaf', species, pattern, leaf, .29, .68
+            yield f'{species}/LeafAccent', species, pattern, accent, .22, .63
         else:
             yield f'{species}/Leaf', species, pattern, leaf, .20, .57
             yield f'{species}/LeafAccent', species, pattern, accent, .18, .54
@@ -237,11 +291,15 @@ def add_missing(suffix, image, surfaces):
     parents = {}
     for slot, collection, pattern, palette, smoothness, normal_weight in surfaces:
         layer_names = (f'{slot} / normal', f'{slot} / relief master') if suffix == 'Normal' else (slot,)
+        bake = baked_surface(slot, suffix)
+        bake_names = (bake[1],) if bake else ()
         if slot in REPAINT_SLOTS:
-            for name in layer_names:
+            for name in (*layer_names, *bake_names):
                 if name in layers:
                     image.remove_layer(layers.pop(name))
         if all(name in layers for name in layer_names):
+            if bake and bake[1] not in layers:
+                add_baked_surface(image, slot, group(image, collection), bake)
             continue
         if any(name in layers for name in layer_names):
             raise RuntimeError(f'Incomplete relief pair for {slot} in the existing XCF')
@@ -267,6 +325,8 @@ def add_missing(suffix, image, surfaces):
                 svg_layer(image, slot, parent, drawing)
             else:
                 draw_normal(image, slot, parent, drawing, DEEPER_RELIEF.get(slot, 1.24))
+        if bake:
+            add_baked_surface(image, slot, parent, bake)
 
 
 def verify_layers(image, suffix, surfaces):
@@ -279,6 +339,12 @@ def verify_layers(image, suffix, surfaces):
             if (not succeeded or (x, y) != tile_origin(slot)
                     or (layer.get_width(), layer.get_height()) != (TILE, TILE)):
                 raise RuntimeError(f'{name} no longer matches its registered UV tile')
+        bake = baked_surface(slot, suffix)
+        if bake:
+            _, name, width = bake
+            layer = layers[name]
+            if layer.get_offsets()[1:] != tile_origin(slot) or (layer.get_width(), layer.get_height()) != (width, TILE):
+                raise RuntimeError(f'{name} does not match its registered UV tile')
 
 
 def save(image, suffix):
@@ -295,7 +361,8 @@ def main():
     WORK.mkdir(parents=True, exist_ok=True)
     (WORK / 'Brushes').mkdir(exist_ok=True)
     surfaces = tuple(defaults())
-    if set(SPECIES) != set(REGISTRY['speciesSlots']) or {item[0] for item in surfaces} != set(SLOTS):
+    if ((not OIL_PALM and set(SPECIES) != set(REGISTRY['speciesSlots']))
+            or {item[0] for item in surfaces} != set(SLOTS)):
         raise RuntimeError('The atlas brushwork and UV registry disagree')
     if REPAINT_SLOTS - SLOTS.keys():
         raise ValueError(f'Unknown atlas slots: {REPAINT_SLOTS - SLOTS.keys()}')

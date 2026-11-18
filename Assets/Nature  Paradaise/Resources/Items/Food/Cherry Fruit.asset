@@ -8,7 +8,7 @@ MonoBehaviour:
   itemId: item.cherry_fruit
   itemName: Cherry
   buyPrice: 0
-  sellPrice: 100
+  sellPrice: 65
   category: 2
   maxStack: 16
   equippedTool: 0
@@ -18,3 +18,5 @@ MonoBehaviour:
   worldScale: {x: 1, y: 1, z: 1}
   refrigeratorCategory: 2
   icon: {fileID: 21300000, guid: 8b3ccad6134443598cc8007ea0f36621, type: 3}
+  inventoryIllustration: {fileID: 21300000, guid: 8b3ccad6134443598cc8007ea0f36621, type: 3}
+  sellPricesByStars: 410000004e00000062000000750000008f000000

@@ -25,12 +25,19 @@ FRUIT = {
               ('#ffd65c','#f3a638','#da642a','#94512c'), 'mango'),
     'orange': ('Jeruk', 'M80 258C77 180 123 132 192 129C274 124 326 177 326 253C326 323 277 376 206 381C135 385 84 335 80 258Z',
                ('#ffc658','#f28d31','#cd581f','#9b4c25'), 'orange'),
+    'pear': ('Pir', 'M223 104C253 101 260 129 267 154C277 198 322 232 338 274C363 338 316 379 249 383C172 389 121 361 118 313C115 271 142 240 167 204C191 168 184 111 223 104Z',
+             ('#f4db79','#d3b34f','#ab7930','#775323'), None),
+    'banana': ('Pisang', '', ('#ffed91','#edc341','#d99a29','#895e2c'), None),
     'coconut': ('Kelapa', 'M79 269C78 203 111 144 167 126C240 100 315 154 327 228C340 295 298 359 233 381C169 397 101 357 84 299Z',
                 ('#bc8858','#946442','#5e3d2d','#513627'), 'coconut'),
     'cherry': ('Cherry', '', ('#fa8b76','#de4156','#9e2644','#6d2941'), None),
+    'rambutan': ('Rambutan', '', ('#fa8a57','#d54f31','#a82d27','#732721'), None),
+    'durian': ('Durian', '', ('#d6c36e','#a49a50','#76703b','#535632'), None),
+    'oilpalm': ('Sawit', '', ('#f08c35','#ba4626','#7b2d29','#50292a'), None),
 }
-ORDER = ('apple', 'avocado', 'cherry', 'guava', 'mango', 'orange', 'coconut')
-MUTATIONS = ('apple', 'mango', 'orange', 'coconut')
+ORDER = ('apple', 'avocado', 'cherry', 'guava', 'mango', 'orange', 'coconut', 'rambutan', 'durian', 'pear',
+         'banana', 'oilpalm')
+ILLUSTRATIONS = os.environ.get('NP_TREE_ILLUSTRATIONS')
 GREEN = ('#bdce74', '#6b983d', '#3d672f')
 
 
@@ -106,6 +113,34 @@ def rind_section(kind):
 def illustration(kind):
     _, shape, shades, section = FRUIT[kind]
     definitions = gradient('fruit',shades[:3]) + gradient('leaf',GREEN) + gradient('pit',('#da9f66','#b77646','#8b5238'))
+    if kind == 'oilpalm':
+        bunches = []
+        for x, y, angle in ((282, 208, 26), (200, 287, -27)):
+            bunches.append(f'<g transform="translate({x} {y}) rotate({angle})">')
+            bunches.append(path('M0 49V104', 'none', '#ad8756', 25))
+            bunches.append(ellipse(0, 0, 71, 87, shades[3]))
+            for row in range(7):
+                for column in range(7):
+                    u, v = column * 18 - 54 + (row % 2) * 7, row * 23 - 67
+                    if (u / 70)**2 + (v / 87)**2 < 1:
+                        bunches.append(ellipse(u, v, 10, 14, 'url(#fruit)'))
+            bunches.append('</g>')
+        return definitions, [('Oil palm bunches', ''.join(bunches))]
+    if kind == 'banana':
+        blade = ('M0 0C-16 17-17 70-43 109C-65 141-99 162-127 171C-148 178-146 200-124 203'
+                 'C-79 208-32 183 0 146C38 102 44 48 27 10C21-1 7-9 0 0Z')
+        stem = (leaf(246,146,-37,.80,True)
+                + path('M275 147Q279 127 290 107','none','#776435',26)
+                + ellipse(292,106,13,7,'#af8a54','transform="rotate(-23 292 106)"'))
+        fingers = []
+        for dx, dy, angle, scale in ((-25,0,37,.86),(-15,5,22,.94),(-2,10,5,1),(13,14,-17,1.02)):
+            fingers.extend((f'<g transform="translate({267+dx} {147+dy}) rotate({angle}) scale({scale})">',
+                            path(blade,'url(#fruit)',shades[-1],5),
+                            path('M10 21Q-5 130-115 184','none','#fff1a0',6),
+                            path('M14 13L19 4','none','#8f913c',12),
+                            ellipse(-135,187,6,9,'#65462b','transform="rotate(-23 -135 187)"'), '</g>'))
+        return definitions, [('Stem and leaf',stem),('Golden bananas',''.join(fingers))]
+
     if kind == 'cherry':
         berry = 'M0-62C20-64 37-77 62-62C102-36 98 24 66 61C39 92-16 98-48 65C-85 27-82-40-53-61C-32-75-18-61 0-62Z'
         foliage = (path('M172 229Q211 135 258 110Q303 143 337 248','none','#495d33',13)
@@ -119,9 +154,65 @@ def illustration(kind):
                      + path('M-26 66Q15 85 51 49','none','#842947',5) + '</g>')
         return definitions, [('Stems and leaf',foliage),('Painted cherries',body)]
 
+    if kind == 'durian':
+        rng = random.Random('durian shell')
+        silhouette = []
+        for index in range(68):
+            angle = index * math.tau / 68
+            radius = rng.uniform(1.01, 1.13) if index % 2 else .91
+            silhouette.append(f'{192 + radius * 109 * math.cos(angle):.1f},{255 + radius * 126 * math.sin(angle):.1f}')
+        stalk = path('M183 143Q178 119 193 93','none','#755033',16) + leaf(191,108,-12,.81,True)
+        body = f'<polygon points="{" ".join(silhouette)}" fill="url(#fruit)" stroke="{shades[-1]}" stroke-width="5"/>'
+        for index in range(81):
+            angle = index * 2.39996
+            reach = .90 * math.sqrt((index + .5) / 81)
+            x = 192 + math.cos(angle) * reach * 109
+            y = 255 + math.sin(angle) * reach * 126
+            size = rng.uniform(6,12)
+            body += path(f'M{x-size:.1f} {y+3:.1f}L{x+4:.1f} {y-size:.1f}L{x+size*.82:.1f} {y+size*.45:.1f}Z',
+                         rng.choice(('#c6b861','#a5984d','#968745')),'#746536',1.4)
+        opened = (ellipse(324,321,87,78,'#817941', 'stroke="#5d5932" stroke-width="6"')
+                  + ellipse(324,318,78,69,'#f2deab')
+                  + ellipse(302,303,31,45,'url(#pulp)','transform="rotate(26 302 303)"')
+                  + ellipse(349,323,31,44,'url(#pulp)','transform="rotate(35 349 323)"')
+                  + ellipse(309,352,29,24,'url(#pulp)'))
+        definitions += gradient('pulp',('#ffe593','#efc360','#cf903f'))
+        return definitions, [('Stalk and leaf', stalk), ('Thorned shell', body), ('Cut flesh', opened)]
+
+    if kind == 'rambutan':
+        foliage = path('M135 220Q181 143 243 107Q302 149 337 262M223 129Q212 181 220 213','none','#765039',11)
+        foliage += leaf(237,115,-15,.95) + leaf(223,124,-132,.78)
+        body = ''
+        rng = random.Random('rambutan icon')
+        for x, y, rx, ry, opened in ((153,252,71,86,False), (250,253,77,89,False), (329,321,85,81,True)):
+            fringe, surface = '', ''
+            for index in range(23):
+                angle = math.tau * index / 23
+                dx, dy = math.cos(angle), math.sin(angle)
+                length = rng.uniform(15, 25)
+                start = (x + dx * rx * .90, y + dy * ry * .90)
+                bend = (x + dx * (rx + length) - dy * 6, y + dy * (ry + length) + dx * 6)
+                tip = (bend[0] - dy * 7 - dx * 4, bend[1] + dx * 7 - dy * 4)
+                fringe += path(f'M{start[0]:.1f} {start[1]:.1f} Q{bend[0]:.1f} {bend[1]:.1f} '
+                               f'{tip[0]:.1f} {tip[1]:.1f}', 'none', rng.choice(('#b07837','#c3ab4f','#cf9e45')), 5.3)
+            surface += ellipse(x,y,rx,ry,'url(#fruit)',f'stroke="{shades[-1]}" stroke-width="6"')
+            if opened:
+                surface += ellipse(x+5,y-5,rx*.79,ry*.81,'#ea9972')
+                surface += ellipse(x+7,y-8,rx*.68,ry*.70,'url(#rambutanFlesh)')
+                surface += path(f'M{x-22} {y-28}Q{x-11} {y-45} {x+7} {y-44}','none','#fff4d8',5)
+            else:
+                for index in range(27):
+                    angle = index * 2.40
+                    radius = .78 * math.sqrt((index + .5) / 27)
+                    px, py = x + math.cos(angle) * radius * rx, y + math.sin(angle) * radius * ry
+                    surface += path(f'M{px:.1f} {py:.1f}q-7 -10 -2 -15','none','#e49e53',3.7)
+            body += fringe + surface
+        definitions += gradient('rambutanFlesh',('#fff4d4','#f1dcba','#d4b58f'))
+        return definitions, [('Cluster stalk and leaves', foliage), ('Red fruit, hairs and aril', body)]
+
     top = {
         'apple': (251,157), 'avocado': (204,96), 'guava': (209,129),
-        'mango': (235,114), 'orange': (196,139), 'coconut': (168,132)
+        'mango': (235,114), 'orange': (196,139), 'pear': (223,108), 'coconut': (168,132)
     }[kind]
     x,y = top
     foliage = path(f'M{x} {y+5}Q{x+1} {y-24} {x+18} {y-42}','none','#674634',12)
@@ -201,30 +292,53 @@ def export(image,name):
     output.delete()
 
 
+def import_illustration(image, parent, source, maximum, center):
+    drawing = Gimp.file_load_layer(RUN, image, Gio.File.new_for_path(str(source)))
+    if drawing is None:
+        raise RuntimeError(f'Could not open the fruit illustration {source}')
+    image.insert_layer(drawing, parent, 0)
+    scale = maximum / max(drawing.get_width(), drawing.get_height())
+    width = round(drawing.get_width() * scale)
+    height = round(drawing.get_height() * scale)
+    drawing.scale(width, height, False)
+    drawing.set_offsets(center[0] - width // 2, center[1] - height // 2)
+    drawing.set_name('Painted fruit illustration')
+
+
 def create(kind):
     label=FRUIT[kind][0].upper()
-    definitions,paint=illustration(kind)
+    source = Path(ILLUSTRATIONS) / f'{kind}.png' if ILLUSTRATIONS else None
+    if source is None:
+        definitions, paint = illustration(kind)
+    else:
+        definitions = gradient('leaf', GREEN)
     image=Gimp.Image.new(768,768,Gimp.ImageBaseType.RGB)
     fruit=group(image,'Buah / Harvest fruit')
-    for name,body in paint:
-        layer(image,name,f'<g transform="translate(23 37) scale(1.41)">{body}</g>',definitions,fruit)
+    if source is None:
+        for name,body in paint:
+            layer(image,name,f'<g transform="translate(23 37) scale(1.41)">{body}</g>',definitions,fruit)
+    else:
+        import_illustration(image, fruit, source, 618, (384, 383))
     export(image,f'icon_tree_fruit_{kind}.png')
-    if kind in MUTATIONS:
-        vertices=[]
-        for i in range(10):
-            a=math.tau*i/10-math.pi/2
-            r=54 if i%2==0 else 26
-            vertices.append(f'{619+r*math.cos(a):.2f},{596+r*math.sin(a):.2f}')
-        badge=layer(image,'Mutation star',f'<polygon points="{" ".join(vertices)}" fill="#ebbf61" stroke="#9f6436" stroke-width="6" stroke-linejoin="round"/>',parent=fruit)
-        export(image,f'icon_tree_fruit_{kind}_mutation.png')
-        badge.set_visible(False)
+    vertices = []
+    for i in range(10):
+        angle = math.tau * i / 10 - math.pi / 2
+        radius = 67.5 if i % 2 == 0 else 33
+        vertices.append(f'{595.5+radius*math.cos(angle):.2f},{586.5+radius*math.sin(angle):.2f}')
+    badge = layer(image, 'Mutation star', f'<polygon points="{" ".join(vertices)}" fill="#d7ac43" '
+                  'stroke="#42513a" stroke-width="7" stroke-linejoin="round"/>', parent=fruit)
+    export(image,f'icon_tree_fruit_{kind}_mutation.png')
+    badge.set_visible(False)
     fruit.set_visible(False)
     packet=group(image,'Bibit / Kraft packet')
     paper=Gimp.file_load_layer(RUN,image,Gio.File.new_for_path(str(BLANK)))
     image.insert_layer(paper,packet,0)
     paper.set_name('Shared kraft paper')
-    for name,body in paint:
-        layer(image,'Print - '+name,f'<g transform="translate(178 232) scale(.78)">{body}</g>',definitions,packet)
+    if source is None:
+        for name,body in paint:
+            layer(image,'Print - '+name,f'<g transform="translate(178 232) scale(.78)">{body}</g>',definitions,packet)
+    else:
+        import_illustration(image, packet, source, 311, (382, 458))
     accents=(f'<rect x="205" y="219" width="154" height="77" rx="7" fill="#4a6d34"/>'
              + path('M214 225H350','none','#9aac66',2)
              + text(282,248,'BIBIT',24,'#f8ebc4')
@@ -232,7 +346,8 @@ def create(kind):
              + leaf(380,190,-12,.23) + leaf(516,618,-12,.23))
     layer(image,'Bibit label and green marks',accents,definitions,packet)
     export(image,f'icon_tree_seed_{kind}.png')
-    master=f'Tree_{kind.title()}.xcf'
+    master_name = 'OilPalm' if kind == 'oilpalm' else kind.title()
+    master = f'Tree_{master_name}.xcf'
     assert Gimp.file_save(RUN,image,Gio.File.new_for_path(str(WORK/master)))
     image.delete()
     check=Gimp.file_load(RUN,Gio.File.new_for_path(str(WORK/master)))
@@ -243,9 +358,15 @@ def create(kind):
 
 def main():
     WORK.mkdir(parents=True,exist_ok=True)
-    for kind in ORDER:
-        create(kind)
-        print('GIMP_TREE_ICONS',kind,flush=True)
+    selection = os.environ.get('NP_TREE_ICON_SPECIES')
+    Gimp.context_push()
+    try:
+        Gimp.context_set_interpolation(Gimp.InterpolationType.NOHALO)
+        for kind in (selection,) if selection else ORDER:
+            create(kind)
+            print('GIMP_TREE_ICONS',kind,flush=True)
+    finally:
+        Gimp.context_pop()
 
 
 main()

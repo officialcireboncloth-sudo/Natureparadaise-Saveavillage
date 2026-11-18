@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad726a9495424bacbe3aa01000000001, type: 3}
+  m_Name: OilPalm
+  treeType: Kelapa Sawit
+  matureDays: 60
+  wildTree: 0
+  woodItem: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+  fruitItem: {fileID: 11400000, guid: c1cc8402e3ed4f079e623a59458fd040, type: 2}
+  useFruitCare: 1
+  mutationFruitItem: {fileID: 11400000, guid: 31fab2b6079b4afcb2567915fa5d967c, type: 2}
+  fruitMutationChance: 0.01
+  fruitAmountsByStars: 05000000070000000a0000000f00000014000000
+  fruitSeasons: 2
+  floweringDays: 2
+  fruitGrowthDays: 3
+  fruitAmount: 5
+  waterUntilGrowthDay: 42
+  dryGraceDays: 1
+  dryGrowthMultiplier: 0.25
+  youngStormDamageChance: 0.15
+  stormDamage: 10
+  acceleratedSeasons: 0
+  seasonalGrowthMultiplier: 1.15
+  stages:
+  - stage: 0
+    fromGrowthDay: 0
+    model: {fileID: 100, guid: 1e34944a602a4412b59fa2f16abc9430, type: 3}
+    scale: {x: 0.45, y: 0.45, z: 0.45}
+  - stage: 1
+    fromGrowthDay: 6
+    model: {fileID: 100, guid: 8d75b664cc3140aab20c5ce209053f79, type: 3}
+    scale: {x: 0.96, y: 0.96, z: 0.96}
+  - stage: 3
+    fromGrowthDay: 20
+    model: {fileID: 100, guid: 815567395afd40419e07c64f863c20e3, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  - stage: 6
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: 3718902598024a30a53eb1c535bcddcb, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  - stage: 7
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: 104273795e7c42d4a57be11167e78111, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  stumpModel: {fileID: 100, guid: cd5f9e74cfb04f73a04543fb20529aa2, type: 3}
