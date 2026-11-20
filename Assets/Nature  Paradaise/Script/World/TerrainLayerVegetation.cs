@@ -4,16 +4,20 @@ using UnityEngine;
 
 /// <summary>Paint mask -> native instanced Terrain details. No GameObject per grass instance.</summary>
 [ExecuteAlways, DisallowMultipleComponent, RequireComponent(typeof(Terrain))]
-public sealed class TerrainLayerVegetation : MonoBehaviour
+public sealed partial class TerrainLayerVegetation : MonoBehaviour
 {
     [Serializable] public struct Binding { public int prototype; public int rule; public int variant; }
+    [Serializable] struct PaintedTree { public GameObject prefab; public Vector2Int position; }
     public TerrainVegetationProfile profile;
     [SerializeField, HideInInspector] List<Binding> bindings = new();
     [SerializeField, HideInInspector] List<int> ownedSlots = new();
+    [SerializeField, HideInInspector] List<PaintedTree> paintedTrees = new();
     Terrain terrain;
     TerrainData runtimeData;
     RectInt pending;
     bool hasPending;
+    bool needsPaintSync;
+    bool syncingPaint;
     float rebuildAt;
     TerrainVegetationProfile matchedProfile;
     List<int>[] matchedLayers;
@@ -33,11 +37,19 @@ public sealed class TerrainLayerVegetation : MonoBehaviour
         ApplyCulling();
         TerrainCallbacks.textureChanged += TextureChanged;
         TerrainCallbacks.heightmapChanged += HeightChanged;
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.update += UpdatePaintInEditor;
+        UnityEditor.Undo.undoRedoPerformed += RefreshAfterUndo;
+#endif
     }
     void OnDisable()
     {
         TerrainCallbacks.textureChanged -= TextureChanged;
         TerrainCallbacks.heightmapChanged -= HeightChanged;
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.update -= UpdatePaintInEditor;
+        UnityEditor.Undo.undoRedoPerformed -= RefreshAfterUndo;
+#endif
         // The host owns this data, including hidden/felled trees and harvested wild grass.
         // Disabling decorative vegetation must not restore or destroy their shared state.
         runtimeData = null;
@@ -52,15 +64,31 @@ public sealed class TerrainLayerVegetation : MonoBehaviour
     void Update()
     {
         ApplyCulling();
+        ProcessPendingPaint();
+    }
+    void ProcessPendingPaint()
+    {
+        if (terrain == null || terrain.terrainData == null) return;
         if (hasPending && Time.realtimeSinceStartup >= rebuildAt)
         {
             hasPending = false;
+            if (needsPaintSync)
+            {
+                needsPaintSync = false;
+                syncingPaint = true;
+                try { terrain.terrainData.SyncTexture(TerrainData.AlphamapTextureName); }
+                finally { syncingPaint = false; }
+            }
             GenerateRegion(pending);
+#if UNITY_EDITOR
+            RebuildPaintedTrees(pending);
+#endif
         }
     }
     void TextureChanged(Terrain changed, string textureName, RectInt region, bool synced)
     {
-        if (changed != terrain || profile == null || textureName != TerrainData.AlphamapTextureName) return;
+        if (changed != terrain || profile == null || syncingPaint || textureName != TerrainData.AlphamapTextureName) return;
+        if (profile.trees?.terrainLayer != null && !synced) needsPaintSync = true;
         var data = terrain.terrainData;
         QueueRegion(region, data.alphamapWidth, data.alphamapHeight);
     }
@@ -134,7 +162,8 @@ public sealed class TerrainLayerVegetation : MonoBehaviour
         {
             matchedLayers[r] = new List<int>(); var rule = profile.rules[r];
             for (int l = 0; l < layers.Length; l++)
-                if (layers[l] != null && ((rule.terrainLayer != null && layers[l] == rule.terrainLayer) ||
+                if (layers[l] != null && (layers[l] == rule.terrainLayer ||
+                    Array.IndexOf(rule.additionalTerrainLayers ?? Array.Empty<TerrainLayer>(), layers[l]) >= 0 ||
                     (rule.diffuseTexture != null && layers[l].diffuseTexture == rule.diffuseTexture))) matchedLayers[r].Add(l);
         }
         // SeasonVisualController replaces layers with runtime colour/snow variants.
@@ -208,7 +237,11 @@ public sealed class TerrainLayerVegetation : MonoBehaviour
             data.detailPrototypes = prototypes.ToArray();
         }
         // InstanceCount supports existing hand-painted count layers without changing scatter mode.
-        GenerateRegion(new RectInt(0, 0, data.detailWidth, data.detailHeight));
+        var region = new RectInt(0, 0, data.detailWidth, data.detailHeight);
+        GenerateRegion(region);
+#if UNITY_EDITOR
+        RebuildPaintedTrees(region);
+#endif
         ApplyCulling();
     }
 
@@ -237,7 +270,7 @@ public sealed class TerrainLayerVegetation : MonoBehaviour
         var paint = data.GetAlphamaps(ax, ay, aw, ah);
         var exclusions = FindObjectsByType<TerrainVegetationExclusion>(FindObjectsSortMode.None);
         var fields = FindObjectsByType<FieldArea>(FindObjectsSortMode.None);
-        if (matchedProfile != profile || matchedLayers == null || matchedLayers.Length != profile.rules.Count) CaptureLayerMatches();
+        if (!Application.isPlaying || matchedProfile != profile || matchedLayers == null || matchedLayers.Length != profile.rules.Count) CaptureLayerMatches();
         float area = data.size.x / data.detailWidth * data.size.z / data.detailHeight;
         Vector3 origin = terrain.transform.position;
         foreach (var binding in bindings)
@@ -259,7 +292,9 @@ public sealed class TerrainLayerVegetation : MonoBehaviour
                 float mask = 0;
                 foreach (int l in matchedLayers[binding.rule]) if (l < paint.GetLength(2)) mask += paint[pz, px, l];
                 if (mask < rule.minimumPaintWeight || data.GetSteepness(u, v) > rule.maximumSlope) continue;
-                Vector3 point = origin + new Vector3(u * data.size.x, data.GetInterpolatedHeight(u, v), v * data.size.z);
+                float height = data.GetInterpolatedHeight(u, v);
+                if (height < rule.minimumTerrainHeight) continue;
+                Vector3 point = origin + new Vector3(u * data.size.x, height, v * data.size.z);
                 if (Blocked(point, exclusions, fields)) continue;
                 float noise = Mathf.PerlinNoise(point.x / Mathf.Max(.1f, rule.clusterSize) + profile.seed * .013f,
                     point.z / Mathf.Max(.1f, rule.clusterSize) + binding.rule * 13.1f);

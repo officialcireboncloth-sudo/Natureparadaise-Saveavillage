@@ -20,6 +20,7 @@ public sealed class TerrainVegetationProfile : ScriptableObject
         public string name = "Grass";
         public bool enabled = true;
         public TerrainLayer terrainLayer;
+        public TerrainLayer[] additionalTerrainLayers = Array.Empty<TerrainLayer>();
         [Tooltip("Optional: match every Terrain Layer using this diffuse texture.")]
         public Texture2D diffuseTexture;
         [Range(0, 1)] public float minimumPaintWeight = .65f;
@@ -27,9 +28,22 @@ public sealed class TerrainVegetationProfile : ScriptableObject
         public bool useWorldDensity = true;
         [Min(0)] public float density = .14f;
         [Range(0, 90)] public float maximumSlope = 35;
+        [Min(0)] public float minimumTerrainHeight;
         [Min(.1f)] public float clusterSize = 8;
         [Range(0, 1)] public float clusterVariation = .15f;
         public List<Variant> variants = new();
+    }
+
+    [Serializable]
+    public sealed class TreeLayerRule
+    {
+        [Tooltip("Paint this layer to scatter native Terrain tree instances in Edit Mode.")]
+        public TerrainLayer terrainLayer;
+        public GameObject[] prefabs = Array.Empty<GameObject>();
+        [Min(2)] public float spacing = 8;
+        [Range(0, 1)] public float minimumPaintWeight = .62f;
+        [Range(0, 90)] public float maximumSlope = 30;
+        [Min(0)] public float minimumTerrainHeight;
     }
     public int seed = 7331;
     [Min(1)] public float drawDistance = 80;
@@ -38,4 +52,5 @@ public sealed class TerrainVegetationProfile : ScriptableObject
     public int initialResolution = 512;
     [Range(8, 128)] public int patchResolution = 16;
     public List<LayerRule> rules = new();
+    public TreeLayerRule trees = new();
 }

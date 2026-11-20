@@ -24,6 +24,8 @@ public sealed class TopDownCameraFollow : MonoBehaviour
     [Header("Outdoor Framing")]
     [Tooltip("Sudut kamera di luar saja. Nilai lebih kecil memperlihatkan tanaman dari samping dengan lebih jelas.")]
     [SerializeField, Range(25f, 75f)] float outdoorPitch = 30f;
+    [Tooltip("Putaran horizontal tambahan untuk menyelaraskan kamera dengan layout outdoor.")]
+    [SerializeField, Range(-180f, 180f)] float outdoorYawOffset;
     [Tooltip("Batas zoom terdekat di luar. Level zoom dan framing interior tetap memakai nilai scene semula.")]
     [SerializeField, Min(1f)] float outdoorMinimumZoomSize = 4.25f;
 
@@ -305,7 +307,11 @@ public sealed class TopDownCameraFollow : MonoBehaviour
 
     void ApplyFixedRotation()
     {
-        transform.rotation = Quaternion.Euler(CurrentPitch, yaw, 0f);
+        bool interior = IsInterior;
+        transform.rotation = Quaternion.Euler(
+            interior ? pitch : outdoorPitch,
+            interior ? yaw : yaw + outdoorYawOffset,
+            0f);
     }
 
     void RefreshProjection(bool force)
