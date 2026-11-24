@@ -26,6 +26,7 @@
 
 # Local restore copies created before balance CSV imports.
 /BalanceBackups/
+/Backups/Balance/
 
 # Local art sources, exports, previews and validation workspaces.
 # Existing versioned files in these folders remain tracked.
@@ -33,6 +34,9 @@
 # Keep the scanner's canonical editable sources and previews after consolidation.
 !/ArtSource/
 /ArtSource/*
+!/ArtSource/Vendor/
+/ArtSource/Vendor/*
+!/ArtSource/Vendor/Underwater life deluxe/
 !/ArtSource/FruitTrees/
 /ArtSource/FruitTrees/*
 !/ArtSource/FruitTrees/AtlasRegistry.json
@@ -79,7 +83,8 @@
 /ArtSource/UIIcons/Originals/*
 !/ArtSource/UIIcons/Originals/FertilizerMaker_Sheet.png
 !/ArtSource/UIIcons/Originals/Milker_Approved.png
-/Documentation/
+/Documentation/*
+!/Documentation/Guides/
 
 # G06 crop production sources and review outputs.
 !/ArtSource/Crops/

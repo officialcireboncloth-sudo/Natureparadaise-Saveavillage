@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad726a9495424bacbe3aa01000000001, type: 3}
+  m_Name: Wild Coconut
+  treeType: Coconut
+  matureDays: 60
+  wildTree: 1
+  regrowAfterFelling: 1
+  woodItem: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+  fruitItem: {fileID: 11400000, guid: ad726a9495424bacbe3aa01000000078, type: 2}
+  useFruitCare: 0
+  fruitSeasons: 3
+  floweringDays: 2
+  fruitGrowthDays: 3
+  fruitAmount: 5
+  waterUntilGrowthDay: 63
+  dryGraceDays: 1
+  dryGrowthMultiplier: 0.25
+  youngStormDamageChance: 0
+  stormDamage: 10
+  acceleratedSeasons: 0
+  seasonalGrowthMultiplier: 1.15
+  stages:
+  - stage: 1
+    fromGrowthDay: 0
+    model: {fileID: 100, guid: 0c663bdc3e4c429483e30582beac1092, type: 3}
+    scale: {x: 0.26, y: 0.26, z: 0.26}
+  - stage: 3
+    fromGrowthDay: 20
+    model: {fileID: 100, guid: ea61b040f7084d2d8c10965159cf4f2c, type: 3}
+    scale: {x: 0.52, y: 0.52, z: 0.52}
+  - stage: 5
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: b9812ad5b7134cdc904af766028c53c0, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  - stage: 6
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: c59c4ebf4188443c8ec322fccc69da48, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  - stage: 7
+    fromGrowthDay: 60
+    model: {fileID: 100, guid: 6f6aac863cb241baba3f8cef193e69b2, type: 3}
+    scale: {x: 1, y: 1, z: 1}
+  stumpModel: {fileID: 100, guid: 195d728b0d684068915c0053d2956216, type: 3}

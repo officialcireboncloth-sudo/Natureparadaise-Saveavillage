@@ -9,6 +9,7 @@ using UnityEngine;
 public static class BalanceCsvWorkspace
 {
     public const string Root="Assets/Nature  Paradaise/Data/Balance";
+    internal const string BackupRoot = "Backups/Balance";
     public static string LastReport {get;private set;}="";
     [MenuItem("Nature Paradise/Data CSV/Format/Standardize Existing CSV Files")]
     public static void Standardize()
@@ -21,7 +22,7 @@ public static class BalanceCsvWorkspace
             if(error!=null)throw new InvalidDataException(file+": "+error);
             prepared.Add((file,headers,rows));
         }
-        string backup="BalanceBackups/CsvFormat-"+DateTime.Now.ToString("yyyyMMdd-HHmmss-fff");
+        string backup = Path.Combine(BackupRoot, "CsvFormat-" + DateTime.Now.ToString("yyyyMMdd-HHmmss-fff"));
         foreach(var file in prepared)
         {
             string destination=Path.Combine(backup,Path.GetRelativePath(Root,file.path));

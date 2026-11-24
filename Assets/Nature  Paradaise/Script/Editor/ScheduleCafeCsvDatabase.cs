@@ -136,7 +136,7 @@ public static class ScheduleCafeCsvDatabase
         try
         {
             if(!valid){LastReport="Import dibatalkan: "+error;Debug.LogWarning("[DATA CSV] "+LastReport);return;}
-            string backup="BalanceBackups/"+DateTime.Now.ToString("yyyyMMdd-HHmmss-fff");
+            string backup = Path.Combine(BalanceCsvWorkspace.BackupRoot, DateTime.Now.ToString("yyyyMMdd-HHmmss-fff"));
             foreach(string path in new[]{SchedulePath,CafePath}){string dest=Path.Combine(backup,path);Directory.CreateDirectory(Path.GetDirectoryName(dest));File.Copy(path,dest);File.Copy(path+".meta",dest+".meta");}
             var schedule=AssetDatabase.LoadAssetAtPath<GameScheduleData>(SchedulePath);var target=AssetDatabase.LoadAssetAtPath<CafeCatalog>(CafePath);
             Undo.IncrementCurrentGroup();int group=Undo.GetCurrentGroup();

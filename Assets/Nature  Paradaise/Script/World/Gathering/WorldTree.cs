@@ -280,6 +280,8 @@ public sealed class WorldTree : MonoBehaviour
             durability = 0;
             ScheduleRespawn();
         }
+        else if (definition != null && definition.regrowAfterFelling)
+            ScheduleRespawn();
         ApplyStateVisual();
         // The shared pickup toast reports wood only after it enters the inventory.
         SpawnWood(standingWoodMinimum, standingWoodMaximum, standingDropRadius);
@@ -288,7 +290,8 @@ public sealed class WorldTree : MonoBehaviour
     void DepleteStump()
     {
         state = TreeGrowthState.Depleted;
-        ScheduleRespawn();
+        if (definition == null || !definition.regrowAfterFelling || respawnDay <= 0)
+            ScheduleRespawn();
         SetHighlighted(false);
         ApplyStateVisual();
         SpawnWood(stumpWoodMinimum, stumpWoodMaximum, stumpDropRadius);
@@ -316,7 +319,9 @@ public sealed class WorldTree : MonoBehaviour
 
     void HandleDayChanged()
     {
-        if (state != TreeGrowthState.Depleted || !canRespawn || TimeManager.Instance == null || TimeManager.Instance.day < respawnDay) return;
+        bool waitingStump = state == TreeGrowthState.Stump && definition != null && definition.regrowAfterFelling;
+        if ((!waitingStump && state != TreeGrowthState.Depleted) || !canRespawn ||
+            respawnDay <= 0 || TimeManager.Instance == null || TimeManager.Instance.day < respawnDay) return;
         state = TreeGrowthState.Standing;
         durability = Mathf.Max(1, standingDurability);
         respawnDay = 0;
@@ -516,6 +521,12 @@ public sealed class WorldTree : MonoBehaviour
         durability = Mathf.Max(0, data.durability);
         respawnDay = data.respawnDay;
         transitioning = false;
+        if (!terrainManaged && definition != null && definition.regrowAfterFelling && state != TreeGrowthState.Standing)
+        {
+            if (respawnDay <= 0 || respawnDay == int.MaxValue)
+                respawnDay = CurrentDay + minimumRespawnDays;
+            HandleDayChanged();
+        }
         ApplyStateVisual();
     }
 

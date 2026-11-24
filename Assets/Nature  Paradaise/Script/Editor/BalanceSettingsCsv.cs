@@ -191,7 +191,8 @@ public static class BalanceSettingsCsv
     {
         RequireEditMode();if(!Prepare(out var changes,out var errors)){LastReport=string.Join("\n",errors);Debug.LogError(LastReport);return;}
         if(changes.Count==0){LastReport="Tidak ada perubahan.";return;}
-        string backup="BalanceBackups/"+DateTime.Now.ToString("yyyyMMdd-HHmmss-fff");Directory.CreateDirectory(backup);
+        string backup = Path.Combine(BalanceCsvWorkspace.BackupRoot, DateTime.Now.ToString("yyyyMMdd-HHmmss-fff"));
+        Directory.CreateDirectory(backup);
         foreach(string asset in changes.Select(x=>AssetDatabase.GetAssetPath(x.cell.target)).Distinct())
         {string dest=Path.Combine(backup,asset);Directory.CreateDirectory(Path.GetDirectoryName(dest));File.Copy(asset,dest);File.Copy(asset+".meta",dest+".meta");}
         Undo.IncrementCurrentGroup();int group=Undo.GetCurrentGroup();Undo.SetCurrentGroupName("Import Balance Settings CSV");

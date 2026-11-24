@@ -130,7 +130,8 @@ public static class WeatherCsvDatabase
                 bool changed = EditorJsonUtility.ToJson(candidate) != EditorJsonUtility.ToJson(schedule) || EditorJsonUtility.ToJson(nextProfile) != EditorJsonUtility.ToJson(profile);
                 if (changed)
                 {
-                    string backup = "BalanceBackups/Weather/" + DateTime.Now.ToString("yyyyMMdd-HHmmss-fff"); Directory.CreateDirectory(backup);
+                    string backup = Path.Combine(BalanceCsvWorkspace.BackupRoot, "Weather", DateTime.Now.ToString("yyyyMMdd-HHmmss-fff"));
+                    Directory.CreateDirectory(backup);
                     foreach (string path in new[] { ScheduleCafeCsvDatabase.SchedulePath, ProfilePath }) File.Copy(path, backup + "/" + Path.GetFileName(path));
                     if (!Application.isPlaying) Undo.RecordObjects(new Object[] { schedule, profile }, "Import Weather CSV");
                     EditorUtility.CopySerialized(candidate, schedule); EditorUtility.CopySerialized(nextProfile, profile);

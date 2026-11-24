@@ -1,5 +1,7 @@
 # Nature Paradise Development Guide
 
+Feature setup guides and the Toon Farm migration notes are in [Documentation/Guides](Documentation/Guides/).
+
 ## Project conventions
 
 - `SampleScene` is the feature test scene. `Map` is reserved for final world building.

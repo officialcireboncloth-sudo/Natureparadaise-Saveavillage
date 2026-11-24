@@ -47,6 +47,6 @@ Kolom tetap mengikuti jenis datanya; format fisik dan cara kerja seragam. Jangan
 
 CSV menyimpan data saja. Warna, font, filter dan lebar kolom Excel tidak tersimpan di CSV. Jika kelak membutuhkan workbook tampilan berwarna, gunakan template `.xlsx` sebagai tampilan kerja dan ekspor tiap sheet ke schema CSV ini.
 
-Tombol **Rapikan format semua CSV** menyamakan encoding, pemisah dan akhir record pada file yang sudah ada. Header, urutan record dan nilai sel dipertahankan; salinan sebelum perubahan disimpan di `BalanceBackups/CsvFormat-*`. Tombol ini bukan impor data gameplay dan bukan pengganti Periksa tiap kelompok.
+Tombol **Rapikan format semua CSV** menyamakan encoding, pemisah dan akhir record pada file yang sudah ada. Header, urutan record dan nilai sel dipertahankan; salinan sebelum perubahan disimpan di `Backups/Balance/CsvFormat-*`. Tombol ini bukan impor data gameplay dan bukan pengganti Periksa tiap kelompok.
 
 Verifikasi format: 43 pemeriksaan alat baca/tulis lolos, termasuk pembacaan dan penulisan ulang 25 file CSV project. Perbandingan seluruh nilai sel sebelum/sesudah perapihan tetap sama.

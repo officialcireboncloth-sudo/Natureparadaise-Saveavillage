@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seed: 7331
   drawDistance: 70
-  densityMultiplier: 1
+  densityMultiplier: 0.3
   initialResolution: 512
   patchResolution: 16
   rules:
@@ -28,7 +28,7 @@ MonoBehaviour:
     useWorldDensity: 1
     density: 0.3
     maximumSlope: 40
-    minimumTerrainHeight: 20.55
+    minimumTerrainHeight: 10.12
     clusterSize: 8
     clusterVariation: 0.15
     variants:
@@ -55,4 +55,4 @@ MonoBehaviour:
     spacing: 8.5
     minimumPaintWeight: 0.62
     maximumSlope: 31
-    minimumTerrainHeight: 20.8
+    minimumTerrainHeight: 10.24

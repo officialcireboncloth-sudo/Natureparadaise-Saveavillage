@@ -53,13 +53,13 @@ File settings hanya dibuat jika asset jenis tersebut benar-benar ditemukan. Data
 
 ## Batas dan pemulihan
 
-Settings memvalidasi identitas asli, duplikat, angka finite, TRUE/FALSE, Min/Range Inspector, chance 0–1 dan pasangan minimum/maximum sebelum menulis. Preview menampilkan nilai lama → baru. Struktur list harus sama dengan asset saat export. Import membuat salinan asset + meta di BalanceBackups sebelum perubahan dan menyediakan Undo. Backup ini lokal, bukan asset Unity. Jika ingin memulihkan setelah menutup Unity, gunakan commit Git sebelumnya atau salinan backup (jangan mengganti GUID).
+Settings memvalidasi identitas asli, duplikat, angka finite, TRUE/FALSE, Min/Range Inspector, chance 0–1 dan pasangan minimum/maximum sebelum menulis. Preview menampilkan nilai lama → baru. Struktur list harus sama dengan asset saat export. Import membuat salinan asset + meta di `Backups/Balance` sebelum perubahan dan menyediakan Undo. Backup ini lokal, bukan asset Unity. Jika ingin memulihkan setelah menutup Unity, gunakan commit Git sebelumnya atau salinan backup (jangan mengganti GUID).
 
 Ini validasi angka dan struktur, bukan pengganti playtest ekonomi. Kolom array/enum/referensi visual pada Settings tidak diedit lewat CSV; importer khusus Items/Crops/Fish/Recipes tetap mengelola enum dan referensinya sesuai schema masing-masing.
 
 ## Kalender dan café: langkah pengisian
 
-Di Balance CSV Panel gunakan **Export / Validate / Import kalender / cuaca / festival / cafe**. Kelima file dalam folder Schedules divalidasi bersama sebelum kedua asset ditulis. Export menimpa CSV: import edit yang belum diterapkan dahulu. Import menyediakan Undo dan backup asset+meta lokal di BalanceBackups.
+Di Balance CSV Panel gunakan **Export / Validate / Import kalender / cuaca / festival / cafe**. Kelima file dalam folder Schedules divalidasi bersama sebelum kedua asset ditulis. Export menimpa CSV: import edit yang belum diterapkan dahulu. Import menyediakan Undo dan backup asset+meta lokal di `Backups/Balance`.
 
 - **CalendarDates.csv**: sudah terisi tahun 1–10 (1200 tanggal). `absolute_day` dihitung game; `season` 0=Spring/Hujan (31 hari), 1=Summer/Panas (28), 2=Autumn/Gugur (31), 3=Winter/Salju (30); `weekday` 0=Senin .. 6=Minggu. Edit `note` untuk catatan di panel detail. Kalender terus berulang setelah tahun 10; CSV hanya mengarang catatan dan override sepuluh tahun pertama.
 - **WeatherSchedule.csv**: edit `weather` menjadi Auto, Sunny, PartlyCloudy, Cloudy, Heatwave, Drizzle, Rain, HeavyRain, WindRainStorm, Cyclone, Thunderstorm, Snow atau Blizzard. Cloudy = Mendung tanpa hujan; PartlyCloudy = Cerah Berawan. Auto menggunakan **Resources/Profiles/Season Weather Probabilities.asset**. Override dipakai saat forecast hari tersebut dibuat; forecast yang sudah tersimpan dalam save tidak diganti diam-diam. Pilih Automatic di Inspector atau AUTO WEATHER untuk menghitung ulang setelah mengubah peluang/jadwal. Mengganti Current Weather di Inspector memilih Manual dan bertahan sampai Automatic dipilih kembali.

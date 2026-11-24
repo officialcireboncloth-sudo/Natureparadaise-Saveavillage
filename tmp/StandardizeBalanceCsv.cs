@@ -8,7 +8,7 @@ static class StandardizeBalanceCsv
     static void Main()
     {
         string root="Assets/Nature  Paradaise/Data/Balance";
-        string backup="BalanceBackups/CsvFormat-"+DateTime.Now.ToString("yyyyMMdd-HHmmss-fff");
+        string backup = Path.Combine("Backups/Balance", "CsvFormat-" + DateTime.Now.ToString("yyyyMMdd-HHmmss-fff"));
         var ready=new List<(string file,string[] headers,List<Dictionary<string,string>> rows)>();
         foreach(var file in Directory.GetFiles(root,"*.csv",SearchOption.AllDirectories).OrderBy(p=>p))
         {

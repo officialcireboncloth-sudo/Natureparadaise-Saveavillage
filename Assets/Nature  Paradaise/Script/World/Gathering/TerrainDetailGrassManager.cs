@@ -39,6 +39,8 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
         [Tooltip("Aktif = bisa disabit/dimakan. Mati = hanya dekorasi dan tidak disentuh manager.")]
         public bool harvestable;
         [Min(1)] public int grassYield = 2;
+        [Tooltip("Posisi rumpun (UV terrain) untuk prefab yang belum punya layer Paint Details.")]
+        public Vector2[] patchCenters;
     }
 
     sealed class PatchRecord
@@ -89,7 +91,7 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
     readonly Dictionary<int, PrototypeSetting> settingsByIndex = new();
     readonly Dictionary<int, int[,]> sourceLayers = new();
     readonly Dictionary<int, int[,]> runtimeLayers = new();
-    readonly HashSet<int> sickleDirtyLayers = new();
+    readonly Dictionary<int, RectInt> sickleDirtyRegions = new();
     TerrainData sourceData;
     TerrainData runtimeData;
     TerrainRuntimeDataHost runtimeHost;
@@ -148,7 +150,14 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
     void OnEnable()
     {
         TimeManager.OnBeforeDayChange += AdvanceDay;
-        if (initialized && !ActiveManagers.Contains(this)) ActiveManagers.Add(this);
+        if (!initialized) return;
+        if (ownsRuntimeData)
+        {
+            targetTerrain.terrainData = runtimeData;
+            if (targetTerrain.TryGetComponent(out TerrainCollider collider)) collider.terrainData = runtimeData;
+        }
+        if (!ActiveManagers.Contains(this)) ActiveManagers.Add(this);
+        foreach (int prototypeIndex in runtimeLayers.Keys) ApplyLayer(prototypeIndex);
     }
 
     void Start()
@@ -164,7 +173,10 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
         if (!initialized) return;
         RestorePaintedLayers();
         if (ownsRuntimeData && targetTerrain != null && targetTerrain.terrainData == runtimeData)
+        {
             targetTerrain.terrainData = sourceData;
+            if (targetTerrain.TryGetComponent(out TerrainCollider collider)) collider.terrainData = sourceData;
+        }
     }
 
     void OnDestroy()
@@ -175,6 +187,8 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
     void BuildRecords()
     {
         DetailPrototype[] prototypes = sourceData.detailPrototypes;
+        var runtimePrototypes = new List<DetailPrototype>(prototypes);
+        var seededCells = new Dictionary<int, HashSet<Vector2Int>>();
         if (prototypeSettings != null)
         {
             for (int i = 0; i < prototypeSettings.Length; i++)
@@ -182,9 +196,16 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
                 PrototypeSetting setting = prototypeSettings[i];
                 if (setting == null || !setting.harvestable) continue;
                 int resolved = ResolvePrototype(setting, prototypes);
+                if (resolved < 0)
+                {
+                    resolved = AddSeededLayer(setting, runtimePrototypes, out HashSet<Vector2Int> cells);
+                    if (resolved >= 0) seededCells.Add(resolved, cells);
+                }
                 if (resolved >= 0) settingsByIndex[resolved] = setting;
             }
         }
+        if (runtimePrototypes.Count != prototypes.Length)
+            runtimeData.detailPrototypes = runtimePrototypes.ToArray();
 
         string prefix = string.IsNullOrEmpty(terrainId)
             ? gameObject.scene.path + "/" + targetTerrain.name + "/" + targetTerrain.transform.position
@@ -195,10 +216,22 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
         foreach (KeyValuePair<int, PrototypeSetting> pair in settingsByIndex)
         {
             int prototypeIndex = pair.Key;
-            int[,] source = sourceData.GetDetailLayer(
-                0, 0, sourceData.detailWidth, sourceData.detailHeight, prototypeIndex);
+            if (!sourceLayers.TryGetValue(prototypeIndex, out int[,] source))
+                source = sourceData.GetDetailLayer(
+                    0, 0, sourceData.detailWidth, sourceData.detailHeight, prototypeIndex);
             sourceLayers[prototypeIndex] = source;
             runtimeLayers[prototypeIndex] = (int[,])source.Clone();
+
+            string name = string.IsNullOrEmpty(pair.Value.prototypeName)
+                ? "Detail" + prototypeIndex : pair.Value.prototypeName;
+            string layerId = $"{prefix}/{name}";
+            if (seededCells.TryGetValue(prototypeIndex, out HashSet<Vector2Int> points))
+            {
+                foreach (Vector2Int point in points)
+                    if (source[point.y, point.x] >= minimumPaintedDensity)
+                        AddRecord(layerId, prototypeIndex, new RectInt(point.x, point.y, 1, 1));
+                continue;
+            }
 
             for (int z = 0; z < sourceData.detailHeight; z += pixelsZ)
             for (int x = 0; x < sourceData.detailWidth; x += pixelsX)
@@ -209,35 +242,81 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
                 for (int iz = z; iz < z + height; iz++)
                 for (int ix = x; ix < x + width; ix++) density += source[iz, ix];
                 if (density < minimumPaintedDensity) continue;
-
-                float nx = Mathf.Clamp01((x + width * 0.5f) / sourceData.detailWidth);
-                float nz = Mathf.Clamp01((z + height * 0.5f) / sourceData.detailHeight);
-                string name = string.IsNullOrEmpty(pair.Value.prototypeName)
-                    ? "Detail" + prototypeIndex : pair.Value.prototypeName;
-                PatchRecord record = new()
-                {
-                    id = $"{prefix}/{name}/{x}/{z}",
-                    prototypeIndex = prototypeIndex,
-                    x = x,
-                    z = z,
-                    width = width,
-                    height = height,
-                    growth = regrowDays,
-                    stage = 2,
-                    worldPosition = targetTerrain.transform.position + new Vector3(
-                        nx * sourceData.size.x,
-                        sourceData.GetInterpolatedHeight(nx, nz),
-                        nz * sourceData.size.z)
-                };
-                int index = records.Count;
-                records.Add(record);
-                recordById[record.id] = record;
-                Vector2Int cell = Cell(record.worldPosition);
-                if (!spatialCells.TryGetValue(cell, out List<int> bucket))
-                    spatialCells[cell] = bucket = new List<int>();
-                bucket.Add(index);
+                AddRecord(layerId, prototypeIndex, new RectInt(x, z, width, height));
             }
         }
+    }
+
+    void AddRecord(string layerId, int prototypeIndex, RectInt patch)
+    {
+        float nx = (patch.x + patch.width * 0.5f) / sourceData.detailWidth;
+        float nz = (patch.y + patch.height * 0.5f) / sourceData.detailHeight;
+        PatchRecord record = new()
+        {
+            id = $"{layerId}/{patch.x}/{patch.y}",
+            prototypeIndex = prototypeIndex,
+            x = patch.x,
+            z = patch.y,
+            width = patch.width,
+            height = patch.height,
+            growth = regrowDays,
+            stage = 2,
+            worldPosition = targetTerrain.transform.position + new Vector3(
+                nx * sourceData.size.x, sourceData.GetInterpolatedHeight(nx, nz), nz * sourceData.size.z)
+        };
+        int index = records.Count;
+        records.Add(record);
+        recordById[record.id] = record;
+        Vector2Int cell = Cell(record.worldPosition);
+        if (!spatialCells.TryGetValue(cell, out List<int> bucket))
+            spatialCells[cell] = bucket = new List<int>();
+        bucket.Add(index);
+    }
+
+    int AddSeededLayer(PrototypeSetting setting, List<DetailPrototype> prototypes, out HashSet<Vector2Int> cells)
+    {
+        cells = null;
+        if (setting.detailPrefab == null || setting.patchCenters == null || setting.patchCenters.Length == 0 ||
+            sourceData.detailWidth == 0 || sourceData.detailHeight == 0) return -1;
+
+        DetailPrototype prototype = new()
+        {
+            prototype = setting.detailPrefab,
+            usePrototypeMesh = true,
+            useInstancing = true,
+            useDensityScaling = false,
+            renderMode = DetailRenderMode.VertexLit,
+            minWidth = 0.88f,
+            maxWidth = 1.08f,
+            minHeight = 0.87f,
+            maxHeight = 1.1f,
+            positionJitter = 0f,
+            density = 1f,
+            healthyColor = Color.white,
+            dryColor = Color.white
+        };
+        if (!prototype.Validate(out string message))
+        {
+            Debug.LogWarning(message, this);
+            return -1;
+        }
+
+        int width = sourceData.detailWidth, height = sourceData.detailHeight;
+        int[,] painted = new int[height, width];
+        cells = new HashSet<Vector2Int>();
+        int density = sourceData.detailScatterMode == DetailScatterMode.CoverageMode ? 255 : 1;
+        foreach (Vector2 center in setting.patchCenters)
+        {
+            if (center.x < 0f || center.x >= 1f || center.y < 0f || center.y >= 1f) continue;
+            int x = Mathf.FloorToInt(center.x * width);
+            int z = Mathf.FloorToInt(center.y * height);
+            cells.Add(new Vector2Int(x, z));
+            painted[z, x] = density;
+        }
+        int index = prototypes.Count;
+        prototypes.Add(prototype);
+        sourceLayers[index] = painted;
+        return index;
     }
 
     static int ResolvePrototype(PrototypeSetting setting, DetailPrototype[] prototypes)
@@ -287,13 +366,41 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
     public bool TrySicklePatch(int index)
     {
         if(grassItem==null||!IsPatchAvailable(index))return false;
-        var record=records[index];Deplete(record);sickleDirtyLayers.Add(record.prototypeIndex);
+        var record=records[index];
+        Deplete(record);
+        RectInt bounds = new(record.x, record.z, record.width, record.height);
+        if (sickleDirtyRegions.TryGetValue(record.prototypeIndex, out RectInt previous))
+        {
+            int xMin = Mathf.Min(previous.xMin, bounds.xMin);
+            int zMin = Mathf.Min(previous.yMin, bounds.yMin);
+            int xMax = Mathf.Max(previous.xMax, bounds.xMax);
+            int zMax = Mathf.Max(previous.yMax, bounds.yMax);
+            bounds = new RectInt(xMin, zMin, xMax - xMin, zMax - zMin);
+        }
+        sickleDirtyRegions[record.prototypeIndex] = bounds;
         int amount=settingsByIndex.TryGetValue(record.prototypeIndex,out var setting)?Mathf.Max(1,setting.grassYield):2;
         PlacedWorldItem.Spawn(grassItem,amount,record.worldPosition+Vector3.up*.15f,Quaternion.Euler(0,Deterministic01(record.id,CurrentDay)*360,0),false);
         FarmActionEffects.Burst(FarmEffect.Sickle,record.worldPosition,radius:patchWorldSize*.3f);return true;
     }
-    /// <summary>Completes only the pending sickle terrain updates.</summary>
-    public static void FlushSickleChanges(){foreach(var manager in ActiveManagers)if(manager!=null&&manager.sickleDirtyLayers.Count>0){manager.ApplyDirtyLayers(manager.sickleDirtyLayers);manager.sickleDirtyLayers.Clear();}}
+    /// <summary>Uploads the affected rectangle in each layer once per sweep frame.</summary>
+    public static void FlushSickleChanges()
+    {
+        foreach (var manager in ActiveManagers)
+        {
+            if (manager == null || manager.runtimeData == null) continue;
+            foreach (var entry in manager.sickleDirtyRegions)
+            {
+                RectInt bounds = entry.Value;
+                int[,] layer = manager.runtimeLayers[entry.Key];
+                int[,] changed = new int[bounds.height, bounds.width];
+                for (int z = 0; z < bounds.height; z++)
+                for (int x = 0; x < bounds.width; x++)
+                    changed[z, x] = layer[bounds.y + z, bounds.x + x];
+                manager.runtimeData.SetDetailLayer(bounds.x, bounds.y, entry.Key, changed);
+            }
+            manager.sickleDirtyRegions.Clear();
+        }
+    }
 
     int CutInRadius(Vector3 center, float radius)
     {
@@ -529,8 +636,10 @@ public sealed class TerrainDetailGrassManager : MonoBehaviour
     void RestorePaintedLayers()
     {
         if (runtimeData == null) return;
+        int sourcePrototypeCount = sourceData.detailPrototypes.Length;
         foreach (KeyValuePair<int, int[,]> pair in sourceLayers)
-            runtimeData.SetDetailLayer(0, 0, pair.Key, pair.Value);
+            runtimeData.SetDetailLayer(0, 0, pair.Key, pair.Key < sourcePrototypeCount
+                ? pair.Value : new int[sourceData.detailHeight, sourceData.detailWidth]);
     }
 
     int CurrentDay => TimeManager.Instance != null ? TimeManager.Instance.day : 1;

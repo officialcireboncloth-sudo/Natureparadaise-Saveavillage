@@ -20,6 +20,7 @@ public sealed class TreeDefinition : ScriptableObject
     public string treeType;
     [Min(1)] public int matureDays = 60;
     public bool wildTree;
+    public bool regrowAfterFelling;
     public ItemSO woodItem;
     public ItemSO fruitItem;
     public bool useFruitCare;
@@ -54,16 +55,27 @@ public sealed class TreeDefinition : ScriptableObject
             return stages.Length>2&&progress>=stages[2].fromGrowthDay?2:Math.Min(1,stages.Length-1);
         }
         int best = 0;
+        int mature = -1;
         for (int i = 0; i < stages.Length; i++)
         {
-            if (stages[i].stage == TreeLifeStage.Mature)
+            TreeStageVisual visual = stages[i];
+            switch (visual.stage)
             {
-                if (progress >= matureDays) return i;
-                continue;
+                case TreeLifeStage.FruitGrowing:
+                    if (progress >= matureDays && fruit == TreeFruitStage.Growing) return i;
+                    break;
+                case TreeLifeStage.HarvestReady:
+                    if (progress >= matureDays && fruit == TreeFruitStage.Ready) return i;
+                    break;
+                case TreeLifeStage.Mature:
+                    if (progress >= matureDays && mature < 0) mature = i;
+                    break;
+                default:
+                    if (visual.fromGrowthDay <= progress && visual.fromGrowthDay >= stages[best].fromGrowthDay) best = i;
+                    break;
             }
-            if (stages[i].fromGrowthDay <= progress && stages[i].fromGrowthDay >= stages[best].fromGrowthDay) best = i;
         }
-        return best;
+        return mature >= 0 ? mature : best;
     }
     public Vector3 VisualScale(float growth,TreeFruitStage fruit)
     {

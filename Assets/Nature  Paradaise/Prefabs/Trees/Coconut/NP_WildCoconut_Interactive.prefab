@@ -1,0 +1,156 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5750127034911103034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7169986744287224470}
+  - component: {fileID: 173482823071523594}
+  - component: {fileID: 4606311399060261366}
+  m_Layer: 0
+  m_Name: NP_WildCoconut_Interactive
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7169986744287224470
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5750127034911103034}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 400001}
+  - {fileID: 400002}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &173482823071523594
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5750127034911103034}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.57, y: 2.55, z: 0.57}
+  m_Center: {x: 0, y: 1.275, z: 0}
+--- !u!114 &4606311399060261366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5750127034911103034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44ed7b3b915f49f9986c6654bd3c2a55, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  treeId: wild-coconut-prefab
+  definition: {fileID: 11400000, guid: 2190d272dde94e18a1605b42659b2300, type: 2}
+  progress:
+    plantedDay: -59
+    age: 60
+    growth: 60
+    lastProcessedDay: 0
+    wateredDay: -1
+    dryDays: 0
+    health: 100
+    fruitProgress: 0
+    fruitStage: 0
+  minimumAxeLevel: 1
+  standingDurability: 5
+  stumpDurability: 3
+  damagePerHit: 1
+  woodItem: {fileID: 11400000, guid: 98910cf31f154315bef29b4f50bde6ad, type: 2}
+  standingWoodMinimum: 3
+  standingWoodMaximum: 5
+  stumpWoodMinimum: 1
+  stumpWoodMaximum: 2
+  standingDropRadius: 1.15
+  stumpDropRadius: 0.85
+  dropHeight: 0.35
+  canRespawn: 1
+  minimumRespawnDays: 4
+  maximumRespawnDays: 7
+  standingVisual: {fileID: 400001}
+  stumpVisual: {fileID: 400002}
+  highlightRenderers: []
+  axeImpactSound: {fileID: 0}
+  fallingSound: {fileID: 0}
+  woodChipParticles: {fileID: 0}
+  fallDuration: 0.75
+  fallAngle: 82
+  promptHeight: 2.4
+  stumpColliderSize: {x: 0.52, y: 0.36, z: 0.52}
+  stumpColliderCenter: {x: 0, y: 0.18, z: 0}
+--- !u!1001 &100001
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7169986744287224470}
+    m_Modifications:
+    - target: {fileID: 100, guid: b9812ad5b7134cdc904af766028c53c0, type: 3}
+      propertyPath: m_Name
+      value: Standing palm
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b9812ad5b7134cdc904af766028c53c0, type: 3}
+--- !u!4 &400001 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400, guid: b9812ad5b7134cdc904af766028c53c0, type: 3}
+  m_PrefabInstance: {fileID: 100001}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &100002
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7169986744287224470}
+    m_Modifications:
+    - target: {fileID: 100, guid: 195d728b0d684068915c0053d2956216, type: 3}
+      propertyPath: m_Name
+      value: Stump
+      objectReference: {fileID: 0}
+    - target: {fileID: 100, guid: 195d728b0d684068915c0053d2956216, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 195d728b0d684068915c0053d2956216, type: 3}
+--- !u!4 &400002 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400, guid: 195d728b0d684068915c0053d2956216, type: 3}
+  m_PrefabInstance: {fileID: 100002}
+  m_PrefabAsset: {fileID: 0}
