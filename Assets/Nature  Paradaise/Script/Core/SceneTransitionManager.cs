@@ -324,9 +324,15 @@ public sealed class SceneTransitionManager : MonoBehaviour
         }
         if (house == null)
         {
-            bool cave = false;
-            foreach (GameObject root in roots) if (root.GetComponentInChildren<CaveInteriorController>(true) != null) { cave = true; break; }
-            if (!cave) return;
+            bool needsSeparation = false;
+            foreach (GameObject root in roots)
+            {
+                if (root.GetComponentInChildren<CaveInteriorController>(true) == null &&
+                    root.GetComponentInChildren<HouseInteriorView>(true)?.RequiresWorldSeparation != true) continue;
+                needsSeparation = true;
+                break;
+            }
+            if (!needsSeparation) return;
         }
 
         if (!TryGetSceneBounds(interior, out Bounds interiorBounds)) return;

@@ -14,7 +14,7 @@ public sealed class TestingDebugMenu : MonoBehaviour
     public static TestingDebugMenu Instance { get; private set; }
     public static bool IsOpen => Instance != null && Instance.open;
     public static bool Available => PropertySite.DebugShortcutsEnabled;
-    public static readonly string[] Categories = { "Player", "Item & Tools", "Hewan", "Waktu & Cuaca", "Kebun & Kolam", "Bangunan", "Progres & Aktivitas", "Save / Load", "Gerobak Pasar", "Kesuburan Tanah", "Fishing" };
+    public static readonly string[] Categories = { "Player", "Item & Tools", "Hewan", "Waktu & Cuaca", "Kebun & Kolam", "Bangunan", "Progres & Aktivitas", "Save / Load", "Gerobak Pasar", "Kesuburan Tanah", "Fishing", "Interior Toko" };
     GameObject canvasObject, overlay, launcher;
     RectTransform rows;
     TMP_Text heading, feedback;
@@ -178,10 +178,32 @@ public sealed class TestingDebugMenu : MonoBehaviour
             case 8: MarketCartPage();break;
             case 9: SoilPage();break;
             case 10: FishingPage();break;
+            case 11: ShopInteriorsPage();break;
         }
         Canvas.ForceUpdateCanvases(); scroll.verticalNormalizedPosition=1;
     }
     void RefreshPage() => SelectCategory(category);
+
+    void ShopInteriorsPage()
+    {
+        var transition = SceneTransitionManager.Instance;
+        if (transition == null) { Note("Transisi interior belum tersedia di scene ini."); return; }
+        if (transition.IsInsideInterior)
+        {
+            if (ShopInteriors.IsShopScene(transition.CurrentInteriorSceneName))
+                Launch("Kembali ke lokasi semula", () => transition.ReturnToWorld(string.Empty), !transition.IsTransitioning);
+            else
+                Note("Keluar dari interior aktif untuk menguji toko.");
+            return;
+        }
+        Note("Pilih interior toko untuk masuk. Pintu keluar mengembalikan player ke lokasi semula.", 64);
+        foreach (var room in ShopInteriors.Rooms)
+        {
+            if (room.HasExterior) continue;
+            Launch("Masuk " + room.Label, () => transition.EnterInterior(room.SceneName, room.EntryId),
+                !transition.IsTransitioning && Application.CanStreamedLevelBeLoaded(room.SceneName));
+        }
+    }
 
     void FishingPage()
     {

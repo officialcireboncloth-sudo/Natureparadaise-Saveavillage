@@ -1,20 +1,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>Uses the scene-authored perspective camera for the active house layout.</summary>
+/// <summary>Uses the scene-authored fixed camera for an active house or shop interior.</summary>
 [DefaultExecutionOrder(1000)]
 public sealed class HouseInteriorView : MonoBehaviour
 {
     [SerializeField] List<Camera> levelViews = new();
+    [SerializeField] bool matchShopView;
+    [SerializeField] float authoredAspect = 16f / 9f;
     Camera gameplayCamera;
     TopDownCameraFollow worldFollow;
     bool captured, followEnabled, wasOrthographic;
     float worldSize, worldFov;
+    float worldNear, worldFar;
+    CameraClearFlags worldClearFlags;
+    Color worldBackground;
     Vector3 worldPosition;
     Quaternion worldRotation;
     readonly Dictionary<Light, bool> authoredLights = new();
     public Camera ActiveView => levelViews.Find(view => view != null && view.gameObject.activeInHierarchy);
     public void Configure(List<Camera> views) => levelViews = views;
+    public bool RequiresWorldSeparation => matchShopView;
+
+    /// <summary>Uses a shop's authored orthographic or perspective framing and isolates its camera background.</summary>
+    public void ConfigureShop(Camera view, float referenceAspect)
+    {
+        levelViews = new List<Camera> { view };
+        authoredAspect = referenceAspect;
+        matchShopView = true;
+    }
 
     void Awake()
     {
@@ -47,15 +61,27 @@ public sealed class HouseInteriorView : MonoBehaviour
             wasOrthographic = gameplayCamera.orthographic;
             worldSize = gameplayCamera.orthographicSize;
             worldFov = gameplayCamera.fieldOfView;
+            worldNear = gameplayCamera.nearClipPlane;
+            worldFar = gameplayCamera.farClipPlane;
+            worldClearFlags = gameplayCamera.clearFlags;
+            worldBackground = gameplayCamera.backgroundColor;
             worldPosition = gameplayCamera.transform.position;
             worldRotation = gameplayCamera.transform.rotation;
             if(worldFollow != null) worldFollow.enabled = false;
             captured = true;
         }
         gameplayCamera.transform.SetPositionAndRotation(view.transform.position, view.transform.rotation);
-        gameplayCamera.orthographic = false;
-        float aspectScale = Mathf.Max(1f, (16f / 9f) / Mathf.Max(.1f, gameplayCamera.aspect));
+        gameplayCamera.orthographic = matchShopView && view.orthographic;
+        float aspectScale = Mathf.Max(1f, authoredAspect / Mathf.Max(.1f, gameplayCamera.aspect));
         gameplayCamera.fieldOfView = 2f * Mathf.Atan(Mathf.Tan(view.fieldOfView * Mathf.Deg2Rad * .5f) * aspectScale) * Mathf.Rad2Deg;
+        if (matchShopView)
+        {
+            gameplayCamera.orthographicSize = view.orthographicSize * aspectScale;
+            gameplayCamera.nearClipPlane = view.nearClipPlane;
+            gameplayCamera.farClipPlane = view.farClipPlane;
+            gameplayCamera.clearFlags = view.clearFlags;
+            gameplayCamera.backgroundColor = view.backgroundColor;
+        }
     }
 
     void OnDisable()
@@ -70,6 +96,13 @@ public sealed class HouseInteriorView : MonoBehaviour
         gameplayCamera.orthographic = wasOrthographic;
         gameplayCamera.orthographicSize = worldSize;
         gameplayCamera.fieldOfView = worldFov;
+        if (matchShopView)
+        {
+            gameplayCamera.nearClipPlane = worldNear;
+            gameplayCamera.farClipPlane = worldFar;
+            gameplayCamera.clearFlags = worldClearFlags;
+            gameplayCamera.backgroundColor = worldBackground;
+        }
         gameplayCamera.transform.SetPositionAndRotation(worldPosition,worldRotation);
         if(worldFollow != null)
         {
